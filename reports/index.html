@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="description" content="Weekly export intelligence reports for Canadian manufacturers — Critical Minerals, Advanced Manufacturing, Aerospace, and Agri-food sectors.">
+<title>Weekly Reports — Canadian Trade Intel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --ink: #0d0d0d; --ink-2: #1a1a1a; --ink-mid: #444444; --ink-light: #888888;
+  --rule: #e0e0d8; --rule-dark: #c8c8be; --paper: #f5f4ef; --paper-2: #eeeee8;
+  --green: #0a4a2e; --green-mid: #1a6b42; --green-light: #e8f4ee; --green-acc: #00c87a;
+  --amber: #b85c00; --red: #8b1a1a;
+  --display: 'Cormorant Garamond', serif;
+  --mono: 'DM Mono', monospace;
+  --body: 'DM Sans', sans-serif;
+}
+html { scroll-behavior: smooth; }
+body { background: var(--paper); color: var(--ink); font-family: var(--body);
+       font-size: 15px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+a { color: var(--green-mid); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.label { font-family: var(--mono); font-size: 10px; font-weight: 500;
+         letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-light); }
+
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(245,244,239,0.95); backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--rule-dark);
+  padding: 0 40px; display: flex; justify-content: space-between;
+  align-items: center; height: 56px;
+}
+.nav-brand { font-family: var(--mono); font-size: 11px; font-weight: 500;
+             letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink);
+             text-decoration: none; display: flex; align-items: center; gap: 10px; }
+.nav-links { display: flex; gap: 28px; align-items: center; }
+.nav-links a { font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em;
+               text-transform: uppercase; color: var(--ink-mid); text-decoration: none;
+               transition: color 0.2s; }
+.nav-links a:hover, .nav-links a.active { color: var(--green-mid); }
+.nav-cta { background: var(--green) !important; color: #ffffff !important;
+           padding: 8px 16px; border-radius: 3px; }
+
+.page-header {
+  max-width: 1100px; margin: 0 auto;
+  padding: 56px 40px 40px;
+  border-bottom: 1px solid var(--rule-dark);
+}
+.page-header-inner {
+  display: flex; justify-content: space-between;
+  align-items: flex-end; gap: 40px; flex-wrap: wrap;
+}
+h1 { font-family: var(--display); font-size: clamp(36px, 4vw, 52px);
+     font-weight: 600; font-style: italic; color: var(--ink); line-height: 1.1; }
+.page-sub { font-size: 14px; color: var(--ink-mid); max-width: 340px;
+            text-align: right; line-height: 1.7; }
+
+/* FILTER BAR */
+.filter-bar {
+  max-width: 1100px; margin: 0 auto;
+  padding: 20px 40px;
+  display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
+  border-bottom: 1px solid var(--rule);
+}
+.filter-btn {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em;
+  text-transform: uppercase; padding: 8px 14px; border-radius: 3px;
+  border: 1px solid var(--rule-dark); background: transparent;
+  color: var(--ink-mid); cursor: pointer; transition: all 0.15s;
+}
+.filter-btn:hover { border-color: var(--green-mid); color: var(--green-mid); }
+.filter-btn.active { background: var(--green); border-color: var(--green);
+                     color: #ffffff; }
+
+/* REPORTS LIST */
+.reports-container {
+  max-width: 1100px; margin: 0 auto; padding: 32px 40px 80px;
+}
+
+.reports-year {
+  font-family: var(--display); font-size: 13px; font-weight: 500;
+  color: var(--ink-light); letter-spacing: 0.08em;
+  padding: 20px 0 10px;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 0;
+}
+
+.report-row {
+  display: grid;
+  grid-template-columns: 120px 1fr auto;
+  gap: 24px;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--rule);
+  align-items: start;
+  transition: background 0.15s;
+  cursor: pointer;
+}
+
+.report-row:hover { background: var(--green-light); margin: 0 -20px;
+                    padding: 20px 20px; border-radius: 6px; border-color: transparent; }
+
+.report-date { font-family: var(--mono); font-size: 11px; color: var(--ink-light);
+               letter-spacing: 0.06em; padding-top: 3px; }
+
+.report-main {}
+
+.report-sector {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--green-mid);
+  margin-bottom: 6px; display: block;
+}
+
+.report-title {
+  font-family: var(--display); font-size: 20px; font-weight: 600;
+  color: var(--ink); margin-bottom: 6px; line-height: 1.2;
+}
+
+.report-summary {
+  font-size: 13px; color: var(--ink-mid); line-height: 1.65;
+  max-width: 620px;
+}
+
+.report-signals {
+  display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap;
+}
+
+.sig-pill {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.08em;
+  text-transform: uppercase; padding: 3px 8px; border-radius: 2px;
+}
+.sig-opp  { background: #e8f4ee; color: var(--green-mid); border: 1px solid #b2dfcf; }
+.sig-risk { background: #faeaea; color: var(--red); border: 1px solid #e8b8b8; }
+.sig-watch{ background: #fef8ee; color: var(--amber); border: 1px solid #f0d898; }
+
+.report-action {
+  display: flex; flex-direction: column; gap: 8px;
+  align-items: flex-end; padding-top: 2px;
+}
+
+.btn-report {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em;
+  text-transform: uppercase; color: #ffffff; background: var(--green);
+  padding: 8px 14px; border-radius: 3px; text-decoration: none;
+  white-space: nowrap; transition: background 0.15s;
+}
+.btn-report:hover { background: var(--green-mid); text-decoration: none; }
+
+.btn-email {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--ink-mid);
+  border: 1px solid var(--rule-dark); padding: 8px 14px;
+  border-radius: 3px; text-decoration: none; white-space: nowrap;
+  transition: all 0.15s;
+}
+.btn-email:hover { border-color: var(--green-mid); color: var(--green-mid);
+                   text-decoration: none; }
+
+.issue-num {
+  font-family: var(--mono); font-size: 10px; color: var(--ink-light);
+  white-space: nowrap;
+}
+
+/* EMPTY STATE */
+.empty-state {
+  text-align: center; padding: 80px 20px; color: var(--ink-light);
+}
+.empty-state h3 { font-family: var(--display); font-size: 24px; font-weight: 400;
+                  font-style: italic; margin-bottom: 10px; }
+.empty-state p { font-size: 13px; }
+
+/* LATEST BADGE */
+.latest-badge {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.1em;
+  text-transform: uppercase; background: var(--green-acc);
+  color: var(--green); padding: 2px 8px; border-radius: 2px;
+  font-weight: 500;
+}
+
+footer {
+  background: var(--ink-2); padding: 32px 40px;
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 16px;
+}
+.footer-brand { font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em;
+                text-transform: uppercase; color: rgba(255,255,255,0.4); }
+.footer-legal { font-size: 11px; color: rgba(255,255,255,0.2); }
+
+@media (max-width: 768px) {
+  nav { padding: 0 20px; }
+  .nav-links { display: none; }
+  .page-header { padding: 40px 20px 32px; }
+  .page-sub { text-align: left; }
+  .filter-bar { padding: 16px 20px; }
+  .reports-container { padding: 24px 20px 60px; }
+  .report-row { grid-template-columns: 1fr; gap: 12px; }
+  .report-action { align-items: flex-start; flex-direction: row; }
+  .report-date { display: none; }
+  footer { padding: 24px 20px; flex-direction: column; align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-brand">🇨🇦 Canadian Trade Intel</a>
+  <div class="nav-links">
+    <a href="/reports" class="active">Weekly Reports</a>
+    <a href="/#sectors">Sectors</a>
+    <a href="/#what-you-get">What You Get</a>
+    <a href="/#access" class="nav-cta">Request Access</a>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="page-header-inner">
+    <div>
+      <div class="label" style="margin-bottom:12px;">Archive</div>
+      <h1>Weekly Intelligence<br>Reports</h1>
+    </div>
+    <p class="page-sub">
+      Every issue published since launch. Full report and executive email brief for each week.
+    </p>
+  </div>
+</div>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <button class="filter-btn active" onclick="filterReports('all', this)">All Sectors</button>
+  <button class="filter-btn" onclick="filterReports('critical_minerals', this)">Critical Minerals</button>
+  <button class="filter-btn" onclick="filterReports('advanced_manufacturing', this)">Advanced Manufacturing</button>
+  <button class="filter-btn" onclick="filterReports('aerospace_defence', this)">Aerospace &amp; Defence</button>
+  <button class="filter-btn" onclick="filterReports('agri_food', this)">Agri-food</button>
+</div>
+
+<!-- REPORTS LIST -->
+<div class="reports-container">
+  <div id="reports-list">
+    <!-- Reports injected by JavaScript from reports-index.json -->
+    <div class="empty-state" id="loading-state">
+      <h3>Loading reports...</h3>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span class="footer-brand">🇨🇦 Canadian Trade Intel</span>
+  <span class="footer-legal">For informational purposes only · Not legal or financial advice</span>
+</footer>
+
+<script>
+let allReports = [];
+let activeFilter = 'all';
+
+async function loadReports() {
+  try {
+    const res = await fetch('/reports/reports-index.json');
+    if (!res.ok) throw new Error('not found');
+    allReports = await res.json();
+    renderReports();
+  } catch (e) {
+    // No index yet — show placeholder
+    document.getElementById('loading-state').innerHTML = `
+      <h3>First issue coming soon.</h3>
+      <p>Reports will appear here each week after publication.</p>
+    `;
+  }
+}
+
+function filterReports(sector, btn) {
+  activeFilter = sector;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderReports();
+}
+
+function renderReports() {
+  const list = document.getElementById('reports-list');
+  const filtered = activeFilter === 'all'
+    ? allReports
+    : allReports.filter(r => r.sector === activeFilter);
+
+  if (filtered.length === 0) {
+    list.innerHTML = `
+      <div class="empty-state">
+        <h3>No reports in this sector yet.</h3>
+        <p>Check back after the first issue publishes.</p>
+      </div>`;
+    return;
+  }
+
+  // Group by year
+  const byYear = {};
+  filtered.forEach(r => {
+    const year = r.date.split('-')[0];
+    if (!byYear[year]) byYear[year] = [];
+    byYear[year].push(r);
+  });
+
+  let html = '';
+  Object.keys(byYear).sort((a,b) => b-a).forEach(year => {
+    html += `<div class="reports-year">${year}</div>`;
+    byYear[year].forEach((r, i) => {
+      const isLatest = i === 0 && year === Object.keys(byYear).sort((a,b) => b-a)[0];
+      const dateFormatted = new Date(r.date + 'T12:00:00').toLocaleDateString('en-CA', {
+        month: 'short', day: 'numeric'
+      });
+      const oppPills = (r.signals?.opportunity || 0) > 0
+        ? `<span class="sig-pill sig-opp">${r.signals.opportunity} Opportunities</span>` : '';
+      const riskPills = (r.signals?.risk || 0) > 0
+        ? `<span class="sig-pill sig-risk">${r.signals.risk} Risks</span>` : '';
+      const immPills = (r.signals?.immediate || 0) > 0
+        ? `<span class="sig-pill sig-watch">${r.signals.immediate} Immediate</span>` : '';
+
+      html += `
+      <div class="report-row" data-sector="${r.sector}" onclick="window.location='/reports/${r.full_report}'">
+        <div class="report-date">${dateFormatted}</div>
+        <div class="report-main">
+          <span class="report-sector">${r.sector_display}</span>
+          <div class="report-title">
+            ${isLatest ? '<span class="latest-badge" style="margin-right:10px;vertical-align:middle;">Latest</span>' : ''}
+            ${r.title}
+          </div>
+          <p class="report-summary">${r.summary}</p>
+          <div class="report-signals">${oppPills}${riskPills}${immPills}</div>
+        </div>
+        <div class="report-action">
+          <span class="issue-num">Issue #${String(r.issue).padStart(3,'0')}</span>
+          <a href="/reports/${r.full_report}" class="btn-report" onclick="event.stopPropagation()">Full Report →</a>
+          ${r.email_preview ? `<a href="/reports/${r.email_preview}" class="btn-email" onclick="event.stopPropagation()">Email Brief</a>` : ''}
+        </div>
+      </div>`;
+    });
+  });
+
+  list.innerHTML = html;
+}
+
+loadReports();
+</script>
+
+</body>
+</html>
