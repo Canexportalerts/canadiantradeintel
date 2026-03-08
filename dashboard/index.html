@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="description" content="Canadian export intelligence dashboard — trade data, critical minerals positioning, commodity trends, and Canada's competitive position in global markets.">
+<title>Export Intelligence Dashboard — Canadian Trade Intel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --ink: #0d0d0d; --ink-2: #1a1a1a; --ink-mid: #444444; --ink-light: #888888;
+  --rule: #e0e0d8; --rule-dark: #c8c8be; --paper: #f5f4ef; --paper-2: #eeeee8;
+  --green: #0a4a2e; --green-mid: #1a6b42; --green-light: #e8f4ee; --green-acc: #00c87a;
+  --amber: #b85c00; --red: #8b1a1a;
+  --display: 'Cormorant Garamond', serif;
+  --mono: 'DM Mono', monospace;
+  --body: 'DM Sans', sans-serif;
+}
+html { scroll-behavior: smooth; }
+body { background: var(--paper); color: var(--ink); font-family: var(--body);
+       font-size: 15px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+a { color: var(--green-mid); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.label { font-family: var(--mono); font-size: 10px; font-weight: 500;
+         letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-light); }
+.label-green { color: var(--green-mid); }
+.label-amber { color: var(--amber); }
+.label-red { color: var(--red); }
+
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(245,244,239,0.95); backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--rule-dark);
+  padding: 0 40px; display: flex; justify-content: space-between;
+  align-items: center; height: 56px;
+}
+.nav-brand { font-family: var(--mono); font-size: 11px; font-weight: 500;
+             letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink);
+             text-decoration: none; display: flex; align-items: center; gap: 10px; }
+.nav-links { display: flex; gap: 28px; align-items: center; }
+.nav-links a { font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em;
+               text-transform: uppercase; color: var(--ink-mid); text-decoration: none; transition: color 0.2s; }
+.nav-links a:hover, .nav-links a.active { color: var(--green-mid); }
+.nav-cta { background: var(--green) !important; color: #ffffff !important; padding: 8px 16px; border-radius: 3px; }
+
+.page-header {
+  max-width: 1100px; margin: 0 auto; padding: 56px 40px 40px;
+  border-bottom: 1px solid var(--rule-dark);
+}
+.page-header-inner { display: flex; justify-content: space-between; align-items: flex-end; gap: 40px; flex-wrap: wrap; }
+h1 { font-family: var(--display); font-size: clamp(36px, 4vw, 52px);
+     font-weight: 600; font-style: italic; color: var(--ink); line-height: 1.1; }
+.page-sub { font-size: 13px; color: var(--ink-mid); max-width: 320px; text-align: right; line-height: 1.7; }
+.data-note { font-family: var(--mono); font-size: 9px; color: var(--ink-light);
+             letter-spacing: 0.1em; margin-top: 8px; }
+
+.dashboard { max-width: 1100px; margin: 0 auto; padding: 48px 40px 80px; }
+
+/* STAT ROW */
+.stat-row {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 1px; background: var(--rule-dark);
+  border: 1px solid var(--rule-dark); border-radius: 8px;
+  overflow: hidden; margin-bottom: 56px;
+}
+.stat-cell {
+  background: white; padding: 24px 28px;
+}
+.stat-number {
+  font-family: var(--display); font-size: 44px; font-weight: 600;
+  color: var(--ink); line-height: 1; margin-bottom: 6px;
+}
+.stat-number span { font-size: 24px; color: var(--green-mid); }
+.stat-label { font-size: 13px; color: var(--ink-mid); line-height: 1.5; }
+.stat-source { font-family: var(--mono); font-size: 9px; color: var(--ink-light);
+               letter-spacing: 0.08em; margin-top: 6px; }
+
+/* SECTION HEADERS */
+.section-head {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding-bottom: 12px; border-bottom: 1px solid var(--rule-dark); margin-bottom: 28px;
+}
+.section-head h2 {
+  font-family: var(--display); font-size: 28px; font-weight: 600;
+  font-style: italic; color: var(--ink);
+}
+
+/* CHART CONTAINERS */
+.chart-section { margin-bottom: 56px; }
+.chart-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.chart-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.chart-box {
+  background: white; border: 1px solid var(--rule);
+  border-radius: 8px; padding: 24px; overflow: hidden;
+}
+.chart-box-dark {
+  background: var(--ink-2); border: 1px solid #2a2a2a;
+  border-radius: 8px; padding: 24px; overflow: hidden;
+}
+.chart-title {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--ink-light); margin-bottom: 20px;
+}
+.chart-title-dark {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 20px;
+}
+
+/* BAR CHARTS */
+.bar-row { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.bar-label { font-size: 12px; color: var(--ink-mid); width: 140px; flex-shrink: 0; text-align: right; }
+.bar-label-left { font-size: 12px; color: var(--ink-mid); width: 120px; flex-shrink: 0; }
+.bar-track { flex: 1; height: 8px; background: var(--paper-2); border-radius: 4px; overflow: hidden; }
+.bar-fill { height: 100%; border-radius: 4px; transition: width 1s ease; }
+.bar-fill-green { background: var(--green-mid); }
+.bar-fill-dark-green { background: var(--green); }
+.bar-fill-amber { background: #e07b20; }
+.bar-fill-red { background: #b83030; }
+.bar-fill-blue { background: #2a6090; }
+.bar-value { font-family: var(--mono); font-size: 11px; color: var(--ink); width: 60px; flex-shrink: 0; }
+
+/* COMPARISON TABLE */
+.comp-table { width: 100%; border-collapse: collapse; }
+.comp-table th {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--ink-light);
+  padding: 8px 12px; border-bottom: 1px solid var(--rule-dark);
+  text-align: left;
+}
+.comp-table th:not(:first-child) { text-align: center; }
+.comp-table td { padding: 12px; border-bottom: 1px solid var(--rule); font-size: 13px; color: var(--ink-mid); }
+.comp-table td:first-child { font-weight: 500; color: var(--ink); }
+.comp-table td:not(:first-child) { text-align: center; font-family: var(--mono); font-size: 12px; }
+.comp-table tr.canada-row td { background: var(--green-light); color: var(--green); font-weight: 600; }
+.comp-table tr.canada-row td:first-child { color: var(--green); }
+.pill-good { background: #e8f4ee; color: var(--green-mid); border: 1px solid #b2dfcf;
+             padding: 2px 8px; border-radius: 2px; font-size: 10px; white-space: nowrap; }
+.pill-warn { background: #fff8ee; color: var(--amber); border: 1px solid #f0d898;
+             padding: 2px 8px; border-radius: 2px; font-size: 10px; white-space: nowrap; }
+.pill-risk { background: #faeaea; color: var(--red); border: 1px solid #e8b8b8;
+             padding: 2px 8px; border-radius: 2px; font-size: 10px; white-space: nowrap; }
+
+/* COMMODITY STRIP */
+.commodity-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+                   background: var(--rule-dark); border: 1px solid var(--rule-dark);
+                   border-radius: 8px; overflow: hidden; margin-bottom: 56px; }
+.commodity-cell { background: white; padding: 20px 22px; }
+.commodity-name { font-family: var(--mono); font-size: 9px; letter-spacing: 0.14em;
+                  text-transform: uppercase; color: var(--ink-light); margin-bottom: 8px; }
+.commodity-price { font-family: var(--display); font-size: 28px; font-weight: 600;
+                   color: var(--ink); line-height: 1; margin-bottom: 4px; }
+.commodity-unit { font-size: 11px; color: var(--ink-light); }
+.commodity-trend { font-family: var(--mono); font-size: 10px; margin-top: 8px; }
+.trend-up { color: #1a8040; }
+.trend-down { color: var(--red); }
+.trend-flat { color: var(--ink-light); }
+
+/* SPARKLINES */
+.sparkline { display: flex; align-items: flex-end; gap: 3px; height: 32px; margin-top: 10px; }
+.spark-bar { flex: 1; border-radius: 2px 2px 0 0; min-width: 4px; }
+
+/* DEMAND MAP */
+.demand-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.demand-card {
+  border: 1px solid var(--rule); border-radius: 8px; padding: 18px;
+  background: white;
+}
+.demand-country { font-family: var(--display); font-size: 18px; font-weight: 600;
+                  color: var(--ink); margin-bottom: 4px; }
+.demand-flag { font-size: 20px; margin-bottom: 8px; display: block; }
+.demand-stat { font-family: var(--mono); font-size: 11px; color: var(--green-mid);
+               margin-bottom: 4px; }
+.demand-detail { font-size: 12px; color: var(--ink-mid); line-height: 1.6; }
+.demand-mineral { font-family: var(--mono); font-size: 9px; letter-spacing: 0.1em;
+                  text-transform: uppercase; background: var(--green-light);
+                  color: var(--green-mid); border: 1px solid #b2dfcf;
+                  padding: 2px 7px; border-radius: 2px; display: inline-block; margin-top: 8px; margin-right: 4px; }
+
+/* FOOTNOTE */
+.footnote { font-size: 11px; color: var(--ink-light); line-height: 1.8;
+            border-top: 1px solid var(--rule); padding-top: 20px; margin-top: 40px; }
+
+footer { background: var(--ink-2); padding: 32px 40px; display: flex;
+         justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+.footer-brand { font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em;
+                text-transform: uppercase; color: rgba(255,255,255,0.4); }
+.footer-legal { font-size: 11px; color: rgba(255,255,255,0.2); }
+
+.fade-up { opacity: 0; transform: translateY(16px); transition: opacity 0.5s ease, transform 0.5s ease; }
+.fade-up.visible { opacity: 1; transform: translateY(0); }
+
+@media (max-width: 768px) {
+  nav { padding: 0 20px; }
+  .nav-links { display: none; }
+  .page-header { padding: 40px 20px 32px; }
+  .page-sub { text-align: left; }
+  .dashboard { padding: 32px 20px 60px; }
+  .stat-row { grid-template-columns: repeat(2, 1fr); }
+  .chart-grid-2 { grid-template-columns: 1fr; }
+  .chart-grid-3 { grid-template-columns: 1fr; }
+  .commodity-strip { grid-template-columns: repeat(2, 1fr); }
+  .demand-grid { grid-template-columns: 1fr; }
+  footer { padding: 24px 20px; flex-direction: column; align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/canadiantradeintel/" class="nav-brand">🇨🇦 Canadian Trade Intel</a>
+  <div class="nav-links">
+    <a href="/canadiantradeintel/reports">Weekly Reports</a>
+    <a href="/canadiantradeintel/dashboard" class="active">Dashboard</a>
+    <a href="/canadiantradeintel/#sectors">Sectors</a>
+    <a href="/canadiantradeintel/#access" class="nav-cta">Request Access</a>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="page-header-inner">
+    <div>
+      <div class="label" style="margin-bottom:12px;">Intelligence Context</div>
+      <h1>Canadian Export<br>Intelligence Dashboard</h1>
+      <p class="data-note">Sources: Statistics Canada · Natural Resources Canada · World Bank · IEA · IMF · USGS · EDC · 2024–2025 data</p>
+    </div>
+    <p class="page-sub">
+      The macro context behind every weekly intelligence brief — Canada's trade position, critical minerals demand, and competitive landscape.
+    </p>
+  </div>
+</div>
+
+<div class="dashboard">
+
+  <!-- TOP STATS -->
+  <div class="stat-row fade-up">
+    <div class="stat-cell">
+      <div class="stat-number">$771<span>B</span></div>
+      <div class="stat-label">Canada's total merchandise exports (2024)</div>
+      <div class="stat-source">Statistics Canada</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-number">34<span>%</span></div>
+      <div class="stat-label">Of Canadian GDP directly tied to exports</div>
+      <div class="stat-source">World Bank · 2024</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-number">31</div>
+      <div class="stat-label">Free trade agreements Canada has in force</div>
+      <div class="stat-source">Global Affairs Canada · 2025</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-number">$150<span>B</span></div>
+      <div class="stat-label">Critical minerals market opportunity by 2030</div>
+      <div class="stat-source">NRCan · Critical Minerals Strategy</div>
+    </div>
+  </div>
+
+  <!-- CANADA EXPORT COMPOSITION -->
+  <div class="chart-section fade-up">
+    <div class="section-head">
+      <h2>Canada's Export Composition</h2>
+      <span class="label">% of Total Merchandise Exports · 2024</span>
+    </div>
+    <div class="chart-grid-2">
+      <div class="chart-box">
+        <div class="chart-title">Top Export Sectors by Value</div>
+        <div class="bar-row">
+          <div class="bar-label">Energy Products</div>
+          <div class="bar-track"><div class="bar-fill bar-fill-amber" style="width:26%"></div></div>
+          <div class="bar-value">26%</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">Motor Vehicles</div>
+          <div class="bar-track"><div class="bar-fill bar-fill-blue" style="width:14%"></div></div>
+          <div class="bar-value">14%</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">Consumer Goods</div>
+          <div class="bar-track"><div class="bar-fill bar-fill-blue" style="width:11%"></div></div>
+          <div class="bar-value">11%</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">Metal &amp; Minerals</div>
+          <div class="bar-track"><div class="bar-fill bar-fill-green" style="width:10%"></div></div>
+          <div class="bar-value">10%</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">Agricultural</div>
+          <div class="bar-track"><div class="bar-fill bar-fill-green" style="width:9%"></div></div>
+          <div class="bar-value">9%</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">Aerospace</div>
+          <div class="bar-track"><div class="bar-fill bar-fill-blue" style="width:7%"></div></div>
+          <div class="bar-value">7%</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">Industrial Machinery</div>
+          <div class="bar-track"><div class="bar-fill bar-fill-blue" style="width:6%"></div></div>
+          <div class="bar-value">6%</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">Other</div>
+          <div class="bar-track"><div class="bar-fill" style="width:17%;background:var(--rule-dark)"></div></div>
+          <div class="bar-value">17%</div>
+        </div>
+      </div>
+      <div class="chart-box">
+        <div class="chart-title">Top Export Destinations by Value</div>
+        <div class="bar-row">
+          <div class="bar-label">United States</div>
+          <div class="bar-track"><div class="bar-fill bar-fill-amber" style="width:75%"></div></div>
+          <div class="bar-value">75.4%</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">European Union</div>
+          <div class="bar-track"><div class="bar-fill bar-fill-blue" style="width:8%"></div></div>
+          <div class="bar-value">7.9%</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">United Kingdom</div>
+          <div class="bar-track"><div class="bar-fill bar-fill-blue" style="width:3%"></div></div>
+          <div class="bar-value">3.1%</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">Japan</div>
+          <div class="bar-track"><div class="bar-fill bar-fill-green" style="width:2.3%"></div></div>
+          <div class="bar-value">2.3%</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">China</div>
+          <div class="bar-track"><div class="bar-fill bar-fill-red" style="width:2.1%"></div></div>
+          <div class="bar-value">2.1%</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">India</div>
+          <div class="bar-track"><div class="bar-fill bar-fill-green" style="width:1.2%"></div></div>
+          <div class="bar-value">1.2%</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">South Korea</div>
+          <div class="bar-track"><div class="bar-fill bar-fill-green" style="width:0.9%"></div></div>
+          <div class="bar-value">0.9%</div>
+        </div>
+        <p style="font-size:11px;color:var(--amber);margin-top:16px;font-style:italic;">
+          ⚠ 75% US dependency — diversification is a national economic priority. This is the opportunity.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMMODITY CONDITIONS -->
+  <div class="chart-section fade-up">
+    <div class="section-head">
+      <h2>Critical Minerals — Current Conditions</h2>
+      <span class="label">Approximate Spot Prices · Updated Weekly in Digest</span>
+    </div>
+    <div class="commodity-strip">
+      <div class="commodity-cell">
+        <div class="commodity-name">Uranium U₃O₈</div>
+        <div class="commodity-price">$78</div>
+        <div class="commodity-unit">USD/lb</div>
+        <div class="commodity-trend trend-up">↑ Supply squeeze · Nuclear renaissance</div>
+        <div class="sparkline">
+          <div class="spark-bar" style="height:40%;background:#b2dfcf;"></div>
+          <div class="spark-bar" style="height:50%;background:#b2dfcf;"></div>
+          <div class="spark-bar" style="height:55%;background:#b2dfcf;"></div>
+          <div class="spark-bar" style="height:65%;background:#b2dfcf;"></div>
+          <div class="spark-bar" style="height:70%;background:#b2dfcf;"></div>
+          <div class="spark-bar" style="height:80%;background:#b2dfcf;"></div>
+          <div class="spark-bar" style="height:90%;background:#1a6b42;"></div>
+          <div class="spark-bar" style="height:100%;background:#1a6b42;"></div>
+        </div>
+      </div>
+      <div class="commodity-cell">
+        <div class="commodity-name">Lithium Carbonate</div>
+        <div class="commodity-price">$10.2</div>
+        <div class="commodity-unit">USD/kg</div>
+        <div class="commodity-trend trend-down">↓ Trough zone · Watch for recovery</div>
+        <div class="sparkline">
+          <div class="spark-bar" style="height:100%;background:#e8b8b8;"></div>
+          <div class="spark-bar" style="height:90%;background:#e8b8b8;"></div>
+          <div class="spark-bar" style="height:75%;background:#e8b8b8;"></div>
+          <div class="spark-bar" style="height:55%;background:#e8b8b8;"></div>
+          <div class="spark-bar" style="height:40%;background:#e8b8b8;"></div>
+          <div class="spark-bar" style="height:30%;background:#e8b8b8;"></div>
+          <div class="spark-bar" style="height:25%;background:#b83030;"></div>
+          <div class="spark-bar" style="height:22%;background:#b83030;"></div>
+        </div>
+      </div>
+      <div class="commodity-cell">
+        <div class="commodity-name">Cobalt</div>
+        <div class="commodity-price">$24,500</div>
+        <div class="commodity-unit">USD/tonne</div>
+        <div class="commodity-trend trend-flat">→ Depressed · DRC oversupply</div>
+        <div class="sparkline">
+          <div class="spark-bar" style="height:80%;background:#e8b8b8;"></div>
+          <div class="spark-bar" style="height:70%;background:#e8b8b8;"></div>
+          <div class="spark-bar" style="height:60%;background:#e8b8b8;"></div>
+          <div class="spark-bar" style="height:50%;background:#e0e0d8;"></div>
+          <div class="spark-bar" style="height:45%;background:#e0e0d8;"></div>
+          <div class="spark-bar" style="height:40%;background:#e0e0d8;"></div>
+          <div class="spark-bar" style="height:38%;background:#888888;"></div>
+          <div class="spark-bar" style="height:36%;background:#888888;"></div>
+        </div>
+      </div>
+      <div class="commodity-cell">
+        <div class="commodity-name">Neodymium</div>
+        <div class="commodity-price">$62,000</div>
+        <div class="commodity-unit">USD/tonne</div>
+        <div class="commodity-trend trend-up">↑ China controls tightening</div>
+        <div class="sparkline">
+          <div class="spark-bar" style="height:50%;background:#b2dfcf;"></div>
+          <div class="spark-bar" style="height:55%;background:#b2dfcf;"></div>
+          <div class="spark-bar" style="height:60%;background:#b2dfcf;"></div>
+          <div class="spark-bar" style="height:65%;background:#b2dfcf;"></div>
+          <div class="spark-bar" style="height:75%;background:#b2dfcf;"></div>
+          <div class="spark-bar" style="height:85%;background:#1a6b42;"></div>
+          <div class="spark-bar" style="height:90%;background:#1a6b42;"></div>
+          <div class="spark-bar" style="height:100%;background:#1a6b42;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CANADA VS PEERS -->
+  <div class="chart-section fade-up">
+    <div class="section-head">
+      <h2>Canada vs Peer Producers</h2>
+      <span class="label">Critical Minerals Competitive Position · 2024–2025</span>
+    </div>
+    <div class="chart-box" style="margin-bottom:24px;">
+      <div class="chart-title">Critical Minerals Producer Comparison — Canada · Australia · Chile · DRC</div>
+      <table class="comp-table">
+        <thead>
+          <tr>
+            <th>Country</th>
+            <th>FTAs Active</th>
+            <th>Lithium Reserves</th>
+            <th>Uranium Output</th>
+            <th>Rare Earths</th>
+            <th>ESG Rating</th>
+            <th>Rule of Law</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="canada-row">
+            <td>🇨🇦 Canada</td>
+            <td><span class="pill-good">31 FTAs</span></td>
+            <td><span class="pill-warn">Emerging</span></td>
+            <td><span class="pill-good">#2 Global</span></td>
+            <td><span class="pill-good">Significant</span></td>
+            <td><span class="pill-good">AAA</span></td>
+            <td><span class="pill-good">Top 10</span></td>
+          </tr>
+          <tr>
+            <td>🇦🇺 Australia</td>
+            <td><span class="pill-good">28 FTAs</span></td>
+            <td><span class="pill-good">#4 Global</span></td>
+            <td><span class="pill-warn">Minor</span></td>
+            <td><span class="pill-good">#4 Global</span></td>
+            <td><span class="pill-good">AAA</span></td>
+            <td><span class="pill-good">Top 10</span></td>
+          </tr>
+          <tr>
+            <td>🇨🇱 Chile</td>
+            <td><span class="pill-good">32 FTAs</span></td>
+            <td><span class="pill-good">#2 Global</span></td>
+            <td><span class="pill-risk">None</span></td>
+            <td><span class="pill-risk">Minimal</span></td>
+            <td><span class="pill-warn">BB+</span></td>
+            <td><span class="pill-warn">Mid-tier</span></td>
+          </tr>
+          <tr>
+            <td>🇨🇩 DRC</td>
+            <td><span class="pill-risk">Few</span></td>
+            <td><span class="pill-warn">Some</span></td>
+            <td><span class="pill-risk">None</span></td>
+            <td><span class="pill-risk">Minimal</span></td>
+            <td><span class="pill-risk">High Risk</span></td>
+            <td><span class="pill-risk">Bottom 20%</span></td>
+          </tr>
+          <tr>
+            <td>🇨🇳 China</td>
+            <td><span class="pill-warn">17 FTAs</span></td>
+            <td><span class="pill-warn">Moderate</span></td>
+            <td><span class="pill-warn">Growing</span></td>
+            <td><span class="pill-risk">#1 Dominates</span></td>
+            <td><span class="pill-risk">Restricted</span></td>
+            <td><span class="pill-risk">Opaque</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="font-size:12px;color:var(--green-mid);margin-top:16px;font-style:italic;border-left:2px solid var(--green-mid);padding-left:12px;">
+        Canada's combination of rule-of-law, ESG credentials, FTA network, and uranium dominance makes it the preferred alternative supplier for allied nations diversifying away from China and high-risk producers.
+      </p>
+    </div>
+
+    <div class="chart-grid-2">
+      <div class="chart-box">
+        <div class="chart-title">Uranium Production — Top Producers (2024)</div>
+        <div class="bar-row">
+          <div class="bar-label-left">Kazakhstan</div>
+          <div class="bar-track"><div class="bar-fill bar-fill-amber" style="width:43%"></div></div>
+          <div class="bar-value">43%</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label-left" style="color:var(--green-mid);font-weight:600;">🇨🇦 Canada</div>
+          <div class="bar-track"><div class="bar-fill bar-fill-dark-green" style="width:15%"></div></div>
+          <div class="bar-value" style="color:var(--green-mid);">15%</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label-left">Namibia</div>
+          <div class="bar-track"><div class="bar-fill bar-fill-blue" style="width:11%"></div></div>
+          <div class="bar-value">11%</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label-left">Uzbekistan</div>
+          <div class="bar-track"><div class="bar-fill bar-fill-blue" style="width:8%"></div></div>
+          <div class="bar-value">8%</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label-left">Russia</div>
+          <div class="bar-track"><div class="bar-fill bar-fill-red" style="width:6%"></div></div>
+          <div class="bar-value">6%</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label-left">Australia</div>
+          <div class="bar-track"><div class="bar-fill bar-fill-blue" style="width:5%"></div></div>
+          <div class="bar-value">5%</div>
+        </div>
+        <p style="font-size:11px;color:var(--ink-light);margin-top:12px;">Source: World Nuclear Association 2024</p>
+      </div>
+      <div class="chart-box">
+        <div class="chart-title">Critical Minerals Demand Growth — Global (Index 2024=100)</div>
+        <div style="display:flex;align-items:flex-end;gap:8px;height:120px;margin-bottom:12px;">
+          <div style="display:flex;flex-direction:column;align-items:center;flex:1;">
+            <div style="flex:1;display:flex;align-items:flex-end;">
+              <div style="width:100%;background:var(--green-mid);border-radius:3px 3px 0 0;height:40px;"></div>
+            </div>
+            <div style="font-family:var(--mono);font-size:9px;color:var(--ink-light);margin-top:6px;">2024</div>
+            <div style="font-family:var(--mono);font-size:10px;color:var(--ink);">100</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;flex:1;">
+            <div style="flex:1;display:flex;align-items:flex-end;">
+              <div style="width:100%;background:var(--green-mid);border-radius:3px 3px 0 0;height:56px;"></div>
+            </div>
+            <div style="font-family:var(--mono);font-size:9px;color:var(--ink-light);margin-top:6px;">2025</div>
+            <div style="font-family:var(--mono);font-size:10px;color:var(--ink);">140</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;flex:1;">
+            <div style="flex:1;display:flex;align-items:flex-end;">
+              <div style="width:100%;background:var(--green-mid);border-radius:3px 3px 0 0;height:72px;"></div>
+            </div>
+            <div style="font-family:var(--mono);font-size:9px;color:var(--ink-light);margin-top:6px;">2026</div>
+            <div style="font-family:var(--mono);font-size:10px;color:var(--ink);">180</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;flex:1;">
+            <div style="flex:1;display:flex;align-items:flex-end;">
+              <div style="width:100%;background:var(--green-mid);border-radius:3px 3px 0 0;height:88px;"></div>
+            </div>
+            <div style="font-family:var(--mono);font-size:9px;color:var(--ink-light);margin-top:6px;">2027</div>
+            <div style="font-family:var(--mono);font-size:10px;color:var(--ink);">220</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;flex:1;">
+            <div style="flex:1;display:flex;align-items:flex-end;">
+              <div style="width:100%;background:#0a4a2e;border-radius:3px 3px 0 0;height:104px;"></div>
+            </div>
+            <div style="font-family:var(--mono);font-size:9px;color:var(--ink-light);margin-top:6px;">2028</div>
+            <div style="font-family:var(--mono);font-size:10px;color:var(--ink);">260</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;flex:1;">
+            <div style="flex:1;display:flex;align-items:flex-end;">
+              <div style="width:100%;background:#0a4a2e;border-radius:3px 3px 0 0;height:120px;"></div>
+            </div>
+            <div style="font-family:var(--mono);font-size:9px;color:var(--ink-light);margin-top:6px;">2030</div>
+            <div style="font-family:var(--mono);font-size:10px;color:var(--ink);">310</div>
+          </div>
+        </div>
+        <p style="font-size:11px;color:var(--ink-light);">Source: IEA Critical Minerals Report 2024 · Lithium, cobalt, nickel, rare earths composite index</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- DEMAND GEOGRAPHY -->
+  <div class="chart-section fade-up">
+    <div class="section-head">
+      <h2>Where the Demand Is</h2>
+      <span class="label">Key Markets for Canadian Critical Minerals Exporters</span>
+    </div>
+    <div class="demand-grid">
+      <div class="demand-card">
+        <span class="demand-flag">🇮🇳</span>
+        <div class="demand-country">India</div>
+        <div class="demand-stat">290 GWh battery capacity target by 2030</div>
+        <p class="demand-detail">Fastest-growing nuclear and EV market. Canada-India CEPA under negotiation includes dedicated Critical Minerals chapter. Direct competitor to Australia for supply deals.</p>
+        <span class="demand-mineral">Uranium</span>
+        <span class="demand-mineral">Lithium</span>
+        <span class="demand-mineral">Cobalt</span>
+      </div>
+      <div class="demand-card">
+        <span class="demand-flag">🇯🇵</span>
+        <div class="demand-country">Japan</div>
+        <div class="demand-stat">¥2 trillion clean energy investment 2024–2030</div>
+        <p class="demand-detail">CPTPP partner. Strategically diversifying from China rare earths. JOGMEC actively seeking Canadian supply partnerships for battery and nuclear materials.</p>
+        <span class="demand-mineral">Rare Earths</span>
+        <span class="demand-mineral">Uranium</span>
+        <span class="demand-mineral">Nickel</span>
+      </div>
+      <div class="demand-card">
+        <span class="demand-flag">🇩🇪</span>
+        <div class="demand-country">Germany</div>
+        <div class="demand-stat">€200B industrial transformation · CRMA compliance</div>
+        <p class="demand-detail">EU Critical Raw Materials Act requires 10% domestic, 40% processed domestically by 2030. Canada preferred alternative supplier under CETA. Active procurement missions.</p>
+        <span class="demand-mineral">Lithium</span>
+        <span class="demand-mineral">Cobalt</span>
+        <span class="demand-mineral">Rare Earths</span>
+      </div>
+      <div class="demand-card">
+        <span class="demand-flag">🇮🇩</span>
+        <div class="demand-country">Indonesia</div>
+        <div class="demand-stat">$7–8B Titan battery park · 2026 offtake windows</div>
+        <p class="demand-detail">Rapidly becoming a battery manufacturing hub. Needs cobalt and lithium inputs Canada can supply. Key ASEAN gateway market. Trade agreement gap — opportunity for first-mover Canadian exporters.</p>
+        <span class="demand-mineral">Cobalt</span>
+        <span class="demand-mineral">Lithium</span>
+      </div>
+      <div class="demand-card">
+        <span class="demand-flag">🇰🇷</span>
+        <div class="demand-country">South Korea</div>
+        <div class="demand-stat">KOFTA in force · Battery &amp; semiconductor supply gaps</div>
+        <p class="demand-detail">KOFTA provides preferential access. Samsung SDI, LG Energy Solution, and SK On all actively seeking non-China supply chains. Strong institutional relationships with Canadian miners.</p>
+        <span class="demand-mineral">Lithium</span>
+        <span class="demand-mineral">Nickel</span>
+        <span class="demand-mineral">Cobalt</span>
+      </div>
+      <div class="demand-card">
+        <span class="demand-flag">🇬🇧</span>
+        <div class="demand-country">United Kingdom</div>
+        <div class="demand-stat">CETA successor negotiations · Net Zero by 2050</div>
+        <p class="demand-detail">Post-Brexit CTPA provides CETA-equivalent access. UK battery gigafactories need supply. Shared legal system and regulatory alignment makes Canadian suppliers preferred counterparties.</p>
+        <span class="demand-mineral">Lithium</span>
+        <span class="demand-mineral">Rare Earths</span>
+        <span class="demand-mineral">Uranium</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRADE AGREEMENT COVERAGE -->
+  <div class="chart-section fade-up">
+    <div class="section-head">
+      <h2>Canada's Trade Agreement Coverage</h2>
+      <span class="label">Active FTAs by Region · Global Affairs Canada 2025</span>
+    </div>
+    <div class="chart-grid-3">
+      <div class="chart-box">
+        <div class="chart-title">Americas</div>
+        <div class="bar-row">
+          <div class="bar-label-left">United States</div>
+          <div class="bar-track"><div class="bar-fill bar-fill-green" style="width:100%"></div></div>
+          <div class="bar-value">CUSMA</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label-left">Mexico</div>
+          <div class="bar-track"><div class="bar-fill bar-fill-green" style="width:100%"></div></div>
+          <div class="bar-value">CUSMA</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label-left">Chile</div>
+          <div class="bar-track"><div class="bar-fill bar-fill-green" style="width:100%"></div></div>
+          <div class="bar-value">CCFTA</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label-left">Colombia</div>
+          <div class="bar-track"><div class="bar-fill bar-fill-green" style="width:100%"></div></div>
+          <div class="bar-value">CCOFTA</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label-left">Peru</div>
+          <div class="bar-track"><div class="bar-fill bar-fill-green" style="width:100%"></div></div>
+          <div class="bar-value">CPFTA</div>
+        </div>
+      </div>
+      <div class="chart-box">
+        <div class="chart-title">Europe &amp; Middle East</div>
+        <div class="bar-row">
+          <div class="bar-label-left">European Union</div>
+          <div class="bar-track"><div class="bar-fill bar-fill-green" style="width:100%"></div></div>
+          <div class="bar-value">CETA</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label-left">United Kingdom</div>
+          <div class="bar-track"><div class="bar-fill bar-fill-green" style="width:100%"></div></div>
+          <div class="bar-value">CTPA</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label-left">Ukraine</div>
+          <div class="bar-track"><div class="bar-fill bar-fill-green" style="width:100%"></div></div>
+          <div class="bar-value">CUFTA</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label-left">Israel</div>
+          <div class="bar-track"><div class="bar-fill bar-fill-green" style="width:100%"></div></div>
+          <div class="bar-value">CIFTA</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label-left">Jordan</div>
+          <div class="bar-track"><div class="bar-fill bar-fill-green" style="width:100%"></div></div>
+          <div class="bar-value">CJFTA</div>
+        </div>
+      </div>
+      <div class="chart-box">
+        <div class="chart-title">Asia-Pacific</div>
+        <div class="bar-row">
+          <div class="bar-label-left">11 Countries</div>
+          <div class="bar-track"><div class="bar-fill bar-fill-green" style="width:100%"></div></div>
+          <div class="bar-value">CPTPP</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label-left">South Korea</div>
+          <div class="bar-track"><div class="bar-fill bar-fill-green" style="width:100%"></div></div>
+          <div class="bar-value">CKFTA</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label-left">India</div>
+          <div class="bar-track"><div class="bar-fill bar-fill-amber" style="width:65%"></div></div>
+          <div class="bar-value">CEPA ↗</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label-left">Indonesia</div>
+          <div class="bar-track"><div class="bar-fill bar-fill-amber" style="width:30%"></div></div>
+          <div class="bar-value">Early ↗</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label-left">ASEAN Bloc</div>
+          <div class="bar-track"><div class="bar-fill bar-fill-amber" style="width:20%"></div></div>
+          <div class="bar-value">Exploring</div>
+        </div>
+        <p style="font-size:11px;color:var(--amber);margin-top:12px;">↗ = Under negotiation — monitored weekly in digest</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="footnote">
+    <strong>Data sources:</strong> Statistics Canada Trade Data · Natural Resources Canada Critical Minerals Strategy · World Nuclear Association · IEA Critical Minerals Market Review 2024 · Global Affairs Canada Trade Agreements · World Bank Governance Indicators · IMF World Economic Outlook · USGS Mineral Commodity Summaries 2024.<br>
+    Dashboard figures are drawn from the most recent publicly available annual or quarterly data. Commodity prices are approximate and updated weekly in the full intelligence digest. This dashboard is for contextual reference only and does not constitute investment or trade advice.
+  </div>
+
+</div>
+
+<footer>
+  <span class="footer-brand">🇨🇦 Canadian Trade Intel</span>
+  <span class="footer-legal">For informational purposes only · Not legal or financial advice · Data: Statistics Canada, NRCan, IEA, World Bank</span>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(el => { if (el.isIntersecting) el.target.classList.add('visible'); });
+}, { threshold: 0.08 });
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
