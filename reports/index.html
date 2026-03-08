@@ -257,7 +257,7 @@ let activeFilter = 'all';
 
 async function loadReports() {
   try {
-    const res = await fetch('/reports/reports-index.json');
+    const res = await fetch('reports-index.json');
     if (!res.ok) throw new Error('not found');
     allReports = await res.json();
     renderReports();
@@ -316,7 +316,7 @@ function renderReports() {
         ? `<span class="sig-pill sig-watch">${r.signals.immediate} Immediate</span>` : '';
 
       html += `
-      <div class="report-row" data-sector="${r.sector}" onclick="window.location='/reports/${r.full_report}'">
+      <div class="report-row" data-sector="${r.sector}" onclick="window.location='${r.full_report}'">
         <div class="report-date">${dateFormatted}</div>
         <div class="report-main">
           <span class="report-sector">${r.sector_display}</span>
@@ -329,8 +329,8 @@ function renderReports() {
         </div>
         <div class="report-action">
           <span class="issue-num">Issue #${String(r.issue).padStart(3,'0')}</span>
-          <a href="/reports/${r.full_report}" class="btn-report" onclick="event.stopPropagation()">Full Report →</a>
-          ${r.email_preview ? `<a href="/reports/${r.email_preview}" class="btn-email" onclick="event.stopPropagation()">Email Brief</a>` : ''}
+          <a href="${r.full_report}" class="btn-report" onclick="event.stopPropagation()">Full Report →</a>
+          ${r.email_preview ? `<a href="${r.email_preview}" class="btn-email" onclick="event.stopPropagation()">Email Brief</a>` : ''}
         </div>
       </div>`;
     });
