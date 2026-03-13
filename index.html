@@ -655,9 +655,70 @@ footer { background: #1a0505; padding: 48px 40px 32px; }
 .fade-up { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
 .fade-up.visible { opacity: 1; transform: translateY(0); }
 
+/* ── HAMBURGER BUTTON ── */
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  z-index: 200;
+}
+.nav-hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: rgba(255,255,255,0.7);
+  border-radius: 2px;
+  transition: all 0.25s ease;
+  transform-origin: center;
+}
+.nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-hamburger.open span:nth-child(2) { opacity: 0; }
+.nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* ── MOBILE DROPDOWN MENU ── */
+.nav-mobile-menu {
+  display: none;
+  position: absolute;
+  top: 56px; left: 0; right: 0;
+  background: #1a0505;
+  border-bottom: 2px solid rgba(204,0,0,0.3);
+  padding: 8px 0 16px;
+  z-index: 150;
+  flex-direction: column;
+}
+.nav-mobile-menu.open { display: flex; }
+.nav-mobile-menu a {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.6);
+  text-decoration: none;
+  padding: 13px 24px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  transition: color 0.18s, background 0.18s;
+}
+.nav-mobile-menu a:last-child { border-bottom: none; }
+.nav-mobile-menu a:hover { color: #fff; background: rgba(204,0,0,0.1); }
+.nav-mobile-menu .nav-cta-mobile {
+  margin: 10px 24px 0;
+  padding: 12px 16px !important;
+  background: #cc0000 !important;
+  color: #fff !important;
+  text-align: center;
+  border-radius: 3px;
+  border-bottom: none !important;
+}
+
 @media (max-width: 768px) {
-  nav { padding: 0 20px; }
+  nav { padding: 0 20px; position: relative; }
   .nav-links { display: none; }
+  .nav-hamburger { display: flex; }
   .hero { grid-template-columns: 1fr; gap: 40px; padding: 48px 20px 40px; }
   .signal-panel { display: none; }
   .how { padding: 0 20px; }
@@ -695,6 +756,23 @@ footer { background: #1a0505; padding: 48px 40px 32px; }
     <a href="#sectors">Sectors</a>
     <a href="#what-you-get">What You Get</a>
     <a href="#access" class="nav-cta">Request Access</a>
+  </div>
+
+  <!-- Hamburger button — mobile only -->
+  <button class="nav-hamburger" id="nav-hamburger" onclick="toggleMobileNav()" aria-label="Open menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <!-- Mobile dropdown -->
+  <div class="nav-mobile-menu" id="nav-mobile-menu">
+    <a href="/reports" onclick="closeMobileNav()">Weekly Reports</a>
+    <a href="/dashboard" onclick="closeMobileNav()">Dashboard</a>
+    <a href="/spotlight" onclick="closeMobileNav()">Canadian Spotlight</a>
+    <a href="#sectors" onclick="closeMobileNav()">Sectors</a>
+    <a href="#what-you-get" onclick="closeMobileNav()">What You Get</a>
+    <a href="#access" class="nav-cta-mobile" onclick="closeMobileNav()">Request Access</a>
   </div>
 </nav>
 
@@ -1010,5 +1088,23 @@ function handleSubmit() {
 }
 </script>
 
+
+<script>
+  function toggleMobileNav() {
+    const btn  = document.getElementById('nav-hamburger');
+    const menu = document.getElementById('nav-mobile-menu');
+    btn.classList.toggle('open');
+    menu.classList.toggle('open');
+  }
+  function closeMobileNav() {
+    document.getElementById('nav-hamburger').classList.remove('open');
+    document.getElementById('nav-mobile-menu').classList.remove('open');
+  }
+  // Close menu if user taps outside of it
+  document.addEventListener('click', function(e) {
+    const nav = document.querySelector('nav');
+    if (!nav.contains(e.target)) closeMobileNav();
+  });
+</script>
 </body>
 </html>
