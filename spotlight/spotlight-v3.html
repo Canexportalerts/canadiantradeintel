@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Canadian Spotlight — Canadian Trade Intel</title>
+<meta name="description" content="Every week, Canadian businesses close deals, secure financing, expand, and enter into new markets. This is where we tell those stories.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600;1,700&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --brand:      #cc0000;
+    --brand-dark: #1a0505;
+    --brand-deep: #990000;
+    --cream:      #f8f6f2;
+    --ink:        #1a1a14;
+    --ink-mid:    #3a3a30;
+    --ink-light:  #888880;
+    --rule:       #e0dcd4;
+    --minerals:   #1a6b42;
+    --agri:       #c8860a;
+    --mfg:        #2a5090;
+    --tech:       #0a6080;
+    --aerospace:  #6a20b0;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--ink); }
+
+  /* ── NAV ── */
+  .site-nav {
+    background: var(--brand-dark);
+    padding: 0 40px;
+    position: sticky; top: 0; z-index: 200;
+    border-bottom: 1px solid rgba(204,0,0,0.25);
+  }
+  .site-nav-inner {
+    max-width: 1140px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 46px;
+  }
+  .site-nav-brand {
+    font-family: 'DM Mono', monospace; font-size: 9px;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: rgba(204,0,0,0.8); text-decoration: none;
+  }
+  .site-nav-links { display: flex; gap: 28px; }
+  .site-nav-links a {
+    font-family: 'DM Mono', monospace; font-size: 8px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: rgba(255,255,255,0.3); text-decoration: none; transition: color 0.18s;
+  }
+  .site-nav-links a:hover,
+  .site-nav-links a.active { color: rgba(204,0,0,0.9); }
+
+  /* ── PAGE HEADER ── */
+  .page-header {
+    background: var(--brand-dark);
+    padding: 56px 40px 48px;
+    border-bottom: 3px solid var(--brand);
+  }
+  .page-header-inner { max-width: 1140px; margin: 0 auto; }
+  .page-eyebrow {
+    font-family: 'DM Mono', monospace; font-size: 9px;
+    letter-spacing: 0.24em; text-transform: uppercase;
+    color: var(--brand); margin-bottom: 16px;
+  }
+  .page-header h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(28px, 4vw, 48px);
+    font-weight: 600; font-style: italic;
+    color: #f0f0e8; line-height: 1.1; margin-bottom: 16px;
+    max-width: 760px;
+  }
+  .page-header-desc {
+    font-size: 14px; color: rgba(240,240,232,0.5);
+    line-height: 1.75; max-width: 540px; margin-bottom: 28px;
+  }
+  .page-header-meta {
+    font-family: 'DM Mono', monospace; font-size: 8px;
+    color: rgba(204,0,0,0.45); letter-spacing: 0.12em; text-transform: uppercase;
+  }
+
+  /* ── FILTER BAR ── */
+  .filter-bar {
+    background: #fff; border-bottom: 1px solid var(--rule);
+    padding: 0 40px; position: sticky; top: 46px; z-index: 190;
+  }
+  .filter-bar-inner {
+    max-width: 1140px; margin: 0 auto;
+    display: flex; gap: 0; overflow-x: auto;
+  }
+  .filter-btn {
+    font-family: 'DM Mono', monospace; font-size: 8px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--ink-light); padding: 13px 18px 11px;
+    border: none; background: none; cursor: pointer;
+    border-bottom: 2px solid transparent; white-space: nowrap;
+    transition: all 0.16s;
+  }
+  .filter-btn:hover { color: var(--ink); }
+  .filter-btn.f-all  { color: var(--brand); border-bottom-color: var(--brand); }
+  .filter-btn.f-min  { color: var(--minerals); border-bottom-color: var(--minerals); }
+  .filter-btn.f-agri { color: var(--agri); border-bottom-color: var(--agri); }
+  .filter-btn.f-mfg  { color: var(--mfg); border-bottom-color: var(--mfg); }
+  .filter-btn.f-tech { color: var(--tech); border-bottom-color: var(--tech); }
+  .filter-btn.f-aero { color: var(--aerospace); border-bottom-color: var(--aerospace); }
+
+  /* ── BODY ── */
+  .spotlight-body {
+    max-width: 1140px; margin: 0 auto;
+    padding: 44px 40px 80px;
+  }
+
+  /* ── ISSUE GROUP HEADER ── */
+  .issue-group { margin-bottom: 48px; }
+  .issue-group-header {
+    display: flex; align-items: baseline; gap: 14px;
+    margin-bottom: 20px; padding-bottom: 9px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .issue-group-label {
+    font-family: 'DM Mono', monospace; font-size: 8px;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--brand);
+  }
+  .issue-group-date {
+    font-family: 'DM Mono', monospace; font-size: 8px;
+    color: var(--ink-light); letter-spacing: 0.1em;
+  }
+  .issue-group-rule { flex: 1; height: 1px; background: var(--rule); }
+
+  /* ── TILE CATALOGUE GRID ── */
+  .tile-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 14px;
+  }
+
+  /* ── INDIVIDUAL TILE ── */
+  .tile {
+    background: #fff;
+    border: 1px solid var(--rule);
+    border-top: 3px solid var(--rule);
+    cursor: pointer;
+    transition: box-shadow 0.18s, transform 0.18s;
+    position: relative;
+    overflow: hidden;
+  }
+  .tile:hover {
+    box-shadow: 0 6px 22px rgba(0,0,0,0.10);
+    transform: translateY(-2px);
+  }
+  .tile.open {
+    box-shadow: 0 8px 32px rgba(0,0,0,0.13);
+    transform: none;
+  }
+  .tile[data-sector="minerals"] { border-top-color: var(--minerals); }
+  .tile[data-sector="agri"]     { border-top-color: var(--agri); }
+  .tile[data-sector="mfg"]      { border-top-color: var(--mfg); }
+  .tile[data-sector="tech"]     { border-top-color: var(--tech); }
+  .tile[data-sector="aerospace"]{ border-top-color: var(--aerospace); }
+
+  .tile-face {
+    padding: 16px 16px 14px;
+    min-height: 160px;
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .tile-sector {
+    font-family: 'DM Mono', monospace; font-size: 7px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .tile[data-sector="minerals"] .tile-sector { color: var(--minerals); }
+  .tile[data-sector="agri"]     .tile-sector { color: var(--agri); }
+  .tile[data-sector="mfg"]      .tile-sector { color: var(--mfg); }
+  .tile[data-sector="tech"]     .tile-sector { color: var(--tech); }
+  .tile[data-sector="aerospace"].tile-sector { color: var(--aerospace); }
+
+  .tile-company {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px; font-weight: 600; font-style: italic;
+    color: var(--ink); line-height: 1.25; margin-bottom: 7px;
+  }
+  .tile-headline {
+    font-size: 11px; color: var(--ink-mid);
+    line-height: 1.5; flex: 1;
+  }
+  .tile-footer {
+    display: flex; align-items: center;
+    justify-content: space-between;
+    padding: 8px 16px 10px;
+    border-top: 1px solid var(--rule);
+    background: #fafaf8;
+  }
+  .tile-date {
+    font-family: 'DM Mono', monospace; font-size: 7px;
+    letter-spacing: 0.08em; color: var(--ink-light);
+  }
+  .tile-expand-icon {
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    color: var(--ink-light); transition: transform 0.22s;
+    line-height: 1;
+  }
+  .tile.open .tile-expand-icon { transform: rotate(45deg); color: var(--brand); }
+
+  /* ── EXPANDED DRAWER ── */
+  /* The drawer expands full-width below the tile row using a grid-column span trick */
+  .tile-drawer {
+    display: none;
+    grid-column: 1 / -1;
+    background: #fff;
+    border: 1px solid var(--rule);
+    border-top: none;
+    animation: drawerOpen 0.22s ease;
+  }
+  .tile-drawer.open { display: block; }
+
+  @keyframes drawerOpen {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .drawer-inner {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: 0;
+  }
+  .drawer-content {
+    padding: 28px 32px;
+    border-right: 1px solid var(--rule);
+  }
+  .drawer-eyebrow {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 12px;
+  }
+  .drawer-sector-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+  }
+  .drawer-sector-label {
+    font-family: 'DM Mono', monospace; font-size: 8px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+  }
+  .drawer-issue-tag {
+    font-family: 'DM Mono', monospace; font-size: 7px;
+    color: var(--ink-light); margin-left: auto;
+  }
+  .drawer-content h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px; font-weight: 600; font-style: italic;
+    color: var(--ink); line-height: 1.3; margin-bottom: 14px;
+  }
+  .drawer-body {
+    font-size: 13px; color: var(--ink-mid);
+    line-height: 1.8; margin-bottom: 16px;
+  }
+  .drawer-body p { margin-bottom: 12px; }
+  .drawer-body p:last-child { margin-bottom: 0; }
+  .drawer-actions {
+    display: flex; gap: 12px; align-items: center;
+    padding-top: 14px; border-top: 1px solid var(--rule);
+  }
+  .drawer-link {
+    font-family: 'DM Mono', monospace; font-size: 8px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--brand); text-decoration: none;
+    border-bottom: 1px solid rgba(204,0,0,0.25); padding-bottom: 2px;
+    transition: border-color 0.16s;
+  }
+  .drawer-link:hover { border-bottom-color: var(--brand); }
+  .drawer-close {
+    font-family: 'DM Mono', monospace; font-size: 8px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--ink-light); background: none; border: none;
+    cursor: pointer; margin-left: auto;
+    transition: color 0.16s;
+  }
+  .drawer-close:hover { color: var(--ink); }
+
+  .drawer-aside {
+    padding: 24px 24px;
+    background: #fafaf8;
+  }
+  .drawer-aside-title {
+    font-family: 'DM Mono', monospace; font-size: 7px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--ink-light); margin-bottom: 10px;
+    padding-bottom: 8px; border-bottom: 1px solid var(--rule);
+  }
+  .drawer-aside-company {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 19px; font-weight: 600; font-style: italic;
+    color: var(--ink); margin-bottom: 10px;
+  }
+  .drawer-aside-row {
+    font-size: 11px; color: var(--ink-mid);
+    line-height: 1.5; padding: 5px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .drawer-aside-row:last-of-type { border-bottom: none; }
+  .drawer-aside-row strong { color: var(--ink); }
+  .drawer-lesson {
+    margin-top: 16px; padding: 12px 14px;
+    border-left: 2px solid var(--brand);
+    background: #fff5f5;
+  }
+  .drawer-lesson-label {
+    font-family: 'DM Mono', monospace; font-size: 7px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--brand); margin-bottom: 5px;
+  }
+  .drawer-lesson p {
+    font-size: 11px; color: #5a1010; line-height: 1.65;
+  }
+
+  /* ── HIDDEN TILE ── */
+  .tile.hidden, .tile-drawer.hidden-group { display: none !important; }
+
+  /* ── CTA STRIP ── */
+  .cta-strip {
+    background: var(--brand-dark);
+    border-top: 3px solid var(--brand);
+    padding: 32px 40px; margin: 48px 0;
+  }
+  .cta-strip-inner {
+    max-width: 1140px; margin: 0 auto;
+    display: flex; align-items: center;
+    justify-content: space-between; gap: 32px;
+  }
+  .cta-strip h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px; font-style: italic; color: #f0f0e8; margin-bottom: 5px;
+  }
+  .cta-strip p { font-size: 12px; color: rgba(240,240,232,0.45); line-height: 1.6; max-width: 480px; }
+  .cta-btn {
+    font-family: 'DM Mono', monospace; font-size: 9px;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    background: var(--brand); color: #fff;
+    padding: 12px 22px; border-radius: 2px;
+    text-decoration: none; white-space: nowrap;
+    border: 1px solid rgba(255,100,100,0.2);
+    transition: background 0.18s;
+  }
+  .cta-btn:hover { background: var(--brand-deep); }
+
+  /* ── FOOTER ── */
+  .site-footer { background: var(--brand-dark); padding: 30px 40px; }
+  .site-footer-inner {
+    max-width: 1140px; margin: 0 auto;
+    display: flex; justify-content: space-between; align-items: flex-start;
+  }
+  .footer-brand {
+    font-family: 'Cormorant Garamond', serif; font-size: 17px;
+    font-style: italic; color: #f0f0e8; margin-bottom: 6px;
+  }
+  .footer-meta {
+    font-family: 'DM Mono', monospace; font-size: 7px;
+    color: rgba(204,0,0,0.35); letter-spacing: 0.08em; line-height: 1.9;
+  }
+  .footer-links { display: flex; flex-direction: column; gap: 7px; text-align: right; }
+  .footer-links a {
+    font-family: 'DM Mono', monospace; font-size: 8px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: rgba(204,0,0,0.4); text-decoration: none; transition: color 0.16s;
+  }
+  .footer-links a:hover { color: rgba(204,0,0,0.8); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity:0; transform:translateY(12px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+  .page-header h1   { animation: fadeUp 0.4s ease both; }
+  .page-header-desc { animation: fadeUp 0.4s 0.07s ease both; }
+
+  @media (max-width: 700px) {
+    .site-nav { padding: 0 16px; }
+    .filter-bar { padding: 0 16px; }
+    .page-header { padding: 36px 20px 32px; }
+    .spotlight-body { padding: 28px 16px 60px; }
+    .tile-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; }
+    .drawer-inner { grid-template-columns: 1fr; }
+    .drawer-aside { border-top: 1px solid var(--rule); }
+    .cta-strip { padding: 24px 20px; }
+    .cta-strip-inner { flex-direction: column; gap: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════
+     SITE NAV
+══════════════════════════════════ -->
+<nav class="site-nav">
+  <div class="site-nav-inner">
+    <a href="https://canadiantradeintel.ca" class="site-nav-brand">🇨🇦 Canadian Trade Intel</a>
+    <div class="site-nav-links">
+      <a href="https://canadiantradeintel.ca/reports">Reports</a>
+      <a href="https://canadiantradeintel.ca/spotlight" class="active">Spotlight</a>
+      <a href="https://canadiantradeintel.ca/dashboard">Dashboard</a>
+      <a href="https://canadiantradeintel.ca/pricing">Plans</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════
+     PAGE HEADER
+══════════════════════════════════ -->
+<header class="page-header">
+  <div class="page-header-inner">
+    <div class="page-eyebrow">🇨🇦 Canadian Spotlight</div>
+    <h1>Canadian Businesses, Making Moves.</h1>
+    <p class="page-header-desc">
+      Every week, Canadian businesses close deals, secure financing, expand, and enter into new markets. This is where we tell those stories.
+    </p>
+    <div class="page-header-meta">
+      Free &nbsp;·&nbsp; Updated Weekly &nbsp;·&nbsp; Five Sectors
+    </div>
+  </div>
+</header>
+
+<!-- ══════════════════════════════════
+     SECTOR FILTER BAR
+══════════════════════════════════ -->
+<div class="filter-bar">
+  <div class="filter-bar-inner">
+    <button class="filter-btn f-all"  onclick="filterSector('all',this)">All Sectors</button>
+    <button class="filter-btn" onclick="filterSector('minerals',this)">⚗ Critical Minerals</button>
+    <button class="filter-btn" onclick="filterSector('agri',this)">🌾 Agri-food</button>
+    <button class="filter-btn" onclick="filterSector('mfg',this)">🏭 Manufacturing</button>
+    <button class="filter-btn" onclick="filterSector('tech',this)">💻 Technology</button>
+    <button class="filter-btn" onclick="filterSector('aerospace',this)">✈ Aerospace</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     CATALOGUE BODY
+══════════════════════════════════ -->
+<main class="spotlight-body">
+
+  <!-- ════ ISSUE #003 ════ -->
+  <div class="issue-group" id="issue-003">
+    <div class="issue-group-header">
+      
+      <span class="issue-group-date">March 17, 2026</span>
+      <div class="issue-group-rule"></div>
+    </div>
+
+    <div class="tile-grid" id="grid-003">
+
+      <!-- TILE 1 -->
+      <div class="tile" data-sector="minerals" data-tile="003-1" onclick="toggleTile('003-1')">
+        <div class="tile-face">
+          <div>
+            <div class="tile-sector">⚗ Critical Minerals</div>
+            <div class="tile-company">Patriot Battery Metals</div>
+            <div class="tile-headline">C$42M closed — Japanese trading house leads Quebec lithium round</div>
+          </div>
+        </div>
+        <div class="tile-footer">
+          <span class="tile-date">Mar 17, 2026</span>
+          <span class="tile-expand-icon">+</span>
+        </div>
+      </div>
+
+      <!-- DRAWER 1 — full width, placed after tile in DOM, spanned via JS -->
+      <div class="tile-drawer" id="drawer-003-1">
+        <div class="drawer-inner">
+          <div class="drawer-content">
+            <div class="drawer-eyebrow">
+              <span class="drawer-sector-dot" style="background:var(--minerals)"></span>
+              <span class="drawer-sector-label" style="color:var(--minerals)">Critical Minerals · Lithium · Quebec</span>
+              
+            </div>
+            <h2>Patriot Battery Metals Closes C$42M — and What Japanese Trading House Participation Really Means for Canadian Lithium</h2>
+            <div class="drawer-body">
+              <p>Patriot Battery Metals closed a C$42M series B financing this week to advance drilling at the Corvette lithium deposit in Quebec's James Bay region. The headline number is notable — but the composition of the financing is more important than the amount.</p>
+              <p>The round was led by a Japanese trading house, with undisclosed participation from a European battery manufacturer. This is the second time in a month that a Japanese trading house has taken a direct stake in a Canadian lithium junior — Toyota Tsusho's C$85M investment in Frontier Lithium came in February. The pattern is not coincidental. Japanese automotive supply chains are systematically acquiring optionality in Canadian lithium ahead of what they expect to be a CATL-dominated market tightening.</p>
+              <p>A strategic investment from a Japanese trading house is not just capital — it is a supply chain relationship, a market access channel, and a signal to other buyers that the asset is credible. For Patriot, a NI 43-101 resource estimate expected Q3 2026 is the next catalyst.</p>
+            </div>
+            <div class="drawer-actions">
+              <a href="https://canadiantradeintel.ca/spotlight/patriot-battery-metals-mar-2026" class="drawer-link">Full Story →</a>
+              <button class="drawer-close" onclick="closeTile('003-1', event)">✕ Close</button>
+            </div>
+          </div>
+          <div class="drawer-aside">
+            <div class="drawer-aside-title">Company Profile</div>
+            <div class="drawer-aside-company">Patriot Battery Metals</div>
+            <div class="drawer-aside-row"><strong>Sector:</strong> Critical Minerals — Lithium</div>
+            <div class="drawer-aside-row"><strong>HQ:</strong> Vancouver, BC</div>
+            <div class="drawer-aside-row"><strong>Project:</strong> Corvette, James Bay QC</div>
+            <div class="drawer-aside-row"><strong>Exchange:</strong> TSX-V: PMET</div>
+            <div class="drawer-aside-row"><strong>This week:</strong> C$42M Series B closed</div>
+            <div class="drawer-lesson">
+              <div class="drawer-lesson-label">What Others Can Learn</div>
+              <p>Japanese trading houses (Mitsubishi, Mitsui, Toyota Tsusho) are actively seeking Canadian lithium stakes. TCS Tokyo can facilitate introductions to trading house critical minerals desks for advanced-stage projects.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TILE 2 -->
+      <div class="tile" data-sector="agri" data-tile="003-2" onclick="toggleTile('003-2')">
+        <div class="tile-face">
+          <div>
+            <div class="tile-sector">🌾 Agri-food</div>
+            <div class="tile-company">Nutrien</div>
+            <div class="tile-headline">5-year Indonesia potash agreement — 800,000MT annually</div>
+          </div>
+        </div>
+        <div class="tile-footer">
+          <span class="tile-date">Mar 17, 2026</span>
+          <span class="tile-expand-icon">+</span>
+        </div>
+      </div>
+      <div class="tile-drawer" id="drawer-003-2">
+        <div class="drawer-inner">
+          <div class="drawer-content">
+            <div class="drawer-eyebrow">
+              <span class="drawer-sector-dot" style="background:var(--agri)"></span>
+              <span class="drawer-sector-label" style="color:var(--agri)">Agri-food · Potash · Saskatchewan</span>
+              
+            </div>
+            <h2>Nutrien Signs 5-Year Indonesia Potash Agreement — 800,000MT Annually, EDC Underpins the Deal</h2>
+            <div class="drawer-body">
+              <p>Nutrien's long-term supply agreement with Indonesia's Bulog secures one of the largest annual potash offtake commitments in Southeast Asia. The deal is underpinned by EDC's $825M Indonesia country commitment and reflects Indonesia's food security strategy — the government is actively seeking to lock in long-term fertiliser supply from stable, allied-nation producers.</p>
+              <p>For smaller Canadian potash and phosphate producers, this deal establishes a market template. Indonesia's agricultural buyers are open to Canadian supply relationships at multiple scales — the Nutrien deal signals that Canadian origin, EDC financing support, and CPTPP access together create a compelling package for Indonesian government procurement.</p>
+            </div>
+            <div class="drawer-actions">
+              <a href="https://canadiantradeintel.ca/spotlight/nutrien-indonesia-mar-2026" class="drawer-link">Full Story →</a>
+              <button class="drawer-close" onclick="closeTile('003-2', event)">✕ Close</button>
+            </div>
+          </div>
+          <div class="drawer-aside">
+            <div class="drawer-aside-title">Company Profile</div>
+            <div class="drawer-aside-company">Nutrien Ltd.</div>
+            <div class="drawer-aside-row"><strong>Sector:</strong> Agri-food — Potash / Fertilisers</div>
+            <div class="drawer-aside-row"><strong>HQ:</strong> Saskatoon, SK</div>
+            <div class="drawer-aside-row"><strong>Exchange:</strong> TSX / NYSE: NTR</div>
+            <div class="drawer-aside-row"><strong>This week:</strong> Indonesia 5-yr offtake confirmed</div>
+            <div class="drawer-lesson">
+              <div class="drawer-lesson-label">What Others Can Learn</div>
+              <p>EDC's Indonesia commitment actively backstops Canadian agricultural export deals. Contact EDC's agri-food sector desk before approaching Indonesian government buyers — arriving with financing support changes the conversation.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TILE 3 -->
+      <div class="tile" data-sector="aerospace" data-tile="003-3" onclick="toggleTile('003-3')">
+        <div class="tile-face">
+          <div>
+            <div class="tile-sector">✈ Aerospace</div>
+            <div class="tile-company">CAE Inc.</div>
+            <div class="tile-headline">£180M UK MoD flight training contract — Five Eyes credential grows</div>
+          </div>
+        </div>
+        <div class="tile-footer">
+          <span class="tile-date">Mar 17, 2026</span>
+          <span class="tile-expand-icon">+</span>
+        </div>
+      </div>
+      <div class="tile-drawer" id="drawer-003-3">
+        <div class="drawer-inner">
+          <div class="drawer-content">
+            <div class="drawer-eyebrow">
+              <span class="drawer-sector-dot" style="background:var(--aerospace)"></span>
+              <span class="drawer-sector-label" style="color:var(--aerospace)">Aerospace · Defence Training · Montreal</span>
+              
+            </div>
+            <h2>CAE Wins £180M UK MoD Flight Training Contract — Five Eyes Credential Expands to Three Nations</h2>
+            <div class="drawer-body">
+              <p>CAE's UK Ministry of Defence flight training contract — £180M over 10 years — is the company's third consecutive Five Eyes defence training win. The strategic pattern matters more than the individual contract: each win strengthens CAE's position for the next allied nation tender.</p>
+              <p>Australian ADF and New Zealand NZDF training procurement cycles are both active. CAE's UK credential is a direct advantage in both. For Canadian aerospace SMEs, CAE's UK supply chain is also now a route — ITB-style subcontracting obligations may apply, and CAE's UK operations represent a potential channel into allied defence markets without direct procurement competition.</p>
+            </div>
+            <div class="drawer-actions">
+              <a href="https://canadiantradeintel.ca/spotlight/cae-uk-mod-mar-2026" class="drawer-link">Full Story →</a>
+              <button class="drawer-close" onclick="closeTile('003-3', event)">✕ Close</button>
+            </div>
+          </div>
+          <div class="drawer-aside">
+            <div class="drawer-aside-title">Company Profile</div>
+            <div class="drawer-aside-company">CAE Inc.</div>
+            <div class="drawer-aside-row"><strong>Sector:</strong> Aerospace — Defence Training</div>
+            <div class="drawer-aside-row"><strong>HQ:</strong> Montreal, QC</div>
+            <div class="drawer-aside-row"><strong>Exchange:</strong> TSX / NYSE: CAE</div>
+            <div class="drawer-aside-row"><strong>This week:</strong> £180M UK MoD contract confirmed</div>
+            <div class="drawer-lesson">
+              <div class="drawer-lesson-label">What Others Can Learn</div>
+              <p>Five Eyes allied defence markets reward Canadian suppliers with demonstrated credentials in other Five Eyes nations. A UK MoD contract strengthens your case in Australia, NZ, and the US. Build the credential chain deliberately.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TILE 4 -->
+      <div class="tile" data-sector="minerals" data-tile="003-4" onclick="toggleTile('003-4')">
+        <div class="tile-face">
+          <div>
+            <div class="tile-sector">⚗ Critical Minerals</div>
+            <div class="tile-company">Vital Metals</div>
+            <div class="tile-headline">SRC offtake — Canada's first end-to-end rare earth processing pathway</div>
+          </div>
+        </div>
+        <div class="tile-footer">
+          <span class="tile-date">Mar 17, 2026</span>
+          <span class="tile-expand-icon">+</span>
+        </div>
+      </div>
+      <div class="tile-drawer" id="drawer-003-4">
+        <div class="drawer-inner">
+          <div class="drawer-content">
+            <div class="drawer-eyebrow">
+              <span class="drawer-sector-dot" style="background:var(--minerals)"></span>
+              <span class="drawer-sector-label" style="color:var(--minerals)">Critical Minerals · Rare Earths · NWT / Saskatchewan</span>
+              
+            </div>
+            <h2>Vital Metals and SRC Establish Canada's First End-to-End Rare Earth Pathway — Now Open to Other Producers</h2>
+            <div class="drawer-body">
+              <p>Vital Metals' binding offtake agreement with the Saskatchewan Research Council creates the first complete Canadian rare earth mine-to-separated-product pathway. Previously, Canadian producers had to ship concentrate to China or Estonia for separation — a vulnerability that made Canadian product uncompetitive for allied-nation buyers demanding non-Chinese processing.</p>
+              <p>The SRC Saskatoon facility is available to other Canadian producers under commercial terms. This is now a credible commercial option. If you have a rare earth concentrate and need a non-Chinese processing pathway to access EU or US buyers, contact SRC's critical minerals division (src.sk.ca).</p>
+            </div>
+            <div class="drawer-actions">
+              <a href="https://canadiantradeintel.ca/spotlight/vital-metals-src-mar-2026" class="drawer-link">Full Story →</a>
+              <button class="drawer-close" onclick="closeTile('003-4', event)">✕ Close</button>
+            </div>
+          </div>
+          <div class="drawer-aside">
+            <div class="drawer-aside-title">Company Profile</div>
+            <div class="drawer-aside-company">Vital Metals</div>
+            <div class="drawer-aside-row"><strong>Sector:</strong> Critical Minerals — Rare Earths</div>
+            <div class="drawer-aside-row"><strong>HQ:</strong> Brisbane, AU (Canada ops: NWT)</div>
+            <div class="drawer-aside-row"><strong>Project:</strong> Nechalacho, NWT</div>
+            <div class="drawer-aside-row"><strong>This week:</strong> SRC binding offtake confirmed</div>
+            <div class="drawer-lesson">
+              <div class="drawer-lesson-label">What Others Can Learn</div>
+              <p>The SRC rare earth separation facility is open to other Canadian producers commercially. Non-Chinese processing is now the key credential for EU and US rare earth buyers. Contact src.sk.ca critical minerals division.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TILE 5 -->
+      <div class="tile" data-sector="tech" data-tile="003-5" onclick="toggleTile('003-5')">
+        <div class="tile-face">
+          <div>
+            <div class="tile-sector">💻 Technology</div>
+            <div class="tile-company">Two Ottawa GovTech Firms</div>
+            <div class="tile-headline">Shortlisted for Japan Digital Agency ¥80B pilot — CPTPP access at work</div>
+          </div>
+        </div>
+        <div class="tile-footer">
+          <span class="tile-date">Mar 17, 2026</span>
+          <span class="tile-expand-icon">+</span>
+        </div>
+      </div>
+      <div class="tile-drawer" id="drawer-003-5">
+        <div class="drawer-inner">
+          <div class="drawer-content">
+            <div class="drawer-eyebrow">
+              <span class="drawer-sector-dot" style="background:var(--tech)"></span>
+              <span class="drawer-sector-label" style="color:var(--tech)">Technology · GovTech · Ottawa</span>
+              
+            </div>
+            <h2>Two Canadian GovTech Firms Shortlisted for Japan Digital Agency Pilot — CPTPP Access in Action</h2>
+            <div class="drawer-body">
+              <p>Two Ottawa-area GovTech companies have been shortlisted for Japan's Digital Agency ¥80B modernisation pilot programme. Their selection follows TCS Tokyo introductions made in Q4 2025 and reflects Japan's stated preference for trusted non-Chinese digital suppliers in critical government infrastructure.</p>
+              <p>CPTPP has been the enabling mechanism: Canadian digital services suppliers now have equivalent market access to Japanese domestic providers for government digital procurement above certain thresholds. The TCS Tokyo introduction-to-shortlist timeline was approximately 16 weeks — a realistic benchmark for other Canadian tech companies considering the Japan market.</p>
+            </div>
+            <div class="drawer-actions">
+              <a href="https://canadiantradeintel.ca/spotlight/govtech-japan-mar-2026" class="drawer-link">Full Story →</a>
+              <button class="drawer-close" onclick="closeTile('003-5', event)">✕ Close</button>
+            </div>
+          </div>
+          <div class="drawer-aside">
+            <div class="drawer-aside-title">Sector Note</div>
+            <div class="drawer-aside-company">Ottawa GovTech</div>
+            <div class="drawer-aside-row"><strong>Sector:</strong> Technology — GovTech / Digital Government</div>
+            <div class="drawer-aside-row"><strong>Market:</strong> Japan Digital Agency</div>
+            <div class="drawer-aside-row"><strong>Route:</strong> TCS Tokyo → CPTPP access</div>
+            <div class="drawer-aside-row"><strong>Timeline:</strong> ~16 weeks intro to shortlist</div>
+            <div class="drawer-lesson">
+              <div class="drawer-lesson-label">What Others Can Learn</div>
+              <p>TCS Tokyo's government technology introduction programme is an active channel. CPTPP removes the primary barrier to Japanese government procurement for Canadian tech suppliers. Contact TCS Tokyo to begin the process.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TILE 6 -->
+      <div class="tile" data-sector="mfg" data-tile="003-6" onclick="toggleTile('003-6')">
+        <div class="tile-face">
+          <div>
+            <div class="tile-sector">🏭 Manufacturing</div>
+            <div class="tile-company">Thyssenkrupp Canada</div>
+            <div class="tile-headline">$180M Hamilton acquisition — Canadian supply chain opportunity opens</div>
+          </div>
+        </div>
+        <div class="tile-footer">
+          <span class="tile-date">Mar 17, 2026</span>
+          <span class="tile-expand-icon">+</span>
+        </div>
+      </div>
+      <div class="tile-drawer" id="drawer-003-6">
+        <div class="drawer-inner">
+          <div class="drawer-content">
+            <div class="drawer-eyebrow">
+              <span class="drawer-sector-dot" style="background:var(--mfg)"></span>
+              <span class="drawer-sector-label" style="color:var(--mfg)">Manufacturing · Steel · Hamilton</span>
+              
+            </div>
+            <h2>Thyssenkrupp's $180M Hamilton Acquisition Opens Local Supply Chain — What Canadian Manufacturers Should Do Now</h2>
+            <div class="drawer-body">
+              <p>Thyssenkrupp's acquisition of a Hamilton steel service centre is an FDI story with direct implications for Canadian manufacturing suppliers. When a major German industrial company establishes Canadian operations, it creates a local procurement relationship that didn't exist before.</p>
+              <p>Thyssenkrupp will source precision steel components, CNC machining services, and industrial consumables from the local market. Canadian suppliers in the Hamilton-Niagara-Waterloo corridor should contact Thyssenkrupp Canada procurement directly — this is the fastest path to a German industrial supply chain relationship without navigating export logistics or CETA paperwork from scratch.</p>
+            </div>
+            <div class="drawer-actions">
+              <a href="https://canadiantradeintel.ca/spotlight/thyssenkrupp-hamilton-mar-2026" class="drawer-link">Full Story →</a>
+              <button class="drawer-close" onclick="closeTile('003-6', event)">✕ Close</button>
+            </div>
+          </div>
+          <div class="drawer-aside">
+            <div class="drawer-aside-title">Company Profile</div>
+            <div class="drawer-aside-company">Thyssenkrupp Canada</div>
+            <div class="drawer-aside-row"><strong>Sector:</strong> Manufacturing — Steel / Industrial</div>
+            <div class="drawer-aside-row"><strong>Parent:</strong> Thyssenkrupp AG, Germany</div>
+            <div class="drawer-aside-row"><strong>Location:</strong> Hamilton, ON</div>
+            <div class="drawer-aside-row"><strong>This week:</strong> $180M acquisition completed</div>
+            <div class="drawer-lesson">
+              <div class="drawer-lesson-label">What Others Can Learn</div>
+              <p>FDI into Canada creates local procurement opportunities. When a foreign industrial company acquires Canadian operations, their local supplier relationships are an open door — contact their Canadian procurement team directly, not the parent company.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /grid-003 -->
+  </div><!-- /issue-003 -->
+
+  <!-- ── CTA STRIP ── -->
+  <div class="cta-strip">
+    <div class="cta-strip-inner">
+      <div>
+        <h3>Want the intelligence behind each story?</h3>
+        <p>Spotlight stories are free. Full weekly intelligence reports — signals, step-by-step actions, market entry pathways — are for subscribers.</p>
+      </div>
+      <a href="https://canadiantradeintel.ca/pricing" class="cta-btn">See Plans →</a>
+    </div>
+  </div>
+
+  <!-- ════ ISSUE #002 ════ -->
+  <div class="issue-group" id="issue-002">
+    <div class="issue-group-header">
+      
+      <span class="issue-group-date">March 10, 2026</span>
+      <div class="issue-group-rule"></div>
+    </div>
+
+    <div class="tile-grid" id="grid-002">
+
+      <div class="tile" data-sector="minerals" data-tile="002-1" onclick="toggleTile('002-1')">
+        <div class="tile-face">
+          <div>
+            <div class="tile-sector">⚗ Critical Minerals</div>
+            <div class="tile-company">Cameco</div>
+            <div class="tile-headline">Kazakhstan supply disruption — Cameco moves first on European utility demand</div>
+          </div>
+        </div>
+        <div class="tile-footer">
+          <span class="tile-date">Mar 10, 2026</span>
+          <span class="tile-expand-icon">+</span>
+        </div>
+      </div>
+      <div class="tile-drawer" id="drawer-002-1">
+        <div class="drawer-inner">
+          <div class="drawer-content">
+            <div class="drawer-eyebrow">
+              <span class="drawer-sector-dot" style="background:var(--minerals)"></span>
+              <span class="drawer-sector-label" style="color:var(--minerals)">Critical Minerals · Uranium</span>
+              
+            </div>
+            <h2>Cameco's Kazakhstan Supply Disruption Play — Why the Timing Was Right</h2>
+            <div class="drawer-body">
+              <p>When Kazatomprom announced Q1 production shortfalls in January, Cameco moved faster than any other western producer to fill European utility demand. The playbook: pre-positioned spot inventory, existing utility relationships in France, Germany, and the UK, and a team already briefed on Kazatomprom's production vulnerabilities from Q4 2025 intelligence.</p>
+              <p>For smaller uranium producers and equipment suppliers, the lesson is in the preparation, not the speed. Cameco was ready because they monitored Kazatomprom's production signals for months before the announcement. Smaller Canadian producers can replicate this by monitoring the same signals — weekly CanExport Intelligence tracking of Kazakh production data is the tool.</p>
+            </div>
+            <div class="drawer-actions">
+              <a href="#" class="drawer-link">Full Story →</a>
+              <button class="drawer-close" onclick="closeTile('002-1', event)">✕ Close</button>
+            </div>
+          </div>
+          <div class="drawer-aside">
+            <div class="drawer-aside-title">Company Profile</div>
+            <div class="drawer-aside-company">Cameco Corporation</div>
+            <div class="drawer-aside-row"><strong>Sector:</strong> Critical Minerals — Uranium</div>
+            <div class="drawer-aside-row"><strong>HQ:</strong> Saskatoon, SK</div>
+            <div class="drawer-aside-row"><strong>Exchange:</strong> TSX / NYSE: CCO</div>
+            <div class="drawer-lesson">
+              <div class="drawer-lesson-label">What Others Can Learn</div>
+              <p>Supply disruption speed requires advance preparation. Monitor competitor production signals weekly — disruption opportunities close in days, not weeks.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tile" data-sector="agri" data-tile="002-2" onclick="toggleTile('002-2')">
+        <div class="tile-face">
+          <div>
+            <div class="tile-sector">🌾 Agri-food</div>
+            <div class="tile-company">Richardson International</div>
+            <div class="tile-headline">EU canola oil pivot — reducing China concentration risk under CETA</div>
+          </div>
+        </div>
+        <div class="tile-footer">
+          <span class="tile-date">Mar 10, 2026</span>
+          <span class="tile-expand-icon">+</span>
+        </div>
+      </div>
+      <div class="tile-drawer" id="drawer-002-2">
+        <div class="drawer-inner">
+          <div class="drawer-content">
+            <div class="drawer-eyebrow">
+              <span class="drawer-sector-dot" style="background:var(--agri)"></span>
+              <span class="drawer-sector-label" style="color:var(--agri)">Agri-food · Canola · Alberta</span>
+              
+            </div>
+            <h2>Richardson International's EU Canola Oil Pivot — The Diversification Playbook Other Processors Should Run</h2>
+            <div class="drawer-body">
+              <p>With China canola access increasingly uncertain, Richardson moved early to lock EU canola oil contracts under CETA's zero-tariff terms. European buyers — particularly in Germany, the Netherlands, and Belgium — are actively seeking non-Chinese, non-Russian edible oil supply. CETA zero tariff on Canadian canola oil makes Canadian product price-competitive without the market access friction that blocked Canadian canola at the processing stage.</p>
+              <p>The playbook is replicable for other Canadian canola processors. CETA zero tariff applies to canola oil, not canola seed — processing in Canada before export is the key structure. TCS Brussels can identify EU buyer introductions for processors ready to move.</p>
+            </div>
+            <div class="drawer-actions">
+              <a href="#" class="drawer-link">Full Story →</a>
+              <button class="drawer-close" onclick="closeTile('002-2', event)">✕ Close</button>
+            </div>
+          </div>
+          <div class="drawer-aside">
+            <div class="drawer-aside-title">Company Profile</div>
+            <div class="drawer-aside-company">Richardson International</div>
+            <div class="drawer-aside-row"><strong>Sector:</strong> Agri-food — Canola / Grains</div>
+            <div class="drawer-aside-row"><strong>HQ:</strong> Winnipeg, MB</div>
+            <div class="drawer-aside-row"><strong>Type:</strong> Private</div>
+            <div class="drawer-lesson">
+              <div class="drawer-lesson-label">What Others Can Learn</div>
+              <p>CETA zero tariff applies to processed canola oil, not raw seed. Processing before export is the structure that unlocks EU price competitiveness. TCS Brussels can arrange EU buyer introductions.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tile" data-sector="aerospace" data-tile="002-3" onclick="toggleTile('002-3')">
+        <div class="tile-face">
+          <div>
+            <div class="tile-sector">✈ Aerospace</div>
+            <div class="tile-company">StandardAero</div>
+            <div class="tile-headline">USAF C-130 MRO contract — NORAD adjacency as a market entry tool</div>
+          </div>
+        </div>
+        <div class="tile-footer">
+          <span class="tile-date">Mar 10, 2026</span>
+          <span class="tile-expand-icon">+</span>
+        </div>
+      </div>
+      <div class="tile-drawer" id="drawer-002-3">
+        <div class="drawer-inner">
+          <div class="drawer-content">
+            <div class="drawer-eyebrow">
+              <span class="drawer-sector-dot" style="background:var(--aerospace)"></span>
+              <span class="drawer-sector-label" style="color:var(--aerospace)">Aerospace · MRO · Winnipeg</span>
+              
+            </div>
+            <h2>StandardAero Secures USAF C-130 MRO Contract — NORAD Adjacency as a Market Entry Tool</h2>
+            <div class="drawer-body">
+              <p>StandardAero's Winnipeg facility winning US Air Force C-130 maintenance work is a case study in how NORAD adjacency creates commercial access to US military MRO budgets. Under the DPSA (Defence Production Sharing Agreement), Canadian facilities with the right security clearances and certifications can compete for US military maintenance contracts on near-equal terms with US domestic providers.</p>
+              <p>The path StandardAero walked — NORAD-adjacent facility, FAA/TC dual certification, DPSA registration, and a decade-long relationship with the USAF through commercial Boeing work — is a model for other Canadian MRO operators eyeing the US military market.</p>
+            </div>
+            <div class="drawer-actions">
+              <a href="#" class="drawer-link">Full Story →</a>
+              <button class="drawer-close" onclick="closeTile('002-3', event)">✕ Close</button>
+            </div>
+          </div>
+          <div class="drawer-aside">
+            <div class="drawer-aside-title">Company Profile</div>
+            <div class="drawer-aside-company">StandardAero</div>
+            <div class="drawer-aside-row"><strong>Sector:</strong> Aerospace — MRO</div>
+            <div class="drawer-aside-row"><strong>HQ:</strong> Scottsdale, AZ (Winnipeg ops)</div>
+            <div class="drawer-aside-row"><strong>This week:</strong> USAF C-130 MRO contract</div>
+            <div class="drawer-lesson">
+              <div class="drawer-lesson-label">What Others Can Learn</div>
+              <p>DPSA registration is the legal mechanism that allows Canadian defence suppliers to compete for US military contracts. Register at buyandsell.gc.ca — it's the prerequisite for everything that follows.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /grid-002 -->
+  </div><!-- /issue-002 -->
+
+</main>
+
+<!-- ══════════════════════════════════
+     FOOTER
+══════════════════════════════════ -->
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <div>
+      <div class="footer-brand">Canadian Trade Intel</div>
+      <div class="footer-meta">
+        WEEKLY EXPORT INTELLIGENCE · CANADIANTRADEINTEL.CA<br>
+        CANADIAN SPOTLIGHT IS FREE AND PUBLIC<br>
+        EDITORIAL ONLY — NOT INVESTMENT OR LEGAL ADVICE
+      </div>
+    </div>
+    <div class="footer-links">
+      <a href="https://canadiantradeintel.ca/reports">Intelligence Reports</a>
+      <a href="https://canadiantradeintel.ca/dashboard">Dashboard</a>
+      <a href="https://canadiantradeintel.ca/pricing">Subscription Plans</a>
+      <a href="https://canadiantradeintel.ca">canadiantradeintel.ca</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Active tile tracker
+  let openTile = null;
+
+  function toggleTile(id) {
+    if (openTile === id) {
+      closeTile(id);
+      return;
+    }
+    if (openTile) closeTile(openTile);
+    openTile = id;
+
+    const tile    = document.querySelector(`[data-tile="${id}"]`);
+    const drawer  = document.getElementById(`drawer-${id}`);
+    if (!tile || !drawer) return;
+
+    tile.classList.add('open');
+    drawer.classList.add('open');
+
+    // Move drawer to immediately after the tile's row
+    // by inserting it after the tile in the grid
+    tile.parentNode.insertBefore(drawer, tile.nextSibling);
+
+    // Smooth scroll so drawer is visible
+    setTimeout(() => {
+      drawer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, 60);
+  }
+
+  function closeTile(id, event) {
+    if (event) event.stopPropagation();
+    const tile   = document.querySelector(`[data-tile="${id}"]`);
+    const drawer = document.getElementById(`drawer-${id}`);
+    if (tile)   tile.classList.remove('open');
+    if (drawer) drawer.classList.remove('open');
+    if (openTile === id) openTile = null;
+  }
+
+  // Sector filter
+  function filterSector(sector, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => {
+      b.className = 'filter-btn';
+    });
+    const classMap = {
+      all: 'f-all', minerals: 'f-min', agri: 'f-agri',
+      mfg: 'f-mfg', tech: 'f-tech', aerospace: 'f-aero'
+    };
+    btn.classList.add(classMap[sector] || 'f-all');
+
+    // Close any open tile first
+    if (openTile) closeTile(openTile);
+
+    document.querySelectorAll('.tile').forEach(tile => {
+      const show = sector === 'all' || tile.dataset.sector === sector;
+      tile.classList.toggle('hidden', !show);
+    });
+  }
+</script>
+
+</body>
+</html>
