@@ -28,21 +28,51 @@ a:hover { text-decoration: underline; }
 
 nav {
   position: sticky; top: 0; z-index: 100;
-  background: rgba(245,244,239,0.95); backdrop-filter: blur(8px);
-  border-bottom: 1px solid var(--rule-dark);
+  background: #1a0505;
+  border-bottom: 1px solid rgba(204,0,0,0.2);
   padding: 0 40px; display: flex; justify-content: space-between;
-  align-items: center; height: 56px;
+  align-items: center; height: 56px; position: relative;
 }
 .nav-brand { font-family: var(--mono); font-size: 11px; font-weight: 500;
-             letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink);
+             letter-spacing: 0.14em; text-transform: uppercase; color: rgba(204,0,0,0.85);
              text-decoration: none; display: flex; align-items: center; gap: 10px; }
 .nav-links { display: flex; gap: 28px; align-items: center; }
 .nav-links a { font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em;
-               text-transform: uppercase; color: var(--ink-mid); text-decoration: none;
+               text-transform: uppercase; color: rgba(255,255,255,0.3); text-decoration: none;
                transition: color 0.2s; }
-.nav-links a:hover, .nav-links a.active { color: var(--green-mid); }
-.nav-cta { background: var(--green) !important; color: #ffffff !important;
+.nav-links a:hover, .nav-links a.active { color: rgba(204,0,0,0.9); text-decoration: none; }
+.nav-cta { background: #cc0000 !important; color: #ffffff !important;
            padding: 8px 16px; border-radius: 3px; }
+.nav-hamburger {
+  display: none; flex-direction: column; justify-content: center; gap: 5px;
+  background: none; border: none; cursor: pointer; padding: 8px;
+}
+.nav-hamburger span {
+  display: block; width: 22px; height: 2px;
+  background: rgba(255,255,255,0.7); border-radius: 2px;
+  transition: all 0.25s; transform-origin: center;
+}
+.nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-hamburger.open span:nth-child(2) { opacity: 0; }
+.nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+.nav-mobile-menu {
+  display: none; position: absolute; top: 56px; left: 0; right: 0;
+  background: #1a0505; border-bottom: 2px solid rgba(204,0,0,0.3);
+  padding: 8px 0 16px; z-index: 150; flex-direction: column;
+}
+.nav-mobile-menu.open { display: flex; }
+.nav-mobile-menu a {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: rgba(255,255,255,0.6); text-decoration: none;
+  padding: 13px 24px; border-bottom: 1px solid rgba(255,255,255,0.05);
+  transition: color 0.18s, background 0.18s;
+}
+.nav-mobile-menu a:hover { color: #fff; background: rgba(204,0,0,0.1); }
+.nav-mobile-menu .nav-cta-mobile {
+  margin: 10px 24px 0; padding: 12px 16px !important;
+  background: #cc0000 !important; color: #fff !important;
+  text-align: center; border-radius: 3px; border-bottom: none !important;
+}
 
 .page-header {
   max-width: 1100px; margin: 0 auto;
@@ -108,7 +138,7 @@ h1 { font-family: var(--display); font-size: clamp(36px, 4vw, 52px);
 .report-main {}
 
 .report-sector {
-  font-family: var(--mono); font-size: 9px; letter-spacing: 0.16em;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em;
   text-transform: uppercase; color: var(--green-mid);
   margin-bottom: 6px; display: block;
 }
@@ -128,7 +158,7 @@ h1 { font-family: var(--display); font-size: clamp(36px, 4vw, 52px);
 }
 
 .sig-pill {
-  font-family: var(--mono); font-size: 9px; letter-spacing: 0.08em;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em;
   text-transform: uppercase; padding: 3px 8px; border-radius: 2px;
 }
 .sig-opp  { background: #e8f4ee; color: var(--green-mid); border: 1px solid #b2dfcf; }
@@ -173,7 +203,7 @@ h1 { font-family: var(--display); font-size: clamp(36px, 4vw, 52px);
 
 /* LATEST BADGE */
 .latest-badge {
-  font-family: var(--mono); font-size: 9px; letter-spacing: 0.1em;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em;
   text-transform: uppercase; background: var(--green-acc);
   color: var(--green); padding: 2px 8px; border-radius: 2px;
   font-weight: 500;
@@ -191,6 +221,7 @@ footer {
 @media (max-width: 768px) {
   nav { padding: 0 20px; }
   .nav-links { display: none; }
+  .nav-hamburger { display: flex; }
   .page-header { padding: 40px 20px 32px; }
   .page-sub { text-align: left; }
   .filter-bar { padding: 16px 20px; }
@@ -208,10 +239,20 @@ footer {
   <a href="../" class="nav-brand">🇨🇦 Canadian Trade Intel</a>
   <div class="nav-links">
     <a href="./" class="active">Weekly Reports</a>
+    <a href="../spotlight/">Spotlight</a>
     <a href="../dashboard/">Dashboard</a>
-    <a href="../#sectors">Sectors</a>
-    <a href="../#what-you-get">What You Get</a>
-    <a href="../#access" class="nav-cta">Request Access</a>
+    <a href="../pricing">See Plans</a>
+    <a href="../pricing" class="nav-cta">Start Free Trial</a>
+  </div>
+  <button class="nav-hamburger" id="nav-hamburger" onclick="toggleMobileNav()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="nav-mobile-menu" id="nav-mobile-menu">
+    <a href="./" onclick="closeMobileNav()">Weekly Reports</a>
+    <a href="../spotlight/" onclick="closeMobileNav()">Spotlight</a>
+    <a href="../dashboard/" onclick="closeMobileNav()">Dashboard</a>
+    <a href="../pricing" onclick="closeMobileNav()">See Plans</a>
+    <a href="../pricing" class="nav-cta-mobile" onclick="closeMobileNav()">Start Free Trial</a>
   </div>
 </nav>
 
@@ -231,9 +272,10 @@ footer {
 <div class="filter-bar">
   <button class="filter-btn active" onclick="filterReports('all', this)">All Sectors</button>
   <button class="filter-btn" onclick="filterReports('critical_minerals', this)">Critical Minerals</button>
-  <button class="filter-btn" onclick="filterReports('advanced_manufacturing', this)">Advanced Manufacturing</button>
-  <button class="filter-btn" onclick="filterReports('aerospace_defence', this)">Aerospace &amp; Defence</button>
   <button class="filter-btn" onclick="filterReports('agri_food', this)">Agri-food</button>
+  <button class="filter-btn" onclick="filterReports('advanced_manufacturing', this)">Advanced Manufacturing</button>
+  <button class="filter-btn" onclick="filterReports('tech_digital', this)">Technology & Digital</button>
+  <button class="filter-btn" onclick="filterReports('aerospace_defence', this)">Aerospace & Defence</button>
 </div>
 
 <!-- REPORTS LIST -->
@@ -340,6 +382,19 @@ function renderReports() {
 }
 
 loadReports();
+
+function toggleMobileNav() {
+  document.getElementById('nav-hamburger').classList.toggle('open');
+  document.getElementById('nav-mobile-menu').classList.toggle('open');
+}
+function closeMobileNav() {
+  document.getElementById('nav-hamburger').classList.remove('open');
+  document.getElementById('nav-mobile-menu').classList.remove('open');
+}
+document.addEventListener('click', function(e) {
+  const nav = document.querySelector('nav');
+  if (nav && !nav.contains(e.target)) closeMobileNav();
+});
 </script>
 
 </body>
