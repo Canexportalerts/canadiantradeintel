@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Plans & Pricing — Canadian Trade Intel</title>
+<meta name="description" content="Weekly export intelligence built for Canadian businesses. Choose a sector, start your free trial.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600;1,700&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --brand:      #cc0000;
+    --brand-dark: #1a0505;
+    --brand-deep: #990000;
+    --cream:      #f8f6f2;
+    --white:      #ffffff;
+    --ink:        #1a1a14;
+    --ink-mid:    #3a3a30;
+    --ink-light:  #888880;
+    --rule:       #e0dcd4;
+    --minerals:   #1a6b42;
+    --agri:       #c8860a;
+    --mfg:        #2a5090;
+    --tech:       #0a6080;
+    --aerospace:  #6a20b0;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+  }
+
+  /* ── NAV ── */
+  .site-nav {
+    background: var(--brand-dark);
+    padding: 0 40px;
+    position: sticky; top: 0; z-index: 200;
+    border-bottom: 1px solid rgba(204,0,0,0.2);
+  }
+  .site-nav-inner {
+    max-width: 1100px; margin: 0 auto;
+    display: flex; align-items: center;
+    justify-content: space-between; height: 48px;
+  }
+  .site-nav-brand {
+    font-family: 'DM Mono', monospace; font-size: 9px;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: rgba(204,0,0,0.85); text-decoration: none;
+  }
+  .site-nav-links { display: flex; gap: 28px; }
+  .site-nav-links a {
+    font-family: 'DM Mono', monospace; font-size: 8px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: rgba(255,255,255,0.3); text-decoration: none; transition: color 0.18s;
+  }
+  .site-nav-links a:hover,
+  .site-nav-links a.active { color: rgba(204,0,0,0.9); }
+
+  /* ── HAMBURGER ── */
+  .nav-hamburger {
+    display: none; flex-direction: column;
+    justify-content: center; gap: 5px;
+    background: none; border: none; cursor: pointer; padding: 8px;
+  }
+  .nav-hamburger span {
+    display: block; width: 22px; height: 2px;
+    background: rgba(255,255,255,0.7); border-radius: 2px;
+    transition: all 0.25s; transform-origin: center;
+  }
+  .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+  .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .nav-mobile-menu {
+    display: none; position: absolute;
+    top: 48px; left: 0; right: 0;
+    background: var(--brand-dark);
+    border-bottom: 2px solid rgba(204,0,0,0.3);
+    padding: 8px 0 16px; z-index: 150; flex-direction: column;
+  }
+  .nav-mobile-menu.open { display: flex; }
+  .nav-mobile-menu a {
+    font-family: 'DM Mono', monospace; font-size: 11px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: rgba(255,255,255,0.6); text-decoration: none;
+    padding: 13px 24px; border-bottom: 1px solid rgba(255,255,255,0.05);
+    transition: color 0.18s, background 0.18s;
+  }
+  .nav-mobile-menu a:hover { color: #fff; background: rgba(204,0,0,0.1); }
+  .nav-mobile-menu .nav-cta-mobile {
+    margin: 10px 24px 0; padding: 12px 16px !important;
+    background: var(--brand) !important; color: #fff !important;
+    text-align: center; border-radius: 3px; border-bottom: none !important;
+  }
+
+  /* ── PAGE HEADER ── */
+  .page-header {
+    background: var(--brand-dark);
+    padding: 60px 40px 52px;
+    border-bottom: 3px solid var(--brand);
+    text-align: center;
+  }
+  .page-eyebrow {
+    font-family: 'DM Mono', monospace; font-size: 9px;
+    letter-spacing: 0.24em; text-transform: uppercase;
+    color: var(--brand); margin-bottom: 18px;
+  }
+  .page-header h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(28px, 4vw, 50px);
+    font-weight: 600; font-style: italic;
+    color: #f0f0e8; line-height: 1.1; margin-bottom: 16px;
+  }
+  .page-header-desc {
+    font-size: 14px; color: rgba(240,240,232,0.5);
+    line-height: 1.75; max-width: 560px;
+    margin: 0 auto 32px;
+  }
+
+  /* ── BILLING TOGGLE ── */
+  .toggle-wrap {
+    display: inline-flex; align-items: center; gap: 14px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(204,0,0,0.2);
+    border-radius: 4px; padding: 6px 16px;
+  }
+  .toggle-label {
+    font-family: 'DM Mono', monospace; font-size: 9px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: rgba(255,255,255,0.4); cursor: pointer;
+    transition: color 0.18s;
+  }
+  .toggle-label.active { color: #f0f0e8; }
+  .toggle-switch {
+    position: relative; width: 40px; height: 22px; cursor: pointer;
+  }
+  .toggle-switch input { display: none; }
+  .toggle-track {
+    position: absolute; inset: 0;
+    background: rgba(204,0,0,0.3);
+    border-radius: 11px; transition: background 0.25s;
+  }
+  .toggle-switch input:checked + .toggle-track { background: var(--brand); }
+  .toggle-thumb {
+    position: absolute; top: 3px; left: 3px;
+    width: 16px; height: 16px;
+    background: #fff; border-radius: 50%;
+    transition: transform 0.25s;
+  }
+  .toggle-switch input:checked ~ .toggle-thumb { transform: translateX(18px); }
+  .save-badge {
+    font-family: 'DM Mono', monospace; font-size: 7px;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    background: var(--brand); color: #fff;
+    padding: 2px 7px; border-radius: 2px;
+    opacity: 0; transition: opacity 0.2s;
+  }
+  .save-badge.visible { opacity: 1; }
+
+  /* ── PRICING GRID ── */
+  .pricing-body {
+    max-width: 1100px; margin: 0 auto;
+    padding: 56px 40px 0;
+  }
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border: 1px solid var(--rule);
+    background: var(--rule);
+    overflow: hidden;
+  }
+
+  /* ── PLAN CARD ── */
+  .plan-card {
+    background: var(--white);
+    padding: 32px 28px 28px;
+    display: flex; flex-direction: column;
+    position: relative;
+    transition: box-shadow 0.2s;
+  }
+  .plan-card:hover { box-shadow: 0 8px 40px rgba(0,0,0,0.1); z-index: 2; }
+  .plan-card.featured {
+    background: var(--brand-dark);
+    box-shadow: 0 0 0 2px var(--brand);
+    z-index: 3;
+  }
+
+  .plan-badge {
+    position: absolute; top: -1px; left: 50%;
+    transform: translateX(-50%);
+    font-family: 'DM Mono', monospace; font-size: 7px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    background: var(--brand); color: #fff;
+    padding: 4px 12px; white-space: nowrap;
+  }
+
+  .plan-name {
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--ink-light); margin-bottom: 6px;
+  }
+  .plan-card.featured .plan-name { color: rgba(204,0,0,0.7); }
+
+  .plan-tagline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px; font-style: italic;
+    color: var(--ink-mid); margin-bottom: 20px;
+    min-height: 38px; line-height: 1.4;
+  }
+  .plan-card.featured .plan-tagline { color: rgba(240,240,232,0.5); }
+
+  .plan-price-wrap { margin-bottom: 6px; }
+  .plan-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 44px; font-weight: 600; color: var(--ink);
+    line-height: 1;
+  }
+  .plan-card.featured .plan-price { color: #f0f0e8; }
+  .plan-price sup {
+    font-size: 20px; font-weight: 400;
+    vertical-align: super; line-height: 0;
+  }
+  .plan-price-period {
+    font-family: 'DM Mono', monospace; font-size: 8px;
+    letter-spacing: 0.1em; color: var(--ink-light);
+    margin-bottom: 4px;
+  }
+  .plan-card.featured .plan-price-period { color: rgba(240,240,232,0.4); }
+  .plan-annual-note {
+    font-family: 'DM Mono', monospace; font-size: 7px;
+    color: var(--brand); letter-spacing: 0.08em;
+    min-height: 14px; margin-bottom: 20px;
+  }
+  .plan-card.featured .plan-annual-note { color: rgba(204,100,100,0.8); }
+
+  .plan-divider {
+    height: 1px; background: var(--rule);
+    margin-bottom: 20px;
+  }
+  .plan-card.featured .plan-divider { background: rgba(255,255,255,0.08); }
+
+  .plan-seats {
+    font-family: 'DM Mono', monospace; font-size: 8px;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--ink-light); margin-bottom: 16px;
+  }
+  .plan-card.featured .plan-seats { color: rgba(240,240,232,0.4); }
+
+  .plan-features { list-style: none; margin-bottom: 24px; flex: 1; }
+  .plan-features li {
+    font-size: 12px; color: var(--ink-mid);
+    padding: 7px 0; border-bottom: 1px solid var(--rule);
+    display: flex; align-items: flex-start; gap: 9px; line-height: 1.5;
+  }
+  .plan-card.featured .plan-features li {
+    color: rgba(240,240,232,0.65);
+    border-bottom-color: rgba(255,255,255,0.07);
+  }
+  .plan-features li:last-child { border-bottom: none; }
+  .plan-features li::before {
+    content: '→';
+    font-family: 'DM Mono', monospace; font-size: 9px;
+    color: var(--brand); flex-shrink: 0; margin-top: 2px;
+  }
+  .plan-card.featured .plan-features li::before { color: rgba(204,100,100,0.7); }
+
+  /* ── CTA BUTTONS ── */
+  .plan-cta {
+    font-family: 'DM Mono', monospace; font-size: 9px;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    padding: 13px 20px; border-radius: 2px;
+    text-decoration: none; text-align: center;
+    display: block; transition: all 0.18s; border: 1px solid transparent;
+  }
+  .plan-cta-outline {
+    background: none;
+    border-color: rgba(139,0,0,0.25);
+    color: var(--brand);
+  }
+  .plan-cta-outline:hover {
+    background: var(--brand); color: #fff;
+    border-color: var(--brand);
+  }
+  .plan-cta-solid {
+    background: var(--brand); color: #fff;
+    border-color: var(--brand);
+  }
+  .plan-cta-solid:hover { background: var(--brand-deep); }
+  .plan-cta-ghost {
+    background: rgba(204,0,0,0.12); color: rgba(204,100,100,0.9);
+    border-color: rgba(204,0,0,0.2);
+  }
+  .plan-cta-ghost:hover { background: rgba(204,0,0,0.22); color: #fff; }
+
+  .plan-trial-note {
+    font-family: 'DM Mono', monospace; font-size: 7px;
+    letter-spacing: 0.08em; color: var(--ink-light);
+    text-align: center; margin-top: 8px;
+  }
+  .plan-card.featured .plan-trial-note { color: rgba(240,240,232,0.3); }
+
+  /* ── ADD-ON STRIP ── */
+  .addon-strip {
+    border: 1px solid var(--rule); border-top: none;
+    background: #fafaf8; padding: 20px 28px;
+    display: flex; align-items: center; gap: 20px;
+    flex-wrap: wrap;
+  }
+  .addon-label {
+    font-family: 'DM Mono', monospace; font-size: 8px;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--ink-light); white-space: nowrap;
+  }
+  .addon-divider { width: 1px; height: 24px; background: var(--rule); }
+  .addon-item {
+    display: flex; align-items: center; gap: 10px; flex: 1;
+  }
+  .addon-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--brand); flex-shrink: 0;
+  }
+  .addon-text { font-size: 12px; color: var(--ink-mid); line-height: 1.5; }
+  .addon-text strong { color: var(--ink); }
+  .addon-price {
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    color: var(--brand); white-space: nowrap; margin-left: auto;
+  }
+
+  /* ── VALUE CALLOUT ── */
+  .value-callouts {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px; background: var(--rule);
+    border: 1px solid var(--rule);
+    margin-top: 48px; overflow: hidden;
+  }
+  .value-item {
+    background: var(--white);
+    padding: 28px 28px;
+  }
+  .value-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 40px; font-weight: 600;
+    color: var(--brand); line-height: 1; margin-bottom: 6px;
+  }
+  .value-label {
+    font-family: 'DM Mono', monospace; font-size: 8px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--ink-light); margin-bottom: 8px;
+  }
+  .value-desc {
+    font-size: 12px; color: var(--ink-mid); line-height: 1.65;
+  }
+
+  /* ── WHAT'S IN A REPORT ── */
+  .report-contents {
+    margin-top: 56px;
+  }
+  .section-header {
+    display: flex; align-items: baseline; gap: 14px;
+    margin-bottom: 24px; padding-bottom: 10px;
+    border-bottom: 2px solid var(--brand);
+  }
+  .section-label {
+    font-family: 'DM Mono', monospace; font-size: 8px;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--brand);
+  }
+  .section-rule { flex: 1; height: 1px; background: var(--rule); }
+
+  .report-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px;
+  }
+  .report-item {
+    background: var(--white); border: 1px solid var(--rule);
+    border-top: 3px solid var(--brand); padding: 20px 20px;
+  }
+  .report-item-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px; font-weight: 600; font-style: italic;
+    color: var(--ink); margin-bottom: 8px;
+  }
+  .report-item-desc {
+    font-size: 12px; color: var(--ink-mid); line-height: 1.65;
+  }
+
+  /* ── GOVERNMENT / ENTERPRISE ── */
+  .gov-section {
+    margin-top: 56px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+    border: 1px solid var(--rule); overflow: hidden;
+  }
+  .gov-left {
+    background: var(--brand-dark);
+    padding: 40px 40px;
+    border-right: 1px solid rgba(204,0,0,0.2);
+  }
+  .gov-eyebrow {
+    font-family: 'DM Mono', monospace; font-size: 8px;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--brand); margin-bottom: 14px;
+  }
+  .gov-left h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px; font-weight: 600; font-style: italic;
+    color: #f0f0e8; line-height: 1.2; margin-bottom: 14px;
+  }
+  .gov-left p {
+    font-size: 13px; color: rgba(240,240,232,0.5);
+    line-height: 1.75; margin-bottom: 10px;
+  }
+  .gov-list {
+    list-style: none; margin-top: 16px;
+  }
+  .gov-list li {
+    font-family: 'DM Mono', monospace; font-size: 8px;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: rgba(204,100,100,0.6); padding: 7px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .gov-list li::before {
+    content: '→'; color: var(--brand);
+  }
+
+  /* ── CONTACT FORM ── */
+  .gov-right {
+    background: var(--white); padding: 40px 40px;
+  }
+  .gov-right h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px; font-weight: 600; font-style: italic;
+    color: var(--ink); margin-bottom: 20px;
+  }
+  .form-group { margin-bottom: 16px; }
+  .form-label {
+    font-family: 'DM Mono', monospace; font-size: 8px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--ink-light); display: block; margin-bottom: 6px;
+  }
+  .form-input, .form-select, .form-textarea {
+    width: 100%; padding: 10px 14px;
+    font-family: 'DM Sans', sans-serif; font-size: 13px;
+    color: var(--ink); background: var(--cream);
+    border: 1px solid var(--rule); border-radius: 2px;
+    outline: none; transition: border-color 0.18s;
+    appearance: none;
+  }
+  .form-input:focus,
+  .form-select:focus,
+  .form-textarea:focus { border-color: var(--brand); }
+  .form-textarea { resize: vertical; min-height: 90px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .form-submit {
+    font-family: 'DM Mono', monospace; font-size: 9px;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    background: var(--brand); color: #fff;
+    border: none; padding: 13px 28px;
+    border-radius: 2px; cursor: pointer;
+    transition: background 0.18s; width: 100%;
+  }
+  .form-submit:hover { background: var(--brand-deep); }
+  .form-note {
+    font-family: 'DM Mono', monospace; font-size: 7px;
+    color: var(--ink-light); letter-spacing: 0.08em;
+    margin-top: 8px; text-align: center;
+  }
+
+  /* ── FAQ ── */
+  .faq-section { margin-top: 56px; margin-bottom: 72px; }
+  .faq-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 40px; }
+  .faq-item {
+    padding: 20px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .faq-q {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px; font-weight: 600; font-style: italic;
+    color: var(--ink); margin-bottom: 8px; cursor: pointer;
+    display: flex; justify-content: space-between; align-items: flex-start;
+    gap: 12px;
+  }
+  .faq-q-icon {
+    font-family: 'DM Mono', monospace; font-size: 14px;
+    color: var(--brand); flex-shrink: 0; transition: transform 0.2s;
+    margin-top: 2px;
+  }
+  .faq-item.open .faq-q-icon { transform: rotate(45deg); }
+  .faq-a {
+    font-size: 13px; color: var(--ink-mid);
+    line-height: 1.75; display: none; padding-top: 4px;
+  }
+  .faq-item.open .faq-a { display: block; }
+
+  /* ── FOOTER ── */
+  .site-footer { background: var(--brand-dark); padding: 32px 40px; }
+  .site-footer-inner {
+    max-width: 1100px; margin: 0 auto;
+    display: flex; justify-content: space-between; align-items: flex-start;
+  }
+  .footer-brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px; font-style: italic; color: #f0f0e8; margin-bottom: 6px;
+  }
+  .footer-meta {
+    font-family: 'DM Mono', monospace; font-size: 7px;
+    color: rgba(204,0,0,0.35); letter-spacing: 0.08em; line-height: 1.9;
+  }
+  .footer-links { display: flex; flex-direction: column; gap: 7px; text-align: right; }
+  .footer-links a {
+    font-family: 'DM Mono', monospace; font-size: 8px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: rgba(204,0,0,0.4); text-decoration: none; transition: color 0.16s;
+  }
+  .footer-links a:hover { color: rgba(204,0,0,0.8); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .pricing-grid { grid-template-columns: 1fr 1fr; }
+    .value-callouts { grid-template-columns: 1fr; }
+    .report-grid { grid-template-columns: 1fr 1fr; }
+    .gov-section { grid-template-columns: 1fr; }
+    .gov-left { border-right: none; border-bottom: 1px solid rgba(204,0,0,0.2); }
+    .faq-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 600px) {
+    .site-nav { padding: 0 16px; position: relative; }
+    .site-nav-links { display: none; }
+    .nav-hamburger { display: flex; }
+    .page-header { padding: 40px 20px 36px; }
+    .pricing-body { padding: 32px 16px 0; }
+    .pricing-grid { grid-template-columns: 1fr; }
+    .plan-card.featured { box-shadow: none; }
+    .report-grid { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    .gov-left, .gov-right { padding: 28px 20px; }
+    .site-footer { padding: 28px 20px; }
+    .site-footer-inner { flex-direction: column; gap: 20px; }
+    .footer-links { text-align: left; }
+    .addon-strip { flex-direction: column; align-items: flex-start; }
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity:0; transform:translateY(12px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+  .page-header h1   { animation: fadeUp 0.4s ease both; }
+  .page-header-desc { animation: fadeUp 0.4s 0.07s ease both; }
+  .toggle-wrap      { animation: fadeUp 0.4s 0.12s ease both; }
+</style>
+</head>
+<body>
+
+<!-- ══ NAV ══ -->
+<nav class="site-nav">
+  <div class="site-nav-inner">
+    <a href="/" class="site-nav-brand">🇨🇦 Canadian Trade Intel</a>
+    <div class="site-nav-links">
+      <a href="/reports">Reports</a>
+      <a href="/spotlight">Spotlight</a>
+      <a href="/dashboard">Dashboard</a>
+      <a href="/pricing" class="active">Plans</a>
+    </div>
+    <button class="nav-hamburger" id="nav-hamburger" onclick="toggleMobileNav()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-mobile-menu" id="nav-mobile-menu">
+      <a href="/reports" onclick="closeMobileNav()">Reports</a>
+      <a href="/spotlight" onclick="closeMobileNav()">Spotlight</a>
+      <a href="/dashboard" onclick="closeMobileNav()">Dashboard</a>
+      <a href="/pricing" onclick="closeMobileNav()">Plans</a>
+      <a href="#contact" class="nav-cta-mobile" onclick="closeMobileNav()">Contact Us</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ══ HEADER ══ -->
+<header class="page-header">
+  <div class="page-eyebrow">Plans & Pricing</div>
+  <h1>The right intelligence<br>for where you export.</h1>
+  <p class="page-header-desc">
+    Weekly export intelligence built for Canadian businesses — sector-specific, actionable, and faster than anything else available. Start your 14-day free trial. No credit card required.
+  </p>
+
+  <!-- Billing Toggle -->
+  <div class="toggle-wrap">
+    <span class="toggle-label active" id="label-monthly">Monthly</span>
+    <label class="toggle-switch">
+      <input type="checkbox" id="billing-toggle" onchange="switchBilling(this)">
+      <div class="toggle-track"></div>
+      <div class="toggle-thumb"></div>
+    </label>
+    <span class="toggle-label" id="label-annual">Annual</span>
+    <span class="save-badge" id="save-badge">Save 20%</span>
+  </div>
+</header>
+
+<!-- ══ PRICING BODY ══ -->
+<div class="pricing-body">
+
+  <!-- ── PLAN CARDS ── -->
+  <div class="pricing-grid">
+
+    <!-- SOLO -->
+    <div class="plan-card">
+      <div class="plan-name">Solo</div>
+      <div class="plan-tagline">For individual exporters and trade professionals.</div>
+      <div class="plan-price-wrap">
+        <div class="plan-price">
+          <sup>$</sup><span class="price-num" data-monthly="69" data-annual="55">69</span>
+        </div>
+        <div class="plan-price-period">CAD / month</div>
+        <div class="plan-annual-note" id="solo-annual-note"></div>
+      </div>
+      <div class="plan-divider"></div>
+      <div class="plan-seats">1 seat</div>
+      <ul class="plan-features">
+        <li>Weekly email digest — all sectors</li>
+        <li>1 sector full report (your choice at signup)</li>
+        <li>Signal summaries with market context</li>
+        <li>Watch For These — upcoming deadlines</li>
+        <li>Canadian Spotlight stories</li>
+      </ul>
+      <a href="#" class="plan-cta plan-cta-outline">Start Free Trial →</a>
+      <div class="plan-trial-note">Free for 14 days, then billing begins. Cancel anytime.</div>
+    </div>
+
+    <!-- ANALYST -->
+    <div class="plan-card">
+      <div class="plan-name">Analyst</div>
+      <div class="plan-tagline">For trade managers tracking two active export markets.</div>
+      <div class="plan-price-wrap">
+        <div class="plan-price">
+          <sup>$</sup><span class="price-num" data-monthly="129" data-annual="103">129</span>
+        </div>
+        <div class="plan-price-period">CAD / month</div>
+        <div class="plan-annual-note" id="analyst-annual-note"></div>
+      </div>
+      <div class="plan-divider"></div>
+      <div class="plan-seats">1 seat</div>
+      <ul class="plan-features">
+        <li>Weekly email digest — all sectors</li>
+        <li>2 sector full reports (your choice at signup)</li>
+        <li>Full signals, actions &amp; market entry pathways</li>
+        <li>Watch For These — upcoming deadlines</li>
+        <li>Canadian Spotlight stories</li>
+        <li>Add a third sector for $59/mo</li>
+      </ul>
+      <a href="#" class="plan-cta plan-cta-outline">Start Free Trial →</a>
+      <div class="plan-trial-note">Free for 14 days, then billing begins. Cancel anytime.</div>
+    </div>
+
+    <!-- INTELLIGENCE -->
+    <div class="plan-card featured">
+      <div class="plan-badge">Most Popular</div>
+      <div class="plan-name">Intelligence</div>
+      <div class="plan-tagline">Full coverage across all five sectors for trade professionals, consultants, and export teams.</div>
+      <div class="plan-price-wrap">
+        <div class="plan-price">
+          <sup>$</sup><span class="price-num" data-monthly="449" data-annual="359">449</span>
+        </div>
+        <div class="plan-price-period">CAD / month</div>
+        <div class="plan-annual-note" id="intel-annual-note"></div>
+      </div>
+      <div class="plan-divider"></div>
+      <div class="plan-seats">Up to 3 seats</div>
+      <ul class="plan-features">
+        <li>Weekly email digest — all sectors</li>
+        <li>All 5 sector full reports</li>
+        <li>Full signals, actions &amp; market entry pathways</li>
+        <li>FDI Monitor &amp; TSX Stock Watch</li>
+        <li>Watch For These — all sectors</li>
+        <li>Canadian Spotlight — full archive</li>
+        <li>Up to 3 team members included</li>
+      </ul>
+      <a href="#" class="plan-cta plan-cta-solid">Start Free Trial →</a>
+      <div class="plan-trial-note">Free for 14 days, then billing begins. Cancel anytime.</div>
+    </div>
+
+    <!-- TEAM -->
+    <div class="plan-card">
+      <div class="plan-name">Team</div>
+      <div class="plan-tagline">For export teams, industry associations, and distribution lists.</div>
+      <div class="plan-price-wrap">
+        <div class="plan-price">
+          <sup>$</sup><span class="price-num" data-monthly="999" data-annual="799">999</span>
+        </div>
+        <div class="plan-price-period">CAD / month</div>
+        <div class="plan-annual-note" id="team-annual-note"></div>
+      </div>
+      <div class="plan-divider"></div>
+      <div class="plan-seats">5–20 seats</div>
+      <ul class="plan-features">
+        <li>Everything in Intelligence</li>
+        <li>Up to 20 seats — shared team access</li>
+        <li>Distribution list delivery</li>
+        <li>Quarterly account review call</li>
+        <li>Early access to new sectors as they launch</li>
+        <li>Priority email support</li>
+        <li>Annual invoice billing available</li>
+      </ul>
+      <a href="#" class="plan-cta plan-cta-outline">Start Free Trial →</a>
+      <div class="plan-trial-note">Free for 14 days, then billing begins. Cancel anytime.</div>
+    </div>
+
+  </div><!-- /pricing-grid -->
+
+  <!-- ── ADD-ON STRIP ── -->
+  <div class="addon-strip">
+    <span class="addon-label">Analyst Add-on</span>
+    <div class="addon-divider"></div>
+    <div class="addon-item">
+      <div class="addon-dot"></div>
+      <div class="addon-text">
+        <strong>Additional Sector Report</strong> — Analyst subscribers can add a third sector without upgrading to Intelligence. Choose any of the five sectors at signup or from your account settings.
+      </div>
+      <div class="addon-price">+$59 / mo</div>
+    </div>
+  </div>
+
+  <!-- ── VALUE CALLOUTS ── -->
+  <div class="value-callouts">
+    <div class="value-item">
+      <div class="value-number">5</div>
+      <div class="value-label">Sectors Covered</div>
+      <div class="value-desc">Critical Minerals, Agri-food, Advanced Manufacturing, Technology, and Aerospace & Defence — each with dedicated signals, actions, and market entry pathways.</div>
+    </div>
+    <div class="value-item">
+      <div class="value-number">52</div>
+      <div class="value-label">Issues Per Year</div>
+      <div class="value-desc">Weekly intelligence delivered every Monday morning. No gaps, no slow quarters. Your sector covered every week whether markets are moving or not.</div>
+    </div>
+    <div class="value-item">
+      <div class="value-number">14</div>
+      <div class="value-label">Days Free</div>
+      <div class="value-desc">Every plan starts with a 14-day free trial. Read two full issues, use the report, test the actions. No credit card required to start.</div>
+    </div>
+  </div>
+
+  <!-- ── WHAT'S IN A REPORT ── -->
+  <div class="report-contents">
+    <div class="section-header">
+      <span class="section-label">What's in a Full Sector Report</span>
+      <div class="section-rule"></div>
+    </div>
+    <div class="report-grid">
+      <div class="report-item">
+        <div class="report-item-title">Intelligence Signals</div>
+        <div class="report-item-desc">4–6 verified signals per sector — policy changes, trade disruptions, competitor moves, and market openings. Each signal includes source attribution and a "What This Means For You" analysis written for Canadian exporters specifically.</div>
+      </div>
+      <div class="report-item">
+        <div class="report-item-title">Step-by-Step Actions</div>
+        <div class="report-item-desc">Numbered actions with specific contacts, programme names, and URLs. Not general advice — exact next steps you can take this week, including TCS office introductions, EDC programme applications, and CETA/CPTPP access mechanisms.</div>
+      </div>
+      <div class="report-item">
+        <div class="report-item-title">Market Entry Pathways</div>
+        <div class="report-item-desc">Four country/product pathway cards per sector — each with numbered entry steps, regulatory requirements, and TCS contact points. Built for companies actively evaluating new export markets, not just monitoring them.</div>
+      </div>
+      <div class="report-item">
+        <div class="report-item-title">Watch For These</div>
+        <div class="report-item-desc">Dated upcoming events — procurement windows, policy deadlines, trade mission registration dates, and market access changes — so you can prepare in advance rather than react after the fact.</div>
+      </div>
+      <div class="report-item">
+        <div class="report-item-title">Canadian Spotlight</div>
+        <div class="report-item-desc">Sector-specific company profiles — Canadian exporters who closed deals, secured financing, or entered new markets this week, with the lesson other companies can apply to their own situation.</div>
+      </div>
+      <div class="report-item">
+        <div class="report-item-title">Weekly Email Digest</div>
+        <div class="report-item-desc">Every subscriber — across all plans — receives the weekly multi-sector digest every Monday. Lead story, Canadian Spotlight highlights, FDI Monitor, TSX Stock Watch, and deadlines. A five-minute read that keeps you current across all five sectors.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── GOVERNMENT & ASSOCIATION ── -->
+  <div class="gov-section" id="contact">
+    <div class="gov-left">
+      <div class="gov-eyebrow">Government & Association Pricing</div>
+      <h2>Built for teams that need to share intelligence across an organization.</h2>
+      <p>Federal departments, provincial trade offices, industry associations, and export-focused Crown corporations have different requirements than individual subscribers — distribution lists, unlimited internal sharing, and procurement-friendly invoicing.</p>
+      <p>We offer custom annual pricing for organizations that want to distribute CanExport Intelligence to their members, staff, or client companies.</p>
+      <ul class="gov-list">
+        <li>Federal department distribution</li>
+        <li>Trade association member delivery</li>
+        <li>Provincial export program integration</li>
+        <li>Procurement-friendly annual invoicing</li>
+        <li>Custom sector focus available</li>
+      </ul>
+    </div>
+    <div class="gov-right">
+      <h3>Get in touch about organization pricing.</h3>
+      <form action="https://formspree.io/f/mnjgzwwk" method="POST">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="contact-name">Name</label>
+            <input class="form-input" type="text" id="contact-name" name="name" placeholder="Your name" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="contact-email">Email</label>
+            <input class="form-input" type="email" id="contact-email" name="email" placeholder="your@email.ca" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="contact-type">Organization type</label>
+          <select class="form-select" id="contact-type" name="org_type" required>
+            <option value="">Select one</option>
+            <option>Federal department or agency</option>
+            <option>Provincial government or trade office</option>
+            <option>Industry or trade association</option>
+            <option>Private company — export team</option>
+            <option>Consulting or advisory firm</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="contact-size">Number of people needing access</label>
+          <select class="form-select" id="contact-size" name="team_size" required>
+            <option value="">Select one</option>
+            <option>5–10 people</option>
+            <option>11–20 people</option>
+            <option>20–50 people</option>
+            <option>50+ people</option>
+            <option>Not sure yet</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="contact-message">Which export sectors matter most to your organization, and what are you currently using to track them?</label>
+          <textarea class="form-textarea" id="contact-message" name="message" placeholder="Tell us which sectors you follow and what your current intelligence process looks like."></textarea>
+        </div>
+        <button type="submit" class="form-submit">Send Enquiry →</button>
+        <div class="form-note">We respond within one business day.</div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ── HERO QUOTE ── -->
+  <div style="text-align:center; padding: 56px 40px 0;">
+    <div style="
+      display: inline-block;
+      border-top: 2px solid var(--brand);
+      border-bottom: 2px solid var(--brand);
+      padding: 28px 40px;
+      max-width: 680px;
+    ">
+      <p style="
+        font-family: 'Cormorant Garamond', serif;
+        font-size: clamp(20px, 3vw, 28px);
+        font-style: italic;
+        font-weight: 600;
+        color: var(--ink);
+        line-height: 1.3;
+        margin-bottom: 10px;
+      ">"Your competitors aren't smarter — they just have better information, faster."</p>
+      <p style="
+        font-family: 'DM Mono', monospace;
+        font-size: 8px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--brand);
+      ">CanExport Intelligence — Weekly Export Intelligence for Canadian Businesses</p>
+    </div>
+  </div>
+
+  <!-- ── FAQ ── -->
+  <div class="faq-section">
+    <div class="section-header">
+      <span class="section-label">Frequently Asked Questions</span>
+      <div class="section-rule"></div>
+    </div>
+    <div class="faq-grid">
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Which sector should I choose?
+          <span class="faq-q-icon">+</span>
+        </div>
+        <div class="faq-a">Choose the sector that matches your current or target export market. If you export or are considering exporting in Critical Minerals, Agri-food, Advanced Manufacturing, Technology, or Aerospace & Defence — pick that sector. You can change your sector selection at any time from your account settings.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          What's the difference between the digest and a full report?
+          <span class="faq-q-icon">+</span>
+        </div>
+        <div class="faq-a">The weekly email digest is a multi-sector summary — lead story, highlights from each sector, deadlines, and Canadian Spotlight. Every subscriber receives it regardless of plan. A full sector report is the complete deep-dive: 4–6 signals with analysis, step-by-step actions with specific contacts and URLs, four market entry pathways, Watch For These, and a Canadian Spotlight sector profile. Full reports are 10–15 minutes of reading with immediately actionable content.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          How does the 14-day free trial work?
+          <span class="faq-q-icon">+</span>
+        </div>
+        <div class="faq-a">You get full access to your chosen plan for 14 days at no charge. No credit card required to start. At the end of the trial you'll be prompted to add a payment method to continue. If you don't, your access simply ends — no charges, no awkward cancellation process.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Can I change my sector after subscribing?
+          <span class="faq-q-icon">+</span>
+        </div>
+        <div class="faq-a">Yes. You can change your sector selection at any time from your account settings. The change takes effect at the start of your next billing cycle. If you're on the Analyst plan with two sectors, you can swap either sector at any time.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          How does team access work?
+          <span class="faq-q-icon">+</span>
+        </div>
+        <div class="faq-a">On the Intelligence plan, up to three team members can be added to a single subscription — each with their own login and report access. On the Team plan, up to 20 seats are included, plus a distribution list option so the weekly digest can be delivered to your entire team or member list automatically.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Can I cancel or pause my subscription?
+          <span class="faq-q-icon">+</span>
+        </div>
+        <div class="faq-a">You can cancel at any time from your account settings. Your access continues until the end of your current billing period — we don't cut access immediately on cancellation. Annual subscribers can request a prorated refund for unused months if they cancel within 30 days of renewal.</div>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- /pricing-body -->
+
+<!-- ══ FOOTER ══ -->
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <div>
+      <div class="footer-brand">Canadian Trade Intel</div>
+      <div class="footer-meta">
+        WEEKLY EXPORT INTELLIGENCE · CANADIANTRADEINTEL.CA<br>
+        ALL PRICES IN CAD · 14-DAY FREE TRIAL ON ALL PLANS<br>
+        NOT INVESTMENT OR LEGAL ADVICE
+      </div>
+    </div>
+    <div class="footer-links">
+      <a href="/reports">Intelligence Reports</a>
+      <a href="/spotlight">Canadian Spotlight</a>
+      <a href="/dashboard">Dashboard</a>
+      <a href="/">canadiantradeintel.ca</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ── BILLING TOGGLE ──
+  function switchBilling(toggle) {
+    const isAnnual = toggle.checked;
+    const badge = document.getElementById('save-badge');
+    document.getElementById('label-monthly').classList.toggle('active', !isAnnual);
+    document.getElementById('label-annual').classList.toggle('active', isAnnual);
+    badge.classList.toggle('visible', isAnnual);
+
+    document.querySelectorAll('.price-num').forEach(el => {
+      el.textContent = isAnnual ? el.dataset.annual : el.dataset.monthly;
+    });
+
+    const notes = [
+      { id: 'solo-annual-note',     monthly: '',  annual: 'Billed $662/yr — save $166' },
+      { id: 'analyst-annual-note',  monthly: '',  annual: 'Billed $1,238/yr — save $310' },
+      { id: 'intel-annual-note',    monthly: '',  annual: 'Billed $4,310/yr — save $1,078' },
+      { id: 'team-annual-note',     monthly: '',  annual: 'Billed $9,590/yr — save $2,398' },
+    ];
+    notes.forEach(n => {
+      document.getElementById(n.id).textContent = isAnnual ? n.annual : n.monthly;
+    });
+  }
+
+  // ── MOBILE NAV ──
+  function toggleMobileNav() {
+    document.getElementById('nav-hamburger').classList.toggle('open');
+    document.getElementById('nav-mobile-menu').classList.toggle('open');
+  }
+  function closeMobileNav() {
+    document.getElementById('nav-hamburger').classList.remove('open');
+    document.getElementById('nav-mobile-menu').classList.remove('open');
+  }
+  document.addEventListener('click', function(e) {
+    const nav = document.querySelector('.site-nav');
+    if (nav && !nav.contains(e.target)) closeMobileNav();
+  });
+
+  // ── FAQ ──
+  function toggleFaq(el) {
+    el.parentElement.classList.toggle('open');
+  }
+</script>
+
+</body>
+</html>
