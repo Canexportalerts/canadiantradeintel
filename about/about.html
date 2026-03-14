@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>About — Canadian Trade Intel</title>
+<meta name="description" content="Canadian Trade Intel exists to strengthen Canadian businesses by connecting the information that's always been scattered — into one clear, actionable, weekly resource.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600;1,700&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --brand:      #cc0000;
+    --brand-dark: #1a0505;
+    --brand-deep: #990000;
+    --cream:      #f8f6f2;
+    --white:      #ffffff;
+    --ink:        #1a1a14;
+    --ink-mid:    #3a3a30;
+    --ink-light:  #888880;
+    --rule:       #e0dcd4;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--ink); }
+
+  /* ── NAV ── */
+  .site-nav {
+    background: var(--brand-dark); padding: 0 40px;
+    position: sticky; top: 0; z-index: 200;
+    border-bottom: 1px solid rgba(204,0,0,0.2);
+    position: relative;
+  }
+  .site-nav-inner {
+    max-width: 1100px; margin: 0 auto;
+    display: flex; align-items: center;
+    justify-content: space-between; height: 48px;
+  }
+  .site-nav-brand {
+    font-family: 'DM Mono', monospace; font-size: 9px;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: rgba(204,0,0,0.85); text-decoration: none;
+  }
+  .site-nav-links { display: flex; gap: 28px; }
+  .site-nav-links a {
+    font-family: 'DM Mono', monospace; font-size: 8px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: rgba(255,255,255,0.3); text-decoration: none; transition: color 0.18s;
+  }
+  .site-nav-links a:hover,
+  .site-nav-links a.active { color: rgba(204,0,0,0.9); }
+  .nav-cta {
+    background: var(--brand) !important; color: #fff !important;
+    padding: 7px 14px; border-radius: 2px;
+  }
+  .nav-hamburger {
+    display: none; flex-direction: column; justify-content: center;
+    gap: 5px; background: none; border: none; cursor: pointer; padding: 8px;
+  }
+  .nav-hamburger span {
+    display: block; width: 22px; height: 2px;
+    background: rgba(255,255,255,0.7); border-radius: 2px;
+    transition: all 0.25s; transform-origin: center;
+  }
+  .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+  .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .nav-mobile-menu {
+    display: none; position: absolute; top: 48px; left: 0; right: 0;
+    background: var(--brand-dark); border-bottom: 2px solid rgba(204,0,0,0.3);
+    padding: 8px 0 16px; z-index: 150; flex-direction: column;
+  }
+  .nav-mobile-menu.open { display: flex; }
+  .nav-mobile-menu a {
+    font-family: 'DM Mono', monospace; font-size: 11px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: rgba(255,255,255,0.6); text-decoration: none;
+    padding: 13px 24px; border-bottom: 1px solid rgba(255,255,255,0.05);
+    transition: color 0.18s, background 0.18s;
+  }
+  .nav-mobile-menu a:hover { color: #fff; background: rgba(204,0,0,0.1); }
+  .nav-mobile-menu .nav-cta-mobile {
+    margin: 10px 24px 0; padding: 12px 16px !important;
+    background: var(--brand) !important; color: #fff !important;
+    text-align: center; border-radius: 3px; border-bottom: none !important;
+  }
+
+  /* ── PAGE HEADER ── */
+  .page-header {
+    background: var(--brand-dark);
+    border-bottom: 3px solid var(--brand);
+    padding: 64px 40px 56px;
+  }
+  .page-header-inner {
+    max-width: 780px; margin: 0 auto;
+  }
+  .page-eyebrow {
+    font-family: 'DM Mono', monospace; font-size: 9px;
+    letter-spacing: 0.24em; text-transform: uppercase;
+    color: var(--brand); margin-bottom: 20px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .page-eyebrow::after {
+    content: ''; flex: 1; max-width: 80px;
+    height: 1px; background: rgba(204,0,0,0.25);
+  }
+  .page-header h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(32px, 5vw, 58px);
+    font-weight: 600; font-style: italic;
+    color: #f0f0e8; line-height: 1.1;
+    margin-bottom: 20px;
+    animation: fadeUp 0.45s ease both;
+  }
+  .page-header-lede {
+    font-size: 16px; color: rgba(240,240,232,0.6);
+    line-height: 1.8; max-width: 620px;
+    animation: fadeUp 0.45s 0.08s ease both;
+  }
+
+  /* ── ARTICLE BODY ── */
+  .about-body {
+    max-width: 780px; margin: 0 auto;
+    padding: 64px 40px 80px;
+  }
+
+  /* ── SECTION ── */
+  .about-section {
+    margin-bottom: 64px;
+    opacity: 0; transform: translateY(16px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .about-section.visible { opacity: 1; transform: translateY(0); }
+
+  .section-marker {
+    display: flex; align-items: center; gap: 14px;
+    margin-bottom: 20px;
+  }
+  .section-marker-line {
+    width: 32px; height: 2px; background: var(--brand); flex-shrink: 0;
+  }
+  .section-marker-label {
+    font-family: 'DM Mono', monospace; font-size: 8px;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--brand);
+  }
+
+  .about-section h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(24px, 3vw, 34px);
+    font-weight: 600; font-style: italic;
+    color: var(--ink); line-height: 1.2; margin-bottom: 20px;
+  }
+
+  .about-section p {
+    font-size: 15px; color: var(--ink-mid);
+    line-height: 1.85; margin-bottom: 16px;
+  }
+  .about-section p:last-child { margin-bottom: 0; }
+
+  /* ── BELIEF LIST ── */
+  .belief-list {
+    list-style: none; margin: 24px 0;
+    border-left: 2px solid var(--brand);
+    padding-left: 24px;
+  }
+  .belief-list li {
+    font-size: 15px; color: var(--ink-mid);
+    line-height: 1.8; padding: 10px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .belief-list li:last-child { border-bottom: none; }
+  .belief-list li strong { color: var(--ink); }
+
+  /* ── SOURCES GRID ── */
+  .sources-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1px; background: var(--rule);
+    border: 1px solid var(--rule);
+    margin: 24px 0;
+  }
+  .source-item {
+    background: var(--white); padding: 14px 16px;
+    font-family: 'DM Mono', monospace; font-size: 8px;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--ink-light); line-height: 1.6;
+  }
+
+  /* ── MANDATE CALLOUT ── */
+  .mandate-callout {
+    border-top: 2px solid var(--brand);
+    border-bottom: 2px solid var(--brand);
+    padding: 28px 0; margin: 32px 0;
+    text-align: center;
+  }
+  .mandate-callout p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(18px, 2.5vw, 24px);
+    font-style: italic; font-weight: 600;
+    color: var(--ink); line-height: 1.4;
+    margin-bottom: 0 !important;
+  }
+
+  /* ── LEGAL NOTE ── */
+  .legal-note {
+    background: var(--white); border: 1px solid var(--rule);
+    border-left: 3px solid var(--brand);
+    padding: 20px 24px; margin-top: 24px;
+  }
+  .legal-note p {
+    font-size: 12px !important;
+    color: var(--ink-light) !important;
+    line-height: 1.7 !important;
+    margin-bottom: 0 !important;
+  }
+
+  /* ── CONTACT CTA ── */
+  .contact-cta {
+    background: var(--brand-dark);
+    padding: 36px 40px; margin-top: 64px;
+    display: flex; align-items: center;
+    justify-content: space-between; gap: 32px;
+    flex-wrap: wrap;
+  }
+  .contact-cta h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px; font-style: italic;
+    color: #f0f0e8; margin-bottom: 6px;
+  }
+  .contact-cta p {
+    font-size: 13px; color: rgba(240,240,232,0.45);
+    line-height: 1.6; max-width: 440px;
+  }
+  .contact-btn {
+    font-family: 'DM Mono', monospace; font-size: 9px;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    background: var(--brand); color: #fff;
+    padding: 12px 22px; border-radius: 2px;
+    text-decoration: none; white-space: nowrap;
+    border: 1px solid rgba(255,100,100,0.2);
+    transition: background 0.18s;
+  }
+  .contact-btn:hover { background: var(--brand-deep); }
+
+  /* ── FOOTER ── */
+  .site-footer { background: var(--brand-dark); padding: 32px 40px; }
+  .site-footer-inner {
+    max-width: 1100px; margin: 0 auto;
+    display: flex; justify-content: space-between; align-items: flex-start;
+  }
+  .footer-brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px; font-style: italic; color: #f0f0e8; margin-bottom: 6px;
+  }
+  .footer-meta {
+    font-family: 'DM Mono', monospace; font-size: 7px;
+    color: rgba(204,0,0,0.35); letter-spacing: 0.08em; line-height: 1.9;
+  }
+  .footer-links { display: flex; flex-direction: column; gap: 7px; text-align: right; }
+  .footer-links a {
+    font-family: 'DM Mono', monospace; font-size: 8px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: rgba(204,0,0,0.4); text-decoration: none; transition: color 0.16s;
+  }
+  .footer-links a:hover { color: rgba(204,0,0,0.8); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity:0; transform:translateY(14px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .site-nav { padding: 0 16px; }
+    .site-nav-links { display: none; }
+    .nav-hamburger { display: flex; }
+    .page-header { padding: 44px 20px 40px; }
+    .about-body { padding: 40px 20px 60px; }
+    .sources-grid { grid-template-columns: 1fr 1fr; }
+    .contact-cta { flex-direction: column; gap: 16px; padding: 28px 20px; }
+    .site-footer { padding: 28px 20px; }
+    .site-footer-inner { flex-direction: column; gap: 20px; }
+    .footer-links { text-align: left; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══ NAV ══ -->
+<nav class="site-nav">
+  <div class="site-nav-inner">
+    <a href="/" class="site-nav-brand">🇨🇦 Canadian Trade Intel</a>
+    <div class="site-nav-links">
+      <a href="/reports">Reports</a>
+      <a href="/spotlight">Spotlight</a>
+      <a href="/dashboard">Dashboard</a>
+      <a href="/about" class="active">About</a>
+      <a href="/pricing" class="nav-cta">See Plans</a>
+    </div>
+    <button class="nav-hamburger" id="nav-hamburger" onclick="toggleMobileNav()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-mobile-menu" id="nav-mobile-menu">
+      <a href="/reports" onclick="closeMobileNav()">Reports</a>
+      <a href="/spotlight" onclick="closeMobileNav()">Spotlight</a>
+      <a href="/dashboard" onclick="closeMobileNav()">Dashboard</a>
+      <a href="/about" onclick="closeMobileNav()">About</a>
+      <a href="/pricing" class="nav-cta-mobile" onclick="closeMobileNav()">See Plans</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ══ PAGE HEADER ══ -->
+<header class="page-header">
+  <div class="page-header-inner">
+    <div class="page-eyebrow">About</div>
+    <h1>Why We Built This.</h1>
+    <p class="page-header-lede">
+      Canadian Trade Intel exists to strengthen Canadian businesses by connecting the information that has always been scattered: trade policy, market signals, regulatory changes, supply chain intelligence, and expansion pathways, into one clear, actionable, weekly resource.
+    </p>
+  </div>
+</header>
+
+<!-- ══ BODY ══ -->
+<main class="about-body">
+
+  <!-- WHY WE BUILT THIS -->
+  <div class="about-section">
+    <div class="section-marker">
+      <div class="section-marker-line"></div>
+      <span class="section-marker-label">Why We Built This</span>
+    </div>
+    <h2>The information existed. It was just scattered.</h2>
+    <p>
+      Canada has world-class exporters, world-class resources, and some of the most favourable trade agreements on the planet. What it has lacked is a single, clear, weekly resource that connects all of it, the signals, the regulations, the programmes, the opportunities, in one place, written specifically for Canadian businesses.
+    </p>
+    <p>
+      The information has always existed. It lives across Global Affairs Canada, EDC, Statistics Canada, the Trade Commissioner Service, provincial trade offices, sector associations, and dozens of trade publications. We recognize that many Canadian businesses, especially small and mid-size ones, don't have the time, the budget, or the dedicated trade intelligence staff to pull it all together. So they make decisions with incomplete information, miss programmes they qualify for, and leave markets they could have entered.
+    </p>
+    <p>
+      Canadian Trade Intel exists to fix that. We believe this is Canada's moment, and that moment belongs to every Canadian business willing to reach for it, not just the ones with enterprise research budgets.
+    </p>
+  </div>
+
+  <!-- WHAT WE DO -->
+  <div class="about-section">
+    <div class="section-marker">
+      <div class="section-marker-line"></div>
+      <span class="section-marker-label">What We Do</span>
+    </div>
+    <h2>One place. Every week. Built for you to act on.</h2>
+    <p>
+      Every week, we publish sector-specific intelligence briefs covering Canada's five most active trade sectors — Critical Minerals & Cleantech, Agri-food & Agriculture, Advanced Manufacturing, Technology & Digital, and Aerospace & Defence. Each brief includes verified market signals, step-by-step actions with specific contacts and programme links, market entry pathways, and regulatory context, everything a Canadian business needs to make informed trade decisions that week.
+    </p>
+    <p>
+      Beyond the weekly reports, we maintain a growing library of practical guides, sector context, supply chain maps, trade agreement summaries, and expansion frameworks. We cover export intelligence, import dynamics, interprovincial trade, supply chain strategy, and the regulatory environment that shapes all of it, because Canadian business and trade intelligence is bigger than any single direction of goods across a border. Our aim is to link the separate pieces together in one place: deep enough to be genuinely useful, clear enough to act on.
+    </p>
+    <p>
+      Our standard is the same one the best trade publications hold themselves to: verified sources, clear attribution, honest analysis, and a Canadian perspective that global platforms rarely provide.
+    </p>
+  </div>
+
+  <!-- WHAT WE BELIEVE -->
+  <div class="about-section">
+    <div class="section-marker">
+      <div class="section-marker-line"></div>
+      <span class="section-marker-label">What We Believe</span>
+    </div>
+    <h2>Better-informed Canadian businesses build a stronger Canada.</h2>
+
+    <ul class="belief-list">
+      <li>We believe the gap between what large corporations know and what small and mid-size businesses know is not inevitable. It is a solvable information problem.</li>
+      <li>We believe Canada's growing trade relationships, natural advantages, and skilled workforce position Canadian businesses to compete anywhere in the world. Canada's task is to transform from reliance on specific trade partners to something more resilient, built on strong Canadian industries and diverse international relationships. That transformation requires businesses to be better informed, faster.</li>
+      <li>We believe <strong>Canada's moment is now.</strong> Not just for large companies or government institutions, but for every Canadian business that wants to grow, diversify, and compete, domestically, across provinces, and around the world.</li>
+    </ul>
+
+    <p>
+      We are editorially independent. We are not sponsored by any government agency, trade association, or corporate interest. Our analysis reflects our own research, comparative review, and judgment. Nothing on this platform constitutes legal, financial, or investment advice. For that, you should consult a qualified professional. For actionable, current, Canadian-framed trade intelligence, this is where we would start.
+    </p>
+  </div>
+
+  <!-- SOURCES AND STANDARDS -->
+  <div class="about-section">
+    <div class="section-marker">
+      <div class="section-marker-line"></div>
+      <span class="section-marker-label">Sources & Standards</span>
+    </div>
+    <h2>Verified sources. Named analysis. Clear attribution.</h2>
+    <p>
+      Our intelligence draws on publicly available information from primary sources including Global Affairs Canada, Export Development Canada, Statistics Canada, the Trade Commissioner Service, Natural Resources Canada, Agriculture and Agri-food Canada, the Canadian Food Inspection Agency, and international equivalents. We reference primary sources throughout and encourage readers to verify regulatory requirements directly with the relevant authority, as regulatory environments change, and we date-stamp our analysis accordingly.
+    </p>
+    <p>
+      Where we cite data, we cite sources. Where we offer analysis, we identify it as analysis. Where something requires professional verification, we say so. We are not lawyers, accountants, or licensed trade advisors. We are researchers and analysts who believe Canadians deserve better access to the information that shapes their business decisions.
+    </p>
+
+    <div class="legal-note">
+      <p>All content published by Canadian Trade Intel is for informational purposes only and does not constitute legal, financial, or investment advice. Trade regulations, programme requirements, and market conditions change — always verify current requirements with the relevant government authority or a qualified professional before making decisions.</p>
+    </div>
+  </div>
+
+  <!-- WHO'S BEHIND THIS -->
+  <div class="about-section">
+    <div class="section-marker">
+      <div class="section-marker-line"></div>
+      <span class="section-marker-label">Who's Behind This</span>
+    </div>
+    <h2>Built in Canada. For Canada.</h2>
+    <p>
+      Canadian Trade Intel was founded by a Canadian who believes the country deserves better and more accessible trade intelligence, built here, framed here, and delivered every week without requiring a research team or an enterprise software budget to use.
+    </p>
+    <p>
+      We're early. The platform is growing. If you have feedback, a story worth covering in our <em>Canadian Spotlight</em>, or an organization that would benefit from this intelligence, we want to hear from you.
+    </p>
+  </div>
+
+  <!-- CONTACT CTA -->
+  <div class="contact-cta">
+    <div>
+      <h3>Get in touch.</h3>
+      <p>Feedback, story tips, partnership enquiries, or questions about organization pricing. We try to respond within one business day.</p>
+    </div>
+    <a href="/pricing#contact" class="contact-btn">Contact Us →</a>
+  </div>
+
+</main>
+
+<!-- ══ FOOTER ══ -->
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <div>
+      <div class="footer-brand">Canadian Trade Intel</div>
+      <div class="footer-meta">
+        WEEKLY TRADE INTELLIGENCE · CANADIANTRADEINTEL.CA<br>
+        FOR INFORMATIONAL PURPOSES ONLY · NOT LEGAL OR FINANCIAL ADVICE
+      </div>
+    </div>
+    <div class="footer-links">
+      <a href="/reports">Intelligence Reports</a>
+      <a href="/spotlight">Canadian Spotlight</a>
+      <a href="/dashboard">Dashboard</a>
+      <a href="/pricing">Subscription Plans</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Mobile nav
+  function toggleMobileNav() {
+    document.getElementById('nav-hamburger').classList.toggle('open');
+    document.getElementById('nav-mobile-menu').classList.toggle('open');
+  }
+  function closeMobileNav() {
+    document.getElementById('nav-hamburger').classList.remove('open');
+    document.getElementById('nav-mobile-menu').classList.remove('open');
+  }
+  document.addEventListener('click', function(e) {
+    const nav = document.querySelector('.site-nav');
+    if (nav && !nav.contains(e.target)) closeMobileNav();
+  });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.about-section').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
