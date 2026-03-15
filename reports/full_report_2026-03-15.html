@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>CanExport Intelligence — Full Report — Week of March 15, 2026</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=JetBrains+Mono:wght@400;500;600&family=Manrope:wght@300;400;500;600;700&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #09090f; --bg-card: #0f0f1a; --bg-elevated: #141424;
+  --border: rgba(255,255,255,0.06); --border-accent: rgba(255,255,255,0.12);
+  --text-primary: #f0f0f8; --text-secondary: #9090b0; --text-muted: #505070;
+  --green: #00e5a0; --green-dim: rgba(0,229,160,0.10); --green-border: rgba(0,229,160,0.22);
+  --red: #ff4d6a; --red-dim: rgba(255,77,106,0.10); --red-border: rgba(255,77,106,0.22);
+  --amber: #ffb547; --amber-dim: rgba(255,181,71,0.10); --amber-border: rgba(255,181,71,0.22);
+  --blue: #4d9fff; --blue-dim: rgba(77,159,255,0.10);
+  --mono: 'JetBrains Mono', monospace; --display: 'Playfair Display', serif;
+  --body: 'Manrope', sans-serif;
+}
+body { background:var(--bg); color:var(--text-primary); font-family:var(--body);
+       font-size:14px; line-height:1.7; -webkit-font-smoothing:antialiased; }
+a { color:var(--green); text-decoration:none; }
+a:hover { text-decoration:underline; }
+.label { font-family:var(--mono); font-size:10px; font-weight:500;
+         letter-spacing:0.16em; text-transform:uppercase; color:var(--text-muted); }
+.label-green { color:var(--green); } .label-red { color:var(--red); }
+.label-amber { color:var(--amber); } .label-blue { color:var(--blue); }
+.card { background:var(--bg-card); border:1px solid var(--border);
+        border-radius:10px; padding:20px; margin-bottom:12px; }
+.section-header { display:flex; align-items:baseline; gap:12px;
+                  margin:32px 0 16px; padding-bottom:10px;
+                  border-bottom:1px solid var(--border); }
+.section-title { font-family:var(--display); font-size:20px; font-weight:600;
+                 color:var(--text-primary); font-style:italic; }
+.depth-toggle { cursor:pointer; font-family:var(--mono); font-size:10px;
+                color:var(--text-muted); letter-spacing:0.1em; padding:8px 0 0;
+                display:flex; align-items:center; gap:6px;
+                border:none; background:none; transition:color 0.2s; }
+.depth-toggle:hover { color:var(--green); }
+.depth-toggle .arrow { transition:transform 0.25s; display:inline-block; }
+.depth-toggle.open .arrow { transform:rotate(90deg); }
+.depth-content { display:none; padding-top:14px; border-top:1px solid var(--border);
+                 margin-top:12px; }
+.depth-content.visible { display:block; }
+.source-link { font-family:var(--mono); font-size:10px; color:var(--text-muted);
+               background:var(--bg); border:1px solid var(--border); border-radius:4px;
+               padding:4px 8px; text-decoration:none; transition:all 0.15s; }
+.source-link:hover { color:var(--blue); border-color:var(--blue); text-decoration:none; }
+.pathway-step { display:flex; gap:12px; padding:12px 0;
+                border-bottom:1px solid var(--border); }
+.pathway-step:last-child { border-bottom:none; }
+.step-num { font-family:var(--mono); font-size:11px; font-weight:600; color:var(--green);
+            background:var(--green-dim); border:1px solid var(--green-border);
+            width:24px; height:24px; border-radius:4px; display:flex;
+            align-items:center; justify-content:center; flex-shrink:0; }
+.signal-row { display:flex; gap:12px; padding:14px 0;
+              border-bottom:1px solid var(--border); align-items:flex-start; }
+.signal-row:last-child { border-bottom:none; }
+.signal-dot { width:8px; height:8px; border-radius:50%; margin-top:6px; flex-shrink:0; }
+.dot-opp  { background:var(--green); box-shadow:0 0 6px var(--green); }
+.dot-risk { background:var(--red);   box-shadow:0 0 6px var(--red); }
+.dot-watch{ background:var(--amber); }
+.market-card { background:var(--bg-card); border:1px solid var(--border);
+               border-radius:10px; padding:18px; margin-bottom:10px;
+               border-top-width:2px; }
+.score-large { font-family:var(--display); font-size:30px; font-weight:700; line-height:1; }
+
+</style>
+</head>
+<body>
+<div style="max-width:820px;margin:0 auto;padding:0 0 80px;">
+
+  <!-- HEADER -->
+  <div style="background:linear-gradient(160deg,#0a0a18,#09090f 50%);
+              border-bottom:1px solid rgba(0,229,160,0.12);padding:48px 40px 32px;">
+    <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.2em;
+                text-transform:uppercase;color:var(--green);margin-bottom:14px;">
+      🇨🇦 CanExport Intelligence · Full Report · Issue #001
+    </div>
+    <h1 style="font-family:var(--display);font-size:40px;font-weight:700;
+               letter-spacing:-0.02em;color:var(--text-primary);margin-bottom:8px;">
+      Critical Minerals &amp;<br><em style="color:var(--green);">Cleantech</em>
+    </h1>
+    <p style="font-family:var(--mono);font-size:11px;color:var(--text-muted);
+               margin-bottom:20px;">Week of March 15, 2026</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;">
+      <div style="background:var(--green-dim);border:1px solid var(--green-border);
+                  border-radius:6px;padding:8px 14px;">
+        <span style="font-family:var(--mono);font-size:10px;color:var(--green);">
+          3 OPPORTUNITIES
+        </span>
+      </div>
+      <div style="background:var(--red-dim);border:1px solid var(--red-border);
+                  border-radius:6px;padding:8px 14px;">
+        <span style="font-family:var(--mono);font-size:10px;color:var(--red);">
+          2 RISKS
+        </span>
+      </div>
+      <div style="background:var(--amber-dim);border:1px solid var(--amber-border);
+                  border-radius:6px;padding:8px 14px;">
+        <span style="font-family:var(--mono);font-size:10px;color:var(--amber);">
+          2 IMMEDIATE ACTION
+        </span>
+      </div>
+    </div>
+    <div style="border-left:2px solid var(--green);background:rgba(0,229,160,0.04);
+                padding:16px 18px;border-radius:0 8px 8px 0;">
+      <p style="font-size:14px;color:var(--text-secondary);line-height:1.8;">
+        **Executive Summary - Weekly Export Risk Digest**
+
+This week presents a **moderate risk level** due to six new US sanctions targeting North Korea-linked technology networks, with particular exposure for manufacturers working with IT services or suppliers in Vietnam and other Asian markets. The key theme is increased scrutiny on technology transfer activities that could indirectly support prohibited North Korean operations through third-party relationships. **Action Required:** Immediately screen your supplier and customer databases against the new OFAC designations, especially if you have technology vendors or business relationships in Vietnam or Asia.
+      </p>
+    </div>
+  </div>
+
+  <div style="padding:0 40px;">
+
+    <!-- ACTIONS THIS WEEK — LEAD -->
+    <div class="section-header" id="section-actions">
+      <span class="section-title">Actions This Week</span>
+      <span class="label">Prioritised by Urgency</span>
+    </div>
+    <div style="background:var(--bg-card);border-left:2px solid var(--green);border-top:1px solid var(--border);border-right:1px solid var(--border);border-bottom:1px solid var(--border);border-radius:0 8px 8px 0;padding:14px 16px;margin-bottom:8px;"><div style="font-size:14px;font-weight:600;color:var(--text-primary);margin-bottom:6px;"><span style="font-family:var(--mono);color:var(--green);margin-right:10px;">1</span>Register for India CEPA Critical Minerals Webinar</div><div style="font-size:13px;color:var(--text-secondary);margin-bottom:8px;">Register for Global Affairs Canada's emergency webinar on India CEPA implementation for critical minerals exporters, scheduled for December 19th to capitalize on the fresh launch and $2.6B uranium deal momentum.</div></div><div style="background:var(--bg-card);border-left:2px solid var(--green);border-top:1px solid var(--border);border-right:1px solid var(--border);border-bottom:1px solid var(--border);border-radius:0 8px 8px 0;padding:14px 16px;margin-bottom:8px;"><div style="font-size:14px;font-weight:600;color:var(--text-primary);margin-bottom:6px;"><span style="font-family:var(--mono);color:var(--green);margin-right:10px;">2</span>Apply for EDC Indonesia Critical Minerals Financing</div><div style="font-size:13px;color:var(--text-secondary);margin-bottom:8px;">Submit pre-application to Export Development Canada's new $825M Indonesia financing facility specifically targeting critical minerals projects, with applications being fast-tracked this week due to FIPA implementation.</div></div><div style="background:var(--bg-card);border-left:2px solid var(--border);border-top:1px solid var(--border);border-right:1px solid var(--border);border-bottom:1px solid var(--border);border-radius:0 8px 8px 0;padding:14px 16px;margin-bottom:8px;"><div style="font-size:14px;font-weight:600;color:var(--text-primary);margin-bottom:6px;"><span style="font-family:var(--mono);color:var(--green);margin-right:10px;">3</span>Contact CanExport SMEs for Asian Market Entry</div><div style="font-size:13px;color:var(--text-secondary);margin-bottom:8px;">Contact Global Affairs Canada's CanExport SMEs program to secure up to $75,000 for immediate market entry activities in India and Indonesia while funding availability remains high post-trade agreement launches.</div></div><div style="background:var(--bg-card);border-left:2px solid var(--border);border-top:1px solid var(--border);border-right:1px solid var(--border);border-bottom:1px solid var(--border);border-radius:0 8px 8px 0;padding:14px 16px;margin-bottom:8px;"><div style="font-size:14px;font-weight:600;color:var(--text-primary);margin-bottom:6px;"><span style="font-family:var(--mono);color:var(--green);margin-right:10px;">4</span>Screen Natural Resources Canada's Critical Minerals Directory</div><div style="font-size:13px;color:var(--text-secondary);margin-bottom:8px;">Review and update your company profile in NRCan's Critical Minerals Directory before December 20th deadline for Q1 2024 international buyer missions to Japan, South Korea, and EU markets.</div></div>
+
+    <!-- GROWTH SIGNALS -->
+    <div class="section-header" id="section-growth">
+      <span class="section-title">Growth Signals</span>
+      <span class="label label-green">Doors Opening</span>
+    </div>
+    <div style="background:var(--bg-elevated);border:1px solid var(--border-accent);
+                border-radius:10px;padding:20px;margin-bottom:8px;">
+      <div class="label label-green" style="margin-bottom:12px;">🟢 Opportunities</div>
+      <div class="signal-row"><div class="signal-dot dot-opp"></div><div style="flex:1;"><div style="font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:4px;">Cameco signed a landmark $2.6 billion, nine-year uranium supply agreement with India in early March 2026, the largest deal in the company's recent history.</div><div style="font-size:12px;color:var(--text-secondary);margin-bottom:6px;line-height:1.6;"><cite index="13-1,13-3">Cameco signed a deal to supply nearly 22 million pounds of uranium ore concentrate to India over nine years, with deliveries expected to begin in 2027 and run through 2035</cite>. <cite index="13-5">Cameco's CEO Tim Gitzel att</div><div style="font-size:12px;color:var(--green);margin-bottom:6px;font-style:italic;">🇨🇦 This represents a massive win for Canadian uranium exporters, positioning Cameco as a strategic partner in India's nuclear expansion. <cite index="12-8,12-17">The deal is set to power over 10% of the global uranium supply market by 2026 and secures long-term uranium supply to global utilities</cite>, strengthening Canada's position as a reliable uranium supplier.</div><div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;"><span class="label">Cameco Corporation</span><span class="label label-amber">IMMEDIATE</span><span class="label">Canada · India</span><a href="https://www.cameco.com/media/news/cameco-signs-long-term-uranium-supply-agreement-with-india" class="source-link" target="_blank">↗ Read source</a></div></div></div><div class="signal-row"><div class="signal-dot dot-opp"></div><div style="flex:1;"><div style="font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:4px;">Multiple major offtake agreements in March 2026 secured significant portions of future lithium production with Trafigura signing deals worth over $1 billion for battery-grade lithium carbonate.</div><div style="font-size:12px;color:var(--text-secondary);margin-bottom:6px;line-height:1.6;"><cite index="1-1,8-4">In March 2026, Trafigura signed major offtake agreements including a 10-year deal for 80,000 tonnes of battery-grade lithium carbonate from US domestic production</cite>. <cite index="6-15">The trading house also signed a deal f</div><div style="font-size:12px;color:var(--green);margin-bottom:6px;font-style:italic;">🇨🇦 Canadian lithium producers face increased competition as offtake agreements allocate future production, but the trend toward long-term contracting creates opportunities for proven Canadian suppliers. <cite index="1-24">The continent must develop financial mechanisms, industrial partnerships, and strategic investment frameworks capable of securing long-term mineral supply</cite>.</div><div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;"><span class="label">Trafigura</span><span class="label label-amber">THIS MONTH</span><span class="label">United States · Europe · Australia</span><a href="https://www.trafigura.com/news-and-insights/press-releases/2026/trafigura-signs-battery-grade-lithium-carbonate-offtake-agreement-with-smackover-lithium/" class="source-link" target="_blank">↗ Read source</a></div></div></div><div class="signal-row"><div class="signal-dot dot-opp"></div><div style="flex:1;"><div style="font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:4px;">China suspended implementation of expanded rare earth export controls from November 2025 through November 2026 following Trump-Xi diplomatic engagement.</div><div style="font-size:12px;color:var(--text-secondary);margin-bottom:6px;line-height:1.6;">On November 7, 2025, China temporarily suspended key export control announcements (No. 61, 62, 70, 72) affecting rare earth elements, magnets, and dual-use materials until November 10, 2026. The suspension covers the October 9 extraterritorial contro</div><div style="font-size:12px;color:var(--green);margin-bottom:6px;font-style:italic;">🇨🇦 Provides temporary relief for Canadian manufacturers using rare earth permanent magnets in automotive, clean energy, and defense sectors. However, structural dependency on Chinese rare earth processing (90% global share) remains unchanged, requiring accelerated diversification efforts during this suspension period.</div><div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;"><span class="label">China Briefing</span><span class="label label-amber">THIS MONTH</span><span class="label">China · United States · Japan</span><a href="https://www.china-briefing.com/news/chinas-rare-earth-export-controls-impacts-on-businesses/" class="source-link" target="_blank">↗ Read source</a></div></div></div>
+    </div>
+    <div class="card" style="margin-bottom:8px;">
+      <div class="label label-amber" style="margin-bottom:12px;">◆ Watch</div>
+      <div class="signal-row"><div class="signal-dot dot-watch"></div><div style="flex:1;"><div style="font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:4px;">Indonesia announced a new $7-8 billion Titan project partnership with Chinese consortium Zhejiang Huayou Cobalt in February 2026 to build an integrated EV battery ecosystem.</div><div style="font-size:12px;color:var(--text-secondary);margin-bottom:6px;line-height:1.6;"><cite index="26-4,26-5">Indonesia announced a US$7-8 billion partnership called Titan, involving state-owned companies Antam and Industri Baterai Indonesia, together with Chinese consortium led by Zhejiang Huayou Cobalt</cite>. <cite index="26-8,26-1</div><div style="font-size:12px;color:var(--green);margin-bottom:6px;font-style:italic;">🇨🇦 This creates limited direct offtake opportunities for Canadian producers as Indonesia focuses on domestic supply chains using its own nickel reserves. However, Canadian technology and equipment suppliers could benefit from the massive infrastructure buildout, while Canadian battery material recycling expertise may find opportunities in Indonesia's circular economy goals.</div><div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;"><span class="label">Asia Times</span><span class="label label-amber">THIS QUARTER</span><span class="label">Indonesia · China · South Korea</span><a href="https://asiatimes.com/2026/02/will-china-power-or-pollute-indonesias-ev-battery-dream/" class="source-link" target="_blank">↗ Read source</a></div></div></div><div class="signal-row"><div class="signal-dot dot-watch"></div><div style="flex:1;"><div style="font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:4px;">OFAC issued General License 51 on March 6, 2026, authorizing Venezuelan gold exports to US refineries for the first time since 2019 sanctions.</div><div style="font-size:12px;color:var(--text-secondary);margin-bottom:6px;line-height:1.6;">The license permits established US entities to import, refine, and resell Venezuelan-origin gold, specifically covering transactions with state-owned Minerven and its subsidiaries. This coincides with a Trafigura agreement to purchase up to 1,000 kil</div><div style="font-size:12px;color:var(--green);margin-bottom:6px;font-style:italic;">🇨🇦 Creates potential competitive pressure for Canadian gold refiners and miners as Venezuelan gold re-enters global markets. Canadian companies may explore partnerships in Venezuela's reformed mining sector while monitoring compliance requirements for any Venezuelan-origin materials.</div><div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;"><span class="label">Cleary Trade Watch</span><span class="label label-amber">THIS QUARTER</span><span class="label">United States · Venezuela</span><a href="https://www.clearytradewatch.com/2026/03/ofac-eases-sanctions-on-venezuelan-origin-gold/" class="source-link" target="_blank">↗ Read source</a></div></div></div>
+    </div>
+    <div class="card" style="margin-bottom:20px;">
+      <div class="label label-red" style="margin-bottom:12px;">🔴 Risk Signals</div>
+      <div class="signal-row"><div class="signal-dot dot-risk"></div><div style="flex:1;"><div style="font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:4px;">US-India critical minerals agreement approaching finalization in March 2026 after months of negotiations.</div><div style="font-size:12px;color:var(--text-secondary);margin-bottom:6px;line-height:1.6;">US Ambassador Sergio Gor confirmed at March 2026 India Today Conclave that US-India critical minerals partnership is moving toward critical finalization stage with imminent implementation of comprehensive resource sharing protocols. This agreement ai</div><div style="font-size:12px;color:var(--green);margin-bottom:6px;font-style:italic;">🇨🇦 This development creates a competitive disadvantage for Canada as the US secures preferential access to India's growing critical minerals market through bilateral agreement. Canadian exporters may face reduced market access and pricing pressure in the lucrative Indian market for lithium, cobalt, and rare earth elements.</div><div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;"><span class="label">Discovery Alert</span><span class="label label-amber">IMMEDIATE</span><span class="label">United States · India</span><a href="https://discoveryalert.com.au/strategic-trade-architecture-2026-india-us-deal/" class="source-link" target="_blank">↗ Read source</a></div></div></div><div class="signal-row"><div class="signal-dot dot-risk"></div><div style="flex:1;"><div style="font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:4px;">DRC delivers shortlist of strategic mineral assets to US officials seeking American investment partnerships.</div><div style="font-size:12px;color:var(--text-secondary);margin-bottom:6px;line-height:1.6;">Last week, DRC presented US officials with a shortlist spanning Kisenge's manganese, Gecamines' Mutoshi copper-cobalt project, Sokimo's gold permits, Cominiere's lithium licenses, and other critical mineral assets. This follows December 4 accord givi</div><div style="font-size:12px;color:var(--green);margin-bottom:6px;font-style:italic;">🇨🇦 DRC's pivot toward US partnership threatens Canadian mining companies' access to critical cobalt and lithium supplies from world's largest cobalt producer. This could force Canadian battery manufacturers and clean tech sectors to seek alternative supply sources at potentially higher costs.</div><div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;"><span class="label">MINING.COM</span><span class="label label-amber">THIS MONTH</span><span class="label">Democratic Republic of Congo · United States</span><a href="https://www.mining.com/drc-pitches-manganese-copper-cobalt-lithium-to-us/" class="source-link" target="_blank">↗ Read source</a></div></div></div>
+    </div>
+
+    <!-- COMPETITOR INTELLIGENCE -->
+    <div class="section-header" id="section-competitors">
+      <span class="section-title">Competitor Intelligence</span>
+      <span class="label label-amber">Peer Moves to Watch</span>
+    </div>
+    <div class="card"><div style="background:var(--amber-dim);border:1px solid var(--amber-border);border-radius:8px;padding:14px;margin-bottom:10px;"><div class="label label-amber" style="margin-bottom:6px;">🌏 Australia — Peer Competitor Move</div><div style="font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:6px;">US-India critical minerals agreement approaching finalization in March 2026 after months of negotiations.</div><p style="font-size:12px;color:var(--text-secondary);margin-bottom:6px;line-height:1.6;">US Ambassador Sergio Gor confirmed at March 2026 India Today Conclave that US-India critical minerals partnership is moving toward critical finalization stage with imminent implementation of comprehensive resource sharing protocols. This agreement aims to reduce dependence on single-source suppliers across multiple strategic material categories including rare earth elements.</p><p style="font-size:12px;color:var(--green);font-style:italic;margin-bottom:6px;">🇨🇦 This development creates a competitive disadvantage for Canada as the US secures preferential access to India's growing critical minerals market through bilateral agreement. Canadian exporters may face reduced market access and pricing pressure in the lucrative Indian market for lithium, cobalt, and rare earth elements.</p><a href="https://discoveryalert.com.au/strategic-trade-architecture-2026-india-us-deal/" class="source-link" target="_blank">↗ Source</a></div></div>
+
+    <!-- MARKET POSITIONING -->
+    <div class="section-header" id="section-markets">
+      <span class="section-title">Market Positioning</span>
+      <span class="label">Risk vs Opportunity</span>
+    </div>
+    <div class="card" style="margin-bottom:20px;">
+      <div style="display:grid;grid-template-columns:1fr 200px;gap:20px;">
+        <div>
+          <div class="label" style="margin-bottom:12px;">Position Map</div>
+          <div style="position:relative;width:100%;height:180px;background:var(--bg);
+                      border-radius:6px;overflow:hidden;">
+            <div style="position:absolute;left:0;right:0;top:50%;height:1px;background:var(--border);"></div>
+            <div style="position:absolute;top:0;bottom:0;left:50%;width:1px;background:var(--border);"></div>
+            <div style="position:absolute;bottom:4px;left:6px;font-family:var(--mono);font-size:8px;color:var(--green);opacity:0.7;">LOW RISK</div>
+            <div style="position:absolute;bottom:4px;right:6px;font-family:var(--mono);font-size:8px;color:var(--red);opacity:0.7;">HIGH RISK</div>
+            <div style="position:absolute;top:4px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:8px;color:var(--green);opacity:0.7;">HIGH OPP.</div>
+            <div style="position:absolute;left:0;top:0;width:50%;height:50%;background:rgba(0,229,160,0.03);"></div>
+            <div style="position:absolute;right:0;bottom:0;width:50%;height:50%;background:rgba(255,77,106,0.03);"></div>
+            <div style="position:absolute;left:15.0%;top:15.0%;width:10px;height:10px;border-radius:50%;background:#00e5a0;color:#00e5a0;box-shadow:0 0 8px #00e5a0;transform:translate(-50%,-50%);" title="India R:2 O:9"></div><div style="position:absolute;left:15.0%;top:calc(15.0% + 11px);transform:translateX(-50%);font-family:var(--mono);font-size:8px;color:#00e5a0;white-space:nowrap;">🇮🇳 India</div><div style="position:absolute;left:25.0%;top:25.0%;width:10px;height:10px;border-radius:50%;background:#00e5a0;color:#00e5a0;box-shadow:0 0 8px #00e5a0;transform:translate(-50%,-50%);" title="Indonesia R:3 O:8"></div><div style="position:absolute;left:25.0%;top:calc(25.0% + 11px);transform:translateX(-50%);font-family:var(--mono);font-size:8px;color:#00e5a0;white-space:nowrap;">🇮🇩 Indonesia</div><div style="position:absolute;left:15.0%;top:25.0%;width:10px;height:10px;border-radius:50%;background:#00e5a0;color:#00e5a0;box-shadow:0 0 8px #00e5a0;transform:translate(-50%,-50%);" title="United States R:2 O:8"></div><div style="position:absolute;left:15.0%;top:calc(25.0% + 11px);transform:translateX(-50%);font-family:var(--mono);font-size:8px;color:#00e5a0;white-space:nowrap;">🇺🇸 United States</div><div style="position:absolute;left:5.0%;top:35.0%;width:10px;height:10px;border-radius:50%;background:#00e5a0;color:#00e5a0;box-shadow:0 0 8px #00e5a0;transform:translate(-50%,-50%);" title="Japan R:1 O:7"></div><div style="position:absolute;left:5.0%;top:calc(35.0% + 11px);transform:translateX(-50%);font-family:var(--mono);font-size:8px;color:#00e5a0;white-space:nowrap;">🇯🇵 Japan</div><div style="position:absolute;left:15.0%;top:35.0%;width:10px;height:10px;border-radius:50%;background:#00e5a0;color:#00e5a0;box-shadow:0 0 8px #00e5a0;transform:translate(-50%,-50%);" title="South Korea R:2 O:7"></div><div style="position:absolute;left:15.0%;top:calc(35.0% + 11px);transform:translateX(-50%);font-family:var(--mono);font-size:8px;color:#00e5a0;white-space:nowrap;">🇰🇷 South Korea</div><div style="position:absolute;left:15.0%;top:35.0%;width:10px;height:10px;border-radius:50%;background:#00e5a0;color:#00e5a0;box-shadow:0 0 8px #00e5a0;transform:translate(-50%,-50%);" title="European Union R:2 O:7"></div><div style="position:absolute;left:15.0%;top:calc(35.0% + 11px);transform:translateX(-50%);font-family:var(--mono);font-size:8px;color:#00e5a0;white-space:nowrap;">🇪🇺 European Union</div><div style="position:absolute;left:5.0%;top:45.0%;width:10px;height:10px;border-radius:50%;background:#ffb547;color:#ffb547;box-shadow:0 0 8px #ffb547;transform:translate(-50%,-50%);" title="Australia R:1 O:6"></div><div style="position:absolute;left:5.0%;top:calc(45.0% + 11px);transform:translateX(-50%);font-family:var(--mono);font-size:8px;color:#ffb547;white-space:nowrap;">🇦🇺 Australia</div><div style="position:absolute;left:55.0%;top:55.0%;width:10px;height:10px;border-radius:50%;background:#ffb547;color:#ffb547;box-shadow:0 0 8px #ffb547;transform:translate(-50%,-50%);" title="China R:6 O:5"></div><div style="position:absolute;left:55.0%;top:calc(55.0% + 11px);transform:translateX(-50%);font-family:var(--mono);font-size:8px;color:#ffb547;white-space:nowrap;">🇨🇳 China</div>
+          </div>
+        </div>
+        <div><div class="label" style="margin-bottom:12px;">Legend</div><div style="display:flex;align-items:center;gap:8px;padding:4px 0;"><div style="width:8px;height:8px;border-radius:50%;background:#00e5a0;box-shadow:0 0 5px #00e5a0;flex-shrink:0;"></div><span style="font-size:12px;">🇮🇳 India</span><span style="font-family:var(--mono);font-size:10px;color:var(--text-muted);margin-left:auto;">R:2 · O:9</span></div><div style="display:flex;align-items:center;gap:8px;padding:4px 0;"><div style="width:8px;height:8px;border-radius:50%;background:#00e5a0;box-shadow:0 0 5px #00e5a0;flex-shrink:0;"></div><span style="font-size:12px;">🇮🇩 Indonesia</span><span style="font-family:var(--mono);font-size:10px;color:var(--text-muted);margin-left:auto;">R:3 · O:8</span></div><div style="display:flex;align-items:center;gap:8px;padding:4px 0;"><div style="width:8px;height:8px;border-radius:50%;background:#00e5a0;box-shadow:0 0 5px #00e5a0;flex-shrink:0;"></div><span style="font-size:12px;">🇺🇸 United States</span><span style="font-family:var(--mono);font-size:10px;color:var(--text-muted);margin-left:auto;">R:2 · O:8</span></div><div style="display:flex;align-items:center;gap:8px;padding:4px 0;"><div style="width:8px;height:8px;border-radius:50%;background:#00e5a0;box-shadow:0 0 5px #00e5a0;flex-shrink:0;"></div><span style="font-size:12px;">🇯🇵 Japan</span><span style="font-family:var(--mono);font-size:10px;color:var(--text-muted);margin-left:auto;">R:1 · O:7</span></div><div style="display:flex;align-items:center;gap:8px;padding:4px 0;"><div style="width:8px;height:8px;border-radius:50%;background:#00e5a0;box-shadow:0 0 5px #00e5a0;flex-shrink:0;"></div><span style="font-size:12px;">🇰🇷 South Korea</span><span style="font-family:var(--mono);font-size:10px;color:var(--text-muted);margin-left:auto;">R:2 · O:7</span></div><div style="display:flex;align-items:center;gap:8px;padding:4px 0;"><div style="width:8px;height:8px;border-radius:50%;background:#00e5a0;box-shadow:0 0 5px #00e5a0;flex-shrink:0;"></div><span style="font-size:12px;">🇪🇺 European Union</span><span style="font-family:var(--mono);font-size:10px;color:var(--text-muted);margin-left:auto;">R:2 · O:7</span></div><div style="display:flex;align-items:center;gap:8px;padding:4px 0;"><div style="width:8px;height:8px;border-radius:50%;background:#ffb547;box-shadow:0 0 5px #ffb547;flex-shrink:0;"></div><span style="font-size:12px;">🇦🇺 Australia</span><span style="font-family:var(--mono);font-size:10px;color:var(--text-muted);margin-left:auto;">R:1 · O:6</span></div><div style="display:flex;align-items:center;gap:8px;padding:4px 0;"><div style="width:8px;height:8px;border-radius:50%;background:#ffb547;box-shadow:0 0 5px #ffb547;flex-shrink:0;"></div><span style="font-size:12px;">🇨🇳 China</span><span style="font-family:var(--mono);font-size:10px;color:var(--text-muted);margin-left:auto;">R:6 · O:5</span></div></div>
+      </div>
+    </div>
+    
+        <div class="market-card" id="market-india"
+             style="border-top-color:#00e5a0;">
+          <div style="display:flex;justify-content:space-between;
+                      align-items:flex-start;margin-bottom:14px;">
+            <div>
+              <h3 style="font-family:var(--display);font-size:20px;font-weight:600;
+                          font-style:italic;color:var(--text-primary);margin-bottom:3px;">
+                🇮🇳 India
+              </h3>
+              <div class="label">Uranium, Lithium, Cobalt, Rare Earths</div>
+            </div>
+            <span style="font-family:var(--mono);font-size:10px;
+                         color:#00e5a0;font-weight:600;">● Strong Opportunity</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 2fr;
+                      gap:10px;margin-bottom:14px;">
+            <div style="background:var(--bg);border-radius:8px;padding:14px;text-align:center;">
+              <div class="score-large" style="color:var(--green);">2</div>
+              <div style="font-family:var(--mono);font-size:9px;color:var(--green);
+                          letter-spacing:0.1em;margin-top:4px;">RISK</div>
+            </div>
+            <div style="background:var(--bg);border-radius:8px;padding:14px;text-align:center;">
+              <div class="score-large" style="color:var(--green);">9</div>
+              <div style="font-family:var(--mono);font-size:9px;color:var(--green);
+                          letter-spacing:0.1em;margin-top:4px;">OPP.</div>
+            </div>
+            <div style="background:var(--bg);border-radius:8px;padding:14px;">
+              <div class="label" style="margin-bottom:6px;">Analyst View</div>
+              <p style="font-size:12px;color:var(--text-secondary);line-height:1.6;">
+                The Canada-India CEPA launch represents a watershed moment for Canadian critical minerals exports. The $2.6B uranium supply agreement and Critical Minerals MoU create immediate pathways for lithium, cobalt and rare earth exports to India's expanding EV battery manufacturing sector.
+              </p>
+            </div>
+          </div>
+          <button class="depth-toggle" onclick="toggleDepth('mkt0')" id="toggle-mkt0">
+            <span class="arrow" id="arrow-mkt0">▶</span>
+            RISK &amp; OPPORTUNITY DRIVERS
+          </button>
+          <div class="depth-content" id="depth-mkt0">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;padding-top:14px;">
+              <div>
+                <div class="label label-red" style="margin-bottom:8px;">Risk Drivers</div>
+                <div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);"><span style="color:var(--red);flex-shrink:0;">▲</span><span style="font-size:12px;color:var(--text-secondary);">Regulatory complexity in mining approvals</span></div>
+              </div>
+              <div>
+                <div class="label label-green" style="margin-bottom:8px;">
+                  Opportunity Drivers
+                </div>
+                <div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);"><span style="color:var(--green);flex-shrink:0;">●</span><span style="font-size:12px;color:var(--text-secondary);">CEPA launched</span></div><div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);"><span style="color:var(--green);flex-shrink:0;">●</span><span style="font-size:12px;color:var(--text-secondary);">$2.6B uranium deal</span></div><div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);"><span style="color:var(--green);flex-shrink:0;">●</span><span style="font-size:12px;color:var(--text-secondary);">Critical Minerals MoU</span></div><div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);"><span style="color:var(--green);flex-shrink:0;">●</span><span style="font-size:12px;color:var(--text-secondary);">EV battery manufacturing growth</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="market-card" id="market-indonesia"
+             style="border-top-color:#00e5a0;">
+          <div style="display:flex;justify-content:space-between;
+                      align-items:flex-start;margin-bottom:14px;">
+            <div>
+              <h3 style="font-family:var(--display);font-size:20px;font-weight:600;
+                          font-style:italic;color:var(--text-primary);margin-bottom:3px;">
+                🇮🇩 Indonesia
+              </h3>
+              <div class="label">Lithium, Nickel, Cobalt, Copper</div>
+            </div>
+            <span style="font-family:var(--mono);font-size:10px;
+                         color:#00e5a0;font-weight:600;">● Strong Opportunity</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 2fr;
+                      gap:10px;margin-bottom:14px;">
+            <div style="background:var(--bg);border-radius:8px;padding:14px;text-align:center;">
+              <div class="score-large" style="color:var(--green);">3</div>
+              <div style="font-family:var(--mono);font-size:9px;color:var(--green);
+                          letter-spacing:0.1em;margin-top:4px;">RISK</div>
+            </div>
+            <div style="background:var(--bg);border-radius:8px;padding:14px;text-align:center;">
+              <div class="score-large" style="color:var(--green);">8</div>
+              <div style="font-family:var(--mono);font-size:9px;color:var(--green);
+                          letter-spacing:0.1em;margin-top:4px;">OPP.</div>
+            </div>
+            <div style="background:var(--bg);border-radius:8px;padding:14px;">
+              <div class="label" style="margin-bottom:6px;">Analyst View</div>
+              <p style="font-size:12px;color:var(--text-secondary);line-height:1.6;">
+                The new Canada-Indonesia FIPA with EDC's $825M backing opens significant opportunities for Canadian miners in Indonesia's battery supply chain. Indonesian nickel processors are seeking Canadian expertise while their battery manufacturers need lithium carbonate imports.
+              </p>
+            </div>
+          </div>
+          <button class="depth-toggle" onclick="toggleDepth('mkt1')" id="toggle-mkt1">
+            <span class="arrow" id="arrow-mkt1">▶</span>
+            RISK &amp; OPPORTUNITY DRIVERS
+          </button>
+          <div class="depth-content" id="depth-mkt1">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;padding-top:14px;">
+              <div>
+                <div class="label label-red" style="margin-bottom:8px;">Risk Drivers</div>
+                <div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);"><span style="color:var(--red);flex-shrink:0;">▲</span><span style="font-size:12px;color:var(--text-secondary);">Resource nationalism policies</span></div><div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);"><span style="color:var(--red);flex-shrink:0;">▲</span><span style="font-size:12px;color:var(--text-secondary);">Local content requirements</span></div>
+              </div>
+              <div>
+                <div class="label label-green" style="margin-bottom:8px;">
+                  Opportunity Drivers
+                </div>
+                <div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);"><span style="color:var(--green);flex-shrink:0;">●</span><span style="font-size:12px;color:var(--text-secondary);">FIPA signed</span></div><div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);"><span style="color:var(--green);flex-shrink:0;">●</span><span style="font-size:12px;color:var(--text-secondary);">EDC $825M commitment</span></div><div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);"><span style="color:var(--green);flex-shrink:0;">●</span><span style="font-size:12px;color:var(--text-secondary);">Nickel processing partnerships</span></div><div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);"><span style="color:var(--green);flex-shrink:0;">●</span><span style="font-size:12px;color:var(--text-secondary);">Battery manufacturing hub development</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="market-card" id="market-united-states"
+             style="border-top-color:#00e5a0;">
+          <div style="display:flex;justify-content:space-between;
+                      align-items:flex-start;margin-bottom:14px;">
+            <div>
+              <h3 style="font-family:var(--display);font-size:20px;font-weight:600;
+                          font-style:italic;color:var(--text-primary);margin-bottom:3px;">
+                🇺🇸 United States
+              </h3>
+              <div class="label">Uranium, Rare Earths, Lithium, Copper</div>
+            </div>
+            <span style="font-family:var(--mono);font-size:10px;
+                         color:#00e5a0;font-weight:600;">● Strong Opportunity</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 2fr;
+                      gap:10px;margin-bottom:14px;">
+            <div style="background:var(--bg);border-radius:8px;padding:14px;text-align:center;">
+              <div class="score-large" style="color:var(--green);">2</div>
+              <div style="font-family:var(--mono);font-size:9px;color:var(--green);
+                          letter-spacing:0.1em;margin-top:4px;">RISK</div>
+            </div>
+            <div style="background:var(--bg);border-radius:8px;padding:14px;text-align:center;">
+              <div class="score-large" style="color:var(--green);">8</div>
+              <div style="font-family:var(--mono);font-size:9px;color:var(--green);
+                          letter-spacing:0.1em;margin-top:4px;">OPP.</div>
+            </div>
+            <div style="background:var(--bg);border-radius:8px;padding:14px;">
+              <div class="label" style="margin-bottom:6px;">Analyst View</div>
+              <p style="font-size:12px;color:var(--text-secondary);line-height:1.6;">
+                US remains the premium market for Canadian critical minerals with CUSMA providing duty-free access and IRA incentives favoring North American supply chains. The July 2026 CUSMA review creates some uncertainty but defense procurement demand for uranium and rare earths remains strong.
+              </p>
+            </div>
+          </div>
+          <button class="depth-toggle" onclick="toggleDepth('mkt2')" id="toggle-mkt2">
+            <span class="arrow" id="arrow-mkt2">▶</span>
+            RISK &amp; OPPORTUNITY DRIVERS
+          </button>
+          <div class="depth-content" id="depth-mkt2">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;padding-top:14px;">
+              <div>
+                <div class="label label-red" style="margin-bottom:8px;">Risk Drivers</div>
+                <div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);"><span style="color:var(--red);flex-shrink:0;">▲</span><span style="font-size:12px;color:var(--text-secondary);">Export control complexity</span></div><div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);"><span style="color:var(--red);flex-shrink:0;">▲</span><span style="font-size:12px;color:var(--text-secondary);">CUSMA review approaching July 2026</span></div>
+              </div>
+              <div>
+                <div class="label label-green" style="margin-bottom:8px;">
+                  Opportunity Drivers
+                </div>
+                <div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);"><span style="color:var(--green);flex-shrink:0;">●</span><span style="font-size:12px;color:var(--text-secondary);">CUSMA preferential access</span></div><div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);"><span style="color:var(--green);flex-shrink:0;">●</span><span style="font-size:12px;color:var(--text-secondary);">IRA domestic content incentives</span></div><div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);"><span style="color:var(--green);flex-shrink:0;">●</span><span style="font-size:12px;color:var(--text-secondary);">Defense supply chain priorities</span></div><div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);"><span style="color:var(--green);flex-shrink:0;">●</span><span style="font-size:12px;color:var(--text-secondary);">G7 alliance partnerships</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="market-card" id="market-japan"
+             style="border-top-color:#00e5a0;">
+          <div style="display:flex;justify-content:space-between;
+                      align-items:flex-start;margin-bottom:14px;">
+            <div>
+              <h3 style="font-family:var(--display);font-size:20px;font-weight:600;
+                          font-style:italic;color:var(--text-primary);margin-bottom:3px;">
+                🇯🇵 Japan
+              </h3>
+              <div class="label">Uranium, Rare Earths, Copper, Nickel</div>
+            </div>
+            <span style="font-family:var(--mono);font-size:10px;
+                         color:#00e5a0;font-weight:600;">● Active Opportunity</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 2fr;
+                      gap:10px;margin-bottom:14px;">
+            <div style="background:var(--bg);border-radius:8px;padding:14px;text-align:center;">
+              <div class="score-large" style="color:var(--green);">1</div>
+              <div style="font-family:var(--mono);font-size:9px;color:var(--green);
+                          letter-spacing:0.1em;margin-top:4px;">RISK</div>
+            </div>
+            <div style="background:var(--bg);border-radius:8px;padding:14px;text-align:center;">
+              <div class="score-large" style="color:var(--amber);">7</div>
+              <div style="font-family:var(--mono);font-size:9px;color:var(--amber);
+                          letter-spacing:0.1em;margin-top:4px;">OPP.</div>
+            </div>
+            <div style="background:var(--bg);border-radius:8px;padding:14px;">
+              <div class="label" style="margin-bottom:6px;">Analyst View</div>
+              <p style="font-size:12px;color:var(--text-secondary);line-height:1.6;">
+                Japan's nuclear restart program and China diversification strategy create premium opportunities for Canadian uranium and rare earth suppliers. CPTPP tariff preferences and G7 alliance membership provide competitive advantages over non-allied suppliers.
+              </p>
+            </div>
+          </div>
+          <button class="depth-toggle" onclick="toggleDepth('mkt3')" id="toggle-mkt3">
+            <span class="arrow" id="arrow-mkt3">▶</span>
+            RISK &amp; OPPORTUNITY DRIVERS
+          </button>
+          <div class="depth-content" id="depth-mkt3">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;padding-top:14px;">
+              <div>
+                <div class="label label-red" style="margin-bottom:8px;">Risk Drivers</div>
+                <div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);"><span style="color:var(--red);flex-shrink:0;">▲</span><span style="font-size:12px;color:var(--text-secondary);">Strict quality specifications</span></div>
+              </div>
+              <div>
+                <div class="label label-green" style="margin-bottom:8px;">
+                  Opportunity Drivers
+                </div>
+                <div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);"><span style="color:var(--green);flex-shrink:0;">●</span><span style="font-size:12px;color:var(--text-secondary);">CPTPP preferential rates</span></div><div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);"><span style="color:var(--green);flex-shrink:0;">●</span><span style="font-size:12px;color:var(--text-secondary);">G7 alliance member</span></div><div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);"><span style="color:var(--green);flex-shrink:0;">●</span><span style="font-size:12px;color:var(--text-secondary);">Diversification from China strategy</span></div><div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);"><span style="color:var(--green);flex-shrink:0;">●</span><span style="font-size:12px;color:var(--text-secondary);">Nuclear restart program</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="market-card" id="market-south-korea"
+             style="border-top-color:#00e5a0;">
+          <div style="display:flex;justify-content:space-between;
+                      align-items:flex-start;margin-bottom:14px;">
+            <div>
+              <h3 style="font-family:var(--display);font-size:20px;font-weight:600;
+                          font-style:italic;color:var(--text-primary);margin-bottom:3px;">
+                🇰🇷 South Korea
+              </h3>
+              <div class="label">Lithium, Cobalt, Uranium, Nickel</div>
+            </div>
+            <span style="font-family:var(--mono);font-size:10px;
+                         color:#00e5a0;font-weight:600;">● Active Opportunity</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 2fr;
+                      gap:10px;margin-bottom:14px;">
+            <div style="background:var(--bg);border-radius:8px;padding:14px;text-align:center;">
+              <div class="score-large" style="color:var(--green);">2</div>
+              <div style="font-family:var(--mono);font-size:9px;color:var(--green);
+                          letter-spacing:0.1em;margin-top:4px;">RISK</div>
+            </div>
+            <div style="background:var(--bg);border-radius:8px;padding:14px;text-align:center;">
+              <div class="score-large" style="color:var(--amber);">7</div>
+              <div style="font-family:var(--mono);font-size:9px;color:var(--amber);
+                          letter-spacing:0.1em;margin-top:4px;">OPP.</div>
+            </div>
+            <div style="background:var(--bg);border-radius:8px;padding:14px;">
+              <div class="label" style="margin-bottom:6px;">Analyst View</div>
+              <p style="font-size:12px;color:var(--text-secondary);line-height:1.6;">
+                Korean battery giants like LG Energy and Samsung SDI are actively diversifying supply chains away from China, creating opportunities for Canadian lithium and cobalt suppliers. Nuclear expansion plans support uranium demand despite DPRK sanctions adding compliance complexity.
+              </p>
+            </div>
+          </div>
+          <button class="depth-toggle" onclick="toggleDepth('mkt4')" id="toggle-mkt4">
+            <span class="arrow" id="arrow-mkt4">▶</span>
+            RISK &amp; OPPORTUNITY DRIVERS
+          </button>
+          <div class="depth-content" id="depth-mkt4">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;padding-top:14px;">
+              <div>
+                <div class="label label-red" style="margin-bottom:8px;">Risk Drivers</div>
+                <div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);"><span style="color:var(--red);flex-shrink:0;">▲</span><span style="font-size:12px;color:var(--text-secondary);">North Korea sanctions compliance complexity</span></div><div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);"><span style="color:var(--red);flex-shrink:0;">▲</span><span style="font-size:12px;color:var(--text-secondary);">Technology transfer requirements</span></div>
+              </div>
+              <div>
+                <div class="label label-green" style="margin-bottom:8px;">
+                  Opportunity Drivers
+                </div>
+                <div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);"><span style="color:var(--green);flex-shrink:0;">●</span><span style="font-size:12px;color:var(--text-secondary);">CPTPP access</span></div><div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);"><span style="color:var(--green);flex-shrink:0;">●</span><span style="font-size:12px;color:var(--text-secondary);">Battery champion companies</span></div><div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);"><span style="color:var(--green);flex-shrink:0;">●</span><span style="font-size:12px;color:var(--text-secondary);">Nuclear power expansion</span></div><div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);"><span style="color:var(--green);flex-shrink:0;">●</span><span style="font-size:12px;color:var(--text-secondary);">China alternative sourcing</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="market-card" id="market-european-union"
+             style="border-top-color:#00e5a0;">
+          <div style="display:flex;justify-content:space-between;
+                      align-items:flex-start;margin-bottom:14px;">
+            <div>
+              <h3 style="font-family:var(--display);font-size:20px;font-weight:600;
+                          font-style:italic;color:var(--text-primary);margin-bottom:3px;">
+                🇪🇺 European Union
+              </h3>
+              <div class="label">Uranium, Copper, Nickel, Rare Earths</div>
+            </div>
+            <span style="font-family:var(--mono);font-size:10px;
+                         color:#00e5a0;font-weight:600;">● Active Opportunity</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 2fr;
+                      gap:10px;margin-bottom:14px;">
+            <div style="background:var(--bg);border-radius:8px;padding:14px;text-align:center;">
+              <div class="score-large" style="color:var(--green);">2</div>
+              <div style="font-family:var(--mono);font-size:9px;color:var(--green);
+                          letter-spacing:0.1em;margin-top:4px;">RISK</div>
+            </div>
+            <div style="background:var(--bg);border-radius:8px;padding:14px;text-align:center;">
+              <div class="score-large" style="color:var(--amber);">7</div>
+              <div style="font-family:var(--mono);font-size:9px;color:var(--amber);
+                          letter-spacing:0.1em;margin-top:4px;">OPP.</div>
+            </div>
+            <div style="background:var(--bg);border-radius:8px;padding:14px;">
+              <div class="label" style="margin-bottom:6px;">Analyst View</div>
+              <p style="font-size:12px;color:var(--text-secondary);line-height:1.6;">
+                EU's Critical Raw Materials Act and Green Deal create substantial long-term demand for Canadian critical minerals. CETA provides zero-tariff access while the push to replace Russian supplies favors Canadian uranium, nickel and copper exports despite increasing regulatory complexity.
+              </p>
+            </div>
+          </div>
+          <button class="depth-toggle" onclick="toggleDepth('mkt5')" id="toggle-mkt5">
+            <span class="arrow" id="arrow-mkt5">▶</span>
+            RISK &amp; OPPORTUNITY DRIVERS
+          </button>
+          <div class="depth-content" id="depth-mkt5">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;padding-top:14px;">
+              <div>
+                <div class="label label-red" style="margin-bottom:8px;">Risk Drivers</div>
+                <div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);"><span style="color:var(--red);flex-shrink:0;">▲</span><span style="font-size:12px;color:var(--text-secondary);">Complex regulatory framework</span></div><div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);"><span style="color:var(--red);flex-shrink:0;">▲</span><span style="font-size:12px;color:var(--text-secondary);">Carbon border adjustment mechanism</span></div>
+              </div>
+              <div>
+                <div class="label label-green" style="margin-bottom:8px;">
+                  Opportunity Drivers
+                </div>
+                <div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);"><span style="color:var(--green);flex-shrink:0;">●</span><span style="font-size:12px;color:var(--text-secondary);">CETA zero-tariff access</span></div><div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);"><span style="color:var(--green);flex-shrink:0;">●</span><span style="font-size:12px;color:var(--text-secondary);">Green Deal demand</span></div><div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);"><span style="color:var(--green);flex-shrink:0;">●</span><span style="font-size:12px;color:var(--text-secondary);">Russian supply replacement</span></div><div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);"><span style="color:var(--green);flex-shrink:0;">●</span><span style="font-size:12px;color:var(--text-secondary);">Critical Raw Materials Act</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="market-card" id="market-australia"
+             style="border-top-color:#ffb547;">
+          <div style="display:flex;justify-content:space-between;
+                      align-items:flex-start;margin-bottom:14px;">
+            <div>
+              <h3 style="font-family:var(--display);font-size:20px;font-weight:600;
+                          font-style:italic;color:var(--text-primary);margin-bottom:3px;">
+                🇦🇺 Australia
+              </h3>
+              <div class="label">Uranium, Rare Earths</div>
+            </div>
+            <span style="font-family:var(--mono);font-size:10px;
+                         color:#ffb547;font-weight:600;">◆ Emerging Opportunity</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 2fr;
+                      gap:10px;margin-bottom:14px;">
+            <div style="background:var(--bg);border-radius:8px;padding:14px;text-align:center;">
+              <div class="score-large" style="color:var(--green);">1</div>
+              <div style="font-family:var(--mono);font-size:9px;color:var(--green);
+                          letter-spacing:0.1em;margin-top:4px;">RISK</div>
+            </div>
+            <div style="background:var(--bg);border-radius:8px;padding:14px;text-align:center;">
+              <div class="score-large" style="color:var(--amber);">6</div>
+              <div style="font-family:var(--mono);font-size:9px;color:var(--amber);
+                          letter-spacing:0.1em;margin-top:4px;">OPP.</div>
+            </div>
+            <div style="background:var(--bg);border-radius:8px;padding:14px;">
+              <div class="label" style="margin-bottom:6px;">Analyst View</div>
+              <p style="font-size:12px;color:var(--text-secondary);line-height:1.6;">
+                While Australia competes directly in most critical minerals, opportunities exist in uranium processing partnerships and rare earth value chain collaboration. G7 alliance framework and CPTPP facilitate joint ventures despite competitive overlap in raw materials.
+              </p>
+            </div>
+          </div>
+          <button class="depth-toggle" onclick="toggleDepth('mkt6')" id="toggle-mkt6">
+            <span class="arrow" id="arrow-mkt6">▶</span>
+            RISK &amp; OPPORTUNITY DRIVERS
+          </button>
+          <div class="depth-content" id="depth-mkt6">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;padding-top:14px;">
+              <div>
+                <div class="label label-red" style="margin-bottom:8px;">Risk Drivers</div>
+                <div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);"><span style="color:var(--red);flex-shrink:0;">▲</span><span style="font-size:12px;color:var(--text-secondary);">Domestic competition in most commodities</span></div>
+              </div>
+              <div>
+                <div class="label label-green" style="margin-bottom:8px;">
+                  Opportunity Drivers
+                </div>
+                <div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);"><span style="color:var(--green);flex-shrink:0;">●</span><span style="font-size:12px;color:var(--text-secondary);">CPTPP partnership</span></div><div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);"><span style="color:var(--green);flex-shrink:0;">●</span><span style="font-size:12px;color:var(--text-secondary);">G7 alliance cooperation</span></div><div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);"><span style="color:var(--green);flex-shrink:0;">●</span><span style="font-size:12px;color:var(--text-secondary);">Uranium processing needs</span></div><div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);"><span style="color:var(--green);flex-shrink:0;">●</span><span style="font-size:12px;color:var(--text-secondary);">Rare earth value chain gaps</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="market-card" id="market-china"
+             style="border-top-color:#ffb547;">
+          <div style="display:flex;justify-content:space-between;
+                      align-items:flex-start;margin-bottom:14px;">
+            <div>
+              <h3 style="font-family:var(--display);font-size:20px;font-weight:600;
+                          font-style:italic;color:var(--text-primary);margin-bottom:3px;">
+                🇨🇳 China
+              </h3>
+              <div class="label">Copper, Nickel, Uranium</div>
+            </div>
+            <span style="font-family:var(--mono);font-size:10px;
+                         color:#ffb547;font-weight:600;">◆ Monitor Closely</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 2fr;
+                      gap:10px;margin-bottom:14px;">
+            <div style="background:var(--bg);border-radius:8px;padding:14px;text-align:center;">
+              <div class="score-large" style="color:var(--amber);">6</div>
+              <div style="font-family:var(--mono);font-size:9px;color:var(--amber);
+                          letter-spacing:0.1em;margin-top:4px;">RISK</div>
+            </div>
+            <div style="background:var(--bg);border-radius:8px;padding:14px;text-align:center;">
+              <div class="score-large" style="color:var(--amber);">5</div>
+              <div style="font-family:var(--mono);font-size:9px;color:var(--amber);
+                          letter-spacing:0.1em;margin-top:4px;">OPP.</div>
+            </div>
+            <div style="background:var(--bg);border-radius:8px;padding:14px;">
+              <div class="label" style="margin-bottom:6px;">Analyst View</div>
+              <p style="font-size:12px;color:var(--text-secondary);line-height:1.6;">
+                China's active export controls on 7 rare earth elements and escalating geopolitical tensions increase export risks despite massive demand from Chinese battery manufacturers. Canadian exporters face growing compliance complexity and potential supply chain weaponization risks.
+              </p>
+            </div>
+          </div>
+          <button class="depth-toggle" onclick="toggleDepth('mkt7')" id="toggle-mkt7">
+            <span class="arrow" id="arrow-mkt7">▶</span>
+            RISK &amp; OPPORTUNITY DRIVERS
+          </button>
+          <div class="depth-content" id="depth-mkt7">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;padding-top:14px;">
+              <div>
+                <div class="label label-red" style="margin-bottom:8px;">Risk Drivers</div>
+                <div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);"><span style="color:var(--red);flex-shrink:0;">▲</span><span style="font-size:12px;color:var(--text-secondary);">Rare earth export controls</span></div><div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);"><span style="color:var(--red);flex-shrink:0;">▲</span><span style="font-size:12px;color:var(--text-secondary);">Geopolitical tensions</span></div><div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);"><span style="color:var(--red);flex-shrink:0;">▲</span><span style="font-size:12px;color:var(--text-secondary);">Technology transfer demands</span></div><div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);"><span style="color:var(--red);flex-shrink:0;">▲</span><span style="font-size:12px;color:var(--text-secondary);">Regulatory unpredictability</span></div>
+              </div>
+              <div>
+                <div class="label label-green" style="margin-bottom:8px;">
+                  Opportunity Drivers
+                </div>
+                <div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);"><span style="color:var(--green);flex-shrink:0;">●</span><span style="font-size:12px;color:var(--text-secondary);">Massive battery manufacturing capacity</span></div><div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);"><span style="color:var(--green);flex-shrink:0;">●</span><span style="font-size:12px;color:var(--text-secondary);">Copper processing dominance</span></div><div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);"><span style="color:var(--green);flex-shrink:0;">●</span><span style="font-size:12px;color:var(--text-secondary);">EV supply chain integration</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+    <!-- COMMODITY INTELLIGENCE -->
+    <div class="section-header" id="section-commodities">
+      <span class="section-title">Commodity Intelligence</span>
+      <span class="label">Market Conditions</span>
+    </div>
+    
+        <div class="card" id="mineral-uranium">
+          <div style="display:flex;justify-content:space-between;
+                      align-items:flex-start;margin-bottom:16px;">
+            <h3 style="font-family:var(--display);font-size:18px;font-weight:600;
+                        font-style:italic;color:var(--text-primary);">☢️ Uranium (U3O8)</h3>
+            <div style="text-align:right;">
+              <div style="font-family:var(--mono);font-size:16px;font-weight:600;
+                           color:var(--text-primary);">$68.50</div>
+              <div style="font-family:var(--mono);font-size:11px;color:var(--text-muted);">
+                →0.0% WoW &nbsp; ▲11.9% YoY
+              </div>
+              <span style="font-family:var(--mono);font-size:9px;font-weight:600;
+                           color:#ffb547;background:var(--bg);border:1px solid #ffb54744;
+                           padding:2px 8px;border-radius:3px;display:inline-block;margin-top:4px;">
+                RECOVERY
+              </span>
+            </div>
+          </div>
+          <div style="background:var(--bg);border-left:2px solid var(--green);
+                      padding:12px 14px;border-radius:0 6px 6px 0;margin-bottom:12px;">
+            <div class="label label-green" style="margin-bottom:6px;">Price Intelligence</div>
+            <p style="font-size:13px;color:var(--text-secondary);line-height:1.7;">
+              At $68.50/lb, uranium remains below the $75-80/lb that utilities are paying for long-term contracts, creating immediate arbitrage opportunities for Canadian producers with spot market flexibility. The 11.9% year-over-year price increase reflects tightening supply, but Canadian producers should prioritize contract sales over spot given the $6.50-11.50/lb premium utilities are paying for supply security.
+            </p>
+          </div>
+          <p style="font-size:13px;color:var(--text-primary);font-style:italic;
+                    margin-bottom:12px;">→ Canadian uranium producers should prioritize long-term contracts over spot sales to capture the $6.50-11.50/lb premium utilities are paying, with India market entry through the March 2026 Canada-India Critical Minerals Dialogue representing the highest-value immediate opportunity.</p>
+          <button class="depth-toggle" onclick="toggleDepth('min-uranium')" id="toggle-min-uranium">
+            <span class="arrow" id="arrow-min-uranium">▶</span>
+            FULL ANALYSIS · DEMAND GEOGRAPHY · SUPPLY GAPS · CANADIAN POSITION · ENTRY PATHWAYS
+          </button>
+          <div class="depth-content" id="depth-min-uranium">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;
+                        padding-top:14px;margin-bottom:14px;">
+              <div style="background:var(--bg);border-radius:8px;padding:14px;">
+                <div class="label label-amber" style="margin-bottom:8px;">Demand Geography</div>
+                <p style="font-size:12px;color:var(--text-secondary);line-height:1.7;">
+                  India represents the most active buying opportunity, with NPCIL requiring 2,000 tonnes U3O8/year by 2030 to fuel 22 operating PHWRs and 10 reactors under construction toward their 100 GW nuclear target by 2047. China continues as the largest global buyer at 25,000 tonnes/year by 2030, with recent diplomatic improvements creating re-engagement possibilities for Canadian suppliers. The UK's approval of 8 new large reactors and South Korea's nuclear expansion reversal both create immediate procurement needs from utilities actively seeking non-Russian supply alternatives.
+                </p>
+              </div>
+              <div style="background:var(--bg);border-radius:8px;padding:14px;">
+                <div class="label label-blue" style="margin-bottom:8px;">Supply Gap Analysis</div>
+                <p style="font-size:12px;color:var(--text-secondary);line-height:1.7;">
+                  A structural 20 million pound annual uranium deficit is expected by 2030, driven by Kazakhstan infrastructure constraints, the US ban on Russian uranium imports, and Niger's 4,500 tonne production gap following political instability. Canada's Athabasca Basin deposits average 20 times world-average grades, with Cameco alone controlling 15% of global primary supply, positioning Canadian producers to capture premium pricing as Western utilities prioritize supply security over cost.
+                </p>
+              </div>
+            </div>
+            <div style="background:var(--bg);border-radius:8px;padding:14px;margin-bottom:12px;">
+              <div class="label label-green" style="margin-bottom:8px;">
+                🇨🇦 Canada's Competitive Position
+              </div>
+              <p style="font-size:12px;color:var(--text-secondary);line-height:1.7;">
+                Canada uniquely combines the world's highest-grade uranium deposits in the Athabasca Basin with established processing infrastructure in Saskatchewan and zero Chinese state ownership in the supply chain. The country's CANDU reactor technology creates natural demand pull particularly in India's 22 PHWR fleet, while existing nuclear cooperation agreements with all major importing nations eliminate regulatory barriers that constrain other suppliers.
+              </p>
+            </div>
+            <div style="background:var(--red-dim);border:1px solid var(--red-border);border-radius:8px;padding:14px;margin-bottom:12px;"><div class="label label-red" style="margin-bottom:6px;">⚠ Risk Flags</div><p style="font-size:12px;color:#ffa0b0;line-height:1.7;">No immediate compliance risks this week, though Canadian exporters should monitor potential changes to nuclear cooperation agreements as geopolitical tensions evolve. Long-term contract negotiations should include force majeure clauses covering transportation disruptions given ongoing global supply chain vulnerabilities.</p></div>
+            <div style="background:var(--green-dim);border:1px solid var(--green-border);border-radius:8px;padding:16px;margin-top:12px;"><div class="label label-green" style="margin-bottom:8px;">🇨🇦 Entry Pathway → India</div><div style="font-size:13px;font-weight:600;color:#a0e8cc;margin-bottom:12px;">Saskatchewan uranium equipment and service suppliers — India tender window opening Q3 2026</div><div class="pathway-step"><div class="step-num">1</div><div style="flex:1;"><div style="font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:3px;">Contact TCS India desk this week<span style="font-family:var(--mono);font-size:9px;color:var(--red);margin-left:8px;">THIS WEEK</span></div><div style="font-size:12px;color:var(--text-secondary);line-height:1.6;">Register interest in the inaugural Canada-India Critical Minerals Dialogue (Toronto, March 2026). TCS India can provide buyer introductions with NPCIL, BHAVINI, and private nuclear operators.</div><a href="https://www.tradecommissioner.gc.ca/eng/home.html" class="source-link" style="display:inline-block;margin-top:6px;" target="_blank">↗ Trade Commissioner Service</a></div></div><div class="pathway-step"><div class="step-num">2</div><div style="flex:1;"><div style="font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:3px;">Apply for CanExport SME funding<span style="font-family:var(--mono);font-size:9px;color:var(--text-muted);margin-left:8px;">THIS MONTH</span></div><div style="font-size:12px;color:var(--text-secondary);line-height:1.6;">Cover costs of India market development — buyer meetings, trade show travel, legal/certification costs. 50% match up to $75K.</div><a href="https://www.tradecommissioner.gc.ca/funding-financement/canexport/sme-pme/index.aspx?lang=eng" class="source-link" style="display:inline-block;margin-top:6px;" target="_blank">↗ CanExport SME</a></div></div><div class="pathway-step"><div class="step-num">3</div><div style="flex:1;"><div style="font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:3px;">Register for World Nuclear Symposium (London, September)<span style="font-family:var(--mono);font-size:9px;color:var(--text-muted);margin-left:8px;">THIS QUARTER</span></div><div style="font-size:12px;color:var(--text-secondary);line-height:1.6;">NPCIL, BHAVINI and Indian nuclear utilities all send procurement teams. Best venue for initial commercial conversations.</div></div></div><div class="pathway-step"><div class="step-num">4</div><div style="flex:1;"><div style="font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:3px;">Engage EDC India office for buyer financing<span style="font-family:var(--mono);font-size:9px;color:var(--text-muted);margin-left:8px;">WHEN DEAL IN SIGHT</span></div><div style="font-size:12px;color:var(--text-secondary);line-height:1.6;">EDC can finance Indian utility purchases of Canadian uranium equipment and services — removing financing risk for both sides.</div><a href="https://www.edc.ca/en/solutions/financing" class="source-link" style="display:inline-block;margin-top:6px;" target="_blank">↗ EDC Buyer Financing</a></div></div><div style="font-size:11px;color:var(--text-muted);margin-top:10px;font-style:italic;">Timeline: First commercial contact possible within 60 days. First supply agreement: 12-18 months.</div></div>
+          </div>
+        </div>
+        <div class="card" id="mineral-lithium">
+          <div style="display:flex;justify-content:space-between;
+                      align-items:flex-start;margin-bottom:16px;">
+            <h3 style="font-family:var(--display);font-size:18px;font-weight:600;
+                        font-style:italic;color:var(--text-primary);">🔋 Lithium Carbonate</h3>
+            <div style="text-align:right;">
+              <div style="font-family:var(--mono);font-size:16px;font-weight:600;
+                           color:var(--text-primary);">$9,200</div>
+              <div style="font-family:var(--mono);font-size:11px;color:var(--text-muted);">
+                →0.0% WoW &nbsp; ▼60.9% YoY
+              </div>
+              <span style="font-family:var(--mono);font-size:9px;font-weight:600;
+                           color:#00e5a0;background:var(--bg);border:1px solid #00e5a044;
+                           padding:2px 8px;border-radius:3px;display:inline-block;margin-top:4px;">
+                TROUGH ZONE
+              </span>
+            </div>
+          </div>
+          <div style="background:var(--bg);border-left:2px solid var(--green);
+                      padding:12px 14px;border-radius:0 6px 6px 0;margin-bottom:12px;">
+            <div class="label label-green" style="margin-bottom:6px;">Price Intelligence</div>
+            <p style="font-size:13px;color:var(--text-secondary);line-height:1.7;">
+              Lithium carbonate at $9,200/tonne represents a 3-year trough, but long-term contracts are being signed at $12,000-15,000/tonne as buyers lock in bottom prices. Canadian producers with financing to reach production by 2026-2027 can secure premium contracts now before the consensus recovery to $18,000-22,000/tonne.
+            </p>
+          </div>
+          <p style="font-size:13px;color:var(--text-primary);font-style:italic;
+                    margin-bottom:12px;">→ Lithium carbonate has hit a 3-year price trough at $9,200/tonne, but the Canada-India Critical Minerals MoU signed this week opens immediate access to India's 50,000 tonne annual import market through March's Toronto dialogue.</p>
+          <button class="depth-toggle" onclick="toggleDepth('min-lithium')" id="toggle-min-lithium">
+            <span class="arrow" id="arrow-min-lithium">▶</span>
+            FULL ANALYSIS · DEMAND GEOGRAPHY · SUPPLY GAPS · CANADIAN POSITION · ENTRY PATHWAYS
+          </button>
+          <div class="depth-content" id="depth-min-lithium">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;
+                        padding-top:14px;margin-bottom:14px;">
+              <div style="background:var(--bg);border-radius:8px;padding:14px;">
+                <div class="label label-amber" style="margin-bottom:8px;">Demand Geography</div>
+                <p style="font-size:12px;color:var(--text-secondary);line-height:1.7;">
+                  India's $2.5B PLI scheme for battery manufacturing is driving urgent lithium import needs of 50,000 tonnes LCE annually by 2030, while their domestic Rajasthan deposit cannot meet demand. Indonesia requires 80,000 tonnes LCE yearly by 2028 to supply CATL, LG, and Volkswagen gigafactories in Batam and Karawang. The US market offers 150,000 tonnes annual demand by 2030, with Canadian lithium qualifying as domestic content under IRA rules — an advantage no other country has.
+                </p>
+              </div>
+              <div style="background:var(--bg);border-radius:8px;padding:14px;">
+                <div class="label label-blue" style="margin-bottom:8px;">Supply Gap Analysis</div>
+                <p style="font-size:12px;color:var(--text-secondary);line-height:1.7;">
+                  Global lithium supply turns deficit by 2026 as EV demand recovers, while Australia's dominant 57% market share faces grade decline at major spodumene mines. Chile and Argentina brine projects are delayed by permitting and water rights issues, creating supply gaps that Western buyers are willing to pay premiums to fill with ESG-compliant sources.
+                </p>
+              </div>
+            </div>
+            <div style="background:var(--bg);border-radius:8px;padding:14px;margin-bottom:12px;">
+              <div class="label label-green" style="margin-bottom:8px;">
+                🇨🇦 Canada's Competitive Position
+              </div>
+              <p style="font-size:12px;color:var(--text-secondary);line-height:1.7;">
+                Quebec and Ontario host some of the world's largest hard-rock deposits outside Australia, with Quebec's hydroelectric power enabling the cleanest lithium processing globally. Under CUSMA and IRA intersection, Canadian lithium uniquely qualifies as US domestic content, while EDC and NRCan's Critical Minerals Sovereign Fund provide financing that competitors lack.
+              </p>
+            </div>
+            <div style="background:var(--red-dim);border:1px solid var(--red-border);border-radius:8px;padding:14px;margin-bottom:12px;"><div class="label label-red" style="margin-bottom:6px;">⚠ Risk Flags</div><p style="font-size:12px;color:#ffa0b0;line-height:1.7;">No major compliance risks this week, though producers should ensure IRA domestic content documentation is prepared for US market entry. Water rights and environmental permitting remain the primary operational risks for Canadian hard-rock projects.</p></div>
+            <div style="background:var(--green-dim);border:1px solid var(--green-border);border-radius:8px;padding:16px;margin-top:12px;"><div class="label label-green" style="margin-bottom:8px;">🇨🇦 Entry Pathway → India</div><div style="font-size:13px;font-weight:600;color:#a0e8cc;margin-bottom:12px;">Canadian lithium producers — India PLI gigafactory supply window open now</div><div class="pathway-step"><div class="step-num">1</div><div style="flex:1;"><div style="font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:3px;">Register for Canada-India Critical Minerals Dialogue<span style="font-family:var(--mono);font-size:9px;color:var(--red);margin-left:8px;">THIS WEEK</span></div><div style="font-size:12px;color:var(--text-secondary);line-height:1.6;">Inaugural session Toronto March 2026. The Critical Minerals MoU signed today specifically covers lithium. This is the fastest path to Indian battery manufacturer introductions.</div><a href="https://www.tradecommissioner.gc.ca/eng/home.html" class="source-link" style="display:inline-block;margin-top:6px;" target="_blank">↗ Trade Commissioner Service</a></div></div><div class="pathway-step"><div class="step-num">2</div><div style="flex:1;"><div style="font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:3px;">Contact NRCan Critical Minerals Sovereign Fund<span style="font-family:var(--mono);font-size:9px;color:var(--red);margin-left:8px;">BEFORE MARCH 31</span></div><div style="font-size:12px;color:var(--text-secondary);line-height:1.6;">Fund can provide offtake guarantees that de-risk long-term supply agreements with Indian buyers. Fiscal year ends March 31 — apply now.</div><a href="https://www.canada.ca/en/campaign/critical-minerals-in-canada/federal-support-for-critical-mineral-projects-and-value-chains.html" class="source-link" style="display:inline-block;margin-top:6px;" target="_blank">↗ Critical Minerals Sovereign Fund</a></div></div><div class="pathway-step"><div class="step-num">3</div><div style="flex:1;"><div style="font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:3px;">Attend India Battery Show, Pune — May 2026<span style="font-family:var(--mono);font-size:9px;color:var(--text-muted);margin-left:8px;">THIS QUARTER</span></div><div style="font-size:12px;color:var(--text-secondary);line-height:1.6;">Ola Electric, Tata Motors, Mahindra, and international gigafactory operators all attending. EDC has Canadian pavilion — register through TCS.</div><a href="https://www.tradecommissioner.gc.ca/funding-financement/canexport/sme-pme/index.aspx?lang=eng" class="source-link" style="display:inline-block;margin-top:6px;" target="_blank">↗ CanExport SME</a></div></div><div class="pathway-step"><div class="step-num">4</div><div style="flex:1;"><div style="font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:3px;">Structure supply agreement with EDC political risk cover<span style="font-family:var(--mono);font-size:9px;color:var(--text-muted);margin-left:8px;">WHEN DEAL IN SIGHT</span></div><div style="font-size:12px;color:var(--text-secondary);line-height:1.6;">EDC political risk insurance protects against payment default, expropriation, and currency inconvertibility for Indian contracts.</div><a href="https://www.edc.ca/en/solutions/financing" class="source-link" style="display:inline-block;margin-top:6px;" target="_blank">↗ EDC Export Financing</a></div></div><div style="font-size:11px;color:var(--text-muted);margin-top:10px;font-style:italic;">Timeline: First buyer meetings possible within 30 days (Dialogue). First supply agreement: 6-12 months.</div></div><div style="background:var(--green-dim);border:1px solid var(--green-border);border-radius:8px;padding:16px;margin-top:12px;"><div class="label label-green" style="margin-bottom:8px;">🇨🇦 Entry Pathway → Indonesia</div><div style="font-size:13px;font-weight:600;color:#a0e8cc;margin-bottom:12px;">Canadian lithium exporters — Indonesian gigafactory supply window: act before Q3 2026</div><div class="pathway-step"><div class="step-num">1</div><div style="flex:1;"><div style="font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:3px;">Contact TCS Jakarta desk immediately<span style="font-family:var(--mono);font-size:9px;color:var(--red);margin-left:8px;">THIS WEEK</span></div><div style="font-size:12px;color:var(--text-secondary);line-height:1.6;">Canada-Indonesia FIPA just signed. EDC committed $825M in Indonesia financing. TCS Jakarta has existing relationships with CATL Indonesia, LG Energy Solution, and Indonesian Ministry of Investment.</div><a href="https://www.tradecommissioner.gc.ca/eng/home.html" class="source-link" style="display:inline-block;margin-top:6px;" target="_blank">↗ Trade Commissioner Service</a></div></div><div class="pathway-step"><div class="step-num">2</div><div style="flex:1;"><div style="font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:3px;">Apply for CanExport SME funding for Indonesia market entry<span style="font-family:var(--mono);font-size:9px;color:var(--text-muted);margin-left:8px;">THIS MONTH</span></div><div style="font-size:12px;color:var(--text-secondary);line-height:1.6;">Covers travel, market research, buyer meetings, and legal costs. Indonesia is a new FIPA partner — applications covering Indonesia have high approval rates right now.</div><a href="https://www.tradecommissioner.gc.ca/funding-financement/canexport/sme-pme/index.aspx?lang=eng" class="source-link" style="display:inline-block;margin-top:6px;" target="_blank">↗ CanExport SME</a></div></div><div class="pathway-step"><div class="step-num">3</div><div style="flex:1;"><div style="font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:3px;">Leverage EDC Indonesia financing<span style="font-family:var(--mono);font-size:9px;color:var(--text-muted);margin-left:8px;">THIS QUARTER</span></div><div style="font-size:12px;color:var(--text-secondary);line-height:1.6;">EDC has $825M committed to Indonesia. They can finance Indonesian buyer purchases of Canadian lithium — removing the single biggest barrier to closing deals.</div><a href="https://www.edc.ca/en/solutions/financing" class="source-link" style="display:inline-block;margin-top:6px;" target="_blank">↗ EDC Buyer Financing</a></div></div><div class="pathway-step"><div class="step-num">4</div><div style="flex:1;"><div style="font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:3px;">Attend Indonesia International EV Summit, Jakarta — June 2026<span style="font-family:var(--mono);font-size:9px;color:var(--text-muted);margin-left:8px;">THIS QUARTER</span></div><div style="font-size:12px;color:var(--text-secondary);line-height:1.6;">Government and industry event. CATL, LG, and Volkswagen battery plant operators all present. Best venue to meet procurement decision-makers.</div></div></div><div style="font-size:11px;color:var(--text-muted);margin-top:10px;font-style:italic;">Timeline: First buyer contact: 2-4 weeks. First supply agreement: 6-9 months.</div></div>
+          </div>
+        </div>
+        <div class="card" id="mineral-cobalt">
+          <div style="display:flex;justify-content:space-between;
+                      align-items:flex-start;margin-bottom:16px;">
+            <h3 style="font-family:var(--display);font-size:18px;font-weight:600;
+                        font-style:italic;color:var(--text-primary);">🔩 Cobalt</h3>
+            <div style="text-align:right;">
+              <div style="font-family:var(--mono);font-size:16px;font-weight:600;
+                           color:var(--text-primary);">$24,800</div>
+              <div style="font-family:var(--mono);font-size:11px;color:var(--text-muted);">
+                →0.0% WoW &nbsp; ▼8.5% YoY
+              </div>
+              <span style="font-family:var(--mono);font-size:9px;font-weight:600;
+                           color:#ffb547;background:var(--bg);border:1px solid #ffb54744;
+                           padding:2px 8px;border-radius:3px;display:inline-block;margin-top:4px;">
+                RECOVERY
+              </span>
+            </div>
+          </div>
+          <div style="background:var(--bg);border-left:2px solid var(--green);
+                      padding:12px 14px;border-radius:0 6px 6px 0;margin-bottom:12px;">
+            <div class="label label-green" style="margin-bottom:6px;">Price Intelligence</div>
+            <p style="font-size:13px;color:var(--text-secondary);line-height:1.7;">
+              At $24,800/tonne, cobalt remains 8.5% below year-ago levels but sits near a 5-year low, creating entry opportunities for Canadian producers with cost-competitive byproduct operations. The consensus forecast of $35,000-40,000/tonne by 2027 represents 40-60% upside driven by EU Battery Regulation compliance demand that directly favors Canadian supply over DRC alternatives.
+            </p>
+          </div>
+          <p style="font-size:13px;color:var(--text-primary);font-style:italic;
+                    margin-bottom:12px;">→ Canadian cobalt is positioned for significant price premiums and market share gains as EU Battery Regulation compliance creates structural demand for conflict-free alternatives to DRC supply starting in 2025.</p>
+          <button class="depth-toggle" onclick="toggleDepth('min-cobalt')" id="toggle-min-cobalt">
+            <span class="arrow" id="arrow-min-cobalt">▶</span>
+            FULL ANALYSIS · DEMAND GEOGRAPHY · SUPPLY GAPS · CANADIAN POSITION · ENTRY PATHWAYS
+          </button>
+          <div class="depth-content" id="depth-min-cobalt">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;
+                        padding-top:14px;margin-bottom:14px;">
+              <div style="background:var(--bg);border-radius:8px;padding:14px;">
+                <div class="label label-amber" style="margin-bottom:8px;">Demand Geography</div>
+                <p style="font-size:12px;color:var(--text-secondary);line-height:1.7;">
+                  South Korea leads active buying with Samsung SDI, SK Innovation, and LG Energy Solution requiring 15,000 tonnes annually of non-DRC cobalt to comply with EU Battery Regulation for their European exports. The European Union represents the largest opportunity at 25,000 tonnes by 2027, driven by mandatory supply chain traceability requirements starting 2025 that effectively exclude DRC sources. Japan's Panasonic and Sumitomo are expanding battery production with 8,000 tonnes annual demand, supported by the 2023 Canada-Japan Critical Minerals Partnership.
+                </p>
+              </div>
+              <div style="background:var(--bg);border-radius:8px;padding:14px;">
+                <div class="label label-blue" style="margin-bottom:8px;">Supply Gap Analysis</div>
+                <p style="font-size:12px;color:var(--text-secondary);line-height:1.7;">
+                  The DRC controls 70% of global cobalt supply but faces increasing exclusion from Western supply chains due to OFAC designation risk and artisanal mining ESG violations under EU Battery Regulation compliance requirements. Canadian producers Vale and Glencore in Sudbury are uniquely positioned to fill this 48,000+ tonne annual gap with conflict-free, byproduct cobalt that meets all regulatory requirements without additional compliance costs.
+                </p>
+              </div>
+            </div>
+            <div style="background:var(--bg);border-radius:8px;padding:14px;margin-bottom:12px;">
+              <div class="label label-green" style="margin-bottom:8px;">
+                🇨🇦 Canada's Competitive Position
+              </div>
+              <p style="font-size:12px;color:var(--text-secondary);line-height:1.7;">
+                The Sudbury basin is the largest cobalt-producing region outside the DRC, with Vale and Glencore operating cost-competitive byproduct operations that maintain existing relationships with all major battery manufacturers. Canadian cobalt carries zero conflict mineral exposure and is pre-compliant with EU Battery Regulation requirements, eliminating the regulatory risk premium affecting 70% of global supply.
+              </p>
+            </div>
+            <div style="background:var(--red-dim);border:1px solid var(--red-border);border-radius:8px;padding:14px;margin-bottom:12px;"><div class="label label-red" style="margin-bottom:6px;">⚠ Risk Flags</div><p style="font-size:12px;color:#ffa0b0;line-height:1.7;">Most cobalt trades on long-term contracts rather than spot markets, requiring Canadian producers to secure multi-year agreements rather than opportunistic sales. The EU Battery Regulation's 2025 implementation creates a compliance cliff that could disrupt existing supply chains, potentially benefiting Canadian suppliers but requiring proactive contract negotiation.</p></div>
+            
+          </div>
+        </div>
+        <div class="card" id="mineral-rare_earths">
+          <div style="display:flex;justify-content:space-between;
+                      align-items:flex-start;margin-bottom:16px;">
+            <h3 style="font-family:var(--display);font-size:18px;font-weight:600;
+                        font-style:italic;color:var(--text-primary);">🧲 Rare Earth Elements</h3>
+            <div style="text-align:right;">
+              <div style="font-family:var(--mono);font-size:16px;font-weight:600;
+                           color:var(--text-primary);">$58</div>
+              <div style="font-family:var(--mono);font-size:11px;color:var(--text-muted);">
+                →0.0% WoW &nbsp; ▼18.8% YoY
+              </div>
+              <span style="font-family:var(--mono);font-size:9px;font-weight:600;
+                           color:#00e5a0;background:var(--bg);border:1px solid #00e5a044;
+                           padding:2px 8px;border-radius:3px;display:inline-block;margin-top:4px;">
+                SUPPLY SQUEEZE
+              </span>
+            </div>
+          </div>
+          <div style="background:var(--bg);border-left:2px solid var(--green);
+                      padding:12px 14px;border-radius:0 6px 6px 0;margin-bottom:12px;">
+            <div class="label label-green" style="margin-bottom:6px;">Price Intelligence</div>
+            <p style="font-size:13px;color:var(--text-secondary);line-height:1.7;">
+              At $58/kg, rare earths remain down 18.8% year-over-year, but Western buyers are paying 20-40% premiums over Chinese spot prices for non-Chinese supply. This premium structure creates immediate revenue upside for Canadian producers who can bypass Chinese processing — the SRC Saskatoon facility and Nechalacho mine position Canada to capture these premiums directly.
+            </p>
+          </div>
+          <p style="font-size:13px;color:var(--text-primary);font-style:italic;
+                    margin-bottom:12px;">→ Canada's unique position as the only non-Chinese country with both operational rare earth mining and processing creates immediate access to 20-40% pricing premiums, with US DoD funding available this week for qualifying projects.</p>
+          <button class="depth-toggle" onclick="toggleDepth('min-rare_earths')" id="toggle-min-rare_earths">
+            <span class="arrow" id="arrow-min-rare_earths">▶</span>
+            FULL ANALYSIS · DEMAND GEOGRAPHY · SUPPLY GAPS · CANADIAN POSITION · ENTRY PATHWAYS
+          </button>
+          <div class="depth-content" id="depth-min-rare_earths">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;
+                        padding-top:14px;margin-bottom:14px;">
+              <div style="background:var(--bg);border-radius:8px;padding:14px;">
+                <div class="label label-amber" style="margin-bottom:8px;">Demand Geography</div>
+                <p style="font-size:12px;color:var(--text-secondary);line-height:1.7;">
+                  The US DoD is actively funding Canadian rare earth projects under the Defense Production Act, requiring elimination of Chinese rare earth dependence by 2027 — representing ~5,000 tonnes NdPr oxide annually. Japan's JOGMEC is funding overseas projects through their Canadian office following lessons from China's 2010 embargo. The EU Critical Raw Materials Act mandates 40% processing from strategic partners like Canada by 2030, targeting ~4,000 tonnes NdPr oxide annually, while EV motor demand for neodymium-iron-boron magnets grows 25% yearly across all regions.
+                </p>
+              </div>
+              <div style="background:var(--bg);border-radius:8px;padding:14px;">
+                <div class="label label-blue" style="margin-bottom:8px;">Supply Gap Analysis</div>
+                <p style="font-size:12px;color:var(--text-secondary);line-height:1.7;">
+                  China controls 85-90% of global rare earth processing and has active export controls on dysprosium, terbium, and neodymium since April 2025, creating critical supply gaps for Western magnet manufacturers like Vacuumschmelze and MP Materials. Only 2 commercial-scale separation facilities exist outside China globally — Canada's SRC Saskatoon facility represents 50% of non-Chinese processing capacity, positioning Canadian producers to fill structural deficits as EV demand accelerates.
+                </p>
+              </div>
+            </div>
+            <div style="background:var(--bg);border-radius:8px;padding:14px;margin-bottom:12px;">
+              <div class="label label-green" style="margin-bottom:8px;">
+                🇨🇦 Canada's Competitive Position
+              </div>
+              <p style="font-size:12px;color:var(--text-secondary);line-height:1.7;">
+                Canada is the only non-Chinese country with both operational mine production (Nechalacho, NWT) and separation processing capacity (SRC Saskatoon), creating a complete supply chain free of Chinese ownership. The US DoD actively funds Canadian rare earth projects under defense partnerships, while Canadian REEs qualify as domestic content under US defense procurement and the Inflation Reduction Act through the Canada-US Critical Minerals Action Plan.
+              </p>
+            </div>
+            <div style="background:var(--red-dim);border:1px solid var(--red-border);border-radius:8px;padding:14px;margin-bottom:12px;"><div class="label label-red" style="margin-bottom:6px;">⚠ Risk Flags</div><p style="font-size:12px;color:#ffa0b0;line-height:1.7;">Chinese export controls on key rare earths are likely to tighten further, creating both opportunity and supply chain disruption risk for Canadian processors relying on Chinese feedstock. Canadian producers must ensure complete supply chain independence from Chinese inputs to maintain premium pricing access.</p></div>
+            <div style="background:var(--green-dim);border:1px solid var(--green-border);border-radius:8px;padding:16px;margin-top:12px;"><div class="label label-green" style="margin-bottom:8px;">🇨🇦 Entry Pathway → United States</div><div style="font-size:13px;font-weight:600;color:#a0e8cc;margin-bottom:12px;">Canadian rare earth producers — US DoD supply chain mandate creates immediate demand</div><div class="pathway-step"><div class="step-num">1</div><div style="flex:1;"><div style="font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:3px;">Contact US DoD Office of Industrial Base Policy<span style="font-family:var(--mono);font-size:9px;color:var(--red);margin-left:8px;">THIS WEEK</span></div><div style="font-size:12px;color:var(--text-secondary);line-height:1.6;">DoD is actively funding non-Chinese rare earth supply chains under the Defense Production Act. Canadian producers are eligible. Contact through TCS Washington desk.</div><a href="https://www.tradecommissioner.gc.ca/eng/home.html" class="source-link" style="display:inline-block;margin-top:6px;" target="_blank">↗ Trade Commissioner Service</a></div></div><div class="pathway-step"><div class="step-num">2</div><div style="flex:1;"><div style="font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:3px;">Register under Canada-US Critical Minerals Action Plan<span style="font-family:var(--mono);font-size:9px;color:var(--text-muted);margin-left:8px;">THIS MONTH</span></div><div style="font-size:12px;color:var(--text-secondary);line-height:1.6;">Canadian rare earths qualify as domestic content under IRA and US defense procurement. Registration is required to access this designation.</div><a href="https://www.tradecommissioner.gc.ca/eng/home.html" class="source-link" style="display:inline-block;margin-top:6px;" target="_blank">↗ Trade Commissioner Service</a></div></div><div class="pathway-step"><div class="step-num">3</div><div style="flex:1;"><div style="font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:3px;">Apply to G7 Critical Minerals Production Alliance<span style="font-family:var(--mono);font-size:9px;color:var(--text-muted);margin-left:8px;">THIS MONTH</span></div><div style="font-size:12px;color:var(--text-secondary);line-height:1.6;">26 partnerships connecting Canadian producers to US buyers with government backing. Contact GAC to register your project.</div><a href="https://www.canada.ca/en/natural-resources-canada/news/2026/03/canada-secures-30-new-critical-minerals-partnerships-and-unlocks-121-billion-in-mining-project-capital.html" class="source-link" style="display:inline-block;margin-top:6px;" target="_blank">↗ Critical Minerals Production Alliance</a></div></div><div class="pathway-step"><div class="step-num">4</div><div style="flex:1;"><div style="font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:3px;">Apply for NRCan Sovereign Fund co-investment<span style="font-family:var(--mono);font-size:9px;color:var(--text-muted);margin-left:8px;">THIS QUARTER</span></div><div style="font-size:12px;color:var(--text-secondary);line-height:1.6;">Fund can provide offtake guarantees for US defense procurement contracts — the single biggest derisker for US buyers.</div><a href="https://www.canada.ca/en/campaign/critical-minerals-in-canada/federal-support-for-critical-mineral-projects-and-value-chains.html" class="source-link" style="display:inline-block;margin-top:6px;" target="_blank">↗ Critical Minerals Sovereign Fund</a></div></div><div style="font-size:11px;color:var(--text-muted);margin-top:10px;font-style:italic;">Timeline: First DoD engagement: 30-60 days. First procurement contract: 12-24 months.</div></div>
+          </div>
+        </div>
+
+    <!-- TRADE AGREEMENTS -->
+    <div class="section-header" id="section-trade">
+      <span class="section-title">Trade Intelligence</span>
+      <span class="label">Agreements &amp; Access</span>
+    </div>
+    <div class="card">
+      <div style="background:var(--green-dim);border:1px solid var(--green-border);
+                  border-radius:8px;padding:14px;margin-bottom:16px;">
+        <p style="font-size:14px;color:#a0e8cc;line-height:1.7;font-weight:500;">
+          The launch of Canada-India CEPA today creates immediate new market access for Canadian uranium exporters with the $2.6B uranium deal, while the Critical Minerals MoU establishes framework for expanded minerals trade with India's growing clean energy sector.
+        </p>
+      </div>
+      <div style="padding:12px 0;border-bottom:1px solid var(--border);"><div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span style="font-size:13px;font-weight:600;color:var(--text-primary);">Canada-India CEPA</span><span class="label label-green">Active</span></div><p style="font-size:12px;color:var(--text-secondary);margin-bottom:4px;">Opens Indian market for uranium exports via $2.6B deal and establishes Critical Minerals MoU for lithium, cobalt, nickel access to India's battery manufacturing sector</p><p style="font-size:12px;color:var(--green);font-style:italic;">→ Engage Indian nuclear utilities and clean energy manufacturers immediately to capitalize on new preferential access</p></div><div style="padding:12px 0;border-bottom:1px solid var(--border);"><div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span style="font-size:13px;font-weight:600;color:var(--text-primary);">Canada-Indonesia FIPA</span><span class="label label-green">Pending</span></div><p style="font-size:12px;color:var(--text-secondary);margin-bottom:4px;">2026 implementation with EDC $825M commitment will protect Canadian mining investments in Indonesia's nickel-rich regions and facilitate joint ventures</p><p style="font-size:12px;color:var(--green);font-style:italic;">→ Begin due diligence on Indonesian critical minerals projects ahead of 2026 ratification</p></div><div style="padding:12px 0;border-bottom:1px solid var(--border);"><div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span style="font-size:13px;font-weight:600;color:var(--text-primary);">CUSMA/USMCA</span><span class="label label-green">In Review</span></div><p style="font-size:12px;color:var(--text-secondary);margin-bottom:4px;">July 2026 joint review could affect North American critical minerals supply chain preferences and Buy American exemptions for Canadian suppliers</p><p style="font-size:12px;color:var(--green);font-style:italic;">→ Prepare submissions highlighting Canadian minerals' strategic importance to North American supply chain security</p></div><div style="padding:12px 0;border-bottom:1px solid var(--border);"><div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span style="font-size:13px;font-weight:600;color:var(--text-primary);">CPTPP</span><span class="label label-green">Active</span></div><p style="font-size:12px;color:var(--text-secondary);margin-bottom:4px;">Maintains preferential access to Japan and Australia's critical minerals processing sectors, plus Vietnam's growing battery manufacturing base</p><p style="font-size:12px;color:var(--green);font-style:italic;">→ Leverage existing CPTPP channels to secure long-term supply agreements with Asian partners</p></div>
+      <div style="background:var(--bg);border-radius:8px;padding:14px;margin-top:14px;">
+        <div class="label label-amber" style="margin-bottom:6px;">30-Day Forward Look</div>
+        <p style="font-size:13px;color:var(--text-secondary);line-height:1.7;">
+          Watch for detailed tariff schedules from Canada-India CEPA implementation within 30 days, and monitor CUSMA review preparation meetings that could reshape North American critical minerals trade preferences.
+        </p>
+      </div>
+    </div>
+
+    <!-- CANADA DOMESTIC -->
+    <div class="section-header" id="section-canada">
+      <span class="section-title">Canada Domestic</span>
+      <span class="label label-green">This Week Inside Canada</span>
+    </div>
+    <div class="card"><p style="color:var(--text-muted);font-size:12px;">No new domestic Canadian developments this week beyond monitored sources.</p></div>
+
+    <!-- WATCHING -->
+    <div class="section-header" id="section-watching">
+      <span class="section-title">What We're Watching</span>
+      <span class="label">Next 30 Days</span>
+    </div>
+    <div class="card">
+      <div style="display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--border);"><span style="font-size:22px;">👁️</span><div><div style="font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:4px;">India CEPA Implementation Timeline</div><div style="font-size:12px;color:var(--text-secondary);line-height:1.6;">Monitor the rollout schedule for specific tariff reductions and customs procedures under the newly launched Canada-India CEPA, particularly for uranium and battery minerals. Early implementation could accelerate the $2.6B uranium deal and create immediate market access for Canadian lithium and cobalt exporters targeting India's expanding EV battery sector.</div></div></div><div style="display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--border);"><span style="font-size:22px;">📅</span><div><div style="font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:4px;">Indonesia FIPA Ratification Process</div><div style="font-size:12px;color:var(--text-secondary);line-height:1.6;">Track Indonesia's parliamentary ratification timeline for the newly signed Canada-Indonesia FIPA and deployment of EDC's $825M commitment. Ratification would unlock immediate opportunities for Canadian miners to enter Indonesian nickel processing partnerships and supply lithium carbonate to their emerging battery manufacturing hub.</div></div></div><div style="display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--border);"><span style="font-size:22px;">⚡</span><div><div style="font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:4px;">EU Carbon Border Adjustment Mechanism Updates</div><div style="font-size:12px;color:var(--text-secondary);line-height:1.6;">Watch for December 2024 quarterly CBAM reporting requirements and any policy clarifications that could impact Canadian critical minerals exports to Europe. Changes in carbon accounting rules or exemptions could significantly affect the competitiveness of Canadian uranium, copper, and nickel against non-EU suppliers under CETA's zero-tariff framework.</div></div></div>
+    </div>
+
+    <!-- CANADIAN PROGRAMS -->
+    <div class="section-header" id="section-programs">
+      <span class="section-title">Canadian Programs</span>
+      <span class="label">Quick Reference</span>
+    </div>
+    <div class="card" style="margin-bottom:8px;"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:var(--text-primary);">CanExport SME</div><div style="font-family:var(--mono);font-size:11px;color:var(--green);">Up to $75,000 per project</div></div><p style="font-size:12px;color:var(--text-secondary);margin-bottom:6px;">Funds costs of developing new export markets. 50% cost-share.</p><p style="font-size:11px;color:var(--text-muted);margin-bottom:8px;">Best for: Market research, trade shows, buyer meetings, certifications</p><a href="https://www.tradecommissioner.gc.ca/funding-financement/canexport/sme-pme/index.aspx?lang=eng" class="source-link" target="_blank">↗ Apply / Learn more</a></div><div class="card" style="margin-bottom:8px;"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:var(--text-primary);">EDC Export Financing</div><div style="font-family:var(--mono);font-size:11px;color:var(--green);">Varies — from $250K to multi-billion for major projects</div></div><p style="font-size:12px;color:var(--text-secondary);margin-bottom:6px;">Loans, guarantees, and insurance for Canadian exporters entering new markets.</p><p style="font-size:11px;color:var(--text-muted);margin-bottom:8px;">Best for: Financing buyer purchases, working capital, political risk insurance</p><a href="https://www.edc.ca/en/solutions/financing" class="source-link" target="_blank">↗ Apply / Learn more</a></div><div class="card" style="margin-bottom:8px;"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:var(--text-primary);">EDC Buyer Financing</div><div style="font-family:var(--mono);font-size:11px;color:var(--green);">Varies</div></div><p style="font-size:12px;color:var(--text-secondary);margin-bottom:6px;">EDC finances the foreign buyer so Canadian exporter gets paid immediately.</p><p style="font-size:11px;color:var(--text-muted);margin-bottom:8px;">Best for: Large deals where foreign buyer needs financing</p><a href="https://www.edc.ca/en/solutions/financing" class="source-link" target="_blank">↗ Apply / Learn more</a></div><div class="card" style="margin-bottom:8px;"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:var(--text-primary);">Critical Minerals Sovereign Fund</div><div style="font-family:var(--mono);font-size:11px;color:var(--green);">$2 billion total fund</div></div><p style="font-size:12px;color:var(--text-secondary);margin-bottom:6px;">Equity investments, loan guarantees, and offtake agreements for Canadian critical minerals projects. Launching spring 2026.</p><p style="font-size:11px;color:var(--text-muted);margin-bottom:8px;">Best for: Project development capital, offtake guarantee for new market entry</p><a href="https://www.canada.ca/en/campaign/critical-minerals-in-canada/federal-support-for-critical-mineral-projects-and-value-chains.html" class="source-link" target="_blank">↗ Apply / Learn more</a></div><div class="card" style="margin-bottom:8px;"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:var(--text-primary);">First and Last Mile Fund</div><div style="font-family:var(--mono);font-size:11px;color:var(--green);">Up to $1.5 billion through 2030</div></div><p style="font-size:12px;color:var(--text-secondary);margin-bottom:6px;">Infrastructure and logistics funding for critical minerals supply chains — roads, transmission, processing, port access.</p><p style="font-size:11px;color:var(--text-muted);margin-bottom:8px;">Best for: Transport infrastructure, processing capacity, port access</p><a href="https://www.canada.ca/en/natural-resources-canada/news/2026/03/government-of-canada-invests-to-unlock-canadas-critical-minerals-advantage.html" class="source-link" target="_blank">↗ Apply / Learn more</a></div><div class="card" style="margin-bottom:8px;"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:var(--text-primary);">NRC Industrial Research Assistance Program (IRAP)</div><div style="font-family:var(--mono);font-size:11px;color:var(--green);">$50K - $500K+ depending on project</div></div><p style="font-size:12px;color:var(--text-secondary);margin-bottom:6px;">Funds R&D and technology development costs for Canadian SMEs.</p><p style="font-size:11px;color:var(--text-muted);margin-bottom:8px;">Best for: Processing technology, automation, new extraction methods</p><a href="https://nrc.canada.ca/en/support-technology-innovation/nrc-irap" class="source-link" target="_blank">↗ Apply / Learn more</a></div><div class="card" style="margin-bottom:8px;"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:var(--text-primary);">SR&ED Tax Credit</div><div style="font-family:var(--mono);font-size:11px;color:var(--green);">35% (CCPCs) or 15% (large corps) of eligible R&D spend</div></div><p style="font-size:12px;color:var(--text-secondary);margin-bottom:6px;">Tax refund of 35-65% of qualifying R&D expenditures.</p><p style="font-size:11px;color:var(--text-muted);margin-bottom:8px;">Best for: Technology development, process improvement</p><a href="https://www.canada.ca/en/revenue-agency/services/scientific-research-experimental-development-tax-incentive-program.html" class="source-link" target="_blank">↗ Apply / Learn more</a></div><div class="card" style="margin-bottom:8px;"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:var(--text-primary);">Trade Commissioner Service</div><div style="font-family:var(--mono);font-size:11px;color:var(--green);">Free service</div></div><p style="font-size:12px;color:var(--text-secondary);margin-bottom:6px;">Free market intelligence, buyer introductions, and on-the-ground support in 160 countries.</p><p style="font-size:11px;color:var(--text-muted);margin-bottom:8px;">Best for: First contact in new market, buyer introductions, market intelligence</p><a href="https://www.tradecommissioner.gc.ca/eng/home.html" class="source-link" target="_blank">↗ Apply / Learn more</a></div><div class="card" style="margin-bottom:8px;"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:var(--text-primary);">BDC Export Financing</div><div style="font-family:var(--mono);font-size:11px;color:var(--green);">Up to $500K for SMEs</div></div><p style="font-size:12px;color:var(--text-secondary);margin-bottom:6px;">Loans for export market development, trade show participation, and international growth.</p><p style="font-size:11px;color:var(--text-muted);margin-bottom:8px;">Best for: Working capital for export activities</p><a href="https://www.bdc.ca/en/financing" class="source-link" target="_blank">↗ Apply / Learn more</a></div><div class="card" style="margin-bottom:8px;"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:var(--text-primary);">Critical Minerals Production Alliance</div><div style="font-family:var(--mono);font-size:11px;color:var(--green);">$18.5B total project capital mobilised</div></div><p style="font-size:12px;color:var(--text-secondary);margin-bottom:6px;">30 new investment partnerships mobilising $12.1B in Canadian critical minerals projects with 12 allied nations. Announced March 2026.</p><p style="font-size:11px;color:var(--text-muted);margin-bottom:8px;">Best for: Access to US, EU, Japan, UK, Australian buyers with government backing</p><a href="https://www.canada.ca/en/natural-resources-canada/news/2026/03/canada-secures-30-new-critical-minerals-partnerships-and-unlocks-121-billion-in-mining-project-capital.html" class="source-link" target="_blank">↗ Apply / Learn more</a></div><div class="card" style="margin-bottom:8px;"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:var(--text-primary);">CanExport SME — Agri-food Stream</div><div style="font-family:var(--mono);font-size:11px;color:var(--green);">Up to $75,000 per project (50% cost-share)</div></div><p style="font-size:12px;color:var(--text-secondary);margin-bottom:6px;">Funds market development costs for Canadian agri-food exporters entering new markets. Covers trade missions, buyer meetings, certifications, and market research.</p><p style="font-size:11px;color:var(--text-muted);margin-bottom:8px;">Best for: India pulse market entry, EU canola oil market development, Indonesia food market entry</p><a href="https://www.tradecommissioner.gc.ca/funding-financement/canexport/sme-pme/index.aspx?lang=eng" class="source-link" target="_blank">↗ Apply / Learn more</a></div><div class="card" style="margin-bottom:8px;"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:var(--text-primary);">Agri-food Market Access Secretariat</div><div style="font-family:var(--mono);font-size:11px;color:var(--green);">Free service</div></div><p style="font-size:12px;color:var(--text-secondary);margin-bottom:6px;">Negotiates and maintains market access for Canadian agri-food products. Provides market intelligence, regulatory approvals support, and buyer introduction for exporters entering new markets.</p><p style="font-size:11px;color:var(--text-muted);margin-bottom:8px;">Best for: Market access disputes (China canola), new market registration (India, Indonesia), regulatory approvals</p><a href="https://agriculture.canada.ca/en/international-trade/market-access" class="source-link" target="_blank">↗ Apply / Learn more</a></div><div class="card" style="margin-bottom:8px;"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:var(--text-primary);">EDC Agri-food Export Financing</div><div style="font-family:var(--mono);font-size:11px;color:var(--green);">Varies — from $250K working capital to large buyer financing</div></div><p style="font-size:12px;color:var(--text-secondary);margin-bottom:6px;">Financing, credit insurance, and buyer financing for Canadian agri-food exporters. Covers payment risk, political risk, and buyer financing in emerging markets.</p><p style="font-size:11px;color:var(--text-muted);margin-bottom:8px;">Best for: India, Indonesia, Middle East food deals where buyer needs financing. Canola oil export deals.</p><a href="https://www.edc.ca/en/solutions/financing/agri-food.html" class="source-link" target="_blank">↗ Apply / Learn more</a></div><div class="card" style="margin-bottom:8px;"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:var(--text-primary);">CFIA Export Certification</div><div style="font-family:var(--mono);font-size:11px;color:var(--green);">Nominal fee</div></div><p style="font-size:12px;color:var(--text-secondary);margin-bottom:6px;">Official Canadian export health certificates and phytosanitary certificates required for food and agricultural product export. Required for India, Indonesia, EU, and most markets.</p><p style="font-size:11px;color:var(--text-muted);margin-bottom:8px;">Best for: Market entry — many countries require CFIA certificates before first shipment</p><a href="https://inspection.canada.ca/exporting-food-animals-and-plants/food-exports/eng/1323723342834/1323723593891" class="source-link" target="_blank">↗ Apply / Learn more</a></div><div class="card" style="margin-bottom:8px;"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:var(--text-primary);">Pulse Canada Market Development</div><div style="font-family:var(--mono);font-size:11px;color:var(--green);">Free to members</div></div><p style="font-size:12px;color:var(--text-secondary);margin-bottom:6px;">Industry association providing market intelligence, buyer connections, and technical support for Canadian pulse exporters (lentils, chickpeas, peas, beans).</p><p style="font-size:11px;color:var(--text-muted);margin-bottom:8px;">Best for: India market entry — Pulse Canada has 25 years of India market relationships</p><a href="https://www.pulsecanada.com/market-access/" class="source-link" target="_blank">↗ Apply / Learn more</a></div><div class="card" style="margin-bottom:8px;"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:var(--text-primary);">Canola Council of Canada — Export Market Support</div><div style="font-family:var(--mono);font-size:11px;color:var(--green);">Free to members</div></div><p style="font-size:12px;color:var(--text-secondary);margin-bottom:6px;">Market development, technical support, and buyer connections for Canadian canola exporters. Active programs in Japan, Mexico, EU, and developing India/Indonesia canola oil markets.</p><p style="font-size:11px;color:var(--text-muted);margin-bottom:8px;">Best for: EU canola oil market access under CETA, Japan canola market relationships</p><a href="https://www.canolacouncil.org/markets-stats/international-markets/" class="source-link" target="_blank">↗ Apply / Learn more</a></div><div class="card" style="margin-bottom:8px;"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:var(--text-primary);">Major Projects Office — Agri-food Processing</div><div style="font-family:var(--mono);font-size:11px;color:var(--green);">Reference resource — no direct funding</div></div><p style="font-size:12px;color:var(--text-secondary);margin-bottom:6px;">Tracks major agri-food processing and storage infrastructure projects in Canada over $100M. Useful for identifying supply chain investment and co-location opportunities.</p><p style="font-size:11px;color:var(--text-muted);margin-bottom:8px;">Best for: Identifying where major agri-food processing capacity is being built — supply chain positioning</p><a href="https://www.canada.ca/en/impact-assessment-agency/services/major-projects-office.html" class="source-link" target="_blank">↗ Apply / Learn more</a></div><div class="card" style="margin-bottom:8px;"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:var(--text-primary);">Next Generation Manufacturing Canada (NGen)</div><div style="font-family:var(--mono);font-size:11px;color:var(--green);">Typically $1M–$20M per project (cost-shared 50/50 or better)</div></div><p style="font-size:12px;color:var(--text-secondary);margin-bottom:6px;">Canada's advanced manufacturing supercluster. Co-invests in projects that advance Canadian manufacturing technology — automation, Industry 4.0, materials, biomanufacturing.</p><p style="font-size:11px;color:var(--text-muted);margin-bottom:8px;">Best for: Automation adoption, precision manufacturing technology, supply chain integration projects</p><a href="https://www.ngen.ca/" class="source-link" target="_blank">↗ Apply / Learn more</a></div><div class="card" style="margin-bottom:8px;"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:var(--text-primary);">CME Export Market Development</div><div style="font-family:var(--mono);font-size:11px;color:var(--green);">Member services — varies by programme</div></div><p style="font-size:12px;color:var(--text-secondary);margin-bottom:6px;">Industry association programming for Canadian manufacturers entering export markets — trade missions, buyer introductions, export readiness assessment.</p><p style="font-size:11px;color:var(--text-muted);margin-bottom:8px;">Best for: First export market — US, EU, and Mexico. Trade missions to European Mittelstand buyers.</p><a href="https://cme-mec.ca/programs/" class="source-link" target="_blank">↗ Apply / Learn more</a></div><div class="card" style="margin-bottom:8px;"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:var(--text-primary);">Strategic Innovation Fund</div><div style="font-family:var(--mono);font-size:11px;color:var(--green);">$10M minimum project (ISED contribution typically 25-50%)</div></div><p style="font-size:12px;color:var(--text-secondary);margin-bottom:6px;">Large-scale funding for Canadian industrial innovation — automation, clean manufacturing, advanced materials, aerospace, auto. Requires significant scale.</p><p style="font-size:11px;color:var(--text-muted);margin-bottom:8px;">Best for: Major capacity expansion, technology upgrade, or new facility that has export market component</p><a href="https://ised-isde.canada.ca/site/strategic-innovation-fund/en" class="source-link" target="_blank">↗ Apply / Learn more</a></div><div class="card" style="margin-bottom:8px;"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:var(--text-primary);">EDC Supply Chain Financing</div><div style="font-family:var(--mono);font-size:11px;color:var(--green);">Flexible — from $500K working capital to large buyer financing programmes</div></div><p style="font-size:12px;color:var(--text-secondary);margin-bottom:6px;">Financing for Canadian manufacturers in export supply chains. Covers working capital gaps, buyer financing, and political risk on export contracts.</p><p style="font-size:11px;color:var(--text-muted);margin-bottom:8px;">Best for: Canadian auto parts, aerospace, and industrial suppliers in US, EU, or Mexican supply chains</p><a href="https://www.edc.ca/en/solutions/financing/supply-chain.html" class="source-link" target="_blank">↗ Apply / Learn more</a></div><div class="card" style="margin-bottom:8px;"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:var(--text-primary);">CUSMA Rules of Origin — Canadian Content Advantage</div><div style="font-family:var(--mono);font-size:11px;color:var(--green);">Cost savings — tariff elimination worth 5-25% on manufactured goods</div></div><p style="font-size:12px;color:var(--text-secondary);margin-bottom:6px;">Under CUSMA, goods with sufficient Canadian content qualify for zero-tariff access to US and Mexican markets. Canadian manufacturers can certify origin to win US procurement contracts that require domestic content.</p><p style="font-size:11px;color:var(--text-muted);margin-bottom:8px;">Best for: US automotive OEM supply chain, US federal procurement, IRA EV manufacturing credits</p><a href="https://www.cbsa-asfc.gc.ca/trade-commerce/cusma-aceum/index-eng.html" class="source-link" target="_blank">↗ Apply / Learn more</a></div><div class="card" style="margin-bottom:8px;"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:var(--text-primary);">CETA — Canadian Manufactured Goods to EU</div><div style="font-family:var(--mono);font-size:11px;color:var(--green);">Tariff savings of 3.7-14% on manufactured goods entering EU</div></div><p style="font-size:12px;color:var(--text-secondary);margin-bottom:6px;">Canada-EU CETA eliminates tariffs on 98% of Canadian manufactured goods exported to EU. Includes steel, aluminum, auto parts, industrial equipment, precision components.</p><p style="font-size:11px;color:var(--text-muted);margin-bottom:8px;">Best for: German Mittelstand supply chain, EU industrial procurement, UK (via separate CETA successor agreement)</p><a href="https://www.international.gc.ca/trade-commerce/trade-agreements-accords-commerciaux/agr-acc/ceta-aecg/index.aspx?lang=eng" class="source-link" target="_blank">↗ Apply / Learn more</a></div><div class="card" style="margin-bottom:8px;"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:var(--text-primary);">Buy Canadian / Procurement Strategy for Aboriginal Business</div><div style="font-family:var(--mono);font-size:11px;color:var(--green);">Access to federal contract opportunities</div></div><p style="font-size:12px;color:var(--text-secondary);margin-bottom:6px;">Federal procurement preference for Canadian suppliers. Canadian manufacturers can register as preferred vendors for DND, PSPC, and other federal departments.</p><p style="font-size:11px;color:var(--text-muted);margin-bottom:8px;">Best for: Defence procurement, infrastructure equipment, industrial goods for federal government</p><a href="https://www.canada.ca/en/public-services-procurement/services/acquisitions/suppliers.html" class="source-link" target="_blank">↗ Apply / Learn more</a></div><div class="card" style="margin-bottom:8px;"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:var(--text-primary);">Canada's Defence Industrial Strategy (2026)</div><div style="font-family:var(--mono);font-size:11px;color:var(--green);">Shapes $38.6B+ in procurement over 20 years</div></div><p style="font-size:12px;color:var(--text-secondary);margin-bottom:6px;">Canada's Defence Industrial Strategy (released February 2026) establishes six defence industrial base priorities: NORAD modernisation, cybersecurity, space, artificial intelligence, quantum, and directed energy. The strategy explicitly calls for SME access to defence procurement and building exportable Canadian defence industrial capacity.</p><p style="font-size:11px;color:var(--text-muted);margin-bottom:8px;">Best for: Companies in any of the six priority areas — especially cyber, AI, and space firms who may not think of themselves as 'defence' companies. A DND contract in these areas is an internationally recognised export credential for NATO, Five Eyes, and allied procurement.</p><a href="https://www.canada.ca/en/department-national-defence/corporate/reports-publications/canada-defence-industrial-strategy.html" class="source-link" target="_blank">↗ Apply / Learn more</a></div><div class="card" style="margin-bottom:8px;"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:var(--text-primary);">Industrial and Technological Benefits (ITB) Policy</div><div style="font-family:var(--mono);font-size:11px;color:var(--green);">Value obligation equal to contract value (100% or greater)</div></div><p style="font-size:12px;color:var(--text-secondary);margin-bottom:6px;">When foreign companies win major Canadian defence contracts, ITB requires them to spend equivalent value in Canada — creating a direct business development channel for Canadian suppliers. Applies to all DND and PSPC contracts over $100M.</p><p style="font-size:11px;color:var(--text-muted);margin-bottom:8px;">Best for: Smaller Canadian companies that want to get into a major prime contractor's supply chain. Primes like Lockheed Martin, Boeing, Rheinmetall, and BAE Systems all have active ITB obligations in Canada and are actively seeking qualified Canadian subcontractors.</p><a href="https://ised-isde.canada.ca/site/industrial-technological-benefits/en" class="source-link" target="_blank">↗ Apply / Learn more</a></div><div class="card" style="margin-bottom:8px;"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:var(--text-primary);">NORAD Modernisation — $38.6B Continental Defence Procurement</div><div style="font-family:var(--mono);font-size:11px;color:var(--green);">$38.6B total (2022-2040)</div></div><p style="font-size:12px;color:var(--text-secondary);margin-bottom:6px;">Canada's $38.6B NORAD modernisation investment (2022-2040) is the largest Canadian defence investment in decades. Six streams: northern sensing, arctic/continental surveillance, command and control, cyber, space, and northern infrastructure. Each stream is actively procuring — many contracts open to Canadian SMEs.</p><p style="font-size:11px;color:var(--text-muted);margin-bottom:8px;">Best for: A NORAD contract is the highest-value export credential available to a Canadian defence/aerospace/cyber company. Opens doors with all Five Eyes defence ministries and NATO allied procurement. DSCA FMS supply chains often reference NORAD qualification.</p><a href="https://www.canada.ca/en/department-national-defence/news/2022/06/strong-secure-engaged-defence-policy.html" class="source-link" target="_blank">↗ Apply / Learn more</a></div><div class="card" style="margin-bottom:8px;"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:var(--text-primary);">Scale AI — AI Supercluster</div><div style="font-family:var(--mono);font-size:11px;color:var(--green);">Typically $500K–$5M per project (cost-shared)</div></div><p style="font-size:12px;color:var(--text-secondary);margin-bottom:6px;">Canada's AI supercluster. Co-invests in projects applying AI to supply chain, retail, transportation, and manufacturing. Focus on Canadian AI companies building exportable AI products with domestic deployment first.</p><p style="font-size:11px;color:var(--text-muted);margin-bottom:8px;">Best for: AI companies building supply chain, logistics, or manufacturing AI that has export market potential</p><a href="https://www.scaleai.ca/" class="source-link" target="_blank">↗ Apply / Learn more</a></div><div class="card" style="margin-bottom:8px;"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:var(--text-primary);">Canada Digital Adoption Programme (CDAP)</div><div style="font-family:var(--mono);font-size:11px;color:var(--green);">Up to $15K grant + up to $100K interest-free loan</div></div><p style="font-size:12px;color:var(--text-secondary);margin-bottom:6px;">Funds Canadian SMEs to adopt digital technology and build digital export capability. Includes Boost Your Business Technology grants and digital advisors programme.</p><p style="font-size:11px;color:var(--text-muted);margin-bottom:8px;">Best for: Tech-enabled service companies building digital export channels — ecommerce, SaaS, digital platforms</p><a href="https://ised-isde.canada.ca/site/canada-digital-adoption-program/en" class="source-link" target="_blank">↗ Apply / Learn more</a></div><div class="card" style="margin-bottom:8px;"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:var(--text-primary);">CanExport Innovation</div><div style="font-family:var(--mono);font-size:11px;color:var(--green);">Up to $75K (75% match — higher than CanExport SME)</div></div><p style="font-size:12px;color:var(--text-secondary);margin-bottom:6px;">Supports Canadian innovative companies (not just SMEs) in developing international R&D partnerships and commercialising technology in foreign markets. Different from CanExport SME — designed for tech and IP-intensive companies.</p><p style="font-size:11px;color:var(--text-muted);margin-bottom:8px;">Best for: AI, cybersecurity, cleantech, and software companies entering EU, US, or APAC markets</p><a href="https://nrc.canada.ca/en/research-development/research-collaboration/programs/canexport-innovation" class="source-link" target="_blank">↗ Apply / Learn more</a></div><div class="card" style="margin-bottom:8px;"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:var(--text-primary);">Canadian Space Agency — Export Development</div><div style="font-family:var(--mono);font-size:11px;color:var(--green);">Varies by programme</div></div><p style="font-size:12px;color:var(--text-secondary);margin-bottom:6px;">CSA supports Canadian space technology companies in commercialising internationally. AUKUS and Five Eyes space technology collaboration creates specific export pathways for Canadian satellite, Earth observation, and space situational awareness companies.</p><p style="font-size:11px;color:var(--text-muted);margin-bottom:8px;">Best for: Satellite communications, Earth observation, space situational awareness — aligned with NORAD modernisation space stream</p><a href="https://www.asc-csa.gc.ca/eng/" class="source-link" target="_blank">↗ Apply / Learn more</a></div><div class="card" style="margin-bottom:8px;"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:var(--text-primary);">Communitech / MaRS Export Accelerator</div><div style="font-family:var(--mono);font-size:11px;color:var(--green);">Programme services (no direct cash grant) — but TCS introductions and market access</div></div><p style="font-size:12px;color:var(--text-secondary);margin-bottom:6px;">Canadian tech accelerator programmes with dedicated export market development tracks. Communitech (Waterloo) has US market entry programming. MaRS (Toronto) has EU and global market development. Both have Trade Commissioner Service partnerships.</p><p style="font-size:11px;color:var(--text-muted);margin-bottom:8px;">Best for: SaaS, AI, fintech, healthtech companies entering US or EU market for first time</p><a href="https://www.communitech.ca/" class="source-link" target="_blank">↗ Apply / Learn more</a></div>
+
+    <!-- SOURCES -->
+    <div class="section-header" id="section-sources">
+      <span class="section-title">Sources</span>
+      <span class="label">All Primary</span>
+    </div>
+    <div class="card">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;">
+        <span class="source-link">OFAC SDN</span><span class="source-link">BIS Entity List</span><span class="source-link">UN Consolidated</span><span class="source-link">Canada Gazette</span><span class="source-link">Global Affairs Canada</span><span class="source-link">EDC</span><span class="source-link">NRCan</span><span class="source-link">Trade Commissioner Service</span><span class="source-link">LME</span><span class="source-link">Trading Economics</span><span class="source-link">Reuters</span><span class="source-link">Mining.com</span><span class="source-link">Northern Miner</span><span class="source-link">Active Web Search</span>
+      </div>
+      <p style="font-size:11px;color:var(--text-muted);line-height:1.7;">
+        Market scores generated by Claude AI using live data, reviewed and approved
+        by human analyst before publication. Active web search runs weekly to surface
+        new developments beyond monitored feeds. For informational purposes only.
+        Not legal, compliance, or financial advice.
+      </p>
+    </div>
+
+  </div>
+</div>
+<script>
+function toggleDepth(id) {
+  const c = document.getElementById('depth-' + id);
+  const t = document.getElementById('toggle-' + id);
+  const a = document.getElementById('arrow-' + id);
+  if (!c) return;
+  const open = c.classList.contains('visible');
+  c.classList.toggle('visible', !open);
+  t.classList.toggle('open', !open);
+  a.textContent = open ? '▶' : '▼';
+}
+</script>
+</body>
+</html>
