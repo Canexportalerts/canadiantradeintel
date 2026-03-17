@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Critical Minerals & Cleantech — Issue #001 — Canadian Trade Intel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600;1,700&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --brand:       #8b0000;
+    --brand-dark:  #1a0505;
+    --brand-mid:   #a8d5bc;
+    --sector:      #1a6b42;
+    --sector-dark: #0d3d22;
+    --sector-light:#f4faf7;
+    --sector-mid:  #a8d5bc;
+    --amber:       #996600;
+    --amber-light: #fffbf0;
+    --risk:        #c62828;
+    --cream:       #f8f6f2;
+    --ink:         #1a1a14;
+    --ink-mid:     #3a3a30;
+    --ink-light:   #666658;
+    --rule:        #e0dcd4;
+    --masthead-bg: #1a0505;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    line-height: 1.6;
+  }
+
+  a { color: var(--sector); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* ── STICKY NAV ── */
+  .sticky-nav {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--masthead-bg);
+    border-bottom: 1px solid rgba(168,213,188,0.15);
+    padding: 0 40px;
+  }
+  .sticky-nav-inner {
+    max-width: 1100px; margin: 0 auto;
+    display: flex; align-items: center;
+    justify-content: space-between; height: 46px;
+  }
+  .sticky-nav-brand {
+    font-family: 'DM Mono', monospace; font-size: 9px;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--sector-mid); text-decoration: none;
+  }
+  .sticky-nav-links { display: flex; gap: 24px; }
+  .sticky-nav-links a {
+    font-family: 'DM Mono', monospace; font-size: 8px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: rgba(255,255,255,0.35); text-decoration: none;
+    transition: color 0.18s;
+  }
+  .sticky-nav-links a:hover { color: var(--sector-mid); }
+
+  /* ── MASTHEAD ── */
+  .masthead {
+    background: var(--masthead-bg);
+    padding: 48px 40px 40px;
+    border-bottom: 3px solid var(--brand);
+  }
+  .masthead-inner { max-width: 1100px; margin: 0 auto; }
+  .masthead-eyebrow {
+    display: flex; align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+  }
+  .sector-badge {
+    font-family: 'DM Mono', monospace; font-size: 9px;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--sector-mid);
+    border: 1px solid rgba(168,213,188,0.25);
+    padding: 5px 12px;
+  }
+  .issue-meta {
+    font-family: 'DM Mono', monospace; font-size: 8px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: rgba(255,255,255,0.25);
+  }
+  .masthead h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(26px, 3.5vw, 44px);
+    font-weight: 700; font-style: italic;
+    color: #f0f0e8; line-height: 1.15; margin-bottom: 14px;
+    max-width: 820px;
+  }
+  .masthead-summary {
+    font-size: 14px; color: rgba(240,240,232,0.55);
+    line-height: 1.8; max-width: 720px; margin-bottom: 24px;
+  }
+  .masthead-stats {
+    display: flex; gap: 0;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding-top: 18px; flex-wrap: wrap;
+  }
+  .masthead-stat {
+    padding: 0 24px 0 0; margin-right: 24px;
+    border-right: 1px solid rgba(255,255,255,0.08);
+  }
+  .masthead-stat:last-child { border-right: none; }
+  .masthead-stat-label {
+    font-family: 'DM Mono', monospace; font-size: 7px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: rgba(255,255,255,0.3); margin-bottom: 4px;
+  }
+  .masthead-stat-value {
+    font-family: 'DM Mono', monospace; font-size: 11px;
+    color: var(--sector-mid); font-weight: 500;
+  }
+
+  /* ── GATE BANNER ── */
+  .gate-banner {
+    background: #7a6000;
+    border-bottom: 2px solid #c8a000;
+    padding: 12px 40px;
+  }
+  .gate-banner-inner {
+    max-width: 1100px; margin: 0 auto;
+    display: flex; align-items: center;
+    justify-content: space-between; gap: 24px;
+  }
+  .gate-banner p {
+    font-size: 13px; color: #fffbe8; line-height: 1.5;
+  }
+  .gate-btn {
+    font-family: 'DM Mono', monospace; font-size: 8px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    background: #8b0000; color: #fff;
+    padding: 9px 18px; white-space: nowrap;
+    text-decoration: none; border-radius: 2px;
+    transition: background 0.18s;
+  }
+  .gate-btn:hover { background: #5a0000; text-decoration: none; }
+
+  /* ── REPORT NAV ── */
+  .report-nav {
+    background: #fff;
+    border-bottom: 1px solid var(--rule);
+    padding: 0 40px; position: sticky; top: 46px; z-index: 90;
+  }
+  .report-nav-inner {
+    max-width: 1100px; margin: 0 auto;
+    display: flex; gap: 0; overflow-x: auto;
+  }
+  .report-nav a {
+    font-family: 'DM Mono', monospace; font-size: 8px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--ink-light); padding: 13px 18px 11px;
+    text-decoration: none; white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: all 0.18s;
+  }
+  .report-nav a:hover, .report-nav a.active {
+    color: var(--brand);
+    border-bottom-color: var(--brand);
+    text-decoration: none;
+  }
+
+  /* ── REPORT BODY ── */
+  .report-body {
+    max-width: 1100px; margin: 0 auto;
+    padding: 48px 40px 80px;
+  }
+
+  /* ── SECTION HEADERS ── */
+  .section-header {
+    display: flex; align-items: baseline; gap: 14px;
+    margin-bottom: 24px; padding-bottom: 10px;
+    border-bottom: 2px solid var(--brand);
+  }
+  .section-label {
+    font-family: 'DM Mono', monospace; font-size: 8px;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--brand);
+  }
+  .section-rule { flex: 1; height: 1px; background: var(--rule); }
+  .mb-56 { margin-bottom: 56px; }
+
+  /* ── EXEC SUMMARY ── */
+  .exec-summary {
+    display: grid; grid-template-columns: 1fr 280px; gap: 32px;
+  }
+  .exec-summary-text h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px; font-weight: 600; font-style: italic;
+    color: var(--ink); margin-bottom: 14px; line-height: 1.3;
+  }
+  .exec-summary-text p {
+    font-size: 13px; color: var(--ink-mid);
+    line-height: 1.8; margin-bottom: 12px;
+  }
+
+  /* ── COMMODITY PANEL ── */
+  .commodity-panel {
+    background: #fff; border: 1px solid var(--rule);
+    border-top: 3px solid var(--sector); padding: 18px 20px;
+  }
+  .commodity-panel-title {
+    font-family: 'DM Mono', monospace; font-size: 8px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--ink-light); margin-bottom: 12px;
+    padding-bottom: 8px; border-bottom: 1px solid var(--rule);
+  }
+  .commodity-row {
+    display: flex; justify-content: space-between;
+    align-items: flex-start; padding: 8px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .commodity-row:last-child { border-bottom: none; }
+  .commodity-name {
+    font-family: 'DM Mono', monospace; font-size: 9px;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--ink-light);
+  }
+  .commodity-note { font-size: 10px; color: var(--ink-light); }
+  .commodity-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px; font-weight: 600; color: var(--ink);
+  }
+  .commodity-change {
+    font-family: 'DM Mono', monospace; font-size: 9px;
+    text-align: right;
+  }
+  .commodity-change.up { color: var(--sector); }
+  .commodity-change.down { color: var(--risk); }
+  .commodity-change.flat { color: var(--ink-light); }
+
+  /* ── SIGNAL CARDS ── */
+  .signals-grid { display: flex; flex-direction: column; gap: 20px; }
+  .signal-card {
+    background: #fff; border: 1px solid var(--rule);
+    border-left: 4px solid var(--sector); padding: 22px 24px;
+  }
+  .signal-card.risk { border-left-color: var(--risk); }
+  .signal-card.watch { border-left-color: var(--amber); }
+  .signal-flag {
+    font-family: 'DM Mono', monospace; font-size: 9px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--ink-light); margin-bottom: 8px;
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  }
+  .urgency-tag {
+    font-family: 'DM Mono', monospace; font-size: 7px;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 3px 8px; border-radius: 2px;
+  }
+  .urgency-now { background: var(--risk); color: #fff; }
+  .urgency-quarter { background: var(--amber); color: #fff; }
+  .urgency-watch { background: var(--ink-light); color: #fff; }
+  .signal-headline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px; font-weight: 600; font-style: italic;
+    color: var(--ink); line-height: 1.3; margin-bottom: 10px;
+  }
+  .signal-body {
+    font-size: 13px; color: var(--ink-mid);
+    line-height: 1.8; margin-bottom: 12px;
+  }
+  .signal-what-means {
+    background: var(--sector-light);
+    border: 1px solid var(--sector-mid);
+    padding: 12px 14px; margin-bottom: 10px;
+    font-size: 12px; color: var(--sector-dark); line-height: 1.65;
+  }
+  .signal-what-means.risk-means {
+    background: #fff5f5; border-color: #f0c0c0; color: #5a2020;
+  }
+  .signal-what-label {
+    font-family: 'DM Mono', monospace; font-size: 7px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--sector); display: block; margin-bottom: 4px;
+  }
+  .signal-what-means.risk-means .signal-what-label { color: var(--risk); }
+  .signal-source {
+    font-family: 'DM Mono', monospace; font-size: 8px;
+    letter-spacing: 0.08em; color: var(--ink-light);
+    line-height: 1.6;
+  }
+  .signal-source a { color: var(--ink-light); text-decoration: underline; }
+
+  /* ── ACTION CARDS ── */
+  .actions-list { display: flex; flex-direction: column; gap: 20px; }
+  .action-card {
+    background: #fff; border: 1px solid var(--rule);
+    border-top: 2px solid var(--brand);
+    padding: 22px 24px; display: flex; gap: 20px;
+  }
+  .action-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 52px; font-weight: 600;
+    color: rgba(139,0,0,0.2); line-height: 1;
+    flex-shrink: 0; width: 48px;
+  }
+  .action-content-header {
+    display: flex; align-items: flex-start;
+    gap: 12px; margin-bottom: 10px; flex-wrap: wrap;
+  }
+  .action-headline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px; font-weight: 600; font-style: italic;
+    color: var(--ink); line-height: 1.3; flex: 1;
+  }
+  .action-body {
+    font-size: 13px; color: var(--ink-mid);
+    line-height: 1.75; margin-bottom: 12px;
+  }
+  .action-steps {
+    list-style: none; border-top: 1px solid var(--rule);
+    padding-top: 12px;
+  }
+  .action-steps li {
+    font-size: 12px; color: var(--ink-mid);
+    padding: 7px 0; border-bottom: 1px solid var(--rule);
+    line-height: 1.6; padding-left: 16px; position: relative;
+  }
+  .action-steps li::before {
+    content: '→'; position: absolute; left: 0;
+    color: var(--brand); font-family: 'DM Mono', monospace;
+    font-size: 10px;
+  }
+  .action-steps li:last-child { border-bottom: none; }
+  .action-steps li strong { color: var(--ink); }
+
+  /* ── PATHWAY CARDS ── */
+  .pathways-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+  }
+  .pathway-card {
+    background: #fff; border: 1px solid var(--rule);
+    padding: 20px 22px;
+    transition: box-shadow 0.18s;
+  }
+  .pathway-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+  .pathway-header {
+    display: flex; justify-content: space-between;
+    align-items: flex-start; gap: 12px; margin-bottom: 14px;
+    padding-bottom: 12px; border-bottom: 1px solid var(--rule);
+  }
+  .pathway-market {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px; font-weight: 600; font-style: italic;
+    color: var(--ink); line-height: 1.3;
+  }
+  .pathway-product {
+    font-family: 'DM Mono', monospace; font-size: 8px;
+    letter-spacing: 0.1em; color: var(--ink-light);
+    margin-top: 3px;
+  }
+  .pathway-difficulty {
+    font-family: 'DM Mono', monospace; font-size: 7px;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--sector); border: 1px solid var(--sector-mid);
+    padding: 3px 8px; white-space: nowrap; flex-shrink: 0;
+  }
+  .pathway-steps {
+    list-style: none; margin-bottom: 14px;
+  }
+  .pathway-steps li {
+    font-size: 12px; color: var(--ink-mid);
+    padding: 7px 0 7px 20px; border-bottom: 1px solid var(--rule);
+    line-height: 1.6; position: relative; counter-increment: step;
+  }
+  .pathway-steps li::before {
+    content: counter(step);
+    position: absolute; left: 0;
+    font-family: 'DM Mono', monospace; font-size: 9px;
+    color: var(--sector); font-weight: 600;
+  }
+  .pathway-steps { counter-reset: step; }
+  .pathway-steps li:last-child { border-bottom: none; }
+  .pathway-steps li strong { color: var(--ink); }
+  .pathway-tcs {
+    font-family: 'DM Mono', monospace; font-size: 8px;
+    letter-spacing: 0.08em; color: var(--ink-light);
+    background: var(--cream); padding: 8px 10px;
+    line-height: 1.6;
+  }
+
+  /* ── WATCH CARDS ── */
+  .watch-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+  }
+  .watch-card {
+    background: #fff; border: 1px solid var(--rule);
+    border-top: 3px solid var(--amber); padding: 18px 18px;
+  }
+  .watch-date {
+    font-family: 'DM Mono', monospace; font-size: 8px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--amber); margin-bottom: 8px;
+  }
+  .watch-headline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px; font-weight: 600; font-style: italic;
+    color: var(--ink); line-height: 1.3; margin-bottom: 8px;
+  }
+  .watch-body {
+    font-size: 12px; color: var(--ink-mid); line-height: 1.65;
+  }
+
+  /* ── SPOTLIGHT ── */
+  .spotlight-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+  }
+  .spotlight-card {
+    background: #fff; border: 1px solid var(--rule);
+  }
+  .spotlight-card-header {
+    background: var(--sector-light);
+    border-bottom: 1px solid var(--rule);
+    padding: 14px 20px;
+  }
+  .spotlight-card-eyebrow {
+    font-family: 'DM Mono', monospace; font-size: 8px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--sector); margin-bottom: 4px;
+  }
+  .spotlight-card-company {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px; font-weight: 600; font-style: italic;
+    color: var(--ink);
+  }
+  .spotlight-card-body { padding: 18px 20px; }
+  .spotlight-card-headline {
+    font-size: 14px; font-weight: 600; color: var(--ink);
+    margin-bottom: 10px; line-height: 1.4;
+  }
+  .spotlight-card-text {
+    font-size: 13px; color: var(--ink-mid);
+    line-height: 1.8; margin-bottom: 14px;
+  }
+  .spotlight-card-lesson {
+    background: var(--sector-light);
+    border-left: 3px solid var(--sector);
+    padding: 12px 14px;
+    font-size: 12px; color: var(--sector-dark); line-height: 1.65;
+  }
+  .spotlight-card-lesson strong {
+    display: block;
+    font-family: 'DM Mono', monospace; font-size: 7px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--sector); margin-bottom: 4px;
+  }
+
+  /* ── REPORT FOOTER ── */
+  .report-footer {
+    background: var(--masthead-bg); padding: 36px 40px;
+  }
+  .report-footer-inner {
+    max-width: 1100px; margin: 0 auto;
+    display: flex; justify-content: space-between;
+    align-items: flex-start;
+  }
+  .report-footer-brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px; font-style: italic;
+    color: #f0f0e8; margin-bottom: 8px;
+  }
+  .report-footer-meta {
+    font-family: 'DM Mono', monospace; font-size: 8px;
+    color: rgba(168,213,188,0.35); letter-spacing: 0.08em;
+    line-height: 1.8;
+  }
+  .report-footer-links {
+    display: flex; flex-direction: column;
+    gap: 8px; text-align: right;
+  }
+  .report-footer-links a {
+    font-family: 'DM Mono', monospace; font-size: 8px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: rgba(168,213,188,0.45); text-decoration: none;
+    transition: color 0.2s;
+  }
+  .report-footer-links a:hover { color: var(--sector-mid); }
+
+  @media (max-width: 768px) {
+    .sticky-nav { padding: 0 16px; }
+    .masthead { padding: 32px 16px 28px; }
+    .gate-banner { padding: 10px 16px; }
+    .report-nav { padding: 0 16px; }
+    .report-body { padding: 28px 16px 60px; }
+    .exec-summary { grid-template-columns: 1fr; }
+    .pathways-grid { grid-template-columns: 1fr; }
+    .watch-grid { grid-template-columns: 1fr 1fr; }
+    .spotlight-grid { grid-template-columns: 1fr; }
+    .report-footer { padding: 28px 16px; }
+    .report-footer-inner { flex-direction: column; gap: 20px; }
+    .report-footer-links { text-align: left; }
+    .action-card { flex-direction: column; gap: 8px; }
+    .action-number { font-size: 32px; width: auto; }
+  }
+</style>
+</head>
+<body>
+
+<!-- SAMPLE NOTICE (remove for live issues) -->
+<!-- Uncomment the line below for sample reports:
+<div style="background:#f0f8f4;border-bottom:2px solid #1a6b42;padding:10px 40px;text-align:center;position:sticky;top:0;z-index:300;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#0d3d22;">For informational purposes only · Not legal or financial advice</span></div>
+-->
+
+<!-- STICKY NAV -->
+<nav class="sticky-nav">
+  <div class="sticky-nav-inner">
+    <a href="https://canadiantradeintel.ca" class="sticky-nav-brand">🇨🇦 Canadian Trade Intel</a>
+    <div class="sticky-nav-links">
+      <a href="#signals">Signals</a>
+      <a href="#actions">Actions</a>
+      <a href="#pathways">Market Entry</a>
+      <a href="#watch">Watch For</a>
+      <a href="#spotlight">Spotlight</a>
+      <a href="https://canadiantradeintel.ca/reports">All Reports</a>
+    </div>
+  </div>
+</nav>
+
+<!-- MASTHEAD -->
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="masthead-eyebrow">
+      <span class="sector-badge">⚗ Critical Minerals & Cleantech</span>
+      <span class="issue-meta">ISSUE #001 &nbsp;·&nbsp; March 16, 2026 &nbsp;·&nbsp; ~12 MIN READ</span>
+    </div>
+    <h1>Export Risk Level: Low This week shows no confirmed changes</h1>
+    <p class="masthead-summary">
+      However, the Canada Gazette summaries lack sufficient detail to definitively assess potential regulatory updates that could affect export operations.
+    </p>
+    <div class="masthead-stats">
+      <div class="masthead-stat">
+        <div class="masthead-stat-label">Signals</div>
+        <div class="masthead-stat-value">6</div>
+      </div>
+      <div class="masthead-stat">
+        <div class="masthead-stat-label">Opportunities</div>
+        <div class="masthead-stat-value">4</div>
+      </div>
+      <div class="masthead-stat">
+        <div class="masthead-stat-label">Risks</div>
+        <div class="masthead-stat-value">3</div>
+      </div>
+      <div class="masthead-stat">
+        <div class="masthead-stat-label">Immediate</div>
+        <div class="masthead-stat-value">3</div>
+      </div>
+      <div class="masthead-stat">
+        <div class="masthead-stat-label">Markets Scored</div>
+        <div class="masthead-stat-value">7</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- GATE BANNER — static until Memberstack -->
+<div class="gate-banner" id="gate-banner">
+  <div class="gate-banner-inner">
+    <p>
+      <strong>Full report — subscribers only.</strong>
+      This report is included in the <strong>Critical Minerals & Cleantech</strong> sector plan.
+      Not subscribed? Choose a plan to unlock full reports, step-by-step actions, and market entry pathways.
+    </p>
+    <a href="https://canadiantradeintel.ca/pricing" class="gate-btn">See Plans →</a>
+  </div>
+</div>
+
+<!-- REPORT SECTION NAV -->
+<nav class="report-nav">
+  <div class="report-nav-inner">
+    <a href="#summary">Overview</a>
+    <a href="#signals">Signals (6)</a>
+    <a href="#actions">Actions (4)</a>
+    <a href="#pathways">Market Entry</a>
+    <a href="#watch">Watch For These</a>
+    <a href="#spotlight">Canadian Spotlight</a>
+  </div>
+</nav>
+
+<!-- REPORT BODY -->
+<main class="report-body">
+
+  <!-- EXECUTIVE SUMMARY -->
+  <section id="summary" class="mb-56">
+    <div class="section-header">
+      <span class="section-label">Weekly Overview</span>
+      <div class="section-rule"></div>
+    </div>
+    <div class="exec-summary">
+      <div class="exec-summary-text">
+        <h2>This week's intelligence — Week of March 16, 2026</h2>
+        <p>Export Risk Level: Low
+
+This week shows no confirmed changes to major sanctions lists (US OFAC, UN Security Council) or export control restrictions, suggesting minimal new compliance exposure for Canadian manufacturers. However, the Canada Gazette summaries lack sufficient detail to definitively assess potential regulatory updates that could affect export operations.
+
+Action required: Review full Canada Gazette publications directly to identify any trade-related regulatory changes that may have been published but not captured in this week's summary data.</p>
+      </div>
+      <div>
+        <div class="commodity-panel">
+          <div class="commodity-panel-title">Commodity Prices · March 16, 2026</div>
+          
+          <div class="commodity-row">
+            <div>
+              <div class="commodity-name">Uranium (U3O8)</div>
+              <div class="commodity-note"></div>
+            </div>
+            <div style="text-align:right;">
+              <div class="commodity-price">68.5</div>
+              <div class="commodity-change flat">{'pct': 0.0, 'direction': 'flat', 'arrow': '→'}</div>
+            </div>
+          </div>
+          <div class="commodity-row">
+            <div>
+              <div class="commodity-name">Lithium Carbonate</div>
+              <div class="commodity-note"></div>
+            </div>
+            <div style="text-align:right;">
+              <div class="commodity-price">9200.0</div>
+              <div class="commodity-change flat">{'pct': 0.0, 'direction': 'flat', 'arrow': '→'}</div>
+            </div>
+          </div>
+          <div class="commodity-row">
+            <div>
+              <div class="commodity-name">Cobalt</div>
+              <div class="commodity-note"></div>
+            </div>
+            <div style="text-align:right;">
+              <div class="commodity-price">24800.0</div>
+              <div class="commodity-change flat">{'pct': 0.0, 'direction': 'flat', 'arrow': '→'}</div>
+            </div>
+          </div>
+          <div class="commodity-row">
+            <div>
+              <div class="commodity-name">Nickel</div>
+              <div class="commodity-note"></div>
+            </div>
+            <div style="text-align:right;">
+              <div class="commodity-price">15400.0</div>
+              <div class="commodity-change flat">{'pct': 0.0, 'direction': 'flat', 'arrow': '→'}</div>
+            </div>
+          </div>
+          <div class="commodity-row">
+            <div>
+              <div class="commodity-name">Copper</div>
+              <div class="commodity-note"></div>
+            </div>
+            <div style="text-align:right;">
+              <div class="commodity-price">9850.0</div>
+              <div class="commodity-change flat">{'pct': 0.0, 'direction': 'flat', 'arrow': '→'}</div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:12px;padding:12px 14px;background:#fff;border:1px solid var(--rule);">
+          <div style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:8px;">CAD Exchange · March 16, 2026</div>
+          <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--ink);">
+            Prices shown are context only. For real-time prices see weekly digest.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SIGNALS -->
+  <section id="signals" class="mb-56">
+    <div class="section-header">
+      <span class="section-label">⚡ Intelligence Signals This Week</span>
+      <div class="section-rule"></div>
+    </div>
+    <div class="signals-grid">
+      
+      <div class="signal-card ">
+        <div class="signal-flag">
+           · Canada Agri Trade
+          <span class="urgency-tag urgency-now">Immediate</span>
+        </div>
+        <div class="signal-headline">Canada secured major trade agreement with China on January 16, 2026, cutting canola seed tariffs from 84% to 15% by Marc</div>
+        <div class="signal-body"><cite index="2-1,2-4">China is expected to lower combined tariffs on Canadian canola seed to approximately 15%, down from current levels near 85%, by March 1, 2026</cite>. <cite index="2-7">Canadian canola meal, peas, lobsters, and crabs will be exempt from anti-discrimination tariffs beginning March 1, 2026, until at least the end of the year</cite>. <cite index="4-3,4-4">China's final ruling implemented a 5.9 percent anti-dumping tariff plus 9 percent import duty on Canadian canola seed, alongside suspension of 100 percent tariffs on canola meal effective March 1</cite>.</div>
+        <div class="signal-what-means"><span class="signal-what-label">What This Means For You</span><cite index="2-5,2-6">China represents a $4-billion market for Canadian canola producers, making the tariff reduction one of the most consequential agricultural trade developments for Canada in recent years, expected to restore competitiveness for Canadian farmers and exporters</cite>. <cite index="3-9">The agreement provides welcome clarity for farmers heading into the 2026 seeding season</cite>.</div>
+        <div class="signal-source">Source: <a href="https://www.seedworld.com/canada/2026/01/16/canada-secures-major-canola-and-agriculture-trade-breakthrough-in-new-china-partnership/">Seed World</a></div>
+      </div>
+      <div class="signal-card ">
+        <div class="signal-flag">
+           · China Canola
+          <span class="urgency-tag urgency-now">Immediate</span>
+        </div>
+        <div class="signal-headline">China's MOFCOM announced final anti-dumping determination on February 28, 2026, establishing 5.9% anti-dumping duty on C</div>
+        <div class="signal-body"><cite index="22-10,22-11,22-12">China's Ministry of Commerce announced a final determination establishing a 5.9% anti-dumping duty on Canadian canola seed imports for five years, which will be added to the pre-existing 9% MFN duty, resulting in total duties of 14.9%</cite>. <cite index="22-13,22-14">MOFCOM also announced an adjustment of the 100% tariff on canola meal to 0% for March 1, 2026 to December 31, 2026, allowing meal to trade into China tariff free</cite>. <cite index="22-16">Canola oil continues to be subject to a tariff of 100%</cite>.</div>
+        <div class="signal-what-means"><span class="signal-what-label">What This Means For You</span>The final anti-dumping ruling provides certainty for Canadian canola exporters after months of investigation uncertainty. <cite index="5-8,5-9">Canadian exports of canola and canola products to China were valued at approximately $5 billion in 2024, with 2025 export value expected to plummet to less than half that amount</cite>.</div>
+        <div class="signal-source">Source: <a href="https://www.canolacouncil.org/china-update/">Canola Council of Canada</a></div>
+      </div>
+      <div class="signal-card ">
+        <div class="signal-flag">
+           · Wasde Wheat
+          <span class="urgency-tag urgency-quarter">This Quarter</span>
+        </div>
+        <div class="signal-headline">USDA February 19, 2026 outlook projects 6% decline in US wheat production to 1.86 billion bushels for 2026/27 marketing </div>
+        <div class="signal-body">The USDA's February 19, 2026 Grains and Oilseeds Outlook shows US wheat production projected to drop 6% to 1,860 million bushels due to reduced harvested area and lower yields. Total wheat planted area for 2026/27 is forecast at 45.0 million acres, down 0.3 million acres from last year. The outlook also shows stronger soybean production expectations with planted area forecast to rise nearly 4 million acres, reflecting stronger profitability compared to other crops.</div>
+        <div class="signal-what-means"><span class="signal-what-label">What This Means For You</span>Lower US wheat production creates export opportunities for Canadian wheat producers. The USDA report notes heightened Northern Hemisphere competition from Russia, EU and Canada with collective exportable supplies similar to 2025-26, positioning Canada well to capture market share.</div>
+        <div class="signal-source">Source: <a href="https://www.usda.gov/sites/default/files/documents/2026AOF-grains-oilseeds-outlook.pdf">USDA World Agricultural Outlook Board</a></div>
+      </div>
+      <div class="signal-card ">
+        <div class="signal-flag">
+           · Eu Food Access
+          <span class="urgency-tag urgency-quarter">This Quarter</span>
+        </div>
+        <div class="signal-headline">EU-Canada CETA Joint Committee met March 5, 2026, announcing plans for Senior Officials' meetings to address agri-food s</div>
+        <div class="signal-body"><cite index="12-7,12-8">European Commissioner Šefčovič and Canadian Minister Sidhu co-chaired the fifth CETA Joint Committee meeting on March 5, 2026, and formally launched EU-Canada Digital Trade Agreement negotiations</cite>. <cite index="12-11,12-12">The CETA Committee on Agriculture and Joint Management Committee for SPS Measures have been actively reducing barriers, with a Senior Officials' meeting planned to address priority agri-food sector concerns</cite>. <cite index="12-21,12-22">Since 2017, two-way trade in goods has surged by over 75%, and bilateral trade in services has grown by 9</div>
+        <div class="signal-what-means"><span class="signal-what-label">What This Means For You</span>The planned Senior Officials' meeting on agri-food barriers represents a direct opportunity for Canadian exporters to resolve persistent market access issues. CETA's continued success with 75% growth in goods trade demonstrates the agreement's value for Canadian agricultural producers seeking EU market access.</div>
+        <div class="signal-source">Source: <a href="https://policy.trade.ec.europa.eu/news/driving-shared-prosperity-boosting-eu-canada-trade-through-ceta-2026-03-05_en">European Commission Trade Policy</a></div>
+      </div>
+      <div class="signal-card risk">
+        <div class="signal-flag">
+           · Potash Fertilizer
+          <span class="urgency-tag urgency-now">Immediate</span>
+        </div>
+        <div class="signal-headline">Trump administration launches DOJ price-fixing investigation targeting Canadian fertilizer companies including Nutrien, </div>
+        <div class="signal-body">President Trump announced Monday a Department of Justice investigation into alleged price-fixing by foreign fertilizer companies and threatened tariffs on Canadian imports. Nutrien, the world's largest potash producer, is a key target. The US depends on Canada for over 80% of its potash demand. Current potash prices are around US$350 per tonne, well below the US$500+ incentive price needed for new mine development.</div>
+        <div class="signal-what-means risk-means"><span class="signal-what-label">Risk Assessment</span>Major threat to Canadian potash exports as US market represents over 50% of Canadian potash exports. Could force diversification to other markets like Brazil and China. However, analysts suggest price-fixing accusations are misplaced as potash market is well-supplied globally.</div>
+        <div class="signal-source">Source: <a href="https://www.theglobeandmail.com/business/economy/article-canada-fertilizer-nutrien-potash-trump-price-fixing-imports/">The Globe and Mail</a></div>
+      </div>
+      <div class="signal-card risk">
+        <div class="signal-flag">
+           · India Pulses
+          <span class="urgency-tag urgency-quarter">This Quarter</span>
+        </div>
+        <div class="signal-headline">India imposed 30% tariff on pea imports from all origins effective November 1, 2025, and analysts expect lentil import d</div>
+        <div class="signal-body"><cite index="15-2,15-6">India announced a 30% tariff on peas of all origins effective November 1st, while lentil tariffs currently sit at 10%</cite>. <cite index="16-9">Analyst Gaurav Jain expects the Government of India to hike the existing 10% lentil duty to 30% as of April 1, 2026</cite>. <cite index="12-10,12-11">India's pea imports during 2025 were down sharply to 1.14 million tonnes from 2.74 million in 2024, with 2026 imports forecast at one million tonnes</cite>.</div>
+        <div class="signal-what-means risk-means"><span class="signal-what-label">Risk Assessment</span><cite index="12-3,15-1">India is a major buyer of Canadian peas and lentils and remains Canada's largest lentil customer</cite>. <cite index="15-7">The recently announced pea tariff will challenge future sales, and the impact will be felt across the industry</cite>.</div>
+        <div class="signal-source">Source: <a href="https://www.producer.com/crops/india-expected-to-increase-its-lentil-import-duty/">The Western Producer</a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ACTIONS -->
+  <section id="actions" class="mb-56">
+    <div class="section-header">
+      <span class="section-label">✓ Actions This Week</span>
+      <div class="section-rule"></div>
+    </div>
+    <div class="actions-list">
+      
+      <div class="action-card">
+        <div class="action-number">01</div>
+        <div style="flex:1;">
+          <div class="action-content-header">
+            <div class="action-headline">Apply for Japan Trade Promotion</div>
+            <span class="urgency-tag urgency-watch">Monitor</span>
+          </div>
+          <div class="action-body">Submit application to Global Affairs Canada's CanExport SMEs program targeting Japan's growing critical minerals demand, with funding up to $75,000 available for market development activities. Applications reviewed monthly with next deadline approaching.</div>
+          <div style="margin-top:10px;"><a href="https://www.tradecommissioner.gc.ca/funding-financement/canexport/sme-pme/index.aspx" style="font-family:DM Mono,monospace;font-size:9px;color:var(--brand);" target="_blank">↗ https://www.tradecommissioner.gc.ca/funding-financement/canexport/sme-pme/index.</a></div>
+        </div>
+      </div>
+      <div class="action-card">
+        <div class="action-number">02</div>
+        <div style="flex:1;">
+          <div class="action-content-header">
+            <div class="action-headline">Register for EU Critical Raw Materials Webinar</div>
+            <span class="urgency-tag urgency-watch">Monitor</span>
+          </div>
+          <div class="action-body">Register for Natural Resources Canada's December webinar on the Canada-EU Strategic Partnership on Raw Materials, featuring updates on the EU Critical Raw Materials Act implementation and procurement opportunities opening Q1 2024.</div>
+          <div style="margin-top:10px;"><a href="https://www.nrcan.gc.ca/our-natural-resources/minerals-mining/minerals-metals-materials/canadian-minerals-and-metals-plan/13733" style="font-family:DM Mono,monospace;font-size:9px;color:var(--brand);" target="_blank">↗ https://www.nrcan.gc.ca/our-natural-resources/minerals-mining/minerals-metals-ma</a></div>
+        </div>
+      </div>
+      <div class="action-card">
+        <div class="action-number">03</div>
+        <div style="flex:1;">
+          <div class="action-content-header">
+            <div class="action-headline">Contact India Trade Commissioner</div>
+            <span class="urgency-tag urgency-watch">Monitor</span>
+          </div>
+          <div class="action-body">Reach out to the Canadian Trade Commissioner in New Delhi to discuss India's new critical minerals import strategy announced this week, focusing on lithium and rare earth elements for battery manufacturing expansion.</div>
+          <div style="margin-top:10px;"><a href="https://www.tradecommissioner.gc.ca/india-inde/index.aspx" style="font-family:DM Mono,monospace;font-size:9px;color:var(--brand);" target="_blank">↗ https://www.tradecommissioner.gc.ca/india-inde/index.aspx</a></div>
+        </div>
+      </div>
+      <div class="action-card">
+        <div class="action-number">04</div>
+        <div style="flex:1;">
+          <div class="action-content-header">
+            <div class="action-headline">Review Indonesia Mining Investment Updates</div>
+            <span class="urgency-tag urgency-watch">Monitor</span>
+          </div>
+          <div class="action-body">Download Export Development Canada's latest Indonesia market intelligence report on downstream processing requirements and new foreign investment regulations affecting critical minerals partnerships, released this week.</div>
+          <div style="margin-top:10px;"><a href="https://www.edc.ca/en/guide/country-info/indonesia.html" style="font-family:DM Mono,monospace;font-size:9px;color:var(--brand);" target="_blank">↗ https://www.edc.ca/en/guide/country-info/indonesia.html</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARKET ENTRY PATHWAYS -->
+  <section id="pathways" class="mb-56">
+    <div class="section-header">
+      <span class="section-label">🗺 Market Entry Pathways</span>
+      <div class="section-rule"></div>
+    </div>
+    <p style="font-size:13px;color:var(--ink-mid);margin-bottom:24px;max-width:680px;line-height:1.7;">
+      Step-by-step pathways for the highest-opportunity market combinations this week.
+      Each pathway includes the relevant trade agreement, financing instruments, and TCS contacts.
+    </p>
+    <div class="pathways-grid">
+      
+      <div class="pathway-card">
+        <div class="pathway-header">
+          <div>
+            <div class="pathway-market"> Canadian canola oil exporters — CEPA framework and India's edible oil deficit create structural opening</div>
+            <div class="pathway-product">canola</div>
+          </div>
+          
+        </div>
+        <ol class='pathway-steps'><li><strong>Contact AAFC Market Access Secretariat — India canola oil file</strong> — India imports ~15M tonnes of edible oil annually with a structural deficit. AAFC has an active India market access file for canola oil. Contact to und <a href="https://agriculture.canada.ca/en/international-trade/market-access" style="color:var(--sector);font-size:10px;" target="_blank">↗ Agri-food Market Access Secretariat</a></li><li><strong>Get CFIA export certificate for India — food product registration</strong> — India's FSSAI requires product registration and CFIA health certificates before first shipment. Registration can take 60-90 days — start now. Canola C <a href="https://inspection.canada.ca/exporting-food-animals-and-plants/food-exports/eng/1323723342834/1323723593891" style="color:var(--sector);font-size:10px;" target="_blank">↗ CFIA Export Certification</a></li><li><strong>Attend India International Food & Agri-tech Exhibition (New Delhi, October 2026)</strong> — Largest agri-food trade event in India. Major edible oil importers, food processors, and government buyers attending. Canola Council typically has Can <a href="https://www.tradecommissioner.gc.ca/funding-financement/canexport/sme-pme/index.aspx?lang=eng" style="color:var(--sector);font-size:10px;" target="_blank">↗ CanExport SME — Agri-food Stream</a></li><li><strong>Apply for EDC credit insurance on India shipments</strong> — India edible oil buyers are creditworthy but payment terms can be 90-120 days. EDC credit insurance protects Canadian exporters against payment defaul <a href="https://www.edc.ca/en/solutions/financing/agri-food.html" style="color:var(--sector);font-size:10px;" target="_blank">↗ EDC Agri-food Export Financing</a></li></ol>
+        <div class="pathway-tcs">Contact your regional TCS office: <a href="https://tradecommissioner.gc.ca/contact" target="_blank">tradecommissioner.gc.ca/contact</a></div>
+      </div>
+      <div class="pathway-card">
+        <div class="pathway-header">
+          <div>
+            <div class="pathway-market"> Canadian lentil and chickpea exporters — India DGFT quota allocation opens Q2 2026</div>
+            <div class="pathway-product">pulses</div>
+          </div>
+          
+        </div>
+        <ol class='pathway-steps'><li><strong>Contact Pulse Canada immediately — India quota allocation</strong> — Canada supplies ~65% of India's lentil imports. Pulse Canada has 25 years of India market relationships and manages the buyer introduction network. Ne <a href="https://www.pulsecanada.com/market-access/" style="color:var(--sector);font-size:10px;" target="_blank">↗ Pulse Canada Market Development</a></li><li><strong>Register with TCS New Delhi desk — pulse export enquiries</strong> — TCS India has active relationships with NAFED (National Agricultural Cooperative) and private pulse importers. Register to receive buyer enquiry notif <a href="https://www.tradecommissioner.gc.ca/contact.aspx?lang=eng" style="color:var(--sector);font-size:10px;" target="_blank">↗ Trade Commissioner Service</a></li><li><strong>Ensure CFIA phytosanitary certificates are current</strong> — India requires phytosanitary certificates for all pulse shipments. CFIA processing time is 5-15 business days. Ensure certificate covers current crop  <a href="https://inspection.canada.ca/exporting-food-animals-and-plants/food-exports/eng/1323723342834/1323723593891" style="color:var(--sector);font-size:10px;" target="_blank">↗ CFIA Export Certification</a></li><li><strong>Apply for CanExport SME — India market development costs</strong> — Cover costs of India trade missions, buyer meetings, certification, and CFIA registration. Pulse Canada co-missions to India are eligible for CanExpor <a href="https://www.tradecommissioner.gc.ca/funding-financement/canexport/sme-pme/index.aspx?lang=eng" style="color:var(--sector);font-size:10px;" target="_blank">↗ CanExport SME — Agri-food Stream</a></li></ol>
+        <div class="pathway-tcs">Contact your regional TCS office: <a href="https://tradecommissioner.gc.ca/contact" target="_blank">tradecommissioner.gc.ca/contact</a></div>
+      </div>
+      <div class="pathway-card">
+        <div class="pathway-header">
+          <div>
+            <div class="pathway-market"> Canadian canola oil exporters — CEPA framework and India's edible oil deficit create structural opening</div>
+            <div class="pathway-product">canola oil</div>
+          </div>
+          
+        </div>
+        <ol class='pathway-steps'><li><strong>Contact AAFC Market Access Secretariat — India canola oil file</strong> — India imports ~15M tonnes of edible oil annually with a structural deficit. AAFC has an active India market access file for canola oil. Contact to und <a href="https://agriculture.canada.ca/en/international-trade/market-access" style="color:var(--sector);font-size:10px;" target="_blank">↗ Agri-food Market Access Secretariat</a></li><li><strong>Get CFIA export certificate for India — food product registration</strong> — India's FSSAI requires product registration and CFIA health certificates before first shipment. Registration can take 60-90 days — start now. Canola C <a href="https://inspection.canada.ca/exporting-food-animals-and-plants/food-exports/eng/1323723342834/1323723593891" style="color:var(--sector);font-size:10px;" target="_blank">↗ CFIA Export Certification</a></li><li><strong>Attend India International Food & Agri-tech Exhibition (New Delhi, October 2026)</strong> — Largest agri-food trade event in India. Major edible oil importers, food processors, and government buyers attending. Canola Council typically has Can <a href="https://www.tradecommissioner.gc.ca/funding-financement/canexport/sme-pme/index.aspx?lang=eng" style="color:var(--sector);font-size:10px;" target="_blank">↗ CanExport SME — Agri-food Stream</a></li><li><strong>Apply for EDC credit insurance on India shipments</strong> — India edible oil buyers are creditworthy but payment terms can be 90-120 days. EDC credit insurance protects Canadian exporters against payment defaul <a href="https://www.edc.ca/en/solutions/financing/agri-food.html" style="color:var(--sector);font-size:10px;" target="_blank">↗ EDC Agri-food Export Financing</a></li></ol>
+        <div class="pathway-tcs">Contact your regional TCS office: <a href="https://tradecommissioner.gc.ca/contact" target="_blank">tradecommissioner.gc.ca/contact</a></div>
+      </div>
+      <div class="pathway-card">
+        <div class="pathway-header">
+          <div>
+            <div class="pathway-market"> Canadian canola oil exporters — CETA zero-tariff and EU vegetable oil demand create durable opportunity</div>
+            <div class="pathway-product">canola</div>
+          </div>
+          
+        </div>
+        <ol class='pathway-steps'><li><strong>Contact Canola Council export market development team</strong> — CETA provides zero tariff on Canadian canola oil to EU. Canola Council has active EU buyer relationships and technical support for EU food safety comp <a href="https://www.canolacouncil.org/markets-stats/international-markets/" style="color:var(--sector);font-size:10px;" target="_blank">↗ Canola Council of Canada — Export Market Support</a></li><li><strong>Verify EU pesticide MRL compliance for your canola</strong> — EU has stricter maximum residue limits than Canada for some herbicides including some used in Canadian canola production. Commission a compliance revi</li><li><strong>Contact TCS Brussels desk — EU food and agri-food buyers</strong> — TCS Brussels covers all 27 EU markets. Key buyers: Bunge, Cargill Europe, Avril Group, Saipol. CETA means Canadian canola oil enters EU duty-free. TCS <a href="https://www.tradecommissioner.gc.ca/contact.aspx?lang=eng" style="color:var(--sector);font-size:10px;" target="_blank">↗ Trade Commissioner Service</a></li><li><strong>Apply for CanExport SME — EU market development</strong> — Cover costs of EU buyer meetings, regulatory compliance review, trade show participation (SIAL Paris, Anuga). EU is a premium market — high value for  <a href="https://www.tradecommissioner.gc.ca/funding-financement/canexport/sme-pme/index.aspx?lang=eng" style="color:var(--sector);font-size:10px;" target="_blank">↗ CanExport SME — Agri-food Stream</a></li></ol>
+        <div class="pathway-tcs">Contact your regional TCS office: <a href="https://tradecommissioner.gc.ca/contact" target="_blank">tradecommissioner.gc.ca/contact</a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WATCH FOR THESE -->
+  <section id="watch" class="mb-56">
+    <div class="section-header">
+      <span class="section-label">👁 Watch For These</span>
+      <div class="section-rule"></div>
+    </div>
+    <p style="font-size:13px;color:var(--ink-mid);margin-bottom:20px;max-width:680px;line-height:1.7;">
+      Upcoming events, decisions, and deadlines that will move this sector.
+    </p>
+    <div class="watch-grid">
+      
+      <div class="watch-card">
+        <div class="watch-date">👁️</div>
+        <div class="watch-headline">DGFT Q2 2026 Pulse Quota Implementation</div>
+        <div class="watch-body">India's Directorate General of Foreign Trade is set to open Q2 2026 pulse import quotas, creating an immediate $800M+ procurement window where Canadian lentil exporters hold 65% market dominance. Monitor DGFT quota allocation announcements and application deadlines as this represents the highest opp</div>
+      </div>
+      <div class="watch-card">
+        <div class="watch-date">📅</div>
+        <div class="watch-headline">SAMR Canola Inspection Protocol Updates</div>
+        <div class="watch-body">China's State Administration for Market Regulation may announce revised canola seed inspection procedures affecting Canada's $3.2B annual canola market access. Any regulatory changes from SAMR could immediately impact trade flows given the ongoing inspection barriers targeting Canadian exporters.</div>
+      </div>
+      <div class="watch-card">
+        <div class="watch-date">⚡</div>
+        <div class="watch-headline">Canada-Indonesia FIPA Ratification Timeline</div>
+        <div class="watch-body">Indonesia's parliament is expected to ratify the newly signed Canada-Indonesia Foreign Investment Protection Agreement (FIPA) targeting 2026 implementation. This ratification will unlock protected investment opportunities for Canadian food exporters accessing Indonesia's 270 million consumer market </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CANADIAN SPOTLIGHT -->
+  <section id="spotlight" class="mb-56">
+    <div class="section-header">
+      <span class="section-label">🇨🇦 Canadian Spotlight</span>
+      <div class="section-rule"></div>
+    </div>
+    <p style="font-size:13px;color:var(--ink-mid);margin-bottom:24px;max-width:680px;line-height:1.7;">
+      Canadian companies making moves in export markets this week.
+      <a href="https://canadiantradeintel.ca/spotlight" style="color:var(--sector);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.08em;">
+        See all Spotlight stories →
+      </a>
+    </p>
+    <div class="spotlight-grid">
+      <div style="font-size:13px;color:var(--ink-light);padding:16px 0;grid-column:1/-1;">Canadian Spotlight stories will appear here as the platform grows. Check <a href="https://canadiantradeintel.ca/spotlight">canadiantradeintel.ca/spotlight</a> for current stories.</div>
+    </div>
+  </section>
+
+</main>
+
+<!-- REPORT FOOTER -->
+<footer class="report-footer">
+  <div class="report-footer-inner">
+    <div>
+      <div class="report-footer-brand">Canadian Trade Intel</div>
+      <div class="report-footer-meta">
+        CRITICAL MINERALS & CLEANTECH &nbsp;·&nbsp; ISSUE #001<br>
+        CANADIANTRADEINTEL.CA &nbsp;·&nbsp; FOR INFORMATIONAL PURPOSES ONLY<br>
+        NOT LEGAL OR FINANCIAL ADVICE &nbsp;·&nbsp; AI-ASSISTED RESEARCH WITH EDITORIAL REVIEW
+      </div>
+    </div>
+    <div class="report-footer-links">
+      <a href="https://canadiantradeintel.ca/reports">All Reports</a>
+      <a href="https://canadiantradeintel.ca/spotlight">Canadian Spotlight</a>
+      <a href="https://canadiantradeintel.ca/pricing">Subscription Plans</a>
+      <a href="https://canadiantradeintel.ca/about">About</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Report nav active state on scroll
+const sections = document.querySelectorAll('section[id]');
+const navLinks  = document.querySelectorAll('.report-nav a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 140) current = s.id;
+  });
+  navLinks.forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+  });
+});
+</script>
+
+</body>
+</html>
