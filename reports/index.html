@@ -252,8 +252,8 @@ footer {
     <a href="./" onclick="closeMobileNav()">Weekly Reports</a>
     <a href="../spotlight/" onclick="closeMobileNav()">Spotlight</a>
     <a href="../dashboard/" onclick="closeMobileNav()">Dashboard</a>
-    <a href="/tariffs">Tariffs</a>
-      <a href="/about">About</a>
+    <a href="/tariffs" onclick="closeMobileNav()">Tariffs</a>
+    <a href="/about" onclick="closeMobileNav()">About</a>
     <a href="../pricing" class="nav-cta-mobile" onclick="closeMobileNav()">See Plans</a>
   </div>
 </nav>
@@ -360,7 +360,7 @@ function renderReports() {
         ? `<span class="sig-pill sig-watch">${r.signals.immediate} Immediate</span>` : '';
 
       html += `
-      <div class="report-row" data-sector="${r.sector}" onclick="window.location='${r.full_report}'">
+      <div class="report-row" data-sector="${r.sector}" onclick="window.location='/reports/${r.full_report}'">
         <div class="report-date">${dateFormatted}</div>
         <div class="report-main">
           <span class="report-sector">${r.sector_display}</span>
@@ -373,8 +373,8 @@ function renderReports() {
         </div>
         <div class="report-action">
           <span class="issue-num">Issue #${String(r.issue).padStart(3,'0')}</span>
-          <a href="${r.full_report}" class="btn-report" onclick="event.stopPropagation()">Full Report →</a>
-          ${r.email_preview ? `<a href="${r.email_preview}" class="btn-email" onclick="event.stopPropagation()">Email Brief</a>` : ''}
+          <a href="/reports/${r.full_report}" class="btn-report" onclick="event.stopPropagation()">Full Report →</a>
+          ${r.email_preview ? `<a href="/reports/${r.email_preview}" class="btn-email" onclick="event.stopPropagation()">Email Brief</a>` : ''}
         </div>
       </div>`;
     });
