@@ -426,6 +426,44 @@ footer{background:var(--brand-dark);border-top:1px solid rgba(204,0,0,0.12);padd
 </footer>
 
 <script>
+const SECTOR_MAP={
+  critical_minerals:     {css:'minerals', label:'Critical Minerals',     bg:'#e8f4ee',color:'#1a6b42'},
+  energy_cleantech:      {css:'energy',   label:'Energy & Cleantech',    bg:'#fef3e8',color:'#c8640a'},
+  advanced_manufacturing:{css:'mfg',      label:'Advanced Manufacturing',bg:'#e8eef8',color:'#2a5090'},
+  aerospace_defence:     {css:'aerospace',label:'Aerospace & Defence',   bg:'#f0eaf8',color:'#6a20b0'},
+  agri_food:             {css:'agri',     label:'Agri-food',             bg:'#f8f2e0',color:'#b07800'},
+  technology_digital:    {css:'tech',     label:'Technology & Digital',  bg:'#e6f2f5',color:'#0a6080'},
+};
+
+function _fmtDate(iso){
+  if(!iso)return'No closing date';
+  const d=new Date(iso);
+  if(isNaN(d))return iso.slice(0,10);
+  return'Closes '+d.toLocaleDateString('en-CA',{month:'short',day:'numeric',year:'numeric'});
+}
+
+function buildCard(t){
+  const sk=t.sectors&&t.sectors[0]?t.sectors[0]:'';
+  const sm=SECTOR_MAP[sk]||{css:'',label:sk||'General',bg:'#eeeeee',color:'#333333'};
+  const title=(t.title||'Untitled').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  const issuer=(t.issuing_body||'').replace(/</g,'&lt;');
+  const prog=(t.canadian_programmes||'').replace(/</g,'&lt;');
+  const url=t.url||'https://canadabuys.canada.ca';
+  const dataText=[t.title,t.issuing_body,...(t.sectors||[])].join(' ').toLowerCase().replace(/"/g,'');
+  return`<div class="tender-card" data-sector="${sm.css}" data-source="fed" data-text="${dataText}">
+  <div class="tender-header">
+    <div class="tender-title">${title}</div>
+    <span class="tender-source-badge src-fed">CanadaBuys</span>
+  </div>
+  <div class="tender-meta">
+    <span class="tender-sector-tag" style="background:${sm.bg};color:${sm.color};">${sm.label}</span>
+    <span class="tender-issuer">${issuer}</span>
+    <span class="tender-deadline">${_fmtDate(t.closing_date)}</span>
+  </div>
+  ${prog?`<div class="tender-footer"><div class="tender-programme"><strong>Canadian programme:</strong> ${prog}</div><a href="${url}" target="_blank" rel="noopener" class="tender-link">View on CanadaBuys →</a></div>`:`<div class="tender-footer"><div class="tender-programme"></div><a href="${url}" target="_blank" rel="noopener" class="tender-link">View on CanadaBuys →</a></div>`}
+</div>`;
+}
+
 let activeSector='all';
 
 function setSector(sector,btn){
@@ -441,7 +479,7 @@ function filterTenders(){
   let visible=0;
   cards.forEach(card=>{
     const sectorMatch=activeSector==='all'||card.dataset.sector===activeSector;
-    const textMatch=!query||card.dataset.text.includes(query)||card.querySelector('.tender-title').textContent.toLowerCase().includes(query)||card.querySelector('.tender-desc').textContent.toLowerCase().includes(query);
+    const textMatch=!query||card.dataset.text.includes(query)||card.querySelector('.tender-title').textContent.toLowerCase().includes(query);
     const show=sectorMatch&&textMatch;
     card.classList.toggle('hidden',!show);
     if(show)visible++;
@@ -449,6 +487,34 @@ function filterTenders(){
   document.getElementById('result-count').textContent=visible+' tender'+(visible===1?'':'s');
   document.getElementById('no-results').style.display=visible===0?'block':'none';
 }
+
+function _addBanner(text,color){
+  const el=document.createElement('div');
+  el.style.cssText=`font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;padding:6px 0 0;color:${color};white-space:nowrap;`;
+  el.textContent=text;
+  document.querySelector('.search-bar-inner').appendChild(el);
+}
+
+document.addEventListener('DOMContentLoaded',function(){
+  const FEED='https://raw.githubusercontent.com/Canexportalerts/CanExport-Pipeline/main/data/procurement_feed.json';
+  fetch(FEED)
+    .then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.json();})
+    .then(data=>{
+      const tenders=data.tenders||[];
+      if(!tenders.length){
+        _addBanner('Showing example tenders — live data updates weekly','rgba(255,255,255,0.3)');
+        return;
+      }
+      document.getElementById('tender-grid').innerHTML=tenders.map(buildCard).join('');
+      const n=tenders.length;
+      document.getElementById('result-count').textContent=n+' tender'+(n===1?'':'s');
+      const gen=data.generated_at?new Date(data.generated_at).toLocaleDateString('en-CA',{month:'short',day:'numeric',year:'numeric'}):'recently';
+      _addBanner('↑ Live data — updated '+gen,'rgba(255,255,255,0.4)');
+    })
+    .catch(()=>{
+      _addBanner('Showing example tenders — live data updates weekly','rgba(255,255,255,0.3)');
+    });
+});
 </script>
 
 </body>
