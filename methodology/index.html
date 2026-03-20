@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Scoring Methodology — Canadian Trade Intel</title>
+<meta name="description" content="How Canadian Trade Intel scores export markets for opportunity and risk. Transparent, repeatable methodology for weekly market intelligence scores.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600;1,700&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--brand:#cc0000;--brand-dark:#1a0505;--cream:#f8f6f2;--ink:#1a1a14;--ink-mid:#3a3a30;--ink-light:#888880;--rule:#e0dcd4;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);-webkit-font-smoothing:antialiased;}
+a{text-decoration:none;}
+nav{background:var(--brand-dark);padding:0 40px;position:sticky;top:0;z-index:200;border-bottom:1px solid rgba(204,0,0,0.2);}
+.nav-inner{max-width:1000px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:48px;}
+.nav-brand{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(204,0,0,0.85);}
+.nav-links{display:flex;gap:24px;}
+.nav-links a{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.3);}
+.nav-links a:hover{color:rgba(204,0,0,0.9);}
+.nav-cta{background:var(--brand)!important;color:#fff!important;padding:7px 14px;}
+.page-header{background:var(--brand-dark);padding:56px 40px 48px;border-bottom:3px solid var(--brand);}
+.page-header-inner{max-width:1000px;margin:0 auto;}
+.page-eyebrow{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.24em;text-transform:uppercase;color:var(--brand);margin-bottom:16px;}
+.page-header h1{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,4vw,44px);font-weight:600;font-style:italic;color:#f0f0e8;line-height:1.1;margin-bottom:14px;}
+.page-header-desc{font-size:14px;color:rgba(240,240,232,0.45);line-height:1.75;max-width:580px;}
+.content{max-width:1000px;margin:0 auto;padding:48px 40px 80px;}
+.section{margin-bottom:48px;}
+.section-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--brand);margin-bottom:12px;}
+.section h2{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;font-style:italic;color:var(--ink);margin-bottom:16px;}
+.section p{font-size:14px;color:var(--ink-mid);line-height:1.8;margin-bottom:14px;}
+.score-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:24px 0;}
+.score-card{background:#fff;border:1px solid var(--rule);padding:22px 24px;}
+.score-card-title{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;font-style:italic;color:var(--ink);margin-bottom:12px;}
+.factor-list{list-style:none;display:flex;flex-direction:column;gap:10px;}
+.factor-item{display:flex;gap:12px;align-items:flex-start;}
+.factor-weight{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;background:#f8f6f2;padding:3px 8px;flex-shrink:0;color:var(--brand);}
+.factor-text{font-size:12px;color:var(--ink-mid);line-height:1.6;}
+.scale-table{width:100%;border-collapse:collapse;margin:20px 0;}
+.scale-table th{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-light);padding:8px 12px;text-align:left;border-bottom:2px solid var(--rule);}
+.scale-table td{font-size:12px;color:var(--ink-mid);padding:9px 12px;border-bottom:1px solid var(--rule);line-height:1.5;}
+.scale-table tr:last-child td{border-bottom:none;}
+.score-pill{font-family:'DM Mono',monospace;font-size:10px;padding:2px 8px;border-radius:2px;}
+.pill-high{background:#e8f4ee;color:#1a6b42;}
+.pill-mid{background:#faeeda;color:#854f0b;}
+.pill-low{background:#fff5f5;color:#990000;}
+.verify-note{background:#fff;border:1px solid var(--rule);border-left:3px solid var(--agri,#b07800);padding:16px 18px;margin:24px 0;}
+.verify-note-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.14em;text-transform:uppercase;color:#854f0b;margin-bottom:6px;}
+.verify-note p{font-size:13px;color:var(--ink-mid);line-height:1.7;}
+footer{background:var(--brand-dark);border-top:1px solid rgba(204,0,0,0.12);padding:28px 40px;}
+.footer-inner{max-width:1000px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;}
+.footer-brand{font-family:'Cormorant Garamond',serif;font-size:16px;font-style:italic;color:#f0f0e8;}
+.footer-meta{font-family:'DM Mono',monospace;font-size:7px;color:rgba(204,0,0,0.3);letter-spacing:0.08em;}
+@media(max-width:700px){nav{padding:0 16px;}.nav-links{display:none;}.page-header{padding:36px 20px 32px;}.content{padding:32px 20px 60px;}.score-grid{grid-template-columns:1fr;}footer{padding:24px 16px;}.footer-inner{flex-direction:column;gap:12px;}}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-brand">🇨🇦 Canadian Trade Intel</a>
+    <div class="nav-links">
+      <a href="/reports">Reports</a>
+      <a href="/terminal">Terminal</a>
+      <a href="/tariffs">Tariffs</a>
+      <a href="/pricing" class="nav-cta">See Plans</a>
+    </div>
+  </div>
+</nav>
+<header class="page-header">
+  <div class="page-header-inner">
+    <div class="page-eyebrow">Transparency</div>
+    <h1>How We Score Markets</h1>
+    <p class="page-header-desc">Every market in our reports receives an opportunity score and a risk score. This page explains exactly how those scores are calculated, what they mean, and how to use them.</p>
+  </div>
+</header>
+<div class="content">
+  <div class="section">
+    <div class="section-label">Overview</div>
+    <h2>Transparent, repeatable, sector-specific</h2>
+    <p>Every week our pipeline scores the top 5–7 export markets for each sector on two dimensions: opportunity and risk. Scores run from 0–10. A high opportunity score means conditions are favourable for Canadian exporters entering or expanding in that market. A high risk score means there are material barriers, sanctions exposure, or deteriorating conditions that require attention.</p>
+    <p>Scores are generated by a combination of automated signal analysis and AI assessment, using the same criteria each week. This makes them comparable week-over-week — a score of 8.7 for India this week can be compared against 8.2 the week prior to identify trend direction.</p>
+  </div>
+  <div class="section">
+    <div class="section-label">Scoring Factors</div>
+    <h2>What goes into each score</h2>
+    <div class="score-grid">
+      <div class="score-card">
+        <div class="score-card-title">Opportunity Score (0–10)</div>
+        <ul class="factor-list">
+          <li class="factor-item"><span class="factor-weight">30%</span><span class="factor-text"><strong>Trade agreement access</strong> — Is a Canadian FTA in force? (CETA, CPTPP, CUSMA, CKFTA). Does it provide tariff elimination or preferential access for this sector?</span></li>
+          <li class="factor-item"><span class="factor-weight">25%</span><span class="factor-text"><strong>Active demand signals</strong> — Are there confirmed procurement windows, import quota allocations, government buying programmes, or inbound buyer interest signals this week?</span></li>
+          <li class="factor-item"><span class="factor-weight">25%</span><span class="factor-text"><strong>Canadian competitive advantage</strong> — Does Canada have a structural advantage in this market for this sector? (e.g. Canadian uranium in Japan, Canadian canola in EU, Canadian GovTech in Japan via CPTPP)</span></li>
+          <li class="factor-item"><span class="factor-weight">20%</span><span class="factor-text"><strong>Market access conditions</strong> — Are there active TCS programmes, EDC financing availability, or CCC engagement in this market this week?</span></li>
+        </ul>
+      </div>
+      <div class="score-card">
+        <div class="score-card-title">Risk Score (0–10)</div>
+        <ul class="factor-list">
+          <li class="factor-item"><span class="factor-weight">35%</span><span class="factor-text"><strong>Sanctions & export controls</strong> — Are there active OFAC, UN, BIS, or Global Affairs Canada designations or export control restrictions affecting this market this week?</span></li>
+          <li class="factor-item"><span class="factor-weight">25%</span><span class="factor-text"><strong>Regulatory barriers</strong> — Are there active non-tariff barriers, customs restrictions, import bans, or regulatory changes that create friction for Canadian exporters?</span></li>
+          <li class="factor-item"><span class="factor-weight">20%</span><span class="factor-text"><strong>Political & geopolitical risk</strong> — Are there active political instability signals, diplomatic deterioration, or geopolitical events that could disrupt Canadian commercial relationships?</span></li>
+          <li class="factor-item"><span class="factor-weight">20%</span><span class="factor-text"><strong>Currency & payment risk</strong> — Is there significant currency volatility, payment risk, or banking restrictions that affect Canadian exporter exposure in this market?</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-label">Score Scale</div>
+    <h2>What the numbers mean</h2>
+    <table class="scale-table">
+      <thead><tr><th>Score Range</th><th>Opportunity Interpretation</th><th>Risk Interpretation</th><th>Trend Indicator</th></tr></thead>
+      <tbody>
+        <tr><td><span class="score-pill pill-high">8.0–10.0</span></td><td>Strong conditions — active demand, FTA access, Canadian advantage confirmed. Prioritise this market now.</td><td>Material risk present — sanctions exposure, active restrictions, or significant political instability.</td><td>↑ Improving week-over-week</td></tr>
+        <tr><td><span class="score-pill pill-mid">6.0–7.9</span></td><td>Favourable conditions — some demand signals and access, but not all factors aligned. Monitor and prepare.</td><td>Moderate risk — some barriers or exposure, but manageable with proper compliance processes.</td><td>→ Stable (±0.5 week-over-week)</td></tr>
+        <tr><td><span class="score-pill" style="background:#f8f6f2;color:var(--ink-light);">4.0–5.9</span></td><td>Mixed signals — access or demand may be present but conditions are uncertain or contested.</td><td>Elevated risk — multiple risk factors present. Consult EDC and TCS before proceeding.</td><td>↓ Deteriorating week-over-week</td></tr>
+        <tr><td><span class="score-pill pill-low">0–3.9</span></td><td>Poor conditions — significant barriers, no active demand, or Canadian competitive disadvantage in this market.</td><td>High risk — active sanctions, severe restrictions, or acute political risk. Proceed with caution or avoid.</td><td></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="section">
+    <div class="section-label">Source Verification</div>
+    <h2>How we verify claims</h2>
+    <p>Every signal in our reports includes a primary source citation. Our pipeline runs an automated fact-checking step that cross-references key claims against known data points — programme values, regulatory dates, trade figures — and flags discrepancies for review.</p>
+    <div class="verify-note">
+      <div class="verify-note-label">⚠ Verify Badge</div>
+      <p>When our fact-checking step identifies a claim that could not be confirmed against known sources, or where our data suggests a discrepancy, the claim is marked with a <strong>⚠ Verify</strong> badge. This means the signal is included in the report because it may be relevant, but you should confirm the specific claim before acting on it. The primary source link is always provided.</p>
+    </div>
+    <p>All intelligence is AI-assisted with editorial oversight. We use Claude (Anthropic) for signal analysis and summary generation. Scores are generated programmatically using the criteria above, not manually assigned. Exchange rates are drawn from the Bank of Canada public API. Stock data is drawn from Yahoo Finance. Procurement data is drawn from CanadaBuys, NATO NSPA, EU TED, and SAM.gov public feeds.</p>
+  </div>
+  <div class="section">
+    <div class="section-label">Limitations</div>
+    <h2>What these scores are not</h2>
+    <p>Market opportunity and risk scores are intelligence tools, not investment recommendations, legal advice, or compliance determinations. A high opportunity score does not guarantee market success. A low risk score does not mean a market is sanctions-clean for your specific products — always conduct your own denied party screening and export control classification review before shipping.</p>
+    <p>Scores reflect conditions as of the weekly pipeline run date. Situations can change rapidly. For time-sensitive compliance decisions, consult EDC, the Trade Commissioner Service, and qualified export legal counsel.</p>
+  </div>
+</div>
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">Canadian Trade Intel</div>
+    <div class="footer-meta">FOR INFORMATIONAL PURPOSES ONLY · NOT LEGAL OR FINANCIAL ADVICE · © 2026 CANADIAN TRADE INTELLIGENCE INC.</div>
+  </div>
+</footer>
+</body>
+</html>

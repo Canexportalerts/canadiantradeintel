@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Intelligence Terminal — Canadian Trade Intel</title>
+<meta name="description" content="Live Canadian trade intelligence terminal. Exchange rates, TSX/TSX-V stock watch, market opportunity scores, commodity prices, programme deadlines, and procurement feed — all in one place.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600;1,700&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --brand:#cc0000;--brand-dark:#1a0505;--brand-deep:#990000;
+  --cream:#f8f6f2;--ink:#1a1a14;--ink-mid:#3a3a30;--ink-light:#888880;--rule:#e0dcd4;
+  --minerals:#1a6b42;--energy:#c8640a;--mfg:#2a5090;--aerospace:#6a20b0;--agri:#b07800;--tech:#0a6080;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:#0a0c0f;color:#c8d6c2;-webkit-font-smoothing:antialiased;}
+
+/* NAV */
+nav{background:var(--brand-dark);padding:0 40px;position:sticky;top:0;z-index:200;border-bottom:1px solid rgba(204,0,0,0.2);}
+.nav-inner{max-width:1400px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:48px;}
+.nav-brand{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(204,0,0,0.85);text-decoration:none;}
+.nav-links{display:flex;gap:24px;align-items:center;}
+.nav-links a{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.3);text-decoration:none;transition:color 0.18s;}
+.nav-links a:hover,.nav-links a.active{color:rgba(204,0,0,0.9);}
+.nav-cta{background:var(--brand)!important;color:#fff!important;padding:7px 14px;}
+
+/* TERMINAL HEADER */
+.t-header{background:#050608;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid var(--brand);max-width:100%;}
+.t-brand{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(204,0,0,0.85);}
+.t-status{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;color:rgba(255,255,255,0.25);display:flex;gap:20px;align-items:center;}
+.t-live{color:#4a8a50;}
+.t-live::before{content:"●";margin-right:5px;animation:blink 2s infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0.3;}}
+
+/* TICKER */
+.t-ticker{background:#060809;padding:0 24px;display:flex;gap:0;overflow-x:auto;border-bottom:1px solid rgba(255,255,255,0.05);}
+.t-ticker::-webkit-scrollbar{height:2px;}
+.t-ticker::-webkit-scrollbar-track{background:#060809;}
+.t-ticker::-webkit-scrollbar-thumb{background:rgba(204,0,0,0.3);}
+.ticker-item{padding:8px 20px;border-right:1px solid rgba(255,255,255,0.05);flex-shrink:0;cursor:default;}
+.ticker-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;color:rgba(255,255,255,0.25);text-transform:uppercase;margin-bottom:3px;}
+.ticker-value{font-family:'DM Mono',monospace;font-size:13px;color:#d0e8ca;font-weight:500;}
+.ticker-chg{font-family:'DM Mono',monospace;font-size:9px;margin-top:1px;}
+.chg-up{color:#4a8a50;}
+.chg-down{color:#c05050;}
+.chg-flat{color:rgba(255,255,255,0.2);}
+.ticker-source{font-family:'DM Mono',monospace;font-size:7px;color:rgba(255,255,255,0.12);margin-top:2px;}
+
+/* BODY */
+.t-body{max-width:1400px;margin:0 auto;padding:20px 24px 40px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;}
+.t-body-wide{grid-column:1/3;}
+.t-body-full{grid-column:1/-1;}
+
+/* PANEL */
+.panel{background:#0e1117;border:1px solid rgba(255,255,255,0.06);padding:16px 18px;}
+.panel-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,0.06);}
+.panel-title{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.3);}
+.panel-meta{font-family:'DM Mono',monospace;font-size:7px;color:rgba(255,255,255,0.15);}
+.panel-live{font-family:'DM Mono',monospace;font-size:7px;color:#4a8a50;letter-spacing:0.1em;}
+
+/* FX TABLE */
+.fx-row{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.04);}
+.fx-row:last-child{border-bottom:none;}
+.fx-pair{font-family:'DM Mono',monospace;font-size:12px;font-weight:500;color:#d0e8ca;}
+.fx-rate{font-family:'DM Mono',monospace;font-size:13px;color:#e8f4e0;}
+.fx-note{font-family:'DM Mono',monospace;font-size:8px;color:rgba(255,255,255,0.2);}
+.data-credit{font-family:'DM Mono',monospace;font-size:7px;color:rgba(255,255,255,0.12);padding-top:8px;border-top:1px solid rgba(255,255,255,0.04);margin-top:4px;}
+
+/* MARKET SCORES */
+.market-row{display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04);}
+.market-row:last-child{border-bottom:none;}
+.market-flag{font-size:14px;width:22px;flex-shrink:0;}
+.market-name{font-family:'DM Mono',monospace;font-size:10px;color:#c8d6c2;flex:1;}
+.market-bar-wrap{width:70px;height:3px;background:rgba(255,255,255,0.08);flex-shrink:0;}
+.market-bar{height:3px;}
+.market-score{font-family:'DM Mono',monospace;font-size:11px;color:#d0e8ca;width:28px;text-align:right;}
+.market-trend{font-size:10px;width:14px;text-align:center;}
+.score-method{font-family:'DM Mono',monospace;font-size:7px;color:rgba(255,255,255,0.15);padding-top:8px;border-top:1px solid rgba(255,255,255,0.04);margin-top:4px;}
+.score-method a{color:rgba(204,0,0,0.5);text-decoration:underline;}
+
+/* SIGNALS */
+.signal-item{padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04);display:flex;gap:10px;align-items:flex-start;}
+.signal-item:last-child{border-bottom:none;}
+.signal-pip{width:5px;height:5px;border-radius:50%;flex-shrink:0;margin-top:5px;}
+.signal-content{flex:1;}
+.signal-meta{font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.2);margin-bottom:3px;}
+.signal-headline{font-size:11px;color:#c8d6c2;line-height:1.45;font-weight:500;}
+.signal-badge{font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.08em;padding:2px 6px;border-radius:2px;flex-shrink:0;margin-top:2px;}
+.badge-opp{background:rgba(26,107,66,0.3);color:#5acc8a;}
+.badge-risk{background:rgba(204,0,0,0.25);color:#f07070;}
+.badge-watch{background:rgba(176,120,0,0.25);color:#d0a040;}
+
+/* DEADLINES */
+.deadline-row{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.04);}
+.deadline-row:last-child{border-bottom:none;}
+.deadline-name{font-family:'DM Mono',monospace;font-size:10px;color:#c8d6c2;font-weight:500;}
+.deadline-prog{font-family:'DM Mono',monospace;font-size:8px;color:rgba(255,255,255,0.25);}
+.deadline-badge{font-family:'DM Mono',monospace;font-size:8px;padding:2px 8px;border-radius:2px;white-space:nowrap;}
+.badge-urgent{background:rgba(192,80,80,0.25);color:#e08080;}
+.badge-soon{background:rgba(176,120,0,0.25);color:#c8a040;}
+.badge-open{background:rgba(74,138,80,0.25);color:#6ab870;}
+
+/* STOCKS */
+.stock-row{display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04);}
+.stock-row:last-child{border-bottom:none;}
+.stock-left{display:flex;flex-direction:column;gap:1px;}
+.stock-ticker{font-family:'DM Mono',monospace;font-size:10px;color:#d0e8ca;font-weight:500;}
+.stock-name{font-family:'DM Mono',monospace;font-size:8px;color:rgba(255,255,255,0.3);}
+.stock-sector{font-family:'DM Mono',monospace;font-size:7px;padding:1px 5px;border-radius:2px;}
+.stock-right{text-align:right;}
+.stock-price{font-family:'DM Mono',monospace;font-size:12px;color:#e8f4e0;}
+.stock-chg{font-family:'DM Mono',monospace;font-size:9px;}
+
+/* COMMODITIES */
+.commodity-row{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.04);}
+.commodity-row:last-child{border-bottom:none;}
+.commodity-left{display:flex;flex-direction:column;gap:2px;}
+.commodity-name{font-family:'DM Mono',monospace;font-size:10px;color:#c8d6c2;font-weight:500;}
+.commodity-note{font-family:'DM Mono',monospace;font-size:7px;color:rgba(255,255,255,0.2);}
+.commodity-right{text-align:right;}
+.commodity-price{font-family:'DM Mono',monospace;font-size:12px;color:#e8f4e0;}
+.commodity-cad{font-family:'DM Mono',monospace;font-size:8px;color:rgba(255,255,255,0.35);}
+.commodity-chg{font-family:'DM Mono',monospace;font-size:8px;}
+
+/* PROCUREMENT */
+.procurement-row{padding:9px 0;border-bottom:1px solid rgba(255,255,255,0.04);}
+.procurement-row:last-child{border-bottom:none;}
+.procurement-title{font-size:11px;color:#c8d6c2;font-weight:500;line-height:1.45;margin-bottom:5px;}
+.procurement-meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+.proc-tag{font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.08em;padding:2px 7px;border-radius:2px;}
+.tag-fed{background:rgba(26,107,66,0.2);color:#5acc8a;}
+.tag-nato{background:rgba(106,32,176,0.25);color:#b080e0;}
+.tag-eu{background:rgba(42,80,144,0.25);color:#7090d0;}
+.tag-us{background:rgba(204,0,0,0.2);color:#e08080;}
+.proc-deadline{font-family:'DM Mono',monospace;font-size:8px;color:rgba(255,255,255,0.25);}
+.proc-link{font-family:'DM Mono',monospace;font-size:8px;color:rgba(204,0,0,0.6);margin-left:auto;}
+.proc-link a{color:rgba(204,0,0,0.6);text-decoration:none;}
+.proc-link a:hover{color:rgba(204,0,0,0.9);}
+
+/* FOOTER NOTE */
+.t-footer{background:#060809;padding:14px 24px;border-top:1px solid rgba(255,255,255,0.04);}
+.t-footer-inner{max-width:1400px;margin:0 auto;font-family:'DM Mono',monospace;font-size:7px;color:rgba(255,255,255,0.15);letter-spacing:0.08em;line-height:2;}
+.t-footer-inner a{color:rgba(204,0,0,0.4);text-decoration:none;}
+
+/* METHODOLOGY TOOLTIP */
+.score-help{display:inline-block;font-family:'DM Mono',monospace;font-size:7px;color:rgba(204,0,0,0.5);border:1px solid rgba(204,0,0,0.3);padding:1px 5px;cursor:pointer;margin-left:6px;}
+
+@media(max-width:1100px){
+  .t-body{grid-template-columns:1fr 1fr;}
+  .t-body-wide{grid-column:1/-1;}
+}
+@media(max-width:700px){
+  nav{padding:0 16px;}
+  .t-body{grid-template-columns:1fr;padding:12px 16px 32px;}
+  .t-body-wide,.t-body-full{grid-column:1;}
+  .t-ticker{padding:0 16px;}
+  .t-header{padding:10px 16px;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-brand">🇨🇦 Canadian Trade Intel</a>
+    <div class="nav-links">
+      <a href="/reports">Reports</a>
+      <a href="/spotlight">Spotlight</a>
+      <a href="/dashboard">Dashboard</a>
+      <a href="/terminal" class="active">Terminal</a>
+      <a href="/tariffs">Tariffs</a>
+      <a href="/procurement">Procurement</a>
+      <a href="/pricing" class="nav-cta">See Plans</a>
+    </div>
+  </div>
+</nav>
+
+<div class="t-header">
+  <span class="t-brand">🇨🇦 Canadian Trade Intel — Intelligence Terminal</span>
+  <div class="t-status">
+    <span class="t-live">Live data</span>
+    <span id="t-clock">—</span>
+    <span>Updated weekly: signals, scores, procurement</span>
+  </div>
+</div>
+
+<div class="t-ticker" id="ticker">
+  <div class="ticker-item">
+    <div class="ticker-label">CAD/USD</div>
+    <div class="ticker-value" id="fx-usd">—</div>
+    <div class="ticker-chg chg-flat" id="fx-usd-src">Bank of Canada</div>
+  </div>
+  <div class="ticker-item">
+    <div class="ticker-label">CAD/EUR</div>
+    <div class="ticker-value" id="fx-eur">—</div>
+    <div class="ticker-chg chg-flat">Bank of Canada</div>
+  </div>
+  <div class="ticker-item">
+    <div class="ticker-label">CAD/GBP</div>
+    <div class="ticker-value" id="fx-gbp">—</div>
+    <div class="ticker-chg chg-flat">Bank of Canada</div>
+  </div>
+  <div class="ticker-item">
+    <div class="ticker-label">CAD/JPY</div>
+    <div class="ticker-value" id="fx-jpy">—</div>
+    <div class="ticker-chg chg-flat">Bank of Canada</div>
+  </div>
+  <div class="ticker-item">
+    <div class="ticker-label">CAD/CNY</div>
+    <div class="ticker-value" id="fx-cny">—</div>
+    <div class="ticker-chg chg-flat">Bank of Canada</div>
+  </div>
+  <div class="ticker-item">
+    <div class="ticker-label">CAD/AUD</div>
+    <div class="ticker-value" id="fx-aud">—</div>
+    <div class="ticker-chg chg-flat">Bank of Canada</div>
+  </div>
+  <div class="ticker-item">
+    <div class="ticker-label">Gold /oz USD</div>
+    <div class="ticker-value">$2,184</div>
+    <div class="ticker-chg chg-up">Weekly pipeline</div>
+  </div>
+  <div class="ticker-item">
+    <div class="ticker-label">Copper /t USD</div>
+    <div class="ticker-value">$9,850</div>
+    <div class="ticker-chg chg-up">Weekly pipeline</div>
+  </div>
+  <div class="ticker-item">
+    <div class="ticker-label">Uranium /lb USD</div>
+    <div class="ticker-value">$68.50</div>
+    <div class="ticker-chg chg-flat">Weekly pipeline</div>
+  </div>
+  <div class="ticker-item">
+    <div class="ticker-label">Canola /t CAD</div>
+    <div class="ticker-value">C$642</div>
+    <div class="ticker-chg chg-down">Weekly pipeline</div>
+  </div>
+</div>
+
+<div class="t-body">
+
+  <!-- LIVE SIGNALS -->
+  <div class="panel t-body-wide">
+    <div class="panel-header">
+      <span class="panel-title">Live signals — Issue #001 · March 24, 2026</span>
+      <span class="panel-live">● Weekly update</span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 32px;">
+      <div>
+        <div class="signal-item">
+          <div class="signal-pip" style="background:var(--minerals)"></div>
+          <div class="signal-content">
+            <div class="signal-meta">Critical Minerals · Japan</div>
+            <div class="signal-headline">G7 Alliance $12.1B Round 2 — procurement window open for Canadian lithium producers</div>
+          </div>
+          <span class="signal-badge badge-opp">Opp</span>
+        </div>
+        <div class="signal-item">
+          <div class="signal-pip" style="background:var(--energy)"></div>
+          <div class="signal-content">
+            <div class="signal-meta">Energy & Cleantech · Japan</div>
+            <div class="signal-headline">Japan hydrogen import MOU — Canadian hydrogen export pathway confirmed</div>
+          </div>
+          <span class="signal-badge badge-opp">Opp</span>
+        </div>
+        <div class="signal-item">
+          <div class="signal-pip" style="background:var(--agri)"></div>
+          <div class="signal-content">
+            <div class="signal-meta">Agri-food · China</div>
+            <div class="signal-headline">Canola seed 15% China tariff confirmed — EU pivot accelerating under CETA</div>
+          </div>
+          <span class="signal-badge badge-risk">Risk</span>
+        </div>
+      </div>
+      <div>
+        <div class="signal-item">
+          <div class="signal-pip" style="background:var(--aerospace)"></div>
+          <div class="signal-content">
+            <div class="signal-meta">Aerospace · NATO</div>
+            <div class="signal-headline">NATO Hague 5% target — largest allied procurement expansion in a generation</div>
+          </div>
+          <span class="signal-badge badge-watch">Watch</span>
+        </div>
+        <div class="signal-item">
+          <div class="signal-pip" style="background:var(--tech)"></div>
+          <div class="signal-content">
+            <div class="signal-meta">Technology · Japan</div>
+            <div class="signal-headline">Japan Digital Agency ¥1.3T modernisation open to CPTPP suppliers</div>
+          </div>
+          <span class="signal-badge badge-opp">Opp</span>
+        </div>
+        <div class="signal-item">
+          <div class="signal-pip" style="background:var(--mfg)"></div>
+          <div class="signal-content">
+            <div class="signal-meta">Manufacturing · Germany</div>
+            <div class="signal-headline">Thyssenkrupp Hamilton $180M acquisition — local supply chain open</div>
+          </div>
+          <span class="signal-badge badge-opp">Opp</span>
+        </div>
+      </div>
+    </div>
+    <div style="font-family:'DM Mono',monospace;font-size:8px;color:rgba(255,255,255,0.15);padding-top:10px;border-top:1px solid rgba(255,255,255,0.04);margin-top:4px;">
+      Signals updated every Tuesday · Full analysis in weekly reports · <a href="/reports" style="color:rgba(204,0,0,0.5);">View Reports →</a>
+    </div>
+  </div>
+
+  <!-- MARKET SCORES -->
+  <div class="panel">
+    <div class="panel-header">
+      <span class="panel-title">Market opportunity scores</span>
+      <span class="panel-meta">All sectors · This issue <span class="score-help" onclick="window.location='/methodology'">? How scored</span></span>
+    </div>
+    <div class="market-row">
+      <span class="market-flag">🇯🇵</span><span class="market-name">Japan</span>
+      <div class="market-bar-wrap"><div class="market-bar" style="width:92%;background:var(--minerals)"></div></div>
+      <span class="market-score">9.2</span><span class="market-trend" style="color:#4a8a50">↑</span>
+    </div>
+    <div class="market-row">
+      <span class="market-flag">🇮🇳</span><span class="market-name">India</span>
+      <div class="market-bar-wrap"><div class="market-bar" style="width:87%;background:var(--minerals)"></div></div>
+      <span class="market-score">8.7</span><span class="market-trend" style="color:#4a8a50">↑</span>
+    </div>
+    <div class="market-row">
+      <span class="market-flag">🇩🇪</span><span class="market-name">Germany</span>
+      <div class="market-bar-wrap"><div class="market-bar" style="width:82%;background:var(--mfg)"></div></div>
+      <span class="market-score">8.2</span><span class="market-trend" style="color:rgba(255,255,255,0.3)">→</span>
+    </div>
+    <div class="market-row">
+      <span class="market-flag">🇬🇧</span><span class="market-name">United Kingdom</span>
+      <div class="market-bar-wrap"><div class="market-bar" style="width:80%;background:var(--aerospace)"></div></div>
+      <span class="market-score">8.0</span><span class="market-trend" style="color:#4a8a50">↑</span>
+    </div>
+    <div class="market-row">
+      <span class="market-flag">🇮🇩</span><span class="market-name">Indonesia</span>
+      <div class="market-bar-wrap"><div class="market-bar" style="width:76%;background:var(--agri)"></div></div>
+      <span class="market-score">7.6</span><span class="market-trend" style="color:#4a8a50">↑</span>
+    </div>
+    <div class="market-row">
+      <span class="market-flag">🇵🇱</span><span class="market-name">Poland</span>
+      <div class="market-bar-wrap"><div class="market-bar" style="width:74%;background:var(--aerospace)"></div></div>
+      <span class="market-score">7.4</span><span class="market-trend" style="color:rgba(255,255,255,0.3)">→</span>
+    </div>
+    <div class="market-row">
+      <span class="market-flag">🇨🇳</span><span class="market-name">China</span>
+      <div class="market-bar-wrap"><div class="market-bar" style="width:31%;background:#c05050"></div></div>
+      <span class="market-score">3.1</span><span class="market-trend" style="color:#c05050">↓</span>
+    </div>
+    <div class="score-method"><a href="/methodology">How we score markets →</a> · Opportunity = trade access + demand signals + Canadian advantage · Risk = sanctions + regulatory + political</div>
+  </div>
+
+  <!-- FX RATES -->
+  <div class="panel">
+    <div class="panel-header">
+      <span class="panel-title">CAD exchange rates</span>
+      <span class="panel-live">● Live · Bank of Canada</span>
+    </div>
+    <div class="fx-row">
+      <div><div class="fx-pair">CAD/USD</div><div class="fx-note">US Dollar</div></div>
+      <div style="text-align:right"><div class="fx-rate" id="p-fx-usd">Loading...</div></div>
+    </div>
+    <div class="fx-row">
+      <div><div class="fx-pair">CAD/EUR</div><div class="fx-note">Euro</div></div>
+      <div style="text-align:right"><div class="fx-rate" id="p-fx-eur">Loading...</div></div>
+    </div>
+    <div class="fx-row">
+      <div><div class="fx-pair">CAD/GBP</div><div class="fx-note">British Pound</div></div>
+      <div style="text-align:right"><div class="fx-rate" id="p-fx-gbp">Loading...</div></div>
+    </div>
+    <div class="fx-row">
+      <div><div class="fx-pair">CAD/JPY</div><div class="fx-note">Japanese Yen</div></div>
+      <div style="text-align:right"><div class="fx-rate" id="p-fx-jpy">Loading...</div></div>
+    </div>
+    <div class="fx-row">
+      <div><div class="fx-pair">CAD/CNY</div><div class="fx-note">Chinese Yuan</div></div>
+      <div style="text-align:right"><div class="fx-rate" id="p-fx-cny">Loading...</div></div>
+    </div>
+    <div class="fx-row">
+      <div><div class="fx-pair">CAD/AUD</div><div class="fx-note">Australian Dollar</div></div>
+      <div style="text-align:right"><div class="fx-rate" id="p-fx-aud">Loading...</div></div>
+    </div>
+    <div class="data-credit">Source: Bank of Canada · bankofcanada.ca · Updated daily · All prices in CAD</div>
+  </div>
+
+  <!-- PROGRAMME DEADLINES -->
+  <div class="panel">
+    <div class="panel-header">
+      <span class="panel-title">Programme deadlines</span>
+      <span class="panel-meta">Government programmes</span>
+    </div>
+    <div class="deadline-row">
+      <div><div class="deadline-name">Farnborough Airshow</div><div class="deadline-prog">Canadian Pavilion deadline · Aerospace</div></div>
+      <span class="deadline-badge badge-urgent">Apr 15</span>
+    </div>
+    <div class="deadline-row">
+      <div><div class="deadline-name">CanExport SME</div><div class="deadline-prog">Up to C$50,000 · All sectors</div></div>
+      <span class="deadline-badge badge-soon">May 29</span>
+    </div>
+    <div class="deadline-row">
+      <div><div class="deadline-name">NRC IRAP</div><div class="deadline-prog">Tech & innovation firms · Rolling</div></div>
+      <span class="deadline-badge badge-open">Rolling</span>
+    </div>
+    <div class="deadline-row">
+      <div><div class="deadline-name">EDC Export Guarantee</div><div class="deadline-prog">Working capital · All sectors</div></div>
+      <span class="deadline-badge badge-open">Open</span>
+    </div>
+    <div class="deadline-row">
+      <div><div class="deadline-name">NRCan First & Last Mile</div><div class="deadline-prog">Critical Minerals · C$1.5B fund</div></div>
+      <span class="deadline-badge badge-open">2026–30</span>
+    </div>
+    <div class="deadline-row">
+      <div><div class="deadline-name">Clean Fuels Fund</div><div class="deadline-prog">Energy & Cleantech · NRCan</div></div>
+      <span class="deadline-badge badge-open">Open</span>
+    </div>
+  </div>
+
+  <!-- TSX STOCK WATCH -->
+  <div class="panel">
+    <div class="panel-header">
+      <span class="panel-title">TSX/TSX-V stock watch</span>
+      <span class="panel-meta">Corporate intelligence · <span id="stock-time">—</span></span>
+    </div>
+    <div class="stock-row">
+      <div class="stock-left">
+        <div class="stock-ticker">CCO.TO</div>
+        <div class="stock-name">Cameco Corporation</div>
+        <span class="stock-sector" style="background:rgba(26,107,66,0.2);color:#5acc8a;">Critical Minerals</span>
+      </div>
+      <div class="stock-right">
+        <div class="stock-price" id="s-cco">C$—</div>
+        <div class="stock-chg" id="s-cco-chg">—</div>
+      </div>
+    </div>
+    <div class="stock-row">
+      <div class="stock-left">
+        <div class="stock-ticker">NTR.TO</div>
+        <div class="stock-name">Nutrien Ltd.</div>
+        <span class="stock-sector" style="background:rgba(176,120,0,0.2);color:#d0a040;">Agri-food</span>
+      </div>
+      <div class="stock-right">
+        <div class="stock-price" id="s-ntr">C$—</div>
+        <div class="stock-chg" id="s-ntr-chg">—</div>
+      </div>
+    </div>
+    <div class="stock-row">
+      <div class="stock-left">
+        <div class="stock-ticker">CAE.TO</div>
+        <div class="stock-name">CAE Inc.</div>
+        <span class="stock-sector" style="background:rgba(106,32,176,0.2);color:#b080e0;">Aerospace</span>
+      </div>
+      <div class="stock-right">
+        <div class="stock-price" id="s-cae">C$—</div>
+        <div class="stock-chg" id="s-cae-chg">—</div>
+      </div>
+    </div>
+    <div class="stock-row">
+      <div class="stock-left">
+        <div class="stock-ticker">SHOP.TO</div>
+        <div class="stock-name">Shopify Inc.</div>
+        <span class="stock-sector" style="background:rgba(10,96,128,0.2);color:#60a8c8;">Technology</span>
+      </div>
+      <div class="stock-right">
+        <div class="stock-price" id="s-shop">C$—</div>
+        <div class="stock-chg" id="s-shop-chg">—</div>
+      </div>
+    </div>
+    <div class="stock-row">
+      <div class="stock-left">
+        <div class="stock-ticker">BLD.V</div>
+        <div class="stock-name">Ballard Power Systems</div>
+        <span class="stock-sector" style="background:rgba(200,100,10,0.2);color:#d08040;">Energy</span>
+      </div>
+      <div class="stock-right">
+        <div class="stock-price" id="s-bld">C$—</div>
+        <div class="stock-chg" id="s-bld-chg">—</div>
+      </div>
+    </div>
+    <div class="data-credit">Corporate intelligence only — not investment advice · Data: Yahoo Finance / TSX · <a href="/methodology">Disclaimer →</a></div>
+  </div>
+
+  <!-- COMMODITIES -->
+  <div class="panel">
+    <div class="panel-header">
+      <span class="panel-title">Commodity context</span>
+      <span class="panel-meta">Weekly pipeline · Prices in CAD & USD</span>
+    </div>
+    <div class="commodity-row">
+      <div class="commodity-left">
+        <div class="commodity-name">Uranium U₃O₈</div>
+        <div class="commodity-note">Spot · UxC · USD/lb</div>
+      </div>
+      <div class="commodity-right">
+        <div class="commodity-price">US$68.50</div>
+        <div class="commodity-cad" id="ura-cad">≈ C$— /lb</div>
+        <div class="commodity-chg chg-flat">— flat</div>
+      </div>
+    </div>
+    <div class="commodity-row">
+      <div class="commodity-left">
+        <div class="commodity-name">Lithium Carbonate</div>
+        <div class="commodity-note">Battery grade · Shanghai · USD/t</div>
+      </div>
+      <div class="commodity-right">
+        <div class="commodity-price">US$9,200</div>
+        <div class="commodity-cad" id="li-cad">≈ C$— /t</div>
+        <div class="commodity-chg chg-down">▼ 2.1%</div>
+      </div>
+    </div>
+    <div class="commodity-row">
+      <div class="commodity-left">
+        <div class="commodity-name">Copper</div>
+        <div class="commodity-note">LME 3-month · USD/t</div>
+      </div>
+      <div class="commodity-right">
+        <div class="commodity-price">US$9,850</div>
+        <div class="commodity-cad" id="cu-cad">≈ C$— /t</div>
+        <div class="commodity-chg chg-up">▲ 1.2%</div>
+      </div>
+    </div>
+    <div class="commodity-row">
+      <div class="commodity-left">
+        <div class="commodity-name">Canola</div>
+        <div class="commodity-note">ICE Futures · CAD/t</div>
+      </div>
+      <div class="commodity-right">
+        <div class="commodity-price">C$642</div>
+        <div class="commodity-cad">CAD native</div>
+        <div class="commodity-chg chg-down">▼ 0.8%</div>
+      </div>
+    </div>
+    <div class="commodity-row">
+      <div class="commodity-left">
+        <div class="commodity-name">Natural Gas</div>
+        <div class="commodity-note">Henry Hub · USD/MMBtu</div>
+      </div>
+      <div class="commodity-right">
+        <div class="commodity-price">US$2.18</div>
+        <div class="commodity-cad" id="ng-cad">≈ C$—</div>
+        <div class="commodity-chg chg-up">▲ 3.4%</div>
+      </div>
+    </div>
+    <div class="data-credit">Weekly pipeline values · USD figures converted at live Bank of Canada rate · Not investment advice</div>
+  </div>
+
+  <!-- PROCUREMENT FEED -->
+  <div class="panel t-body-full">
+    <div class="panel-header">
+      <span class="panel-title">Procurement feed — open tenders · Sector-filtered</span>
+      <span class="panel-meta">CanadaBuys · NATO NSPA · EU TED · SAM.gov · <a href="/procurement" style="color:rgba(204,0,0,0.5);">Full search →</a></span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 32px;">
+      <div>
+        <div class="procurement-row">
+          <div class="procurement-title">DND — NORAD modernisation radar systems RFI — Canadian content preferred</div>
+          <div class="procurement-meta">
+            <span class="proc-tag tag-fed">CanadaBuys</span>
+            <span class="proc-tag" style="background:rgba(106,32,176,0.2);color:#b080e0;">Aerospace</span>
+            <span class="proc-deadline">Closes Apr 30, 2026</span>
+            <span class="proc-link"><a href="https://buyandsell.gc.ca" target="_blank" rel="noopener">View original →</a></span>
+          </div>
+        </div>
+        <div class="procurement-row">
+          <div class="procurement-title">NATO NSPA — vehicle battery supply, allied standard · EV transition procurement</div>
+          <div class="procurement-meta">
+            <span class="proc-tag tag-nato">NATO NSPA</span>
+            <span class="proc-tag" style="background:rgba(200,100,10,0.2);color:#d08040;">Energy</span>
+            <span class="proc-deadline">Closes May 12, 2026</span>
+            <span class="proc-link"><a href="https://www.nspa.nato.int/procurement" target="_blank" rel="noopener">View original →</a></span>
+          </div>
+        </div>
+        <div class="procurement-row">
+          <div class="procurement-title">PSPC — AI and cybersecurity professional services, GC cloud security framework</div>
+          <div class="procurement-meta">
+            <span class="proc-tag tag-fed">CanadaBuys</span>
+            <span class="proc-tag" style="background:rgba(10,96,128,0.2);color:#60a8c8;">Technology</span>
+            <span class="proc-deadline">Closes Apr 22, 2026</span>
+            <span class="proc-link"><a href="https://buyandsell.gc.ca" target="_blank" rel="noopener">View original →</a></span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="procurement-row">
+          <div class="procurement-title">EU TED — graphite anode materials, EV battery supply chain framework agreement</div>
+          <div class="procurement-meta">
+            <span class="proc-tag tag-eu">EU TED</span>
+            <span class="proc-tag" style="background:rgba(26,107,66,0.2);color:#5acc8a;">Critical Min.</span>
+            <span class="proc-deadline">Closes Jun 3, 2026</span>
+            <span class="proc-link"><a href="https://ted.europa.eu" target="_blank" rel="noopener">View original →</a></span>
+          </div>
+        </div>
+        <div class="procurement-row">
+          <div class="procurement-title">US DoD SAM.gov — advanced computing components, allied supply chain preferred</div>
+          <div class="procurement-meta">
+            <span class="proc-tag tag-us">SAM.gov</span>
+            <span class="proc-tag" style="background:rgba(10,96,128,0.2);color:#60a8c8;">Technology</span>
+            <span class="proc-deadline">Closes May 8, 2026</span>
+            <span class="proc-link"><a href="https://sam.gov" target="_blank" rel="noopener">View original →</a></span>
+          </div>
+        </div>
+        <div class="procurement-row">
+          <div class="procurement-title">AAFC — pulse crop market development, Southeast Asia distributor network programme</div>
+          <div class="procurement-meta">
+            <span class="proc-tag tag-fed">CanadaBuys</span>
+            <span class="proc-tag" style="background:rgba(176,120,0,0.2);color:#d0a040;">Agri-food</span>
+            <span class="proc-deadline">Rolling</span>
+            <span class="proc-link"><a href="https://buyandsell.gc.ca" target="_blank" rel="noopener">View original →</a></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="font-family:'DM Mono',monospace;font-size:7px;color:rgba(255,255,255,0.15);padding-top:10px;border-top:1px solid rgba(255,255,255,0.04);margin-top:8px;">
+      Sources: CanadaBuys (Government of Canada) · NATO NSPA · EU TED (European Commission) · SAM.gov (US Federal) · All tenders link to original source · We aggregate and filter — we do not replace the source · <a href="/procurement" style="color:rgba(204,0,0,0.4);">Full procurement search →</a>
+    </div>
+  </div>
+
+</div>
+
+<div class="t-footer">
+  <div class="t-footer-inner">
+    Exchange rates: <a href="https://www.bankofcanada.ca">Bank of Canada</a> · Stock data: Yahoo Finance / TSX · Commodity prices: Weekly pipeline · Procurement: <a href="https://buyandsell.gc.ca">CanadaBuys</a> · <a href="https://www.nspa.nato.int">NATO NSPA</a> · <a href="https://ted.europa.eu">EU TED</a> · <a href="https://sam.gov">SAM.gov</a><br>
+    For informational purposes only · Not investment or legal advice · Corporate intelligence only · <a href="/methodology">Scoring methodology</a> · <a href="/">Canadian Trade Intel</a>
+  </div>
+</div>
+
+<script>
+function updateClock(){
+  const now=new Date();
+  document.getElementById('t-clock').textContent=now.toLocaleTimeString('en-CA',{hour:'2-digit',minute:'2-digit',timeZone:'America/Toronto'})+' ET';
+}
+updateClock();
+setInterval(updateClock,30000);
+
+async function loadBoC(){
+  try{
+    const res=await fetch('https://www.bankofcanada.ca/valet/observations/group/FX_RATES_DAILY/json?recent=1');
+    const data=await res.json();
+    const obs=data.observations?.[0];
+    if(!obs)return;
+    const rates={
+      FXUSDCAD:'usd',FXEURCAD:'eur',FXGBPCAD:'gbp',
+      FXJPYCAD:'jpy',FXCNYCAD:'cny',FXAUDCAD:'aud'
+    };
+    let usdCad=1.36;
+    Object.entries(rates).forEach(([key,id])=>{
+      const raw=parseFloat(obs[key]?.v);
+      if(isNaN(raw))return;
+      let val,display;
+      if(key==='FXJPYCAD'){val=raw;display=(1/raw).toFixed(4);}
+      else{val=1/raw;display=val.toFixed(4);}
+      const el=document.getElementById('fx-'+id);
+      const telEl=document.getElementById('fx-'+id);
+      const pEl=document.getElementById('p-fx-'+id);
+      if(el)el.textContent=display;
+      if(pEl)pEl.textContent=display;
+      if(id==='usd')usdCad=raw;
+    });
+    // Update CAD conversions for commodities
+    const cadRate=usdCad;
+    const items=[
+      {id:'ura-cad',usd:68.50,unit:'/lb'},
+      {id:'li-cad',usd:9200,unit:'/t'},
+      {id:'cu-cad',usd:9850,unit:'/t'},
+      {id:'ng-cad',usd:2.18,unit:''}
+    ];
+    items.forEach(item=>{
+      const el=document.getElementById(item.id);
+      if(el){
+        const cad=(item.usd*cadRate).toLocaleString('en-CA',{maximumFractionDigits:2});
+        el.textContent=`≈ C$${cad}${item.unit}`;
+      }
+    });
+  }catch(e){
+    document.getElementById('p-fx-usd').textContent='See bankofcanada.ca';
+  }
+}
+loadBoC();
+
+// Stock watch via Yahoo Finance proxy
+async function loadStocks(){
+  const stocks=[
+    {ticker:'CCO.TO',id:'cco'},
+    {ticker:'NTR.TO',id:'ntr'},
+    {ticker:'CAE.TO',id:'cae'},
+    {ticker:'SHOP.TO',id:'shop'},
+    {ticker:'BLDP',id:'bld'}
+  ];
+  for(const s of stocks){
+    try{
+      const res=await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${s.ticker}?interval=1d&range=2d`);
+      const data=await res.json();
+      const meta=data.chart?.result?.[0]?.meta;
+      if(!meta)continue;
+      const price=meta.regularMarketPrice;
+      const prev=meta.previousClose||meta.chartPreviousClose;
+      const chg=prev?((price-prev)/prev*100):0;
+      const priceEl=document.getElementById('s-'+s.id);
+      const chgEl=document.getElementById('s-'+s.id+'-chg');
+      if(priceEl)priceEl.textContent=`C$${price.toFixed(2)}`;
+      if(chgEl){
+        const sign=chg>=0?'▲':'▼';
+        chgEl.textContent=`${sign} ${Math.abs(chg).toFixed(2)}%`;
+        chgEl.className='stock-chg '+(chg>=0?'chg-up':'chg-down');
+      }
+    }catch(e){}
+  }
+  const t=new Date();
+  const el=document.getElementById('stock-time');
+  if(el)el.textContent=t.toLocaleTimeString('en-CA',{hour:'2-digit',minute:'2-digit',timeZone:'America/Toronto'})+' ET';
+}
+loadStocks();
+</script>
+
+</body>
+</html>
