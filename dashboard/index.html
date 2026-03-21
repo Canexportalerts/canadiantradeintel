@@ -126,6 +126,23 @@ h1 { font-family: var(--display); font-size: clamp(36px,4vw,52px); font-weight: 
 
 .footnote { font-size: 11px; color: var(--ink-light); line-height: 1.8; border-top: 1px solid var(--rule); padding-top: 20px; margin-top: 40px; }
 
+  /* ── SIGNALS FEED ── */
+  .signals-feed { margin: 20px 0 32px; }
+  .signals-feed-header { display: flex; align-items: baseline; gap: 12px; margin-bottom: 12px; }
+  .signals-feed-title { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; }
+  .signals-feed-date { font-size: 11px; color: var(--ink-light); }
+  .signal-feed-cards { display: flex; flex-direction: column; gap: 8px; }
+  .signal-feed-card { border: 1px solid var(--rule); border-radius: 4px; padding: 11px 14px; background: var(--surface); display: flex; gap: 12px; align-items: flex-start; }
+  .signal-feed-badge { font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: 0.12em; text-transform: uppercase; padding: 3px 7px; border-radius: 2px; white-space: nowrap; flex-shrink: 0; margin-top: 2px; }
+  .signal-feed-badge.opportunity { background: #e8f5ec; color: #1a6b42; }
+  .signal-feed-badge.risk { background: #fdf0f0; color: #8b1a1a; }
+  .signal-feed-badge.watch { background: #fdf8ec; color: #7a4a00; }
+  .signal-feed-body { flex: 1; min-width: 0; }
+  .signal-feed-headline { font-size: 13px; font-weight: 600; color: var(--ink); line-height: 1.4; margin-bottom: 3px; }
+  .signal-feed-meta { font-size: 11px; color: var(--ink-light); margin-bottom: 4px; }
+  .signal-feed-summary { font-size: 12px; color: var(--ink-mid); line-height: 1.5; }
+  .signals-placeholder { font-size: 13px; color: var(--ink-light); font-style: italic; padding: 14px 0; border-top: 1px solid var(--rule); margin-top: 4px; }
+
 /* ── CONTEXT LAYER ── */
 .context-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 18px; }
 .context-card { background: var(--paper-2); border: 1px solid var(--rule-dark); border-top: 3px solid var(--rule-dark); padding: 20px 22px; }
@@ -221,6 +238,8 @@ footer { background: var(--ink-2); padding: 32px 40px; display: flex; justify-co
     <div class="stat-cell"><div class="stat-number green">#2</div><div class="stat-label">Canada's global rank in uranium production</div><div class="stat-source">World Nuclear Association · 2024</div></div>
     <div class="stat-cell"><div class="stat-number green">$40<em>B</em></div><div class="stat-label">Critical minerals contribution to Canadian GDP — 110,000 jobs</div><div class="stat-source">NRCan · 2024</div></div>
   </div>
+
+  <div id="signals-feed-critical_minerals" class="signals-feed"></div>
 
   <div class="chart-section fade-up">
     <div class="section-head"><h2>Export Destinations — The Concentration Problem</h2><span class="label">% of Total Exports · 2024</span></div>
@@ -382,6 +401,8 @@ footer { background: var(--ink-2); padding: 32px 40px; display: flex; justify-co
     <div class="stat-cell"><div class="stat-number" style="color:#c8640a;">8<em style="color:#e07b20;font-style:normal;font-size:22px;">B</em></div><div class="stat-label">Strategic Innovation Fund Net Zero Accelerator — clean energy industrial investment</div><div class="stat-source">ISED · SIF Net Zero Accelerator · 2024</div></div>
   </div>
 
+  <div id="signals-feed-energy_cleantech" class="signals-feed"></div>
+
   <div class="chart-section fade-up">
     <div class="section-head"><h2>Canada's Clean Energy Export Landscape</h2><span class="label">Products, Companies & Key Markets · 2024–2026</span></div>
     <div class="chart-grid-2">
@@ -527,6 +548,8 @@ footer { background: var(--ink-2); padding: 32px 40px; display: flex; justify-co
     <div class="stat-cell"><div class="stat-number blue">78<em>%</em></div><div class="stat-label">Of manufactured exports going to the US — the concentration risk</div><div class="stat-source">Statistics Canada · 2024</div></div>
     <div class="stat-cell"><div class="stat-number blue">$100<em>B+</em></div><div class="stat-label">US CHIPS & IRA manufacturing procurement — Canadian supplier opportunity</div><div class="stat-source">US DOC · EDC · 2024</div></div>
   </div>
+
+  <div id="signals-feed-advanced_manufacturing" class="signals-feed"></div>
 
   <div class="chart-section fade-up">
     <div class="section-head"><h2>Manufacturing Export Composition</h2><span class="label">Canada's Key Manufactured Exports · 2024</span></div>
@@ -693,6 +716,8 @@ footer { background: var(--ink-2); padding: 32px 40px; display: flex; justify-co
     <div class="stat-cell"><div class="stat-number purple">5<em>%</em></div><div class="stat-label">NATO Hague 2025 target by 2035 — 3.5% core defence + 1.5% critical infrastructure and cyber</div><div class="stat-source">NATO · Hague Summit · June 2025</div></div>
   </div>
 
+  <div id="signals-feed-aerospace_defence" class="signals-feed"></div>
+
   <div class="chart-section fade-up">
     <div class="section-head"><h2>NATO Defence Spending — The Procurement Wave</h2><span class="label">% of GDP · 2024 Actuals</span></div>
     <div class="chart-grid-2">
@@ -835,6 +860,8 @@ footer { background: var(--ink-2); padding: 32px 40px; display: flex; justify-co
     <div class="stat-cell"><div class="stat-number amber">~16<em>%</em></div><div class="stat-label">Of agri-food exports to China — concentration risk with active canola restrictions</div><div class="stat-source">Statistics Canada · 2024</div></div>
   </div>
 
+  <div id="signals-feed-agri_food" class="signals-feed"></div>
+
   <div class="chart-section fade-up">
     <div class="section-head"><h2>Agri-food Export Composition</h2><span class="label">Top Commodities & Destinations · 2024</span></div>
     <div class="chart-grid-2">
@@ -937,6 +964,8 @@ footer { background: var(--ink-2); padding: 32px 40px; display: flex; justify-co
     <div class="stat-cell"><div class="stat-number" style="color:#0a6080;">30<em style="color:#1a90b0;font-style:normal;font-size:22px;">K+</em></div><div class="stat-label">Canadian tech companies — 85% are SMEs with export potential</div><div class="stat-source">ISED · Canadian Council for Innovation · 2024</div></div>
     <div class="stat-cell"><div class="stat-number" style="color:#0a6080;">.4<em style="color:#1a90b0;font-style:normal;font-size:22px;">T</em></div><div class="stat-label">Global digital economy by 2030 — Canada positioned to capture allied-market share</div><div class="stat-source">World Economic Forum · OECD · 2024</div></div>
   </div>
+
+  <div id="signals-feed-tech_digital" class="signals-feed"></div>
 
   <div class="chart-section fade-up">
     <div class="section-head"><h2>Canada's Tech Export Landscape</h2><span class="label">Strengths, Clusters & Export Destinations · 2024</span></div>
@@ -1131,6 +1160,69 @@ footer { background: var(--ink-2); padding: 32px 40px; display: flex; justify-co
 </footer>
 
 <script>
+// ── SIGNALS FEED ──────────────────────────────────────────
+const SIGNALS_BASE = 'https://raw.githubusercontent.com/Canexportalerts/canadiantradeintel/main/reports/';
+const SECTOR_KEY_MAP = { 'tech_digital': 'technology_digital' };
+const SECTOR_COLORS = {
+  critical_minerals:      'var(--green-mid)',
+  energy_cleantech:       '#c8640a',
+  advanced_manufacturing: 'var(--blue)',
+  aerospace_defence:      'var(--purple)',
+  agri_food:              'var(--amber)',
+  tech_digital:           '#0a6080',
+};
+
+function nextTuesday() {
+  const d = new Date();
+  const daysUntil = ((2 - d.getDay() + 7) % 7) || 7;
+  d.setDate(d.getDate() + daysUntil);
+  return d.toLocaleDateString('en-CA', { month: 'long', day: 'numeric', year: 'numeric' });
+}
+
+async function loadSignals(sectorId) {
+  const el = document.getElementById('signals-feed-' + sectorId);
+  if (!el || el.dataset.loaded) return;
+  el.dataset.loaded = '1';
+  const pipelineSector = SECTOR_KEY_MAP[sectorId] || sectorId;
+  const url = SIGNALS_BASE + 'signals_' + pipelineSector + '_latest.json';
+  try {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('no feed');
+    const data = await res.json();
+    const signals = data.signals || [];
+    if (!signals.length) throw new Error('empty');
+    const color = SECTOR_COLORS[sectorId] || 'var(--ink)';
+    const issueStr = String(data.issue || '').padStart(3, '0');
+    let html = `<div class="signals-feed-header">
+      <span class="signals-feed-title" style="color:${color}">Latest Signals</span>
+      <span class="signals-feed-date">Issue #${issueStr} · ${data.date || ''}</span>
+    </div><div class="signal-feed-cards">`;
+    for (const s of signals) {
+      const type    = (s.signal_type || 'watch').toLowerCase();
+      const label   = type === 'opportunity' ? 'Opportunity' : type === 'risk' ? 'Risk' : 'Watch';
+      const flag    = s.flag ? s.flag + ' ' : '';
+      const country = s.country || '';
+      const topic   = s.topic   ? ' · ' + s.topic : '';
+      const summary = (s.summary || '').substring(0, 100) + ((s.summary || '').length > 100 ? '…' : '');
+      html += `<div class="signal-feed-card">
+        <span class="signal-feed-badge ${type}">${label}</span>
+        <div class="signal-feed-body">
+          <div class="signal-feed-headline">${s.headline || ''}</div>
+          ${country ? `<div class="signal-feed-meta">${flag}${country}${topic}</div>` : ''}
+          ${summary ? `<div class="signal-feed-summary">${summary}</div>` : ''}
+        </div>
+      </div>`;
+    }
+    html += '</div>';
+    el.innerHTML = html;
+  } catch (e) {
+    el.innerHTML = `<div class="signals-placeholder">Signals updated every Tuesday — next update ${nextTuesday()}.</div>`;
+  }
+}
+
+// Load on page open (default tab: critical_minerals)
+document.addEventListener('DOMContentLoaded', () => loadSignals('critical_minerals'));
+
 function switchTab(sector, btn) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
@@ -1140,6 +1232,7 @@ function switchTab(sector, btn) {
     el.classList.remove('visible');
     setTimeout(() => el.classList.add('visible'), 50);
   });
+  loadSignals(sector);
 }
 const observer = new IntersectionObserver(entries => {
   entries.forEach(el => { if (el.isIntersecting) el.target.classList.add('visible'); });
