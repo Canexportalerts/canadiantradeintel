@@ -554,6 +554,29 @@
   .page-header h1   { animation: fadeUp 0.4s ease both; }
   .page-header-desc { animation: fadeUp 0.4s 0.07s ease both; }
   .toggle-wrap      { animation: fadeUp 0.4s 0.12s ease both; }
+
+.nav-dropdown{position:relative;display:inline-flex;align-items:center;}
+.nav-dropdown-btn{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.6);background:none;border:none;cursor:pointer;padding:0;transition:color 0.2s;}
+.nav-dropdown-btn:hover{color:rgba(204,0,0,0.9);}
+.nav-dropdown-menu{display:none;position:absolute;top:calc(100% + 8px);left:0;background:#1a0505;border:1px solid rgba(204,0,0,0.25);min-width:190px;z-index:400;padding:6px 0;box-shadow:0 8px 24px rgba(0,0,0,0.4);}
+.nav-dropdown:hover .nav-dropdown-menu{display:flex;flex-direction:column;}
+.nav-dropdown-menu a{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.6);padding:9px 16px;text-decoration:none;transition:color 0.16s,background 0.16s;}
+.nav-dropdown-menu a:hover{color:rgba(204,0,0,0.9);background:rgba(204,0,0,0.06);}
+
+footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
+.footer-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:32px;padding-bottom:40px;}
+.footer-col-brand{}
+.footer-brand-name{font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;color:#f0f0e8;margin-bottom:8px;}
+.footer-brand-tagline{font-family:'DM Mono',monospace;font-size:9px;color:rgba(255,255,255,0.4);letter-spacing:0.08em;line-height:1.8;margin-bottom:16px;}
+.footer-plans-btn{display:inline-block;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;background:#cc0000;color:#fff;padding:8px 14px;text-decoration:none;}
+.footer-col-title{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(204,0,0,0.6);margin-bottom:12px;}
+.footer-links{display:flex;flex-direction:column;gap:8px;}
+.footer-links a{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.16s;}
+.footer-links a:hover{color:rgba(204,0,0,0.8);}
+.footer-bottom{max-width:1200px;margin:0 auto;padding:20px 0 28px;border-top:1px solid rgba(255,255,255,0.05);}
+.footer-copy{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.08em;color:rgba(255,255,255,0.3);}
+@media(max-width:900px){.footer-grid{grid-template-columns:1fr 1fr;gap:28px;}footer{padding:36px 24px 0;}}
+@media(max-width:560px){.footer-grid{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
@@ -566,23 +589,33 @@
       <a href="/reports">Reports</a>
       <a href="/spotlight">Spotlight</a>
       <a href="/dashboard">Dashboard</a>
-      <a href="/terminal">Live Data</a>
       <a href="/procurement">Procurement</a>
-      <a href="/tariffs">Tariffs</a>
-      <a href="/about">About</a>
-      <a href="/pricing" class="active">Plans</a>
+      <div class="nav-dropdown">
+        <button class="nav-dropdown-btn">Resources ▾</button>
+        <div class="nav-dropdown-menu">
+          <a href="/guides">Practical Guides</a>
+          <a href="/methodology">Methodology</a>
+          <a href="/tariffs">Tariff Reference</a>
+          <a href="/terminal">Live Data Terminal</a>
+          <a href="/about">About</a>
+        </div>
+      </div>
+      <a href="/pricing" class="nav-cta active">See Plans</a>
     </div>
     <button class="nav-hamburger" id="nav-hamburger" onclick="toggleMobileNav()" aria-label="Menu">
       <span></span><span></span><span></span>
     </button>
-    <div class="nav-mobile-menu" id="nav-mobile-menu">
-      <a href="/reports" onclick="closeMobileNav()">Reports</a>
-      <a href="/spotlight" onclick="closeMobileNav()">Spotlight</a>
-      <a href="/dashboard" onclick="closeMobileNav()">Dashboard</a>
-      <a href="/tariffs">Tariffs</a>
+    <div class="nav-mobile" id="nav-mobile">
+      <a href="/reports">Reports</a>
+      <a href="/spotlight">Spotlight</a>
+      <a href="/dashboard">Dashboard</a>
+      <a href="/procurement">Procurement</a>
+      <a href="/guides">Practical Guides</a>
+      <a href="/methodology">Methodology</a>
+      <a href="/tariffs">Tariff Reference</a>
+      <a href="/terminal">Live Data Terminal</a>
       <a href="/about">About</a>
-      <a href="/pricing" onclick="closeMobileNav()">Plans</a>
-      <a href="#contact" class="nav-cta-mobile" onclick="closeMobileNav()">Contact Us</a>
+      <a href="/pricing" class="nav-cta">See Plans</a>
     </div>
   </div>
 </nav>
@@ -1082,22 +1115,50 @@
 </div><!-- /pricing-body -->
 
 <!-- ══ FOOTER ══ -->
-<footer class="site-footer">
-  <div class="site-footer-inner">
+<footer>
+  <div class="footer-grid">
+    <div class="footer-col-brand">
+      <div class="footer-brand-name">Canadian Trade Intel</div>
+      <div class="footer-brand-tagline">Weekly trade intelligence for Canadian businesses.<br>Six sectors. Every Tuesday.</div>
+      <a href="/pricing" class="footer-plans-btn">See Plans →</a>
+    </div>
     <div>
-      <div class="footer-brand">Canadian Trade Intel</div>
-      <div class="footer-meta">
-        WEEKLY EXPORT INTELLIGENCE · CANADIANTRADEINTEL.CA<br>
-        ALL PRICES IN CAD · 14-DAY FREE TRIAL ON ALL PLANS<br>
-        NOT INVESTMENT OR LEGAL ADVICE
+      <div class="footer-col-title">Intelligence</div>
+      <div class="footer-links">
+        <a href="/reports">Weekly Reports</a>
+        <a href="/spotlight">Spotlight</a>
+        <a href="/dashboard">Dashboard</a>
+        <a href="#">FDI Monitor</a>
       </div>
     </div>
-    <div class="footer-links">
-      <a href="/reports">Intelligence Reports</a>
-      <a href="/spotlight">Canadian Spotlight</a>
-      <a href="/dashboard">Dashboard</a>
-      <a href="/">canadiantradeintel.ca</a>
+    <div>
+      <div class="footer-col-title">Tools</div>
+      <div class="footer-links">
+        <a href="/terminal">Live Data Terminal</a>
+        <a href="/procurement">Procurement Hub</a>
+        <a href="/tariffs">Tariff Reference</a>
+      </div>
     </div>
+    <div>
+      <div class="footer-col-title">Resources</div>
+      <div class="footer-links">
+        <a href="/guides">Practical Guides</a>
+        <a href="/methodology">Methodology</a>
+        <a href="/guides/canexport-sme">CanExport SME</a>
+        <a href="/guides/ised-programmes">ISED Programmes</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Company</div>
+      <div class="footer-links">
+        <a href="/about">About</a>
+        <a href="/pricing">Pricing</a>
+        <a href="mailto:hello@canadiantradeintel.ca">Contact</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2026 Canadian Trade Intelligence Inc. · Federally incorporated · Not legal or investment advice</span>
   </div>
 </footer>
 
