@@ -47,8 +47,12 @@
   .site-nav-links a:hover, .site-nav-links a.active { color: rgba(204,0,0,0.9); }
   .nav-cta { font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: 0.14em; text-transform: uppercase; background: var(--brand); color: #fff !important; padding: 7px 14px; text-decoration: none; transition: background 0.18s; }
   .nav-cta:hover { background: var(--brand-deep) !important; }
-  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; }
-  .hamburger span { width: 22px; height: 1px; background: rgba(255,255,255,0.4); display: block; }
+  .hamburger, .nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; background: none; border: none; }
+  .hamburger span, .nav-hamburger span { width: 22px; height: 1px; background: rgba(255,255,255,0.4); display: block; }
+  .nav-mobile { display: none; flex-direction: column; position: absolute; top: 46px; left: 0; right: 0; background: var(--brand-dark); padding: 16px 20px; gap: 16px; border-bottom: 1px solid rgba(204,0,0,0.2); z-index: 300; }
+  .nav-mobile a { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.6); text-decoration: none; }
+  .nav-mobile a:hover { color: rgba(204,0,0,0.9); }
+  .nav-mobile.open { display: flex; }
 
   /* ── PAGE HEADER ── */
   .page-header { background: var(--brand-dark); padding: 48px 40px 40px; border-bottom: 3px solid var(--brand); }
@@ -190,7 +194,7 @@
     .site-nav { padding: 0 16px; }
     .site-nav-links { display: none; }
     .site-nav-links.open { display: flex; flex-direction: column; position: absolute; top: 46px; left: 0; right: 0; background: var(--brand-dark); padding: 16px 20px; gap: 16px; border-bottom: 1px solid rgba(204,0,0,0.2); z-index: 300; }
-    .hamburger { display: flex; }
+    .hamburger, .nav-hamburger { display: flex; }
     .filter-bar { padding: 0 16px; }
     .page-header { padding: 32px 20px 28px; }
     .page-header-inner { flex-direction: column; align-items: flex-start; }
@@ -215,11 +219,11 @@
 
 .nav-dropdown{position:relative;display:inline-flex;align-items:center;}
 .nav-dropdown-btn{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.6);background:none;border:none;cursor:pointer;padding:0;transition:color 0.2s;}
-.nav-dropdown-btn:hover{color:rgba(204,0,0,0.9);}
-.nav-dropdown-menu{display:none;position:absolute;top:calc(100% + 8px);left:0;background:#1a0505;border:1px solid rgba(204,0,0,0.25);min-width:190px;z-index:400;padding:6px 0;box-shadow:0 8px 24px rgba(0,0,0,0.4);}
+.nav-dropdown-btn:hover{color:rgba(204,0,0,0.9);font-size:10px;font-family:'DM Mono',monospace;}
+.nav-dropdown-menu{display:none;position:absolute;top:100%;left:0;background:#1a0505;border:1px solid rgba(204,0,0,0.25);min-width:190px;z-index:400;padding:14px 0 6px;box-shadow:0 8px 24px rgba(0,0,0,0.4);}
 .nav-dropdown:hover .nav-dropdown-menu{display:flex;flex-direction:column;}
-.nav-dropdown-menu a{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.6);padding:9px 16px;text-decoration:none;transition:color 0.16s,background 0.16s;}
-.nav-dropdown-menu a:hover{color:rgba(204,0,0,0.9);background:rgba(204,0,0,0.06);}
+.nav-dropdown-menu a{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.6);padding:9px 16px;text-decoration:none;transition:color 0.16s,background 0.16s;display:block;}
+.nav-dropdown-menu a:hover{color:rgba(204,0,0,0.9);background:rgba(204,0,0,0.06);font-size:9px;font-family:'DM Mono',monospace;}
 
 footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
 .footer-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:32px;padding-bottom:40px;}
@@ -827,6 +831,11 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
 </footer>
 
 <script>
+function toggleMobileNav() {
+  const menu = document.getElementById('nav-mobile');
+  if (menu) menu.classList.toggle('open');
+}
+
 let openTile = null;
 
 function toggleTile(id) {
