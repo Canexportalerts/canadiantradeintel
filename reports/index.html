@@ -30,9 +30,9 @@ nav {
   position: sticky; top: 0; z-index: 100;
   background: #1a0505;
   border-bottom: 1px solid rgba(204,0,0,0.2);
-  padding: 0 40px; display: flex; justify-content: space-between;
-  align-items: center; height: 56px; position: relative;
+  padding: 0 40px; height: 56px;
 }
+.nav-inner { max-width:1200px; margin:0 auto; height:100%; display:flex; justify-content:space-between; align-items:center; }
 .nav-brand { font-family: var(--mono); font-size: 11px; font-weight: 500;
              letter-spacing: 0.14em; text-transform: uppercase; color: rgba(204,0,0,1.0);
              text-decoration: none; display: flex; align-items: center; gap: 10px; }
@@ -102,8 +102,8 @@ h1 { font-family: var(--display); font-size: clamp(36px, 4vw, 52px);
   color: var(--ink-mid); cursor: pointer; transition: all 0.15s;
 }
 .filter-btn:hover { border-color: var(--green-mid); color: var(--green-mid); }
-.filter-btn.active { background: var(--green); border-color: var(--green);
-                     color: #ffffff; }
+.filter-btn.active { background: var(--green); border-color: var(--green); color: #ffffff; }
+.filter-btn[style*="c8640a"].active { background: #c8640a; border-color: #c8640a; color: #ffffff; }
 
 /* REPORTS LIST */
 .reports-container {
@@ -235,10 +235,11 @@ footer {
 .nav-dropdown{position:relative;display:inline-flex;align-items:center;}
 .nav-dropdown-btn{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.6);background:none;border:none;cursor:pointer;padding:0;transition:color 0.2s;}
 .nav-dropdown-btn:hover{color:rgba(204,0,0,0.9);}
-.nav-dropdown-menu{display:none;position:absolute;top:calc(100% + 8px);left:0;background:#1a0505;border:1px solid rgba(204,0,0,0.25);min-width:190px;z-index:400;padding:6px 0;box-shadow:0 8px 24px rgba(0,0,0,0.4);}
+.nav-dropdown-menu{display:none;position:absolute;top:100%;left:0;background:#1a0505;border:1px solid rgba(204,0,0,0.25);min-width:190px;z-index:400;padding:14px 0 6px;box-shadow:0 8px 24px rgba(0,0,0,0.4);}
 .nav-dropdown:hover .nav-dropdown-menu{display:flex;flex-direction:column;}
-.nav-dropdown-menu a{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.6);padding:9px 16px;text-decoration:none;transition:color 0.16s,background 0.16s;}
-.nav-dropdown-menu a:hover{color:rgba(204,0,0,0.9);background:rgba(204,0,0,0.06);}
+.nav-dropdown-menu, .nav-dropdown-menu a, .nav-dropdown-menu *{font-family:'DM Mono',monospace !important;font-size:9px !important;font-weight:400 !important;font-style:normal !important;letter-spacing:0.1em !important;text-transform:uppercase !important;}
+.nav-dropdown-menu a{color:rgba(255,255,255,0.6);padding:9px 16px;text-decoration:none;transition:color 0.16s,background 0.16s;display:block;}
+.nav-dropdown-menu a:hover{color:rgba(204,0,0,0.9) !important;background:rgba(204,0,0,0.06);}
 
 footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
 .footer-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:32px;padding-bottom:40px;}
@@ -296,11 +297,12 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
 <!-- FILTER BAR -->
 <div class="filter-bar">
   <button class="filter-btn active" onclick="filterReports('all', this)">All Sectors</button>
-  <button class="filter-btn" onclick="filterReports('critical_minerals', this)">Critical Minerals</button>
-  <button class="filter-btn" onclick="filterReports('agri_food', this)">Agri-food</button>
-  <button class="filter-btn" onclick="filterReports('advanced_manufacturing', this)">Advanced Manufacturing</button>
-  <button class="filter-btn" onclick="filterReports('tech_digital', this)">Technology & Digital</button>
-  <button class="filter-btn" onclick="filterReports('aerospace_defence', this)">Aerospace & Defence</button>
+  <button class="filter-btn" onclick="filterReports('critical_minerals', this)">⚗ Critical Minerals</button>
+  <button class="filter-btn" style="--sector-color:#c8640a" onclick="filterReports('energy_cleantech', this)">⚡ Energy & Cleantech</button>
+  <button class="filter-btn" onclick="filterReports('advanced_manufacturing', this)">🏭 Advanced Manufacturing</button>
+  <button class="filter-btn" onclick="filterReports('aerospace_defence', this)">✈ Aerospace & Defence</button>
+  <button class="filter-btn" onclick="filterReports('agri_food', this)">🌾 Agri-food</button>
+  <button class="filter-btn" onclick="filterReports('technology_digital', this)">💻 Technology & Digital</button>
 </div>
 
 <!-- REPORTS LIST -->
