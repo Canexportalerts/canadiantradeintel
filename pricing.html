@@ -50,7 +50,7 @@
     letter-spacing: 0.2em; text-transform: uppercase;
     color: rgba(204,0,0,1.0); text-decoration: none;
   }
-  .site-nav-links { display: flex; gap: 28px; }
+  .site-nav-links { display: flex; gap: 28px; align-items: center; }
   .site-nav-links a {
     font-family: 'DM Mono', monospace; font-size: 10px;
     letter-spacing: 0.14em; text-transform: uppercase;
@@ -58,6 +58,7 @@
   }
   .site-nav-links a:hover,
   .site-nav-links a.active { color: rgba(204,0,0,0.9); }
+  .nav-cta { background: #cc0000 !important; color: #ffffff !important; padding: 8px 16px; border-radius: 3px; }
 
   /* ── HAMBURGER ── */
   .nav-hamburger {
@@ -530,7 +531,7 @@
     #general-contact > div { grid-template-columns: 1fr !important; }
   }
   @media (max-width: 600px) {
-    .site-nav { padding: 0 16px; position: relative; }
+    .site-nav { padding: 0 16px; }
     .site-nav-links { display: none; }
     .nav-hamburger { display: flex; }
     .page-header { padding: 40px 20px 36px; }
@@ -582,6 +583,42 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
 </head>
 <body>
 
+<!-- ══════════════════════════════════════════════════════════════════
+     HEADER STANDARD — canonical nav for canadiantradeintel.ca
+     Copy this block exactly when creating new pages.
+     ──────────────────────────────────────────────────────────────────
+     HTML STRUCTURE (site-nav variant — matches pricing/about):
+       <nav class="site-nav">              ← block element; position:sticky lives here
+         <div class="site-nav-inner">      ← flex container, max-width:1100px, margin:0 auto
+           .site-nav-brand                 ← logo/wordmark link
+           .site-nav-links                 ← flex row; MUST have align-items:center
+             .nav-dropdown                 ← position:relative wrapper for Resources
+               .nav-dropdown-btn           ← hover trigger
+               .nav-dropdown-menu          ← position:absolute, display:none by default
+             .nav-cta                      ← "See Plans" button (needs its own CSS rule)
+           .nav-hamburger                  ← display:none at desktop
+           .nav-mobile-menu#nav-mobile-menu ← hidden by CSS; toggled by JS
+         </div>
+       </nav>
+
+     CSS DEPENDENCIES (all must be present):
+       .site-nav        → position:sticky; padding:0 40px; height:48px
+       .site-nav-inner  → max-width:1100px; margin:0 auto; display:flex; align-items:center; justify-content:space-between
+       .site-nav-links  → display:flex; gap:28px; align-items:center  ← centre is REQUIRED
+       .nav-dropdown    → position:relative; display:inline-flex; align-items:center
+       .nav-dropdown-menu → display:none; position:absolute; top:100%; z-index:400
+       .nav-cta         → background:#cc0000; color:#fff; padding:8px 16px  ← must be explicit
+       .nav-mobile-menu → display:none  (CSS hides it; JS adds class "open")
+       @media ≤600px: .site-nav { padding:0 16px; }  ← NO position:relative override
+
+     ROOT CAUSES FIXED HERE:
+       1. <div class="nav-mobile" id="nav-mobile"> had NO display:none CSS rule
+          → mobile menu was permanently visible as a 3rd flex item, collapsing the nav
+          Fix: renamed to class="nav-mobile-menu" id="nav-mobile-menu" to match CSS + JS
+       2. .site-nav-links had no align-items:center → dropdown button misaligned vertically
+       3. @media (max-width:600px) had position:relative on .site-nav → overrode sticky
+       4. No .nav-cta rule existed → "See Plans" had no button styling
+     ══════════════════════════════════════════════════════════════════ -->
 <!-- ══ NAV ══ -->
 <nav class="site-nav">
   <div class="site-nav-inner">
@@ -607,7 +644,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
     <button class="nav-hamburger" id="nav-hamburger" onclick="toggleMobileNav()" aria-label="Menu">
       <span></span><span></span><span></span>
     </button>
-    <div class="nav-mobile" id="nav-mobile">
+    <div class="nav-mobile-menu" id="nav-mobile-menu">
       <a href="/reports">Reports</a>
       <a href="/spotlight">Spotlight</a>
       <a href="/dashboard">Dashboard</a>
@@ -618,7 +655,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
       <a href="/tariffs">Tariff Reference</a>
       <a href="/terminal">Live Data Terminal</a>
       <a href="/about">About</a>
-      <a href="/pricing" class="nav-cta">See Plans</a>
+      <a href="/pricing" class="nav-cta-mobile">See Plans</a>
     </div>
   </div>
 </nav>
@@ -796,7 +833,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
       <div style="display:flex;flex-direction:column;gap:20px;">
         <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(204,0,0,0.2);padding:20px 22px;">
           <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(204,0,0,0.6);margin-bottom:8px;">Not sure which sectors to follow?</div>
-          <p style="font-size:13px;color:rgba(240,240,232,0.5);line-height:1.65;">We cover six sectors. Most subscribers start with one or two that match their current export activity. We can help you identify which signals matter most for your markets.</p>
+          <p style="font-size:13px;color:rgba(240,240,232,0.5);line-height:1.65;">We cover six sectors. Most subscribers start with one or two sectors that match where their business is focused. We can help you identify which signals matter most for your markets.</p>
         </div>
         <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(204,0,0,0.2);padding:20px 22px;">
           <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(204,0,0,0.6);margin-bottom:8px;">Need intelligence for a team?</div>
