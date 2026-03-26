@@ -1583,17 +1583,59 @@ nav {
 
 </div><!-- end page-body -->
 
+<script src="/section-nav.js"></script>
 <script>
 function showAgreement(id, btn) {
   document.querySelectorAll('.agreement-panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.sel-tab').forEach(t => t.classList.remove('active'));
   document.getElementById('panel-' + id).classList.add('active');
   btn.classList.add('active');
-  // Scroll to top of content on mobile
   if (window.innerWidth < 768) {
     document.querySelector('.page-body').scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
+  if (window._snCtrl) window._snCtrl.update(window._snSections[id] || []);
 }
+
+(function () {
+  var PANELS = ['cusma','ceta','cptpp','cuktca','cufta','ckfta','ccfta','cpfta','colfta','cepa'];
+  var LABEL_ABBREV = {
+    'What Changed When It Came Into Force': 'What Changed',
+    'What It Means for Canadian Businesses': 'For Businesses',
+    'Honest Assessment \u2014 Pros and Considerations': 'Pros & Cons',
+    'How to Use It \u2014 Practical First Steps': 'How to Use It',
+    'Key Provisions': 'Key Provisions',
+    'What It Covers': 'What It Covers',
+    'Tariff Elimination': 'Tariff Elimination'
+  };
+
+  function abbrev(text) {
+    return LABEL_ABBREV[text] || (text.length > 22 ? text.slice(0, 20) + '\u2026' : text);
+  }
+
+  function buildPanelSections(panelId) {
+    var panel = document.getElementById('panel-' + panelId);
+    if (!panel) return [];
+    var result = [];
+    panel.querySelectorAll('.section-block, .watch-box').forEach(function (el, i) {
+      var id = panelId + '-s' + i;
+      el.id = id;
+      var labelEl = el.querySelector('.section-label');
+      var raw = labelEl ? labelEl.textContent.trim() : (el.classList.contains('watch-box') ? 'Watch' : ('Section ' + (i + 1)));
+      result.push({ id: id, label: abbrev(raw) });
+    });
+    return result;
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    window._snSections = {};
+    PANELS.forEach(function (id) {
+      window._snSections[id] = buildPanelSections(id);
+    });
+    window._snCtrl = initSectionNav(window._snSections['cusma'], {
+      mode: 'vertical', color: '#1A3A6B', topOffset: 116
+    });
+  });
+}());
 </script>
 
 </body>

@@ -1454,6 +1454,51 @@ document.addEventListener('click', function(e) {
   const nav = document.querySelector('nav');
   if (nav && !nav.contains(e.target)) closeMobileNav();
 });
+
+var _origSwitchTab = switchTab;
+switchTab = function(sector, btn) {
+  _origSwitchTab(sector, btn);
+  if (window._snCtrl && window._snSections) {
+    window._snCtrl.update(window._snSections[sector] || []);
+  }
+};
+</script>
+
+<script src="/section-nav.js"></script>
+<script>
+(function () {
+  var SECTORS = ['critical_minerals','energy_cleantech','advanced_manufacturing','aerospace_defence','agri_food','tech_digital'];
+
+  function abbrev(text) {
+    return text.length > 26 ? text.slice(0, 24) + '\u2026' : text;
+  }
+
+  function buildPanelSections(sectorId) {
+    var panel = document.getElementById('panel-' + sectorId);
+    if (!panel) return [];
+    var result = [];
+    var feedEl = document.getElementById('signals-feed-' + sectorId);
+    if (feedEl) result.push({ id: 'signals-feed-' + sectorId, label: 'Latest Signals' });
+    panel.querySelectorAll('.chart-section').forEach(function (el, i) {
+      var h2 = el.querySelector('.section-head h2');
+      if (!h2) return;
+      var id = sectorId + '-cs-' + i;
+      el.id = id;
+      result.push({ id: id, label: abbrev(h2.textContent.trim()) });
+    });
+    return result;
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    window._snSections = {};
+    SECTORS.forEach(function (id) {
+      window._snSections[id] = buildPanelSections(id);
+    });
+    window._snCtrl = initSectionNav(window._snSections['critical_minerals'], {
+      mode: 'vertical', color: '#8B1A1A', topOffset: 56
+    });
+  });
+}());
 </script>
 </body>
 </html>
