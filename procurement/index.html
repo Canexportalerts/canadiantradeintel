@@ -567,30 +567,40 @@ function buildCard(t){
   const prog=(t.canadian_programmes||'').replace(/</g,'&lt;');
   const url=t.url||'https://canadabuys.canada.ca';
   const jur=t.jurisdiction||'Federal';
+  const src=t.source||'';
+  const isEU=src.includes('EU')||src.includes('TED');
+  const isNATO=src.includes('NATO');
+  const srcCls=isEU?'src-eu':isNATO?'src-nato':'src-fed';
+  const srcLabel=isEU?'EU TED':isNATO?'NATO NSPA':'CanadaBuys';
+  const viewLabel=isEU?'View on EU TED →':isNATO?'View on NATO NSPA →':'View on CanadaBuys →';
+  const value=t.estimated_value?`<span class="tender-value">${String(t.estimated_value).replace(/</g,'&lt;')}</span>`:'';
+  const why=t.why_this_matters?`<p style="font-size:11px;color:#8B1A1A;font-style:italic;margin:6px 0 10px;line-height:1.55;">→ ${t.why_this_matters.replace(/</g,'&lt;')}</p>`:'';
   const pills=sectors.map(s=>{const m=SECTOR_MAP[s];return m?`<span class="tender-sector-tag" style="background:${m.bg};color:${m.color};">${m.label}</span>`:''}).join('');
-  const dataText=[t.title,t.issuing_body,...sectors].join(' ').toLowerCase().replace(/"/g,'');
+  const dataText=[t.title,t.issuing_body,src,...sectors].join(' ').toLowerCase().replace(/"/g,'');
   const descHtml=t.description
     ?`<p class="tender-desc-preview">${t.description.slice(0,100)}... <a href="/pricing" class="tender-desc-cta">Full details with subscription →</a></p>`
     :'';
   const lockedHtml=prog
     ?`<div class="locked-block"><div class="locked-blur">${prog}</div><div class="locked-overlay"><a href="/pricing">🔒 Unlock with subscription →</a></div></div>`
     :'';
-  return`<div class="tender-card" data-sector="${sm.css}" data-source="fed" data-text="${dataText}">
+  return`<div class="tender-card" data-sector="${sm.css}" data-source="${srcCls}" data-text="${dataText}">
   <div class="tender-header">
     <div class="tender-title">${title}</div>
-    <span class="tender-source-badge src-fed">CanadaBuys</span>
+    <span class="tender-source-badge ${srcCls}">${srcLabel}</span>
   </div>
   <div class="tender-meta">
     ${pills}
     <span class="tender-jurisdiction">${jur}</span>
     <span class="tender-issuer">${issuer}</span>
     <span class="tender-deadline">${_fmtDate(t.closing_date)}</span>
+    ${value}
   </div>
+  ${why}
   ${descHtml}
   ${lockedHtml}
   <div class="tender-footer">
     <div class="tender-programme"></div>
-    <a href="${url}" target="_blank" rel="noopener" class="tender-link">View on CanadaBuys →</a>
+    <a href="${url}" target="_blank" rel="noopener" class="tender-link">${viewLabel}</a>
   </div>
 </div>`;
 }
