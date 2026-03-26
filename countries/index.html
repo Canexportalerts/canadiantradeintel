@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Country Intelligence Profiles — Canadian Trade Intelligence Inc.</title>
+<meta name="description" content="Country-by-country intelligence profiles for Canadian businesses — trade data, market opportunity, risk, and Canadian government signals for every market that matters.">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=DM+Mono:wght@400;500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="/nav.js"></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --ink: #0D0D0D;
+  --ink-soft: #2A2A2A;
+  --slate: #5A5A5A;
+  --warm-bg: #F8F5F0;
+  --warm-mid: #EFE9E0;
+  --warm-border: #DDD5C5;
+  --white: #FDFCFA;
+  --crimson: #8B1A1A;
+  --crimson-light: #B22222;
+  --gold: #9A7B1A;
+
+  --tier1: #6B0F0F;
+  --tier2: #0F3D6B;
+  --tier3: #0F5C2A;
+  --tier4: #5C420F;
+  --emerging: #2A3D0F;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Jost', sans-serif;
+  background: var(--warm-bg);
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── MASTHEAD ─── */
+.masthead {
+  background: #0A0202;
+  padding: 56px 40px 48px;
+  position: relative;
+  overflow: hidden;
+}
+.masthead::after {
+  content: 'COUNTRY INTELLIGENCE';
+  position: absolute;
+  right: -20px;
+  top: 50%;
+  transform: translateY(-50%) rotate(90deg);
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  color: rgba(255,255,255,0.04);
+  white-space: nowrap;
+  pointer-events: none;
+}
+.masthead-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 40px;
+  align-items: end;
+}
+.masthead-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(139,26,26,0.9);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.masthead-eyebrow::after {
+  content: '';
+  width: 40px;
+  height: 1px;
+  background: rgba(139,26,26,0.4);
+}
+.masthead-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(36px, 5vw, 60px);
+  font-weight: 600;
+  color: #F8F5F0;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  margin-bottom: 16px;
+}
+.masthead-title em {
+  font-style: italic;
+  color: rgba(154,123,26,0.9);
+}
+.masthead-desc {
+  font-size: 15px;
+  color: rgba(248,245,240,0.55);
+  line-height: 1.7;
+  max-width: 580px;
+}
+.masthead-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: flex-end;
+}
+.mstat {
+  text-align: right;
+}
+.mstat-value {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 32px;
+  font-weight: 600;
+  color: rgba(154,123,26,0.9);
+  line-height: 1;
+}
+.mstat-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(248,245,240,0.35);
+  margin-top: 3px;
+}
+
+/* ─── CONTROLS BAR ─── */
+.controls-bar {
+  background: var(--white);
+  border-bottom: 1px solid var(--warm-border);
+  padding: 20px 40px;
+  position: sticky;
+  top: 56px;
+  z-index: 100;
+}
+.controls-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.search-wrap {
+  position: relative;
+  flex: 1;
+  min-width: 200px;
+  max-width: 300px;
+}
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 12px;
+  color: var(--slate);
+  pointer-events: none;
+}
+.search-input {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  width: 100%;
+  padding: 9px 12px 9px 32px;
+  border: 1px solid var(--warm-border);
+  border-radius: 3px;
+  background: var(--warm-bg);
+  color: var(--ink);
+  outline: none;
+  transition: border-color 0.15s;
+}
+.search-input:focus { border-color: var(--crimson); }
+.search-input::placeholder { color: var(--slate); }
+
+.filter-group {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.filter-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--slate);
+  white-space: nowrap;
+}
+.filter-btn {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 6px 12px;
+  border: 1px solid var(--warm-border);
+  border-radius: 2px;
+  background: var(--warm-bg);
+  color: var(--slate);
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.filter-btn:hover { color: var(--ink); border-color: #aaa; }
+.filter-btn.active {
+  background: var(--crimson);
+  color: #fff;
+  border-color: var(--crimson);
+}
+.results-count {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: var(--slate);
+  margin-left: auto;
+  white-space: nowrap;
+}
+
+/* ─── ALPHA INDEX ─── */
+.alpha-bar {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px 40px 0;
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+.alpha-btn {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--warm-border);
+  border-radius: 2px;
+  background: none;
+  color: var(--slate);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.alpha-btn:hover { color: var(--ink); border-color: #999; }
+.alpha-btn.active { background: var(--ink); color: #fff; border-color: var(--ink); }
+.alpha-btn.inactive { opacity: 0.3; pointer-events: none; }
+
+/* ─── MAIN GRID ─── */
+.main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 40px 80px;
+}
+
+.alpha-section { margin-bottom: 40px; }
+.alpha-header {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 48px;
+  font-weight: 500;
+  color: rgba(0,0,0,0.06);
+  letter-spacing: -0.02em;
+  line-height: 1;
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--warm-border);
+  padding-bottom: 8px;
+}
+
+.country-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+}
+
+/* ─── COUNTRY CARD ─── */
+.country-card {
+  background: var(--white);
+  border: 1px solid var(--warm-border);
+  border-radius: 4px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.18s;
+  text-decoration: none;
+  display: block;
+  position: relative;
+}
+.country-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  border-color: rgba(139,26,26,0.25);
+}
+.card-tier-stripe {
+  height: 3px;
+  width: 100%;
+}
+.card-body {
+  padding: 14px 16px 12px;
+}
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 8px;
+}
+.card-rank {
+  font-family: 'DM Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.12em;
+  color: var(--slate);
+  text-transform: uppercase;
+}
+.card-ftas {
+  display: flex;
+  gap: 3px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+.fta-pip {
+  font-family: 'DM Mono', monospace;
+  font-size: 7px;
+  letter-spacing: 0.05em;
+  padding: 2px 5px;
+  border-radius: 1px;
+  font-weight: 500;
+  background: rgba(139,26,26,0.08);
+  color: var(--crimson);
+  border: 1px solid rgba(139,26,26,0.15);
+}
+.card-country {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  margin-bottom: 2px;
+}
+.card-region {
+  font-family: 'DM Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--slate);
+  margin-bottom: 10px;
+}
+.card-tagline {
+  font-size: 12px;
+  color: var(--ink-soft);
+  line-height: 1.5;
+  margin-bottom: 10px;
+  font-style: italic;
+  font-family: 'Cormorant Garamond', serif;
+}
+.card-metrics {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 6px;
+  padding-top: 10px;
+  border-top: 1px solid var(--warm-border);
+}
+.card-metric {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.card-metric-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 7px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--slate);
+}
+.card-metric-value {
+  font-family: 'Jost', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+.card-metric-value.pos { color: #1A5C2A; }
+.card-metric-value.neg { color: var(--crimson); }
+
+/* Priority signal */
+.priority-signal {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 0 2px rgba(154,123,26,0.2);
+  title: "Canadian Government Priority Market";
+}
+
+/* ─── NO RESULTS ─── */
+.no-results {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--slate);
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  display: none;
+}
+
+/* ─── LEGEND ─── */
+.legend {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px 20px;
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  color: var(--slate);
+}
+.legend-stripe {
+  width: 20px;
+  height: 3px;
+  border-radius: 1px;
+}
+.legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--gold);
+}
+
+/* ─── PRINT ─── */
+@media print {
+  nav, .controls-bar, .alpha-bar, .legend { display: none !important; }
+  .masthead { background: white; border-bottom: 2px solid #000; padding: 20px 0; }
+  .masthead-title { color: #000; }
+  body { background: white; }
+  .country-card { break-inside: avoid; }
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 768px) {
+  .masthead { padding: 40px 20px 32px; }
+  .masthead-inner { grid-template-columns: 1fr; }
+  .masthead-stats { flex-direction: row; align-items: flex-start; }
+  .mstat { text-align: left; }
+  .controls-bar { padding: 14px 20px; top: 48px; }
+  .alpha-bar { padding: 12px 20px 0; }
+  .main { padding: 20px 20px 60px; }
+  .legend { padding: 0 20px 16px; }
+  .country-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 480px) {
+  .country-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<nav id="main-nav"></nav>
+
+<div class="masthead">
+  <div class="masthead-inner">
+    <div>
+      <div class="masthead-eyebrow">Canadian Trade Intelligence · Global Markets</div>
+      <h1 class="masthead-title">Country<br><em>Intelligence</em></h1>
+      <p class="masthead-desc">Trade data, market opportunity, risk profiles, and Canadian government signals — for every market that matters to Canadian businesses, investors, and institutions.</p>
+    </div>
+    <div class="masthead-stats">
+      <div class="mstat">
+        <div class="mstat-value">40+</div>
+        <div class="mstat-label">Country Profiles</div>
+      </div>
+      <div class="mstat">
+        <div class="mstat-value">$1.49T</div>
+        <div class="mstat-label">CAD Total Trade 2024</div>
+      </div>
+      <div class="mstat">
+        <div class="mstat-value">51</div>
+        <div class="mstat-label">Countries with FTAs</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Legend -->
+<div class="legend">
+  <div class="legend-item"><div class="legend-stripe" style="background:var(--tier1)"></div>Tier 1: Core Partners ($100B+)</div>
+  <div class="legend-item"><div class="legend-stripe" style="background:var(--tier2)"></div>Tier 2: Major ($20–100B)</div>
+  <div class="legend-item"><div class="legend-stripe" style="background:var(--tier3)"></div>Tier 3: Established ($5–20B)</div>
+  <div class="legend-item"><div class="legend-stripe" style="background:var(--tier4)"></div>Tier 4: Growing ($1–5B)</div>
+  <div class="legend-item"><div class="legend-stripe" style="background:var(--emerging)"></div>Strategic/Emerging</div>
+  <div class="legend-item"><div class="legend-dot"></div>Govt. Priority Signal</div>
+  <div class="legend-item"><div style="width:8px;height:8px;border-radius:2px;background:#1A3A6B;flex-shrink:0"></div>Active Canadian Presence</div>
+  <div class="legend-item"><div style="width:8px;height:8px;border-radius:2px;background:#0F5C2A;flex-shrink:0"></div>Growing Canadian Presence</div>
+</div>
+
+<!-- Controls -->
+<div class="controls-bar">
+  <div class="controls-inner">
+    <div class="search-wrap">
+      <span class="search-icon">⌕</span>
+      <input class="search-input" type="text" placeholder="Search country..." id="search-input" oninput="applyFilters()">
+    </div>
+    <div class="filter-group">
+      <span class="filter-label">Region</span>
+      <button class="filter-btn active" data-filter="region" data-value="all" onclick="setFilter('region','all',this)">All</button>
+      <button class="filter-btn" data-filter="region" data-value="north-america" onclick="setFilter('region','north-america',this)">N. America</button>
+      <button class="filter-btn" data-filter="region" data-value="europe" onclick="setFilter('region','europe',this)">Europe</button>
+      <button class="filter-btn" data-filter="region" data-value="indo-pacific" onclick="setFilter('region','indo-pacific',this)">Indo-Pacific</button>
+      <button class="filter-btn" data-filter="region" data-value="latin-america" onclick="setFilter('region','latin-america',this)">Latin America</button>
+      <button class="filter-btn" data-filter="region" data-value="middle-east" onclick="setFilter('region','middle-east',this)">Middle East</button>
+      <button class="filter-btn" data-filter="region" data-value="africa" onclick="setFilter('region','africa',this)">Africa</button>
+    </div>
+    <div class="filter-group">
+      <span class="filter-label">Access</span>
+      <button class="filter-btn" data-filter="fta" data-value="fta" onclick="setFilter('fta','fta',this)">FTA Only</button>
+      <button class="filter-btn" data-filter="priority" data-value="priority" onclick="setFilter('priority','priority',this)">Govt. Priority</button>
+      <button class="filter-btn" data-filter="activity" data-value="activity" onclick="setFilter('activity','activity',this)">Canadian Business Active</button>
+    </div>
+    <span class="results-count" id="results-count"></span>
+  </div>
+</div>
+
+<!-- Alpha index -->
+<div class="alpha-bar" id="alpha-bar"></div>
+
+<!-- Main grid -->
+<div class="main" id="main-grid"></div>
+
+<script>
+/*
+ * canadianActivity field — three values:
+ *   'active'  — documented major Canadian business presence (TSX-listed operations,
+ *               significant FDI, Canadian company HQs or major subsidiaries).
+ *               Sources: EDC Foreign Direct Investment data, TCS country guides,
+ *               public company disclosures, Global Affairs Canada.
+ *   'growing' — emerging or pipeline-stage Canadian presence (early-stage investment,
+ *               growing trade flows, known prospecting/expansion activity).
+ *               Sources: Spotlight pipeline signals, TCS market intelligence,
+ *               industry association reports.
+ *   false     — no significant documented Canadian business presence beyond bilateral trade.
+ *
+ * This field is designed to be enriched automatically by the Spotlight pipeline
+ * as company profiles accumulate. Manual seed data based on public EDC/TCS sources.
+ * Future build: company-centric view (which companies operate here) lives in
+ * the Canadian Business Map globe — not this index.
+ */
+const COUNTRIES = [
+  { name:'Argentina', slug:'argentina', region:'latin-america', regionLabel:'Latin America', tier:'emerging', rank:37, total:1.5, exports:0.4, balance:-0.7, ftas:[], priority:false, canadianActivity:'growing', activityNote:'Canadian mining companies prospecting lithium assets; growing interest post-Milei reforms', tagline:'Lithium triangle — largest reserves globally under economic reform' },
+  { name:'Australia', slug:'australia', region:'indo-pacific', regionLabel:'Indo-Pacific', tier:'3', rank:12, total:9.5, exports:6.3, balance:+3.1, ftas:['CPTPP'], priority:true, canadianActivity:'active', activityNote:'Brookfield Asset Management, Manulife, Sun Life have significant Australian operations; mining sector overlap', tagline:'Five Eyes partner and critical minerals ally — shared export profiles' },
+  { name:'Belgium', slug:'belgium', region:'europe', regionLabel:'Europe (EU)', tier:'3', rank:13, total:8.6, exports:2.8, balance:-3.0, ftas:['CETA'], priority:false, canadianActivity:'growing', activityNote:'Antwerp-based logistics and diamond trade; Canadian financial services present via EU operations', tagline:'Antwerp gateway into Europe — declining metal ore exports a watch item' },
+  { name:'Brazil', slug:'brazil', region:'latin-america', regionLabel:'Latin America', tier:'3', rank:17, total:8.2, exports:2.4, balance:-3.4, ftas:[], priority:false, canadianActivity:'active', activityNote:'Bombardier (Embraer partnership history), Brookfield (major infrastructure investor in Brazil), Kinross Gold (Brazilian mining operations)', tagline:'Largest Latin American economy — no FTA, significant untapped potential' },
+  { name:'Chile', slug:'chile', region:'latin-america', regionLabel:'Latin America', tier:'4', rank:23, total:3.6, exports:1.4, balance:-0.8, ftas:['CCFTA','CPTPP'], priority:false, canadianActivity:'active', activityNote:'TSX-listed miners including Lundin Mining and Teck have major Chilean copper operations; one of highest concentrations of Canadian mining investment in Latin America', tagline:'Copper and lithium giant — dual FTA, mining regulation in flux' },
+  { name:'China', slug:'china', region:'indo-pacific', regionLabel:'Indo-Pacific', tier:'2', rank:2, total:118.1, exports:29.3, balance:-59.5, ftas:[], priority:false, canadianActivity:'active', activityNote:'Significant Canadian retail, resource, and financial services presence historically; some withdrawal since 2018 diplomatic tensions but major operations remain', tagline:'Canada\'s second-largest partner — heavily asymmetric, no FTA, diplomatic complexity' },
+  { name:'Colombia', slug:'colombia', region:'latin-america', regionLabel:'Latin America', tier:'4', rank:26, total:2.8, exports:0.9, balance:-1.0, ftas:['COLFTA'], priority:false, canadianActivity:'active', activityNote:'Gran Colombia Gold, Continental Gold, and multiple TSX-listed miners have Colombian operations; Scotiabank has Colombian banking presence', tagline:'Improving security, shifting policy — mining and agri-food relationship' },
+  { name:'France', slug:'france', region:'europe', regionLabel:'Europe (EU)', tier:'3', rank:10, total:14.2, exports:6.1, balance:-2.0, ftas:['CETA'], priority:false, canadianActivity:'active', activityNote:'Bombardier (Alstom partnership), Manulife, Sun Life, Air Canada operations; Quebec-France cultural and business corridor is deep', tagline:'Aerospace ties run deep — exports grew 4.5% in 2024, nuclear alignment' },
+  { name:'Germany', slug:'germany', region:'europe', regionLabel:'Europe (EU)', tier:'3', rank:6, total:29.5, exports:5.7, balance:-18.1, ftas:['CETA'], priority:true, canadianActivity:'active', activityNote:'Brookfield (infrastructure investment), Magna International (auto parts manufacturing), Bombardier (rail), multiple TSX-listed companies with German industrial partnerships; VW investing in Canada reciprocally', tagline:'Canada\'s largest EU partner — cleantech demand, export decline trend to watch' },
+  { name:'Ghana', slug:'ghana', region:'africa', regionLabel:'Africa', tier:'emerging', rank:35, total:0.5, exports:0.3, balance:+0.1, ftas:[], priority:false, canadianActivity:'active', activityNote:'Kinross Gold (Chirano mine), Galiano Gold, and multiple TSX-listed juniors — Ghana is the top destination for Canadian mining investment in Sub-Saharan Africa by capital deployed', tagline:'Top Canadian mining investment destination in Sub-Saharan Africa' },
+  { name:'India', slug:'india', region:'indo-pacific', regionLabel:'Indo-Pacific', tier:'3', rank:9, total:15.6, exports:3.1, balance:-9.4, ftas:[], priority:true, canadianActivity:'active', activityNote:'Brookfield (major infrastructure and real estate investor), Sun Life (insurance JV), Manulife, RBC and TD have Indian operations; Canadian pension funds (CPPIB, Ontario Teachers) are significant Indian infrastructure investors', tagline:'Largest untapped bilateral — CEPA stalled, diaspora economy growing fast' },
+  { name:'Indonesia', slug:'indonesia', region:'indo-pacific', regionLabel:'Indo-Pacific', tier:'emerging', rank:29, total:2.9, exports:0.8, balance:-1.3, ftas:[], priority:true, canadianActivity:'growing', activityNote:'Early-stage Canadian mining interest in nickel; CPPIB has Indonesian infrastructure exposure; Canadian agri-food companies exploring halal market access', tagline:'World\'s largest nickel reserves — CEPA under active negotiation' },
+  { name:'Israel', slug:'israel', region:'middle-east', regionLabel:'Middle East', tier:'4', rank:33, total:1.9, exports:0.7, balance:-0.5, ftas:[], priority:false, canadianActivity:'growing', activityNote:'Canadian tech and cybersecurity companies have Israeli R&D partnerships; life sciences sector bilateral investment; conflict disruption since 2023 has moderated activity', tagline:'Cybersecurity and agri-tech depth — conflict disruption since 2023' },
+  { name:'Italy', slug:'italy', region:'europe', regionLabel:'Europe (EU)', tier:'3', rank:11, total:12.9, exports:5.1, balance:-2.7, ftas:['CETA'], priority:false, canadianActivity:'growing', activityNote:'Canadian pension funds have Italian infrastructure exposure; Bombardier rail; Italian-Canadian community creates informal business networks particularly in agri-food and construction', tagline:'Standout 2024 performer — exports up 21.2%, strongest EU growth' },
+  { name:'Japan', slug:'japan', region:'indo-pacific', regionLabel:'Indo-Pacific', tier:'2', rank:5, total:36.2, exports:14.8, balance:-6.6, ftas:['CPTPP'], priority:true, canadianActivity:'active', activityNote:'Manulife (through John Hancock Japan), Brookfield, Canadian pension funds (CPPIB, Ontario Teachers) have significant Japanese infrastructure and real estate investments; LNG Canada targets Japanese buyers', tagline:'Critical Indo-Pacific partner — CPTPP opened significant new market access' },
+  { name:'Kenya', slug:'kenya', region:'africa', regionLabel:'Africa', tier:'emerging', rank:40, total:0.4, exports:0.2, balance:0, ftas:[], priority:false, canadianActivity:'growing', activityNote:'Growing Canadian tech and fintech partnerships; Canadian NGO and development finance presence creates business network infrastructure', tagline:'East Africa\'s Silicon Savannah — fintech hub and Commonwealth partner' },
+  { name:'Malaysia', slug:'malaysia', region:'indo-pacific', regionLabel:'Indo-Pacific', tier:'4', rank:28, total:4.9, exports:1.1, balance:-2.7, ftas:['CPTPP'], priority:false, canadianActivity:'growing', activityNote:'Canadian banks (RBC, TD) have Malaysian presence; Canadian pension funds have Southeast Asian infrastructure exposure routed through Malaysia', tagline:'CPTPP partner — semiconductor hub, LNG demand, import-heavy relationship' },
+  { name:'Mexico', slug:'mexico', region:'north-america', regionLabel:'North America', tier:'2', rank:3, total:55.4, exports:8.1, balance:-39.2, ftas:['CUSMA','CPTPP'], priority:false, canadianActivity:'active', activityNote:'Scotiabank (major Mexican banking presence), Bombardier, Magna International, Agnico Eagle (mining), multiple Canadian retailers and manufacturers with CUSMA-integrated supply chains', tagline:'CUSMA partner — nearshoring trend reshaping Canada–Mexico supply chains' },
+  { name:'Morocco', slug:'morocco', region:'africa', regionLabel:'Africa', tier:'emerging', rank:34, total:0.9, exports:0.5, balance:+0.1, ftas:[], priority:false, canadianActivity:'growing', activityNote:'Canadian phosphate importers active; Canadian engineering firms have infrastructure project interest; growing diplomatic engagement', tagline:'Atlantic gateway to Africa — world\'s largest phosphate reserves' },
+  { name:'Netherlands', slug:'netherlands', region:'europe', regionLabel:'Europe (EU)', tier:'3', rank:8, total:15.7, exports:1.0, balance:-13.7, ftas:['CETA'], priority:false, canadianActivity:'active', activityNote:'Shell Canada (historic Dutch parent); Brookfield European operations routed through Amsterdam; Canadian pension funds use Netherlands as EU investment hub', tagline:'Rotterdam hub — European gateway, metal ore exports declining' },
+  { name:'New Zealand', slug:'new-zealand', region:'indo-pacific', regionLabel:'Indo-Pacific', tier:'4', rank:32, total:2.0, exports:0.9, balance:-0.2, ftas:['CPTPP'], priority:false, canadianActivity:'growing', activityNote:'Manulife and Sun Life have NZ presence; Canadian pension fund agricultural land investment; Five Eyes intelligence partnership creates informal business network', tagline:'Five Eyes and CPTPP ally — shared agri-food export profiles' },
+  { name:'Norway', slug:'norway', region:'europe', regionLabel:'Europe', tier:'4', rank:19, total:4.3, exports:1.2, balance:-1.9, ftas:[], priority:false, canadianActivity:'growing', activityNote:'Norwegian sovereign wealth fund (Norges Bank) invests heavily in Canadian equities; Canadian energy companies have North Sea technology partnerships', tagline:'Sovereign wealth fund links — Arctic cooperation and energy alignment' },
+  { name:'Panama', slug:'panama', region:'latin-america', regionLabel:'Latin America', tier:'4', rank:39, total:1.1, exports:0.6, balance:+0.1, ftas:[], priority:false, canadianActivity:'growing', activityNote:'First Quantum Minerals (Cobre Panama mine — one of the largest Canadian mining investments globally, currently suspended); Canadian financial services use Panama as LAC hub', tagline:'Canal logistics hub — climate-driven water level risk a growing concern' },
+  { name:'Peru', slug:'peru', region:'latin-america', regionLabel:'Latin America', tier:'4', rank:24, total:3.1, exports:1.1, balance:-0.9, ftas:['CPFTA','CPTPP'], priority:false, canadianActivity:'active', activityNote:'Kinross Gold, Barrick, First Quantum, HudBay Minerals and multiple other TSX-listed miners have Peruvian operations — Canada is among the largest sources of foreign mining investment in Peru', tagline:'Canada\'s largest Latin American mining investment destination' },
+  { name:'Philippines', slug:'philippines', region:'indo-pacific', regionLabel:'Indo-Pacific', tier:'emerging', rank:38, total:1.5, exports:0.5, balance:-0.5, ftas:[], priority:false, canadianActivity:'growing', activityNote:'Large Canadian-Filipino diaspora creates informal business networks; Canadian remittance services (Western Union Canada, banks) active; early-stage Canadian business interest growing', tagline:'Large Canadian diaspora — ASEAN access, food security opportunity' },
+  { name:'Poland', slug:'poland', region:'europe', regionLabel:'Europe (EU)', tier:'4', rank:25, total:2.8, exports:1.0, balance:-0.8, ftas:['CETA'], priority:false, canadianActivity:'growing', activityNote:'Canadian pension funds have Polish infrastructure exposure; growing defence procurement interest post-NATO eastern flank expansion; Canadian Ukrainian diaspora creates Poland transit business links', tagline:'NATO eastern flank — defence procurement growing fast' },
+  { name:'Saudi Arabia', slug:'saudi-arabia', region:'middle-east', regionLabel:'Middle East', tier:'4', rank:30, total:3.0, exports:1.4, balance:-0.2, ftas:[], priority:false, canadianActivity:'growing', activityNote:'SNC-Lavalin (now AtkinsRealis) has Saudi infrastructure projects; Canadian agri-food exporters (wheat, canola) are active suppliers; Vision 2030 creating new procurement pipeline', tagline:'Vision 2030 procurement — $500B+ transformation pipeline' },
+  { name:'Singapore', slug:'singapore', region:'indo-pacific', regionLabel:'Indo-Pacific', tier:'4', rank:21, total:5.1, exports:2.3, balance:-0.5, ftas:['CPTPP'], priority:false, canadianActivity:'active', activityNote:'All major Canadian banks have Singapore operations as ASEAN hub (RBC, TD, Scotiabank, BMO); CPPIB and Ontario Teachers have Singapore offices for Asian investment management; Manulife Asia HQ', tagline:'ASEAN financial hub — professional services gateway, rule of law' },
+  { name:'South Korea', slug:'south-korea', region:'indo-pacific', regionLabel:'Indo-Pacific', tier:'3', rank:7, total:24.4, exports:7.5, balance:-4.5, ftas:['CKFTA','CPTPP'], priority:true, canadianActivity:'active', activityNote:'LG Energy Solution, Samsung SDI, and SK On all have Canadian battery gigafactory investments (Ontario, Quebec); POSCO has Canadian critical minerals partnerships; Lotte and Hyundai active in Canadian market', tagline:'Battery supply chain demand — Korean manufacturers investing in Canadian minerals' },
+  { name:'Spain', slug:'spain', region:'europe', regionLabel:'Europe (EU)', tier:'3', rank:15, total:6.7, exports:2.1, balance:-2.5, ftas:['CETA'], priority:false, canadianActivity:'active', activityNote:'Iberdrola and Acciona (Spanish) have major Canadian wind/solar investments (reciprocal); Brookfield has Spanish infrastructure; Canadian pension funds hold Spanish infrastructure assets', tagline:'Iberdrola and Acciona active in Canada — renewables FDI flowing both ways' },
+  { name:'Sweden', slug:'sweden', region:'europe', regionLabel:'Europe (EU)', tier:'4', rank:27, total:3.4, exports:1.2, balance:-1.0, ftas:['CETA'], priority:false, canadianActivity:'growing', activityNote:'Northvolt (Swedish battery company) has Canadian partnerships; Canadian cleantech companies have Swedish R&D collaborations; defence procurement interest growing post-NATO accession', tagline:'NATO member since 2024 — cleantech leader, defence procurement growing' },
+  { name:'Switzerland', slug:'switzerland', region:'europe', regionLabel:'Europe', tier:'3', rank:14, total:8.1, exports:3.2, balance:-1.7, ftas:[], priority:false, canadianActivity:'active', activityNote:'All major Canadian banks have Zurich/Geneva private banking presence; Glencore (Swiss-listed, Canadian mining assets); Canadian pension funds route European investments through Swiss holding structures', tagline:'Financial centre links — pharma trade, no FTA in place' },
+  { name:'Taiwan', slug:'taiwan', region:'indo-pacific', regionLabel:'Indo-Pacific', tier:'4', rank:31, total:6.4, exports:1.6, balance:-3.2, ftas:[], priority:false, canadianActivity:'growing', activityNote:'Canadian tech companies have Taiwanese semiconductor procurement relationships; growing Canadian interest in TSMC supply chain partnerships for critical minerals inputs', tagline:'Semiconductor import source — strategic tech alignment, cross-strait risk' },
+  { name:'Tanzania', slug:'tanzania', region:'africa', regionLabel:'Africa', tier:'emerging', rank:36, total:0.3, exports:0.2, balance:+0.1, ftas:[], priority:false, canadianActivity:'growing', activityNote:'Tanzanian Royalty Exploration and other TSX-listed junior miners have early-stage Tanzanian operations; graphite sector attracting Canadian interest', tagline:'Graphite reserves — critical for EV battery anodes, early-stage Canadian interest' },
+  { name:'Ukraine', slug:'ukraine', region:'europe', regionLabel:'Europe', tier:'4', rank:22, total:2.1, exports:1.8, balance:+1.5, ftas:['CUFTA'], priority:true, canadianActivity:'growing', activityNote:'Canadian Ukrainian diaspora (1.4M+) creates deep business network; Aecon and SNC-Lavalin (AtkinsRealis) have Ukrainian infrastructure project interest; BDC and EDC developing reconstruction financing instruments', tagline:'Modernized CUFTA 2024 — $500B+ reconstruction opportunity, diaspora ties' },
+  { name:'United Arab Emirates', slug:'uae', region:'middle-east', regionLabel:'Middle East', tier:'4', rank:20, total:5.0, exports:3.8, balance:+2.6, ftas:[], priority:false, canadianActivity:'active', activityNote:'All major Canadian banks have Dubai DIFC presence; Manulife, Sun Life have UAE operations; AtkinsRealis has UAE infrastructure projects; Brookfield Middle East investments; strong Canadian real estate investment community in Dubai', tagline:'MENA gateway — food security demand, Vision UAE 2031 procurement' },
+  { name:'United Kingdom', slug:'united-kingdom', region:'europe', regionLabel:'Europe', tier:'2', rank:4, total:36.8, exports:27.0, balance:+17.2, ftas:['CUKTCA','CPTPP'], priority:true, canadianActivity:'active', activityNote:'Brookfield (major UK infrastructure), all Big 5 Canadian banks have London operations, Bombardier (Belfast aerospace), Manulife/John Hancock UK, CPPIB and Ontario Teachers London offices, Thomson Reuters, Lululemon UK HQ — among the deepest Canadian business presence globally outside North America', tagline:'Canada\'s 4th largest partner — FTA negotiation underway, gold exports surged 2024' },
+  { name:'United States', slug:'united-states', region:'north-america', regionLabel:'North America', tier:'1', rank:1, total:924.4, exports:547.4, balance:+170.4, ftas:['CUSMA'], priority:true, canadianActivity:'active', activityNote:'Largest single destination for Canadian foreign direct investment globally — every major Canadian company has US operations. Brookfield, Manulife, Sun Life, all Big 5 banks, Lululemon, Shopify US, TC Energy, Enbridge, and thousands more', tagline:'76% of Canadian exports — CUSMA 2026 review is the defining trade policy moment' },
+  { name:'Vietnam', slug:'vietnam', region:'indo-pacific', regionLabel:'Indo-Pacific', tier:'3', rank:16, total:10.3, exports:1.8, balance:-6.7, ftas:['CPTPP'], priority:true, canadianActivity:'growing', activityNote:'Canadian agri-food companies growing CPTPP exports; Canadian garment and textile importers sourcing from Vietnam; early-stage Canadian tech and manufacturing investment following China+1 supply chain diversification', tagline:'Fastest-growing CPTPP market — manufacturing shift from China accelerating' },
+];
+
+const TIER_COLORS = { '1':'#6B0F0F','2':'#0F3D6B','3':'#0F5C2A','4':'#5C420F','emerging':'#2A3D0F' };
+const ACTIVITY_COLORS = { 'active': '#1A3A6B', 'growing': '#0F5C2A' };
+
+let activeFilters = { region: 'all', fta: false, priority: false, activity: false };
+let activeAlpha = null;
+
+function buildAlphaBar() {
+  const letters = [...new Set(COUNTRIES.map(c => c.name[0]))].sort();
+  const allLetters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+  const bar = document.getElementById('alpha-bar');
+  bar.innerHTML = allLetters.map(l =>
+    `<button class="alpha-btn ${letters.includes(l) ? '' : 'inactive'}" onclick="jumpToAlpha('${l}')">${l}</button>`
+  ).join('');
+}
+
+function render() {
+  const query = document.getElementById('search-input').value.toLowerCase().trim();
+  const filtered = COUNTRIES.filter(c => {
+    if (query && !c.name.toLowerCase().includes(query)) return false;
+    if (activeFilters.region !== 'all' && c.region !== activeFilters.region) return false;
+    if (activeFilters.fta && c.ftas.length === 0) return false;
+    if (activeFilters.priority && !c.priority) return false;
+    if (activeFilters.activity && !c.canadianActivity) return false;
+    if (activeAlpha && c.name[0] !== activeAlpha) return false;
+    return true;
+  }).sort((a,b) => a.name.localeCompare(b.name));
+
+  document.getElementById('results-count').textContent = `${filtered.length} countr${filtered.length === 1 ? 'y' : 'ies'}`;
+
+  const grid = document.getElementById('main-grid');
+  if (filtered.length === 0) {
+    grid.innerHTML = '<div class="no-results" style="display:block">No countries match your current filters.</div>';
+    return;
+  }
+
+  const groups = {};
+  filtered.forEach(c => {
+    const l = c.name[0];
+    if (!groups[l]) groups[l] = [];
+    groups[l].push(c);
+  });
+
+  grid.innerHTML = Object.keys(groups).sort().map(letter => `
+    <div class="alpha-section" id="alpha-${letter}">
+      <div class="alpha-header">${letter}</div>
+      <div class="country-grid">
+        ${groups[letter].map(c => renderCard(c)).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderCard(c) {
+  const color = TIER_COLORS[c.tier] || TIER_COLORS['emerging'];
+  const balSign = c.balance >= 0 ? '+' : '';
+  const balClass = c.balance >= 0 ? 'pos' : 'neg';
+  const ftaHTML = c.ftas.map(f => `<span class="fta-pip">${f}</span>`).join('');
+  const priorityDot = c.priority ? '<div class="priority-signal" title="Canadian Government Priority Market"></div>' : '';
+
+  // Activity badge — bottom left of card
+  let activityBadge = '';
+  if (c.canadianActivity === 'active') {
+    activityBadge = `<span style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.08em;padding:2px 6px;border-radius:1px;background:rgba(26,58,107,0.08);color:#1A3A6B;border:1px solid rgba(26,58,107,0.18)">⬛ Active Canadian Presence</span>`;
+  } else if (c.canadianActivity === 'growing') {
+    activityBadge = `<span style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.08em;padding:2px 6px;border-radius:1px;background:rgba(15,92,42,0.07);color:#0F5C2A;border:1px solid rgba(15,92,42,0.18)">▲ Growing Canadian Presence</span>`;
+  }
+
+  return `
+    <a class="country-card" href="/countries/${c.slug}/" title="${c.canadianActivity ? c.activityNote : ''}">
+      <div class="card-tier-stripe" style="background:${color}"></div>
+      ${priorityDot}
+      <div class="card-body">
+        <div class="card-top">
+          <div class="card-rank">#${c.rank} bilateral</div>
+          <div class="card-ftas">${ftaHTML}</div>
+        </div>
+        <div class="card-country">${c.name}</div>
+        <div class="card-region">${c.regionLabel}</div>
+        <div class="card-tagline">${c.tagline}</div>
+        <div class="card-metrics">
+          <div class="card-metric">
+            <div class="card-metric-label">Total Trade</div>
+            <div class="card-metric-value">$${c.total >= 100 ? Math.round(c.total) : c.total.toFixed(1)}B</div>
+          </div>
+          <div class="card-metric">
+            <div class="card-metric-label">Exports</div>
+            <div class="card-metric-value">$${c.exports >= 100 ? Math.round(c.exports) : c.exports.toFixed(1)}B</div>
+          </div>
+          <div class="card-metric">
+            <div class="card-metric-label">Balance</div>
+            <div class="card-metric-value ${balClass}">${balSign}$${Math.abs(c.balance).toFixed(1)}B</div>
+          </div>
+        </div>
+        ${activityBadge ? `<div style="padding-top:8px;border-top:1px solid var(--warm-border);margin-top:8px">${activityBadge}</div>` : ''}
+      </div>
+    </a>`;
+}
+
+function setFilter(type, value, btn) {
+  if (type === 'region') {
+    activeFilters.region = value;
+    document.querySelectorAll('[data-filter="region"]').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  } else if (type === 'fta') {
+    activeFilters.fta = !activeFilters.fta;
+    btn.classList.toggle('active', activeFilters.fta);
+  } else if (type === 'priority') {
+    activeFilters.priority = !activeFilters.priority;
+    btn.classList.toggle('active', activeFilters.priority);
+  } else if (type === 'activity') {
+    activeFilters.activity = !activeFilters.activity;
+    btn.classList.toggle('active', activeFilters.activity);
+  }
+  activeAlpha = null;
+  document.querySelectorAll('.alpha-btn').forEach(b => b.classList.remove('active'));
+  render();
+}
+
+function applyFilters() { activeAlpha = null; render(); }
+
+function jumpToAlpha(letter) {
+  activeAlpha = activeAlpha === letter ? null : letter;
+  document.querySelectorAll('.alpha-btn').forEach(b => {
+    b.classList.toggle('active', b.textContent === letter && activeAlpha);
+  });
+  activeFilters = { region: 'all', fta: false, priority: false, activity: false };
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector('[data-value="all"]').classList.add('active');
+  document.getElementById('search-input').value = '';
+  render();
+  setTimeout(() => {
+    const el = document.getElementById('alpha-' + letter);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 50);
+}
+
+buildAlphaBar();
+render();
+</script>
+</body>
+</html>

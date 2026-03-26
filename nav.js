@@ -134,9 +134,9 @@
       '<div class="nav-dropdown">' +
         '<button class="nav-dropdown-btn">Resources \u25be</button>' +
         '<div class="nav-dropdown-menu">' +
+          '<a href="/countries/">Country Profiles</a>' +
           '<a href="/guides">Practical Guides</a>' +
           '<a href="/resources/trade-agreements/">Trade Agreements</a>' +
-          '<a href="/countries">Country Profiles</a>' +
           '<a href="/tariffs">Tariff Rates &amp; Current Situations</a>' +
           '<a href="/methodology">Methodology</a>' +
           '<a href="/about">About</a>' +
@@ -153,9 +153,9 @@
     '<a href="/spotlight">Spotlight</a>' +
     '<a href="/dashboard">Dashboard</a>' +
     '<a href="/procurement">Procurement</a>' +
+    '<a href="/countries/">Country Profiles</a>' +
     '<a href="/guides">Practical Guides</a>' +
     '<a href="/resources/trade-agreements/">Trade Agreements</a>' +
-    '<a href="/countries">Country Profiles</a>' +
     '<a href="/tariffs">Tariff Rates</a>' +
     '<a href="/methodology">Methodology</a>' +
     '<a href="/about">About</a>' +
