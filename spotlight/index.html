@@ -42,17 +42,17 @@
   .site-nav { background: var(--brand-dark); padding: 0 40px; position: sticky; top: 0; z-index: 200; border-bottom: 1px solid rgba(204,0,0,0.25); }
   .site-nav-inner { max-width: 1140px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 46px; }
   .site-nav-brand { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(204,0,0,1.0); text-decoration: none; }
-  .site-nav-links { display: flex; gap: 28px; }
+  .site-nav-links { display: flex; gap: 28px; align-items: center; }
   .site-nav-links a { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.6); text-decoration: none; transition: color 0.18s; }
   .site-nav-links a:hover, .site-nav-links a.active { color: rgba(204,0,0,0.9); }
   .nav-cta { font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: 0.14em; text-transform: uppercase; background: var(--brand); color: #fff !important; padding: 7px 14px; text-decoration: none; transition: background 0.18s; }
   .nav-cta:hover { background: var(--brand-deep) !important; }
   .hamburger, .nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; background: none; border: none; }
   .hamburger span, .nav-hamburger span { width: 22px; height: 1px; background: rgba(255,255,255,0.4); display: block; }
-  .nav-mobile { display: none; flex-direction: column; position: absolute; top: 46px; left: 0; right: 0; background: var(--brand-dark); padding: 16px 20px; gap: 16px; border-bottom: 1px solid rgba(204,0,0,0.2); z-index: 300; }
-  .nav-mobile a { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.6); text-decoration: none; }
-  .nav-mobile a:hover { color: rgba(204,0,0,0.9); }
-  .nav-mobile.open { display: flex; }
+  .nav-mobile-menu { display: none; flex-direction: column; position: absolute; top: 46px; left: 0; right: 0; background: var(--brand-dark); padding: 16px 20px; gap: 16px; border-bottom: 1px solid rgba(204,0,0,0.2); z-index: 300; }
+  .nav-mobile-menu a { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.6); text-decoration: none; }
+  .nav-mobile-menu a:hover { color: rgba(204,0,0,0.9); }
+  .nav-mobile-menu.open { display: flex; }
 
   /* ── PAGE HEADER ── */
   .page-header { background: var(--brand-dark); padding: 48px 40px 40px; border-bottom: 3px solid var(--brand); }
@@ -269,7 +269,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
     <button class="nav-hamburger" id="nav-hamburger" onclick="toggleMobileNav()" aria-label="Menu">
       <span></span><span></span><span></span>
     </button>
-    <div class="nav-mobile" id="nav-mobile">
+    <div class="nav-mobile-menu" id="nav-mobile-menu">
       <a href="/reports">Reports</a>
       <a href="/spotlight">Spotlight</a>
       <a href="/dashboard">Dashboard</a>
@@ -280,7 +280,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
       <a href="/tariffs">Tariff Reference</a>
       <a href="/terminal">Live Data Terminal</a>
       <a href="/about">About</a>
-      <a href="/pricing" class="nav-cta">See Plans</a>
+      <a href="/pricing" class="nav-cta-mobile">See Plans</a>
     </div>
   </div>
 </nav>
@@ -836,8 +836,10 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
 
 <script>
 function toggleMobileNav() {
-  const menu = document.getElementById('nav-mobile');
+  const menu = document.getElementById('nav-mobile-menu');
+  const btn  = document.getElementById('nav-hamburger');
   if (menu) menu.classList.toggle('open');
+  if (btn)  btn.classList.toggle('open');
 }
 
 let openTile = null;
