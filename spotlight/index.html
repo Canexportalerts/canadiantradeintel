@@ -1059,5 +1059,34 @@ function applyFilters() {
 }
 </script>
 
+<script>
+// Dynamically update hardcoded report links with latest from reports-index.json
+fetch('/reports/reports-index.json')
+  .then(r=>r.json())
+  .then(data=>{
+    // Build a map: sector key → latest report URL
+    const latestBySector = {};
+    data.forEach(r=>{
+      const key = r.sector;
+      if(!key) return;
+      const url = r.url || r.html_file || (r.full_report ? '/reports/'+r.full_report : null);
+      if(!url) return;
+      if(!latestBySector[key] || new Date(r.date||0) > new Date(latestBySector[key].date||0)){
+        latestBySector[key] = {url, date: r.date||''};
+      }
+    });
+    // Update all drawer-link anchors pointing to hardcoded /reports/full_report_ URLs
+    document.querySelectorAll('a.drawer-link[href*="/reports/full_report_"]').forEach(a=>{
+      const href = a.getAttribute('href');
+      // Extract sector from filename pattern: full_report_SECTOR_DATE.html
+      const m = href.match(/full_report_([a-z_]+)_\d{4}-\d{2}-\d{2}\.html/);
+      if(m){
+        const sector = m[1];
+        if(latestBySector[sector]) a.href = latestBySector[sector].url;
+      }
+    });
+  }).catch(()=>{});
+</script>
+
 </body>
 </html>

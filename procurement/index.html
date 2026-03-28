@@ -1050,6 +1050,27 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
   <div id="no-results" style="display:none;padding:40px;text-align:center;font-family:'DM Mono',monospace;font-size:11px;color:var(--ink-light);">
     No tenders match your search. Try different keywords or clear the sector filter.
   </div>
+
+  <!-- Related Intelligence -->
+  <div style="border-top:2px solid #e0dcd4;padding:32px 0 0;margin-top:40px;">
+    <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#888;margin-bottom:16px;">Related Intelligence</div>
+    <div style="display:flex;flex-wrap:wrap;gap:10px;">
+      <a href="/dashboard/" style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:#8b0000;text-decoration:none;padding:8px 14px;border:1px solid #e0dcd4;background:#fff;">Dashboard →</a>
+      <a href="/countries/" style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:#8b0000;text-decoration:none;padding:8px 14px;border:1px solid #e0dcd4;background:#fff;">Country Data →</a>
+      <a href="/spotlight/" style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:#8b0000;text-decoration:none;padding:8px 14px;border:1px solid #e0dcd4;background:#fff;">Canadian Spotlight →</a>
+      <a href="/reports/" style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:#8b0000;text-decoration:none;padding:8px 14px;border:1px solid #e0dcd4;background:#fff;">All Reports →</a>
+      <div id="proc-related-reports" style="display:contents;"></div>
+    </div>
+  </div>
+  <script>
+  fetch('/reports/reports-index.json')
+    .then(r=>r.json())
+    .then(data=>{
+      const sorted=[...data].sort((a,b)=>new Date(b.date||0)-new Date(a.date||0));
+      const el=document.getElementById('proc-related-reports');
+      if(el) el.innerHTML=sorted.slice(0,3).map(r=>`<a href="${r.url||r.html_file||(r.full_report?'/reports/'+r.full_report:'#')}" style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:#555;text-decoration:none;padding:8px 14px;border:1px solid #e0dcd4;background:#f8f6f2;">${((r.sector_display||r.sector||'Report').replace(/_/g,' '))} →</a>`).join('');
+    }).catch(()=>{});
+  </script>
 </main>
 
 <div class="attribution">
