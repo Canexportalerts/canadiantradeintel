@@ -56,16 +56,27 @@
     '  color: rgba(255,255,255,0.6); background: none; border: none;',
     '  cursor: pointer; padding: 0; transition: color 0.2s;',
     '}',
-    '#main-nav .nav-dropdown-btn:hover { color: rgba(255,255,255,0.9); }',
+    '#main-nav .nav-dropdown-btn:hover,',
+    '#main-nav .nav-dropdown-btn.active { color: rgba(204,0,0,0.9); }',
     '#main-nav .nav-dropdown:hover .nav-dropdown-menu { display: block; }',
     '#main-nav .nav-dropdown-menu {',
     '  display: none; position: absolute; top: 100%; right: 0;',
     '  background: #1a0505; border: 1px solid rgba(204,0,0,0.2);',
-    '  min-width: 230px; z-index: 400; padding: 8px 0;',
+    '  min-width: 240px; z-index: 400; padding: 8px 0 10px;',
     '  box-shadow: 0 8px 24px rgba(0,0,0,0.4);',
     '}',
+    '#main-nav .nav-dropdown-label {',
+    '  display: block; padding: 10px 16px 5px;',
+    '  font-family: "DM Mono", monospace;',
+    '  font-size: 8px; letter-spacing: 0.2em; text-transform: uppercase;',
+    '  color: rgba(204,0,0,0.55); pointer-events: none;',
+    '}',
+    '#main-nav .nav-dropdown-divider {',
+    '  height: 1px; background: rgba(255,255,255,0.07);',
+    '  margin: 6px 0;',
+    '}',
     '#main-nav .nav-dropdown-menu a {',
-    '  display: block; padding: 9px 16px;',
+    '  display: block; padding: 8px 16px;',
     '  font-family: "DM Mono", monospace;',
     '  font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;',
     '  color: rgba(255,255,255,0.6); text-decoration: none;',
@@ -104,10 +115,16 @@
     '  font-family: "DM Mono", monospace;',
     '  font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;',
     '  color: rgba(255,255,255,0.6); text-decoration: none;',
-    '  padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.06);',
+    '  padding: 11px 0; border-bottom: 1px solid rgba(255,255,255,0.06);',
     '}',
     '#main-nav .nav-mobile-menu a:last-child { border-bottom: none; }',
     '#main-nav .nav-mobile-menu a:hover { color: #fff; }',
+    '#main-nav .nav-mobile-menu .nav-mobile-section {',
+    '  font-family: "DM Mono", monospace;',
+    '  font-size: 8px; letter-spacing: 0.2em; text-transform: uppercase;',
+    '  color: rgba(204,0,0,0.5); padding: 14px 0 4px;',
+    '  border-bottom: none; pointer-events: none;',
+    '}',
     '#main-nav .nav-mobile-menu .nav-cta-mobile {',
     '  color: rgba(204,0,0,0.9) !important; margin-top: 4px;',
     '}',
@@ -130,20 +147,23 @@
       '<a href="/dashboard/">Dashboard</a>' +
       '<a href="/countries/">Countries</a>' +
       '<a href="/spotlight/">Spotlight</a>' +
-      '<a href="/procurement/">Procurement</a>' +
       '<a href="/reports/">Reports</a>' +
       '<div class="nav-dropdown">' +
-        '<button class="nav-dropdown-btn">More \u25be</button>' +
+        '<button class="nav-dropdown-btn">Resources \u25be</button>' +
         '<div class="nav-dropdown-menu">' +
+          '<span class="nav-dropdown-label">Tools</span>' +
           '<a href="/terminal/">Live Data Terminal</a>' +
-          '<a href="/map/">Canadian Business Map <span style="font-size:9px;opacity:0.6;">(Coming Soon)</span></a>' +
+          '<a href="/map/">Business Map <span style="font-size:9px;opacity:0.5;">\u2014 Coming Soon</span></a>' +
+          '<a href="/procurement/">Procurement Hub</a>' +
+          '<div class="nav-dropdown-divider"></div>' +
+          '<span class="nav-dropdown-label">Reference</span>' +
           '<a href="/resources/trade-agreements/">Trade Agreements</a>' +
           '<a href="/tariffs/">Tariff Rates</a>' +
           '<a href="/guides/">Practical Guides</a>' +
           '<a href="/methodology/">Methodology</a>' +
-          '<a href="/about/">About</a>' +
         '</div>' +
       '</div>' +
+      '<a href="/about/">About</a>' +
       '<a href="/pricing/" class="nav-cta">See Plans</a>' +
     '</div>' +
     '<button class="nav-hamburger" id="nav-hamburger" aria-label="Menu">' +
@@ -154,10 +174,12 @@
     '<a href="/dashboard/">Dashboard</a>' +
     '<a href="/countries/">Countries</a>' +
     '<a href="/spotlight/">Canadian Spotlight</a>' +
-    '<a href="/procurement/">Procurement Hub</a>' +
     '<a href="/reports/">Reports Archive</a>' +
+    '<span class="nav-mobile-section">Tools</span>' +
     '<a href="/terminal/">Live Data Terminal</a>' +
-    '<a href="/map/">Canadian Business Map (Coming Soon)</a>' +
+    '<a href="/map/">Business Map \u2014 Coming Soon</a>' +
+    '<a href="/procurement/">Procurement Hub</a>' +
+    '<span class="nav-mobile-section">Reference</span>' +
     '<a href="/resources/trade-agreements/">Trade Agreements</a>' +
     '<a href="/tariffs/">Tariff Rates</a>' +
     '<a href="/guides/">Practical Guides</a>' +
@@ -186,6 +208,13 @@
         }
       }
     });
+
+    // Highlight Resources dropdown button when on a Resources sub-page
+    var resourcePaths = ['/terminal', '/map', '/procurement', '/resources', '/tariffs', '/guides', '/methodology'];
+    var btn = nav.querySelector('.nav-dropdown-btn');
+    if (btn && resourcePaths.some(function (p) { return path === p || path.startsWith(p + '/'); })) {
+      btn.classList.add('active');
+    }
 
     // Mobile menu toggle
     var hamburger = document.getElementById('nav-hamburger');
