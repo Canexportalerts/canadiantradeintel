@@ -263,6 +263,16 @@ footer{background:#0a0c0f;border-top:1px solid var(--border);padding:28px 32px;}
     <div class="ticker-value">C$642</div>
     <div class="ticker-source">▸ Weekly</div>
   </div>
+  <div class="ticker-item">
+    <div class="ticker-label">Softwood /Mbf</div>
+    <div class="ticker-value">US$385</div>
+    <div class="ticker-source">▸ Weekly</div>
+  </div>
+  <div class="ticker-item">
+    <div class="ticker-label">Steel HRC /t</div>
+    <div class="ticker-value">US$780</div>
+    <div class="ticker-source">▸ Weekly</div>
+  </div>
 </div>
 
 <div class="t-body">
@@ -576,6 +586,28 @@ footer{background:#0a0c0f;border-top:1px solid var(--border);padding:28px 32px;}
     </div>
     <div class="com-row">
       <div class="com-left">
+        <div class="com-name">Softwood Lumber</div>
+        <div class="com-note">Random Lengths framing · USD/Mbf · US tariff 14.54% · <a href="/tariffs/">tariff impact →</a></div>
+      </div>
+      <div class="com-right">
+        <div class="com-price">US$385/Mbf</div>
+        <div class="com-cad" id="softwood-cad">≈ C$— /Mbf</div>
+        <div class="com-chg chg-dn">▼ 1.2%</div>
+      </div>
+    </div>
+    <div class="com-row">
+      <div class="com-left">
+        <div class="com-name">Steel (HRC)</div>
+        <div class="com-note">Hot-rolled coil · US Midwest · Section 232 tariff active · <a href="/tariffs/">232 tariff →</a></div>
+      </div>
+      <div class="com-right">
+        <div class="com-price">US$780/t</div>
+        <div class="com-cad" id="steel-cad">≈ C$— /t</div>
+        <div class="com-chg chg-fl">→ flat</div>
+      </div>
+    </div>
+    <div class="com-row">
+      <div class="com-left">
         <div class="com-name">Canola</div>
         <div class="com-note">ICE Futures · <a href="/reports/agri-food/issue-002">Agri-food report →</a></div>
       </div>
@@ -841,7 +873,8 @@ async function loadBoC(){
     });
     // CAD commodity conversions
     [{id:'ura-cad',usd:68.50,unit:'/lb'},{id:'li-cad',usd:9200,unit:'/t'},
-     {id:'cu-cad',usd:9850,unit:'/t'},{id:'ng-cad',usd:2.18,unit:''}
+     {id:'cu-cad',usd:9850,unit:'/t'},{id:'softwood-cad',usd:385,unit:'/Mbf'},
+     {id:'steel-cad',usd:780,unit:'/t'},{id:'ng-cad',usd:2.18,unit:''}
     ].forEach(item=>{
       const el=document.getElementById(item.id);
       if(el)el.textContent='≈ C$'+(item.usd*usdRate).toLocaleString('en-CA',{maximumFractionDigits:2})+item.unit;
