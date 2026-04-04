@@ -274,22 +274,32 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
   </div>
 </section>
 <script>
+var _allReports = [];
+function renderReports(sector) {
+  const grid = document.getElementById('latest-reports-grid');
+  if (!grid) return;
+  const filtered = _allReports.filter(r => r.sector === sector);
+  if (!filtered.length) {
+    grid.innerHTML = '<div style="font-size:13px;color:#888;">No reports yet for this sector.</div>';
+    return;
+  }
+  grid.innerHTML = filtered.slice(0,6).map(r => {
+    const title = r.title || r.sector || 'Report';
+    const date  = r.date  || r.published_date || '';
+    const url   = r.url   || r.html_file || (r.full_report ? '/reports/'+r.full_report : '#');
+    const label = r.sector_display || r.sector || '';
+    return `<a href="${url}" style="display:block;padding:14px 16px;background:#fff;border:1px solid #e0dcd4;border-left:3px solid #8b0000;text-decoration:none;color:#1a1a1a;">
+      <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:#8b0000;margin-bottom:5px;">${label}</div>
+      <div style="font-size:13px;font-weight:600;margin-bottom:4px;">${title}</div>
+      <div style="font-family:'DM Mono',monospace;font-size:9px;color:#888;">${date}</div>
+    </a>`;
+  }).join('');
+}
 fetch('/reports/reports-index.json')
   .then(r=>r.json())
   .then(data=>{
-    const sorted = [...data].sort((a,b)=>new Date(b.date||b.published_date||0)-new Date(a.date||a.published_date||0));
-    const grid = document.getElementById('latest-reports-grid');
-    grid.innerHTML = sorted.slice(0,6).map(r=>{
-      const title = r.title || r.sector || 'Report';
-      const date = r.date || r.published_date || '';
-      const url = r.url || r.html_file || (r.full_report ? '/reports/'+r.full_report : '#');
-      const sector = r.sector_display || r.sector || '';
-      return `<a href="${url}" style="display:block;padding:14px 16px;background:#fff;border:1px solid #e0dcd4;border-left:3px solid #8b0000;text-decoration:none;color:#1a1a1a;">
-        <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:#8b0000;margin-bottom:5px;">${sector}</div>
-        <div style="font-size:13px;font-weight:600;margin-bottom:4px;">${title}</div>
-        <div style="font-family:'DM Mono',monospace;font-size:9px;color:#888;">${date}</div>
-      </a>`;
-    }).join('');
+    _allReports = [...data].sort((a,b)=>new Date(b.date||b.published_date||0)-new Date(a.date||a.published_date||0));
+    renderReports('critical_minerals');
   })
   .catch(()=>{ document.getElementById('latest-reports-grid').innerHTML='<div style="font-size:13px;color:#888;">Reports not available.</div>'; });
 </script>
@@ -1464,6 +1474,7 @@ function switchTab(sector, btn) {
     setTimeout(() => el.classList.add('visible'), 50);
   });
   loadSignals(sector);
+  renderReports(sector);
 }
 const observer = new IntersectionObserver(entries => {
   entries.forEach(el => { if (el.isIntersecting) el.target.classList.add('visible'); });
