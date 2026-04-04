@@ -17,6 +17,15 @@
 (function () {
   'use strict';
 
+  // ── Fonts ───────────────────────────────────────────────────────────
+  if (!document.getElementById('nav-js-fonts')) {
+    var fontLink = document.createElement('link');
+    fontLink.id = 'nav-js-fonts';
+    fontLink.rel = 'stylesheet';
+    fontLink.href = 'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Mono:wght@400;500&family=Jost:wght@300;400;500;600&display=swap';
+    document.head.appendChild(fontLink);
+  }
+
   // ── CSS ────────────────────────────────────────────────────────────
   var css = [
     '/* nav.js — canonical shared nav styles */',
@@ -32,9 +41,8 @@
     '  height: 100%;',
     '}',
     '#main-nav .nav-brand {',
-    '  font-family: "DM Mono", monospace;',
-    '  font-size: 11px; font-weight: 500; letter-spacing: 0.14em;',
-    '  text-transform: uppercase; color: rgba(204,0,0,1.0);',
+    '  font-family: "Cormorant Garamond", Georgia, serif;',
+    '  font-size: 17px; font-weight: 600; font-style: italic; color: #f0ece4;',
     '  text-decoration: none;',
     '}',
     '#main-nav .nav-links {',
@@ -43,10 +51,10 @@
     '#main-nav .nav-links > a {',
     '  font-family: "DM Mono", monospace;',
     '  font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;',
-    '  color: rgba(255,255,255,0.6); text-decoration: none; transition: color 0.2s;',
+    '  color: rgba(255,255,255,0.85); text-decoration: none; transition: color 0.2s;',
     '}',
-    '#main-nav .nav-links > a:hover,',
-    '#main-nav .nav-links > a.active { color: rgba(204,0,0,0.9); }',
+    '#main-nav .nav-links > a:hover { color: rgba(204,0,0,0.9); }',
+    '#main-nav .nav-links > a.active { color: #ffffff; border-bottom: 1px solid rgba(255,255,255,0.5); padding-bottom: 2px; }',
     '#main-nav .nav-dropdown {',
     '  position: relative; display: inline-flex; align-items: center;',
     '}',
@@ -57,7 +65,7 @@
     '  cursor: pointer; padding: 0; transition: color 0.2s;',
     '}',
     '#main-nav .nav-dropdown-btn:hover,',
-    '#main-nav .nav-dropdown-btn.active { color: rgba(204,0,0,0.9); }',
+    '#main-nav .nav-dropdown-btn.active { color: #ffffff; }',
     '#main-nav .nav-dropdown:hover .nav-dropdown-menu { display: block; }',
     '#main-nav .nav-dropdown-menu {',
     '  display: none; position: absolute; top: 100%; right: 0;',
@@ -142,7 +150,7 @@
 
   // ── HTML ────────────────────────────────────────────────────────────
   var navHTML = '<div class="nav-inner">' +
-    '<a href="/" class="nav-brand">\uD83C\uDDE8\uD83C\uDDE6 Canadian Trade Intel</a>' +
+    '<a href="/" class="nav-brand">Canadian Trade Intelligence</a>' +
     '<div class="nav-links">' +
       '<a href="/dashboard/">Dashboard</a>' +
       '<a href="/countries/">Countries</a>' +

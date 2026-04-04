@@ -6,7 +6,7 @@
 <title>Intelligence Terminal — Canadian Trade Intel</title>
 <meta name="description" content="Live Canadian trade intelligence terminal. Exchange rates, TSX/TSX-V stock watch, market opportunity scores, commodity prices, programme deadlines, and procurement feed — all in one place.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600;1,700&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600;1,700&family=DM+Mono:wght@400;500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
   --brand:#cc0000;--brand-dark:#1a0505;--brand-deep:#990000;
@@ -14,7 +14,7 @@
   --minerals:#1a6b42;--energy:#c8640a;--mfg:#2a5090;--aerospace:#6a20b0;--agri:#b07800;--tech:#0a6080;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'DM Sans',sans-serif;background:#0a0c0f;color:#c8d6c2;-webkit-font-smoothing:antialiased;}
+body{font-family:'Jost',sans-serif;background:#0a0c0f;color:#c8d6c2;-webkit-font-smoothing:antialiased;}
 
 /* NAV */
 nav{background:var(--brand-dark);padding:0 40px;position:sticky;top:0;z-index:200;border-bottom:1px solid rgba(204,0,0,0.2);}
@@ -158,14 +158,6 @@ nav{background:var(--brand-dark);padding:0 40px;position:sticky;top:0;z-index:20
   .t-header{padding:10px 16px;}
 }
 
-.nav-dropdown{position:relative;display:inline-flex;align-items:center;}
-.nav-dropdown-btn{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.6);background:none;border:none;cursor:pointer;padding:0;transition:color 0.2s;}
-.nav-dropdown-btn:hover{color:rgba(204,0,0,0.9);}
-.nav-dropdown-menu{display:none;position:absolute;top:100%;left:0;background:#1a0505;border:1px solid rgba(204,0,0,0.25);min-width:190px;z-index:400;padding:14px 0 6px;box-shadow:0 8px 24px rgba(0,0,0,0.4);}
-.nav-dropdown:hover .nav-dropdown-menu{display:flex;flex-direction:column;}
-.nav-dropdown-menu, .nav-dropdown-menu a, .nav-dropdown-menu *{font-family:'DM Mono',monospace !important;font-size:9px !important;font-weight:400 !important;font-style:normal !important;letter-spacing:0.1em !important;text-transform:uppercase !important;}
-.nav-dropdown-menu a{font-family:'DM Mono',monospace !important;font-size:9px !important;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.6);padding:9px 16px;text-decoration:none;transition:color 0.16s,background 0.16s;}
-.nav-dropdown-menu a:hover{color:rgba(204,0,0,0.9);background:rgba(204,0,0,0.06);;font-size:9px !important;font-family:'DM Mono',monospace !important}
 
 footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
 .footer-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:32px;padding-bottom:40px;}
@@ -366,7 +358,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
   <!-- FX RATES -->
   <div class="panel">
     <div class="panel-header">
-      <span class="panel-title">CAD exchange rates</span>
+      <span class="panel-title">CAD exchange rates<span id="boc-updated" style="font-size:7px;color:rgba(255,255,255,0.3);margin-left:6px;font-weight:400;letter-spacing:0;text-transform:none;"></span></span>
       <span class="panel-live">● Live · Bank of Canada</span>
     </div>
     <div class="fx-row">
@@ -645,11 +637,14 @@ updateClock();
 setInterval(updateClock,30000);
 
 async function loadBoC(){
+  const ids=['fx-usd','fx-eur','fx-gbp','fx-jpy','fx-cny','fx-aud'];
+  const pids=['p-fx-usd','p-fx-eur','p-fx-gbp','p-fx-jpy','p-fx-cny','p-fx-aud'];
+  [...ids,...pids].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent='...';});
   try{
     const res=await fetch('https://www.bankofcanada.ca/valet/observations/group/FX_RATES_DAILY/json?recent=1');
     const data=await res.json();
     const obs=data.observations?.[0];
-    if(!obs)return;
+    if(!obs)throw new Error('no obs');
     const rates={
       FXUSDCAD:'usd',FXEURCAD:'eur',FXGBPCAD:'gbp',
       FXJPYCAD:'jpy',FXCNYCAD:'cny',FXAUDCAD:'aud'
@@ -658,11 +653,9 @@ async function loadBoC(){
     Object.entries(rates).forEach(([key,id])=>{
       const raw=parseFloat(obs[key]?.v);
       if(isNaN(raw))return;
-      let val,display;
-      if(key==='FXJPYCAD'){val=raw;display=(1/raw).toFixed(4);}
-      else{val=1/raw;display=val.toFixed(4);}
+      const inverted=1/raw;
+      const display=key==='FXJPYCAD'?inverted.toFixed(2):inverted.toFixed(4);
       const el=document.getElementById('fx-'+id);
-      const telEl=document.getElementById('fx-'+id);
       const pEl=document.getElementById('p-fx-'+id);
       if(el)el.textContent=display;
       if(pEl)pEl.textContent=display;
@@ -683,45 +676,17 @@ async function loadBoC(){
         el.textContent=`≈ C$${cad}${item.unit}`;
       }
     });
+    const upd=document.getElementById('boc-updated');
+    if(upd){const t=new Date();upd.textContent='Updated '+t.toLocaleTimeString('en-CA',{hour:'2-digit',minute:'2-digit',timeZone:'America/Toronto'})+' ET';}
   }catch(e){
-    document.getElementById('p-fx-usd').textContent='See bankofcanada.ca';
+    [...ids,...pids].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent='—';});
   }
 }
 loadBoC();
+setInterval(loadBoC,15*60*1000);
 
-// Stock watch via Yahoo Finance proxy
-async function loadStocks(){
-  const stocks=[
-    {ticker:'CCO.TO',id:'cco'},
-    {ticker:'NTR.TO',id:'ntr'},
-    {ticker:'CAE.TO',id:'cae'},
-    {ticker:'SHOP.TO',id:'shop'},
-    {ticker:'BLDP',id:'bld'}
-  ];
-  for(const s of stocks){
-    try{
-      const res=await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${s.ticker}?interval=1d&range=2d`);
-      const data=await res.json();
-      const meta=data.chart?.result?.[0]?.meta;
-      if(!meta)continue;
-      const price=meta.regularMarketPrice;
-      const prev=meta.previousClose||meta.chartPreviousClose;
-      const chg=prev?((price-prev)/prev*100):0;
-      const priceEl=document.getElementById('s-'+s.id);
-      const chgEl=document.getElementById('s-'+s.id+'-chg');
-      if(priceEl)priceEl.textContent=`C$${price.toFixed(2)}`;
-      if(chgEl){
-        const sign=chg>=0?'▲':'▼';
-        chgEl.textContent=`${sign} ${Math.abs(chg).toFixed(2)}%`;
-        chgEl.className='stock-chg '+(chg>=0?'chg-up':'chg-down');
-      }
-    }catch(e){}
-  }
-  const t=new Date();
-  const el=document.getElementById('stock-time');
-  if(el)el.textContent=t.toLocaleTimeString('en-CA',{hour:'2-digit',minute:'2-digit',timeZone:'America/Toronto'})+' ET';
-}
-loadStocks();
+function noteStocks(){const el=document.getElementById('stock-time');if(el)el.textContent='Weekly pipeline values';}
+noteStocks();
 </script>
 
 
