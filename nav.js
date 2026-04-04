@@ -156,6 +156,7 @@
       '<a href="/countries/">Countries</a>' +
       '<a href="/spotlight/">Spotlight</a>' +
       '<a href="/reports/">Reports</a>' +
+      '<a href="/canada-forward/">Canada Forward</a>' +
       '<div class="nav-dropdown">' +
         '<button class="nav-dropdown-btn">Resources \u25be</button>' +
         '<div class="nav-dropdown-menu">' +
@@ -183,6 +184,7 @@
     '<a href="/countries/">Countries</a>' +
     '<a href="/spotlight/">Canadian Spotlight</a>' +
     '<a href="/reports/">Reports Archive</a>' +
+    '<a href="/canada-forward/">Canada Forward</a>' +
     '<span class="nav-mobile-section">Tools</span>' +
     '<a href="/terminal/">Live Data Terminal</a>' +
     '<a href="/map/">Business Map \u2014 Coming Soon</a>' +

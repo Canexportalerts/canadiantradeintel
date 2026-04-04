@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Canada Forward — Canadian Trade Intelligence</title>
+<meta name="description" content="Canada Forward tracks where Canada is heading — infrastructure, defence, energy transition, foreign investment, Indigenous economic development, and the arc of the Canadian economy over the next decade.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Mono:wght@400;500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="/nav.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --ink:#0d0d0b;--ink-soft:#2a2a28;--slate:#5a5a56;
+  --warm-bg:#f8f5f0;--warm-mid:#efe9e0;--warm-border:#ddd5c5;--white:#fdfcfa;
+  --crimson:#8b1a1a;--crimson-light:#cc2222;
+  --section-gap:64px;
+}
+html{scroll-behavior:smooth;}
+body{font-family:'Jost',sans-serif;background:var(--warm-bg);color:var(--ink);font-size:15px;line-height:1.75;-webkit-font-smoothing:antialiased;}
+
+/* ── MASTHEAD ── */
+.cf-masthead{background:#060c16;padding:0;position:relative;overflow:hidden;min-height:340px;display:flex;flex-direction:column;}
+.cf-masthead::before{content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(90deg,transparent,transparent 100px,rgba(255,255,255,0.01) 100px,rgba(255,255,255,0.01) 101px),
+             repeating-linear-gradient(0deg,transparent,transparent 100px,rgba(255,255,255,0.01) 100px,rgba(255,255,255,0.01) 101px);}
+.cf-masthead::after{content:'CANADA';position:absolute;right:-20px;top:50%;transform:translateY(-50%);
+  font-family:'Cormorant Garamond',serif;font-size:200px;font-weight:700;color:rgba(255,255,255,0.022);
+  letter-spacing:-0.06em;line-height:1;pointer-events:none;user-select:none;}
+.cf-topbar{background:rgba(0,0,0,0.3);border-bottom:1px solid rgba(255,255,255,0.06);padding:12px 48px;position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;}
+.breadcrumb{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.35);}
+.breadcrumb a{color:rgba(255,255,255,0.35);text-decoration:none;}
+.breadcrumb a:hover{color:rgba(255,255,255,0.7);}
+.cf-eyebrow{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.4);}
+.cf-hero{padding:36px 48px 44px;position:relative;z-index:1;flex:1;display:flex;flex-direction:column;justify-content:flex-end;}
+.cf-flag{font-size:32px;margin-bottom:12px;display:block;}
+.cf-title{font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:600;font-style:italic;color:#f4f0e8;letter-spacing:-0.02em;line-height:1.1;margin-bottom:12px;}
+.cf-subtitle{font-family:'Jost',sans-serif;font-size:16px;font-weight:300;color:rgba(240,236,228,0.65);max-width:680px;line-height:1.65;}
+.cf-meta{margin-top:20px;display:flex;gap:24px;align-items:center;flex-wrap:wrap;}
+.cf-meta-item{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.3);}
+
+/* ── VERTICAL SIDEBAR NAV ── */
+.cf-nav{display:none;} /* hide old horizontal nav */
+.cf-layout{display:grid;grid-template-columns:200px 1fr;gap:0;max-width:1320px;margin:0 auto;}
+.cf-sidebar{padding:32px 0 80px 48px;position:sticky;top:72px;height:calc(100vh - 72px);overflow-y:auto;align-self:start;}
+.cf-sidebar-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.2em;text-transform:uppercase;color:var(--slate);margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid var(--warm-border);}
+.cf-sidebar-link{display:block;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--slate);text-decoration:none;padding:8px 0;border-left:2px solid transparent;padding-left:12px;margin-left:-12px;transition:color 0.18s,border-color 0.18s;line-height:1.4;}
+.cf-sidebar-link:hover{color:var(--ink);}
+.cf-sidebar-link.active{color:var(--crimson);border-left-color:var(--crimson);}
+.cf-sidebar-divider{height:1px;background:var(--warm-border);margin:8px 0;}
+.cf-content{border-left:1px solid var(--warm-border);padding:0;}
+@media(max-width:900px){
+  .cf-layout{grid-template-columns:1fr;}
+  .cf-sidebar{display:none;}
+  .cf-content{border-left:none;}
+}
+
+/* ── LAYOUT ── */
+.cf-body{padding:0 48px 80px;}
+@media(max-width:900px){.cf-body{padding:0 20px 60px;}}
+.cf-section{padding-top:var(--section-gap);padding-bottom:var(--section-gap);border-bottom:1px solid var(--warm-border);}
+.cf-section:last-child{border-bottom:none;}
+.cf-section-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--crimson);margin-bottom:8px;}
+.cf-section-title{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;font-style:italic;color:var(--ink);line-height:1.2;margin-bottom:20px;}
+.cf-lead{font-family:'Jost',sans-serif;font-size:15px;font-weight:400;color:var(--ink-soft);line-height:1.8;margin-bottom:16px;max-width:760px;}
+.cf-body-text{font-family:'Jost',sans-serif;font-size:15px;color:var(--ink-soft);line-height:1.8;margin-bottom:16px;max-width:760px;}
+.cf-body-text:last-of-type{margin-bottom:0;}
+
+/* ── TWO-COLUMN LAYOUT ── */
+.cf-cols{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:32px;}
+.cf-cols-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:28px;margin-top:32px;}
+@media(max-width:900px){.cf-cols,.cf-cols-3{grid-template-columns:1fr;}}
+
+/* ── INDICATORS ── */
+.indicator-block{background:var(--white);border:1px solid var(--warm-border);padding:20px 22px;}
+.indicator-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.16em;text-transform:uppercase;color:var(--slate);margin-bottom:6px;}
+.indicator-value{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:var(--ink);line-height:1;margin-bottom:4px;}
+.indicator-context{font-size:12px;color:var(--slate);line-height:1.5;}
+.indicator-link{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--crimson);text-decoration:none;display:inline-block;margin-top:8px;border-bottom:1px solid rgba(139,26,26,0.3);}
+.indicator-link:hover{border-color:var(--crimson);}
+
+/* ── WATCH LIST ── */
+.watch-block{margin-top:28px;}
+.watch-title{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.16em;text-transform:uppercase;color:var(--slate);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--warm-border);}
+.watch-item{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--warm-border);}
+.watch-item:last-child{border-bottom:none;}
+.watch-bullet{width:4px;height:4px;border-radius:50%;background:var(--crimson);flex-shrink:0;margin-top:7px;}
+.watch-text{font-size:13px;color:var(--ink-soft);line-height:1.6;}
+.watch-text strong{color:var(--ink);font-weight:600;}
+
+/* ── TWO PATHS ── */
+.paths-block{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--warm-border);margin-top:28px;}
+@media(max-width:700px){.paths-block{grid-template-columns:1fr;}}
+.path-panel{background:var(--white);padding:24px;}
+.path-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.16em;text-transform:uppercase;margin-bottom:10px;}
+.path-label-positive{color:#2e7d32;}
+.path-label-negative{color:#c62828;}
+.path-title{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;font-style:italic;color:var(--ink);margin-bottom:10px;line-height:1.3;}
+.path-text{font-size:13px;color:var(--ink-soft);line-height:1.7;}
+
+/* ── RESEARCH CARD ── */
+.research-card{background:var(--white);border:1px solid var(--warm-border);padding:18px 20px;display:flex;flex-direction:column;}
+.research-source{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.14em;text-transform:uppercase;color:var(--slate);margin-bottom:6px;}
+.research-title{font-size:14px;font-weight:600;color:var(--ink);line-height:1.4;margin-bottom:6px;}
+.research-desc{font-size:12px;color:var(--slate);line-height:1.6;flex:1;}
+.research-link{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--crimson);text-decoration:none;margin-top:10px;display:inline-block;border-bottom:1px solid rgba(139,26,26,0.3);}
+.research-link:hover{border-color:var(--crimson);}
+
+/* ── PROVINCE GRID ── */
+.province-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--warm-border);margin-top:28px;}
+@media(max-width:1000px){.province-grid{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:700px){.province-grid{grid-template-columns:repeat(2,1fr);}}
+.province-card{background:var(--white);padding:18px 16px;display:flex;flex-direction:column;}
+.province-name{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink);font-weight:500;margin-bottom:4px;}
+.province-theme{font-size:12px;color:var(--slate);line-height:1.5;margin-bottom:8px;flex:1;}
+.province-signal{font-family:'DM Mono',monospace;font-size:8px;color:var(--crimson);letter-spacing:0.06em;}
+.province-card.north-card{background:#f0f4f8;border-top:2px solid #1a3a5c;}
+.province-card.north-card .province-name{color:#1a3a5c;}
+
+/* ── ACADEMIC / RESEARCH ATTRIBUTION ── */
+.attribution-block{background:var(--warm-mid);border-left:3px solid var(--crimson);padding:18px 20px;margin:20px 0;}
+.attribution-quote{font-family:'Cormorant Garamond',serif;font-size:16px;font-style:italic;color:var(--ink-soft);line-height:1.65;margin-bottom:10px;}
+.attribution-source{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--slate);}
+.attribution-source a{color:var(--crimson);text-decoration:none;}
+
+/* ── CTA LINKS ── */
+.cf-link{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--crimson);text-decoration:none;border-bottom:1px solid rgba(139,26,26,0.3);padding-bottom:1px;display:inline-block;}
+.cf-link:hover{border-color:var(--crimson);}
+.cf-link-group{display:flex;gap:20px;flex-wrap:wrap;margin-top:20px;}
+
+/* ── EDITORIAL NOTE ── */
+.editorial-note{background:#fff;border:1px solid var(--warm-border);border-top:3px solid var(--crimson);padding:28px 32px;margin-top:32px;}
+.editorial-byline{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.16em;text-transform:uppercase;color:var(--slate);margin-bottom:14px;}
+.editorial-text{font-family:'Jost',sans-serif;font-size:14px;color:var(--ink-soft);line-height:1.8;}
+.editorial-text p{margin-bottom:14px;}
+.editorial-text p:last-child{margin-bottom:0;}
+
+/* ── COMING SOON LABEL ── */
+.coming-soon{display:inline-block;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(90,90,86,0.6);border:1px solid var(--warm-border);padding:2px 8px;margin-left:8px;vertical-align:middle;}
+
+/* ── DIVIDER ── */
+.cf-divider{border:none;border-top:1px solid var(--warm-border);margin:32px 0;}
+
+@media(max-width:768px){
+  .cf-body{padding:0 20px 60px;}
+  .cf-hero{padding:28px 20px 36px;}
+  .cf-topbar{padding:12px 20px;}
+  .cf-title{font-size:38px;}
+  .cf-nav-inner{padding:0 20px;}
+  .cf-cols{gap:24px;}
+}
+</style>
+</head>
+<body>
+<nav id="main-nav"></nav>
+
+<!-- MASTHEAD -->
+<div class="cf-masthead">
+  <div class="cf-topbar">
+    <div class="breadcrumb"><a href="/">Canadian Trade Intelligence</a> · Canada Forward</div>
+    <div class="cf-eyebrow">Economic Outlook &amp; National Trajectory</div>
+  </div>
+  <div class="cf-hero">
+    <span class="cf-flag">🇨🇦</span>
+    <h1 class="cf-title">Canada Forward</h1>
+    <p class="cf-subtitle">Where Canada is heading — infrastructure, defence, energy transition, foreign investment, Indigenous economic development, and the arc of the Canadian economy over the decade ahead. This page connects trade intelligence to the larger national story.</p>
+    <div class="cf-meta">
+      <span class="cf-meta-item">Updated quarterly &amp; as signals warrant</span>
+      <span class="cf-meta-item">Q2 2026</span>
+      <span class="cf-meta-item">Canadian Trade Intelligence Inc.</span>
+    </div>
+  </div>
+</div>
+
+<!-- VERTICAL SIDEBAR + CONTENT LAYOUT -->
+<div class="cf-layout">
+
+<aside class="cf-sidebar">
+  <div class="cf-sidebar-label">On this page</div>
+  <a href="#thesis" class="cf-sidebar-link active">The Argument</a>
+  <div class="cf-sidebar-divider"></div>
+  <a href="#build" class="cf-sidebar-link">Build Canada</a>
+  <a href="#defence" class="cf-sidebar-link">Defence &amp; Security</a>
+  <a href="#energy" class="cf-sidebar-link">Energy Transition</a>
+  <a href="#investment" class="cf-sidebar-link">Foreign Investment</a>
+  <a href="#indigenous" class="cf-sidebar-link">Indigenous Economy</a>
+  <div class="cf-sidebar-divider"></div>
+  <a href="#provinces" class="cf-sidebar-link">Provinces &amp; Territories</a>
+  <a href="#research" class="cf-sidebar-link">Research Library</a>
+  <a href="#forward" class="cf-sidebar-link">Two Paths</a>
+</aside>
+
+<div class="cf-content">
+<div class="cf-body">
+
+<!-- THE ARGUMENT -->
+<section class="cf-section" id="thesis">
+  <div class="cf-section-label">The Argument</div>
+  <h2 class="cf-section-title">Canada is at an inflection point</h2>
+
+  <p class="cf-lead">Canada enters the second half of the 2020s with a set of structural advantages it has rarely possessed simultaneously: resource wealth the world urgently needs, trade agreement access to nearly every major economy, a demographically young and growing population driven by immigration, and a geographic position between the United States, Europe, and the Indo-Pacific that no other G7 country shares.</p>
+
+  <p class="cf-body-text">What is not guaranteed is whether Canadian policy, business investment, and institutional capacity will rise to meet that potential. The question is not whether Canada has the assets — it does. The question is whether Canada makes the choices in the next decade that allow those assets to compound into sustained prosperity, or whether it squanders them through institutional drift, infrastructure deficits, and strategic incoherence.</p>
+
+  <p class="cf-body-text">This page tracks the signals that tell us which direction things are heading. It is not a government report, a think tank brief, or a political document. It is a trade intelligence platform's attempt to synthesize what economic research, government data, academic analysis, and market signals are collectively saying about Canada's trajectory — connecting dots that individual federal departments, provincial governments, and independent researchers rarely connect for themselves.</p>
+
+  <p class="cf-body-text">The six sectors covered weekly by CTI — critical minerals, energy and cleantech, advanced manufacturing, aerospace and defence, agri-food, and technology — are just the tip of the iceberg. They represent only some of the industries where Canada has genuine structural advantage, but these sectors don't tell the whole story. What Canada is building is not sector-specific like much of the focus of CTI — it is structural across all of Canada. We Canadians determine Canada's economic trajectory over the next decade and beyond.</p>
+
+  <p class="cf-body-text">Canada Forward is organised around five structural themes — not sectors, but the underlying forces that shape them all:</p>
+
+  <div style="margin:20px 0 24px;display:flex;flex-direction:column;gap:0;">
+    <div style="display:flex;gap:16px;padding:12px 0;border-bottom:1px solid var(--warm-border);align-items:flex-start;">
+      <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--crimson);font-weight:500;flex-shrink:0;width:24px;padding-top:1px;">01</span>
+      <div><strong style="font-size:14px;color:var(--ink);">Build Canada</strong> — Housing, infrastructure, construction supply chains, and the material economy of a growing country. The domestic investment story.</div>
+    </div>
+    <div style="display:flex;gap:16px;padding:12px 0;border-bottom:1px solid var(--warm-border);align-items:flex-start;">
+      <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--crimson);font-weight:500;flex-shrink:0;width:24px;padding-top:1px;">02</span>
+      <div><strong style="font-size:14px;color:var(--ink);">Defence &amp; Security Industrial Base</strong> — NATO commitments, the Defence Industrial Strategy, Arctic sovereignty, and the dual-use technology economy.</div>
+    </div>
+    <div style="display:flex;gap:16px;padding:12px 0;border-bottom:1px solid var(--warm-border);align-items:flex-start;">
+      <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--crimson);font-weight:500;flex-shrink:0;width:24px;padding-top:1px;">03</span>
+      <div><strong style="font-size:14px;color:var(--ink);">Energy &amp; Resource Transition</strong> — Critical minerals, clean electricity, hydrogen, and the question of whether Canada captures value-added or ships raw material.</div>
+    </div>
+    <div style="display:flex;gap:16px;padding:12px 0;border-bottom:1px solid var(--warm-border);align-items:flex-start;">
+      <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--crimson);font-weight:500;flex-shrink:0;width:24px;padding-top:1px;">04</span>
+      <div><strong style="font-size:14px;color:var(--ink);">Foreign Investment in Canada</strong> — Inbound FDI, sovereign wealth fund activity, the Indo-Pacific capital story, and Canada as a destination rather than just an origin.</div>
+    </div>
+    <div style="display:flex;gap:16px;padding:12px 0;align-items:flex-start;">
+      <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--crimson);font-weight:500;flex-shrink:0;width:24px;padding-top:1px;">05</span>
+      <div><strong style="font-size:14px;color:var(--ink);">Indigenous Economic Development</strong> — Ownership, governance, land rights, and what economic reconciliation means for how Canada develops its most strategically important assets.</div>
+    </div>
+  </div>
+
+  <div class="editorial-note">
+    <div class="editorial-byline">Publisher's note — Canadian Trade Intelligence Inc.</div>
+    <div class="editorial-text">
+      <p>Canadian Trade Intelligence is not just about which market to enter or which tariffs to watch. The weekly sector reports cover the export and trade dimensions of six industries where Canada has measurable competitive advantage. But trade is downstream of something larger — the decisions Canadians make collectively about what kind of economy we are building, how we use our land and resources, who we welcome, how we govern, and what we owe each other across geography and generation.</p>
+      <p>Canada Forward exists because those larger decisions shape everything the weekly intelligence tracks. A change in housing policy affects construction material imports and softwood lumber tariff pressure. A shift in Indigenous land governance determines which resource projects get built and on what timeline. A new defence industrial strategy realigns where procurement spending flows and which Canadian companies grow. Immigration policy determines which sectors can scale and which remain constrained by labour. These are not separate conversations — they are the same conversation, seen from different angles.</p>
+      <p>This page is designed to be a resource for exporters, importers, investors, policy thinkers, academics, business owners, and individuals who live here — anyone who wants to understand not just what is happening in Canadian trade, but why, and where it is heading. It will be updated when the signals warrant it, when the research shifts, or when something significant changes in the trajectory. The analytical sections below are built on public research and data. This note is where interpretation lives that data alone cannot provide.</p>
+      <p>Canada has the assets. The question is whether we make the choices that allow them to compound.</p>
+    </div>
+  </div>
+
+  <div class="cf-link-group">
+    <a href="/reports/" class="cf-link">Weekly sector reports →</a>
+    <a href="/terminal/" class="cf-link">Live data terminal →</a>
+    <a href="/methodology/" class="cf-link">Our methodology →</a>
+  </div>
+</section>
+
+<!-- BUILD CANADA -->
+<section class="cf-section" id="build">
+  <div class="cf-section-label">Build Canada</div>
+  <h2 class="cf-section-title">The infrastructure imperative</h2>
+
+  <p class="cf-lead">Canada faces one of the most consequential infrastructure deficits in its modern history. Housing, transit, ports, grid modernization, and digital infrastructure have all fallen behind the pace of population growth and economic demand. Closing that gap is the defining domestic economic challenge of the decade — and it creates some of the largest procurement and supply chain opportunities in a generation.</p>
+
+  <p class="cf-body-text">The federal government's housing targets — 3.87 million new homes by 2031 under the National Housing Strategy — require a construction supply chain that Canada currently does not have at scale. Modular and mass timber construction, factory-built components, skilled trades immigration, and municipal zoning reform are all moving simultaneously. The question is whether the pace of systemic change matches the scale of the target.</p>
+
+  <p class="cf-body-text">Material input costs matter directly here. Softwood lumber, structural steel, concrete, glass, and electrical components are all trade-affected commodities. The 14.54% US countervailing duty on Canadian softwood lumber raises residential construction costs across North America. The Section 232 steel tariff affects structural steel pricing for commercial and industrial construction. These are not abstract trade issues — they are priced into every building permit filed in Canada.</p>
+
+  <p class="cf-body-text">The Canada Infrastructure Bank has deployed over $11 billion in co-investment across 57 projects as of 2025, with a mandate covering clean power, green infrastructure, trade and transportation, broadband, and urban transit. The pipeline of projects it is financing represents a multi-decade procurement opportunity for Canadian and foreign suppliers.</p>
+
+  <div class="cf-cols" style="margin-top:28px;">
+    <div>
+      <div class="cf-cols-3" style="grid-template-columns:1fr 1fr;margin-top:0;">
+        <div class="indicator-block">
+          <div class="indicator-label">Housing target</div>
+          <div class="indicator-value">3.87M</div>
+          <div class="indicator-context">New homes needed by 2031. Current pace: ~240,000/yr. Gap: approximately 500,000 units.</div>
+          <a href="https://www.cmhc-schl.gc.ca" target="_blank" rel="noopener" class="indicator-link">CMHC data →</a>
+        </div>
+        <div class="indicator-block">
+          <div class="indicator-label">CIB deployed</div>
+          <div class="indicator-value">$11B+</div>
+          <div class="indicator-context">Canada Infrastructure Bank co-investments as of 2025, across 57 projects nationally.</div>
+          <a href="https://cib-bic.ca" target="_blank" rel="noopener" class="indicator-link">CIB projects →</a>
+        </div>
+        <div class="indicator-block">
+          <div class="indicator-label">Softwood tariff</div>
+          <div class="indicator-value">14.54%</div>
+          <div class="indicator-context">Current US countervailing duty on Canadian softwood lumber. Under review in CUSMA dispute process.</div>
+          <a href="/tariffs/" class="indicator-link">Tariff reference →</a>
+        </div>
+        <div class="indicator-block">
+          <div class="indicator-label">Steel Section 232</div>
+          <div class="indicator-value">Active</div>
+          <div class="indicator-context">US Section 232 tariff on steel imports. Affects Canadian structural steel exporters and domestic input costs.</div>
+          <a href="/tariffs/" class="indicator-link">Tariff reference →</a>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="watch-block" style="margin-top:0;">
+        <div class="watch-title">Watch — Build Canada signals</div>
+        <div class="watch-item"><div class="watch-bullet"></div><div class="watch-text"><strong>CUSMA softwood lumber review</strong> — The July 2026 joint review is the next formal window to address the countervailing duty. Canadian producers and construction industry associations are preparing submissions now.</div></div>
+        <div class="watch-item"><div class="watch-bullet"></div><div class="watch-text"><strong>Municipal zoning reform</strong> — Federal housing funding is increasingly conditional on municipalities adopting as-of-right zoning for density near transit. Pace of adoption varies dramatically by city.</div></div>
+        <div class="watch-item"><div class="watch-bullet"></div><div class="watch-text"><strong>Mass timber and modular construction</strong> — British Columbia and Quebec lead in mass timber adoption. Federal building code amendments enabling taller wood structures are creating new supply chain demand.</div></div>
+        <div class="watch-item"><div class="watch-bullet"></div><div class="watch-text"><strong>Infrastructure Bank pipeline 2026–2028</strong> — New project announcements expected across clean energy storage, urban transit, and port modernization. Procurement opportunities for Canadian suppliers.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="attribution-block">
+    <div class="attribution-quote">"Canada's housing affordability crisis is fundamentally a supply problem — and solving it requires not just more building permits but a systemic transformation of how Canada produces housing at scale."</div>
+    <div class="attribution-source">Mike Moffatt, Smart Prosperity Institute · <a href="https://smartprosperity.ca" target="_blank" rel="noopener">smartprosperity.ca</a> · Referenced in CMHC Housing Supply Challenge research</div>
+  </div>
+
+  <div class="cf-link-group">
+    <a href="/procurement/" class="cf-link">Active construction &amp; infrastructure tenders →</a>
+    <a href="/terminal/" class="cf-link">Softwood &amp; steel prices →</a>
+    <a href="https://cib-bic.ca/en/projects/" target="_blank" rel="noopener" class="cf-link">CIB project pipeline →</a>
+    <a href="https://www.tradecommissioner.gc.ca" target="_blank" rel="noopener" class="cf-link">TCS market support →</a>
+  </div>
+</section>
+
+<!-- DEFENCE & SECURITY -->
+<section class="cf-section" id="defence">
+  <div class="cf-section-label">Defence &amp; Security Industrial Base</div>
+  <h2 class="cf-section-title">From 2% to 5%: the industrial opportunity</h2>
+
+  <p class="cf-lead">Canada has met the NATO 2% GDP defence spending target for the first time — a threshold long overdue and arrived at through a combination of increased procurement commitments and a rising GDP denominator. But the direction of travel within NATO suggests that 2% may be a floor, not a ceiling, as allies consider what deterrence credibility actually costs in the current security environment.</p>
+
+  <p class="cf-body-text">Canada's first-ever Defence Industrial Strategy, released February 2026, introduces a Build-Partner-Buy framework that structurally advantages Canadian suppliers for the first time. The creation of the Defence Investment Agency, with a mandate to develop domestic industrial capacity rather than simply procure foreign equipment, represents a genuine shift in how federal defence spending flows through the Canadian economy.</p>
+
+  <p class="cf-body-text">The strategic logic is reinforcing: allied countries — particularly Germany, Poland, Australia, and the UK — are expanding their own defence budgets at rates not seen since the Cold War. Canadian tier-2 and tier-3 aerospace and defence suppliers with NATO credentials and CETA or CPTPP market access are in a structural competitive position for sub-prime contracting that their predecessors were not. The Bundeswehr €100B modernization programme alone creates sustained demand that extends well into the 2030s.</p>
+
+  <p class="cf-body-text">What is less discussed is the dual-use dimension. Much of what Canada builds for defence — communications technology, unmanned systems, cybersecurity, satellite intelligence, advanced materials — has direct commercial applications. The defence industrial base and the technology export sector are converging in ways that create new market opportunities for companies that navigate both domains.</p>
+
+  <div class="cf-cols" style="margin-top:28px;">
+    <div>
+      <div class="cf-cols-3" style="grid-template-columns:1fr 1fr;margin-top:0;">
+        <div class="indicator-block">
+          <div class="indicator-label">Canada NATO spending</div>
+          <div class="indicator-value">2.0%</div>
+          <div class="indicator-context">GDP, 2025. First time Canada has met the 2% target. Trajectory toward the emerging 3–5% discussion.</div>
+          <a href="https://www.nato.int/cps/en/natohq/topics_49198.htm" target="_blank" rel="noopener" class="indicator-link">NATO data →</a>
+        </div>
+        <div class="indicator-block">
+          <div class="indicator-label">DIA pipeline</div>
+          <div class="indicator-value">Active</div>
+          <div class="indicator-context">Defence Investment Agency accepting supplier registration. First contracts expected before summer 2026.</div>
+          <a href="https://canadabuys.canada.ca" target="_blank" rel="noopener" class="indicator-link">CanadaBuys →</a>
+        </div>
+        <div class="indicator-block">
+          <div class="indicator-label">Bundeswehr fund</div>
+          <div class="indicator-value">€100B</div>
+          <div class="indicator-context">German defence modernization fund. Sustained sub-prime procurement demand through 2030s for CETA-eligible Canadian suppliers.</div>
+          <a href="/countries/germany" class="indicator-link">Germany dossier →</a>
+        </div>
+        <div class="indicator-block">
+          <div class="indicator-label">NORAD modernization</div>
+          <div class="indicator-value">$38.6B</div>
+          <div class="indicator-context">Canada's NORAD modernization commitment over 20 years. Radar systems, space surveillance, northern infrastructure.</div>
+          <a href="/reports/aerospace-defence/issue-002" class="indicator-link">Aerospace report →</a>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="watch-block" style="margin-top:0;">
+        <div class="watch-title">Watch — Defence &amp; security signals</div>
+        <div class="watch-item"><div class="watch-bullet"></div><div class="watch-text"><strong>NATO 5% discussion</strong> — Emerging allied pressure toward 5% GDP in defence. Canada's industrial capacity to support this spending level is the constraining factor, not political will alone.</div></div>
+        <div class="watch-item"><div class="watch-bullet"></div><div class="watch-text"><strong>Arctic sovereignty infrastructure</strong> — NORAD modernization includes deep northern radar and surveillance systems. Procurement favours Canadian northern presence and Indigenous partnership models.</div></div>
+        <div class="watch-item"><div class="watch-bullet"></div><div class="watch-text"><strong>Cybersecurity and space</strong> — DND's cyber command expansion and the Canadian Space Agency's growing defence mandate create adjacent opportunities for Canadian tech firms.</div></div>
+        <div class="watch-item"><div class="watch-bullet"></div><div class="watch-text"><strong>Build-Partner-Buy eligibility</strong> — SMEs should register on CanadaBuys and initiate supplier qualification now. Most will wait until contracts are awarded — that is too late.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="attribution-block">
+    <div class="attribution-quote">"Canada's defence industrial base has the technical capacity to compete globally, but has historically lacked the policy framework to direct domestic procurement toward building that capacity. The 2026 Defence Industrial Strategy changes that calculus."</div>
+    <div class="attribution-source">Canadian Global Affairs Institute (CGAI) · Defence and security policy research · <a href="https://www.cgai.ca" target="_blank" rel="noopener">cgai.ca</a></div>
+  </div>
+
+  <div class="cf-link-group">
+    <a href="/reports/aerospace-defence/issue-002" class="cf-link">Aerospace &amp; Defence weekly report →</a>
+    <a href="/procurement/" class="cf-link">Defence procurement tenders →</a>
+    <a href="https://www.canada.ca/en/department-national-defence/corporate/reports-publications/defence-industrial-strategy.html" target="_blank" rel="noopener" class="cf-link">Defence Industrial Strategy →</a>
+  </div>
+</section>
+
+<!-- ENERGY TRANSITION -->
+<section class="cf-section" id="energy">
+  <div class="cf-section-label">Energy &amp; Resource Transition</div>
+  <h2 class="cf-section-title">The critical minerals decade</h2>
+
+  <p class="cf-lead">The energy transition is the most significant structural shift in the global economy since the industrial revolution — and Canada is positioned at its centre. The world needs lithium, cobalt, nickel, copper, and uranium in quantities that exceed current production capacity. Canada has all of them. Whether Canada captures the value-added portion of that supply chain — processing, battery manufacturing, component production — or remains a raw material exporter is the defining question for Canadian resource wealth in this decade.</p>
+
+  <p class="cf-body-text">Canada's 2025 G7 presidency produced a Critical Minerals Production Alliance that has mobilized over $25 billion in commitments from allied nations to develop non-Chinese, non-Russian critical mineral supply chains. Canadian producers are the primary beneficiaries. But supply chain development takes years, not weeks — the decisions being made now about processing facilities, refinery locations, and infrastructure investment will determine Canada's position in the 2030s battery and cleantech supply chain.</p>
+
+  <p class="cf-body-text">The clean electricity transition runs in parallel. Canada's grid is already among the cleanest in the world — approximately 84% non-emitting — but grid modernization, interprovincial transmission, and the electrification of industry and transport require sustained investment at a scale that is only beginning to be mobilized. The federal Clean Electricity Regulations and the Canada Growth Fund's catalytic capital instruments are the primary policy mechanisms. Their effectiveness will be tested by project timelines and provincial cooperation.</p>
+
+  <div class="cf-cols" style="margin-top:28px;">
+    <div class="watch-block" style="margin-top:0;">
+      <div class="watch-title">Two paths: critical minerals by 2030</div>
+      <div class="paths-block" style="margin-top:0;">
+        <div class="path-panel">
+          <div class="path-label path-label-positive">Path A — Value-added Canada</div>
+          <div class="path-title">Canada processes, not just mines</div>
+          <div class="path-text">Federal and provincial investment in mid-stream processing facilities creates a domestic battery materials industry. Canadian lithium, nickel, and cobalt are refined in Canada before export. The EV supply chain from mine to module has Canadian content. Trade agreement partners pay a premium for certified, conflict-free Canadian materials with traceable provenance.</div>
+        </div>
+        <div class="path-panel">
+          <div class="path-label path-label-negative">Path B — Raw material dependency</div>
+          <div class="path-title">Canada ships concentrate, not components</div>
+          <div class="path-text">Processing investment flows to partner countries with cheaper energy, lower labour costs, or more aggressive industrial policy. Canada mines and ships raw or semi-processed concentrate. The value-added margin — and the jobs — accrue elsewhere. Canada remains dependent on foreign processing for its own cleantech transition materials.</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="cf-cols-3" style="grid-template-columns:1fr 1fr;margin-top:0;">
+        <div class="indicator-block">
+          <div class="indicator-label">G7 CMS Alliance</div>
+          <div class="indicator-value">$25B+</div>
+          <div class="indicator-context">Allied commitments to non-Chinese critical mineral supply chains, mobilized under Canada's G7 presidency.</div>
+          <a href="/reports/critical-minerals/issue-002" class="indicator-link">CM report →</a>
+        </div>
+        <div class="indicator-block">
+          <div class="indicator-label">Grid non-emitting</div>
+          <div class="indicator-value">84%</div>
+          <div class="indicator-context">Share of Canadian electricity generation from non-emitting sources. One of the highest in the G7.</div>
+          <a href="https://www.nrcan.gc.ca" target="_blank" rel="noopener" class="indicator-link">NRCan →</a>
+        </div>
+        <div class="indicator-block">
+          <div class="indicator-label">Uranium deal</div>
+          <div class="indicator-value">$2.6B</div>
+          <div class="indicator-context">Cameco–EDF India supply agreement, signed April 2026. Largest Canadian uranium export contract since 2010.</div>
+          <a href="/spotlight/" class="indicator-link">Spotlight →</a>
+        </div>
+        <div class="indicator-block">
+          <div class="indicator-label">CEPA — India</div>
+          <div class="indicator-value">In force</div>
+          <div class="indicator-context">Canada–India CEPA entered into force April 2026, unlocking preferential tariff access for critical minerals and cleantech.</div>
+          <a href="/countries/india" class="indicator-link">India dossier →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cf-link-group">
+    <a href="/reports/critical-minerals/issue-002" class="cf-link">Critical Minerals weekly report →</a>
+    <a href="/reports/energy-cleantech/issue-002" class="cf-link">Energy &amp; Cleantech weekly report →</a>
+    <a href="https://www.nrcan.gc.ca/critical-minerals" target="_blank" rel="noopener" class="cf-link">NRCan Critical Minerals →</a>
+    <a href="/terminal/" class="cf-link">Commodity prices →</a>
+  </div>
+</section>
+
+<!-- FOREIGN INVESTMENT -->
+<section class="cf-section" id="investment">
+  <div class="cf-section-label">Foreign Investment in Canada</div>
+  <h2 class="cf-section-title">Canada as a destination, not just an origin</h2>
+
+  <p class="cf-lead">Most Canadian trade intelligence is written from the perspective of Canadian businesses going outward. But the inbound story — foreign direct investment into Canada — is equally important and considerably less well-documented. In 2024, FDI into Canada reached $85.5 billion, the second-highest on record. The sectors attracting that capital tell us something important about how the world sees Canada's economic potential.</p>
+
+  <p class="cf-body-text">Critical minerals and battery materials are the dominant FDI story. Sovereign wealth funds from Norway, Singapore, Abu Dhabi, and South Korea are acquiring positions in Canadian mining and processing assets. German and Japanese automakers are securing upstream supply agreements with Canadian producers as part of their EV supply chain strategies. The Indo-Pacific Strategy's trade investment components are beginning to materialize in actual capital flows.</p>
+
+  <p class="cf-body-text">Technology and digital infrastructure is the second major FDI theme. Hyperscaler data centre investment — Microsoft, Google, Amazon — is flowing into Canada at scale, driven by clean electricity access, political stability, and proximity to US markets. This creates both direct economic activity and an anchor for the broader digital economy ecosystem.</p>
+
+  <p class="cf-body-text">The policy dimension matters. Canada's Investment Canada Act review thresholds and national security screening create some friction for inbound investment, particularly from state-owned enterprises. Navigating the line between attracting capital and protecting strategic assets is an ongoing policy tension that affects both the volume and the composition of FDI.</p>
+
+  <div class="attribution-block">
+    <div class="attribution-quote">"Canada's investment climate advantages — legal stability, resource access, educated workforce, clean energy — are genuine and durable. The risk is that Canadian policy uncertainty and infrastructure gaps erode those advantages faster than we build on them."</div>
+    <div class="attribution-source">C.D. Howe Institute · Investment climate research · <a href="https://www.cdhowe.org" target="_blank" rel="noopener">cdhowe.org</a></div>
+  </div>
+
+  <div class="cf-cols-3" style="margin-top:28px;">
+    <div class="indicator-block">
+      <div class="indicator-label">FDI into Canada 2024</div>
+      <div class="indicator-value">$85.5B</div>
+      <div class="indicator-context">Second-highest on record. +36.2% year-over-year. Leading sectors: critical minerals, digital infrastructure, financial services.</div>
+      <a href="https://www.statcan.gc.ca" target="_blank" rel="noopener" class="indicator-link">StatCan →</a>
+    </div>
+    <div class="indicator-block">
+      <div class="indicator-label">Indo-Pacific Strategy</div>
+      <div class="indicator-value">$2.3B</div>
+      <div class="indicator-context">Federal Indo-Pacific Strategy funding over 5 years, including trade investment facilitation and diplomatic capacity.</div>
+      <a href="https://www.international.gc.ca/transparency-transparence/indo-pacific-indo-pacifique/index.aspx" target="_blank" rel="noopener" class="indicator-link">GAC →</a>
+    </div>
+    <div class="indicator-block">
+      <div class="indicator-label">Investment Canada reviews</div>
+      <div class="indicator-value">Active</div>
+      <div class="indicator-context">National security reviews of inbound investment particularly in critical minerals and technology continue to shape FDI composition.</div>
+      <a href="https://www.ic.gc.ca/eic/site/ica-lic.nsf/eng/home" target="_blank" rel="noopener" class="indicator-link">ISED →</a>
+    </div>
+  </div>
+
+  <div class="cf-link-group">
+    <a href="/spotlight/" class="cf-link">Canadian Spotlight — inbound investment stories →</a>
+    <a href="/terminal/" class="cf-link">FDI monitor →</a>
+    <a href="https://www.edisonpartners.com" target="_blank" rel="noopener" class="cf-link">EDC trade data →</a>
+  </div>
+</section>
+
+<!-- INDIGENOUS ECONOMY -->
+<section class="cf-section" id="indigenous">
+  <div class="cf-section-label">Indigenous Economic Development</div>
+  <h2 class="cf-section-title">Ownership, not just participation</h2>
+
+  <p class="cf-lead">The conversation about Indigenous economic development in Canada has shifted — from participation and employment toward ownership and governance. First Nations, Métis, and Inuit communities are increasingly acquiring equity stakes in resource projects, infrastructure assets, and development corporations, rather than receiving benefit payments from projects on their territories. This is a structural change, not a marginal one, and it has significant implications for how resource development, infrastructure, and trade work in Canada over the coming decades.</p>
+
+  <p class="cf-body-text">The scale of potential is significant. The First Nations Major Projects Coalition, the Indigenous Resource Network, and the Indigenous Equity Infrastructure Fund all represent mechanisms by which Indigenous communities are transitioning from affected parties to project partners and owners. The Coastal GasLink pipeline included First Nations equity ownership. The Trans Mountain Expansion Corporation has engaged Indigenous groups across its corridor. These are precedents, not exceptions.</p>
+
+  <p class="cf-body-text">The economic geography of Indigenous land and resource rights intersects directly with Canada's most strategically important sectors — critical minerals in the Canadian Shield and the North, energy corridors through British Columbia, agricultural land in the Prairies, and fisheries on all three coasts. Canada's ability to develop those resources competitively and credibly on the world stage is increasingly contingent on the quality and structure of its relationships with the Indigenous nations on whose territories development occurs.</p>
+
+  <p class="cf-body-text">This is not a special interest story. It is a central Canadian economic story. International investors, trading partners, and supply chain buyers are increasingly applying ESG screens that assess Indigenous consent and partnership as a material risk factor. Canadian projects with strong Indigenous partnerships have a legitimate competitive advantage in attracting capital and market access.</p>
+
+  <div class="watch-block">
+    <div class="watch-title">Dimensions to watch</div>
+    <div class="watch-item"><div class="watch-bullet"></div><div class="watch-text"><strong>Indigenous equity in infrastructure</strong> — Federal Indigenous loan guarantee programme and provincial equivalents are enabling communities to acquire ownership stakes rather than just royalty payments. The structure of these deals will define the model for the next generation of resource development.</div></div>
+    <div class="watch-item"><div class="watch-bullet"></div><div class="watch-text"><strong>Free, Prior and Informed Consent (FPIC)</strong> — UNDRIP implementation through federal and provincial legislation is changing the legal landscape for project approval. Understanding consultation requirements is now a material business risk factor for any company with northern or resource operations.</div></div>
+    <div class="watch-item"><div class="watch-bullet"></div><div class="watch-text"><strong>Northern and Arctic development</strong> — Yukon, NWT, and Nunavut represent the frontier of Canadian economic development. Indigenous governance structures are central to how that development occurs. The infrastructure deficit is enormous — and so is the potential.</div></div>
+    <div class="watch-item"><div class="watch-bullet"></div><div class="watch-text"><strong>Procurement and supplier development</strong> — Federal Indigenous procurement targets (a mandatory 5% of government contracts) are creating genuine market opportunities for Indigenous-owned businesses and for companies building Indigenous supplier partnerships.</div></div>
+  </div>
+
+  <div class="attribution-block">
+    <div class="attribution-quote">"Economic reconciliation is not separate from the business case — it is the business case. Projects that build genuine Indigenous partnership from the start are more likely to be built, more likely to attract capital, and more likely to operate without interruption."</div>
+    <div class="attribution-source">National Indigenous Economic Development Board (NIEDB) · <a href="https://www.niedb-cndea.com" target="_blank" rel="noopener">niedb-cndea.com</a> · National Indigenous Economic Strategy for Canada, 2022</div>
+  </div>
+
+  <div class="cf-link-group">
+    <a href="https://www.niedb-cndea.com/national-indigenous-economic-strategy/" target="_blank" rel="noopener" class="cf-link">National Indigenous Economic Strategy →</a>
+    <a href="https://www.canada.ca/en/treasury-board-secretariat/topics/contracting-and-procurement/indigenous-procurement.html" target="_blank" rel="noopener" class="cf-link">Indigenous procurement policy →</a>
+    <a href="https://fnmpc.ca" target="_blank" rel="noopener" class="cf-link">First Nations Major Projects Coalition →</a>
+    <a href="/procurement/" class="cf-link">Active federal procurement tenders →</a>
+  </div>
+
+  <p class="cf-body-text" style="margin-top:20px;font-style:italic;color:var(--slate);font-size:13px;">CTI is committed to expanding its coverage of Indigenous economic development, including academic research from Indigenous scholars, community-led economic initiatives, and the evolving legal and governance landscape. If you are working in this space and would like to contribute or be referenced, <a href="/about/" style="color:var(--crimson);text-decoration:none;">reach out through our contact page</a>. This section will deepen as our research does.</p>
+</section>
+
+<!-- PROVINCES & TERRITORIES -->
+<section class="cf-section" id="provinces">
+  <div class="cf-section-label">Provinces &amp; Territories</div>
+  <h2 class="cf-section-title">Canada's economic geography</h2>
+
+  <p class="cf-lead">Canada's economic story is a story of distinct regional economies with different strengths, different vulnerabilities, and different trajectories. National trade data aggregates hide as much as they reveal. The province or territory where a business operates matters as much as the sector it operates in — the proximity to infrastructure, the regulatory environment, the labour market, and the strategic partnerships available all vary dramatically by geography.</p>
+
+  <div class="province-grid">
+    <div class="province-card">
+      <div class="province-name">British Columbia</div>
+      <div class="province-theme">Asia-Pacific gateway. LNG export buildout. Mass timber leadership. Port of Vancouver handles the majority of Canadian container trade with Asia. Tech corridor from Vancouver to Kelowna. Forestry transition from commodity to engineered wood products.</div>
+      <div class="province-signal">TCS Vancouver · CPTPP exposure · LNG Canada</div>
+    </div>
+    <div class="province-card">
+      <div class="province-name">Alberta</div>
+      <div class="province-theme">Energy transition pivot. Critical minerals in the north. Agri-food processing expansion. Tech diversification post-oil. Largest FDI recipient per capita. Policy tension between resource development and transition investment.</div>
+      <div class="province-signal">Energy sector · Critical Minerals · US tariff exposure</div>
+    </div>
+    <div class="province-card">
+      <div class="province-name">Saskatchewan</div>
+      <div class="province-theme">Agricultural export dominance — 65% of Canadian lentils, significant wheat and canola. Critical minerals emerging in the Canadian Shield. Uranium production from Athabasca Basin. Sparse population, significant land base.</div>
+      <div class="province-signal">Agri-food exports · Uranium · India CEPA</div>
+    </div>
+    <div class="province-card">
+      <div class="province-name">Manitoba</div>
+      <div class="province-theme">Agricultural processing hub. Hydroelectricity export capacity. Growing tech sector in Winnipeg. Indigenous economic development leadership — multiple First Nations equity ownership models. Supply chain logistics position between east and west.</div>
+      <div class="province-signal">Agri-food · Indigenous economy · Clean energy</div>
+    </div>
+    <div class="province-card">
+      <div class="province-name">Ontario</div>
+      <div class="province-theme">Manufacturing heartland under CUSMA pressure. Auto sector EV transition — Stellantis, Honda, and Volkswagen battery investments. Financial services concentration in Toronto. Aerospace cluster in GTA. Largest economy and most exposed to US tariff uncertainty.</div>
+      <div class="province-signal">Advanced Manufacturing · CUSMA · EV supply chain</div>
+    </div>
+    <div class="province-card">
+      <div class="province-name">Quebec</div>
+      <div class="province-theme">Aerospace excellence — Bombardier, Pratt & Whitney, CAE. Hydro-Québec as clean energy anchor for industrial investment. Agri-food exports to French-language markets in Africa and Europe. Distinct regulatory environment. French-language trade intelligence gap.</div>
+      <div class="province-signal">Aerospace · Clean energy · CETA markets</div>
+    </div>
+    <div class="province-card">
+      <div class="province-name">Atlantic Canada</div>
+      <div class="province-theme">Seafood and fisheries export leadership. Ocean tech emerging from Dalhousie and Memorial. Irving Shipbuilding — the NSPS is the largest federal procurement programme in history. Demographic challenge driving immigration focus. Wind energy potential.</div>
+      <div class="province-signal">Fisheries · Defence (NSPS) · Ocean tech</div>
+    </div>
+    <div class="province-card north-card">
+      <div class="province-name">Yukon · NWT · Nunavut</div>
+      <div class="province-theme">The frontier of Canadian economic development. Critical minerals at scale — gold, silver, zinc, tungsten, rare earths. Arctic sovereignty infrastructure as NORAD modernization accelerates. Indigenous governance is central to all development. Infrastructure deficit is enormous — and so is the potential. The least-covered Canadian economic story.</div>
+      <div class="province-signal">Critical Minerals · Arctic · Indigenous ownership</div>
+    </div>
+  </div>
+
+  <p class="cf-body-text" style="margin-top:24px;">Individual provincial deep dives are in development. Each will cover the province's primary trade profile, key bilateral relationships, active procurement pipeline, TCS resources available, and the specific forward signals that matter for that regional economy.</p>
+
+  <div class="cf-link-group">
+    <a href="/countries/" class="cf-link">Country dossiers →</a>
+    <a href="/terminal/" class="cf-link">Live data terminal →</a>
+    <span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;color:var(--slate);">Provincial pages <span class="coming-soon">Coming soon</span></span>
+  </div>
+</section>
+
+<!-- RESEARCH LIBRARY -->
+<section class="cf-section" id="research">
+  <div class="cf-section-label">Research Library</div>
+  <h2 class="cf-section-title">What the research says</h2>
+
+  <p class="cf-lead">Individual federal agencies, provincial governments, universities, and independent think tanks each produce valuable research about Canada's economic trajectory — but they rarely speak to each other. This library curates the most useful public research and cross-references it across themes, because the picture that emerges when you read these sources together is more complete than any single publication captures.</p>
+
+  <div class="cf-cols-3" style="margin-top:28px;">
+    <div class="research-card">
+      <div class="research-source">Statistics Canada</div>
+      <div class="research-title">Canadian International Merchandise Trade (CIMT)</div>
+      <div class="research-desc">Monthly data on imports and exports by product and country. The primary source for understanding actual trade flows — not policy intentions, but what is actually moving across Canadian borders and to whom.</div>
+      <a href="https://www150.statcan.gc.ca/n1/pub/71-607-x/71-607-x2018011-eng.htm" target="_blank" rel="noopener" class="research-link">Access CIMT →</a>
+    </div>
+    <div class="research-card">
+      <div class="research-source">Export Development Canada</div>
+      <div class="research-title">Global Export Forecast</div>
+      <div class="research-desc">EDC's annual forecast of Canadian export performance by sector and market. Combines macro analysis with sector-specific projections. One of the most practically useful forward-looking documents in the Canadian trade intelligence space.</div>
+      <a href="https://www.edc.ca/en/guide/global-export-forecast.html" target="_blank" rel="noopener" class="research-link">EDC forecast →</a>
+    </div>
+    <div class="research-card">
+      <div class="research-source">Global Affairs Canada</div>
+      <div class="research-title">State of Trade Report</div>
+      <div class="research-desc">Annual comprehensive review of Canada's trade performance, trade agreements, and foreign direct investment flows. Essential reference for understanding the structural context of any sector or market-specific analysis.</div>
+      <a href="https://www.international.gc.ca/transparency-transparence/state-of-trade-commerce-international/" target="_blank" rel="noopener" class="research-link">GAC State of Trade →</a>
+    </div>
+    <div class="research-card">
+      <div class="research-source">C.D. Howe Institute</div>
+      <div class="research-title">Trade, investment, and fiscal policy research</div>
+      <div class="research-desc">Canada's most rigorous independent economic policy research organization. Particularly strong on trade policy, investment climate, and fiscal sustainability. Frequently cited in federal budget and trade policy development.</div>
+      <a href="https://www.cdhowe.org" target="_blank" rel="noopener" class="research-link">C.D. Howe →</a>
+    </div>
+    <div class="research-card">
+      <div class="research-source">Canadian Global Affairs Institute</div>
+      <div class="research-title">Defence, security, and foreign policy analysis</div>
+      <div class="research-desc">The primary independent think tank for Canadian defence and foreign policy. Their work on the defence industrial base, Arctic sovereignty, and NATO commitments is consistently ahead of government communications on these issues.</div>
+      <a href="https://www.cgai.ca" target="_blank" rel="noopener" class="research-link">CGAI →</a>
+    </div>
+    <div class="research-card">
+      <div class="research-source">Pembina Institute</div>
+      <div class="research-title">Clean energy transition research</div>
+      <div class="research-desc">Canada's leading clean energy policy research organization. Their work on grid modernization, clean electricity regulations, and the economics of energy transition is essential for anyone tracking the Energy & Cleantech sector.</div>
+      <a href="https://www.pembina.org" target="_blank" rel="noopener" class="research-link">Pembina →</a>
+    </div>
+    <div class="research-card">
+      <div class="research-source">Macdonald-Laurier Institute</div>
+      <div class="research-title">Indigenous economy, trade, and national policy</div>
+      <div class="research-desc">Produces substantive research on Indigenous economic development and its intersection with resource policy and trade. Also strong on Canada-US relations and the economic dimensions of national security.</div>
+      <a href="https://macdonaldlaurier.ca" target="_blank" rel="noopener" class="research-link">MLI →</a>
+    </div>
+    <div class="research-card">
+      <div class="research-source">OECD</div>
+      <div class="research-title">Economic Survey of Canada</div>
+      <div class="research-desc">The OECD's biennial assessment of the Canadian economy. Provides the international comparative context that domestic sources often lack — how Canada's productivity, investment, and trade performance compares to peer economies.</div>
+      <a href="https://www.oecd.org/en/publications/oecd-economic-surveys-canada_19990057.html" target="_blank" rel="noopener" class="research-link">OECD Canada →</a>
+    </div>
+    <div class="research-card">
+      <div class="research-source">Smart Prosperity Institute</div>
+      <div class="research-title">Housing supply and clean growth economics</div>
+      <div class="research-desc">University of Ottawa-affiliated research network. Mike Moffatt's housing supply work is cited by CMHC, federal housing policy, and municipal governments. Essential for anyone tracking the Build Canada theme.</div>
+      <a href="https://smartprosperity.ca" target="_blank" rel="noopener" class="research-link">Smart Prosperity →</a>
+    </div>
+    <div class="research-card">
+      <div class="research-source">National Indigenous Economic Development Board</div>
+      <div class="research-title">National Indigenous Economic Strategy for Canada</div>
+      <div class="research-desc">The primary policy document for Indigenous economic development in Canada. 107 calls to economic prosperity organized around ownership, revenue, capacity, and infrastructure. Required reading for anyone working in resource development, infrastructure, or procurement with northern dimensions.</div>
+      <a href="https://www.niedb-cndea.com/national-indigenous-economic-strategy/" target="_blank" rel="noopener" class="research-link">NIEDB strategy →</a>
+    </div>
+    <div class="research-card">
+      <div class="research-source">BDC Research</div>
+      <div class="research-title">SME economic research and market intelligence</div>
+      <div class="research-desc">Business Development Bank of Canada produces regular research on Canadian SME performance, export readiness, and sector outlooks. Particularly useful for understanding the micro-level conditions that aggregate trade data misses.</div>
+      <a href="https://www.bdc.ca/en/articles-tools/entrepreneur-toolkit/templates-business-guides/market-research" target="_blank" rel="noopener" class="research-link">BDC research →</a>
+    </div>
+    <div class="research-card">
+      <div class="research-source">IMF</div>
+      <div class="research-title">Canada Article IV Consultation</div>
+      <div class="research-desc">The IMF's annual consultation with Canada produces an external assessment of the Canadian economy's strengths and vulnerabilities that no domestic source replicates. The financial stability assessment is particularly valuable for understanding macro risks to Canadian trade and investment flows.</div>
+      <a href="https://www.imf.org/en/Publications/CR/Issues/2025/canada-article-iv" target="_blank" rel="noopener" class="research-link">IMF Canada →</a>
+    </div>
+  </div>
+</section>
+
+<!-- TWO PATHS FORWARD -->
+<section class="cf-section" id="forward">
+  <div class="cf-section-label">Two Paths</div>
+  <h2 class="cf-section-title">What the next decade decides</h2>
+
+  <p class="cf-lead">Canada's trajectory over the next decade is not predetermined. The structural advantages are real — but so are the structural risks. The choices made between now and 2030 about infrastructure investment, trade positioning, Indigenous partnership, and institutional capacity will compound in ways that are difficult to reverse. These are the two paths the evidence currently suggests.</p>
+
+  <div class="paths-block" style="margin-top:28px;">
+    <div class="path-panel">
+      <div class="path-label path-label-positive">Path A — Canada realised</div>
+      <div class="path-title">The structural advantages compound</div>
+      <div class="path-text">Canada closes its housing deficit through sustained construction investment, zoning reform, and trade-enabled material supply chains. Critical minerals processing develops domestically, capturing value-added margin. Defence industrial policy creates export-competitive Canadian suppliers. Indigenous ownership models scale across resource and infrastructure development. Immigration continues to supply the labour market with the talent the transition requires. Trade agreement access — CUSMA, CETA, CPTPP, CEPA — is actively exploited rather than passively held. By 2035, Canada is a G7 economy that has grown its share of global value-added trade, not just commodity export volume.</div>
+    </div>
+    <div class="path-panel">
+      <div class="path-label path-label-negative">Path B — Canada deferred</div>
+      <div class="path-title">The structural risks compound instead</div>
+      <div class="path-text">Housing construction remains below target as zoning reform stalls in municipal politics and material costs remain elevated. Critical minerals continue to ship as concentrate while processing investment flows to competitor jurisdictions. CUSMA negotiations produce an outcome that weakens Canadian access on key export categories. Defence industrial policy is underfunded relative to the NATO commitment. Indigenous consultation backlogs delay resource projects by years, eroding investor confidence. Trade agreement utilization remains low among SMEs who lack the market intelligence to exploit the access they theoretically have. By 2035, Canada's trade position has shifted — not collapsed, but reduced. The gap between what was possible and what was achieved becomes visible.</div>
+    </div>
+  </div>
+
+  <p class="cf-body-text" style="margin-top:24px;">This page will track which path Canada is on, updated as the signals warrant. The weekly CTI sector reports are the primary data feed for that tracking. The research library above is the analytical context. The Canadian Spotlight section tells the individual stories that aggregate into the national trajectory.</p>
+
+  <div class="cf-link-group">
+    <a href="/reports/" class="cf-link">Weekly sector reports →</a>
+    <a href="/spotlight/" class="cf-link">Canadian Spotlight →</a>
+    <a href="/procurement/" class="cf-link">Procurement pipeline →</a>
+    <a href="/terminal/" class="cf-link">Live data terminal →</a>
+    <a href="/dashboard/" class="cf-link">Intelligence dashboard →</a>
+  </div>
+</section>
+
+</div><!-- end .cf-body -->
+</div><!-- end .cf-content -->
+</div><!-- end .cf-layout -->
+
+<footer style="background:#1a0505;border-top:3px solid #cc0000;padding:40px 48px;">
+  <div style="max-width:1200px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr;gap:40px;padding-bottom:32px;border-bottom:1px solid rgba(255,255,255,0.06);">
+    <div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:16px;font-style:italic;color:rgba(240,240,232,0.7);margin-bottom:8px;">Canadian Trade Intelligence</div>
+      <div style="font-family:'DM Mono',monospace;font-size:9px;color:rgba(255,255,255,0.35);line-height:1.9;">Canada Forward · Trade intelligence for the bigger picture<br>canadiantradeintel.ca</div>
+    </div>
+    <div>
+      <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(204,0,0,0.6);margin-bottom:10px;">On this page</div>
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <a href="#build" style="font-family:'DM Mono',monospace;font-size:9px;color:rgba(255,255,255,0.5);text-decoration:none;">Build Canada</a>
+        <a href="#defence" style="font-family:'DM Mono',monospace;font-size:9px;color:rgba(255,255,255,0.5);text-decoration:none;">Defence &amp; Security</a>
+        <a href="#energy" style="font-family:'DM Mono',monospace;font-size:9px;color:rgba(255,255,255,0.5);text-decoration:none;">Energy Transition</a>
+        <a href="#indigenous" style="font-family:'DM Mono',monospace;font-size:9px;color:rgba(255,255,255,0.5);text-decoration:none;">Indigenous Economy</a>
+        <a href="#research" style="font-family:'DM Mono',monospace;font-size:9px;color:rgba(255,255,255,0.5);text-decoration:none;">Research Library</a>
+      </div>
+    </div>
+    <div>
+      <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(204,0,0,0.6);margin-bottom:10px;">Platform</div>
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <a href="/reports/" style="font-family:'DM Mono',monospace;font-size:9px;color:rgba(255,255,255,0.5);text-decoration:none;">Weekly Reports</a>
+        <a href="/terminal/" style="font-family:'DM Mono',monospace;font-size:9px;color:rgba(255,255,255,0.5);text-decoration:none;">Live Terminal</a>
+        <a href="/procurement/" style="font-family:'DM Mono',monospace;font-size:9px;color:rgba(255,255,255,0.5);text-decoration:none;">Procurement</a>
+        <a href="/spotlight/" style="font-family:'DM Mono',monospace;font-size:9px;color:rgba(255,255,255,0.5);text-decoration:none;">Canadian Spotlight</a>
+        <a href="/pricing/" style="font-family:'DM Mono',monospace;font-size:9px;color:rgba(204,0,0,0.6);text-decoration:none;">Subscribe →</a>
+      </div>
+    </div>
+  </div>
+  <div style="max-width:1200px;margin:16px auto 0;font-family:'DM Mono',monospace;font-size:8px;color:rgba(255,255,255,0.2);line-height:1.9;">
+    © 2026 Canadian Trade Intelligence Inc. · Federally incorporated · For informational purposes only · Not legal or financial advice ·
+    <a href="/methodology/" style="color:rgba(255,255,255,0.3);text-decoration:none;">Methodology</a> ·
+    <a href="/about/" style="color:rgba(255,255,255,0.3);text-decoration:none;">About</a>
+  </div>
+</footer>
+
+<script>
+const sections=document.querySelectorAll('.cf-section[id]');
+const navLinks=document.querySelectorAll('.cf-sidebar-link');
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      navLinks.forEach(l=>l.classList.remove('active'));
+      const active=document.querySelector('.cf-sidebar-link[href="#'+entry.target.id+'"]');
+      if(active)active.classList.add('active');
+    }
+  });
+},{rootMargin:'-20% 0px -70% 0px'});
+sections.forEach(s=>observer.observe(s));
+</script>
+</body>
+</html>
