@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Methodology & Sources | Canadian Trade Intelligence</title>
+  <meta name="description" content="How Canadian Trade Intelligence gathers, verifies, and synthesizes primary government data, Crown corporation intelligence, and vetted news sources into weekly sector reports.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --red:        #C41E3A;
+      --red-dark:   #8B0000;
+      --black:      #0D0D0D;
+      --charcoal:   #1C1C1E;
+      --mid:        #3A3A3C;
+      --muted:      #6C6C70;
+      --border:     #2C2C2E;
+      --cream:      #F5F2EC;
+      --off-white:  #FAFAF8;
+      --white:      #FFFFFF;
+      --accent-gold: #B8860B;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'IBM Plex Sans', sans-serif;
+      background: var(--off-white);
+      color: var(--black);
+      line-height: 1.7;
+      font-size: 16px;
+    }
+
+    /* ── NAV ── */
+    .site-nav {
+      background: var(--black);
+      border-bottom: 3px solid var(--red);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .site-nav .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      color: var(--white);
+      text-decoration: none;
+      letter-spacing: 0.02em;
+    }
+    .site-nav .logo span { color: var(--red); }
+    .nav-links { display: flex; gap: 1.5rem; list-style: none; }
+    .nav-links a {
+      color: #999;
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--white); }
+
+    /* ── HERO ── */
+    .hero {
+      background: var(--black);
+      padding: 5rem 2rem 4rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 39px,
+          rgba(196,30,58,0.08) 39px,
+          rgba(196,30,58,0.08) 40px
+        );
+      pointer-events: none;
+    }
+    .hero-eyebrow {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 1.2rem;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      color: var(--white);
+      line-height: 1.15;
+      margin-bottom: 1.5rem;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .hero-deck {
+      font-size: 1.1rem;
+      color: #AAA;
+      max-width: 620px;
+      margin: 0 auto 2rem;
+      font-weight: 300;
+      line-height: 1.75;
+    }
+    .hero-deck strong {
+      color: var(--white);
+      font-weight: 500;
+    }
+
+    /* ── BRIDGE STATEMENT ── */
+    .bridge-statement {
+      background: var(--red);
+      color: var(--white);
+      padding: 2.5rem 2rem;
+      text-align: center;
+    }
+    .bridge-statement p {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      max-width: 780px;
+      margin: 0 auto;
+      font-style: italic;
+      line-height: 1.5;
+    }
+
+    /* ── MAIN CONTENT ── */
+    .page-main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 4rem 2rem;
+    }
+
+    /* ── PIPELINE DIAGRAM ── */
+    .pipeline-section {
+      margin-bottom: 5rem;
+    }
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 0.75rem;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.9rem;
+      color: var(--black);
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+    .section-body {
+      color: var(--mid);
+      max-width: 720px;
+      margin-bottom: 2.5rem;
+      font-size: 1rem;
+    }
+
+    .pipeline {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .pipeline-step {
+      background: var(--white);
+      padding: 2rem 1.5rem;
+      position: relative;
+    }
+    .step-num {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--red);
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+    .step-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      color: var(--black);
+      margin-bottom: 0.6rem;
+    }
+    .step-body {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    .step-tags {
+      margin-top: 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+    .tag {
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      background: var(--cream);
+      color: var(--mid);
+      padding: 0.2rem 0.5rem;
+      border-radius: 2px;
+    }
+    .tag.gov { background: #E8F0E8; color: #2D5A27; }
+    .tag.cti { background: #FDE8E8; color: #8B0000; }
+
+    /* ── SOURCE REGISTRY TABLE ── */
+    .sources-section { margin-bottom: 5rem; }
+
+    .source-tier-group {
+      margin-bottom: 3rem;
+    }
+    .tier-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 2px solid var(--border);
+    }
+    .tier-badge {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      background: var(--black);
+      color: var(--white);
+      padding: 0.3rem 0.7rem;
+      border-radius: 2px;
+    }
+    .tier-badge.t1 { background: var(--red); }
+    .tier-badge.t2 { background: var(--mid); }
+    .tier-badge.t3 { background: var(--muted); }
+    .tier-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      color: var(--black);
+    }
+
+    .source-card {
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 0.75rem;
+      background: var(--white);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 1rem;
+      align-items: start;
+      transition: border-color 0.2s;
+    }
+    .source-card:hover { border-color: var(--red); }
+    .source-card-name {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--black);
+      margin-bottom: 0.3rem;
+    }
+    .source-card-name a {
+      color: inherit;
+      text-decoration: none;
+    }
+    .source-card-name a:hover { color: var(--red); }
+    .source-card-desc {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+    .source-card-meta {
+      text-align: right;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .source-vintage {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--muted);
+      display: block;
+      margin-bottom: 0.4rem;
+    }
+    .source-sectors {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+      justify-content: flex-end;
+    }
+    .sector-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+      flex-shrink: 0;
+    }
+    .sector-dot.cm  { background: #5C3D99; }
+    .sector-dot.ec  { background: #2D8A4E; }
+    .sector-dot.am  { background: #C17B2A; }
+    .sector-dot.ad  { background: #1E5B8A; }
+    .sector-dot.af  { background: #7A9C2E; }
+    .sector-dot.td  { background: #2A7A8A; }
+
+    .login-note {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.7rem;
+      color: var(--accent-gold);
+      margin-top: 0.3rem;
+    }
+
+    /* ── COUNTRY MAP ── */
+    .country-section { margin-bottom: 5rem; }
+
+    .country-tier {
+      margin-bottom: 2.5rem;
+    }
+    .country-tier-header {
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .country-tier-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--white);
+      background: var(--black);
+      padding: 0.3rem 0.6rem;
+      border-radius: 2px;
+    }
+    .country-tier-label.live { background: var(--red); }
+    .country-tier-label.ta   { background: #2D5A27; }
+    .country-tier-label.tb   { background: var(--mid); }
+    .country-tier-label.tc   { background: var(--muted); }
+    .country-tier-label.td   { background: #AAA; color: var(--black); }
+    .country-tier-note {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+    .country-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .country-chip {
+      font-size: 0.78rem;
+      font-weight: 500;
+      padding: 0.35rem 0.8rem;
+      border-radius: 2px;
+      text-decoration: none;
+    }
+    .country-chip.live {
+      background: var(--black);
+      color: var(--white);
+      border: 1px solid var(--red);
+    }
+    .country-chip.live:hover { background: var(--red); }
+    .country-chip.ta {
+      background: #F0F5F0;
+      color: #2D5A27;
+      border: 1px solid #C8DCC8;
+    }
+    .country-chip.tb, .country-chip.tc, .country-chip.td {
+      background: var(--cream);
+      color: var(--mid);
+      border: 1px solid var(--border);
+    }
+
+    /* ── IMPORTER NOTE ── */
+    .importer-callout {
+      background: #FFF8E1;
+      border-left: 4px solid var(--accent-gold);
+      padding: 1.25rem 1.5rem;
+      border-radius: 0 4px 4px 0;
+      margin: 2rem 0;
+    }
+    .importer-callout p {
+      font-size: 0.88rem;
+      color: var(--mid);
+      line-height: 1.65;
+    }
+    .importer-callout strong { color: var(--black); }
+    .importer-callout a { color: var(--red); }
+
+    /* ── SECTOR LEGEND ── */
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.75rem;
+      color: var(--mid);
+    }
+
+    /* ── UPDATE SCHEDULE ── */
+    .schedule-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-top: 1.5rem;
+    }
+    .schedule-cell {
+      background: var(--white);
+      padding: 1.25rem;
+    }
+    .schedule-freq {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--red);
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+    .schedule-source {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--black);
+      margin-bottom: 0.25rem;
+    }
+    .schedule-note {
+      font-size: 0.75rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* ── FOOTER ── */
+    .page-footer {
+      background: var(--charcoal);
+      border-top: 3px solid var(--red);
+      padding: 3rem 2rem;
+      text-align: center;
+    }
+    .page-footer p {
+      font-size: 0.82rem;
+      color: #666;
+      margin-bottom: 0.4rem;
+    }
+    .page-footer a { color: #999; }
+    .page-footer .footer-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      color: var(--white);
+      margin-bottom: 1rem;
+      display: block;
+    }
+    .footer-logo span { color: var(--red); }
+
+    hr.divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 3rem 0;
+    }
+
+    @media (max-width: 768px) {
+      .pipeline { grid-template-columns: 1fr; }
+      .source-card { grid-template-columns: 1fr; }
+      .source-card-meta { text-align: left; }
+      .source-sectors { justify-content: flex-start; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="site-nav">
+  <a href="/" class="logo">Canadian Trade <span>Intelligence</span></a>
+  <ul class="nav-links">
+    <li><a href="/reports">Reports</a></li>
+    <li><a href="/countries">Countries</a></li>
+    <li><a href="/spotlight">Spotlight</a></li>
+    <li><a href="/procurement">Procurement</a></li>
+    <li><a href="/methodology" class="active">Methodology</a></li>
+    <li><a href="/subscribe">Subscribe</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <p class="hero-eyebrow">How We Work</p>
+  <h1>The Bridge Between Canada's Data Infrastructure and Your Business</h1>
+  <p class="hero-deck">
+    Canada has world-class government trade intelligence — spread across StatCan, ISED, NRCan,
+    Global Affairs, EDC, and a dozen other agencies. <strong>We read all of it, every week,
+    so you don't have to.</strong> Here's exactly what we use, where it comes from,
+    and how it becomes your weekly sector report.
+  </p>
+</div>
+
+<!-- BRIDGE STATEMENT -->
+<div class="bridge-statement">
+  <p>"Your competitors aren't smarter — they just have better information, faster."</p>
+</div>
+
+<!-- MAIN -->
+<main class="page-main">
+
+  <!-- PIPELINE -->
+  <section class="pipeline-section">
+    <p class="section-label">Our Process</p>
+    <h2 class="section-title">From Raw Data to Actionable Intelligence</h2>
+    <p class="section-body">
+      Every Tuesday at 6am Eastern, our automated pipeline runs across six sectors simultaneously.
+      Here's how government data, Crown corporation intelligence, and news signals combine
+      into the report in your inbox.
+    </p>
+
+    <div class="pipeline">
+      <div class="pipeline-step">
+        <span class="step-num">STEP 01</span>
+        <div class="step-title">Ingest Primary Sources</div>
+        <p class="step-body">
+          We pull directly from Statistics Canada's CIMT database, NRCan's Mineral Trade data,
+          Global Affairs Canada news feeds, CanadaBuys tenders, ISED Trade Data Online,
+          and seven other government RSS and data sources — updated weekly.
+        </p>
+        <div class="step-tags">
+          <span class="tag gov">StatCan</span>
+          <span class="tag gov">NRCan</span>
+          <span class="tag gov">GAC</span>
+          <span class="tag gov">ISED</span>
+          <span class="tag gov">EDC</span>
+        </div>
+      </div>
+
+      <div class="pipeline-step">
+        <span class="step-num">STEP 02</span>
+        <div class="step-title">Score, Filter & Fact-Check</div>
+        <p class="step-body">
+          Every signal is scored for sector relevance, geographic scope, and business impact.
+          Our automated fact-checker cross-validates claims against known government benchmarks
+          and corrects errors before publication.
+        </p>
+        <div class="step-tags">
+          <span class="tag cti">AI Scoring</span>
+          <span class="tag cti">Auto Fact-Check</span>
+          <span class="tag cti">Relevance Filter</span>
+        </div>
+      </div>
+
+      <div class="pipeline-step">
+        <span class="step-num">STEP 03</span>
+        <div class="step-title">Synthesize & Add Context</div>
+        <p class="step-body">
+          Raw signals become analysis. We add the "What It Means For You" layer —
+          connecting policy changes, trade flows, procurement opportunities, and
+          market movements into forward-looking intelligence per sector.
+        </p>
+        <div class="step-tags">
+          <span class="tag cti">Sector Analysis</span>
+          <span class="tag cti">What We Think</span>
+          <span class="tag cti">Forward-looking</span>
+        </div>
+      </div>
+
+      <div class="pipeline-step">
+        <span class="step-num">STEP 04</span>
+        <div class="step-title">Publish to Platform</div>
+        <p class="step-body">
+          Reports publish to canadiantradeintel.ca, Spotlight entries update,
+          procurement tenders surface, and country dossiers refresh their
+          trade flow statistics — all before your workday starts.
+        </p>
+        <div class="step-tags">
+          <span class="tag cti">Web Reports</span>
+          <span class="tag cti">Spotlight</span>
+          <span class="tag cti">Country Dossiers</span>
+        </div>
+      </div>
+
+      <div class="pipeline-step">
+        <span class="step-num">STEP 05</span>
+        <div class="step-title">Deliver Weekly Digest</div>
+        <p class="step-body">
+          One combined multi-sector digest lands in your inbox every Tuesday.
+          Zone A: cross-sector briefing. Zone B: your sector's full analysis.
+          Zone C: platform links, procurement, and further reading.
+        </p>
+        <div class="step-tags">
+          <span class="tag cti">Email Digest</span>
+          <span class="tag cti">Sector Briefings</span>
+          <span class="tag cti">Procurement</span>
+        </div>
+      </div>
+
+      <div class="pipeline-step">
+        <span class="step-num">STEP 06</span>
+        <div class="step-title">Continuous Improvement</div>
+        <p class="step-body">
+          New government sources are added as they become available.
+          Country dossiers expand as we map more bilateral trade relationships.
+          Source citations are always traceable back to their government origin.
+        </p>
+        <div class="step-tags">
+          <span class="tag gov">Open Data</span>
+          <span class="tag cti">World Mapping</span>
+          <span class="tag cti">75+ Countries</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- SOURCE REGISTRY -->
+  <section class="sources-section">
+    <p class="section-label">Primary Sources</p>
+    <h2 class="section-title">Every Source We Use</h2>
+    <p class="section-body">
+      We do not use aggregators, scrapers, or secondhand intelligence when primary government
+      data is available. Every source below is official, publicly accessible, and linked directly.
+      We add sector tags so you know which reports draw from which source.
+    </p>
+
+    <div class="legend">
+      <div class="legend-item"><span class="sector-dot cm"></span> Critical Minerals &amp; Mining</div>
+      <div class="legend-item"><span class="sector-dot ec"></span> Energy &amp; Cleantech</div>
+      <div class="legend-item"><span class="sector-dot am"></span> Advanced Manufacturing</div>
+      <div class="legend-item"><span class="sector-dot ad"></span> Aerospace &amp; Defence</div>
+      <div class="legend-item"><span class="sector-dot af"></span> Agri-food &amp; Agriculture</div>
+      <div class="legend-item"><span class="sector-dot td"></span> Technology &amp; Digital</div>
+    </div>
+
+    <!-- TIER 1 -->
+    <div class="source-tier-group">
+      <div class="tier-header">
+        <span class="tier-badge t1">Tier 1</span>
+        <span class="tier-title">High-Frequency Pipeline Feeds — monitored weekly or monthly</span>
+      </div>
+
+      <div class="source-card">
+        <div>
+          <div class="source-card-name"><a href="https://www150.statcan.gc.ca/n1/en/catalogue/65F0013X" target="_blank" rel="noopener">Statistics Canada — Canadian International Merchandise Trade (CIMT)</a></div>
+          <div class="source-card-desc">Monthly import/export data at the 6-digit HS commodity level. Selectable by country, province, year and month. Exportable to CSV. Our primary source for current bilateral goods trade flows across all six sectors.</div>
+        </div>
+        <div class="source-card-meta">
+          <span class="source-vintage">Monthly · current</span>
+          <div class="source-sectors">
+            <span class="sector-dot cm" title="Critical Minerals"></span>
+            <span class="sector-dot ec" title="Energy & Cleantech"></span>
+            <span class="sector-dot am" title="Advanced Manufacturing"></span>
+            <span class="sector-dot ad" title="Aerospace & Defence"></span>
+            <span class="sector-dot af" title="Agri-food"></span>
+            <span class="sector-dot td" title="Technology & Digital"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="source-card">
+        <div>
+          <div class="source-card-name"><a href="https://www150.statcan.gc.ca/n1/en/subjects/international_trade" target="_blank" rel="noopener">Statistics Canada — The Daily: International Merchandise Trade</a></div>
+          <div class="source-card-desc">Monthly press release covering Canada's merchandise trade with top 10 partners, NAPCS sector breakdown, and balance of payments data. We monitor via RSS — ~5 week lag from reference month.</div>
+        </div>
+        <div class="source-card-meta">
+          <span class="source-vintage">Monthly · RSS</span>
+          <div class="source-sectors">
+            <span class="sector-dot cm"></span><span class="sector-dot ec"></span><span class="sector-dot am"></span><span class="sector-dot ad"></span><span class="sector-dot af"></span><span class="sector-dot td"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="source-card">
+        <div>
+          <div class="source-card-name"><a href="https://www.statcan.gc.ca/en/stathub" target="_blank" rel="noopener">Statistics Canada — Canada and the World Statistics Hub</a></div>
+          <div class="source-card-desc">Bilateral data hub for 18 major trading partners: trade, investment, employment, and travel. Each country hub anchors our country dossier "Key Statistics" sidebars.</div>
+        </div>
+        <div class="source-card-meta">
+          <span class="source-vintage">Annual · 18 countries</span>
+          <div class="source-sectors">
+            <span class="sector-dot cm"></span><span class="sector-dot ec"></span><span class="sector-dot am"></span><span class="sector-dot ad"></span><span class="sector-dot af"></span><span class="sector-dot td"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="source-card">
+        <div>
+          <div class="source-card-name"><a href="https://ised-isde.canada.ca/site/canadian-importers-database/en" target="_blank" rel="noopener">ISED — Canadian Importers Database</a></div>
+          <div class="source-card-desc">Company-level list of major Canadian importers by product (HS code), city, and country of origin. "Major importers" = companies accounting for up to 80% of product imports. Unique source — no equivalent exists for importer-side intelligence.</div>
+          <div class="login-note">⚠️ 2023 data — most recent available; 2024 not yet released as of April 2026</div>
+        </div>
+        <div class="source-card-meta">
+          <span class="source-vintage">2023 · CBSA-sourced</span>
+          <div class="source-sectors">
+            <span class="sector-dot cm"></span><span class="sector-dot ec"></span><span class="sector-dot am"></span><span class="sector-dot ad"></span><span class="sector-dot af"></span><span class="sector-dot td"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="source-card">
+        <div>
+          <div class="source-card-name"><a href="https://natural-resources.canada.ca/maps-tools-publications/publications/mineral-trade" target="_blank" rel="noopener">Natural Resources Canada — Mineral Trade Statistics</a></div>
+          <div class="source-card-desc">Bilateral mineral and metals trade data by country and commodity, classified by stage of processing (raw → refined → manufactured). Derived from CBSA/StatCan data, annotated by NRCan mineral type. Current through April 2025.</div>
+        </div>
+        <div class="source-card-meta">
+          <span class="source-vintage">Annual · Apr 2025</span>
+          <div class="source-sectors">
+            <span class="sector-dot cm"></span><span class="sector-dot ec"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="source-card">
+        <div>
+          <div class="source-card-name"><a href="https://www.canada.ca/en/campaign/critical-minerals-in-canada/canadas-critical-minerals-strategy/canadas-critical-minerals-strategy-progress-update.html" target="_blank" rel="noopener">NRCan — Critical Minerals Strategy Progress Update</a></div>
+          <div class="source-card-desc">Live government policy page covering G7 Critical Minerals Action Plan, bilateral agreements, Investment Canada Act amendments, stockpiling initiatives, and the Global Partnerships Initiative. Updated February 2026.</div>
+        </div>
+        <div class="source-card-meta">
+          <span class="source-vintage">Feb 2026 · live</span>
+          <div class="source-sectors">
+            <span class="sector-dot cm"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="source-card">
+        <div>
+          <div class="source-card-name"><a href="https://international.canada.ca/en/global-affairs/corporate/reports/chief-economist/state-trade/2025" target="_blank" rel="noopener">Global Affairs Canada — Canada's State of Trade 2025</a></div>
+          <div class="source-card-desc">Annual comprehensive report on Canada's international trade performance. Covers merchandise exports/imports, services trade, FDI flows, sector-by-sector performance, and economic outlook. 2025 edition covers full-year 2024 data.</div>
+        </div>
+        <div class="source-card-meta">
+          <span class="source-vintage">Annual · 2025</span>
+          <div class="source-sectors">
+            <span class="sector-dot cm"></span><span class="sector-dot ec"></span><span class="sector-dot am"></span><span class="sector-dot ad"></span><span class="sector-dot af"></span><span class="sector-dot td"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="source-card">
+        <div>
+          <div class="source-card-name"><a href="https://international.canada.ca/en/global-affairs/campaigns/canada-us-engagement" target="_blank" rel="noopener">Global Affairs Canada — Canada's Response to U.S. Tariffs</a></div>
+          <div class="source-card-desc">Live policy page covering tariff relief measures, support programs, retaliatory measures, and sector impacts. Actively updated as developments occur — a standing cross-sector risk signal in all six of our reports.</div>
+        </div>
+        <div class="source-card-meta">
+          <span class="source-vintage">Active · live</span>
+          <div class="source-sectors">
+            <span class="sector-dot cm"></span><span class="sector-dot ec"></span><span class="sector-dot am"></span><span class="sector-dot ad"></span><span class="sector-dot af"></span><span class="sector-dot td"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="source-card">
+        <div>
+          <div class="source-card-name"><a href="https://canadabuys.canada.ca/en" target="_blank" rel="noopener">CanadaBuys — Government of Canada Procurement</a></div>
+          <div class="source-card-desc">Official federal procurement portal. Covers tender notices, awarded contracts, and standing offers. Key source for our Procurement Monitor — we surface the top opportunities in Aerospace & Defence, Technology, and Manufacturing weekly.</div>
+        </div>
+        <div class="source-card-meta">
+          <span class="source-vintage">Daily · RSS</span>
+          <div class="source-sectors">
+            <span class="sector-dot ad"></span><span class="sector-dot td"></span><span class="sector-dot am"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TIER 2 -->
+    <div class="source-tier-group">
+      <div class="tier-header">
+        <span class="tier-badge t2">Tier 2</span>
+        <span class="tier-title">Industry & Crown Corporation Sources — sector reports and dossiers</span>
+      </div>
+
+      <div class="source-card">
+        <div>
+          <div class="source-card-name"><a href="https://www.edc.ca/en/guide/cleantech-report-2025.html" target="_blank" rel="noopener">EDC — Canada's Cleantech Future: Scalable, Profitable, Essential (2025)</a></div>
+          <div class="source-card-desc">EDC's flagship annual cleantech report. Key finding: 77% of Canada's cleantech exports go to the U.S., creating significant concentration risk as trade tensions persist. Identifies renewable energy, EVs, and electrification as Canada's three core export advantages.</div>
+          <div class="login-note">🔐 Full report requires free EDC account registration</div>
+        </div>
+        <div class="source-card-meta">
+          <span class="source-vintage">Oct 2025 · annual</span>
+          <div class="source-sectors">
+            <span class="sector-dot ec"></span><span class="sector-dot cm"></span><span class="sector-dot am"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="source-card">
+        <div>
+          <div class="source-card-name"><a href="https://www.edc.ca/en/country-info/" target="_blank" rel="noopener">EDC — Country Risk & Market Intelligence</a></div>
+          <div class="source-card-desc">Per-country risk ratings, market articles, and trade intelligence for 200+ markets. EDC's risk assessments inform the risk scores in each CTI country dossier, and their country articles feed our "Further Reading" recommendations.</div>
+        </div>
+        <div class="source-card-meta">
+          <span class="source-vintage">Continuous</span>
+          <div class="source-sectors">
+            <span class="sector-dot cm"></span><span class="sector-dot ec"></span><span class="sector-dot am"></span><span class="sector-dot ad"></span><span class="sector-dot af"></span><span class="sector-dot td"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="source-card">
+        <div>
+          <div class="source-card-name"><a href="https://www.edc.ca/en/trade-matters/india-export-opportunities-canadian-businesses.html" target="_blank" rel="noopener">EDC — India Export Opportunities for Canadian Businesses</a></div>
+          <div class="source-card-desc">EDC's market intelligence on India's priority sectors (agri-food, advanced manufacturing, clean tech, digital, critical minerals) and EDC's 20-year in-market presence. Informs our India country dossier and four sector reports.</div>
+        </div>
+        <div class="source-card-meta">
+          <span class="source-vintage">Nov 2025</span>
+          <div class="source-sectors">
+            <span class="sector-dot af"></span><span class="sector-dot am"></span><span class="sector-dot cm"></span><span class="sector-dot td"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="source-card">
+        <div>
+          <div class="source-card-name"><a href="https://www.iea.org/reports/global-critical-minerals-outlook-2025" target="_blank" rel="noopener">IEA — Global Critical Minerals Outlook 2025</a></div>
+          <div class="source-card-desc">International benchmark for critical minerals supply/demand projections, investment trends, and policy mechanisms for supply chain diversification. We use this as the international context layer for our Critical Minerals sector reports.</div>
+        </div>
+        <div class="source-card-meta">
+          <span class="source-vintage">2025 · annual</span>
+          <div class="source-sectors">
+            <span class="sector-dot cm"></span><span class="sector-dot ec"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="source-card">
+        <div>
+          <div class="source-card-name"><a href="https://projects.worldbank.org/en/projects-operations/projects-home" target="_blank" rel="noopener">World Bank — Projects & Operations (Procurement)</a></div>
+          <div class="source-card-desc">Global development bank project database. Canadian companies in infrastructure, engineering, agri-food, and cleantech can bid on World Bank-financed contracts worldwide. We surface these opportunities in our Procurement Monitor.</div>
+        </div>
+        <div class="source-card-meta">
+          <span class="source-vintage">Continuous</span>
+          <div class="source-sectors">
+            <span class="sector-dot am"></span><span class="sector-dot ec"></span><span class="sector-dot af"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="source-card">
+        <div>
+          <div class="source-card-name"><a href="https://www.bdc.ca/en/articles-tools/market-research-strategy" target="_blank" rel="noopener">BDC — Market Research & Business Intelligence</a></div>
+          <div class="source-card-desc">BDC publishes sector outlooks, SME survey results, and market intelligence for Canadian small and medium businesses. Quarterly SME surveys provide cross-sector business sentiment signals that appear in our Zone A cross-sector briefings.</div>
+        </div>
+        <div class="source-card-meta">
+          <span class="source-vintage">Quarterly</span>
+          <div class="source-sectors">
+            <span class="sector-dot cm"></span><span class="sector-dot ec"></span><span class="sector-dot am"></span><span class="sector-dot ad"></span><span class="sector-dot af"></span><span class="sector-dot td"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="importer-callout">
+      <p>
+        <strong>A note on importer company data:</strong> The ISED Canadian Importers Database
+        is the only government source that identifies <em>which specific companies</em> are importing
+        which products into Canada. The most recent release uses 2023 data (compiled from CBSA customs records).
+        ISED typically releases this data with an approximately two-year lag. We expect 2024 data to become
+        available later in 2026. For current aggregate import volumes by product and country (without
+        company names), we supplement with
+        <a href="https://www150.statcan.gc.ca/n1/en/catalogue/65F0013X" target="_blank">StatCan CIMT</a>,
+        which updates monthly. We note the data vintage clearly wherever importer company data appears.
+      </p>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- COUNTRY DOSSIER MAP -->
+  <section class="country-section">
+    <p class="section-label">Country Coverage</p>
+    <h2 class="section-title">Mapping Canada's Trade World</h2>
+    <p class="section-body">
+      Our country dossiers are bilateral intelligence documents — not just export guides.
+      They combine StatCan bilateral trade and investment data, EDC country risk assessments,
+      NRCan mineral agreements, and GAC bilateral trade agreements into a single reference.
+      We're building toward full world coverage.
+    </p>
+
+    <div class="country-tier">
+      <div class="country-tier-header">
+        <span class="country-tier-label live">Live</span>
+        <span class="country-tier-note">6 dossiers — available now at canadiantradeintel.ca/countries</span>
+      </div>
+      <div class="country-chips">
+        <a href="/countries/united-states" class="country-chip live">United States</a>
+        <a href="/countries/united-kingdom" class="country-chip live">United Kingdom</a>
+        <a href="/countries/japan" class="country-chip live">Japan</a>
+        <a href="/countries/india" class="country-chip live">India</a>
+        <a href="/countries/china" class="country-chip live">China</a>
+        <a href="/countries/germany" class="country-chip live">Germany</a>
+      </div>
+    </div>
+
+    <div class="country-tier">
+      <div class="country-tier-header">
+        <span class="country-tier-label ta">Next — Tier A</span>
+        <span class="country-tier-note">8 countries · StatCan hub + EDC page available · building now</span>
+      </div>
+      <div class="country-chips">
+        <span class="country-chip ta">France</span>
+        <span class="country-chip ta">Mexico</span>
+        <span class="country-chip ta">South Korea</span>
+        <span class="country-chip ta">Australia</span>
+        <span class="country-chip ta">Italy</span>
+        <span class="country-chip ta">Netherlands</span>
+        <span class="country-chip ta">Belgium</span>
+        <span class="country-chip ta">Singapore</span>
+      </div>
+    </div>
+
+    <div class="country-tier">
+      <div class="country-tier-header">
+        <span class="country-tier-label tb">Tier B</span>
+        <span class="country-tier-note">9 countries · major trading partners and strategic bilateral agreements</span>
+      </div>
+      <div class="country-chips">
+        <span class="country-chip tb">Brazil</span>
+        <span class="country-chip tb">UAE</span>
+        <span class="country-chip tb">Vietnam</span>
+        <span class="country-chip tb">Switzerland</span>
+        <span class="country-chip tb">Norway</span>
+        <span class="country-chip tb">Spain</span>
+        <span class="country-chip tb">Poland</span>
+        <span class="country-chip tb">Turkey</span>
+        <span class="country-chip tb">Hong Kong</span>
+      </div>
+    </div>
+
+    <div class="country-tier">
+      <div class="country-tier-header">
+        <span class="country-tier-label tc">Tier C</span>
+        <span class="country-tier-note">18 countries · emerging markets, Indo-Pacific strategy, World Bank procurement opportunities</span>
+      </div>
+      <div class="country-chips">
+        <span class="country-chip tc">Indonesia</span>
+        <span class="country-chip tc">Saudi Arabia</span>
+        <span class="country-chip tc">Thailand</span>
+        <span class="country-chip tc">Malaysia</span>
+        <span class="country-chip tc">Philippines</span>
+        <span class="country-chip tc">Chile</span>
+        <span class="country-chip tc">Colombia</span>
+        <span class="country-chip tc">South Africa</span>
+        <span class="country-chip tc">Nigeria</span>
+        <span class="country-chip tc">Kenya</span>
+        <span class="country-chip tc">Egypt</span>
+        <span class="country-chip tc">Morocco</span>
+        <span class="country-chip tc">Bangladesh</span>
+        <span class="country-chip tc">Pakistan</span>
+        <span class="country-chip tc">Ukraine</span>
+        <span class="country-chip tc">Argentina</span>
+        <span class="country-chip tc">Peru</span>
+        <span class="country-chip tc">Ghana</span>
+      </div>
+    </div>
+
+    <div class="country-tier">
+      <div class="country-tier-header">
+        <span class="country-tier-label td">Tier D</span>
+        <span class="country-tier-note">34 countries · completing the world map</span>
+      </div>
+      <div class="country-chips">
+        <span class="country-chip td">Sweden</span>
+        <span class="country-chip td">Denmark</span>
+        <span class="country-chip td">Finland</span>
+        <span class="country-chip td">Austria</span>
+        <span class="country-chip td">Portugal</span>
+        <span class="country-chip td">Czech Republic</span>
+        <span class="country-chip td">Romania</span>
+        <span class="country-chip td">Hungary</span>
+        <span class="country-chip td">Greece</span>
+        <span class="country-chip td">Israel</span>
+        <span class="country-chip td">Jordan</span>
+        <span class="country-chip td">Oman</span>
+        <span class="country-chip td">Kuwait</span>
+        <span class="country-chip td">Qatar</span>
+        <span class="country-chip td">Bahrain</span>
+        <span class="country-chip td">Kazakhstan</span>
+        <span class="country-chip td">Uzbekistan</span>
+        <span class="country-chip td">Tanzania</span>
+        <span class="country-chip td">Ethiopia</span>
+        <span class="country-chip td">Mozambique</span>
+        <span class="country-chip td">Senegal</span>
+        <span class="country-chip td">Côte d'Ivoire</span>
+        <span class="country-chip td">New Zealand</span>
+        <span class="country-chip td">Papua New Guinea</span>
+        <span class="country-chip td">Costa Rica</span>
+        <span class="country-chip td">Panama</span>
+        <span class="country-chip td">Dominican Republic</span>
+        <span class="country-chip td">Ecuador</span>
+        <span class="country-chip td">Uruguay</span>
+        <span class="country-chip td">Cambodia</span>
+        <span class="country-chip td">Myanmar</span>
+        <span class="country-chip td">Sri Lanka</span>
+        <span class="country-chip td">Taiwan</span>
+        <span class="country-chip td">Mongolia</span>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- UPDATE SCHEDULE -->
+  <section>
+    <p class="section-label">Data Currency</p>
+    <h2 class="section-title">Update Schedule by Source</h2>
+    <p class="section-body">
+      We monitor every source on its natural release cycle and incorporate updates
+      into the next available weekly report.
+    </p>
+
+    <div class="schedule-grid">
+      <div class="schedule-cell">
+        <span class="schedule-freq">Daily</span>
+        <div class="schedule-source">CanadaBuys Tenders</div>
+        <div class="schedule-note">Federal procurement notices — surfaced in weekly Procurement Monitor</div>
+      </div>
+      <div class="schedule-cell">
+        <span class="schedule-freq">Weekly</span>
+        <div class="schedule-source">News & Media Feeds</div>
+        <div class="schedule-note">27+ RSS sources across six sectors, AI-scored for relevance</div>
+      </div>
+      <div class="schedule-cell">
+        <span class="schedule-freq">Monthly</span>
+        <div class="schedule-source">StatCan CIMT</div>
+        <div class="schedule-note">Bilateral merchandise trade flows by HS code and country</div>
+      </div>
+      <div class="schedule-cell">
+        <span class="schedule-freq">Monthly</span>
+        <div class="schedule-source">ISED Trade Data Online</div>
+        <div class="schedule-note">Aggregate bilateral product/country trade flows</div>
+      </div>
+      <div class="schedule-cell">
+        <span class="schedule-freq">Quarterly</span>
+        <div class="schedule-source">StatCan Tariff Impact Survey</div>
+        <div class="schedule-note">Business sentiment, pricing, and strategic response tracking</div>
+      </div>
+      <div class="schedule-cell">
+        <span class="schedule-freq">Quarterly</span>
+        <div class="schedule-source">BDC SME Surveys</div>
+        <div class="schedule-note">Canadian SME market confidence and trade intentions</div>
+      </div>
+      <div class="schedule-cell">
+        <span class="schedule-freq">Annual</span>
+        <div class="schedule-source">GAC State of Trade</div>
+        <div class="schedule-note">Full-year Canadian trade performance benchmark</div>
+      </div>
+      <div class="schedule-cell">
+        <span class="schedule-freq">Annual</span>
+        <div class="schedule-source">NRCan Mineral Trade</div>
+        <div class="schedule-note">Bilateral mineral/metals trade by commodity and processing stage</div>
+      </div>
+      <div class="schedule-cell">
+        <span class="schedule-freq">Annual</span>
+        <div class="schedule-source">EDC Cleantech Report</div>
+        <div class="schedule-note">Canada's cleantech export competitive position</div>
+      </div>
+      <div class="schedule-cell">
+        <span class="schedule-freq">~2-Year Lag</span>
+        <div class="schedule-source">ISED Importers Database</div>
+        <div class="schedule-note">Company-level importer identity — 2023 data current as of April 2026</div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="page-footer">
+  <span class="footer-logo">Canadian Trade <span>Intelligence</span></span>
+  <p>© 2026 Canadian Trade Intelligence Inc. · Federally Incorporated · Ottawa, Canada</p>
+  <p>NAICS 519130 · <a href="/cdn-cgi/l/email-protection#2a43444c456a494b444b4e434b445e584b4e4f43445e4f4604494b"><span class="__cf_email__" data-cfemail="e0898e868fa083818e818489818e9492818485898e94858cce8381">[email&#160;protected]</span></a></p>
+  <p style="margin-top: 1rem;">
+    <a href="/methodology">Methodology</a>
