@@ -557,7 +557,7 @@ footer{background:#0a0c0f;border-top:1px solid var(--border);padding:28px 32px;}
         <div class="com-note">Spot · UxC · <a href="/reports/critical-minerals/issue-002">Critical Minerals report →</a></div>
       </div>
       <div class="com-right">
-        <div class="com-price">US$68.50/lb</div>
+        <div class="com-price" id="cp-uranium">US$68.50/lb</div>
         <div class="com-cad" id="ura-cad">≈ C$— /lb</div>
         <div class="com-chg chg-fl">— flat</div>
       </div>
@@ -568,7 +568,7 @@ footer{background:#0a0c0f;border-top:1px solid var(--border);padding:28px 32px;}
         <div class="com-note">Battery grade · Shanghai · <a href="/tariffs/">tariff impact →</a></div>
       </div>
       <div class="com-right">
-        <div class="com-price">US$9,200/t</div>
+        <div class="com-price" id="cp-lithium">US$9,200/t</div>
         <div class="com-cad" id="li-cad">≈ C$— /t</div>
         <div class="com-chg chg-dn">▼ 2.1%</div>
       </div>
@@ -579,7 +579,7 @@ footer{background:#0a0c0f;border-top:1px solid var(--border);padding:28px 32px;}
         <div class="com-note">LME 3-month · <a href="/reports/critical-minerals/issue-002">CM report →</a></div>
       </div>
       <div class="com-right">
-        <div class="com-price">US$9,850/t</div>
+        <div class="com-price" id="cp-copper">US$9,850/t</div>
         <div class="com-cad" id="cu-cad">≈ C$— /t</div>
         <div class="com-chg chg-up">▲ 1.2%</div>
       </div>
@@ -590,7 +590,7 @@ footer{background:#0a0c0f;border-top:1px solid var(--border);padding:28px 32px;}
         <div class="com-note">Random Lengths framing · USD/Mbf · US tariff 14.54% · <a href="/tariffs/">tariff impact →</a></div>
       </div>
       <div class="com-right">
-        <div class="com-price">US$385/Mbf</div>
+        <div class="com-price" id="cp-softwood">US$385/Mbf</div>
         <div class="com-cad" id="softwood-cad">≈ C$— /Mbf</div>
         <div class="com-chg chg-dn">▼ 1.2%</div>
       </div>
@@ -601,7 +601,7 @@ footer{background:#0a0c0f;border-top:1px solid var(--border);padding:28px 32px;}
         <div class="com-note">Hot-rolled coil · US Midwest · Section 232 tariff active · <a href="/tariffs/">232 tariff →</a></div>
       </div>
       <div class="com-right">
-        <div class="com-price">US$780/t</div>
+        <div class="com-price" id="cp-steel_hrc">US$780/t</div>
         <div class="com-cad" id="steel-cad">≈ C$— /t</div>
         <div class="com-chg chg-fl">→ flat</div>
       </div>
@@ -612,7 +612,7 @@ footer{background:#0a0c0f;border-top:1px solid var(--border);padding:28px 32px;}
         <div class="com-note">ICE Futures · <a href="/reports/agri-food/issue-002">Agri-food report →</a></div>
       </div>
       <div class="com-right">
-        <div class="com-price">C$642/t</div>
+        <div class="com-price" id="cp-canola">C$642/t</div>
         <div class="com-cad">CAD native</div>
         <div class="com-chg chg-dn">▼ 0.8%</div>
       </div>
@@ -895,12 +895,39 @@ loadBoC();
 setInterval(loadBoC,15*60*1000);
 
 // ── Stocks — Weekly pipeline values (Yahoo Finance is CORS-blocked in browsers)
-// TODO: add /api/stocks.json written by run_weekly.sh to enable weekly data here
 function initStocks(){
   const el=document.getElementById('stock-time');
   if(el)el.textContent='▸ Weekly pipeline';
 }
 initStocks();
+
+// ── Terminal data — commodity prices from pipeline (written Tuesdays by run_weekly.sh)
+async function loadTerminalData(){
+  try{
+    const res=await fetch('/api/terminal_data.json?_='+Date.now());
+    if(!res.ok)return;
+    const d=await res.json();
+    const fmt=(price,unit,currency)=>{
+      const n=Number(price).toLocaleString('en-US',{maximumFractionDigits:2});
+      return(currency==='CAD'?'C$':'US$')+n+unit;
+    };
+    const map={
+      'uranium':  {id:'cp-uranium',  unit:'/lb',  currency:'USD'},
+      'lithium':  {id:'cp-lithium',  unit:'/t',   currency:'USD'},
+      'copper':   {id:'cp-copper',   unit:'/t',   currency:'USD'},
+      'softwood': {id:'cp-softwood', unit:'/Mbf', currency:'USD'},
+      'steel_hrc':{id:'cp-steel_hrc',unit:'/t',   currency:'USD'},
+      'canola':   {id:'cp-canola',   unit:'/t',   currency:'CAD'},
+    };
+    const comms=d.commodities||{};
+    Object.entries(map).forEach(([key,cfg])=>{
+      const c=comms[key];if(!c)return;
+      const el=document.getElementById(cfg.id);
+      if(el)el.textContent=fmt(c.price,cfg.unit,cfg.currency||c.currency);
+    });
+  }catch(e){}
+}
+loadTerminalData();
 </script>
 </body>
 </html>
