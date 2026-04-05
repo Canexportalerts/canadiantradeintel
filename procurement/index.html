@@ -75,6 +75,16 @@ nav{background:var(--brand-dark);padding:0 40px;position:sticky;top:0;z-index:20
 .src-nato{background:#f0eaf8;color:#6a20b0;}
 .src-eu{background:#e8eef8;color:#2a5090;}
 .src-us{background:#fff5f5;color:#990000;}
+.src-prov{background:#fef6e0;color:#7a4800;}
+
+/* EDITORIAL NOTE */
+.editorial-note{background:#faf8f5;border-bottom:1px solid var(--rule);padding:12px 40px;}
+.editorial-note-inner{max-width:1200px;margin:0 auto;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.06em;color:var(--ink-light);line-height:2;}
+.editorial-note-inner strong{color:var(--ink-mid);}
+.editorial-note-inner a{color:var(--ink-mid);border-bottom:1px solid rgba(0,0,0,0.12);text-decoration:none;white-space:nowrap;}
+.editorial-note-inner a:hover{color:var(--brand);border-bottom-color:rgba(204,0,0,0.3);}
+.editorial-note-inner .en-sep{color:var(--rule);margin:0 8px;}
+@media(max-width:900px){.editorial-note{padding:12px 16px;}}
 .tender-meta{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:12px;}
 .tender-sector-tag{font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.1em;text-transform:uppercase;padding:2px 8px;}
 .tender-issuer{font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);}
@@ -175,6 +185,20 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
     </div>
   </div>
 </header>
+
+<div class="editorial-note">
+  <div class="editorial-note-inner">
+    CTI aggregates <strong>federal Canadian</strong> (CanadaBuys), <strong>US federal</strong> (SAM.gov), <strong>European</strong> (EU TED), and <strong>NATO</strong> procurement opportunities filtered for Canadian business relevance, updated weekly.
+    <span class="en-sep">·</span>
+    <strong>Provincial:</strong>
+    <a href="https://www.bcbid.gov.bc.ca" target="_blank" rel="noopener">BC Bid →</a>
+    <a href="https://vendor.purchasingconnection.ca" target="_blank" rel="noopener">Alberta Purchasing Connection →</a>
+    <a href="https://ontariotenders.ca" target="_blank" rel="noopener">Ontario Tenders →</a>
+    <a href="https://www.seao.ca" target="_blank" rel="noopener">SEAO Quebec →</a>
+    <span class="en-sep">·</span>
+    Trade Commissioner Service: <a href="https://www.tradecommissioner.gc.ca/sell2abroad-vendrezaletranger/procurement-approvisionnement.aspx?lang=eng" target="_blank" rel="noopener">sector-specific procurement guidance →</a>
+  </div>
+</div>
 
 <div class="search-bar">
   <div class="search-bar-inner">
@@ -996,11 +1020,13 @@ function buildCard(t){
   const url=t.url||'https://canadabuys.canada.ca';
   const jur=t.jurisdiction||'Federal';
   const src=t.source||'';
-  const isEU=src.includes('EU')||src.includes('TED');
-  const isNATO=src.includes('NATO');
-  const srcCls=isEU?'src-eu':isNATO?'src-nato':'src-fed';
-  const srcLabel=isEU?'EU TED':isNATO?'NATO NSPA':'CanadaBuys';
-  const viewLabel=isEU?'View on EU TED →':isNATO?'View on NATO NSPA →':'View on CanadaBuys →';
+  const isEU   =src.includes('EU')||src.includes('TED');
+  const isNATO =src.includes('NATO');
+  const isUS   =src.includes('SAM')||src.toLowerCase().includes('sam.gov');
+  const isProv =src.includes('BC Bid')||src.includes('Alberta')||src.includes('Ontario Tenders');
+  const srcCls  =isEU?'src-eu':isNATO?'src-nato':isUS?'src-us':isProv?'src-prov':'src-fed';
+  const srcLabel=isEU?'EU TED':isNATO?'NATO NSPA':isUS?'SAM.gov':isProv?src:'CanadaBuys';
+  const viewLabel=isEU?'View on EU TED →':isNATO?'View on NATO NSPA →':isUS?'View on SAM.gov →':isProv?'View on portal →':'View on CanadaBuys →';
   const value=t.estimated_value?`<span class="tender-value">${String(t.estimated_value).replace(/</g,'&lt;')}</span>`:'';
   const why=t.why_this_matters?`<p style="font-size:11px;color:#8B1A1A;font-style:italic;margin:6px 0 10px;line-height:1.55;">→ ${t.why_this_matters.replace(/</g,'&lt;')}</p>`:'';
   const pills=sectors.map(s=>{const m=SECTOR_MAP[s];return m?`<span class="tender-sector-tag" style="background:${m.bg};color:${m.color};">${m.label}</span>`:''}).join('');
