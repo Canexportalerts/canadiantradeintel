@@ -243,6 +243,11 @@ footer{background:#0a0c0f;border-top:1px solid var(--border);padding:28px 32px;}
     <div class="ticker-value" id="fx-aud">—</div>
     <div class="ticker-source">● Live · BoC</div>
   </div>
+  <div class="ticker-item ticker-live">
+    <div class="ticker-label">BoC BCPI</div>
+    <div class="ticker-value" id="fx-bcpi">—</div>
+    <div class="ticker-source">● BoC · Monthly</div>
+  </div>
   <div class="ticker-item">
     <div class="ticker-label">Gold /oz</div>
     <div class="ticker-value">US$2,184</div>
@@ -894,6 +899,24 @@ async function loadBoC(){
 loadBoC();
 setInterval(loadBoC,15*60*1000);
 
+// ── BoC BCPI (Commodity Price Index — monthly series V41690973) ──
+async function loadBCPI(){
+  try{
+    const res=await fetch('https://www.bankofcanada.ca/valet/observations/V41690973/json?recent=1');
+    if(!res.ok)return;
+    const data=await res.json();
+    const obs=data.observations?.[0];
+    if(!obs)return;
+    const val=parseFloat(obs.V41690973?.v);
+    if(isNaN(val))return;
+    const el=document.getElementById('fx-bcpi');
+    if(el)el.textContent=val.toFixed(2);
+  }catch(e){
+    console.warn('BCPI fetch failed:',e.message);
+  }
+}
+loadBCPI();
+
 // ── Stocks — Weekly pipeline values (Yahoo Finance is CORS-blocked in browsers)
 function initStocks(){
   const el=document.getElementById('stock-time');
@@ -907,11 +930,13 @@ async function loadTerminalData(){
     const res=await fetch('/api/terminal_data.json?_='+Date.now());
     if(!res.ok)return;
     const d=await res.json();
-    const fmt=(price,unit,currency)=>{
+
+    // Commodity prices
+    const fmtPrice=(price,unit,currency)=>{
       const n=Number(price).toLocaleString('en-US',{maximumFractionDigits:2});
       return(currency==='CAD'?'C$':'US$')+n+unit;
     };
-    const map={
+    const commMap={
       'uranium':  {id:'cp-uranium',  unit:'/lb',  currency:'USD'},
       'lithium':  {id:'cp-lithium',  unit:'/t',   currency:'USD'},
       'copper':   {id:'cp-copper',   unit:'/t',   currency:'USD'},
@@ -920,11 +945,30 @@ async function loadTerminalData(){
       'canola':   {id:'cp-canola',   unit:'/t',   currency:'CAD'},
     };
     const comms=d.commodities||{};
-    Object.entries(map).forEach(([key,cfg])=>{
+    Object.entries(commMap).forEach(([key,cfg])=>{
       const c=comms[key];if(!c)return;
       const el=document.getElementById(cfg.id);
-      if(el)el.textContent=fmt(c.price,cfg.unit,cfg.currency||c.currency);
+      if(el)el.textContent=fmtPrice(c.price,cfg.unit,cfg.currency||c.currency);
     });
+
+    // Stock prices
+    const stocks=d.stocks||{};
+    Object.values(stocks).forEach(s=>{
+      const id=s.elem_id;if(!id)return;
+      const priceEl=document.getElementById(id);
+      const chgEl  =document.getElementById(id+'-chg');
+      if(priceEl)priceEl.textContent='C$'+Number(s.price).toFixed(2);
+      if(chgEl){
+        const up=s.change_pct>=0;
+        chgEl.textContent=(up?'▲ ':'▼ ')+Math.abs(s.change_pct).toFixed(2)+'%';
+        chgEl.className='stock-chg '+(up?'chg-up':'chg-dn');
+      }
+    });
+
+    // stock-time label
+    const stEl=document.getElementById('stock-time');
+    if(stEl&&d.generated)stEl.textContent='▸ Pipeline · '+d.generated;
+
   }catch(e){}
 }
 loadTerminalData();
