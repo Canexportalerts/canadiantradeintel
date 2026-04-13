@@ -3,2149 +3,529 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Procurement Intelligence — Canadian Trade Intelligence</title>
-<meta name="description" content="Active Canadian and international procurement tenders relevant to Canadian exporters and suppliers. Updated weekly.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<meta name="color-scheme" content="light">
+<title>Procurement Intelligence — Canadian Trade Intelligence Inc.</title>
+<meta name="description" content="Active government and institutional procurement tenders relevant to Canadian businesses — exporters, importers, suppliers, and contractors. Updated every Tuesday.">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="/nav.js"></script>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'DM Sans', Helvetica, Arial, sans-serif; background: #f5f3ef; color: #1a1a1a; -webkit-font-smoothing: antialiased; }
-  a { color: #8b0000; }
-  .container { max-width: 900px; margin: 0 auto; padding: 0 20px 60px; }
-  @media (max-width: 640px) {
-    .container { padding: 0 14px 40px; }
-    table { font-size: 12px; }
-    td { padding: 10px 8px !important; }
-  }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#0d0d0b;--ink-soft:#2a2a28;--slate:#5a5a56;
+  --warm-bg:#f8f5f0;--warm-mid:#efe9e0;--warm-border:#ddd5c5;--white:#fdfcfa;
+  --crimson:#8b1a1a;--gold:#9a7b1a;
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--warm-bg);color:var(--ink);font-size:15px;line-height:1.7;-webkit-font-smoothing:antialiased}
+
+/* MASTHEAD */
+.proc-masthead{background:#1a0505;padding:0;position:relative;overflow:hidden}
+.proc-masthead::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent,transparent 80px,rgba(255,255,255,0.006) 80px,rgba(255,255,255,0.006) 81px)}
+.proc-top{background:rgba(0,0,0,0.35);border-bottom:1px solid rgba(255,255,255,0.06);padding:10px 48px;display:flex;align-items:center;justify-content:space-between}
+.proc-breadcrumb{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.45)}
+.proc-breadcrumb a{color:rgba(255,255,255,0.45);text-decoration:none}
+.proc-hero{padding:28px 48px 32px;position:relative;z-index:1}
+.proc-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,200,80,0.85);margin-bottom:10px}
+.proc-title{font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:600;font-style:italic;color:#f4f0e8;letter-spacing:-0.02em;line-height:1.1;margin-bottom:10px}
+.proc-subtitle{font-size:15px;font-weight:300;color:rgba(240,236,228,0.72);max-width:600px;line-height:1.65;margin-bottom:18px}
+.proc-stats{display:flex;gap:32px;flex-wrap:wrap}
+.proc-stat{display:flex;flex-direction:column;gap:2px}
+.proc-stat-val{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:#f4f0e8;line-height:1}
+.proc-stat-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.35)}
+
+/* VALUE PROPOSITION STRIP */
+.proc-value-strip{background:#2a0a0a;border-bottom:1px solid rgba(255,255,255,0.05);padding:14px 48px;display:flex;gap:32px;flex-wrap:wrap;align-items:center}
+.proc-value-item{display:flex;align-items:center;gap:8px;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,210,120,0.6)}
+.proc-value-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,210,120,0.5);flex-shrink:0}
+
+/* SEARCH + FILTER BAR */
+.proc-controls{background:var(--white);border-bottom:2px solid var(--warm-border);padding:20px 48px;position:sticky;top:56px;z-index:100}
+.proc-search-row{display:flex;gap:12px;margin-bottom:14px}
+.proc-search-wrap{flex:1;position:relative}
+.proc-search-wrap::before{content:'';position:absolute;left:14px;top:50%;transform:translateY(-50%);width:16px;height:16px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E") no-repeat center/contain;opacity:0.5}
+#proc-search{width:100%;padding:11px 16px 11px 40px;font-family:'DM Sans',sans-serif;font-size:14px;border:1px solid var(--warm-border);background:var(--warm-bg);color:var(--ink);outline:none;transition:border-color 0.15s}
+#proc-search:focus{border-color:var(--crimson)}
+#proc-search::placeholder{color:#aaa}
+.proc-view-toggle{display:flex;border:1px solid var(--warm-border);overflow:hidden}
+.view-btn{padding:10px 14px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;background:none;border:none;color:var(--slate);cursor:pointer;transition:all 0.15s}
+.view-btn.active{background:var(--crimson);color:#fff}
+.proc-filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.filter-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--slate);margin-right:4px}
+.filter-btn{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.08em;text-transform:uppercase;padding:5px 12px;border:1px solid var(--warm-border);background:none;color:var(--slate);cursor:pointer;transition:all 0.15s;white-space:nowrap}
+.filter-btn:hover{border-color:var(--crimson);color:var(--crimson)}
+.filter-btn.active{background:var(--crimson);border-color:var(--crimson);color:#fff}
+.proc-result-count{font-family:'DM Mono',monospace;font-size:9px;color:var(--slate);letter-spacing:0.08em;margin-left:auto;padding-top:2px}
+
+/* MAIN LAYOUT */
+.proc-layout{max-width:1200px;margin:0 auto;padding:28px 48px 80px;display:grid;grid-template-columns:1fr 320px;gap:32px;align-items:start}
+.proc-main{}
+.proc-aside{position:sticky;top:160px}
+
+/* LIST VIEW */
+.proc-list{display:flex;flex-direction:column;gap:0}
+.proc-item{background:var(--white);border:1px solid var(--warm-border);border-top:none;padding:0}
+.proc-item:first-child{border-top:1px solid var(--warm-border)}
+.proc-item-inner{padding:16px 20px;display:grid;grid-template-columns:1fr auto;gap:16px;align-items:start}
+.proc-item-inner:hover{background:#fdfbf8}
+.proc-item-title{font-size:14px;font-weight:600;color:var(--crimson);text-decoration:none;line-height:1.4;display:block;margin-bottom:4px}
+.proc-item-title:hover{text-decoration:underline}
+.proc-item-meta{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:6px}
+.proc-item-buyer{font-size:12px;color:var(--slate)}
+.proc-item-source{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.08em;color:#aaa;text-transform:uppercase;padding:2px 6px;border:1px solid var(--warm-border)}
+.proc-item-sector{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.08em;text-transform:uppercase;padding:2px 7px;border:1px solid;white-space:nowrap}
+.proc-item-value{font-family:'DM Mono',monospace;font-size:11px;color:#2e7d32;font-weight:600}
+.proc-item-date-col{text-align:right;flex-shrink:0}
+.proc-item-date{font-family:'DM Mono',monospace;font-size:11px;font-weight:600;white-space:nowrap}
+.proc-item-days{font-family:'DM Mono',monospace;font-size:9px;color:var(--slate);margin-top:2px}
+.urgent-date{color:#c62828}
+.warn-date{color:#b36b00}
+.ok-date{color:#2e7d32}
+
+/* CARD VIEW */
+.proc-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px}
+.proc-card{background:var(--white);border:1px solid var(--warm-border);border-top:3px solid var(--crimson);padding:18px 20px;display:flex;flex-direction:column;gap:10px}
+.proc-card-title{font-size:14px;font-weight:600;color:var(--crimson);text-decoration:none;line-height:1.4}
+.proc-card-title:hover{text-decoration:underline}
+.proc-card-buyer{font-size:12px;color:var(--slate)}
+.proc-card-footer{display:flex;justify-content:space-between;align-items:flex-end;margin-top:auto}
+.proc-card-date{font-family:'DM Mono',monospace;font-size:11px;font-weight:600}
+.proc-card-meta{display:flex;gap:6px;flex-wrap:wrap}
+
+/* SECTOR COLOUR CODING */
+.s-cm{color:#1a6b42;border-color:#1a6b42;background:rgba(26,107,66,0.05)}
+.s-ec{color:#1a5c7a;border-color:#1a5c7a;background:rgba(26,92,122,0.05)}
+.s-am{color:#2a5090;border-color:#2a5090;background:rgba(42,80,144,0.05)}
+.s-ad{color:#6a20b0;border-color:#6a20b0;background:rgba(106,32,176,0.05)}
+.s-af{color:#b36b00;border-color:#b36b00;background:rgba(179,107,0,0.05)}
+.s-td{color:#0a6080;border-color:#0a6080;background:rgba(10,96,128,0.05)}
+.s-gen{color:#555;border-color:#ccc;background:rgba(0,0,0,0.03)}
+
+/* ASIDE */
+.aside-card{background:var(--white);border:1px solid var(--warm-border);padding:18px 20px;margin-bottom:14px}
+.aside-card-title{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--slate);padding-bottom:10px;border-bottom:1px solid var(--warm-border);margin-bottom:14px}
+.aside-stat{display:flex;justify-content:space-between;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--warm-border)}
+.aside-stat:last-child{border-bottom:none}
+.aside-stat-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.08em;text-transform:uppercase;color:var(--slate)}
+.aside-stat-val{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--ink)}
+.aside-cta{background:var(--crimson);padding:18px 20px;color:#fff;text-decoration:none;display:block}
+.aside-cta-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.6);margin-bottom:6px}
+.aside-cta-title{font-family:'Cormorant Garamond',serif;font-size:17px;font-style:italic;font-weight:600;color:#fff;margin-bottom:6px}
+.aside-cta-text{font-size:12px;color:rgba(255,255,255,0.75);line-height:1.6;margin-bottom:10px}
+.aside-cta-btn{display:inline-block;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;border:1px solid rgba(255,255,255,0.5);padding:6px 14px;color:#fff}
+.aside-link{display:flex;align-items:center;justify-content:space-between;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.08em;text-transform:uppercase;color:var(--crimson);text-decoration:none;padding:8px 0;border-top:1px solid var(--warm-border)}
+.aside-link::after{content:'→'}
+.aside-link:first-child{border-top:none}
+
+/* NO RESULTS */
+.proc-empty{padding:48px 32px;text-align:center;color:var(--slate);background:var(--white);border:1px solid var(--warm-border)}
+.proc-empty-title{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:10px}
+.proc-empty-text{font-size:13px;line-height:1.7}
+
+/* FOOTER */
+.proc-footer{background:#1a0505;padding:20px 48px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.proc-footer-brand{font-family:'Cormorant Garamond',serif;font-size:13px;font-style:italic;color:rgba(240,240,232,0.45)}
+.proc-footer-meta{font-family:'DM Mono',monospace;font-size:8px;color:rgba(255,255,255,0.2);letter-spacing:0.08em}
+.proc-footer-links{display:flex;gap:20px}
+.proc-footer-links a{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(168,213,188,0.35);text-decoration:none}
+
+@media(max-width:900px){
+  .proc-layout{grid-template-columns:1fr;padding:20px 20px 60px}
+  .proc-aside{position:static}
+  .proc-hero,.proc-top,.proc-value-strip,.proc-controls,.proc-footer{padding-left:20px;padding-right:20px}
+  .proc-title{font-size:30px}
+  .proc-cards{grid-template-columns:1fr}
+}
+@media(max-width:640px){
+  .proc-search-row{flex-direction:column}
+  .proc-filters{gap:5px}
+  .proc-item-inner{grid-template-columns:1fr}
+}
+@media print{
+  .proc-controls,.proc-aside,.proc-value-strip,.proc-footer{display:none}
+  body{background:white}
+}
 </style>
 </head>
 <body>
+<nav id="main-nav"></nav>
 
-<!-- Nav placeholder — matches site nav -->
-<div style="background:#1a0505;padding:12px 32px;display:flex;align-items:center;justify-content:space-between;">
-  <a href="https://canadiantradeintel.ca" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(168,213,188,0.8);text-decoration:none;">🇨🇦 Canadian Trade Intelligence</a>
-  <a href="https://canadiantradeintel.ca/dashboard" style="font-family:'DM Mono',monospace;font-size:9px;color:rgba(255,255,255,0.4);text-decoration:none;">← Dashboard</a>
+<div class="proc-masthead">
+  <div class="proc-top">
+    <div class="proc-breadcrumb"><a href="/">Canadian Trade Intelligence</a> · Procurement</div>
+    <div class="proc-breadcrumb" id="proc-updated">Updated weekly · Tuesdays</div>
+  </div>
+  <div class="proc-hero">
+    <div class="proc-label">Procurement Intelligence</div>
+    <h1 class="proc-title">Active Tender Watch</h1>
+    <p class="proc-subtitle">Government and institutional procurement opportunities relevant to Canadian businesses — exporters, importers, suppliers, and contractors. Federal, provincial, EU, and US federal sources.</p>
+    <div class="proc-stats">
+      <div class="proc-stat"><div class="proc-stat-val" id="stat-total">—</div><div class="proc-stat-label">Active tenders</div></div>
+      <div class="proc-stat"><div class="proc-stat-val" id="stat-urgent">—</div><div class="proc-stat-label">Close within 7 days</div></div>
+      <div class="proc-stat"><div class="proc-stat-val" id="stat-sources">4</div><div class="proc-stat-label">Data sources</div></div>
+    </div>
+  </div>
 </div>
 
-<div class="container">
+<div class="proc-value-strip">
+  <div class="proc-value-item"><div class="proc-value-dot"></div>CanadaBuys — federal tenders</div>
+  <div class="proc-value-item"><div class="proc-value-dot"></div>EU TED — GPA open notices</div>
+  <div class="proc-value-item"><div class="proc-value-dot"></div>SAM.gov — US federal opportunities</div>
+  <div class="proc-value-item"><div class="proc-value-dot"></div>Updated every Tuesday</div>
+</div>
 
-  <!-- Header -->
-  <div style="padding:36px 0 24px;">
-    <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:#8b0000;margin-bottom:10px;">Procurement Intelligence</div>
-    <h1 style="font-family:'Cormorant Garamond',Georgia,serif;font-size:34px;font-weight:600;font-style:italic;color:#1a1a1a;line-height:1.2;margin-bottom:8px;">Active Tender Watch</h1>
-    <p style="font-size:13px;color:#666;max-width:580px;line-height:1.7;">
-      Government and institutional tenders relevant to Canadian exporters and suppliers across all six sectors.
-      Updated every Tuesday as part of the weekly intelligence pipeline.
-    </p>
-    <div style="font-family:'DM Mono',monospace;font-size:9px;color:#aaa;margin-top:10px;letter-spacing:0.08em;">
-      LAST UPDATED: APRIL 9, 2026 &nbsp;·&nbsp; 133 ACTIVE TENDERS
+<div class="proc-controls">
+  <div class="proc-search-row">
+    <div class="proc-search-wrap">
+      <input type="text" id="proc-search" placeholder="Search tenders by keyword, buyer, or sector…" autocomplete="off">
+    </div>
+    <div class="proc-view-toggle">
+      <button class="view-btn active" id="btn-list" onclick="setView('list')">List</button>
+      <button class="view-btn" id="btn-card" onclick="setView('card')">Cards</button>
+    </div>
+  </div>
+  <div class="proc-filters">
+    <span class="filter-label">Sector</span>
+    <button class="filter-btn active" onclick="setFilter('sector','all',this)">All</button>
+    <button class="filter-btn" onclick="setFilter('sector','critical_minerals',this)">Critical Minerals</button>
+    <button class="filter-btn" onclick="setFilter('sector','energy_cleantech',this)">Energy</button>
+    <button class="filter-btn" onclick="setFilter('sector','advanced_manufacturing',this)">Manufacturing</button>
+    <button class="filter-btn" onclick="setFilter('sector','aerospace_defence',this)">Aerospace</button>
+    <button class="filter-btn" onclick="setFilter('sector','agri_food',this)">Agri-food</button>
+    <button class="filter-btn" onclick="setFilter('sector','technology_digital',this)">Technology</button>
+    <span style="width:1px;height:18px;background:var(--warm-border);margin:0 4px"></span>
+    <span class="filter-label">Urgency</span>
+    <button class="filter-btn" onclick="setFilter('urgency','7',this)">≤7 days</button>
+    <button class="filter-btn" onclick="setFilter('urgency','30',this)">≤30 days</button>
+    <span style="width:1px;height:18px;background:var(--warm-border);margin:0 4px"></span>
+    <span class="filter-label">Source</span>
+    <button class="filter-btn" onclick="setFilter('source','canadabuys',this)">CanadaBuys</button>
+    <button class="filter-btn" onclick="setFilter('source','eu',this)">EU TED</button>
+    <button class="filter-btn" onclick="setFilter('source','sam',this)">SAM.gov</button>
+    <span class="proc-result-count" id="result-count">Loading…</span>
+  </div>
+</div>
+
+<div class="proc-layout">
+  <div class="proc-main">
+    <div id="proc-list-view" class="proc-list"></div>
+    <div id="proc-card-view" class="proc-cards" style="display:none"></div>
+    <div id="proc-empty" class="proc-empty" style="display:none">
+      <div class="proc-empty-title">No tenders match your filters</div>
+      <div class="proc-empty-text">Try adjusting your search terms or removing a filter to see more results.</div>
     </div>
   </div>
 
-  <!-- Active tenders table -->
-  
-
-  
-  <table style="width:100%;border-collapse:collapse;background:#fff;border:1px solid #e4e0d8;">
-    <thead>
-      <tr style="background:#f7f5f1;">
-        <th style="padding:10px 14px;font-family:'DM Mono',monospace;font-size:9px;color:#888;text-align:left;letter-spacing:0.1em;text-transform:uppercase;border-bottom:2px solid #e4e0d8;">Tender / Issuer</th>
-        <th style="padding:10px 14px;font-family:'DM Mono',monospace;font-size:9px;color:#888;text-align:right;letter-spacing:0.1em;text-transform:uppercase;border-bottom:2px solid #e4e0d8;">Closes</th>
-      </tr>
-    </thead>
-    <tbody>
-      
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/ab-2026-02685" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Children and Family Services - Advanced Contract Award Notice / Notice of Proposed Procurement - Youth Apprenticeship Connections Program - Notice of Work</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Children and Family Services</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#c62828;font-weight:600;">April 9, 2026 (0d)</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/ab-2026-02248" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">City of Spruce Grove - Invitation to Bid - 2026 Industrial Watermain and Sewer Upgrade</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">City of Spruce Grove</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#c62828;font-weight:600;">April 9, 2026 (0d)</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://sam.gov/workspace/contract/opp/f6a354529bc94bf1a2dc72f11bcf8533/view" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Solicitation for COMET Defense Intelligence Agency Missile and Space Intelligence Center</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;"></div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">SAM.gov</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#c62828;font-weight:600;">April 10, 2026 (1d)</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/bciws2026-025" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">NOI: Disk Filter Improvement OEM Parts</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Capital Regional District</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#c62828;font-weight:600;">April 10, 2026 (1d)</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/ws5113507411-doc5624904483" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Industrial oils and lubricants for the Canadian Armed Forces -D</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Department of National Defence (DND)</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#c62828;font-weight:600;">April 10, 2026 (1d)</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/nb18454881" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">WHITE AND YELLOW TRAFFIC PAINT 2026</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Central Tendering Branch</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#c62828;font-weight:600;">April 10, 2026 (1d)</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/26lms022" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Toolkits for BOXER maintenance</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">NATO - North Atlantic Treaty Organization</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#c62828;font-weight:600;">April 12, 2026 (3d)</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/bc227383" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">RFEOI #E260413-24 Vessel recycling services</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Vancouver Fraser Port Authority</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#c62828;font-weight:600;">April 13, 2026 (4d)</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://sam.gov/workspace/contract/opp/ff937a155c704f9a9836b96326d149f5/view" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Custom Turbine and Shaft Manufacturing</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;"></div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">SAM.gov</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#c62828;font-weight:600;">April 13, 2026 (4d)</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/bc227324" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Oracle Linux Yearly Renewal 2026-2027</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">City of Vancouver</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#c62828;font-weight:600;">April 14, 2026 (5d)</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/bc2026-145" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">NOI – Modular Office Complex</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">District of Lake Country</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#c62828;font-weight:600;">April 14, 2026 (5d)</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/ab-2026-02637" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Lacombe County - Invitation to Bid - BF 1177 and BF 70458</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Lacombe County</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#c62828;font-weight:600;">April 14, 2026 (5d)</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/26lbs030" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Ammunition. Anti-tank mines for Skorpion-2 mine laying system</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">NATO - North Atlantic Treaty Organization</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#c62828;font-weight:600;">April 15, 2026 (6d)</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/ws5623248233-doc5624977880" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">W0100-267548 HAZMAT Equipment</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Department of National Defence (DND)</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#c62828;font-weight:600;">April 15, 2026 (6d)</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/nsdoc3026900239" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">RFQ - RIM DITCHING AND HYDROSEEDING - THREE SECTIONS IN KINGS COUNTY</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Department of Public Works</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#c62828;font-weight:600;">April 15, 2026 (6d)</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/nsdoc3026926183" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">RFQ - RIM DITCHING AND HYDROSEEDING - THREE SECTIONS IN YARMOUTH AND SHELBURNE COUNTIES AND THE MUNICIPALITY OF CLARE</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Department of Public Works</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#c62828;font-weight:600;">April 15, 2026 (6d)</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/sli26012" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Purchase of DISK STORAGE - IT hardware</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">NATO - North Atlantic Treaty Organization</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#c62828;font-weight:600;">April 15, 2026 (6d)</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/ab-2026-02679" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Red Deer Polytechnic - Request for Quotes - Lincoln Aspect 230 One Pak Welding Equipment</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Red Deer Polytechnic</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#c62828;font-weight:600;">April 15, 2026 (6d)</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/ab-2026-02703" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Calgary Board of Education - Request for Quotes - 2026RFQ000401 - NetApp Upgrade</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Calgary Board of Education</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#c62828;font-weight:600;">April 15, 2026 (6d)</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/ab-2026-02712" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Agriculture and Irrigation - Request for Proposal - Camrose Pump and Valve Maintenance Service</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Agriculture and Irrigation</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#c62828;font-weight:600;">April 15, 2026 (6d)</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/cb-396-96160735" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Bushing set</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Department of National Defence (DND)</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#c62828;font-weight:600;">April 16, 2026 (7d)</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/bc227272" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">City of Grand Forks - 2026 Paving Program</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">City of Grand Forks</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#c62828;font-weight:600;">April 16, 2026 (7d)</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/cb-339-20480311" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">INHIBITOR, CORROSION, LIQUID COOLING SYSTEM</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Department of National Defence (DND)</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#c62828;font-weight:600;">April 16, 2026 (7d)</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/cb-418-38456688" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Canadian Council of Forest Ministers’ Climate Change Working Group’s Forestry Adaptation Network Stewardship</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Department of Natural Resources (NRCan)</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#c62828;font-weight:600;">April 16, 2026 (7d)</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/qc20134426" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Acquisition de chaudières électriques et au gaz</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Centre de services scolaire des Mille-Îles</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#c62828;font-weight:600;">April 16, 2026 (7d)</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/cb-984-98624845" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Water Truck</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Department of National Defence (DND)</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#c62828;font-weight:600;">April 16, 2026 (7d)</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/cb-696-58514168" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Accommodations Services</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Department of National Defence (DND)</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 17, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/cb-894-11357332" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Vehicle Rental Services</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Department of National Defence (DND)</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 17, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/nsdoc3027026503" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">RFQ - RIM DITCHING AND HYDROSEEDING - FOUR SECTIONS IN CAPE BRETON COUNTY</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Department of Public Works</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 17, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/bc227328" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Request for Proposal for Integrated Project Delivery (IPD) General Contractor and Architect</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">City of Fort St John</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 20, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/mx-443947360867" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Widefield Epifluorescence Inverted Microscope - RTI</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">University of Ottawa</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 20, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/qc20136439" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Réaménagement des laboratoires du programme de soins préhospitaliers d'urgence (SPU) au niveau G0</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Collège Ahuntsic</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 20, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/qc20136059" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Remplacement du plafond de la salle à manger (C1.240)</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Collège Ahuntsic</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 20, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/qc20136657" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Services professionnels - Surveillance et contrôle - Poste de pompage Saint- Maurice (PP101) - Correctifs et augmentation de la capacité de pompage pour densification</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Ville de Saint-Jean-sur-Richelieu.</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 20, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/qc20135695" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Arrosage des arbres publics</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Ville de Saint-Lambert</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 20, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/ab-2026-02755" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Agriculture Financial Services Corporation - Negotiated Request for Proposal - RFP 0732 - AFSC Construction - Branch Renovations</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Agriculture Financial Services Corporation</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 20, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/bc227361" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Metal Recycling for 2026</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Regional District of Bulkley-Nechako</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 21, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/bc227357" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Knockholt Landfill Monitoring Well Installation</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Regional District of Bulkley-Nechako</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 21, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/qc20135599" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Service Professionnels pour assistance de la Ville de Sherbrooke en gestion d'actifs</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Ville de Sherbrooke</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 21, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/bcntv23669" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">North Coast Transmission Line Project – Supply of Steel Grillages, Pile Caps, A-Frames and Transposition Tower</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">British Columbia Hydro and Power Authority</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 21, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/qc20135137" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Fourniture et livraison d'un tracteur</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Ville de Drummondville.</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 21, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/qc20135737" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">TRAVAUX DE RÉFECTION DE LONGUES SECTIONS DE PAVAGE, ET DRAINAGE À DIVERS ENDROITS DE LA VILLE - ANNÉE 2026 - RUE SAINT-CAMILLE (VP 2026-1,3)</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Ville de Saint-Jérôme.</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 21, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/ab-2026-02333" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">City of Grande Prairie - Invitation to Bid - 2026 Road Rehabilitation Program- Phase 2</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">City of Grande Prairie</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 21, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/ab-2026-02671" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">City of Grande Prairie - Request for Quotes - Hydrovac Services</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">City of Grande Prairie</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 21, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/hgr26012" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Procurement of Trent 700 Multi-Purpose Stand Set (GSE)</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">NATO - North Atlantic Treaty Organization</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 21, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/khy26029" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">SUPPLY OF 2 EA DUCT ASSY</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">NATO - North Atlantic Treaty Organization</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 21, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/ws5595401021-doc5625315382" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">W0107-265561 Latrine Services Petawawa</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Department of National Defence (DND)</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 22, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/ws4950165268-doc5502871989" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">W7719-255623-2 Aeroballistic corridor cameras</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Department of National Defence (DND)</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 22, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/qc20135565" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Parc agroalimentaire de Normandin – Prolongement des infrastructures et poste de pompage - Assurance qualité (Laboratoire)</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Régie intermunicipale du parc industriel de la MRC de Maria-Chapdelaine</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 22, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/cb-178-64047446" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Mackerel Spawning Seasonality</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Department of Fisheries and Oceans (DFO)</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 22, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/cb-720-26765231" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Halifax-class Spares,  Casualty Power System</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Department of National Defence (DND)</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 22, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/bc26-172tol" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Cold Milling</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Township of Langley</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 22, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/sk-1017631" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">ISIM Replacement & Access Management Automation</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Saskatchewan Power Corporation</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 22, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/qc20135997" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Services professionnels pour la surveillance des travaux de réfection pluviale – Rues Beaujolais, Bordeaux et Champagne</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Ville de Rosemère.</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 22, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/bc78046" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Golden - Leeder Pavement Rehabilitation</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">City of Coquitlam</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 23, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/bc2026010076" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">UBC Field  Lighting Upgrade</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">University of British Columbia</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 23, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://sam.gov/workspace/contract/opp/fe8d849dceae4b6d860dba4bdc56235f/view" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Azimuth Gearbox Assembly Procurement</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;"></div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">SAM.gov</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 23, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/cb-481-40165578" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Stage 2 - Transportation Upgrades, Fort Rodd Hill National Historic Site</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Parks Canada Agency (PC)</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 23, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/ws5555713037-doc5555766325" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">W0130-25C200 - Press Brake</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Department of National Defence (DND)</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 23, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/ws5577323844-doc5634395950" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">EA003-261361-ITT- NAFC Washroom Upgrades, St. John's, NL</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Department of Public Works and Government Services (PSPC)</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 23, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/qc20134822" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Fourniture et installation d’éclairage public</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Ville de Drummondville.</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 23, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/ab-2026-02690" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Municipal District of Taber - Invitation to Bid - EX202607 - 2026 Hard Surfaces</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Municipal District of Taber</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 23, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/ab-2026-02676" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">City of Grande Prairie - Invitation to Bid - 2026 Minor Road Resurfacing</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">City of Grande Prairie</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 23, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/sk-202526-c19004026" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Network Hardware</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">eHealth Saskatchewan</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 24, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/ab-2026-02700" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Alberta Social Housing Corporation - Invitation to Bid - Bid Contract Package JGZ-2025-010-B - Upgrade Siding, and window Improvement (Contractor Package)</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Alberta Social Housing Corporation</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 24, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/ab-2026-02663" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Barrhead and District Social Housing Association - Request for Proposal - BAR-2026-001 A Pembina Court Manor Wood Siding Upgrade</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Barrhead and District Social Housing Association</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 24, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/bc6226011a" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">ITB- WLC Community Programs Consolidation- General Contractor Services</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Interior Health Authority</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 27, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/bc227386" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Tractor with Loader for UBC Dairy Education and Research Centre</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">University of British Columbia</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 27, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/qc20136568" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">PROVINCIAL  –  Fourniture d’engins de terrassement, accessoires, pièces de rechange et autres biens et services connexes</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Hydro-Québec.</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 27, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/nb18463328" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Preventative Maintenance of Elevators & lifts- NB Region</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Central Tendering Branch</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 27, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/bc2026-1778" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Commercial Retail Space (N160F & N160E) for Royal Jubilee Hospital</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Vancouver Island Health Authority</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 28, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/bc26-36-inf" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">RFP 26-36-INF Vernon Water Reclamation Centre – Structure 3</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">City of Vernon</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 28, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/bc26-08-inf" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">26-08-INF 39 Avenue Culvert Rehabilitation</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">City of Vernon</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 28, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/mx-443950820768" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Prime Consulting Services: Building B North-elevation Window Replacement Project</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Red River College</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 28, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/mx-443956097712" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">RFP for Interior Renovation of Room SY270 in the Science Research Building</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">University of Toronto Scarborough</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 28, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/bcen27tha502" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">EN27THA502 - Doc Creek Major Works</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Seaward</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 28, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/nsdoc3043540687" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Leased Office Space - Bridgewater Home Health Clinic</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Nova Scotia Health Authority</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 28, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/kmi260005" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">A&E SERVICES FOR CCTV UPGRADE AT APOD PRISTINA, KOSOVO</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">NATO - North Atlantic Treaty Organization</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 28, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/xgj26006" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Inspection, repair and modification of ERSA Breathing Device</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">NATO - North Atlantic Treaty Organization</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 28, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/mx-443950941963" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Provision of Services for Two Transfer Switches Replacement</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Public Service Delivery</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 29, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/nshrm-2026-0072" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Standing Offer for Allison Transmissions and Related Parts</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Halifax Regional Municipality</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 29, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/ab-2026-02722" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">City of Edmonton - Request for Proposal - 935701 Dunluce Neighbourhood Renewal - Open Spaces Landscaping</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">City of Edmonton</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 29, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/xgj26018" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Inspection, overhaul + transportation of MODEM, COMMUNICATIO</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">NATO - North Atlantic Treaty Organization</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 29, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/bc227477" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Managed Information Technology Services</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Town of View Royal</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 30, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/bcitt1070-2627-053killarneygardensrenovations" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">ITT 1070-2627-053 Killarney Gardens Renovations</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">BC Housing Management Commission</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 30, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/ws5465716942-doc5627630891" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">ITT B - D200 Metal Racking Demolition and Replacement</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Department of Public Works and Government Services (PSPC)</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 30, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/ws5627281881-doc5628981083" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Repair and calibration of uninterruptible power supply (UPS) systems at Canadian forces base, Bagotville, Saguenay (QC)</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Department of National Defence (DND)</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 30, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/ws5589560079-doc5589590148" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">EB281-261672 - Elevating Devices Maintenance - BIO</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Department of Public Works and Government Services (PSPC)</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 30, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/ws5624872931-doc5624918499" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">W6898-260801 - Janitorial Services 2, 5 CDSB Gagetown, New Brunswick</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Department of National Defence (DND)</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 30, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/nscn-23-fy26" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">NSLC Cannabis Renovations Greenwood and Mill Cove Retail Locations</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Nova Scotia Liquor Corporation</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 30, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/ab-2026-02727" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">City of Edmonton - Negotiated Request for Proposal - 935633 Main and On-Demand Consulting Services for Renewable Energy Systems (Standing Arrangements)</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">City of Edmonton</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 30, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/qc20136043" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Acquisition d'une solution d'ingénierie de donnée en mode service géré</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Réseau de transport de Longueuil</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 30, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/qc20128417" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Travaux de de réparations des structures de béton -Bloc D-E-F</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Cégep Vanier College.</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 30, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/qc20135676" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Fourniture de sable ou pierre tamisée (granulat pour abrasifs d'hiver)</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Municipalité  de Val-des-Monts</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 30, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/ab-2026-00655" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Technology and Innovation - Pre-qualification Request - Sovereign Compute Environment - Pre-Qualification Request (PQR)</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Technology and Innovation</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 30, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/ab-2026-02768" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Edmonton School Division - Request for Proposal - Closed-Circuit Television (CCTV) Surveillance System</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Edmonton School Division</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 30, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/blv26004" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Inspection and repair of CN-235 & C295 Air. Comp (NFSC)</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">NATO - North Atlantic Treaty Organization</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#b36b00;font-weight:600;">April 30, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/bcrfp-pwk-26-012" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">INTERPRETIVE SIGNAGE- COLWOOD WATERFRONT MULTI-USE PATHWAY</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">City of Colwood</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#333;">May 1, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/bc227224" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">RFP 394 - CubeSat Launch Services</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">University of Victoria</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#333;">May 1, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/qc20136253" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">2501-27-QA01 - Contrat à exécution sur demande à plusieurs prestataires pour des études géotechniques sur l’ensemble du territoire du ministère des Transports et de la Mobilité durable.</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Ministère des Transports et de la Mobilité durable (Direction générale de la gestion contractuelle)</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#333;">May 1, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/mx-443956097702" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">The Supply and Install of a Confocal Imaging Reader</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">University of Western Ontario</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#333;">May 1, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/qc20135712" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">DGIT25-097 Services professionnels en numérisation, processus et développement de systèmes d'information</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Curateur public du Québec</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#333;">May 1, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/qc20136342" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Portillons d'accès au funiculaire de la Tour de Montréal</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Parc olympique</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#333;">May 1, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/ab-2026-02645" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Claystone Waste Ltd. - Request for Proposal - Request for Proposal - Compensation Review - CWL and CWOL</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Claystone Waste Ltd.</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#333;">May 1, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/bc227532" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Supply and Delivery of Steel Sheets and Welding Consumables</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Okanagan College</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#333;">May 4, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/mx-443949281970" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Pre-purchase and installation of 6 new prefabricated buildings, St-Jean Garrison</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Construction de Défense Canada - Région du Québec</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#333;">May 4, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/mx-443955998162" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">West Road Reconstruction – Phase 1</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">St Clair College of Applied Arts and Technology</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#333;">May 4, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/qc20131560" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Camion nacelle 6 roues</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Ville de Joliette - Approvisionnement</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#333;">May 4, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/ab-2026-02774" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">City of Calgary - Request for Quotes - Manchester Building Q Fabshop Floor Slab Repair</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">City of Calgary</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#333;">May 4, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/bcpur26-166-019" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Lena Shaw (Site 055) Crawlspace Ventilation Upgrade</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">School District 36 Surrey</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#333;">May 6, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/ab-2026-02698" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Transportation and Economic Corridors - Invitation to Bid - TND00 23512 - Bridge Culvert Rehabilitation and Other Work</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Transportation and Economic Corridors</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#333;">May 6, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/ab-2026-02733" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">City of Chestermere - Community Operations Greenhouse and Shop Additions</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">City of Chestermere</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#333;">May 6, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/mx-443947358718" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">APN_UPGRADE ACCOMODATIONS BUILDINGS A-147 & A-149, CFB BORDEN, ON</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Defence Construction Canada - Ontario Region</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#333;">May 10, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/mx-443947358724" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Technical Translation Services</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Defence Construction Canada / Construction de Défense Canada</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#333;">May 11, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://sam.gov/workspace/contract/opp/fd4b4392b58d41eeafe1b178b98e9f02/view" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Solicitation Notice for ERCIP - Ansbach Storck Barracks Microgrid</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;"></div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">SAM.gov</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#333;">May 11, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/bc227409" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">IV27HRA701 Okanagan Similkameen Invasive Plant Management</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Ministry of Forests</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#333;">May 11, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/qc20135508" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Achat d'un véhicule incendie - Autopompe Citerne 2000 G.L.</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Municipalité  de Val-des-Monts</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#333;">May 15, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/csp26023" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">COBRA SPARE PARTS</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">NATO - North Atlantic Treaty Organization</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#333;">May 15, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/cb-556-70508146" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Mediator Consultant - Alberta for the Farm Debt Mediation Service (FDMS)</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Department of Agriculture and Agri-Food (AAFC)</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#333;">May 18, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/hga26004" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">BandVagn 206 (BV206) and BandVagn 206S  (BV206S) Spare Parts</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">NATO - North Atlantic Treaty Organization</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#333;">May 18, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/vba26002" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">ENVIRONMENTAL REFURBISHMENT SERVICES</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">NATO - North Atlantic Treaty Organization</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#333;">May 29, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/mx-443949244451" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Construction Management to improve the Facility Condition Index</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Construction de Défense Canada - Région du Québec</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#333;">June 1, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/mx-443950820754" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">ADVANCE PROCUREMENT NOTICE, MODIFIED DESIGN-BUILDER (MDB) SERVICES, GAGETOWN, NB</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Defence Construction Canada - Atlantic Region</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#333;">June 1, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/26lbs029" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Notification of Planned Sole Source Award. Provision of CART,12.7x99mm SLAP-T (Saboted Light Amour Piercing Tracer) M962</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">NATO - North Atlantic Treaty Organization</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#333;">June 14, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/mx-443950820769" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">APN CONSTRUCTION MANAGEMENT SERVICES FOR WAINWRIGHT BASE PROGRAM CFB WAINWRIGHT</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Defence Construction Canada - Western Region</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#333;">July 2, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/cb-621-78708213" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Air Monitoring System for the Victoria-Class Submarines</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Department of National Defence (DND)</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#333;">July 3, 2026</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/cb-820-57523010" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Professional Services for Existing Building Commissioning (EBCx)</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Department of Natural Resources (NRCan)</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#333;">March 31, 2027</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/mx-443947358728" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">ADVANCE PROCUREMENT NOTICE, GAGETOWN PROGRAM,  NB</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Defence Construction Canada - Atlantic Region</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#333;">March 31, 2027</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/mx-443947358726" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">ADVANCE PROCUREMENT NOTICE, GANDER PROGRAM,  NL</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Defence Construction Canada - Atlantic Region</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#333;">March 31, 2027</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/mx-443947358727" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">ADVANCE PROCUREMENT NOTICE, 5 WING GOOSE BAY PROGRAM,  NL</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Defence Construction Canada - Atlantic Region</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#333;">March 31, 2027</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/mx-443949207929" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">APN - RP OPS and CFHA Base Program - NCR</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Defence Construction Canada - National Capital Region</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#333;">March 31, 2029</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/mx-443950941970" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">APN - RP OPS and CFHA Base Program , Nunavut</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Defence Construction Canada - National Capital Region</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#333;">March 31, 2029</span>
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/mx-443950820787" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">APN - RP OPS and CFHA Base Program, Northern Canada</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Defence Construction Canada - National Capital Region</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            <span style="color:#333;">March 31, 2029</span>
-          </td>
-        </tr>
-      
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://ted.europa.eu/en/notice/227288-2026" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Gebiedsaanpak aardgasvrij Reyeroord Oost</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Gemeente Rotterdam</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">EU TED</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            —
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/ws5625256622-doc5627541070" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Containment Booms RFSA - B</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Department of Fisheries and Oceans (DFO)</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">CanadaBuys</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            —
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://ted.europa.eu/en/notice/222720-2026" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Provision of Fuel Oil Supplies at Dublin Port Ireland</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">Dublin Port Company_411</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">EU TED</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            —
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://ted.europa.eu/en/notice/200154-2026" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">Supply of natural gas</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">European Commission, DG JRC - Joint Research Centre</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">EU TED</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            —
-          </td>
-        </tr>
-
-        <tr style="border-bottom:1px solid #f0ece4;">
-          <td style="padding:12px 14px;vertical-align:top;">
-            <div style="margin-bottom:4px;"><a href="https://ted.europa.eu/en/notice/198975-2026" style="color:#8b0000;text-decoration:none;font-weight:600;" target="_blank">SUMINISTRO DE ENERGÍA ELÉCTRICA A LAS INSTALACIONES DE CANAL DE ISABEL II (2027-28)</a></div>
-            <div style="font-size:12px;color:#555;margin-bottom:5px;">CANAL DE ISABEL II, S.A., M.P.</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-              
-              
-              <span style="font-size:10px;color:#aaa;">EU TED</span>
-            </div>
-          </td>
-          <td style="padding:12px 14px;vertical-align:top;text-align:right;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;">
-            —
-          </td>
-        </tr>
-    </tbody>
-  </table>
-
-  
-
-  <!-- Footer CTA -->
-  <div style="margin-top:36px;padding:20px 24px;background:#fff;border:1px solid #e4e0d8;border-left:4px solid #8b0000;">
-    <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#8b0000;margin-bottom:8px;">Get the weekly digest</div>
-    <p style="font-size:13px;color:#444;line-height:1.7;margin-bottom:12px;">
-      Procurement signals plus sector intelligence, country dossiers, and market entry guidance — delivered every Tuesday.
-    </p>
-    <a href="https://canadiantradeintel.ca/pricing" style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:#8b0000;text-decoration:none;border-bottom:1px solid rgba(139,0,0,0.35);padding-bottom:2px;">See plans →</a>
-  </div>
-
+  <aside class="proc-aside">
+    <div class="aside-card">
+      <div class="aside-card-title">This Week</div>
+      <div class="aside-stat"><span class="aside-stat-label">Total active</span><span class="aside-stat-val" id="aside-total">—</span></div>
+      <div class="aside-stat"><span class="aside-stat-label">Close this week</span><span class="aside-stat-val" id="aside-urgent" style="color:#c62828">—</span></div>
+      <div class="aside-stat"><span class="aside-stat-label">Close this month</span><span class="aside-stat-val" id="aside-month" style="color:#b36b00">—</span></div>
+      <div class="aside-stat"><span class="aside-stat-label">Federal (Canada)</span><span class="aside-stat-val" id="aside-canada">—</span></div>
+      <div class="aside-stat"><span class="aside-stat-label">EU / International</span><span class="aside-stat-val" id="aside-intl">—</span></div>
+    </div>
+
+    <a class="aside-cta" href="/pricing/">
+      <div class="aside-cta-label">Weekly Intelligence</div>
+      <div class="aside-cta-title">Get the full procurement brief</div>
+      <div class="aside-cta-text">Every Tuesday — 130+ tenders filtered and ranked by sector, urgency, and Canadian relevance. Plus six sector reports and the multi-sector digest.</div>
+      <div class="aside-cta-btn">See plans →</div>
+    </a>
+
+    <div class="aside-card">
+      <div class="aside-card-title">Find Tenders</div>
+      <a href="https://canadabuys.canada.ca" target="_blank" rel="noopener" class="aside-link">CanadaBuys</a>
+      <a href="https://ted.europa.eu" target="_blank" rel="noopener" class="aside-link">EU TED</a>
+      <a href="https://sam.gov" target="_blank" rel="noopener" class="aside-link">SAM.gov</a>
+      <a href="https://www.tradecommissioner.gc.ca" target="_blank" rel="noopener" class="aside-link">Trade Commissioner Service</a>
+    </div>
+
+    <div class="aside-card">
+      <div class="aside-card-title">Related Intelligence</div>
+      <a href="/reports/" class="aside-link">Intelligence briefs</a>
+      <a href="/countries/" class="aside-link">Country dossiers</a>
+      <a href="/terminal/" class="aside-link">Live data terminal</a>
+    </div>
+  </aside>
 </div>
 
-<!-- Footer -->
-<div style="background:#1a0505;padding:20px 32px;text-align:center;">
-  <div style="font-family:'DM Mono',monospace;font-size:8px;color:rgba(255,255,255,0.2);letter-spacing:0.08em;">
-    CANADIAN TRADE INTELLIGENCE INC. · OTTAWA, CANADA · CANADIANTRADEINTEL.CA
+<div class="proc-footer">
+  <div>
+    <div class="proc-footer-brand">Canadian Trade Intelligence</div>
+    <div class="proc-footer-meta">CANADIANTRADEINTEL.CA · PROCUREMENT INTELLIGENCE · UPDATED WEEKLY</div>
+  </div>
+  <div class="proc-footer-links">
+    <a href="/reports/">Intelligence Briefs</a>
+    <a href="/pricing/">Subscribe</a>
+    <a href="/methodology/">Methodology</a>
   </div>
 </div>
 
+<script>
+// ── DATA LOADING ──────────────────────────────────────────────────────────────
+let allTenders = [];
+let currentView = 'list';
+let activeFilters = { sector: 'all', urgency: 'all', source: 'all' };
+let searchQuery = '';
+
+const SECTOR_MAP = {
+  critical_minerals:      { label: 'Critical Minerals', cls: 's-cm' },
+  energy_cleantech:       { label: 'Energy',            cls: 's-ec' },
+  advanced_manufacturing: { label: 'Manufacturing',     cls: 's-am' },
+  aerospace_defence:      { label: 'Aerospace',         cls: 's-ad' },
+  agri_food:              { label: 'Agri-food',         cls: 's-af' },
+  technology_digital:     { label: 'Technology',        cls: 's-td' },
+};
+
+async function loadTenders() {
+  try {
+    // Try pipeline data first, then fall back to static API path
+    const paths = [
+      '/api/procurement_feed.json',
+      '/procurement/procurement_feed.json',
+    ];
+    let data = null;
+    for (const path of paths) {
+      try {
+        const r = await fetch(path);
+        if (r.ok) { data = await r.json(); break; }
+      } catch(e) {}
+    }
+    if (!data) {
+      // Inline fallback — empty state with message
+      renderEmpty('Tender data is updated every Tuesday. Check back after the weekly pipeline runs.');
+      return;
+    }
+    const tenders = Array.isArray(data) ? data : (data.tenders || data.items || []);
+    // Normalize and filter to future deadlines only
+    const today = new Date(); today.setHours(0,0,0,0);
+    allTenders = tenders
+      .map(t => ({
+        title:    t.title || t.name || 'Untitled',
+        buyer:    t.buyer || t.issuing_body || t.authority || t.agency || '',
+        value:    t.value || t.estimated_value || t.contract_value || '',
+        deadline: t.deadline || t.closing_date || t.close_date || t.due_date || '',
+        url:      t.url || t.link || t.href || '',
+        sectors:  Array.isArray(t.sectors) ? t.sectors : (t.sector ? [t.sector] : []),
+        source:   (t.source || t.platform || '').toLowerCase(),
+        why:      t.why_this_matters || '',
+      }))
+      .filter(t => {
+        if (!t.deadline) return true; // include undated
+        const d = new Date(t.deadline.substring(0,10));
+        return !isNaN(d) && d >= today;
+      })
+      .sort((a, b) => {
+        if (!a.deadline) return 1;
+        if (!b.deadline) return -1;
+        return new Date(a.deadline) - new Date(b.deadline);
+      });
+
+    updateStats();
+    render();
+  } catch(e) {
+    console.error('Procurement load failed:', e);
+    renderEmpty('Unable to load tender data. Please try again later.');
+  }
+}
+
+function getDaysLeft(deadline) {
+  if (!deadline) return null;
+  const d = new Date(deadline.substring(0,10));
+  if (isNaN(d)) return null;
+  const today = new Date(); today.setHours(0,0,0,0);
+  return Math.round((d - today) / 86400000);
+}
+
+function formatDate(deadline) {
+  if (!deadline) return '—';
+  const d = new Date(deadline.substring(0,10));
+  if (isNaN(d)) return deadline;
+  return d.toLocaleDateString('en-CA', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+function urgencyClass(days) {
+  if (days === null) return '';
+  if (days <= 7)  return 'urgent-date';
+  if (days <= 30) return 'warn-date';
+  return 'ok-date';
+}
+
+function sourceLabel(src) {
+  if (!src) return '';
+  if (src.includes('canada') || src.includes('buy')) return 'CanadaBuys';
+  if (src.includes('eu') || src.includes('ted') || src.includes('europe')) return 'EU TED';
+  if (src.includes('sam') || src.includes('us')) return 'SAM.gov';
+  return src.substring(0,12);
+}
+
+function sourceKey(src) {
+  if (!src) return 'other';
+  if (src.includes('canada') || src.includes('buy')) return 'canadabuys';
+  if (src.includes('eu') || src.includes('ted') || src.includes('europe')) return 'eu';
+  if (src.includes('sam') || src.includes('us')) return 'sam';
+  return 'other';
+}
+
+function updateStats() {
+  const today = new Date(); today.setHours(0,0,0,0);
+  const total   = allTenders.length;
+  const urgent  = allTenders.filter(t => { const d = getDaysLeft(t.deadline); return d !== null && d <= 7; }).length;
+  const month   = allTenders.filter(t => { const d = getDaysLeft(t.deadline); return d !== null && d <= 30; }).length;
+  const canada  = allTenders.filter(t => sourceKey(t.source) === 'canadabuys').length;
+  const intl    = allTenders.filter(t => ['eu','sam'].includes(sourceKey(t.source))).length;
+
+  document.getElementById('stat-total').textContent  = total;
+  document.getElementById('stat-urgent').textContent = urgent;
+  document.getElementById('aside-total').textContent  = total;
+  document.getElementById('aside-urgent').textContent = urgent;
+  document.getElementById('aside-month').textContent  = month;
+  document.getElementById('aside-canada').textContent = canada;
+  document.getElementById('aside-intl').textContent   = intl;
+
+  const upd = document.getElementById('proc-updated');
+  if (upd) upd.textContent = `${total} active tenders · Updated weekly`;
+}
+
+function getFiltered() {
+  return allTenders.filter(t => {
+    // Search
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase();
+      if (!t.title.toLowerCase().includes(q) &&
+          !t.buyer.toLowerCase().includes(q) &&
+          !t.why.toLowerCase().includes(q)) return false;
+    }
+    // Sector
+    if (activeFilters.sector !== 'all') {
+      if (!t.sectors.includes(activeFilters.sector)) return false;
+    }
+    // Urgency
+    if (activeFilters.urgency !== 'all') {
+      const days = getDaysLeft(t.deadline);
+      if (days === null || days > parseInt(activeFilters.urgency)) return false;
+    }
+    // Source
+    if (activeFilters.source !== 'all') {
+      if (sourceKey(t.source) !== activeFilters.source) return false;
+    }
+    return true;
+  });
+}
+
+function sectorTags(sectors) {
+  if (!sectors || !sectors.length) return '';
+  return sectors.slice(0,2).map(s => {
+    const info = SECTOR_MAP[s] || { label: s.replace(/_/g,' '), cls: 's-gen' };
+    return `<span class="proc-item-sector ${info.cls}">${info.label}</span>`;
+  }).join('');
+}
+
+function render() {
+  const filtered = getFiltered();
+  const count = filtered.length;
+  document.getElementById('result-count').textContent = `${count} tender${count !== 1 ? 's' : ''}`;
+  document.getElementById('proc-empty').style.display = count === 0 ? 'block' : 'none';
+
+  // List view
+  const listEl = document.getElementById('proc-list-view');
+  listEl.innerHTML = filtered.map(t => {
+    const days = getDaysLeft(t.deadline);
+    const dClass = urgencyClass(days);
+    const daysStr = days !== null ? `(${days}d)` : '';
+    const titleEl = t.url
+      ? `<a href="${t.url}" target="_blank" rel="noopener" class="proc-item-title">${escHtml(t.title)}</a>`
+      : `<span class="proc-item-title" style="color:var(--ink);cursor:default">${escHtml(t.title)}</span>`;
+    return `<div class="proc-item">
+      <div class="proc-item-inner">
+        <div>
+          ${titleEl}
+          <div class="proc-item-meta">
+            <span class="proc-item-buyer">${escHtml(t.buyer)}</span>
+            ${t.value ? `<span class="proc-item-value">${escHtml(t.value)}</span>` : ''}
+            <span class="proc-item-source">${sourceLabel(t.source)}</span>
+            ${sectorTags(t.sectors)}
+          </div>
+          ${t.why ? `<div style="font-size:12px;color:var(--slate);margin-top:6px;line-height:1.6;max-width:600px;">${escHtml(t.why.substring(0,180))}${t.why.length > 180 ? '…' : ''}</div>` : ''}
+        </div>
+        <div class="proc-item-date-col">
+          <div class="proc-item-date ${dClass}">${formatDate(t.deadline)}</div>
+          <div class="proc-item-days">${daysStr}</div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  // Card view
+  const cardEl = document.getElementById('proc-card-view');
+  cardEl.innerHTML = filtered.map(t => {
+    const days = getDaysLeft(t.deadline);
+    const dClass = urgencyClass(days);
+    const titleEl = t.url
+      ? `<a href="${t.url}" target="_blank" rel="noopener" class="proc-card-title">${escHtml(t.title)}</a>`
+      : `<span class="proc-card-title" style="color:var(--ink);cursor:default">${escHtml(t.title)}</span>`;
+    return `<div class="proc-card">
+      ${titleEl}
+      <div class="proc-card-buyer">${escHtml(t.buyer)}</div>
+      ${t.why ? `<div style="font-size:12px;color:var(--slate);line-height:1.6;">${escHtml(t.why.substring(0,160))}${t.why.length > 160 ? '…' : ''}</div>` : ''}
+      <div class="proc-card-footer">
+        <div class="proc-card-date ${dClass}">${formatDate(t.deadline)}${days !== null ? ` (${days}d)` : ''}</div>
+        <div class="proc-card-meta">
+          <span class="proc-item-source">${sourceLabel(t.source)}</span>
+          ${sectorTags(t.sectors)}
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderEmpty(msg) {
+  const el = document.getElementById('proc-empty');
+  el.style.display = 'block';
+  el.querySelector('.proc-empty-text').textContent = msg;
+  document.getElementById('result-count').textContent = '0 tenders';
+  document.getElementById('stat-total').textContent  = '0';
+  document.getElementById('stat-urgent').textContent = '0';
+}
+
+function escHtml(s) {
+  return String(s || '')
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
+// ── CONTROLS ──────────────────────────────────────────────────────────────────
+function setView(v) {
+  currentView = v;
+  document.getElementById('proc-list-view').style.display = v === 'list' ? 'flex' : 'none';
+  document.getElementById('proc-card-view').style.display = v === 'card' ? 'grid' : 'none';
+  document.getElementById('btn-list').classList.toggle('active', v === 'list');
+  document.getElementById('btn-card').classList.toggle('active', v === 'card');
+}
+
+function setFilter(type, val, btn) {
+  activeFilters[type] = val;
+  // Update button states within that filter group
+  btn.closest('.proc-filters').querySelectorAll(`.filter-btn`).forEach(b => {
+    if (b.getAttribute('onclick') && b.getAttribute('onclick').includes(`'${type}'`)) {
+      b.classList.remove('active');
+    }
+  });
+  btn.classList.add('active');
+  render();
+}
+
+let searchTimer;
+document.getElementById('proc-search').addEventListener('input', e => {
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(() => {
+    searchQuery = e.target.value.trim();
+    render();
+  }, 200);
+});
+
+// Boot
+loadTenders();
+</script>
 </body>
 </html>
