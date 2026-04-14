@@ -344,12 +344,13 @@ footer{background:#0a0c0f;border-top:1px solid var(--border);padding:28px 32px;}
       <div class="market-bar-track"><div class="market-bar-fill" style="width:80%;background:var(--aerospace);"></div></div>
       <span class="market-score">8.0</span><span class="market-arrow" style="color:var(--green);">↑</span>
     </a>
-    <a href="/countries/" class="market-row" style="text-decoration:none;display:flex;">
+    <a href="/countries/indonesia/" class="market-row" style="text-decoration:none;display:flex;">
       <span class="market-flag">🇮🇩</span><span class="market-name">Indonesia</span>
       <div class="market-bar-track"><div class="market-bar-fill" style="width:76%;background:var(--agri);"></div></div>
       <span class="market-score">7.6</span><span class="market-arrow" style="color:var(--green);">↑</span>
     </a>
-    <a href="/countries/" class="market-row" style="text-decoration:none;display:flex;">
+    <!-- Poland dossier not yet built — links to /countries/ index until /countries/poland/ is ready -->
+    <a href="/countries/" class="market-row" title="Poland country dossier coming soon" style="text-decoration:none;display:flex;">
       <span class="market-flag">🇵🇱</span><span class="market-name">Poland</span>
       <div class="market-bar-track"><div class="market-bar-fill" style="width:74%;background:var(--aerospace);"></div></div>
       <span class="market-score">7.4</span><span class="market-arrow" style="color:var(--text-faint);">→</span>
@@ -894,8 +895,10 @@ async function loadBoC(){
     const res=await fetch('https://www.bankofcanada.ca/valet/observations/group/FX_RATES_DAILY/json?recent=1');
     if(!res.ok)throw new Error('BoC '+res.status);
     const data=await res.json();
-    const obs=data.observations?.[0];
-    if(!obs)throw new Error('no obs');
+    // BoC returns N null placeholder rows (dated 2019) before the N real rows.
+    // Find the first observation that has an actual FXUSDCAD value.
+    const obs=data.observations?.find(o=>o.FXUSDCAD?.v);
+    if(!obs)throw new Error('no obs with data');
     const map={FXUSDCAD:'usd',FXEURCAD:'eur',FXGBPCAD:'gbp',FXJPYCAD:'jpy',FXCNYCAD:'cny',FXAUDCAD:'aud'};
     let usdRate=1.36;
     Object.entries(map).forEach(([key,id])=>{
