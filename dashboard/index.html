@@ -48,6 +48,7 @@ h1 { font-family: var(--display); font-size: clamp(36px,4vw,52px); font-weight: 
 .tab-bar { max-width: 1100px; margin: 0 auto; padding: 0; display: flex; justify-content: center; border-bottom: 1px solid var(--rule-dark); overflow-x: auto; }
 .tab-btn { font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; padding: 16px 24px; border: none; background: none; cursor: pointer; color: var(--ink-light); border-bottom: 2px solid transparent; margin-bottom: -1px; white-space: nowrap; transition: color 0.2s, border-color 0.2s; }
 .tab-btn:hover { color: var(--ink-mid); }
+.tab-btn.active[data-sector="overview"] { color: var(--ink); border-bottom-color: var(--ink); }
 .tab-btn.active[data-sector="critical_minerals"] { color: var(--green-mid); border-bottom-color: var(--green-mid); }
 .tab-btn.active[data-sector="advanced_manufacturing"] { color: var(--blue); border-bottom-color: var(--blue); }
 .tab-btn.active[data-sector="aerospace_defence"] { color: var(--purple); border-bottom-color: var(--purple); }
@@ -258,7 +259,8 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
 </div>
 
 <div class="tab-bar">
-  <button class="tab-btn active" data-sector="critical_minerals" onclick="switchTab('critical_minerals',this)">⚗️ Critical Minerals & Mining</button>
+  <button class="tab-btn active" data-sector="overview" onclick="switchTab('overview',this)">Overview</button>
+  <button class="tab-btn" data-sector="critical_minerals" onclick="switchTab('critical_minerals',this)">⚗️ Critical Minerals & Mining</button>
   <button class="tab-btn" data-sector="energy_cleantech" onclick="switchTab('energy_cleantech',this)">⚡ Energy & Cleantech</button>
   <button class="tab-btn" data-sector="advanced_manufacturing" onclick="switchTab('advanced_manufacturing',this)">🏭 Advanced Manufacturing</button>
   <button class="tab-btn" data-sector="aerospace_defence" onclick="switchTab('aerospace_defence',this)">✈️ Aerospace & Defence</button>
@@ -304,8 +306,131 @@ fetch('/reports/reports-index.json')
   .catch(()=>{ document.getElementById('latest-reports-grid').innerHTML='<div style="font-size:13px;color:#888;">Reports not available.</div>'; });
 </script>
 
+<!-- OVERVIEW PANEL -->
+<div id="panel-overview" class="sector-panel active">
+<div class="dashboard">
+
+  <p style="font-size:14px;color:var(--ink-mid);line-height:1.7;max-width:740px;margin-bottom:40px;">The standing context behind every CTI intelligence brief — trade agreements, regulatory environment, supply chain position, and market intelligence across Canada's six trade sectors. Select a sector above for full depth, or use this page as your starting reference.</p>
+
+  <!-- Stat cards -->
+  <div class="stat-row fade-up" style="margin-bottom:48px;">
+    <div class="stat-cell">
+      <div class="stat-number green">31</div>
+      <div class="stat-label">Active free trade agreements giving Canada preferred global market access</div>
+      <div class="stat-source">Global Affairs Canada · 2025</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-number green">$765<em>B</em></div>
+      <div class="stat-label">Total Canadian goods exports (2024)</div>
+      <div class="stat-source">Statistics Canada</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-number blue">$765<em>B</em></div>
+      <div class="stat-label">Total Canadian goods imports (2024)</div>
+      <div class="stat-source">Statistics Canada</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-number amber">75.4<em>%</em></div>
+      <div class="stat-label">US export dependency — share of Canadian goods exports destined for the United States</div>
+      <div class="stat-source">Statistics Canada · 2024</div>
+    </div>
+  </div>
+
+  <!-- Sector grid -->
+  <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-light);margin-bottom:18px;">Six sectors — select for full intelligence context</div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:48px;" class="fade-up">
+
+    <div style="background:#fff;border:1px solid var(--rule-dark);padding:22px 20px;cursor:pointer;" onclick="switchTab('critical_minerals',document.querySelector('[data-sector=critical_minerals]'))">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+        <span style="width:8px;height:8px;border-radius:50%;background:var(--green-mid);flex-shrink:0;"></span>
+        <span style="font-family:var(--mono);font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--green-mid);">Critical Minerals</span>
+      </div>
+      <p style="font-size:13px;color:var(--ink-mid);line-height:1.6;margin-bottom:12px;">Uranium (#2 global), lithium, cobalt, rare earths. Allied-nation supply chain diversification is the primary demand driver.</p>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;">
+        <span style="font-family:var(--mono);font-size:8px;background:var(--green-light);color:var(--green-mid);border:1px solid #b2dfcf;padding:2px 7px;">IRA-eligible</span>
+        <span style="font-family:var(--mono);font-size:8px;background:var(--green-light);color:var(--green-mid);border:1px solid #b2dfcf;padding:2px 7px;">CEPA</span>
+        <span style="font-family:var(--mono);font-size:8px;background:var(--green-light);color:var(--green-mid);border:1px solid #b2dfcf;padding:2px 7px;">Export controls</span>
+      </div>
+    </div>
+
+    <div style="background:#fff;border:1px solid var(--rule-dark);padding:22px 20px;cursor:pointer;" onclick="switchTab('energy_cleantech',document.querySelector('[data-sector=energy_cleantech]'))">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+        <span style="width:8px;height:8px;border-radius:50%;background:#c8640a;flex-shrink:0;"></span>
+        <span style="font-family:var(--mono);font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:#c8640a;">Energy & Cleantech</span>
+      </div>
+      <p style="font-size:13px;color:var(--ink-mid);line-height:1.6;margin-bottom:12px;">Hydro, LNG, hydrogen, solar supply chain. $170B clean energy export potential by 2050.</p>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;">
+        <span style="font-family:var(--mono);font-size:8px;background:#fff8ee;color:var(--amber);border:1px solid #f0d898;padding:2px 7px;">Net Zero</span>
+        <span style="font-family:var(--mono);font-size:8px;background:#fff8ee;color:var(--amber);border:1px solid #f0d898;padding:2px 7px;">CPTPP</span>
+        <span style="font-family:var(--mono);font-size:8px;background:#fff8ee;color:var(--amber);border:1px solid #f0d898;padding:2px 7px;">Carbon pricing</span>
+      </div>
+    </div>
+
+    <div style="background:#fff;border:1px solid var(--rule-dark);padding:22px 20px;cursor:pointer;" onclick="switchTab('advanced_manufacturing',document.querySelector('[data-sector=advanced_manufacturing]'))">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+        <span style="width:8px;height:8px;border-radius:50%;background:var(--blue);flex-shrink:0;"></span>
+        <span style="font-family:var(--mono);font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--blue);">Advanced Manufacturing</span>
+      </div>
+      <p style="font-size:13px;color:var(--ink-mid);line-height:1.6;margin-bottom:12px;">Auto, steel, aluminum, industrial goods. Section 232 tariffs and CUSMA rules of origin are the dominant risks.</p>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;">
+        <span style="font-family:var(--mono);font-size:8px;background:var(--blue-light);color:var(--blue);border:1px solid #b0c8e8;padding:2px 7px;">Section 232</span>
+        <span style="font-family:var(--mono);font-size:8px;background:var(--blue-light);color:var(--blue);border:1px solid #b0c8e8;padding:2px 7px;">CUSMA</span>
+        <span style="font-family:var(--mono);font-size:8px;background:var(--blue-light);color:var(--blue);border:1px solid #b0c8e8;padding:2px 7px;">Supply chain</span>
+      </div>
+    </div>
+
+    <div style="background:#fff;border:1px solid var(--rule-dark);padding:22px 20px;cursor:pointer;" onclick="switchTab('aerospace_defence',document.querySelector('[data-sector=aerospace_defence]'))">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+        <span style="width:8px;height:8px;border-radius:50%;background:var(--purple);flex-shrink:0;"></span>
+        <span style="font-family:var(--mono);font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--purple);">Aerospace & Defence</span>
+      </div>
+      <p style="font-size:13px;color:var(--ink-mid);line-height:1.6;margin-bottom:12px;">Primes, Tier 1-3 suppliers, MRO. NATO 2% commitment and Canada Defence Industrial Strategy open new SME pathways.</p>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;">
+        <span style="font-family:var(--mono);font-size:8px;background:var(--purple-light);color:var(--purple);border:1px solid #c8a8e8;padding:2px 7px;">ITAR</span>
+        <span style="font-family:var(--mono);font-size:8px;background:var(--purple-light);color:var(--purple);border:1px solid #c8a8e8;padding:2px 7px;">NORAD</span>
+        <span style="font-family:var(--mono);font-size:8px;background:var(--purple-light);color:var(--purple);border:1px solid #c8a8e8;padding:2px 7px;">Build-Partner-Buy</span>
+      </div>
+    </div>
+
+    <div style="background:#fff;border:1px solid var(--rule-dark);padding:22px 20px;cursor:pointer;" onclick="switchTab('agri_food',document.querySelector('[data-sector=agri_food]'))">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+        <span style="width:8px;height:8px;border-radius:50%;background:var(--amber);flex-shrink:0;"></span>
+        <span style="font-family:var(--mono);font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--amber);">Agri-food</span>
+      </div>
+      <p style="font-size:13px;color:var(--ink-mid);line-height:1.6;margin-bottom:12px;">Canola, wheat, pulse crops, processed food. China market access and US tariff risk are the twin headline issues.</p>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;">
+        <span style="font-family:var(--mono);font-size:8px;background:#fff8ee;color:var(--amber);border:1px solid #f0d898;padding:2px 7px;">CPTPP</span>
+        <span style="font-family:var(--mono);font-size:8px;background:#fff8ee;color:var(--amber);border:1px solid #f0d898;padding:2px 7px;">CETA</span>
+        <span style="font-family:var(--mono);font-size:8px;background:#fff8ee;color:var(--amber);border:1px solid #f0d898;padding:2px 7px;">SAMR risk</span>
+      </div>
+    </div>
+
+    <div style="background:#fff;border:1px solid var(--rule-dark);padding:22px 20px;cursor:pointer;" onclick="switchTab('tech_digital',document.querySelector('[data-sector=tech_digital]'))">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+        <span style="width:8px;height:8px;border-radius:50%;background:#0a6080;flex-shrink:0;"></span>
+        <span style="font-family:var(--mono);font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:#0a6080;">Technology & Digital</span>
+      </div>
+      <p style="font-size:13px;color:var(--ink-mid);line-height:1.6;margin-bottom:12px;">SaaS, AI, cybersecurity, digital infrastructure. EU AI Act and US data rules shaping near-term market access strategy.</p>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;">
+        <span style="font-family:var(--mono);font-size:8px;background:var(--teal-light);color:#0a6080;border:1px solid #8ec8d8;padding:2px 7px;">EU AI Act</span>
+        <span style="font-family:var(--mono);font-size:8px;background:var(--teal-light);color:#0a6080;border:1px solid #8ec8d8;padding:2px 7px;">AIDA</span>
+        <span style="font-family:var(--mono);font-size:8px;background:var(--teal-light);color:#0a6080;border:1px solid #8ec8d8;padding:2px 7px;">Data sovereignty</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Supply chain context band -->
+  <div style="background:#f8f6f2;border:1px solid var(--rule-dark);border-left:3px solid var(--amber);padding:18px 22px;font-size:13px;color:var(--ink-mid);line-height:1.7;" class="fade-up">
+    <strong style="font-family:var(--mono);font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--amber);display:block;margin-bottom:6px;">Supply chain &amp; import context</strong>
+    Canada imported $765.7B in goods in 2024. Input costs — steel tariffs, lithium prices, chip lead times, freight rates — affect every sector on this platform. Each sector tab includes an import signal alongside the export intelligence.
+  </div>
+
+</div>
+</div>
+
 <!-- CRITICAL MINERALS -->
-<div id="panel-critical_minerals" class="sector-panel active">
+<div id="panel-critical_minerals" class="sector-panel">
 <div class="dashboard">
   <div class="stat-row fade-up">
     <div class="stat-cell"><div class="stat-number green">$117<em>B</em></div><div class="stat-label">In planned Canadian mining projects 2024–2034 — half in critical minerals</div><div class="stat-source">NRCan · 2025</div></div>
@@ -1473,8 +1598,10 @@ function switchTab(sector, btn) {
     el.classList.remove('visible');
     setTimeout(() => el.classList.add('visible'), 50);
   });
-  loadSignals(sector);
-  renderReports(sector);
+  if (sector !== 'overview') {
+    loadSignals(sector);
+    renderReports(sector);
+  }
 }
 const observer = new IntersectionObserver(entries => {
   entries.forEach(el => { if (el.isIntersecting) el.target.classList.add('visible'); });
