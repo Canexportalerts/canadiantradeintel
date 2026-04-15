@@ -157,7 +157,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--warm-bg);color:var(--ink)
   <div class="proc-hero">
     <div class="proc-label">Procurement Intelligence</div>
     <h1 class="proc-title">Active Tender Watch</h1>
-    <p class="proc-subtitle">Government and institutional procurement opportunities relevant to Canadian businesses — exporters, importers, suppliers, and contractors. Federal, provincial, EU, and US federal sources.</p>
+    <p class="proc-subtitle">Active procurement opportunities from federal, provincial Ontario, EU, and US federal sources — for any Canadian business seeking contracts: federal suppliers, defence contractors, cleantech installers, food processors, tech firms, and consultants.</p>
     <div class="proc-stats">
       <div class="proc-stat"><div class="proc-stat-val" id="stat-total">—</div><div class="proc-stat-label">Active tenders</div></div>
       <div class="proc-stat"><div class="proc-stat-val" id="stat-urgent">—</div><div class="proc-stat-label">Close within 7 days</div></div>
@@ -168,6 +168,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--warm-bg);color:var(--ink)
 
 <div class="proc-value-strip">
   <div class="proc-value-item"><div class="proc-value-dot"></div>CanadaBuys — federal tenders</div>
+  <div class="proc-value-item"><div class="proc-value-dot"></div>Ontario Tenders Portal — provincial</div>
   <div class="proc-value-item"><div class="proc-value-dot"></div>EU TED — GPA open notices</div>
   <div class="proc-value-item"><div class="proc-value-dot"></div>SAM.gov — US federal opportunities</div>
   <div class="proc-value-item"><div class="proc-value-dot"></div>Updated every Tuesday</div>
@@ -192,6 +193,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--warm-bg);color:var(--ink)
     <button class="filter-btn" onclick="setFilter('sector','aerospace_defence',this)">Aerospace</button>
     <button class="filter-btn" onclick="setFilter('sector','agri_food',this)">Agri-food</button>
     <button class="filter-btn" onclick="setFilter('sector','technology_digital',this)">Technology</button>
+    <button class="filter-btn" onclick="setFilter('sector','other',this)">Other</button>
     <span style="width:1px;height:18px;background:var(--warm-border);margin:0 4px"></span>
     <span class="filter-label">Urgency</span>
     <button class="filter-btn" onclick="setFilter('urgency','7',this)">≤7 days</button>
@@ -201,6 +203,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--warm-bg);color:var(--ink)
     <button class="filter-btn" onclick="setFilter('source','canadabuys',this)">CanadaBuys</button>
     <button class="filter-btn" onclick="setFilter('source','eu',this)">EU TED</button>
     <button class="filter-btn" onclick="setFilter('source','sam',this)">SAM.gov</button>
+    <button class="filter-btn" onclick="setFilter('source','ontario',this)">Ontario</button>
     <span class="proc-result-count" id="result-count">Loading…</span>
   </div>
 </div>
@@ -246,6 +249,11 @@ body{font-family:'DM Sans',sans-serif;background:var(--warm-bg);color:var(--ink)
       <a href="/countries/" class="aside-link">Country dossiers</a>
       <a href="/terminal/" class="aside-link">Live data terminal</a>
     </div>
+    <div class="aside-card" style="border-left:3px solid var(--gold);">
+      <div class="aside-card-title">Looking for more?</div>
+      <p style="font-size:12px;color:var(--slate);line-height:1.65;"><strong style="color:var(--ink);">MERX</strong> (merx.com) is Canada&#8217;s largest private tender platform covering additional federal, provincial, and municipal sources. CTI covers public federal, Ontario provincial, EU, and US federal sources &#8212; MERX adds private-sector and additional municipal listings beyond our scope.</p>
+      <a href="https://merx.com" target="_blank" rel="noopener" class="aside-link">MERX &#8594;</a>
+    </div>
   </aside>
 </div>
 
@@ -267,6 +275,8 @@ let allTenders = [];
 let currentView = 'list';
 let activeFilters = { sector: 'all', urgency: 'all', source: 'all' };
 let searchQuery = '';
+let currentPage = 1;
+const PAGE_SIZE = 20;
 
 const SECTOR_MAP = {
   critical_minerals:      { label: 'Critical Minerals', cls: 's-cm' },
@@ -275,6 +285,7 @@ const SECTOR_MAP = {
   aerospace_defence:      { label: 'Aerospace',         cls: 's-ad' },
   agri_food:              { label: 'Agri-food',         cls: 's-af' },
   technology_digital:     { label: 'Technology',        cls: 's-td' },
+  other:                  { label: 'Other',             cls: 's-gen' },
 };
 
 async function loadTenders() {
@@ -353,6 +364,7 @@ function urgencyClass(days) {
 
 function sourceLabel(src) {
   if (!src) return '';
+  if (src.includes('ontario') || src.includes('ontariotenders')) return 'Ontario';
   if (src.includes('canada') || src.includes('buy')) return 'CanadaBuys';
   if (src.includes('eu') || src.includes('ted') || src.includes('europe')) return 'EU TED';
   if (src.includes('sam') || src.includes('us')) return 'SAM.gov';
@@ -361,6 +373,7 @@ function sourceLabel(src) {
 
 function sourceKey(src) {
   if (!src) return 'other';
+  if (src.includes('ontario') || src.includes('ontariotenders')) return 'ontario';
   if (src.includes('canada') || src.includes('buy')) return 'canadabuys';
   if (src.includes('eu') || src.includes('ted') || src.includes('europe')) return 'eu';
   if (src.includes('sam') || src.includes('us')) return 'sam';
@@ -373,6 +386,7 @@ function updateStats() {
   const urgent  = allTenders.filter(t => { const d = getDaysLeft(t.deadline); return d !== null && d <= 7; }).length;
   const month   = allTenders.filter(t => { const d = getDaysLeft(t.deadline); return d !== null && d <= 30; }).length;
   const canada  = allTenders.filter(t => sourceKey(t.source) === 'canadabuys').length;
+  const ontario = allTenders.filter(t => sourceKey(t.source) === 'ontario').length;
   const intl    = allTenders.filter(t => ['eu','sam'].includes(sourceKey(t.source))).length;
 
   document.getElementById('stat-total').textContent  = total;
@@ -398,7 +412,12 @@ function getFiltered() {
     }
     // Sector
     if (activeFilters.sector !== 'all') {
-      if (!t.sectors.includes(activeFilters.sector)) return false;
+      if (activeFilters.sector === 'other') {
+        const known = Object.keys(SECTOR_MAP).filter(k => k !== 'other');
+        if (t.sectors.some(s => known.includes(s))) return false;
+      } else {
+        if (!t.sectors.includes(activeFilters.sector)) return false;
+      }
     }
     // Urgency
     if (activeFilters.urgency !== 'all') {
@@ -424,12 +443,16 @@ function sectorTags(sectors) {
 function render() {
   const filtered = getFiltered();
   const count = filtered.length;
+  const totalPages = Math.max(1, Math.ceil(count / PAGE_SIZE));
+  if (currentPage > totalPages) currentPage = 1;
+  const paged = filtered.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
   document.getElementById('result-count').textContent = `${count} tender${count !== 1 ? 's' : ''}`;
   document.getElementById('proc-empty').style.display = count === 0 ? 'block' : 'none';
+  renderPagination(count, totalPages);
 
   // List view
   const listEl = document.getElementById('proc-list-view');
-  listEl.innerHTML = filtered.map(t => {
+  listEl.innerHTML = paged.map(t => {
     const days = getDaysLeft(t.deadline);
     const dClass = urgencyClass(days);
     const daysStr = days !== null ? `(${days}d)` : '';
@@ -458,7 +481,7 @@ function render() {
 
   // Card view
   const cardEl = document.getElementById('proc-card-view');
-  cardEl.innerHTML = filtered.map(t => {
+  cardEl.innerHTML = paged.map(t => {
     const days = getDaysLeft(t.deadline);
     const dClass = urgencyClass(days);
     const titleEl = t.url
@@ -503,8 +526,38 @@ function setView(v) {
   document.getElementById('btn-card').classList.toggle('active', v === 'card');
 }
 
+function renderPagination(count, totalPages) {
+  let el = document.getElementById('proc-pagination');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'proc-pagination';
+    el.style.cssText = 'display:flex;gap:8px;align-items:center;justify-content:center;padding:24px 0;flex-wrap:wrap;';
+    document.getElementById('proc-list-view').parentNode.appendChild(el);
+  }
+  if (totalPages <= 1) { el.innerHTML = ''; return; }
+  const btnStyle = (active) => `font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.08em;text-transform:uppercase;padding:6px 12px;border:1px solid var(--warm-border);background:${active ? 'var(--crimson)' : 'none'};color:${active ? '#fff' : 'var(--slate)'};cursor:pointer;`;
+  let html = '';
+  if (currentPage > 1) html += `<button style="${btnStyle(false)}" onclick="goPage(${currentPage-1})">← Prev</button>`;
+  for (let i = 1; i <= totalPages; i++) {
+    if (i === 1 || i === totalPages || Math.abs(i - currentPage) <= 2) {
+      html += `<button style="${btnStyle(i === currentPage)}" onclick="goPage(${i})">${i}</button>`;
+    } else if (Math.abs(i - currentPage) === 3) {
+      html += `<span style="color:var(--slate);font-size:12px;">…</span>`;
+    }
+  }
+  if (currentPage < totalPages) html += `<button style="${btnStyle(false)}" onclick="goPage(${currentPage+1})">Next →</button>`;
+  el.innerHTML = html;
+}
+
+function goPage(p) {
+  currentPage = p;
+  render();
+  document.getElementById('proc-list-view').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
 function setFilter(type, val, btn) {
   activeFilters[type] = val;
+  currentPage = 1;
   // Update button states within that filter group
   btn.closest('.proc-filters').querySelectorAll(`.filter-btn`).forEach(b => {
     if (b.getAttribute('onclick') && b.getAttribute('onclick').includes(`'${type}'`)) {
@@ -520,6 +573,7 @@ document.getElementById('proc-search').addEventListener('input', e => {
   clearTimeout(searchTimer);
   searchTimer = setTimeout(() => {
     searchQuery = e.target.value.trim();
+    currentPage = 1;
     render();
   }, 200);
 });
