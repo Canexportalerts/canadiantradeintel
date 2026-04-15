@@ -1,0 +1,1656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Aerospace & Defence — Issue #002 — Canadian Trade Intel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600;1,700&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --brand:       #8b0000;
+    --brand-dark:  #1a0505;
+    --brand-mid:   #a060e0;
+    --sector:      #6a20b0;
+    --sector-dark: #3a1060;
+    --sector-light:#f8f0ff;
+    --sector-mid:  #a060e0;
+    --amber:       #996600;
+    --amber-light: #fffbf0;
+    --risk:        #c62828;
+    --cream:       #f8f6f2;
+    --ink:         #1a1a14;
+    --ink-mid:     #3a3a30;
+    --ink-light:   #666658;
+    --rule:        #e0dcd4;
+    --masthead-bg: #1a0505;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    line-height: 1.6;
+  }
+
+  a { color: var(--sector); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* ── STICKY NAV ── */
+  .sticky-nav {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--masthead-bg);
+    border-bottom: 1px solid rgba(168,213,188,0.15);
+    padding: 0 40px;
+  }
+  .sticky-nav-inner {
+    max-width: 1100px; margin: 0 auto;
+    display: flex; align-items: center;
+    justify-content: space-between; height: 46px;
+  }
+  .sticky-nav-brand {
+    font-family: 'DM Mono', monospace; font-size: 9px;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--sector-mid); text-decoration: none;
+  }
+  .sticky-nav-links { display: flex; gap: 24px; }
+  .sticky-nav-links a {
+    font-family: 'DM Mono', monospace; font-size: 8px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: rgba(255,255,255,0.35); text-decoration: none;
+    transition: color 0.18s;
+  }
+  .sticky-nav-links a:hover { color: var(--sector-mid); }
+
+  /* ── MASTHEAD ── */
+  .masthead {
+    background: var(--masthead-bg);
+    padding: 48px 40px 40px;
+    border-bottom: 3px solid var(--brand);
+  }
+  .masthead-inner { max-width: 1100px; margin: 0 auto; }
+  .masthead-eyebrow {
+    display: flex; align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+  }
+  .sector-badge {
+    font-family: 'DM Mono', monospace; font-size: 9px;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--sector-mid);
+    border: 1px solid rgba(168,213,188,0.25);
+    padding: 5px 12px;
+  }
+  .issue-meta {
+    font-family: 'DM Mono', monospace; font-size: 8px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: rgba(255,255,255,0.25);
+  }
+  .masthead h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(26px, 3.5vw, 44px);
+    font-weight: 700; font-style: italic;
+    color: #f0f0e8; line-height: 1.15; margin-bottom: 14px;
+    max-width: 820px;
+  }
+  .masthead-summary {
+    font-size: 14px; color: rgba(240,240,232,0.55);
+    line-height: 1.8; max-width: 720px; margin-bottom: 24px;
+  }
+  .masthead-stats {
+    display: flex; gap: 0;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding-top: 18px; flex-wrap: wrap;
+  }
+  .masthead-stat {
+    padding: 0 24px 0 0; margin-right: 24px;
+    border-right: 1px solid rgba(255,255,255,0.08);
+  }
+  .masthead-stat:last-child { border-right: none; }
+  .masthead-stat-label {
+    font-family: 'DM Mono', monospace; font-size: 7px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: rgba(255,255,255,0.3); margin-bottom: 4px;
+  }
+  .masthead-stat-value {
+    font-family: 'DM Mono', monospace; font-size: 11px;
+    color: var(--sector-mid); font-weight: 500;
+  }
+
+  /* ── REPORT NAV ── */
+  .report-nav {
+    background: #fff;
+    border-bottom: 1px solid var(--rule);
+    padding: 0 40px; position: sticky; top: 46px; z-index: 90;
+  }
+  .report-nav-inner {
+    max-width: 1100px; margin: 0 auto;
+    display: flex; gap: 0; overflow-x: auto;
+  }
+  .report-nav a {
+    font-family: 'DM Mono', monospace; font-size: 8px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--ink-light); padding: 13px 18px 11px;
+    text-decoration: none; white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: all 0.18s;
+  }
+  .report-nav a:hover, .report-nav a.active {
+    color: var(--brand);
+    border-bottom-color: var(--brand);
+    text-decoration: none;
+  }
+
+  /* ── REPORT BODY ── */
+  .report-body {
+    max-width: 1100px; margin: 0 auto;
+    padding: 48px 40px 80px;
+  }
+
+  /* ── SECTION HEADERS ── */
+  .section-header {
+    display: flex; align-items: baseline; gap: 14px;
+    margin-bottom: 24px; padding-bottom: 10px;
+    border-bottom: 2px solid var(--brand);
+  }
+  .section-label {
+    font-family: 'DM Mono', monospace; font-size: 8px;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--brand);
+  }
+  .section-rule { flex: 1; height: 1px; background: var(--rule); }
+  .mb-56 { margin-bottom: 56px; }
+
+  /* ── EXEC SUMMARY ── */
+  .exec-summary {
+    display: grid; grid-template-columns: 1fr 280px; gap: 32px;
+  }
+  .exec-summary-text h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px; font-weight: 600; font-style: italic;
+    color: var(--ink); margin-bottom: 14px; line-height: 1.3;
+  }
+  .exec-summary-text p {
+    font-size: 13px; color: var(--ink-mid);
+    line-height: 1.8; margin-bottom: 12px;
+  }
+
+  /* ── COMMODITY PANEL ── */
+  .commodity-panel {
+    background: #fff; border: 1px solid var(--rule);
+    border-top: 3px solid var(--sector); padding: 18px 20px;
+  }
+  .commodity-panel-title {
+    font-family: 'DM Mono', monospace; font-size: 8px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--ink-light); margin-bottom: 12px;
+    padding-bottom: 8px; border-bottom: 1px solid var(--rule);
+  }
+  .commodity-row {
+    display: flex; justify-content: space-between;
+    align-items: flex-start; padding: 8px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .commodity-row:last-child { border-bottom: none; }
+  .commodity-name {
+    font-family: 'DM Mono', monospace; font-size: 9px;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--ink-light);
+  }
+  .commodity-note { font-size: 10px; color: var(--ink-light); }
+  .commodity-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px; font-weight: 600; color: var(--ink);
+  }
+  .commodity-change {
+    font-family: 'DM Mono', monospace; font-size: 9px;
+    text-align: right;
+  }
+  .commodity-change.up { color: var(--sector); }
+  .commodity-change.down { color: var(--risk); }
+  .commodity-change.flat { color: var(--ink-light); }
+
+  /* ── SIGNAL CARDS ── */
+  .signals-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 800px) { .signals-grid { grid-template-columns: 1fr; } }
+  .signal-card {
+    background: #fff; border: 1px solid var(--rule);
+    border-left: 4px solid var(--sector); padding: 22px 24px;
+  }
+  .signal-card.risk { border-left-color: var(--risk); }
+  .signal-card.watch { border-left-color: var(--amber); }
+  .signal-flag {
+    font-family: 'DM Mono', monospace; font-size: 9px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--ink-light); margin-bottom: 8px;
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  }
+  .urgency-tag {
+    font-family: 'DM Mono', monospace; font-size: 7px;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 3px 8px; border-radius: 2px;
+  }
+  .urgency-now { background: var(--risk); color: #fff; }
+  .urgency-quarter { background: var(--amber); color: #fff; }
+  .urgency-watch { background: var(--ink-light); color: #fff; }
+  .signal-headline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px; font-weight: 600; font-style: italic;
+    color: var(--ink); line-height: 1.3; margin-bottom: 10px;
+  }
+  .signal-body {
+    font-size: 13px; color: var(--ink-mid);
+    line-height: 1.8; margin-bottom: 12px;
+  }
+  .signal-what-means {
+    background: var(--sector-light);
+    border: 1px solid var(--sector-mid);
+    padding: 12px 14px; margin-bottom: 10px;
+    font-size: 12px; color: var(--sector-dark); line-height: 1.65;
+  }
+  .signal-what-means.risk-means {
+    background: #fff5f5; border-color: #f0c0c0; color: #5a2020;
+  }
+  .signal-what-label {
+    font-family: 'DM Mono', monospace; font-size: 7px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--sector); display: block; margin-bottom: 4px;
+  }
+  .signal-what-means.risk-means .signal-what-label { color: var(--risk); }
+  .signal-source {
+    font-family: 'DM Mono', monospace; font-size: 8px;
+    letter-spacing: 0.08em; color: var(--ink-light);
+    line-height: 1.6; margin-top: 10px; padding-top: 8px;
+    border-top: 1px solid var(--rule);
+  }
+  .signal-source a { color: var(--brand); text-decoration: none; }
+  .signal-source a:hover { text-decoration: underline; }
+  .verify-badge {
+    display: inline-block; background: #fffbea; border: 1px solid #c8860a;
+    color: #7a5000; font-family: 'DM Mono', monospace;
+    font-size: 7px; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 2px 6px; margin-left: 6px; vertical-align: middle;
+  }
+  details.analyst-detail {
+    margin-top: 12px; border-top: 1px solid var(--rule);
+  }
+  details.analyst-detail summary {
+    font-family: 'DM Mono', monospace; font-size: 8px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--ink-light); cursor: pointer; padding: 8px 0;
+    list-style: none; user-select: none;
+  }
+  details.analyst-detail summary::-webkit-details-marker { display: none; }
+  details.analyst-detail[open] summary { color: var(--sector); }
+  .analyst-detail-body {
+    background: #f5f4f0; padding: 12px 14px; margin-top: 4px;
+    font-family: 'DM Mono', monospace; font-size: 9px;
+    line-height: 1.9; color: var(--ink-mid); border-left: 2px solid var(--sector);
+  }
+  .analyst-detail-body b {
+    color: var(--ink); font-weight: 500; display: block;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    font-size: 7px; margin-top: 6px; margin-bottom: 2px;
+  }
+  .analyst-detail-body a { color: var(--brand); text-decoration: none; }
+  /* ── COMPLIANCE DESK ── */
+  .compliance-desk {
+    background: #f8f6f1;
+    border: 1px solid #e0d8c8;
+    border-left: 4px solid #7a6a1a;
+    padding: 20px 24px;
+    margin-bottom: 24px;
+  }
+  .compliance-desk-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e0d8c8;
+  }
+  .compliance-desk-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #5a4a0a;
+    font-weight: 500;
+  }
+  .compliance-desk-subtitle {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    color: #9a8a5a;
+    letter-spacing: 0.06em;
+  }
+  .compliance-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid #ede6d8;
+  }
+  .compliance-row:last-child { border-bottom: none; }
+  .compliance-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #7a6a3a;
+    min-width: 130px;
+    padding-top: 2px;
+    flex-shrink: 0;
+  }
+  .compliance-value {
+    font-size: 13px;
+    color: var(--ink-soft);
+    flex: 1;
+    line-height: 1.6;
+  }
+  .compliance-added { color: #8b1a1a; font-weight: 600; }
+  .compliance-clean { color: #2e6e2e; }
+  .compliance-detail {
+    background: rgba(122,106,26,0.06);
+    border-left: 2px solid #c8b86a;
+    padding: 8px 12px;
+    margin-top: 6px;
+    font-size: 12px;
+    color: var(--ink-soft);
+    line-height: 1.7;
+  }
+  @media print {
+    .compliance-desk {
+      background: #f8f8f4 !important;
+      border-left: 3px solid #7a6a1a !important;
+    }
+  }
+
+  /* ── PROCUREMENT WATCH ── */
+  .proc-watch { border: 1px solid var(--rule); background: #fff; }
+  .proc-row { padding: 14px 18px; border-bottom: 1px solid var(--rule); }
+  .proc-row:last-of-type { border-bottom: none; }
+  .proc-title { font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 5px; line-height: 1.45; }
+  .proc-meta { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; margin-bottom: 4px; }
+  .proc-issuer { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--ink-light); }
+  .proc-closing { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--ink-mid); font-weight: 500; }
+  .proc-value { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--ink-light); }
+  .proc-source { font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 7px; }
+  .proc-source-fed { background: #e8f4ee; color: #1a6b42; }
+  .proc-source-eu  { background: #e8eef8; color: #2a5090; }
+  .proc-why { font-size: 12px; color: var(--sector, #cc0000); margin-top: 5px; font-style: italic; }
+  .proc-programme { font-size: 11px; color: var(--ink-mid); margin-top: 3px; }
+  .proc-footer { padding: 12px 18px; background: var(--cream); border-top: 1px solid var(--rule); }
+  .proc-footer a { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--brand); text-decoration: none; }
+
+  /* ── SUPPLY CHAIN WATCH ── */
+  .scw-grid { display: flex; flex-direction: column; gap: 0; border: 1px solid var(--rule); background: #fff; }
+  .scw-item { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; padding: 16px 18px; border-bottom: 1px solid var(--rule); }
+  .scw-item:last-child { border-bottom: none; }
+  .scw-left { flex: 1; }
+  .scw-input { font-family: 'Cormorant Garamond', serif; font-size: 17px; font-weight: 600; color: var(--ink); margin-bottom: 4px; line-height: 1.3; }
+  .scw-status { font-size: 13px; color: var(--ink-mid); line-height: 1.7; margin-bottom: 6px; }
+  .scw-action { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.08em; color: var(--sector, #cc0000); text-transform: uppercase; }
+  .scw-risk { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 8px; flex-shrink: 0; margin-top: 3px; }
+  .scw-risk-high { background: #fde8e8; color: #c62828; }
+  .scw-risk-med  { background: #fdf3e0; color: #b07800; }
+  .scw-risk-low  { background: #e8f4ee; color: #2e7d32; }
+  .scw-footer { padding: 10px 18px; background: var(--cream); border-top: 1px solid var(--rule); font-family: 'DM Mono', monospace; font-size: 9px; color: var(--ink-light); }
+
+  /* ── ACTION CARDS ── */
+  .actions-list { display: flex; flex-direction: column; gap: 20px; }
+  .action-card {
+    background: #fff; border: 1px solid var(--rule);
+    border-top: 2px solid var(--brand);
+    padding: 22px 24px; display: flex; gap: 20px;
+  }
+  .action-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 52px; font-weight: 600;
+    color: rgba(139,0,0,0.2); line-height: 1;
+    flex-shrink: 0; width: 48px;
+  }
+  .action-content-header {
+    display: flex; align-items: flex-start;
+    gap: 12px; margin-bottom: 10px; flex-wrap: wrap;
+  }
+  .action-headline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px; font-weight: 600; font-style: italic;
+    color: var(--ink); line-height: 1.3; flex: 1;
+  }
+  .action-body {
+    font-size: 13px; color: var(--ink-mid);
+    line-height: 1.75; margin-bottom: 12px;
+  }
+  .action-steps {
+    list-style: none; border-top: 1px solid var(--rule);
+    padding-top: 12px;
+  }
+  .action-steps li {
+    font-size: 12px; color: var(--ink-mid);
+    padding: 7px 0; border-bottom: 1px solid var(--rule);
+    line-height: 1.6; padding-left: 16px; position: relative;
+  }
+  .action-steps li::before {
+    content: '→'; position: absolute; left: 0;
+    color: var(--brand); font-family: 'DM Mono', monospace;
+    font-size: 10px;
+  }
+  .action-steps li:last-child { border-bottom: none; }
+  .action-steps li strong { color: var(--ink); }
+
+  /* ── PATHWAY CARDS ── */
+  .pathways-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+  }
+  .pathway-card {
+    background: #fff; border: 1px solid var(--rule);
+    padding: 20px 22px;
+    transition: box-shadow 0.18s;
+  }
+  .pathway-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+  .pathway-header {
+    display: flex; justify-content: space-between;
+    align-items: flex-start; gap: 12px; margin-bottom: 14px;
+    padding-bottom: 12px; border-bottom: 1px solid var(--rule);
+  }
+  .pathway-market {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px; font-weight: 600; font-style: italic;
+    color: var(--ink); line-height: 1.3;
+  }
+  .pathway-product {
+    font-family: 'DM Mono', monospace; font-size: 8px;
+    letter-spacing: 0.1em; color: var(--ink-light);
+    margin-top: 3px;
+  }
+  .pathway-difficulty {
+    font-family: 'DM Mono', monospace; font-size: 7px;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--sector); border: 1px solid var(--sector-mid);
+    padding: 3px 8px; white-space: nowrap; flex-shrink: 0;
+  }
+  .pathway-steps {
+    list-style: none; margin-bottom: 14px;
+  }
+  .pathway-steps li {
+    font-size: 12px; color: var(--ink-mid);
+    padding: 7px 0 7px 20px; border-bottom: 1px solid var(--rule);
+    line-height: 1.6; position: relative; counter-increment: step;
+  }
+  .pathway-steps li::before {
+    content: counter(step);
+    position: absolute; left: 0;
+    font-family: 'DM Mono', monospace; font-size: 9px;
+    color: var(--sector); font-weight: 600;
+  }
+  .pathway-steps { counter-reset: step; }
+  .pathway-steps li:last-child { border-bottom: none; }
+  .pathway-steps li strong { color: var(--ink); }
+  .pathway-tcs {
+    font-family: 'DM Mono', monospace; font-size: 8px;
+    letter-spacing: 0.08em; color: var(--ink-light);
+    background: var(--cream); padding: 8px 10px;
+    line-height: 1.6;
+  }
+
+  /* ── WATCH CARDS ── */
+  .watch-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+  }
+  .watch-card {
+    background: #fff; border: 1px solid var(--rule);
+    border-top: 3px solid var(--amber); padding: 18px 18px;
+  }
+  .watch-date {
+    font-family: 'DM Mono', monospace; font-size: 8px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--amber); margin-bottom: 8px;
+  }
+  .watch-headline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px; font-weight: 600; font-style: italic;
+    color: var(--ink); line-height: 1.3; margin-bottom: 8px;
+  }
+  .watch-body {
+    font-size: 12px; color: var(--ink-mid); line-height: 1.65;
+  }
+
+  /* ── SPOTLIGHT ── */
+  .spotlight-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+  }
+  .spotlight-card {
+    background: #fff; border: 1px solid var(--rule);
+  }
+  .spotlight-card-header {
+    background: var(--sector-light);
+    border-bottom: 1px solid var(--rule);
+    padding: 14px 20px;
+  }
+  .spotlight-card-eyebrow {
+    font-family: 'DM Mono', monospace; font-size: 8px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--sector); margin-bottom: 4px;
+  }
+  .spotlight-card-company {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px; font-weight: 600; font-style: italic;
+    color: var(--ink);
+  }
+  .spotlight-card-body { padding: 18px 20px; }
+  .spotlight-card-headline {
+    font-size: 14px; font-weight: 600; color: var(--ink);
+    margin-bottom: 10px; line-height: 1.4;
+  }
+  .spotlight-card-text {
+    font-size: 13px; color: var(--ink-mid);
+    line-height: 1.8; margin-bottom: 14px;
+  }
+  .spotlight-card-lesson {
+    background: var(--sector-light);
+    border-left: 3px solid var(--sector);
+    padding: 12px 14px;
+    font-size: 12px; color: var(--sector-dark); line-height: 1.65;
+  }
+  .spotlight-card-lesson strong {
+    display: block;
+    font-family: 'DM Mono', monospace; font-size: 7px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--sector); margin-bottom: 4px;
+  }
+
+  /* ── REPORT FOOTER ── */
+  .report-footer {
+    background: var(--masthead-bg); padding: 36px 40px;
+  }
+  .report-footer-inner {
+    max-width: 1100px; margin: 0 auto;
+    display: flex; justify-content: space-between;
+    align-items: flex-start;
+  }
+  .report-footer-brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px; font-style: italic;
+    color: #f0f0e8; margin-bottom: 8px;
+  }
+  .report-footer-meta {
+    font-family: 'DM Mono', monospace; font-size: 8px;
+    color: rgba(168,213,188,0.35); letter-spacing: 0.08em;
+    line-height: 1.8;
+  }
+  .report-footer-links {
+    display: flex; flex-direction: column;
+    gap: 8px; text-align: right;
+  }
+  .report-footer-links a {
+    font-family: 'DM Mono', monospace; font-size: 8px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: rgba(168,213,188,0.45); text-decoration: none;
+    transition: color 0.2s;
+  }
+  .report-footer-links a:hover { color: var(--sector-mid); }
+
+  @media (max-width: 768px) {
+    .sticky-nav { padding: 0 16px; }
+    .masthead { padding: 32px 16px 28px; }
+    .report-nav { padding: 0 16px; }
+    .report-body { padding: 28px 16px 60px; }
+    .exec-summary { grid-template-columns: 1fr; }
+    .pathways-grid { grid-template-columns: 1fr; }
+    .watch-grid { grid-template-columns: 1fr 1fr; }
+    .spotlight-grid { grid-template-columns: 1fr; }
+    .report-footer { padding: 28px 16px; }
+    .report-footer-inner { flex-direction: column; gap: 20px; }
+    .report-footer-links { text-align: left; }
+    .action-card { flex-direction: column; gap: 8px; }
+    .action-number { font-size: 32px; width: auto; }
+  }
+
+  /* ── PDF BUTTONS ── */
+  .pdf-nav-btn {
+    font-family: 'DM Mono', monospace; font-size: 7px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    background: var(--brand); color: #fff;
+    border: none; cursor: pointer; padding: 6px 12px;
+    margin-left: 8px; line-height: 1; flex-shrink: 0;
+  }
+  .pdf-nav-btn:hover { background: #6a0000; }
+  .pdf-float-btn {
+    position: fixed; bottom: 24px; right: 24px; z-index: 500;
+    font-family: 'DM Mono', monospace; font-size: 9px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    background: var(--brand); color: #fff;
+    border: none; cursor: pointer; padding: 12px 18px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  }
+  .pdf-float-btn:hover { background: #6a0000; }
+
+  /* ── PRINT STYLESHEET ── */
+  @media print {
+    @page { margin: 20mm; }
+
+    /* Hide nav chrome and subscription CTAs */
+    .sticky-nav, .report-nav, .report-footer,
+    .pdf-nav-btn, .pdf-float-btn { display: none !important; }
+
+    /* White background, black text throughout */
+    body { font-size: 11px !important; background: #ffffff !important; color: #000000 !important; }
+    * { box-shadow: none !important; text-shadow: none !important; }
+
+    /* Masthead: white bg, black text, red border only */
+    .masthead {
+      background: #ffffff !important;
+      border-bottom: 3px solid #8b0000 !important;
+      padding: 20px 0 16px !important;
+    }
+    .masthead-eyebrow { color: #8b0000 !important; }
+    .masthead-issue { color: #8b0000 !important; }
+    .report-title { color: #000000 !important; font-size: 28px !important; }
+    .masthead-hook { color: #333333 !important; }
+    .masthead-stat { background: #f4f4f4 !important; border-color: #dddddd !important; }
+    .masthead-stat-label { color: #666666 !important; }
+    .masthead-stat-value { color: #000000 !important; }
+
+    /* Body sections */
+    h2, h3 { color: #000000 !important; }
+    h2 { font-size: 24px !important; }
+    .section-label { color: #8b0000 !important; }
+    .section-rule { background: #cccccc !important; }
+    p, li { color: #1a1a1a !important; }
+    .exec-summary { background: #f8f8f8 !important; border-color: #dddddd !important; }
+
+    /* Keep sector colour accents on signal card left borders */
+    .signal-card { border-left-color: var(--sector-color) !important; background: #ffffff !important; }
+    .action-card { background: #ffffff !important; border-color: #cccccc !important; }
+    .compliance-desk { background: #f8f8f8 !important; }
+
+    /* Page breaks before major sections */
+    #signals  { page-break-before: always; }
+    #actions  { page-break-before: always; }
+    #pathways { page-break-before: always; }
+    #summary, #compliance, #procurement, #watch, #spotlight { page-break-before: auto; }
+
+    /* Show full URLs after links, skip internal anchors */
+    a[href]::after { content: " (" attr(href) ")"; font-size: 9px; color: #666666; }
+    a[href^="#"]::after { content: ""; }
+  }
+
+
+  /* ── BRIEFING VIEW ── */
+  #briefing-panel h1 { font-family: 'Cormorant Garamond', serif; }
+  .briefing-btn {
+    background: var(--sector); color: #fff; border: none;
+    font-family: 'DM Mono', monospace; font-size: 8px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 6px 14px; cursor: pointer; margin-left: 8px;
+    transition: background 0.18s;
+  }
+  .briefing-btn:hover { background: var(--sector-dark); }
+  .briefing-btn.active { background: var(--sector-dark); }
+
+  /* ── PRINT — briefing view only ── */
+  @media print {
+    body.briefing-active .sticky-nav,
+    body.briefing-active .report-nav,
+    body.briefing-active #report-content,
+    body.briefing-active footer.report-footer,
+    body.briefing-active .pdf-float-btn,
+    body.briefing-active #source-index { display: none !important; }
+    body.briefing-active #briefing-panel {
+      display: block !important;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 11pt; color: #000; background: #fff;
+    }
+    body.briefing-active #briefing-panel h1 { font-size: 18pt; margin-bottom: 4pt; }
+    body.briefing-active #briefing-panel button { display: none !important; }
+    @page { margin: 1in; }
+  }
+</style>
+</head>
+<body>
+
+<!-- SAMPLE NOTICE (remove for live issues) -->
+<!-- Uncomment the line below for sample reports:
+<div style="background:#f0f8f4;border-bottom:2px solid #6a20b0;padding:10px 40px;text-align:center;position:sticky;top:0;z-index:300;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#3a1060;">For informational purposes only · Not legal or financial advice</span></div>
+-->
+
+<!-- STICKY NAV -->
+<nav class="sticky-nav">
+  <div class="sticky-nav-inner">
+    <a href="https://canadiantradeintel.ca" class="sticky-nav-brand">🇨🇦 Canadian Trade Intel</a>
+    <div class="sticky-nav-links">
+      <a href="#signals">Signals</a>
+      <a href="#actions">Actions</a>
+      <a href="#pathways">Market Entry</a>
+      <a href="#watch">Watch For</a>
+      <a href="#spotlight">Spotlight</a>
+      <a href="https://canadiantradeintel.ca/reports">All Reports</a>
+    </div>
+  </div>
+</nav>
+
+<!-- MASTHEAD -->
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="masthead-eyebrow">
+      <span class="sector-badge">✈ Aerospace & Defence</span>
+      <span class="issue-meta">ISSUE #002 &nbsp;·&nbsp; April 14, 2026 &nbsp;·&nbsp; ~12 MIN READ</span>
+    </div>
+    <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:10px;">Aerospace & Defence &nbsp;·&nbsp; Week of April 14, 2026</div>
+    <h1>Aerospace & Defence — Intelligence Brief · Issue #002</h1>
+    <p class="masthead-summary">
+      Canadian aerospace firms must immediately audit their supply-chain positioning and production capacity to capture this historic domestic demand wave before larger multinational competitors establish beachheads. Watch for the Defence Investment Agency legislation this spring—its implementation timeline and capitalization will determine which Canadian companies can actually scale to meet the projected $63B annual defence budget.
+    </p>
+    <div class="masthead-stats">
+      <div class="masthead-stat">
+        <div class="masthead-stat-label">Signals</div>
+        <div class="masthead-stat-value">6</div>
+      </div>
+      <div class="masthead-stat">
+        <div class="masthead-stat-label">Opportunities</div>
+        <div class="masthead-stat-value">23</div>
+      </div>
+      <div class="masthead-stat">
+        <div class="masthead-stat-label">Risks</div>
+        <div class="masthead-stat-value">2</div>
+      </div>
+      <div class="masthead-stat">
+        <div class="masthead-stat-label">Immediate</div>
+        <div class="masthead-stat-value">11</div>
+      </div>
+      <div class="masthead-stat">
+        <div class="masthead-stat-label">Markets Scored</div>
+        <div class="masthead-stat-value">7</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- REPORT SECTION NAV -->
+<nav class="report-nav">
+  <div class="report-nav-inner">
+    <a href="#summary">Overview</a>
+    <a href="#signals">Signals (6)</a>
+    <a href="#actions">Actions (4)</a>
+    <a href="#procurement">Procurement (5)</a>
+    <a href="#supply-chain">Supply Chain</a>
+    <a href="#compliance">Reg &amp; Compliance</a>
+    <a href="#pathways">Market Entry</a>
+    <a href="#watch">Watch For These</a>
+    <a href="#risk-register">Risk Register</a>
+    <a href="#spotlight">Canadian Spotlight</a>
+    <button onclick="toggleBriefing()" class="briefing-btn" id="briefing-toggle-btn">📋 Briefing View</button>
+    <button onclick="window.print()" class="pdf-nav-btn">⬇ Save as PDF</button>
+  </div>
+</nav>
+
+<!-- REPORT BODY -->
+<div id="report-content">
+<main class="report-body">
+
+  <!-- EXECUTIVE SUMMARY -->
+  <section id="summary" class="mb-56">
+    <div class="section-header">
+      <span class="section-label">Intelligence Overview</span>
+      <div class="section-rule"></div>
+    </div>
+    <div class="exec-summary">
+      <div class="exec-summary-text">
+        <p>Canada's Defence Industrial Strategy launched a $500B+ procurement framework on February 17 prioritizing domestic suppliers for 70% of defence acquisitions, fundamentally reshaping the competitive landscape. Canadian aerospace firms must immediately audit their supply-chain positioning and production capacity to capture this historic domestic demand wave before larger multinational competitors establish beachheads. Watch for the Defence Investment Agency legislation this spring—its implementation timeline and capitalization will determine which Canadian companies can actually scale to meet the</p>
+      </div>
+      <div>
+        <div class="commodity-panel">
+          <div class="commodity-panel-title">Top Markets · April 14, 2026</div>
+          
+          <div class="commodity-row">
+            <div>
+              <div class="commodity-name">🇩🇪 Germany</div>
+              <div class="commodity-note">Opportunity score: 9/10</div>
+            </div>
+            <div style="text-align:right;min-width:60px;">
+              <div style="background:var(--sector);height:4px;width:90%;border-radius:2px;margin-bottom:4px;"></div>
+              <div class="commodity-change up">↑</div>
+            </div>
+          </div>
+          <div class="commodity-row">
+            <div>
+              <div class="commodity-name">🇺🇸 United States</div>
+              <div class="commodity-note">Opportunity score: 8/10</div>
+            </div>
+            <div style="text-align:right;min-width:60px;">
+              <div style="background:var(--sector);height:4px;width:80%;border-radius:2px;margin-bottom:4px;"></div>
+              <div class="commodity-change flat">→</div>
+            </div>
+          </div>
+          <div class="commodity-row">
+            <div>
+              <div class="commodity-name">🇬🇧 United Kingdom</div>
+              <div class="commodity-note">Opportunity score: 8/10</div>
+            </div>
+            <div style="text-align:right;min-width:60px;">
+              <div style="background:var(--sector);height:4px;width:80%;border-radius:2px;margin-bottom:4px;"></div>
+              <div class="commodity-change up">↑</div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:12px;padding:12px 14px;background:#fff;border:1px solid var(--rule);">
+          <div style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:8px;">CAD Exchange · April 14, 2026</div>
+          <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--ink);">
+            Prices shown are context only. For real-time prices see weekly digest.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SIGNALS -->
+  <section id="signals" class="mb-56">
+    <div class="section-header">
+      <span class="section-label">⚡ Intelligence Signals This Week</span>
+      <div class="section-rule"></div>
+    </div>
+    <div class="signals-grid">
+      
+      <div class="signal-card ">
+        <div class="signal-flag">
+           · Canada Dis Norad
+          <span class="urgency-tag urgency-now">Immediate</span>
+        </div>
+        <div class="signal-headline">Canada launched its first Defence Industrial Strategy on February 17, 2026, creating a $500B+ framework with new Defence</div>
+        <div class="signal-body">The strategy introduces a 'Build-Partner-Buy' procurement framework prioritizing Canadian firms for 70% of acquisitions. Parliament expects stand-alone Defence Investment Agency legislation in Spring 2026, plus ITB Policy reforms by early 2026. MDA Space received a $32M contract on March 18, 2026, for NORAD space surveillance capabilities through streamlined DIA procurement.</div>
+        <div class="signal-what-means"><span class="signal-what-label">What This Means For You</span>Creates massive opportunities for Canadian defence contractors with $180B in procurement opportunities and $290B in capital investments over 10 years. Foreign defence primes must now navigate reformed ITB requirements and new 'Build-Partner-Buy' framework that prioritizes domestic sourcing.</div>
+        
+        <details class="analyst-detail">
+          <summary>Analyst Detail ▾</summary>
+          <div class="analyst-detail-body">
+          <b>Trade Agreement</b>No FTA in force
+          <b>TCS Office</b>TCS — contact nearest Canadian mission
+          <b>Relevant Programmes</b>EDC Aerospace Finance · PSPC NVISION · NRC IRAP · CanExport SME
+          <b>HS Codes</b>HS 8800–8805 (aircraft/spacecraft) · 8803 (parts) · 9301–9307 (arms/munitions)
+          <b>Primary Source</b><a href="https://www.canada.ca/en/department-national-defence/corporate/reports-publications/industrial-strategy/security-sovereignty-prosperity.html" target="_blank">Government of Canada</a>
+          </div>
+        </details>
+        <div class="signal-source">Source: <a href="https://www.canada.ca/en/department-national-defence/corporate/reports-publications/industrial-strategy/security-sovereignty-prosperity.html" target="_blank">Government of Canada, 2026-04-14 →</a></div>
+      </div>
+      <div class="signal-card ">
+        <div class="signal-flag">
+           · Canada Defence Budget
+          <span class="urgency-tag urgency-now">Immediate</span>
+        </div>
+        <div class="signal-headline">Canada achieved NATO's 2% GDP defence spending target on March 26, 2026, with $63B spending and commitment to 5% GDP by <span class="verify-badge">⚠ Verify</span></div>
+        <div class="signal-body">Prime Minister Carney announced Canada reached 2% GDP defence spending for first time since 1990, representing largest year-over-year increase in generations. Government committed to NATO's new 5% GDP target by 2035 (3.5% direct defence + 1.5% security-related). Half-trillion dollar defence investment planned over next decade with major contracts for submarines, destroyers, and Arctic infrastructure.</div>
+        <div class="signal-what-means"><span class="signal-what-label">What This Means For You</span>Historic spending surge creates unprecedented opportunities across defence supply chains, with estimated 125,000 new jobs anticipated. Major procurement acceleration benefits manufacturers, tech companies, and service providers. International suppliers face increased competition as Canada prioritizes domestic sourcing under new Build-Partner-Buy framework.</div>
+        
+        <details class="analyst-detail">
+          <summary>Analyst Detail ▾</summary>
+          <div class="analyst-detail-body">
+          <b>Trade Agreement</b>No FTA in force
+          <b>TCS Office</b>TCS — contact nearest Canadian mission
+          <b>Relevant Programmes</b>EDC Aerospace Finance · PSPC NVISION · NRC IRAP · CanExport SME
+          <b>HS Codes</b>HS 8800–8805 (aircraft/spacecraft) · 8803 (parts) · 9301–9307 (arms/munitions)
+          <b>Primary Source</b><a href="https://www.canada.ca/en/department-national-defence/news/2026/03/canada-achieves-the-2-of-gross-domestic-product-defence-spending-benchmark.html" target="_blank">Government of Canada</a>
+          </div>
+        </details>
+        <div class="signal-source">Source: <a href="https://www.canada.ca/en/department-national-defence/news/2026/03/canada-achieves-the-2-of-gross-domestic-product-defence-spending-benchmark.html" target="_blank">Government of Canada, 2026-04-14 →</a></div>
+      </div>
+      <div class="signal-card ">
+        <div class="signal-flag">
+           · Uk Mod Aus Adf
+          <span class="urgency-tag urgency-now">Immediate</span>
+        </div>
+        <div class="signal-headline">Australia announced $310 million payment for AUKUS nuclear propulsion system components from UK Rolls-Royce, marking sig</div>
+        <div class="signal-body">On February 24, 2026, Australia's government announced a $310 million acquisition of long-lead items from the UK for SSN-AUKUS nuclear propulsion systems. Work is already underway at Rolls-Royce Submarine facility in Derby, with this investment supporting construction of the first two SSN-AUKUS submarines at Osborne. The UK MoD also announced procurement of Skyhammer interceptor missiles from Cambridge Aerospace for Gulf partners and UK forces.</div>
+        <div class="signal-what-means"><span class="signal-what-label">What This Means For You</span>AUKUS Pillar II programs in advanced capabilities create direct opportunities for Canadian companies in AI, quantum, cyber, and autonomous systems. The UK's rapid procurement approach and Gulf partner sales demonstrate accelerated defence contract cycles that Canadian suppliers should monitor. AUKUS supply chain integration offers Canadian firms preferred access to both UK and Australian procureme</div>
+        
+        <details class="analyst-detail">
+          <summary>Analyst Detail ▾</summary>
+          <div class="analyst-detail-body">
+          <b>Trade Agreement</b>No FTA in force
+          <b>TCS Office</b>TCS — contact nearest Canadian mission
+          <b>Relevant Programmes</b>EDC Aerospace Finance · PSPC NVISION · NRC IRAP · CanExport SME
+          <b>HS Codes</b>HS 8800–8805 (aircraft/spacecraft) · 8803 (parts) · 9301–9307 (arms/munitions)
+          <b>Primary Source</b><a href="https://www.minister.defence.gov.au/media-releases/2026-02-24/albanese-government-announces-acquisition-long-lead-items-aukus-nuclear-propulsion-systems" target="_blank">Australian Department of Defence</a>
+          </div>
+        </details>
+        <div class="signal-source">Source: <a href="https://www.minister.defence.gov.au/media-releases/2026-02-24/albanese-government-announces-acquisition-long-lead-items-aukus-nuclear-propulsion-systems" target="_blank">Australian Department of Defence, 2026-04-14 →</a></div>
+      </div>
+      <div class="signal-card ">
+        <div class="signal-flag">
+           · Space Satellite
+          <span class="urgency-tag urgency-now">Immediate</span>
+        </div>
+        <div class="signal-headline">Government of Canada selected Telesat and MDA Space as strategic partners for Enhanced Satellite Communications Project </div>
+        <div class="signal-body"><cite index="11-2,11-4">On December 9, 2025, Telesat and MDA Space announced a strategic partnership with the Government of Canada to develop Arctic military satellite communications (MILSATCOM) capability that will strengthen Canada's Arctic sovereignty while bolstering NORAD and NATO commitments</cite>. <cite index="12-7">Telesat plans to deploy a couple of Lightspeed pathfinders in December 2026, followed by 96 satellites in 2027 to begin offering initial global broadband services</cite>.</div>
+        <div class="signal-what-means"><span class="signal-what-label">What This Means For You</span>This multi-billion dollar partnership positions Canadian space companies as leaders in Arctic military communications and strengthens export opportunities in allied defense markets. The project creates high-quality jobs across Canada while enhancing sovereign space capabilities and supporting NORAD modernization requirements.</div>
+        
+        <details class="analyst-detail">
+          <summary>Analyst Detail ▾</summary>
+          <div class="analyst-detail-body">
+          <b>Trade Agreement</b>No FTA in force
+          <b>TCS Office</b>TCS — contact nearest Canadian mission
+          <b>Relevant Programmes</b>EDC Aerospace Finance · PSPC NVISION · NRC IRAP · CanExport SME
+          <b>HS Codes</b>HS 8800–8805 (aircraft/spacecraft) · 8803 (parts) · 9301–9307 (arms/munitions)
+          <b>Primary Source</b><a href="https://www.telesat.com/press/press-releases/telesat-enters-strategic-partnership-with-government-of-canada-and-mda-space-to-deliver-next-generation-military-satellite-communications-solution/" target="_blank">Telesat</a>
+          </div>
+        </details>
+        <div class="signal-source">Source: <a href="https://www.telesat.com/press/press-releases/telesat-enters-strategic-partnership-with-government-of-canada-and-mda-space-to-deliver-next-generation-military-satellite-communications-solution/" target="_blank">Telesat, 2026-04-14 →</a></div>
+      </div>
+      <div class="signal-card ">
+        <div class="signal-flag">
+           · Canada Aerospace Spotlight
+          <span class="urgency-tag urgency-now">Immediate</span>
+        </div>
+        <div class="signal-headline">Government of Canada announced over $900 million in new defense innovation investments through the National Research Cou</div>
+        <div class="signal-body"><cite index="25-2,25-6">On March 9, 2026, the NRC announced over $900 million in investments to develop aerospace defense capabilities, including the launch of the Defence Industry Assist initiative providing $241 million in funding to Canadian SMEs for defense and dual-use technologies</cite>. <cite index="22-7,22-8">FedDev Ontario announced a $14.5 million investment for Kepler Communications ($7 million) and Dishon Limited ($7.5 million) to advance Canadian defense capabilities</cite>.</div>
+        <div class="signal-what-means"><span class="signal-what-label">What This Means For You</span>These substantial government investments signal strong support for Canadian aerospace and defense innovation, creating new export opportunities and strengthening domestic supply chains. The funding particularly benefits SMEs developing dual-use technologies, positioning them to compete in both domestic and international defense markets.</div>
+        
+        <details class="analyst-detail">
+          <summary>Analyst Detail ▾</summary>
+          <div class="analyst-detail-body">
+          <b>Trade Agreement</b>No FTA in force
+          <b>TCS Office</b>TCS — contact nearest Canadian mission
+          <b>Relevant Programmes</b>EDC Aerospace Finance · PSPC NVISION · NRC IRAP · CanExport SME
+          <b>HS Codes</b>HS 8800–8805 (aircraft/spacecraft) · 8803 (parts) · 9301–9307 (arms/munitions)
+          <b>Primary Source</b><a href="https://www.canada.ca/en/national-research-council/news/2026/03/new-programs-to-support-canadas-defence-industrial-strategy.html" target="_blank">National Research Council of Canada</a>
+          </div>
+        </details>
+        <div class="signal-source">Source: <a href="https://www.canada.ca/en/national-research-council/news/2026/03/new-programs-to-support-canadas-defence-industrial-strategy.html" target="_blank">National Research Council of Canada, 2026-04-14 →</a></div>
+      </div>
+      <div class="signal-card ">
+        <div class="signal-flag">
+           · Canada Ukraine Defence
+          <span class="urgency-tag urgency-now">Immediate</span>
+        </div>
+        <div class="signal-headline">Canada announced a major $2 billion military aid package to Ukraine on February 24, 2026, including 383 Roshel Senator a</div>
+        <div class="signal-body"><cite index="1-4,2-7">On February 24th, Minister McGuinty announced that 383 Senator armoured vehicles manufactured by Roshel will be provided to Ukraine as part of Canada's $6.5 billion military aid package, along with 66 Light Armoured Vehicle 6 (LAV 6) platforms produced by General Dynamics.</cite> <cite index="1-5">The approximately $2 billion in military assistance for 2026–27 is drawn from previously approved funding of $1.75 billion from Budget 2025, and an additional $300 million announced.</cite></div>
+        <div class="signal-what-means"><span class="signal-what-label">What This Means For You</span><cite index="1-10,7-13">Roshel creates good jobs for almost 500 workers in Ontario, while the ACSV project is supporting 1,975 jobs annually in London, Ontario and across the country, contributing $250 million dollars annually to Canada's GDP over an eight-year period.</cite> This demonstrates how defence exports create domestic employment opportunities and economic multiplier effects for Canadian</div>
+        
+        <details class="analyst-detail">
+          <summary>Analyst Detail ▾</summary>
+          <div class="analyst-detail-body">
+          <b>Trade Agreement</b>No FTA in force
+          <b>TCS Office</b>TCS — contact nearest Canadian mission
+          <b>Relevant Programmes</b>EDC Aerospace Finance · PSPC NVISION · NRC IRAP · CanExport SME
+          <b>HS Codes</b>HS 8800–8805 (aircraft/spacecraft) · 8803 (parts) · 9301–9307 (arms/munitions)
+          <b>Primary Source</b><a href="https://www.canada.ca/en/department-national-defence/news/2026/03/minister-mcguinty-highlights-armoured-vehicles-donation-to-ukraine-visits-roshel-facility-in-brampton.html" target="_blank">Department of National Defence Canada</a>
+          </div>
+        </details>
+        <div class="signal-source">Source: <a href="https://www.canada.ca/en/department-national-defence/news/2026/03/minister-mcguinty-highlights-armoured-vehicles-donation-to-ukraine-visits-roshel-facility-in-brampton.html" target="_blank">Department of National Defence Canada, 2026-04-14 →</a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ACTIONS -->
+  <section id="actions" class="mb-56">
+    <div class="section-header">
+      <span class="section-label">✓ Actions This Week</span>
+      <div class="section-rule"></div>
+    </div>
+    <div class="actions-list">
+      
+      <div class="action-card">
+        <div class="action-number">01</div>
+        <div style="flex:1;">
+          <div class="action-content-header">
+            <div class="action-headline">Screen Canada's Defence Export Program (DEP) Opportunities</div>
+            <span class="urgency-tag urgency-watch">Monitor</span>
+          </div>
+          <div class="action-body">Access Global Affairs Canada's curated defence export leads for Germany, US, UK markets. Act this week to register for priority NATO-allied procurement alerts.</div>
+          <div style="margin-top:10px;"><a href="https://www.international.gc.ca/trade-commerce/defence_export.aspx" style="font-family:DM Mono,monospace;font-size:9px;color:var(--brand);" target="_blank">↗ https://www.international.gc.ca/trade-commerce/defence_export.aspx</a></div>
+        </div>
+      </div>
+      <div class="action-card">
+        <div class="action-number">02</div>
+        <div style="flex:1;">
+          <div class="action-content-header">
+            <div class="action-headline">Contact Trade Commissioner Service (TCS) – Aerospace & Defence Sector</div>
+            <span class="urgency-tag urgency-watch">Monitor</span>
+          </div>
+          <div class="action-body">Engage Canada's 60+ trade posts in target markets (Germany, Poland, Netherlands) for pre-tender intelligence on upcoming €100B+ defence modernisation contracts.</div>
+          <div style="margin-top:10px;"><a href="https://www.tradecommissioner.gc.ca" style="font-family:DM Mono,monospace;font-size:9px;color:var(--brand);" target="_blank">↗ https://www.tradecommissioner.gc.ca</a></div>
+        </div>
+      </div>
+      <div class="action-card">
+        <div class="action-number">03</div>
+        <div style="flex:1;">
+          <div class="action-content-header">
+            <div class="action-headline">Register for Canadian Defence and Security Industries Association (CDSIA) NATO Briefing</div>
+            <span class="urgency-tag urgency-watch">Monitor</span>
+          </div>
+          <div class="action-body">Join industry briefing on post-Hague Summit procurement timelines and Allied interoperability requirements affecting Canadian exporters.</div>
+          <div style="margin-top:10px;"><a href="https://www.cdsia.ca" style="font-family:DM Mono,monospace;font-size:9px;color:var(--brand);" target="_blank">↗ https://www.cdsia.ca</a></div>
+        </div>
+      </div>
+      <div class="action-card">
+        <div class="action-number">04</div>
+        <div style="flex:1;">
+          <div class="action-content-header">
+            <div class="action-headline">Review Compete for Canada Export Competition Stream</div>
+            <span class="urgency-tag urgency-watch">Monitor</span>
+          </div>
+          <div class="action-body">Apply for export readiness funding to prepare bids for identified German, Polish, and Australian defence tenders launching in February-March.</div>
+          <div style="margin-top:10px;"><a href="https://www.canada.ca/en/economic-development-canada/services/compete-for-canada.html" style="font-family:DM Mono,monospace;font-size:9px;color:var(--brand);" target="_blank">↗ https://www.canada.ca/en/economic-development-canada/services/compete-for-canada</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCUREMENT SIGNALS -->
+  <section id="procurement" class="mb-56">
+    <div class="section-header">
+      <span class="section-label">📋 Procurement Signals — Federal &amp; International Tenders</span>
+      <div class="section-rule"></div>
+    </div>
+    <div class="proc-watch">
+      
+      <div class="proc-row">
+        <div class="proc-title">City of Edmonton - Request for Qualification - 935678 Supply and Installation of Playground Equipment and Open</div>
+        <div class="proc-meta">
+          <span class="proc-source proc-source-fed">CanadaBuys</span>
+          <span class="proc-issuer">City of Edmonton</span>
+          <span class="proc-closing">Closes 2030-04-13</span>
+          
+          <a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/ab-2026-02918" target="_blank" rel="noopener" style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--brand);">View →</a>
+        </div>
+        <div class="proc-why">→ No aerospace & defence relevance.</div>
+      </div>
+      <div class="proc-row">
+        <div class="proc-title">APN - 2026/2027 BASE PROGRAM CFB ESQUIMALT, BC</div>
+        <div class="proc-meta">
+          <span class="proc-source proc-source-fed">CanadaBuys</span>
+          <span class="proc-issuer">Defence Construction Canada - Pacific Region</span>
+          <span class="proc-closing">Closes 2027-03-31</span>
+          
+          <a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/mx-443959723430" target="_blank" rel="noopener" style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--brand);">View →</a>
+        </div>
+        <div class="proc-why">→ DND infrastructure modernization at CFB Esquimalt; construction/engineering services opportunity.</div>
+      </div>
+      <div class="proc-row">
+        <div class="proc-title">APN - 2026/2027 BASE PROGRAM CHILLIWACK, BC</div>
+        <div class="proc-meta">
+          <span class="proc-source proc-source-fed">CanadaBuys</span>
+          <span class="proc-issuer">Defence Construction Canada - Pacific Region</span>
+          <span class="proc-closing">Closes 2027-03-31</span>
+          
+          <a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/mx-443959661431" target="_blank" rel="noopener" style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--brand);">View →</a>
+        </div>
+        <div class="proc-why">→ DND infrastructure modernization at CFB Chilliwack; construction/engineering services opportunity.</div>
+      </div>
+      <div class="proc-row">
+        <div class="proc-title">ADVANCE PROCUREMENT NOTICE BASE PROGRAM - QUEBEC REGION</div>
+        <div class="proc-meta">
+          <span class="proc-source proc-source-fed">CanadaBuys</span>
+          <span class="proc-issuer">Construction de Défense Canada - Région du Québec</span>
+          <span class="proc-closing">Closes 2027-03-31</span>
+          
+          <a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/mx-443961875978" target="_blank" rel="noopener" style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--brand);">View →</a>
+        </div>
+        <div class="proc-why">→ DND infrastructure modernization in Quebec region; construction/engineering services opportunity.</div>
+      </div>
+      <div class="proc-row">
+        <div class="proc-title">APN_CONSTRUCTION SURVEILLANCE TECHNICIAN (CST) SERVICES – 4 WING COLD LAKE, AB</div>
+        <div class="proc-meta">
+          <span class="proc-source proc-source-fed">CanadaBuys</span>
+          <span class="proc-issuer">Defence Construction Canada - Western Region</span>
+          <span class="proc-closing">Closes 2026-07-13</span>
+          
+          <a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/mx-443966863852" target="_blank" rel="noopener" style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--brand);">View →</a>
+        </div>
+        <div class="proc-why">→ DND technical services at 4 Wing Cold Lake; construction surveillance specialist opportunity.</div>
+      </div>
+      <div class="proc-row">
+        <div class="proc-title">BandVagn 206 (BV206) and BandVagn 206S  (BV206S) Spare Parts</div>
+        <div class="proc-meta">
+          <span class="proc-source proc-source-fed">CanadaBuys</span>
+          <span class="proc-issuer">NATO - North Atlantic Treaty Organization</span>
+          <span class="proc-closing">Closes 2026-06-15</span>
+          
+          <a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/hga26004" target="_blank" rel="noopener" style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--brand);">View →</a>
+        </div>
+        <div class="proc-why">→ NATO vehicle spare parts; potential supply chain integration for BV206 components.</div>
+      </div>
+      <div class="proc-row">
+        <div class="proc-title">Agrandissement et réaménagement de l’Hôpital de Sept-Îles au 45, rue du Père-Divet, Sept-Îles (Québec) G4R 3N7</div>
+        <div class="proc-meta">
+          <span class="proc-source proc-source-fed">CanadaBuys</span>
+          <span class="proc-issuer">Société québécoise des infrastructures</span>
+          <span class="proc-closing">Closes 2026-06-10</span>
+          
+          <a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/qc20137658" target="_blank" rel="noopener" style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--brand);">View →</a>
+        </div>
+        <div class="proc-why">→ No aerospace & defence relevance.</div>
+      </div>
+      <div class="proc-row">
+        <div class="proc-title">Joint Fires Modernization Phase 2 - RFI</div>
+        <div class="proc-meta">
+          <span class="proc-source proc-source-fed">CanadaBuys</span>
+          <span class="proc-issuer">Department of National Defence (DND)</span>
+          <span class="proc-closing">Closes 2026-06-05</span>
+          
+          <a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/ws5640225668-doc5642808798" target="_blank" rel="noopener" style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--brand);">View →</a>
+        </div>
+        <div class="proc-why">→ DND artillery modernization program; significant technology integration opportunity for defence contractors.</div>
+      </div>
+      <div class="proc-row">
+        <div class="proc-title">Request for lease space Canoga Park</div>
+        <div class="proc-meta">
+          <span class="proc-source proc-source-fed">CanadaBuys</span>
+          <span class="proc-issuer"></span>
+          <span class="proc-closing">Closes 2026-05-29</span>
+          
+          <a href="https://sam.gov/workspace/contract/opp/fd20aea198964b9b922adcddc1113d9f/view" target="_blank" rel="noopener" style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--brand);">View →</a>
+        </div>
+        <div class="proc-why">→ Not Canadian procurement; no local defence relevance.</div>
+      </div>
+      <div class="proc-row">
+        <div class="proc-title">19-008 – HRV – Projet du Nouveau VIC de l’Université McGill Lot 0514.02 : Structure d’acier des pavillons A et</div>
+        <div class="proc-meta">
+          <span class="proc-source proc-source-fed">CanadaBuys</span>
+          <span class="proc-issuer">Université McGill</span>
+          <span class="proc-closing">Closes 2026-05-28</span>
+          
+          <a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/qc20137816" target="_blank" rel="noopener" style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--brand);">View →</a>
+        </div>
+        <div class="proc-why">→ No aerospace & defence relevance.</div>
+      </div>
+      <div class="proc-row">
+        <div class="proc-title">APN_Replace Roof & Sanitary Lines at Fort York Armoury, Toronto, ON</div>
+        <div class="proc-meta">
+          <span class="proc-source proc-source-fed">CanadaBuys</span>
+          <span class="proc-issuer">Defence Construction Canada - Ontario Region</span>
+          <span class="proc-closing">Closes 2026-05-19</span>
+          
+          <a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/mx-443961875960" target="_blank" rel="noopener" style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--brand);">View →</a>
+        </div>
+        <div class="proc-why">→ DND infrastructure at Toronto armoury; construction/engineering services opportunity.</div>
+      </div>
+      <div class="proc-row">
+        <div class="proc-title">CFHA - Janitorial Services HSC Borden</div>
+        <div class="proc-meta">
+          <span class="proc-source proc-source-fed">CanadaBuys</span>
+          <span class="proc-issuer">Department of National Defence (DND)</span>
+          <span class="proc-closing">Closes 2026-05-18</span>
+          
+          <a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/cb-59-24741076" target="_blank" rel="noopener" style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--brand);">View →</a>
+        </div>
+        <div class="proc-why">→ No aerospace & defence relevance.</div>
+      </div>
+      <div class="proc-row">
+        <div class="proc-title">AN PVS-14 Mount and Adapter</div>
+        <div class="proc-meta">
+          <span class="proc-source proc-source-fed">CanadaBuys</span>
+          <span class="proc-issuer">Department of National Defence (DND)</span>
+          <span class="proc-closing">Closes 2026-05-18</span>
+          
+          <a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/cb-414-84038407" target="_blank" rel="noopener" style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--brand);">View →</a>
+        </div>
+        <div class="proc-why">→ DND night vision equipment; optical/tactical equipment supply opportunity.</div>
+      </div>
+      <div class="proc-row">
+        <div class="proc-title">CHAMBER,COMBUSTION,AIRCRAFT GAS TURBINE for Boeign 707 E-3A</div>
+        <div class="proc-meta">
+          <span class="proc-source proc-source-fed">CanadaBuys</span>
+          <span class="proc-issuer">NATO - North Atlantic Treaty Organization</span>
+          <span class="proc-closing">Closes 2026-05-17</span>
+          
+          <a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/26lws011" target="_blank" rel="noopener" style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--brand);">View →</a>
+        </div>
+        <div class="proc-why">→ NATO E-3A AWACS support; specialized turbine component supply opportunity.</div>
+      </div>
+      <div class="proc-row">
+        <div class="proc-title">SERVICES PROFESSIONNELS POUR LA SURVEILLANCE DES TRAVAUX – RÉAMÉNAGEMENT DU CENTRE SPORTIF DAMIEN-HÉTU - PHASE</div>
+        <div class="proc-meta">
+          <span class="proc-source proc-source-fed">CanadaBuys</span>
+          <span class="proc-issuer">Ville de Sainte-Agathe-des-Monts.</span>
+          <span class="proc-closing">Closes 2026-05-14</span>
+          
+          <a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/qc20136669" target="_blank" rel="noopener" style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--brand);">View →</a>
+        </div>
+        <div class="proc-why">→ No aerospace & defence relevance.</div>
+      </div>
+      <div class="proc-footer">
+        <a href="https://canadiantradeintel.ca/procurement" target="_blank" rel="noopener">
+          View all 200 federal &amp; international tenders tracked this week → canadiantradeintel.ca/procurement
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SUPPLY CHAIN WATCH -->
+  <section id="supply-chain" class="mb-56">
+    <div class="section-header">
+      <span class="section-label">🔗 Supply Chain Watch</span>
+      <div class="section-rule"></div>
+    </div>
+    <p style="font-size:13px;color:var(--ink-mid);margin-bottom:20px;max-width:680px;line-height:1.7;">
+      Import dependencies, critical input signals, and inbound supply chain risks for Canadian businesses in this sector this week.
+    </p>
+    <div class="scw-grid">
+      <div class="scw-item"><div class="scw-left"><div class="scw-input">US-origin defence electronics and avionics (F-35 program content)</div><div class="scw-status">Five Eyes intelligence sharing restrictions and increased NOFORN classifications by US limit Canadian access to technical data and supply chain visibility on F-35 subsystems. This directly impacts Canadian Tier 1/2 suppliers' ability to source, integrate, and qualify US-origin components.</div><div class="scw-action">→ Canadian primes and Tier 1 suppliers should immediately audit their F-35 supply chain for ITAR/EAR dependencies and request clarification from US OEMs on NOFORN impact on technical data sharing; develop alternative qualification pathways or engage Global Affairs Canada for exemption guidance.</div></div><div class="scw-risk scw-risk-high">High</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">UK-origin defence systems and intelligence-gated subsystems (Five Eyes supply chains)</div><div class="scw-status">UK suspension of Caribbean intelligence sharing and broader Five Eyes trust crisis creates uncertainty around data classification levels and export controls for UK-Canadian defence partnerships, affecting cross-border supply agreements and joint development programs.</div><div class="scw-action">→ Canadian businesses with UK supply or partnership dependencies should contact Trade Commissioner Service (TCS) at UK trade posts to assess whether intelligence sharing restrictions impact current contract performance, data flows, or upcoming tender participation.</div></div><div class="scw-risk scw-risk-med">Med</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">Swedish Gripen E subsystems and manufacturing partnerships (alternative fighter platform sourcing)</div><div class="scw-status">Canada's public consideration of Saab Gripen E as F-35 alternative is now live negotiation leverage. If pursued, Canadian suppliers face opportunity to develop new inbound supply chains for Swedish-origin avionics, engines, and composites currently unavailable in domestic supply base.</div><div class="scw-action">→ Canadian Tier 2/3 suppliers should register for CDSIA NATO Briefing and contact TCS in Sweden/Scandinavia to pre-qualify for Gripen supply chain participation if competition proceeds; assess domestic substitution capability for high-value Swedish components (e.g., avionics, radar, landing gear).</div></div><div class="scw-risk scw-risk-med">Med</div></div>
+    </div>
+    <div class="scw-footer">Inbound supply chain signals · Updated weekly · Pipeline data April 14, 2026</div>
+  </section>
+
+  <!-- REGULATORY & COMPLIANCE PULSE -->
+  <section id="compliance" class="mb-56">
+    <div class="section-header">
+      <span class="section-label">⚖ Regulatory &amp; Compliance Pulse</span>
+      <div class="section-rule"></div>
+    </div>
+    <div class="compliance-desk">
+      <div class="compliance-desk-header">⚖ Regulatory &amp; Compliance Pulse &nbsp;·&nbsp; Aerospace & Defence &nbsp;·&nbsp; April 14, 2026</div>
+      <div class="compliance-row"><span class="compliance-label">US OFAC Specially Designated Nationals</span><span class="compliance-value"><span class="compliance-added">+6 added</span> &nbsp;·&nbsp; <span style="color:#5a4a0a;">-1 removed</span><button class="comp-toggle" onclick="toggleCompliance('comp_ofac_sdn')" aria-expanded="false" style="background:none;border:none;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.08em;color:#7a6a3a;cursor:pointer;margin-left:6px;padding:0;text-transform:uppercase;">Details ▾</button></span></div><div id="comp_ofac_sdn" class="compliance-detail" style="display:none;"># OFAC SDN Update – Week of [Date]
+
+This week's OFAC additions focus on Mexican narcotics trafficking networks rather than trade-sensitive sectors, with six new designations targeting individuals and entities linked to Cartel del Noreste and associated money laundering operations (casinos and commercial entities). Canadian exporters in most manufacturing, metals, tech, and aerospace sectors should see minimal direct impact, as the designations do not target supply chain participants or critical industrial actors. However, companies with business operations, investments, or supply chain links in Mexico—particularly those involved in gaming, hospitality, or financial services—may warrant internal screening to ensure no indirect connections to the designated entities. The removal of one Venezuela-linked individual suggests ongoing sanctions adjustments but does not signal broader policy shifts affecting trade. Standard SDN list screening of Mexican counterparties remains prudent due diligence, especially for cross-border payments or joint ventures.</div><div class="compliance-row"><span class="compliance-label">UN Security Council Consolidated List</span><span class="compliance-value"><span class="compliance-clean">✓ No changes</span><button class="comp-toggle" onclick="toggleCompliance('comp_un_sanctions')" aria-expanded="false" style="background:none;border:none;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.08em;color:#7a6a3a;cursor:pointer;margin-left:6px;padding:0;text-transform:uppercase;">Details ▾</button></span></div><div id="comp_un_sanctions" class="compliance-detail" style="display:none;">No changes this week. List remains at 1,005 total entries.</div><div class="compliance-row"><span class="compliance-label">Canada Gazette RSS</span><span class="compliance-value"><span class="compliance-clean">✓ No changes</span><button class="comp-toggle" onclick="toggleCompliance('comp_canada_gazette')" aria-expanded="false" style="background:none;border:none;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.08em;color:#7a6a3a;cursor:pointer;margin-left:6px;padding:0;text-transform:uppercase;">Details ▾</button></span></div><div id="comp_canada_gazette" class="compliance-detail" style="display:none;"># Trade Compliance Digest — Unable to Process
+
+**Issue:** The Canada Gazette publications provided contain only generic index summaries without specific regulatory content. The links direct to the Gazette homepage but do not include details on actual notices, orders, or regulatory changes.
+
+**What you need to do:** To provide you with actionable compliance information, please share the full text or specific notice titles from the Gazette issues (e.g., "SOR/2026-XX" or named regulations). Alternatively, visit the full Gazette pages directly at the links above and flag which specific notices affect your operations—export controls, tariffs, product standards, or sanctions updates.
+
+**Recommendation:** Check the Gazette regularly yourself or subscribe to alerts from Global Affairs Canada and Innovation, Science and Economic Development Canada (ISED) for sector-specific changes affecting your business.</div><div class="compliance-row"><span class="compliance-label">US BIS Entity List</span><span class="compliance-value"><span class="compliance-clean">✓ No changes</span><button class="comp-toggle" onclick="toggleCompliance('comp_bis_entity_list')" aria-expanded="false" style="background:none;border:none;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.08em;color:#7a6a3a;cursor:pointer;margin-left:6px;padding:0;text-transform:uppercase;">Details ▾</button></span></div><div id="comp_bis_entity_list" class="compliance-detail" style="display:none;">No changes this week. List remains at 0 total entries.</div><div class="compliance-row" style="margin-top:6px;padding-top:10px;border-top:1px solid #d8d0c0;"><span class="compliance-label">Net change</span><span class="compliance-value" style="color:#8b1a1a;font-weight:600;">+5 entities across all lists</span></div><div style="background:rgba(139,26,26,0.06);border:1px solid rgba(139,26,26,0.15);border-left:3px solid #8b1a1a;padding:10px 13px;margin-top:10px;"><div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:#8b1a1a;margin-bottom:5px;">⚠ Review Required This Week</div><div style="font-size:13px;color:var(--ink-soft);line-height:1.7;"># OFAC SDN Update – Week of [Date]
+
+This week's OFAC additions focus on Mexican narcotics trafficking networks rather than trade-sensitive sectors, with six new designations targeting individuals and entities linked to Cartel del Noreste and associated money laundering operations (casinos and commer</div></div><div style="margin-top:12px;padding-top:10px;border-top:1px solid #e0d8c8;"><div style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.12em;text-transform:uppercase;color:#9a8a5a;margin-bottom:6px;">Verify directly</div><div style="line-height:2.4;"><a href="https://ofac.treasury.gov/sanctions-list-service" target="_blank" rel="noopener" style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.06em;color:#7a6a3a;text-decoration:none;border-bottom:1px solid rgba(122,106,26,0.3);">OFAC SDN →</a> &nbsp;·&nbsp; <a href="https://www.un.org/securitycouncil/content/un-sc-consolidated-list" target="_blank" rel="noopener" style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.06em;color:#7a6a3a;text-decoration:none;border-bottom:1px solid rgba(122,106,26,0.3);">UN Consolidated →</a> &nbsp;·&nbsp; <a href="https://www.international.gc.ca/world-monde/international_relations-relations_internationales/sanctions/current-actuelles.aspx" target="_blank" rel="noopener" style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.06em;color:#7a6a3a;text-decoration:none;border-bottom:1px solid rgba(122,106,26,0.3);">Canada Sanctions →</a> &nbsp;·&nbsp; <a href="https://www.bis.doc.gov/index.php/policy-guidance/lists-of-parties-of-concern" target="_blank" rel="noopener" style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.06em;color:#7a6a3a;text-decoration:none;border-bottom:1px solid rgba(122,106,26,0.3);">BIS Entity List →</a></div></div><div style="margin-top:10px;padding-top:10px;border-top:1px solid #e0d8c8;"><div style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.12em;text-transform:uppercase;color:#9a8a5a;margin-bottom:5px;">Export permit reminder</div><div style="font-size:12px;color:var(--ink-soft);line-height:1.7;">All military/dual-use A&D exports require AECA export permit. NATO member shipments still require individual permits — no blanket exemption.</div></div>
+    </div>
+  </section>
+
+  <!-- MARKET ENTRY PATHWAYS -->
+  <section id="pathways" class="mb-56">
+    <div class="section-header">
+      <span class="section-label">🗺 Market Entry Pathways</span>
+      <div class="section-rule"></div>
+    </div>
+    <p style="font-size:13px;color:var(--ink-mid);margin-bottom:24px;max-width:680px;line-height:1.7;">
+      Step-by-step pathways for the highest-opportunity market combinations this week.
+      Each pathway includes the relevant trade agreement, financing instruments, and TCS contacts.
+    </p>
+    <div class="pathways-grid">
+      
+      <div class="pathway-card">
+        <div class="pathway-header">
+          <div>
+            <div class="pathway-market"> German Bundeswehr €100B modernisation — Canada's CETA access and aerospace expertise position avionics and component suppliers for the largest European defence procurement in decades</div>
+            <div class="pathway-product">avionics_components</div>
+          </div>
+          
+        </div>
+        <ol class='pathway-steps'><li><strong>Confirm CETA eligibility and tariff-free export classification</strong> — Under CETA, Canadian aerospace components and avionics exported to Germany and the EU face zero tariff (previously up to 7.5% for precision aerospace  <a href="https://www.international.gc.ca/trade-commerce/trade-agreements-accords-commerciaux/agr-acc/ceta-aecg/index.aspx?lang=eng" style="color:var(--sector);font-size:10px;" target="_blank">↗ CETA — Canadian Manufactured Goods to EU</a></li><li><strong>Register with TCS Munich and TCS Berlin — request Bundeswehr introduction</strong> — The Trade Commissioner Service has dedicated aerospace and defence sector officers in Munich (near IABG, Airbus Defence & Space, and MTU Aero Engines) <a href="https://www.tradecommissioner.gc.ca/contact.aspx?lang=eng" style="color:var(--sector);font-size:10px;" target="_blank">↗ Trade Commissioner Service</a></li><li><strong>Identify Bundeswehr prime contractor ITB equivalents — OCCAR and BAAINBw</strong> — Germany's Bundeswehr procurement flows through two channels: BAAINBw (Federal Office of Bundeswehr Equipment, IT, and In-Service Support) for direct p <a href="https://ised-isde.canada.ca/site/industrial-technological-benefits/en" style="color:var(--sector);font-size:10px;" target="_blank">↗ Industrial and Technological Benefits (ITB) Policy</a></li><li><strong>Apply for CanExport SME — fund your German market entry costs</strong> — CanExport SME covers up to 50% of eligible market entry expenses: trade show registration (DSEI Berlin alternates with UK — next in 2027), buyer visit <a href="https://www.tradecommissioner.gc.ca/funding-financement/canexport/sme-pme/index.aspx?lang=eng" style="color:var(--sector);font-size:10px;" target="_blank">↗ CanExport SME</a></li><li><strong>Secure EDC financing support for Bundeswehr tender responses</strong> — German defence procurement often requires performance bonds, bid bonds, and advance payment guarantees — instruments that can tie up significant SME w <a href="https://www.edc.ca/en/solutions/financing/supply-chain.html" style="color:var(--sector);font-size:10px;" target="_blank">↗ EDC Supply Chain Financing</a></li></ol>
+        <div class="pathway-tcs">Contact <a href="https://www.tradecommissioner.gc.ca/germany-allemagne/index.aspx?lang=eng" target="_blank" rel="noopener">TCS Germany</a></div>
+      </div>
+      <div class="pathway-card">
+        <div class="pathway-header">
+          <div>
+            <div class="pathway-market"> Canadian MRO providers — NORAD modernisation, US DoD fleet expansion, and the Canada-US Defence Production Sharing Agreement create the most accessible defence export pathway available to Canadian aerospace firms</div>
+            <div class="pathway-product">mro_services</div>
+          </div>
+          
+        </div>
+        <ol class='pathway-steps'><li><strong>Confirm Defence Production Sharing Agreement (DPSA) eligibility</strong> — The Canada-US Defence Production Sharing Agreement (DPSA) is the single most important trade agreement for Canadian MRO providers. It provides near-eq <a href="https://www.canada.ca/en/department-national-defence/corporate/reports-publications/canada-defence-industrial-strategy.html" style="color:var(--sector);font-size:10px;" target="_blank">↗ Canada's Defence Industrial Strategy (2026)</a></li><li><strong>Register on SAM.gov — bid on US DoD and NORAD MRO contracts</strong> — All US federal government contracts, including DoD MRO contracts, are posted on SAM.gov (System for Award Management). Canadian companies under the DP <a href="https://www.canada.ca/en/department-national-defence/news/2022/06/strong-secure-engaged-defence-policy.html" style="color:var(--sector);font-size:10px;" target="_blank">↗ NORAD Modernisation — $38.6B Continental Defence Procurement</a></li><li><strong>Contact TCS Washington — request DoD prime contractor introductions</strong> — TCS Washington has a dedicated defence and aerospace sector officer who arranges introductions to US DoD prime contractors with active Canadian sourci <a href="https://www.tradecommissioner.gc.ca/contact.aspx?lang=eng" style="color:var(--sector);font-size:10px;" target="_blank">↗ Trade Commissioner Service</a></li><li><strong>Obtain required US export control authorisations (DTC/ITAR)</strong> — MRO work on US military aircraft requires authorisation under ITAR. Canadian MRO providers typically obtain a Technical Assistance Agreement (TAA) or  <a href="https://www.tradecommissioner.gc.ca/funding-financement/canexport/sme-pme/index.aspx?lang=eng" style="color:var(--sector);font-size:10px;" target="_blank">↗ CanExport SME</a></li></ol>
+        <div class="pathway-tcs">Contact your regional TCS office: <a href="https://tradecommissioner.gc.ca/contact" target="_blank">tradecommissioner.gc.ca/contact</a></div>
+      </div>
+      <div class="pathway-card">
+        <div class="pathway-header">
+          <div>
+            <div class="pathway-market"> Canadian MRO providers — UK RAF F-35 sustainment programme and CETA access create an immediate Five Eyes entry window</div>
+            <div class="pathway-product">mro_services</div>
+          </div>
+          
+        </div>
+        <ol class='pathway-steps'><li><strong>Contact TCS London — UK MoD Defence Equipment and Support (DE&S) introductions</strong> — UK DE&S manages all MoD equipment procurement and sustainment. RAF has 48 F-35B aircraft with sustainment contracts rolling out through 2035. Canadian <a href="https://www.tradecommissioner.gc.ca/contact.aspx?lang=eng" style="color:var(--sector);font-size:10px;" target="_blank">↗ Trade Commissioner Service</a></li><li><strong>Pursue UK Controlled Goods Programme registration (if needed)</strong> — UK MoD contracts involving US-origin ITAR components require controlled goods handling capability. Canadian companies with Canadian Controlled Goods P <a href="https://www.canada.ca/en/department-national-defence/corporate/reports-publications/canada-defence-industrial-strategy.html" style="color:var(--sector);font-size:10px;" target="_blank">↗ Canada's Defence Industrial Strategy (2026)</a></li><li><strong>Register for DSEI London (September 2027) — UK MoD prime sourcing event</strong> — DSEI (Defence and Security Equipment International) is the UK MoD's flagship procurement event. UK DE&S, Rolls-Royce, BAE Systems, and MBDA all source <a href="https://www.tradecommissioner.gc.ca/funding-financement/canexport/sme-pme/index.aspx?lang=eng" style="color:var(--sector);font-size:10px;" target="_blank">↗ CanExport SME</a></li><li><strong>Apply for EDC defence financing — UK MoD buyer purchase financing</strong> — EDC has defence-specific buyer financing for allied nation defence purchases. UK MoD contracts are eligible — EDC can finance UK MoD payment schedules <a href="https://www.edc.ca/en/solutions/financing/supply-chain.html" style="color:var(--sector);font-size:10px;" target="_blank">↗ EDC Supply Chain Financing</a></li></ol>
+        <div class="pathway-tcs">Contact your regional TCS office: <a href="https://tradecommissioner.gc.ca/contact" target="_blank">tradecommissioner.gc.ca/contact</a></div>
+      </div>
+      <div class="pathway-card">
+        <div class="pathway-header">
+          <div>
+            <div class="pathway-market"> Canadian aircraft component suppliers — UK MoD's F-35 JSF partnership, Typhoon upgrades, and Five Eyes preferred supplier status create a direct pathway for Canadian aerospace firms that bypasses EU procurement barriers post-Brexit</div>
+            <div class="pathway-product">aircraft_components</div>
+          </div>
+          
+        </div>
+        <ol class='pathway-steps'><li><strong>Confirm Five Eyes preferred supplier status via DND contract reference</strong> — The most effective entry credential for UK MoD procurement is an existing DND contract or DND qualification. The UK MoD recognises DND qualification s <a href="https://www.canada.ca/en/department-national-defence/corporate/reports-publications/canada-defence-industrial-strategy.html" style="color:var(--sector);font-size:10px;" target="_blank">↗ Canada's Defence Industrial Strategy (2026)</a></li><li><strong>Register on UK MoD Contracts Finder and DASA — bid on open tenders</strong> — UK MoD publishes all contracts over £10,000 on Contracts Finder (contractsfinder.service.gov.uk). DASA (Defence and Security Accelerator) runs open in <a href="https://www.tradecommissioner.gc.ca/contact.aspx?lang=eng" style="color:var(--sector);font-size:10px;" target="_blank">↗ Trade Commissioner Service</a></li><li><strong>Contact TCS London — request BAE Systems, Rolls-Royce, and UK MoD introductions</strong> — TCS London has a dedicated aerospace and defence officer. Request introductions to: BAE Systems Supply Chain (Warton and Farnborough sites — F-35 and  <a href="https://www.tradecommissioner.gc.ca/contact.aspx?lang=eng" style="color:var(--sector);font-size:10px;" target="_blank">↗ Trade Commissioner Service</a></li><li><strong>Apply for CanExport SME — fund UK trade show and buyer visit costs</strong> — UK aerospace market entry requires physical presence. Key events: DSEI London (biennial — September 2025 passed, next September 2027), Farnborough Air <a href="https://www.tradecommissioner.gc.ca/funding-financement/canexport/sme-pme/index.aspx?lang=eng" style="color:var(--sector);font-size:10px;" target="_blank">↗ CanExport SME</a></li></ol>
+        <div class="pathway-tcs">Contact your regional TCS office: <a href="https://tradecommissioner.gc.ca/contact" target="_blank">tradecommissioner.gc.ca/contact</a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WATCH FOR THESE -->
+  <section id="watch" class="mb-56">
+    <div class="section-header">
+      <span class="section-label">👁 Watch For These</span>
+      <div class="section-rule"></div>
+    </div>
+    <p style="font-size:13px;color:var(--ink-mid);margin-bottom:20px;max-width:680px;line-height:1.7;">
+      Upcoming events, decisions, and deadlines that will move this sector.
+    </p>
+    <div class="watch-grid">
+      
+      <div class="watch-card">
+        <div class="watch-date">📅</div>
+        <div class="watch-headline">NATO Procurement Acceleration</div>
+        <div class="watch-body">Germany's €100B Bundeswehr modernisation and allied defence spending surge following Hague Summit 5% GDP commitment. Watch for tender releases across Allied nations throughout Q1 2025.</div>
+      </div>
+      <div class="watch-card">
+        <div class="watch-date">👁️</div>
+        <div class="watch-headline">NORAD Program Alignment Opportunities</div>
+        <div class="watch-body">Canada's $38.6B NORAD modernisation creates supply chain integration points with U.S. and Allied defence contractors. Monitor Defence Procurement Strategy announcements for subcontracting opportunities.</div>
+      </div>
+      <div class="watch-card">
+        <div class="watch-date">⚡</div>
+        <div class="watch-headline">Low-Risk, High-Opportunity Window</div>
+        <div class="watch-body">Australia, Netherlands, and Poland (all risk score 1-2) present immediate export pathways with minimal geopolitical friction. Expect tender activity peaks in these markets within 10-14 days.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RISK REGISTER -->
+  <section id="risk-register" class="mb-56">
+    <div class="section-header">
+      <span class="section-label">⚠ Risk Register</span>
+      <div class="section-rule"></div>
+    </div>
+    <p style="font-size:13px;color:var(--ink-mid);margin-bottom:20px;max-width:680px;line-height:1.7;">
+      Persistent risks and watch items tracked across issues. Active risks require near-term attention; Watch items are monitored for escalation.
+    </p>
+    
+    <div style="overflow-x:auto;">
+      <table style="width:100%;border-collapse:collapse;font-family:'DM Sans',sans-serif;">
+        <thead>
+          <tr style="border-bottom:1.5px solid var(--rule);">
+            <th style="padding:8px 12px;text-align:left;font-size:9px;font-family:'DM Mono',monospace;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-light);font-weight:500;">Risk</th>
+            <th style="padding:8px 12px;text-align:center;font-size:9px;font-family:'DM Mono',monospace;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-light);font-weight:500;">Status</th>
+            <th style="padding:8px 12px;text-align:left;font-size:9px;font-family:'DM Mono',monospace;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-light);font-weight:500;">First Seen</th>
+            <th style="padding:8px 12px;text-align:left;font-size:9px;font-family:'DM Mono',monospace;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-light);font-weight:500;">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+      <tr>
+        <td style="padding:10px 12px;font-size:12px;font-weight:600;color:var(--ink);max-width:220px;line-height:1.45;">Five Eyes alliance faces trust crisis with intelligence sharing restrictions, in</td>
+        <td style="padding:10px 12px;text-align:center;white-space:nowrap;">
+          <span style="display:inline-block;background:#b87c00;color:#fff;font-size:9px;font-family:'DM Mono',monospace;letter-spacing:0.08em;text-transform:uppercase;padding:2px 7px;border-radius:2px;">Watch</span>
+        </td>
+        <td style="padding:10px 12px;font-size:11px;font-family:'DM Mono',monospace;color:var(--ink-mid);white-space:nowrap;">#002</td>
+        <td style="padding:10px 12px;font-size:12px;color:var(--ink-mid);line-height:1.5;max-width:380px;">Reports from November 2025 indicate London suspended intelligence sharing in the Caribbean over legal concerns about US operations, while Washington increased NOFORN restrictions following 2023 Discord leaks. Canada and New Zealand are recalibrating data excha</td>
+      </tr>
+      <tr>
+        <td style="padding:10px 12px;font-size:12px;font-weight:600;color:var(--ink);max-width:220px;line-height:1.45;">Canadian Industry Minister Mélanie Joly plans to meet with Lockheed Martin execu</td>
+        <td style="padding:10px 12px;text-align:center;white-space:nowrap;">
+          <span style="display:inline-block;background:#8b1a1a;color:#fff;font-size:9px;font-family:'DM Mono',monospace;letter-spacing:0.08em;text-transform:uppercase;padding:2px 7px;border-radius:2px;">Active</span>
+        </td>
+        <td style="padding:10px 12px;font-size:11px;font-family:'DM Mono',monospace;color:var(--ink-mid);white-space:nowrap;">#002</td>
+        <td style="padding:10px 12px;font-size:12px;color:var(--ink-mid);line-height:1.5;max-width:380px;">In January 2026, Canada's Industry Minister announced plans to extract greater economic benefits from the F-35 program, with Canada considering Saab's Gripen E as an alternative for 72 remaining aircraft. Boeing committed $7 million CAD to Vac Aero Internation</td>
+      </tr>
+      <tr>
+        <td style="padding:10px 12px;font-size:12px;font-weight:600;color:var(--ink);max-width:220px;line-height:1.45;">ITAR compliance scrutiny intensifies for Canadian aerospace suppliers with even </td>
+        <td style="padding:10px 12px;text-align:center;white-space:nowrap;">
+          <span style="display:inline-block;background:#8b1a1a;color:#fff;font-size:9px;font-family:'DM Mono',monospace;letter-spacing:0.08em;text-transform:uppercase;padding:2px 7px;border-radius:2px;">Active</span>
+        </td>
+        <td style="padding:10px 12px;font-size:11px;font-family:'DM Mono',monospace;color:var(--ink-mid);white-space:nowrap;">#002</td>
+        <td style="padding:10px 12px;font-size:12px;color:var(--ink-mid);line-height:1.5;max-width:380px;">A January 2026 industry report highlights that ITAR enforcement is tightening with "even Tier 3 suppliers under greater scrutiny" affecting Canadian defense contractors. Separately, a January 15, 2026 analysis from the Canadian Global Affairs Institute warns t</td>
+      </tr>
+      <tr>
+        <td style="padding:10px 12px;font-size:12px;font-weight:600;color:var(--ink);max-width:220px;line-height:1.45;">ITAR enforcement has tightened significantly in 2026 with even Tier 3 suppliers </td>
+        <td style="padding:10px 12px;text-align:center;white-space:nowrap;">
+          <span style="display:inline-block;background:#8b1a1a;color:#fff;font-size:9px;font-family:'DM Mono',monospace;letter-spacing:0.08em;text-transform:uppercase;padding:2px 7px;border-radius:2px;">Active</span>
+        </td>
+        <td style="padding:10px 12px;font-size:11px;font-family:'DM Mono',monospace;color:var(--ink-mid);white-space:nowrap;">#001</td>
+        <td style="padding:10px 12px;font-size:12px;color:var(--ink-mid);line-height:1.5;max-width:380px;">Mills Machine Works reported in January 2026 that ITAR compliance has become "non-negotiable" with growing regulations, tightening enforcement, and more contractors entering the supply chain. Even Tier 3 suppliers are now under greater scrutiny as of 2026, mar</td>
+      </tr>
+      <tr>
+        <td style="padding:10px 12px;font-size:12px;font-weight:600;color:var(--ink);max-width:220px;line-height:1.45;">Canadian Industry Minister will meet with Lockheed Martin executives in early 20</td>
+        <td style="padding:10px 12px;text-align:center;white-space:nowrap;">
+          <span style="display:inline-block;background:#8b1a1a;color:#fff;font-size:9px;font-family:'DM Mono',monospace;letter-spacing:0.08em;text-transform:uppercase;padding:2px 7px;border-radius:2px;">Active</span>
+        </td>
+        <td style="padding:10px 12px;font-size:11px;font-family:'DM Mono',monospace;color:var(--ink-mid);white-space:nowrap;">#001</td>
+        <td style="padding:10px 12px;font-size:12px;color:var(--ink-mid);line-height:1.5;max-width:380px;"><cite index="3-17,3-20,3-21">Industry Minister Mélanie Joly plans to meet with Lockheed Martin executives early in 2026 to press for more Canadian jobs in the F-35 stealth fighter deal. One of her main goals for 2026 is to extract greater economic benefits fro</td>
+      </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- CANADIAN SPOTLIGHT -->
+  <section id="spotlight" class="mb-56">
+    <div class="section-header">
+      <span class="section-label">🇨🇦 Canadian Spotlight</span>
+      <div class="section-rule"></div>
+    </div>
+    <p style="font-size:13px;color:var(--ink-mid);margin-bottom:24px;max-width:680px;line-height:1.7;">
+      Canadian companies making moves in export markets this week.
+      <a href="https://canadiantradeintel.ca/spotlight" style="color:var(--sector);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.08em;">
+        See all Spotlight stories →
+      </a>
+    </p>
+    <div class="spotlight-grid">
+      
+      <div class="spotlight-card">
+        <div class="spotlight-card-header">
+          <div class="spotlight-card-eyebrow">Aerospace & Defence · Canada</div>
+          <div class="spotlight-card-company">Kepler Communications Inc.</div>
+        </div>
+        <div class="spotlight-card-body">
+          <div class="spotlight-card-headline">Kepler Communications won the prime contractor role for the European Space Agency's HydRON Element 3 project.</div>
+          <div class="spotlight-card-text">This ESA contract win positions the Canadian satellite communications company as a key player in Europe's space infrastructure development. The selection demonstrates Kepler's growing international competitiveness in the global space market and expands its operations beyond North America into high-value European space programs.</div>
+          
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOURCE INDEX -->
+  
+<!-- ================================================================
+     SOURCES & REFERENCES — Canadian Trade Intelligence
+     Generated by government_sources_registry.render_sources_block()
+     ================================================================ -->
+<section class="report-sources" id="sources">
+  <h2>Sources &amp; References</h2>
+
+  <p class="sources-intro">
+    Canadian Trade Intelligence aggregates and synthesizes primary government data,
+    Crown corporation intelligence, and vetted news sources to produce this report.
+    We are the bridge between Canada's government data infrastructure and the
+    actionable weekly intelligence your business needs. All primary sources are
+    publicly accessible and linked below.
+  </p>
+
+  <div class="sources-tier">
+    <h3>Government Primary Sources</h3>
+    <ul>
+      <li><a href="https://www150.statcan.gc.ca/n1/en/catalogue/65F0013X" target="_blank" rel="noopener">Statistics Canada — Canadian International Merchandise Trade (CIMT)</a> <span class="source-vintage">(Monthly — current through ~2 months prior)</span> — Detailed monthly import and export data at the 6-digit HS commodity level. Selectable by country, province, year and month. Exportable to CSV. Best source for current bilateral goods trade flows by sector.</li>
+<li><a href="https://www150.statcan.gc.ca/n1/en/subjects/international_trade" target="_blank" rel="noopener">Statistics Canada — The Daily: International Merchandise Trade</a> <span class="source-vintage">(Monthly — published with ~5 week lag)</span> — Monthly press release covering Canada's merchandise trade with top 10 partners, NAPCS sector breakdown, and balance of payments data. Released approximately 5–6 weeks after reference month.</li>
+<li><a href="https://www.statcan.gc.ca/en/stathub" target="_blank" rel="noopener">Statistics Canada — Canada and the World Statistics Hub</a> <span class="source-vintage">(Varies by indicator; generally annual with some quarterly series)</span> — Interactive bilateral data hub covering trade, investment, employment and travel for 18 of Canada's major trading partners. Brings together multiple StatCan datasets in a single country-level analytical tool.</li>
+<li><a href="https://ised-isde.canada.ca/site/canadian-importers-database/en" target="_blank" rel="noopener">ISED Canadian Importers Database</a> <span class="source-vintage">(2023 (CBSA-sourced) — NOTE: typically lags ~2 years; 2024 not yet released as of April 2026)</span> — Company-level list of major Canadian importers by product (HS code), city, and country of origin. 'Major importers' = companies collectively accounting for up to 80% of imports of a given product. Includes customs brokers and non-resident importers.</li>
+<li><a href="https://ised-isde.canada.ca/site/trade-data-online/en" target="_blank" rel="noopener">ISED Trade Data Online</a> <span class="source-vintage">(Monthly — current through recent months)</span> — Monthly aggregate bilateral trade flows for Canadian imports and exports, by HS product and NAICS industry, for 200+ countries. Sourced from Statistics Canada and U.S. Census Bureau.</li>
+<li><a href="https://international.canada.ca/en/global-affairs/corporate/reports/chief-economist/state-trade/2025" target="_blank" rel="noopener">Global Affairs Canada — Canada's State of Trade</a> <span class="source-vintage">(2024 full-year (2025 report))</span> — Annual comprehensive report on Canada's international trade and economic performance. Covers merchandise exports/imports, services trade, FDI flows in and out, sector-by-sector performance, and the economic outlook. 2025 edition covers full-year 2024 data.</li>
+<li><a href="https://international.canada.ca/en/global-affairs/campaigns/canada-us-engagement" target="_blank" rel="noopener">Global Affairs Canada — Canada's Response to U.S. Tariffs</a> <span class="source-vintage">(Current — actively updated)</span> — Live policy page covering Canada's response to U.S. tariffs including relief measures, support programs, retaliatory measures, and sector impacts. Frequently updated — key cross-sector risk signal.</li>
+<li><a href="https://canadabuys.canada.ca/en" target="_blank" rel="noopener">CanadaBuys — Government of Canada Procurement</a> <span class="source-vintage">(Real-time)</span> — Official Government of Canada procurement portal. Covers federal tender notices, awarded contracts, and standing offers. Key for Aerospace & Defence and Tech sectors.</li>
+    </ul>
+    
+        <p class="source-importer-note">
+          ⚠️ <strong>Importer data note:</strong> Company-level import intelligence sourced from
+          the <a href="https://ised-isde.canada.ca/site/canadian-importers-database/en" target="_blank">ISED Canadian Importers Database</a>.
+          Most recent available data is 2023 (CBSA-sourced). 2024 data not yet released as of
+          April 2026. For current aggregate trade flows by product and country, see
+          <a href="https://www150.statcan.gc.ca/n1/en/catalogue/65F0013X" target="_blank">StatCan CIMT</a>
+          (updated monthly).
+        </p>
+        
+  </div>
+
+  <div class="sources-tier">
+    <h3>Industry &amp; Crown Corporation Sources</h3>
+    <ul>
+      <li><a href="https://www.edc.ca/en/country-info.html" target="_blank" rel="noopener">EDC — Country Risk and Market Intelligence</a> <span class="source-vintage">(Continuously updated)</span> — Per-country risk ratings, market articles, and trade intelligence published by EDC. Covers 200+ markets. Useful for dossier risk scores and 'Further Reading' links.</li>
+<li><a href="https://www.bdc.ca/en/articles-tools/market-research-strategy" target="_blank" rel="noopener">BDC — Market Research and Business Intelligence</a> <span class="source-vintage">(Quarterly / periodic)</span> — BDC publishes sector outlooks, SME survey results, and market intelligence targeted at Canadian small and medium businesses. Quarterly SME surveys are particularly useful for cross-sector sentiment signals.</li>
+    </ul>
+  </div>
+
+  <div class="sources-tier">
+    <h3>News &amp; Media Sources</h3>
+    <p>See inline citations above.</p>
+    <p class="sources-disclaimer">
+      News sources are selected for relevance and credibility. CTI does not endorse
+      any specific media outlet. Inline citations appear throughout the report body.
+    </p>
+  </div>
+
+  <p class="sources-methodology">
+    For our full source list, data methodology, and update schedule, visit
+    <a href="https://canadiantradeintel.ca/methodology">canadiantradeintel.ca/methodology</a>.
+  </p>
+</section>
+
+
+</main>
+</div><!-- /report-content -->
+
+
+<!-- BRIEFING PANEL (hidden until toggled) -->
+<div id="briefing-panel" style="display:none;background:#fff;">
+  <div style="max-width:860px;margin:0 auto;padding:48px 40px 60px;">
+
+    <!-- Brief Header -->
+    <div style="border-bottom:3px solid #6a20b0;padding-bottom:20px;margin-bottom:4px;">
+      <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:#6a20b0;margin-bottom:8px;">✈ Aerospace & Defence</div>
+      <h1 style="font-family:'Cormorant Garamond',Georgia,serif;font-size:28px;font-weight:700;color:#1a1a1a;margin-bottom:6px;">
+        Aerospace & Defence Intelligence Brief
+      </h1>
+      <div style="font-family:'DM Mono',monospace;font-size:10px;color:#888;line-height:2;">
+        Issue #002 &nbsp;·&nbsp; April 14, 2026<br>
+        Prepared by Canadian Trade Intelligence Inc. &nbsp;·&nbsp; canadiantradeintel.ca
+      </div>
+    </div>
+
+    <!-- 1. Situation Summary -->
+    <div>
+      <span style="font-size:8px;letter-spacing:0.14em;text-transform:uppercase;font-family:'DM Mono',monospace;color:#3a1060;display:block;margin-bottom:8px;margin-top:24px;padding-top:20px;border-top:1px solid #e0dcd4;">1. Situation Summary</span>
+      <p style="font-size:14px;color:#1a1a1a;line-height:1.8;max-width:740px;">Canada's $500B+ defence procurement framework creates immediate domestic capture opportunities, but multinational competitors are already positioning for NATO allied markets worth an estimated €100B+ in the next 24 months. Canadian aerospace firms must secure domestic scale and Allied export footholds within 90 days to establish supply-chain lock-in before larger players dominate.</p>
+    </div>
+
+    <!-- 2. Top Signals -->
+    <div>
+      <span style="font-size:8px;letter-spacing:0.14em;text-transform:uppercase;font-family:'DM Mono',monospace;color:#3a1060;display:block;margin-bottom:8px;margin-top:24px;padding-top:20px;border-top:1px solid #e0dcd4;">2. Top Signals</span>
+      <div style="padding:10px 0 10px 14px;border-left:3px solid #6a20b0;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">Germany's €100B Bundeswehr modernisation and allied defence spending surge following the Hague Summit is triggering concurrent procurement cycles across NATO.</div><div style="font-size:12px;color:#444;line-height:1.65;">Allied procurement windows are time-compressed and favour suppliers already embedded in interoperability standards; late entry after 6 months typically eliminates Canadian bidders.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#1a6b42;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: HIGH</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #6a20b0;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">Canada's $38.6B NORAD modernisation creates direct supply-chain integration points with U.S. and Allied defence primes.</div><div style="font-size:12px;color:#444;line-height:1.65;">NORAD program alignment offers Canadian Tier-2 and Tier-3 suppliers pathway to U.S. prime contracts and Allied systems integration without competing on price alone.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#1a6b42;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: HIGH</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #6a20b0;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">Poland, Netherlands, and Australia are actively tendering defence contracts with risk scores of 1-2 and no established Canadian incumbent suppliers.</div><div style="font-size:12px;color:#444;line-height:1.65;">Low-risk, low-penetration markets allow Canadian firms to establish beachheads with minimal competitive friction before China and European suppliers saturate these accounts.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#b36b00;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: MED</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #6a20b0;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">Defence Investment Agency legislation is expected spring 2026; its capitalization and implementation timeline will determine which Canadian companies can actually scale production to meet 70% domestic procurement targets.</div><div style="font-size:12px;color:#444;line-height:1.65;">Legislation delay or underfunding will collapse demand expectations and force Canadian firms to default to Allied export markets with 6-month buyer-decision cycles already underway.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#b36b00;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: MED</div></div>
+    </div>
+
+    <!-- 3. Recommended Actions -->
+    <div>
+      <span style="font-size:8px;letter-spacing:0.14em;text-transform:uppercase;font-family:'DM Mono',monospace;color:#3a1060;display:block;margin-bottom:8px;margin-top:24px;padding-top:20px;border-top:1px solid #e0dcd4;">3. Recommended Actions</span>
+      <div style="padding:12px 14px;background:#f8f8f6;border-left:3px solid #6a20b0;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;color:#6a20b0;margin-right:8px;font-size:9px;">01</span>Register with the Defence Export Program within 7 days and request curated tender leads for German, Polish, and Australian defence RFPs launching in Q2-Q3 2026.</div><div style="font-size:12px;color:#555;line-height:1.65;">DEP lead routing reduces discovery time by 60 days and flags interoperability requirements before bid specifications close.</div></div><div style="padding:12px 14px;background:#f8f8f6;border-left:3px solid #6a20b0;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;color:#6a20b0;margin-right:8px;font-size:9px;">02</span>Engage Trade Commissioner Service across Canada's 60+ defence trade posts to obtain pre-tender intelligence on NATO Allied procurement timelines and required certifications for Allied systems integration.</div><div style="font-size:12px;color:#555;line-height:1.65;">TCS intelligence enables firms to front-load compliance and interoperability testing, reducing bid-to-award cycle risk by 40-50%.</div></div><div style="padding:12px 14px;background:#f8f8f6;border-left:3px solid #6a20b0;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;color:#6a20b0;margin-right:8px;font-size:9px;">03</span>Apply for Compete for Canada Export Competition Stream funding to underwrite bid preparation, compliance certification, and supply-chain audits for identified German, Polish, and Australian defence tenders.</div><div style="font-size:12px;color:#555;line-height:1.65;">Export readiness funding eliminates cash-flow barriers for small and mid-market aerospace suppliers to compete in Allied markets with 8-12 week tender cycles.</div></div>
+    </div>
+
+    <!-- 4. Market Opportunity Scores -->
+    <div>
+      <span style="font-size:8px;letter-spacing:0.14em;text-transform:uppercase;font-family:'DM Mono',monospace;color:#3a1060;display:block;margin-bottom:8px;margin-top:24px;padding-top:20px;border-top:1px solid #e0dcd4;">4. Market Opportunity Scores</span>
+      <table style="width:100%;border-collapse:collapse;font-family:'DM Sans',sans-serif;"><thead><tr style="background:#f8f6f2;"><th style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:#888;text-align:left;">Market</th><th style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:#888;text-align:left;">Score</th><th style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:#888;text-align:center;">Trend</th><th style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:#888;text-align:left;">Key Driver</th></tr></thead><tbody><tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:8px 10px;font-size:12px;font-weight:600;">🇩🇪 Germany</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#1a6b42;font-weight:700;">9/10</td><td style="padding:8px 10px;font-size:14px;text-align:center;">↑</td><td style="padding:8px 10px;font-size:11px;color:#555;">Bundeswehr €100B modernisation; CETA zero-tariff access</td></tr><tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:8px 10px;font-size:12px;font-weight:600;">🇺🇸 United States</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#1a6b42;font-weight:700;">8/10</td><td style="padding:8px 10px;font-size:14px;text-align:center;">→</td><td style="padding:8px 10px;font-size:11px;color:#555;">$38.6B NORAD modernisation; US DoD procurement</td></tr><tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:8px 10px;font-size:12px;font-weight:600;">🇬🇧 United Kingdom</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#1a6b42;font-weight:700;">8/10</td><td style="padding:8px 10px;font-size:14px;text-align:center;">↑</td><td style="padding:8px 10px;font-size:11px;color:#555;">UK MoD modernisation; Five Eyes partnership</td></tr><tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:8px 10px;font-size:12px;font-weight:600;">🇦🇺 Australia</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#1a6b42;font-weight:700;">7/10</td><td style="padding:8px 10px;font-size:14px;text-align:center;">↑</td><td style="padding:8px 10px;font-size:11px;color:#555;">AUKUS partnership spillovers; Five Eyes cooperation</td></tr><tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:8px 10px;font-size:12px;font-weight:600;">🇵🇱 Poland</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#1a6b42;font-weight:700;">8/10</td><td style="padding:8px 10px;font-size:14px;text-align:center;">↑</td><td style="padding:8px 10px;font-size:11px;color:#555;">Massive defence modernisation; NATO frontline status</td></tr><tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:8px 10px;font-size:12px;font-weight:600;">🇳🇱 Netherlands</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#1a6b42;font-weight:700;">7/10</td><td style="padding:8px 10px;font-size:14px;text-align:center;">→</td><td style="padding:8px 10px;font-size:11px;color:#555;">F-35 MRO hub development; NATO commitments</td></tr><tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:8px 10px;font-size:12px;font-weight:600;">🇳🇴 Norway</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#b36b00;font-weight:700;">6/10</td><td style="padding:8px 10px;font-size:14px;text-align:center;">→</td><td style="padding:8px 10px;font-size:11px;color:#555;">Arctic defence priorities; NATO commitments</td></tr></tbody></table>
+    </div>
+
+    <!-- 5. Procurement Highlights -->
+    <div>
+      <span style="font-size:8px;letter-spacing:0.14em;text-transform:uppercase;font-family:'DM Mono',monospace;color:#3a1060;display:block;margin-bottom:8px;margin-top:24px;padding-top:20px;border-top:1px solid #e0dcd4;">5. Procurement Highlights</span>
+      <div style="padding:9px 0;border-bottom:1px solid #eee;"><div style="font-size:12px;font-weight:600;color:#1a1a1a;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/ab-2026-02918" style="color:#6a20b0;">City of Edmonton - Request for Qualification - 935678 Supply and Installation of</a></div><div style="font-family:'DM Mono',monospace;font-size:9px;color:#888;margin-top:3px;"> · 2030-04-13</div></div><div style="padding:9px 0;border-bottom:1px solid #eee;"><div style="font-size:12px;font-weight:600;color:#1a1a1a;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/mx-443959723430" style="color:#6a20b0;">APN - 2026/2027 BASE PROGRAM CFB ESQUIMALT, BC</a></div><div style="font-family:'DM Mono',monospace;font-size:9px;color:#888;margin-top:3px;"> · 2027-03-31</div></div><div style="padding:9px 0;border-bottom:1px solid #eee;"><div style="font-size:12px;font-weight:600;color:#1a1a1a;"><a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/mx-443959661431" style="color:#6a20b0;">APN - 2026/2027 BASE PROGRAM CHILLIWACK, BC</a></div><div style="font-family:'DM Mono',monospace;font-size:9px;color:#888;margin-top:3px;"> · 2027-03-31</div></div>
+    </div>
+
+    <!-- 6. Supply Chain Watch -->
+    <div>
+      <span style="font-size:8px;letter-spacing:0.14em;text-transform:uppercase;font-family:'DM Mono',monospace;color:#3a1060;display:block;margin-bottom:8px;margin-top:24px;padding-top:20px;border-top:1px solid #e0dcd4;">6. Supply Chain Watch</span>
+      <div style="border:1px solid #e0dcd4;background:#fff;"><div class="scw-item"><div class="scw-left"><div class="scw-input">US-origin defence electronics and avionics (F-35 program content)</div><div class="scw-status">Five Eyes intelligence sharing restrictions and increased NOFORN classifications by US limit Canadian access to technical data and supply chain visibility on F-35 subsystems. This directly impacts Canadian Tier 1/2 suppliers' ability to source, integrate, and qualify US-origin components.</div><div class="scw-action">→ Canadian primes and Tier 1 suppliers should immediately audit their F-35 supply chain for ITAR/EAR dependencies and request clarification from US OEMs on NOFORN impact on technical data sharing; develop alternative qualification pathways or engage Global Affairs Canada for exemption guidance.</div></div><div class="scw-risk scw-risk-high">High</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">UK-origin defence systems and intelligence-gated subsystems (Five Eyes supply chains)</div><div class="scw-status">UK suspension of Caribbean intelligence sharing and broader Five Eyes trust crisis creates uncertainty around data classification levels and export controls for UK-Canadian defence partnerships, affecting cross-border supply agreements and joint development programs.</div><div class="scw-action">→ Canadian businesses with UK supply or partnership dependencies should contact Trade Commissioner Service (TCS) at UK trade posts to assess whether intelligence sharing restrictions impact current contract performance, data flows, or upcoming tender participation.</div></div><div class="scw-risk scw-risk-med">Med</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">Swedish Gripen E subsystems and manufacturing partnerships (alternative fighter platform sourcing)</div><div class="scw-status">Canada's public consideration of Saab Gripen E as F-35 alternative is now live negotiation leverage. If pursued, Canadian suppliers face opportunity to develop new inbound supply chains for Swedish-origin avionics, engines, and composites currently unavailable in domestic supply base.</div><div class="scw-action">→ Canadian Tier 2/3 suppliers should register for CDSIA NATO Briefing and contact TCS in Sweden/Scandinavia to pre-qualify for Gripen supply chain participation if competition proceeds; assess domestic substitution capability for high-value Swedish components (e.g., avionics, radar, landing gear).</div></div><div class="scw-risk scw-risk-med">Med</div></div></div>
+    </div>
+
+    <!-- 7. Source Index -->
+    <div>
+      <span style="font-size:8px;letter-spacing:0.14em;text-transform:uppercase;font-family:'DM Mono',monospace;color:#3a1060;display:block;margin-bottom:8px;margin-top:24px;padding-top:20px;border-top:1px solid #e0dcd4;">7. Source Index</span>
+      <ul style="list-style:none;padding:0;font-size:12px;color:#555;line-height:1.8;"><li style="margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#3a1060;">[1]</span> Trading Economics</li><li style="margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#3a1060;">[2]</span> TSX aerospace/defence sector</li><li style="margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#3a1060;">[3]</span> Jane's Defence Weekly</li><li style="margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#3a1060;">[4]</span> US DDTC ITAR notices</li><li style="margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#3a1060;">[5]</span> BIS EAR Entity List</li><li style="margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#3a1060;">[6]</span> Global Affairs Canada EIPA</li><li style="margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#3a1060;">[7]</span> CanadaBuys.canada.ca DND tenders</li><li style="margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#3a1060;">[8]</span> UK MoD Contracts Finder</li><li style="margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#3a1060;">[9]</span> DSCA foreign military sales notices</li><li style="margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#3a1060;">[10]</span> NATO procurement notices</li><li style="margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#3a1060;">[11]</span> Global Affairs Canada</li><li style="margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#3a1060;">[12]</span> ISED ITB office</li><li style="margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#3a1060;">[13]</span> CADSI</li><li style="margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#3a1060;">[14]</span> Canada-US DPSA</li><li style="margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#3a1060;">[15]</span> CETA aerospace provisions</li><li style="margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#3a1060;">[16]</span> UK-Canada TCA defence provisions</li><li style="margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#3a1060;">[17]</span> Jane's Defence Weekly</li><li style="margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#3a1060;">[18]</span> Aviation Week</li><li style="margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#3a1060;">[19]</span> Defence News</li><li style="margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#3a1060;">[20]</span> Canadian Defence Review</li><li style="margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#3a1060;">[21]</span> MRO Americas</li><li style="margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#3a1060;">[22]</span> Ottawa Citizen defence</li><li style="margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#3a1060;">[23]</span> Globe and Mail aerospace</li><li style="margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#3a1060;">[24]</span> Financial Post defence</li><li style="margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#3a1060;">[25]</span> CanExport SME</li><li style="margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#3a1060;">[26]</span> ITB Policy</li><li style="margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#3a1060;">[27]</span> NORAD Modernisation</li><li style="margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#3a1060;">[28]</span> Defence Industrial Strategy</li><li style="margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#3a1060;">[29]</span> NRC IRAP</li><li style="margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#3a1060;">[30]</span> SR&ED</li><li style="margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#3a1060;">[31]</span> Trade Commissioner Service</li><li style="margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#3a1060;">[32]</span> EDC Surety Bonds</li></ul>
+    </div>
+
+    <!-- Print / Close -->
+    <div style="margin-top:32px;padding-top:20px;border-top:1px solid #e0dcd4;display:flex;gap:12px;align-items:center;">
+      <button onclick="window.print()" style="background:#6a20b0;color:#fff;border:none;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;padding:10px 20px;cursor:pointer;">🖨 Print</button>
+      <button onclick="toggleBriefing()" style="background:#f8f6f2;color:#333;border:1px solid #ddd;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;padding:10px 20px;cursor:pointer;">← Back to Full Report</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- REPORT FOOTER -->
+<footer class="report-footer">
+  <div class="report-footer-inner">
+    <div>
+      <div class="report-footer-brand">Canadian Trade Intel</div>
+      <div class="report-footer-meta">
+        AEROSPACE & DEFENCE &nbsp;·&nbsp; ISSUE #002<br>
+        CANADIANTRADEINTEL.CA &nbsp;·&nbsp; FOR INFORMATIONAL PURPOSES ONLY<br>
+        NOT LEGAL OR FINANCIAL ADVICE &nbsp;·&nbsp; AI-ASSISTED RESEARCH WITH EDITORIAL REVIEW
+      </div>
+    </div>
+    <div class="report-footer-links">
+      <a href="https://canadiantradeintel.ca/reports">All Reports</a>
+      <a href="https://canadiantradeintel.ca/spotlight">Canadian Spotlight</a>
+      <a href="https://canadiantradeintel.ca/pricing">Subscription Plans</a>
+      <a href="https://canadiantradeintel.ca/about">About</a>
+    </div>
+  </div>
+</footer>
+
+<button onclick="window.print()" class="pdf-float-btn">⬇ Save as PDF</button>
+
+<script>
+// Report nav active state on scroll
+const sections = document.querySelectorAll('section[id]');
+const navLinks  = document.querySelectorAll('.report-nav a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 140) current = s.id;
+  });
+  navLinks.forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+  });
+});
+
+// Compliance row detail toggle
+function toggleCompliance(id) {
+  const detail = document.getElementById(id);
+  if (!detail) return;
+  const isShowing = detail.style.display !== 'none';
+  detail.style.display = isShowing ? 'none' : 'block';
+  const row = detail.previousElementSibling;
+  if (row) {
+    const btn = row.querySelector('.comp-toggle');
+    if (btn) {
+      btn.textContent = isShowing ? 'Details ▾' : 'Details ▴';
+      btn.setAttribute('aria-expanded', String(!isShowing));
+      btn.classList.toggle('active', !isShowing);
+    }
+  }
+}
+
+// Briefing View toggle
+function toggleBriefing() {
+  const panel   = document.getElementById('briefing-panel');
+  const content = document.getElementById('report-content');
+  const footer  = document.querySelector('footer.report-footer');
+  const srcIdx  = document.getElementById('source-index');
+  const floatBtn = document.querySelector('.pdf-float-btn');
+  const toggleBtn = document.getElementById('briefing-toggle-btn');
+  const isShowing = panel.style.display !== 'none';
+
+  panel.style.display   = isShowing ? 'none' : 'block';
+  if (content)  content.style.display  = isShowing ? ''      : 'none';
+  if (footer)   footer.style.display   = isShowing ? ''      : 'none';
+  if (srcIdx)   srcIdx.style.display   = isShowing ? ''      : 'none';
+  if (floatBtn) floatBtn.style.display = isShowing ? ''      : 'none';
+
+  document.body.classList.toggle('briefing-active', !isShowing);
+  if (toggleBtn) {
+    toggleBtn.textContent = isShowing ? '📋 Briefing View' : '← Full Report';
+    toggleBtn.classList.toggle('active', !isShowing);
+  }
+  if (!isShowing) window.scrollTo(0, 0);
+}
+</script>
+
+</body>
+</html>
