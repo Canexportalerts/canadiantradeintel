@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Philippines — Canadian Trade Intelligence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@400;500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0A0F1A;
+    --ink-mid: #2A3248;
+    --ink-light: #4A5570;
+    --paper: #F5F3EE;
+    --paper-mid: #EAE7E0;
+    --paper-warm: #E2DDD5;
+    --accent: #C8960A;
+    --accent-deep: #8B6507;
+    --red: #C0392B;
+    --green: #1A6B3A;
+    --mono: 'DM Mono', monospace;
+    --serif: 'Cormorant Garamond', Georgia, serif;
+    --sans: 'Jost', system-ui, sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 15px; line-height: 1.6; overflow-x: hidden; }
+
+  .dossier-masthead {
+    background: #0A0C1A;
+    color: #fff;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .dossier-masthead::after {
+    content: 'PHILIPPINES';
+    position: absolute;
+    right: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: var(--serif);
+    font-size: 78px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.04);
+    pointer-events: none;
+    white-space: nowrap;
+    letter-spacing: 0.05em;
+  }
+  .dossier-top-bar { display: flex; align-items: center; justify-content: space-between; padding: 12px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); font-family: var(--mono); font-size: 11px; color: rgba(255,255,255,0.45); }
+  .dossier-top-bar a { color: rgba(255,255,255,0.45); text-decoration: none; }
+  .dossier-top-bar a:hover { color: rgba(255,255,255,0.8); }
+  .dossier-ref { letter-spacing: 0.08em; }
+  .dossier-main { display: grid; grid-template-columns: 1fr auto; gap: 40px; padding: 48px 40px 52px; align-items: end; }
+  .dossier-kicker { font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em; color: rgba(255,255,255,0.4); text-transform: uppercase; margin-bottom: 14px; }
+  .dossier-title { font-family: var(--serif); font-size: 56px; font-weight: 600; line-height: 1.05; color: #fff; margin-bottom: 18px; }
+  .dossier-sub { font-size: 15px; font-weight: 300; color: rgba(255,255,255,0.6); max-width: 560px; line-height: 1.65; }
+  .sector-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 22px; }
+  .sector-tag { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; padding: 4px 10px; border-radius: 2px; text-transform: uppercase; }
+  .s-cm { background: rgba(180,120,40,0.25); color: #F0C060; border: 1px solid rgba(180,120,40,0.3); }
+  .s-am { background: rgba(60,100,180,0.2); color: #90B4F0; border: 1px solid rgba(60,100,180,0.3); }
+  .s-af { background: rgba(40,140,70,0.2); color: #70C090; border: 1px solid rgba(40,140,70,0.3); }
+  .s-ae { background: rgba(140,60,180,0.2); color: #C090E0; border: 1px solid rgba(140,60,180,0.3); }
+  .s-td { background: rgba(0,160,180,0.2); color: #60D4E0; border: 1px solid rgba(0,160,180,0.3); }
+  .s-ec { background: rgba(20,160,100,0.2); color: #50D4A0; border: 1px solid rgba(20,160,100,0.3); }
+  .s-ls { background: rgba(220,80,80,0.2); color: #F09090; border: 1px solid rgba(220,80,80,0.3); }
+  .dossier-vitals { display: flex; flex-direction: column; gap: 16px; min-width: 210px; }
+  .vital-item { text-align: right; }
+  .vital-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; color: rgba(255,255,255,0.35); text-transform: uppercase; margin-bottom: 3px; }
+  .vital-value { font-family: var(--serif); font-size: 26px; font-weight: 600; color: #fff; line-height: 1; }
+  .vital-value.positive { color: #6EE4A0; }
+  .vital-note { font-family: var(--mono); font-size: 10px; color: rgba(255,255,255,0.35); margin-top: 2px; }
+
+  .section-nav { position: sticky; top: 0; z-index: 50; background: var(--ink); border-bottom: 1px solid rgba(255,255,255,0.08); overflow-x: auto; }
+  .section-nav ul { display: flex; list-style: none; padding: 0 40px; gap: 0; }
+  .section-nav a { display: block; padding: 13px 16px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; color: rgba(255,255,255,0.4); text-decoration: none; white-space: nowrap; border-bottom: 2px solid transparent; transition: color 0.2s, border-color 0.2s; }
+  .section-nav a:hover { color: rgba(255,255,255,0.8); }
+  .section-nav a.active { color: #fff; border-bottom-color: var(--accent); }
+
+  .dossier-body { display: grid; grid-template-columns: 1fr 300px; gap: 0; max-width: 1200px; margin: 0 auto; padding: 48px 40px; }
+  .dossier-content { display: flex; flex-direction: column; gap: 56px; padding-right: 48px; }
+  .dossier-aside { position: sticky; top: 50px; height: fit-content; display: flex; flex-direction: column; gap: 20px; }
+
+  .section-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; color: var(--ink-light); text-transform: uppercase; margin-bottom: 8px; }
+  .section-title { font-family: var(--serif); font-size: 30px; font-weight: 600; color: var(--ink); margin-bottom: 6px; line-height: 1.2; }
+  .section-rule { width: 40px; height: 2px; background: var(--accent); margin-bottom: 20px; }
+  .section-body { font-size: 15px; color: var(--ink-mid); line-height: 1.75; }
+  .section-body p + p { margin-top: 14px; }
+
+  .data-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--paper-warm); border: 1px solid var(--paper-warm); margin-top: 24px; }
+  .data-cell { background: var(--paper); padding: 16px 18px; }
+  .data-cell-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; color: var(--ink-light); text-transform: uppercase; margin-bottom: 6px; }
+  .data-cell-value { font-family: var(--serif); font-size: 22px; font-weight: 600; color: var(--ink); line-height: 1.1; }
+  .data-cell-note { font-family: var(--mono); font-size: 10px; color: var(--ink-light); margin-top: 3px; }
+
+  .opportunity-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 24px; }
+  .opp-card { background: var(--paper); border: 1px solid var(--paper-warm); border-left: 3px solid var(--accent); padding: 18px 20px; }
+  .opp-card.tier-high { border-left-color: #1A6B3A; }
+  .opp-card.tier-mid { border-left-color: var(--accent); }
+  .opp-card.tier-watch { border-left-color: #4A6090; }
+  .opp-card-sector { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; color: var(--ink-light); text-transform: uppercase; margin-bottom: 6px; }
+  .opp-card-title { font-weight: 600; font-size: 14px; color: var(--ink); margin-bottom: 6px; }
+  .opp-card-body { font-size: 13px; color: var(--ink-mid); line-height: 1.6; }
+
+  .risk-table { margin-top: 24px; border: 1px solid var(--paper-warm); }
+  .risk-row { display: grid; grid-template-columns: 180px 80px 1fr; gap: 0; border-bottom: 1px solid var(--paper-warm); }
+  .risk-row:last-child { border-bottom: none; }
+  .risk-row-header { background: var(--ink); color: #fff; }
+  .risk-cell { padding: 12px 16px; font-size: 13px; border-right: 1px solid var(--paper-warm); display: flex; align-items: center; }
+  .risk-cell:last-child { border-right: none; }
+  .risk-row-header .risk-cell { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; color: rgba(255,255,255,0.6); text-transform: uppercase; border-right-color: rgba(255,255,255,0.1); }
+  .risk-level { font-family: var(--mono); font-size: 11px; font-weight: 500; padding: 3px 8px; border-radius: 2px; }
+  .risk-high { background: rgba(192,57,43,0.12); color: #C0392B; }
+  .risk-mid { background: rgba(200,150,10,0.12); color: #8B6507; }
+  .risk-low { background: rgba(26,107,58,0.12); color: #1A6B3A; }
+
+  .fta-block { margin-top: 24px; border: 1px solid var(--paper-warm); padding: 20px 24px; }
+  .fta-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+  .fta-name { font-weight: 600; font-size: 15px; color: var(--ink); }
+  .fta-status { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; padding: 4px 10px; border-radius: 2px; background: rgba(26,107,58,0.12); color: #1A6B3A; text-transform: uppercase; }
+  .fta-status.none { background: rgba(192,57,43,0.1); color: #C0392B; }
+  .fta-body { font-size: 13px; color: var(--ink-mid); line-height: 1.65; }
+
+  .gov-signals { margin-top: 20px; display: flex; flex-direction: column; gap: 12px; }
+  .signal-item { display: flex; gap: 14px; padding: 14px 16px; background: var(--paper); border: 1px solid var(--paper-warm); }
+  .signal-icon { font-family: var(--mono); font-size: 18px; line-height: 1; flex-shrink: 0; margin-top: 2px; }
+  .signal-title { font-weight: 600; font-size: 14px; color: var(--ink); margin-bottom: 3px; }
+  .signal-body { font-size: 13px; color: var(--ink-mid); line-height: 1.6; }
+
+  .watch-box { margin-top: 20px; background: rgba(200,150,10,0.06); border: 1px solid rgba(200,150,10,0.2); border-left: 3px solid var(--accent); padding: 18px 20px; }
+  .watch-box-title { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; color: var(--accent-deep); text-transform: uppercase; margin-bottom: 8px; }
+  .watch-box-body { font-size: 13px; color: var(--ink-mid); line-height: 1.65; }
+  .watch-box-body ul { padding-left: 16px; }
+  .watch-box-body li + li { margin-top: 6px; }
+
+  .aside-card { background: var(--paper); border: 1px solid var(--paper-warm); padding: 18px 20px; }
+  .aside-card-title { font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; color: var(--ink-light); text-transform: uppercase; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--paper-warm); }
+  .aside-row { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 0; border-bottom: 1px solid var(--paper-warm); }
+  .aside-row:last-child { border-bottom: none; }
+  .aside-row-label { font-size: 12px; color: var(--ink-mid); }
+  .aside-row-value { font-family: var(--mono); font-size: 12px; color: var(--ink); font-weight: 500; }
+  .aside-list { list-style: none; }
+  .aside-list li { padding: 6px 0; border-bottom: 1px solid var(--paper-warm); font-size: 13px; color: var(--ink-mid); }
+  .aside-list li:last-child { border-bottom: none; }
+  .aside-list li strong { color: var(--ink); }
+  .aside-contact { font-size: 13px; color: var(--ink-mid); line-height: 1.65; }
+  .aside-contact strong { color: var(--ink); display: block; margin-bottom: 2px; }
+  .aside-contact + .aside-contact { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--paper-warm); }
+
+  .dossier-footer { background: var(--ink); color: rgba(255,255,255,0.35); padding: 28px 40px; display: flex; justify-content: space-between; align-items: center; font-family: var(--mono); font-size: 11px; }
+</style>
+</head>
+<body>
+
+<header class="dossier-masthead">
+  <div class="dossier-top-bar">
+    <div><a href="../../index.html">Canadian Trade Intelligence</a> / <a href="../index.html">Countries</a> / Philippines</div>
+    <div class="dossier-ref">CTI-PROFILE-PHL · RESTRICTED CIRCULATION</div>
+  </div>
+  <div class="dossier-main">
+    <div>
+      <div class="dossier-kicker">Country Dossier · Asia-Pacific · Southeast Asia</div>
+      <h1 class="dossier-title">Philippines</h1>
+      <p class="dossier-sub">Southeast Asia's fastest-growing major economy and home to one of the world's largest overseas worker populations — including 940,000+ Filipinos in Canada. A BPO superpower, critical minerals host, and ASEAN democracy navigating a US-China rivalry that directly shapes its geopolitical and commercial environment.</p>
+      <div class="sector-tags">
+        <span class="sector-tag s-cm">Critical Minerals</span>
+        <span class="sector-tag s-td">Technology/Digital</span>
+        <span class="sector-tag s-af">Agri-Food</span>
+        <span class="sector-tag s-ec">Energy/Cleantech</span>
+      </div>
+    </div>
+    <div class="dossier-vitals">
+      <div class="vital-item">
+        <div class="vital-label">Bilateral Trade</div>
+        <div class="vital-value">~$1.5B</div>
+        <div class="vital-note">CAD, 2023 est.</div>
+      </div>
+      <div class="vital-item">
+        <div class="vital-label">Trade Balance</div>
+        <div class="vital-value positive">+$450M</div>
+        <div class="vital-note">Canadian surplus</div>
+      </div>
+      <div class="vital-item">
+        <div class="vital-label">FTA Status</div>
+        <div class="vital-value" style="font-size:16px;color:rgba(255,255,255,0.5)">No CPTPP</div>
+        <div class="vital-note">WTO MFN; not a member</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="section-nav">
+  <ul>
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#trade">Trade</a></li>
+    <li><a href="#opportunities">Opportunities</a></li>
+    <li><a href="#risks">Risks</a></li>
+    <li><a href="#fta">Trade Agreements</a></li>
+    <li><a href="#investment">Investment</a></li>
+    <li><a href="#political">Political</a></li>
+    <li><a href="#procurement">Procurement</a></li>
+    <li><a href="#canadian">Canadian Presence</a></li>
+    <li><a href="#contacts">Contacts</a></li>
+    <li><a href="#sources">Sources</a></li>
+  </ul>
+</nav>
+
+<div class="dossier-body">
+  <main class="dossier-content">
+
+    <!-- OVERVIEW -->
+    <section class="dossier-section" id="overview">
+      <div class="section-label">01 / Overview</div>
+      <h2 class="section-title">ASEAN's Fastest-Growing Major Economy</h2>
+      <div class="section-rule"></div>
+      <div class="section-body">
+        <p>The Philippines is Southeast Asia's second-most-populous nation (115M people) and its fastest-growing major economy — averaging 6%+ GDP growth in the pre-pandemic decade and recovering strongly post-COVID. The country's economic model is distinctive: services dominate (especially Business Process Outsourcing, which generates ~$30B in annual revenue), remittances from the 10+ million overseas Filipino workers (OFWs) worldwide contribute ~9% of GDP, and manufacturing remains underdeveloped relative to peers.</p>
+        <p>The Philippine-Canadian connection is unusually deep for a bilateral relationship of this scale. Canada hosts over 940,000 Filipinos — one of the largest Filipino diaspora communities in the world — creating cultural familiarity, remittance flows, and commercial networks that reduce market entry friction for Canadian companies. The Filipino-Canadian community is concentrated in Ontario, BC, and Alberta, and maintains active entrepreneurial and investment ties to the Philippines.</p>
+        <p>The Philippines possesses world-class critical mineral endowments: it holds the world's second-largest nickel reserves, significant copper, gold, chromite, and cobalt deposits. These resources are increasingly relevant to the global energy transition — nickel for EV batteries, copper for electrification infrastructure — and position the Philippines as a strategically important partner for Canadian critical minerals diplomacy and investment.</p>
+        <p>Geopolitically, the Philippines sits at the epicentre of US-China rivalry in the South China Sea. The Marcos Jr. government has re-anchored the Philippines firmly in the US alliance system, significantly deepening defence ties with Washington (EDCA base access expansion, Balikatan exercises), while managing an economic relationship with China that remains substantial. Canada's deep alignment with the US makes the Philippines a natural diplomatic and security partner in the Indo-Pacific.</p>
+      </div>
+      <div class="data-grid">
+        <div class="data-cell">
+          <div class="data-cell-label">Population</div>
+          <div class="data-cell-value">115M</div>
+          <div class="data-cell-note">2024 estimate</div>
+        </div>
+        <div class="data-cell">
+          <div class="data-cell-label">GDP (Nominal)</div>
+          <div class="data-cell-value">~$440B</div>
+          <div class="data-cell-note">USD, 2023</div>
+        </div>
+        <div class="data-cell">
+          <div class="data-cell-label">GDP Growth</div>
+          <div class="data-cell-value">~5.7%</div>
+          <div class="data-cell-note">2024 projected</div>
+        </div>
+        <div class="data-cell">
+          <div class="data-cell-label">Filipino Diaspora CA</div>
+          <div class="data-cell-value" style="font-size:17px">940K+</div>
+          <div class="data-cell-note">One of Canada's largest communities</div>
+        </div>
+        <div class="data-cell">
+          <div class="data-cell-label">BPO Revenue</div>
+          <div class="data-cell-value" style="font-size:17px">~$30B</div>
+          <div class="data-cell-note">USD, world's #1-2 BPO destination</div>
+        </div>
+        <div class="data-cell">
+          <div class="data-cell-label">Nickel Reserves</div>
+          <div class="data-cell-value" style="font-size:17px">#2 Global</div>
+          <div class="data-cell-note">Critical for EV batteries</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRADE -->
+    <section class="dossier-section" id="trade">
+      <div class="section-label">02 / Trade Profile</div>
+      <h2 class="section-title">Wheat, Pork & Services vs. Electronics Exports</h2>
+      <div class="section-rule"></div>
+      <div class="section-body">
+        <p>Canada runs a goods trade surplus with the Philippines. Canadian exports are led by wheat (the Philippines is one of Asia's largest wheat importers, with high per-capita flour consumption driven by bread and noodle culture), pork, canola oil, and machinery. Philippine exports to Canada include electronics and semiconductors (the Philippines is a major electronics export hub), coconut products, and garments.</p>
+        <p>The bilateral goods trade figure (~$1.5B) understates the total economic relationship. Filipino-Canadian remittances, BPO service consumption by Canadian companies (many Canadian financial institutions and telecoms outsource customer service and back-office functions to Philippine BPO providers), and diaspora-driven investment flows add substantially to the economic interconnection.</p>
+        <p>Canadian BPO outsourcing to the Philippines is significant: TD Bank, RBC, Scotiabank, Bell, Rogers, and other major Canadian corporations maintain Philippine BPO partnerships. This creates a services trade relationship — Canadian companies importing Philippine services — that is material in value but poorly captured in standard trade statistics.</p>
+      </div>
+      <div class="data-grid">
+        <div class="data-cell">
+          <div class="data-cell-label">Canadian Exports</div>
+          <div class="data-cell-value">~$975M</div>
+          <div class="data-cell-note">Wheat, pork, canola, machinery</div>
+        </div>
+        <div class="data-cell">
+          <div class="data-cell-label">Canadian Imports</div>
+          <div class="data-cell-value">~$525M</div>
+          <div class="data-cell-note">Electronics, coconut, garments</div>
+        </div>
+        <div class="data-cell">
+          <div class="data-cell-label">BPO Services</div>
+          <div class="data-cell-value" style="font-size:16px">Significant</div>
+          <div class="data-cell-note">Uncaptured in goods data</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- OPPORTUNITIES -->
+    <section class="dossier-section" id="opportunities">
+      <div class="section-label">03 / Opportunities</div>
+      <h2 class="section-title">Critical Minerals, BPO Expansion & Clean Energy</h2>
+      <div class="section-rule"></div>
+      <div class="section-body">
+        <p>The Philippines offers a distinctive opportunity set anchored by critical minerals, a deep BPO/services relationship, diaspora connectivity, and an increasingly open investment climate. The Marcos Jr. government's economic team (led by Finance Secretary Ralph Recto) is pursuing reforms to attract manufacturing FDI and deepen infrastructure investment — a significant shift from the inward-oriented policies of previous administrations.</p>
+      </div>
+      <div class="opportunity-grid">
+        <div class="opp-card tier-high">
+          <div class="opp-card-sector">Critical Minerals</div>
+          <div class="opp-card-title">Nickel, Copper & EV Battery Supply Chain</div>
+          <div class="opp-card-body">The Philippines holds the world's second-largest nickel reserves, concentrated in Surigao del Norte, Palawan, and other Mindanao island deposits. Global EV battery demand is creating unprecedented nickel demand. Canadian mining companies with nickel expertise (Sherritt International has historical Philippines exposure) and critical minerals investors have early-mover opportunity as the Philippines positions itself as a critical minerals supplier for the energy transition.</div>
+        </div>
+        <div class="opp-card tier-high">
+          <div class="opp-card-sector">Technology / Digital</div>
+          <div class="opp-card-title">BPO & Digital Services Partnerships</div>
+          <div class="opp-card-body">Canadian companies are already major consumers of Philippine BPO services. The next wave involves higher-value IT-BPM (IT-enabled Business Process Management): AI integration, healthcare informatics, legal process outsourcing, and software development. Canadian technology companies can partner with Philippine IT-BPM providers (Accenture Philippines, Teleperformance, Concentrix, homegrown firms) for ASEAN market development or AI-augmented service delivery.</div>
+        </div>
+        <div class="opp-card tier-mid">
+          <div class="opp-card-sector">Energy / Cleantech</div>
+          <div class="opp-card-title">Renewable Energy — Offshore Wind & Solar</div>
+          <div class="opp-card-body">The Philippines has one of Southeast Asia's most ambitious renewable energy targets (35% by 2030). The government opened offshore wind development to 100% foreign ownership in 2022 — a landmark liberalisation. The Philippines has exceptional offshore wind resources (especially in the Luzon Strait). Canadian renewable energy developers and project finance advisors have entry opportunities in this rapidly growing sector.</div>
+        </div>
+        <div class="opp-card tier-mid">
+          <div class="opp-card-sector">Agri-Food</div>
+          <div class="opp-card-title">Wheat, Pork & Food Ingredients</div>
+          <div class="opp-card-body">The Philippines is Asia's largest wheat importer per capita, driven by its bread, noodle, and biscuit consumption culture. Canadian wheat (Canadian Western Red Spring, high-protein grades) is preferred by Philippine millers for its gluten quality. Pork imports are growing as domestic supply periodically faces African Swine Fever disruptions. Canadian agri-food exporters have a mature, growing market with established trade finance relationships.</div>
+        </div>
+        <div class="opp-card tier-watch">
+          <div class="opp-card-sector">Infrastructure</div>
+          <div class="opp-card-title">Build Better More Programme</div>
+          <div class="opp-card-body">The Marcos government's infrastructure programme ("Build Better More") continues the Duterte era's "Build Build Build" focus, targeting $180B+ in infrastructure investment through 2028. Canadian engineering (AtkinsRéalis, WSP, Stantec), project management, and infrastructure finance firms have opportunities in roads, water, and energy transmission projects.</div>
+        </div>
+        <div class="opp-card tier-watch">
+          <div class="opp-card-sector">Technology / Digital</div>
+          <div class="opp-card-title">Fintech & Digital Financial Inclusion</div>
+          <div class="opp-card-body">BSP (Bangko Sentral ng Pilipinas) has aggressively pushed financial inclusion — GCash and Maya (PayMaya) are ASEAN's leading super-app digital wallets. Canadian fintech companies have opportunities in embedded finance, MSME lending technology, and remittance infrastructure (the Philippines receives ~$40B in annual OFW remittances, of which a significant share originates in Canada).</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RISKS -->
+    <section class="dossier-section" id="risks">
+      <div class="section-label">04 / Risk Assessment</div>
+      <h2 class="section-title">Geopolitics, Governance & Natural Disaster Exposure</h2>
+      <div class="section-rule"></div>
+      <div class="section-body">
+        <p>The Philippines presents a moderate risk profile — higher than Singapore but manageable for Canadian companies with proper structuring. The primary risk factors are geopolitical (South China Sea tensions, US-China rivalry), natural disaster exposure (typhoon corridor, seismic zone), governance quality (corruption, judicial independence), and the absence of an FTA creating tariff disadvantages vs. ASEAN FTA competitors.</p>
+      </div>
+      <div class="risk-table">
+        <div class="risk-row risk-row-header">
+          <div class="risk-cell">Risk Factor</div>
+          <div class="risk-cell">Level</div>
+          <div class="risk-cell">Commentary</div>
+        </div>
+        <div class="risk-row">
+          <div class="risk-cell">South China Sea Geopolitics</div>
+          <div class="risk-cell"><span class="risk-level risk-high">HIGH</span></div>
+          <div class="risk-cell">China-Philippines tensions over the South China Sea (Second Thomas Shoal, Spratly Islands) have intensified under Marcos Jr. Maritime incidents are frequent. Escalation risk is real, though a direct armed conflict remains unlikely in the near term. Canadian companies with Philippines operations should have continuity plans and monitor US-China tension indicators.</div>
+        </div>
+        <div class="risk-row">
+          <div class="risk-cell">Natural Disaster Exposure</div>
+          <div class="risk-cell"><span class="risk-level risk-high">HIGH</span></div>
+          <div class="risk-cell">The Philippines is one of the world's most typhoon-affected countries (averages 20 typhoons/year, 5–6 destructive). Located on the Pacific Ring of Fire; major earthquakes are a periodic risk. Companies must maintain disaster recovery plans, source business interruption insurance, and locate critical infrastructure in lower-risk zones (Metro Manila, Central Luzon, Cebu are more resilient than eastern Visayas).</div>
+        </div>
+        <div class="risk-row">
+          <div class="risk-cell">Governance / Corruption</div>
+          <div class="risk-cell"><span class="risk-level risk-mid">MED</span></div>
+          <div class="risk-cell">The Philippines ranks in the bottom half of Transparency International's CPI. Political dynasties dominate local governance; regulatory enforcement is uneven. Canadian companies must apply rigorous CFPOA compliance, use reputable local partners, and structure contracts through Philippine arbitration (PDRCI) or international arbitration clauses.</div>
+        </div>
+        <div class="risk-row">
+          <div class="risk-cell">Political Succession Risk</div>
+          <div class="risk-cell"><span class="risk-level risk-mid">MED</span></div>
+          <div class="risk-cell">Marcos Jr. faces a presidential term limit (one term, 2022–2028). The Marcos-Duterte alliance has fractured — Sara Duterte (VP) broke with Marcos in 2024, creating political tension. The 2028 presidential election will be open and competitive. Policy continuity on mining, FDI, and trade is not guaranteed across administrations.</div>
+        </div>
+        <div class="risk-row">
+          <div class="risk-cell">Mining Regulatory Risk</div>
+          <div class="risk-cell"><span class="risk-level risk-mid">MED</span></div>
+          <div class="risk-cell">The Philippines has a history of mining moratoriums and nationalist policy swings. Previous administrations (Gina Lopez as DENR Secretary, 2016–2017) closed multiple mines on environmental grounds. The current administration is more mining-friendly, but the sector remains politically sensitive and regulatory stability cannot be assumed across election cycles.</div>
+        </div>
+        <div class="risk-row">
+          <div class="risk-cell">Currency (PHP) Risk</div>
+          <div class="risk-cell"><span class="risk-level risk-low">LOW</span></div>
+          <div class="risk-cell">The Philippine Peso is relatively stable, supported by large OFW remittance inflows and strong service sector FX earnings. The Bangko Sentral ng Pilipinas manages a credible monetary policy framework. Currency risk is moderate-to-low by emerging market standards.</div>
+        </div>
+      </div>
+      <div class="watch-box">
+        <div class="watch-box-title">Near-Term Watch Items</div>
+        <div class="watch-box-body">
+          <ul>
+            <li><strong>South China Sea escalation</strong> — any armed incident between Philippine and Chinese coast guard or naval vessels near Ayungin Shoal or other contested features could trigger a US response and significant market disruption.</li>
+            <li><strong>Marcos-Duterte political rivalry</strong> — the Marcos-Duterte breakup (Sara Duterte removed from VP's good graces) creates political uncertainty heading toward 2025 midterm elections and 2028 presidential succession.</li>
+            <li><strong>CPTPP accession interest</strong> — the Philippines, like Thailand, has expressed CPTPP interest. Any formal accession process would significantly reshape the bilateral commercial framework for Canadian agricultural exporters.</li>
+            <li><strong>Mining FDI liberalisation</strong> — the Marcos government has liberalised FDI rules in some sectors; any move to allow 100% foreign ownership in the mining sector (currently capped at 40%) would be transformational for Canadian critical minerals investment.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- FTA -->
+    <section class="dossier-section" id="fta">
+      <div class="section-label">05 / Trade Agreements</div>
+      <h2 class="section-title">WTO MFN — ASEAN FTA Gaps Disadvantage Canada</h2>
+      <div class="section-rule"></div>
+      <div class="section-body">
+        <p>Canada and the Philippines do not have a bilateral FTA. The Philippines is a member of the ASEAN Free Trade Area (AFTA) and the Regional Comprehensive Economic Partnership (RCEP), giving competitors from China, Japan, Korea, Australia, and New Zealand preferential access that Canadian exporters lack. The Philippines is not a CPTPP member; it has expressed interest but no formal accession negotiations have begun.</p>
+      </div>
+      <div class="fta-block">
+        <div class="fta-header">
+          <span class="fta-name">Canada–Philippines Bilateral FTA</span>
+          <span class="fta-status none">Not Applicable</span>
+        </div>
+        <div class="fta-body">No bilateral FTA exists. Canadian exporters face Philippine MFN tariff rates — typically 3–10% for most goods, with agriculture facing higher rates (wheat is generally 3–5%, pork faces tariff-rate quotas). ASEAN FTA and RCEP competitors enjoy preferential rates. A bilateral FTA or Philippines CPTPP accession would significantly improve the competitive position of Canadian exporters.</div>
+      </div>
+      <div class="fta-block">
+        <div class="fta-header">
+          <span class="fta-name">Philippines CPTPP Accession — Prospective</span>
+          <span class="fta-status none">Not Yet Launched</span>
+        </div>
+        <div class="fta-body">The Philippines has expressed interest in CPTPP membership under the Marcos government, which is more trade-liberalisation-oriented than its predecessors. If the Philippines accedes to CPTPP, Canadian agricultural, industrial, and service exporters would gain significant preferential access. The timeline is uncertain; formal accession talks are unlikely before 2026 at the earliest and would require resolution of sensitive agricultural market access issues.</div>
+      </div>
+      <div class="fta-block">
+        <div class="fta-header">
+          <span class="fta-name">RCEP — Philippines is a Member</span>
+          <span class="fta-status">In Force (Philippines)</span>
+        </div>
+        <div class="fta-body">The Philippines is a party to RCEP, ratified in 2023. RCEP grants competitors from China, Japan, Korea, Australia, New Zealand, and ASEAN members preferential trade access to the Philippine market that Canadian companies do not enjoy. This reinforces the competitive case for a Canada-Philippines trade arrangement.</div>
+      </div>
+    </section>
+
+    <!-- INVESTMENT -->
+    <section class="dossier-section" id="investment">
+      <div class="section-label">06 / Investment Climate</div>
+      <h2 class="section-title">Liberalising Economy — FDI Reforms Under Marcos Jr.</h2>
+      <div class="section-rule"></div>
+      <div class="section-body">
+        <p>The Philippines has historically had one of ASEAN's most restrictive FDI regimes, with constitutional prohibitions on foreign majority ownership in utilities, land, media, and retail trade. The Marcos Jr. government — building on the Duterte administration's Public Services Act amendment — has opened additional sectors to 100% foreign ownership: telecoms, airlines, airports, expressways, railways, and offshore wind energy. The Foreign Investment Act Negative List continues to restrict mining (40% cap), land ownership (foreigners cannot own land), and other sectors.</p>
+        <p>The Board of Investments (BOI) and Philippine Economic Zone Authority (PEZA) are the primary FDI facilitation agencies. PEZA zones offer significant tax incentives including income tax holidays (4–6 years), duty-free importation of capital equipment, and simplified export/import procedures. The CREATE MORE Act (Corporate Recovery and Tax Incentives for Enterprises — More Opportunities, Reaching Enterprises) was signed in 2024, enhancing and extending investment incentives.</p>
+        <p>The Canadian-Filipino diaspora is an important FDI vector. Balikbayan (returning Filipino) investment programmes and the strong commercial networks of the Filipino-Canadian community create deal flow, partnership introductions, and cultural intelligence that Canadian companies entering the Philippine market can leverage.</p>
+      </div>
+      <div class="gov-signals">
+        <div class="signal-item">
+          <div class="signal-icon">⚡</div>
+          <div>
+            <div class="signal-title">Offshore Wind — 100% Foreign Ownership Now Permitted</div>
+            <div class="signal-body">The Philippines opened offshore wind development to 100% foreign ownership in June 2022 under the amended Public Services Act. The country has exceptional offshore wind resources — the ADB estimates 178 GW of technically viable capacity. Canadian renewable energy developers and project finance advisors have a genuine first-mover opportunity in this market, which is still in early development stage with a large project pipeline emerging.</div>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-icon">⛏</div>
+          <div>
+            <div class="signal-title">Nickel Mining — Critical Minerals Investment</div>
+            <div class="signal-body">The Philippines holds the world's second-largest nickel reserves, primarily in Surigao del Norte (Mindanao), Palawan, and Cagayan de Oro. The Marcos government is actively seeking critical minerals investment partnerships with Canada, Australia, Japan, and the US. The 40% foreign equity cap in mining is a constraint but joint venture structures (40% Canadian, 60% Filipino) are workable for willing partners.</div>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-icon">💻</div>
+          <div>
+            <div class="signal-title">IT-BPM Sector — $40B Target by 2028</div>
+            <div class="signal-body">The IT-Business Process Management (IT-BPM) sector — centred in Metro Manila, Cebu, Clark, and Davao — is the Philippines' largest export earner after OFW remittances. The government targets $40B in IT-BPM revenues by 2028. Canadian technology companies can partner with Philippine IT-BPM providers for nearshore service delivery, co-development, or AI integration projects.</div>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-icon">💰</div>
+          <div>
+            <div class="signal-title">OFW Remittances — $40B+ Annual Flow</div>
+            <div class="signal-body">The Philippines receives $40B+ in annual OFW remittances — one of the world's largest flows as a share of GDP. Canada-sourced remittances are a significant component. Canadian fintech and remittance companies (RBC, Western Union, homegrown fintech) compete in this high-volume corridor. Digital remittance is growing rapidly via GCash and other platforms.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- POLITICAL -->
+    <section class="dossier-section" id="political">
+      <div class="section-label">07 / Political Environment</div>
+      <h2 class="section-title">Marcos Jr. — US Alliance Pivot & Internal Tensions</h2>
+      <div class="section-rule"></div>
+      <div class="section-body">
+        <p>Ferdinand Marcos Jr. (Bongbong) won the May 2022 presidential election with a commanding majority, running alongside Sara Duterte as VP. The Marcos-Duterte alliance subsequently fractured — by 2024 Sara Duterte had broken publicly with Marcos, creating political tension and uncertainty about the 2025 midterm elections and 2028 presidential succession. The breakup reflects deeper Philippine political dynamics: personalistic factions rather than stable programmatic parties.</p>
+        <p>On foreign policy, Marcos Jr. has decisively re-anchored the Philippines in the US alliance system — a sharp reversal from Duterte's China pivot. The EDCA (Enhanced Defence Cooperation Agreement) was expanded to include additional US military base access sites; joint military exercises (Balikatan) have scaled up; and the Philippines has joined US-led critical minerals supply chain partnerships. Canada's deep alignment with the US-led order makes the Philippines a natural strategic partner in the Indo-Pacific.</p>
+        <p>Marcos Jr.'s economic agenda — led by Finance Secretary Ralph Recto and NEDA Secretary Arsenio Balisacan — is explicitly pro-investment. The CREATE MORE Act, FDI liberalisation in public services, and the government's critical minerals strategy reflect a genuine policy pivot toward attracting manufacturing and technology investment to reduce the economy's remittance-BPO dependency. Canadian companies should engage while this investment-friendly window is open — policy continuity across the 2028 election is not guaranteed.</p>
+      </div>
+    </section>
+
+    <!-- PROCUREMENT -->
+    <section class="dossier-section" id="procurement">
+      <div class="section-label">08 / Procurement Access</div>
+      <h2 class="section-title">PhilGEPS & Infrastructure Programme</h2>
+      <div class="section-rule"></div>
+      <div class="section-body">
+        <p>The Philippines' government procurement is governed by Republic Act 9184 (Government Procurement Reform Act) and administered through the Philippine Government Electronic Procurement System (PhilGEPS). The Philippines is not a GPA member, but large ODA-funded projects (ADB, World Bank, JICA, US EXIM) use international competitive bidding that Canadian companies can access. The "Build Better More" infrastructure programme is creating substantial procurement opportunities in roads, water, and energy.</p>
+      </div>
+      <div class="gov-signals">
+        <div class="signal-item">
+          <div class="signal-icon">🖥</div>
+          <div>
+            <div class="signal-title">PhilGEPS — Philippine Government Electronic Procurement System</div>
+            <div class="signal-body">PhilGEPS (philgeps.gov.ph) is the national e-procurement portal publishing tenders from all Philippine government agencies. Canadian companies can monitor PhilGEPS for tenders in their sector. Donor-funded procurement (ADB, World Bank, USAID, Japanese ODA) is published separately and follows ICB rules accessible to Canadian companies without GPA membership.</div>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-icon">🏗</div>
+          <div>
+            <div class="signal-title">DPWH & DOTr — Infrastructure Procurement</div>
+            <div class="signal-body">The Department of Public Works and Highways (DPWH) and Department of Transportation (DOTr) are the primary infrastructure procuring agencies under "Build Better More." Large toll road, railway (MRT, LRT, PNR extensions), and airport projects are funded with a mix of ODA loans (ADB, JICA, World Bank) and domestic budgets. Canadian engineering and construction companies should monitor DOTr and DPWH procurement announcements.</div>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-icon">⚡</div>
+          <div>
+            <div class="signal-title">DOE — Renewable Energy Procurement</div>
+            <div class="signal-body">The Department of Energy (DOE) manages renewable energy certification, Green Energy Option Programme (GEOP), and competitive selection processes for RE supply agreements. The offshore wind programme (Service Contracts for offshore wind development) is administered by DOE. Canadian renewable energy companies should engage DOE and the Philippine Electricity Market Corporation (PEMC) for market entry.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CANADIAN PRESENCE -->
+    <section class="dossier-section" id="canadian">
+      <div class="section-label">09 / Canadian Presence</div>
+      <h2 class="section-title">Diaspora Bridge & Agricultural Anchors</h2>
+      <div class="section-rule"></div>
+      <div class="section-body">
+        <p>Canada's commercial presence in the Philippines is anchored by agricultural trade relationships (wheat, pork, canola) and the BPO service consumption by major Canadian corporations. The 940,000+ Filipino-Canadian diaspora is the most important differentiator in the bilateral relationship — no other Canadian trade partner offers the same depth of cultural familiarity, shared language (English is co-official in the Philippines), and commercial network density that the diaspora provides.</p>
+      </div>
+      <div class="gov-signals">
+        <div class="signal-item">
+          <div class="signal-icon">🌾</div>
+          <div>
+            <div class="signal-title">Canadian Wheat Exporters — Established Market</div>
+            <div class="signal-body">Canadian wheat (particularly Canadian Western Red Spring) has long been the premium grade preferred by Philippine flour millers for bread and noodle production. The Canadian Grain Commission and Wheat Exporters (via the Canadian Grain Institute's trade development activities) maintain active Philippines market engagement. Canadian wheat has a quality reputation that commands a premium in Philippine procurement.</div>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-icon">💻</div>
+          <div>
+            <div class="signal-title">Canadian Banks — BPO Service Consumers</div>
+            <div class="signal-body">Major Canadian banks (TD, RBC, Scotiabank) and telecoms (Bell, Rogers) are significant consumers of Philippine BPO services for customer service, back-office processing, and IT support. This reverse service trade creates commercial relationships and familiarity with the Philippine business environment that benefits other Canadian companies entering the market.</div>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-icon">🏗</div>
+          <div>
+            <div class="signal-title">AtkinsRéalis — Engineering & Infrastructure</div>
+            <div class="signal-body">AtkinsRéalis (formerly SNC-Lavalin) has maintained a presence in Southeast Asian infrastructure markets including the Philippines. Canadian engineering and project management firms with ADB/World Bank procurement experience can compete for Philippine infrastructure contracts under the "Build Better More" programme.</div>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-icon">🇨🇦</div>
+          <div>
+            <div class="signal-title">Embassy of Canada — Manila</div>
+            <div class="signal-body">The Embassy of Canada in Manila provides full diplomatic and Trade Commissioner Service coverage. TCS Manila has expertise in agricultural trade, BPO sector relationships, infrastructure procurement, and renewable energy market development. The Embassy also manages a substantial consular workload given the large Canadian-Filipino community movement between the two countries.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACTS -->
+    <section class="dossier-section" id="contacts">
+      <div class="section-label">10 / Key Contacts</div>
+      <h2 class="section-title">Entry Points & Institutions</h2>
+      <div class="section-rule"></div>
+      <div class="section-body">
+        <p>The Canadian Embassy in Manila is the primary support channel for Canadian companies. The BOI, PEZA, and DOE are the key government counterparts depending on sector. Leveraging the Filipino-Canadian diaspora network is highly recommended for all market entry strategies.</p>
+      </div>
+      <div class="gov-signals">
+        <div class="signal-item">
+          <div class="signal-icon">🇨🇦</div>
+          <div>
+            <div class="signal-title">Trade Commissioner Service — Manila</div>
+            <div class="signal-body">Embassy of Canada, 6th-8th Floor, Tower 2, RCBC Plaza, 6819 Ayala Avenue, Makati City. TCS Manila provides market intelligence, matchmaking, and sector expertise for Canadian companies entering the Philippine market. Sector coverage includes agri-food, technology, energy, infrastructure, and mining.</div>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-icon">🏛</div>
+          <div>
+            <div class="signal-title">Board of Investments (BOI) Philippines</div>
+            <div class="signal-body">BOI administers investment incentives under the CREATE MORE Act, including income tax holidays and enhanced deductions for qualifying investments. BOI publishes the Investment Priority Plan (IPP) listing target industries. Canadian companies in IPP-listed sectors (manufacturing, agriculture, IT-BPM, tourism, critical minerals, infrastructure) should engage BOI for incentive structuring.</div>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-icon">🏭</div>
+          <div>
+            <div class="signal-title">PEZA — Philippine Economic Zone Authority</div>
+            <div class="signal-body">PEZA administers Special Economic Zones, IT Parks, and Agro-Industrial Zones offering enhanced tax incentives for export-oriented enterprises. PEZA-registered companies benefit from income tax holidays, duty-free importation, and simplified customs. IT-BPM companies, manufacturing exporters, and logistics companies typically register with PEZA for maximum incentive access.</div>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-icon">⚡</div>
+          <div>
+            <div class="signal-title">Department of Energy (DOE) — RE Division</div>
+            <div class="signal-body">DOE's Renewable Energy Management Bureau manages the RE Service Contract system. Canadian offshore wind developers, solar companies, and clean energy investors should engage DOE early for site selection, Service Contract applications, and grid connection coordination with NGCP (National Grid Corporation of the Philippines).</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SOURCES -->
+    <section class="dossier-section" id="sources">
+      <div class="section-label">11 / Sources & Methodology</div>
+      <h2 class="section-title">Data Sources</h2>
+      <div class="section-rule"></div>
+      <div class="section-body">
+        <p>This dossier draws on publicly available data from: Statistics Canada trade data portal; Global Affairs Canada Philippines country and sector reports; Philippine Statistics Authority (PSA); Board of Investments (BOI) investment statistics; PEZA economic zone data; Department of Energy RE Service Contract registry; Bangko Sentral ng Pilipinas data; IBPAP (IT-BPM sector association) industry reports; Philippine Crop Insurance Corporation agricultural data; IMF Philippines Article IV consultations; World Bank Philippines country data; and ASEAN Secretariat trade statistics.</p>
+        <p>Trade figures are estimates based on 2022–23 data and may not reflect the most recent Statistics Canada releases. All figures in Canadian dollars unless otherwise stated. This dossier is for informational purposes only and does not constitute investment advice.</p>
+        <p><strong>Classification:</strong> CTI-PROFILE-PHL · Prepared by Canadian Trade Intelligence · For authorized distribution only.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <aside class="dossier-aside">
+    <div class="aside-card">
+      <div class="aside-card-title">Quick Facts</div>
+      <div class="aside-row"><span class="aside-row-label">Capital</span><span class="aside-row-value">Manila</span></div>
+      <div class="aside-row"><span class="aside-row-label">President</span><span class="aside-row-value">Marcos Jr.</span></div>
+      <div class="aside-row"><span class="aside-row-label">Term</span><span class="aside-row-value">2022–2028</span></div>
+      <div class="aside-row"><span class="aside-row-label">Currency</span><span class="aside-row-value">PHP (Peso)</span></div>
+      <div class="aside-row"><span class="aside-row-label">CPTPP</span><span class="aside-row-value">Not a Member</span></div>
+      <div class="aside-row"><span class="aside-row-label">Diaspora in CA</span><span class="aside-row-value">940K+</span></div>
+    </div>
+    <div class="aside-card">
+      <div class="aside-card-title">Strategic Assets</div>
+      <ul class="aside-list">
+        <li><strong>Nickel</strong> — #2 global reserves</li>
+        <li><strong>BPO</strong> — world's #1-2 destination</li>
+        <li><strong>Offshore Wind</strong> — 178 GW potential</li>
+        <li><strong>OFW Network</strong> — $40B remittances</li>
+        <li><strong>Diaspora</strong> — 940K+ in Canada</li>
+      </ul>
+    </div>
+    <div class="aside-card">
+      <div class="aside-card-title">Top Canadian Exports</div>
+      <div class="aside-row"><span class="aside-row-label">Wheat</span><span class="aside-row-value">Largest category</span></div>
+      <div class="aside-row"><span class="aside-row-label">Pork</span><span class="aside-row-value">Growing</span></div>
+      <div class="aside-row"><span class="aside-row-label">Canola Oil</span><span class="aside-row-value">Significant</span></div>
+      <div class="aside-row"><span class="aside-row-label">Machinery</span><span class="aside-row-value">Industrial</span></div>
+    </div>
+    <div class="aside-card">
+      <div class="aside-card-title">Access Points</div>
+      <div class="aside-contact">
+        <strong>TCS Manila</strong>
+        Embassy of Canada<br>
+        RCBC Plaza, Makati City<br>
+        Full sector coverage
+      </div>
+      <div class="aside-contact">
+        <strong>BOI Philippines</strong>
+        FDI incentives (CREATE MORE Act)
+      </div>
+      <div class="aside-contact">
+        <strong>PEZA</strong>
+        Economic zone incentives
+      </div>
+    </div>
+    <div class="aside-card">
+      <div class="aside-card-title">Risk Snapshot</div>
+      <div class="aside-row"><span class="aside-row-label">Geopolitical</span><span class="aside-row-value" style="color:#C0392B">HIGH</span></div>
+      <div class="aside-row"><span class="aside-row-label">Natural Disaster</span><span class="aside-row-value" style="color:#C0392B">HIGH</span></div>
+      <div class="aside-row"><span class="aside-row-label">Corruption</span><span class="aside-row-value" style="color:#8B6507">MED</span></div>
+      <div class="aside-row"><span class="aside-row-label">Political</span><span class="aside-row-value" style="color:#8B6507">MED</span></div>
+      <div class="aside-row"><span class="aside-row-label">Currency</span><span class="aside-row-value" style="color:#1A6B3A">LOW</span></div>
+    </div>
+  </aside>
+</div>
+
+<footer class="dossier-footer">
+  <div>CTI-PROFILE-PHL · Canadian Trade Intelligence · Restricted Circulation</div>
+  <div>Last updated: Q1 2025 · Data current to Dec 2024</div>
+</footer>
+
+<script>
+  const navLinks = document.querySelectorAll('.section-nav a');
+  const sections = document.querySelectorAll('.dossier-section');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.getAttribute('id');
+        navLinks.forEach(link => {
+          link.classList.toggle('active', link.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

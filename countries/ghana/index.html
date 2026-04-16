@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ghana — Canadian Trade Intelligence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@400;500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0A0F1A;
+    --ink-mid: #2A3248;
+    --ink-light: #4A5570;
+    --paper: #F5F3EE;
+    --paper-mid: #EAE7E0;
+    --paper-warm: #E2DDD5;
+    --accent: #C8960A;
+    --accent-deep: #8B6507;
+    --red: #C0392B;
+    --green: #1A6B3A;
+    --mono: 'DM Mono', monospace;
+    --serif: 'Cormorant Garamond', Georgia, serif;
+    --sans: 'Jost', system-ui, sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 15px; line-height: 1.6; overflow-x: hidden; }
+
+  /* MASTHEAD */
+  .dossier-masthead {
+    background: #1A1208;
+    color: #fff;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .dossier-masthead::after {
+    content: 'GHANA';
+    position: absolute;
+    right: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: var(--serif);
+    font-size: 120px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.04);
+    pointer-events: none;
+    white-space: nowrap;
+    letter-spacing: 0.05em;
+  }
+  .dossier-top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 40px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    font-family: var(--mono);
+    font-size: 11px;
+    color: rgba(255,255,255,0.45);
+  }
+  .dossier-top-bar a { color: rgba(255,255,255,0.45); text-decoration: none; }
+  .dossier-top-bar a:hover { color: rgba(255,255,255,0.8); }
+  .dossier-ref { letter-spacing: 0.08em; }
+  .dossier-main {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 40px;
+    padding: 48px 40px 52px;
+    align-items: end;
+  }
+  .dossier-kicker {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: rgba(255,255,255,0.4);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .dossier-title {
+    font-family: var(--serif);
+    font-size: 56px;
+    font-weight: 600;
+    line-height: 1.05;
+    color: #fff;
+    margin-bottom: 18px;
+  }
+  .dossier-sub {
+    font-size: 15px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.6);
+    max-width: 560px;
+    line-height: 1.65;
+  }
+  .sector-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 22px; }
+  .sector-tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    padding: 4px 10px;
+    border-radius: 2px;
+    text-transform: uppercase;
+  }
+  .s-cm { background: rgba(180,120,40,0.25); color: #F0C060; border: 1px solid rgba(180,120,40,0.3); }
+  .s-am { background: rgba(60,100,180,0.2); color: #90B4F0; border: 1px solid rgba(60,100,180,0.3); }
+  .s-af { background: rgba(40,140,70,0.2); color: #70C090; border: 1px solid rgba(40,140,70,0.3); }
+  .s-ae { background: rgba(140,60,180,0.2); color: #C090E0; border: 1px solid rgba(140,60,180,0.3); }
+  .s-td { background: rgba(0,160,180,0.2); color: #60D4E0; border: 1px solid rgba(0,160,180,0.3); }
+  .s-ec { background: rgba(20,160,100,0.2); color: #50D4A0; border: 1px solid rgba(20,160,100,0.3); }
+  .s-ls { background: rgba(220,80,80,0.2); color: #F09090; border: 1px solid rgba(220,80,80,0.3); }
+  .dossier-vitals {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-width: 210px;
+  }
+  .vital-item { text-align: right; }
+  .vital-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.35);
+    text-transform: uppercase;
+    margin-bottom: 3px;
+  }
+  .vital-value {
+    font-family: var(--serif);
+    font-size: 26px;
+    font-weight: 600;
+    color: #fff;
+    line-height: 1;
+  }
+  .vital-value.positive { color: #6EE4A0; }
+  .vital-value.negative { color: #F08080; }
+  .vital-note {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: rgba(255,255,255,0.35);
+    margin-top: 2px;
+  }
+
+  /* NAV */
+  .section-nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--ink);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    overflow-x: auto;
+  }
+  .section-nav ul {
+    display: flex;
+    list-style: none;
+    padding: 0 40px;
+    gap: 0;
+  }
+  .section-nav a {
+    display: block;
+    padding: 13px 16px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: rgba(255,255,255,0.4);
+    text-decoration: none;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .section-nav a:hover { color: rgba(255,255,255,0.8); }
+  .section-nav a.active { color: #fff; border-bottom-color: var(--accent); }
+
+  /* BODY LAYOUT */
+  .dossier-body {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 0;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 48px 40px;
+  }
+  .dossier-content { display: flex; flex-direction: column; gap: 56px; padding-right: 48px; }
+  .dossier-aside { position: sticky; top: 50px; height: fit-content; display: flex; flex-direction: column; gap: 20px; }
+
+  /* SECTIONS */
+  .dossier-section {}
+  .section-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    color: var(--ink-light);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .section-title {
+    font-family: var(--serif);
+    font-size: 30px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 6px;
+    line-height: 1.2;
+  }
+  .section-rule {
+    width: 40px;
+    height: 2px;
+    background: var(--accent);
+    margin-bottom: 20px;
+  }
+  .section-body { font-size: 15px; color: var(--ink-mid); line-height: 1.75; }
+  .section-body p + p { margin-top: 14px; }
+
+  /* DATA GRID */
+  .data-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--paper-warm);
+    border: 1px solid var(--paper-warm);
+    margin-top: 24px;
+  }
+  .data-cell {
+    background: var(--paper);
+    padding: 16px 18px;
+  }
+  .data-cell-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--ink-light);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .data-cell-value {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.1;
+  }
+  .data-cell-note {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--ink-light);
+    margin-top: 3px;
+  }
+
+  /* OPPORTUNITY GRID */
+  .opportunity-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 24px; }
+  .opp-card {
+    background: var(--paper);
+    border: 1px solid var(--paper-warm);
+    border-left: 3px solid var(--accent);
+    padding: 18px 20px;
+  }
+  .opp-card.tier-high { border-left-color: #1A6B3A; }
+  .opp-card.tier-mid { border-left-color: var(--accent); }
+  .opp-card.tier-watch { border-left-color: #4A6090; }
+  .opp-card-sector {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--ink-light);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .opp-card-title { font-weight: 600; font-size: 14px; color: var(--ink); margin-bottom: 6px; }
+  .opp-card-body { font-size: 13px; color: var(--ink-mid); line-height: 1.6; }
+
+  /* RISK TABLE */
+  .risk-table { margin-top: 24px; border: 1px solid var(--paper-warm); }
+  .risk-row {
+    display: grid;
+    grid-template-columns: 180px 80px 1fr;
+    gap: 0;
+    border-bottom: 1px solid var(--paper-warm);
+  }
+  .risk-row:last-child { border-bottom: none; }
+  .risk-row-header { background: var(--ink); color: #fff; }
+  .risk-cell {
+    padding: 12px 16px;
+    font-size: 13px;
+    border-right: 1px solid var(--paper-warm);
+    display: flex;
+    align-items: center;
+  }
+  .risk-cell:last-child { border-right: none; }
+  .risk-row-header .risk-cell {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.6);
+    text-transform: uppercase;
+    border-right-color: rgba(255,255,255,0.1);
+  }
+  .risk-level {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 8px;
+    border-radius: 2px;
+  }
+  .risk-high { background: rgba(192,57,43,0.12); color: #C0392B; }
+  .risk-mid { background: rgba(200,150,10,0.12); color: #8B6507; }
+  .risk-low { background: rgba(26,107,58,0.12); color: #1A6B3A; }
+
+  /* FTA BLOCK */
+  .fta-block { margin-top: 24px; border: 1px solid var(--paper-warm); padding: 20px 24px; }
+  .fta-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+  .fta-name { font-weight: 600; font-size: 15px; color: var(--ink); }
+  .fta-status {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    padding: 4px 10px;
+    border-radius: 2px;
+    background: rgba(26,107,58,0.12);
+    color: #1A6B3A;
+    text-transform: uppercase;
+  }
+  .fta-status.none {
+    background: rgba(192,57,43,0.1);
+    color: #C0392B;
+  }
+  .fta-body { font-size: 13px; color: var(--ink-mid); line-height: 1.65; }
+
+  /* GOV SIGNALS */
+  .gov-signals { margin-top: 20px; display: flex; flex-direction: column; gap: 12px; }
+  .signal-item { display: flex; gap: 14px; padding: 14px 16px; background: var(--paper); border: 1px solid var(--paper-warm); }
+  .signal-icon {
+    font-family: var(--mono);
+    font-size: 18px;
+    line-height: 1;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .signal-title { font-weight: 600; font-size: 14px; color: var(--ink); margin-bottom: 3px; }
+  .signal-body { font-size: 13px; color: var(--ink-mid); line-height: 1.6; }
+
+  /* WATCH BOX */
+  .watch-box {
+    margin-top: 20px;
+    background: rgba(200,150,10,0.06);
+    border: 1px solid rgba(200,150,10,0.2);
+    border-left: 3px solid var(--accent);
+    padding: 18px 20px;
+  }
+  .watch-box-title {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--accent-deep);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .watch-box-body { font-size: 13px; color: var(--ink-mid); line-height: 1.65; }
+  .watch-box-body ul { padding-left: 16px; }
+  .watch-box-body li + li { margin-top: 6px; }
+
+  /* ASIDE */
+  .aside-card {
+    background: var(--paper);
+    border: 1px solid var(--paper-warm);
+    padding: 18px 20px;
+  }
+  .aside-card-title {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--ink-light);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--paper-warm);
+  }
+  .aside-row { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 0; border-bottom: 1px solid var(--paper-warm); }
+  .aside-row:last-child { border-bottom: none; }
+  .aside-row-label { font-size: 12px; color: var(--ink-mid); }
+  .aside-row-value { font-family: var(--mono); font-size: 12px; color: var(--ink); font-weight: 500; }
+  .aside-list { list-style: none; }
+  .aside-list li { padding: 6px 0; border-bottom: 1px solid var(--paper-warm); font-size: 13px; color: var(--ink-mid); }
+  .aside-list li:last-child { border-bottom: none; }
+  .aside-list li strong { color: var(--ink); }
+  .aside-contact { font-size: 13px; color: var(--ink-mid); line-height: 1.65; }
+  .aside-contact strong { color: var(--ink); display: block; margin-bottom: 2px; }
+  .aside-contact + .aside-contact { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--paper-warm); }
+
+  /* FOOTER */
+  .dossier-footer {
+    background: var(--ink);
+    color: rgba(255,255,255,0.35);
+    padding: 28px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--mono);
+    font-size: 11px;
+  }
+</style>
+</head>
+<body>
+
+<header class="dossier-masthead">
+  <div class="dossier-top-bar">
+    <div><a href="../../index.html">Canadian Trade Intelligence</a> / <a href="../index.html">Countries</a> / Ghana</div>
+    <div class="dossier-ref">CTI-PROFILE-GHA · RESTRICTED CIRCULATION</div>
+  </div>
+  <div class="dossier-main">
+    <div>
+      <div class="dossier-kicker">Country Dossier · Africa · West Africa</div>
+      <h1 class="dossier-title">Ghana</h1>
+      <p class="dossier-sub">West Africa's most stable democracy and a gold-exporting heavyweight. Canada's largest mining footprint on the continent anchors a bilateral relationship shaped by resource investment, development finance, and a shared Commonwealth heritage.</p>
+      <div class="sector-tags">
+        <span class="sector-tag s-cm">Critical Minerals</span>
+        <span class="sector-tag s-af">Agri-Food</span>
+        <span class="sector-tag s-ec">Energy/Cleantech</span>
+        <span class="sector-tag s-td">Technology/Digital</span>
+      </div>
+    </div>
+    <div class="dossier-vitals">
+      <div class="vital-item">
+        <div class="vital-label">Bilateral Trade</div>
+        <div class="vital-value">~$800M</div>
+        <div class="vital-note">CAD, 2023 est.</div>
+      </div>
+      <div class="vital-item">
+        <div class="vital-label">Trade Balance</div>
+        <div class="vital-value positive">+$120M</div>
+        <div class="vital-note">Canadian surplus</div>
+      </div>
+      <div class="vital-item">
+        <div class="vital-label">FTA Status</div>
+        <div class="vital-value" style="font-size:16px;color:rgba(255,255,255,0.5)">WTO MFN</div>
+        <div class="vital-note">No bilateral FTA</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="section-nav">
+  <ul>
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#trade">Trade</a></li>
+    <li><a href="#opportunities">Opportunities</a></li>
+    <li><a href="#risks">Risks</a></li>
+    <li><a href="#fta">Trade Agreements</a></li>
+    <li><a href="#investment">Investment</a></li>
+    <li><a href="#political">Political</a></li>
+    <li><a href="#procurement">Procurement</a></li>
+    <li><a href="#canadian">Canadian Presence</a></li>
+    <li><a href="#contacts">Contacts</a></li>
+    <li><a href="#sources">Sources</a></li>
+  </ul>
+</nav>
+
+<div class="dossier-body">
+  <main class="dossier-content">
+
+    <!-- OVERVIEW -->
+    <section class="dossier-section" id="overview">
+      <div class="section-label">01 / Overview</div>
+      <h2 class="section-title">West Africa's Anchor Democracy</h2>
+      <div class="section-rule"></div>
+      <div class="section-body">
+        <p>Ghana has maintained one of Africa's most consistent democratic records since returning to multiparty rule in 1992, with peaceful transfers of power becoming the norm. This institutional stability, combined with substantial gold and cocoa exports, has made Ghana a preferred entry point for Canadian investors in West Africa.</p>
+        <p>The country is the world's sixth-largest gold producer and Africa's second-largest cocoa producer. Canadian mining companies — led by Kinross Gold and Galiano Gold — have operated in Ghana for decades, making Canada one of the largest foreign investors in the mining sector. The bilateral relationship is further reinforced by FinDev Canada's active development finance portfolio, Commonwealth institutional ties, and a sizeable Ghanaian-Canadian diaspora community.</p>
+        <p>Ghana faced a severe fiscal and debt crisis in 2022–2023, requiring an IMF programme ($3B Extended Credit Facility approved May 2023) and a domestic debt exchange (DDEP) that imposed haircuts on domestic bondholders. The external debt restructuring under the G20 Common Framework was concluded in early 2024. The economy is now on a stabilisation path, but fiscal constraints remain significant for the medium term.</p>
+        <p>John Mahama (NDC) won the December 2024 presidential election, defeating the incumbent NPP's Bawumia. This marked another peaceful transfer of power — Ghana's eighth consecutive democratic handover — and confirmed the country's democratic credibility. Mahama's priorities include IMF programme compliance, debt restructuring completion, and economic recovery.</p>
+      </div>
+      <div class="data-grid">
+        <div class="data-cell">
+          <div class="data-cell-label">Population</div>
+          <div class="data-cell-value">33M</div>
+          <div class="data-cell-note">2024 estimate</div>
+        </div>
+        <div class="data-cell">
+          <div class="data-cell-label">GDP (Nominal)</div>
+          <div class="data-cell-value">~$76B</div>
+          <div class="data-cell-note">USD, 2023</div>
+        </div>
+        <div class="data-cell">
+          <div class="data-cell-label">GDP Growth</div>
+          <div class="data-cell-value">~4.7%</div>
+          <div class="data-cell-note">2024 projected</div>
+        </div>
+        <div class="data-cell">
+          <div class="data-cell-label">Capital</div>
+          <div class="data-cell-value" style="font-size:17px">Accra</div>
+          <div class="data-cell-note">TCS location</div>
+        </div>
+        <div class="data-cell">
+          <div class="data-cell-label">Currency</div>
+          <div class="data-cell-value" style="font-size:17px">GHS / Cedi</div>
+          <div class="data-cell-note">Volatile post-2022</div>
+        </div>
+        <div class="data-cell">
+          <div class="data-cell-label">IMF Programme</div>
+          <div class="data-cell-value" style="font-size:17px">$3B ECF</div>
+          <div class="data-cell-note">Active, May 2023</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRADE -->
+    <section class="dossier-section" id="trade">
+      <div class="section-label">02 / Trade Profile</div>
+      <h2 class="section-title">Gold, Cocoa & Canadian Inputs</h2>
+      <div class="section-rule"></div>
+      <div class="section-body">
+        <p>Canada's exports to Ghana are dominated by capital goods, machinery, vehicles, and wheat — inputs that support Ghana's mining sector and food security needs. Canadian mining companies also repatriate dividends and royalties, which do not appear in goods trade statistics but represent significant economic flows.</p>
+        <p>Ghana's exports to Canada are led by gold (often refined via third countries), cocoa products, and small volumes of other agricultural commodities. The bilateral goods trade figure of ~$800M understates the depth of the commercial relationship given the scale of Canadian mining investment.</p>
+        <p>Canada is Ghana's largest source of foreign direct investment in mining. The cumulative stock of Canadian mining investment — accounting for exploration, development, and operational assets — is estimated in the billions of Canadian dollars, predominantly through Kinross Gold's Chirano mine and Galiano Gold (formerly Asanko Gold) operations.</p>
+      </div>
+      <div class="data-grid">
+        <div class="data-cell">
+          <div class="data-cell-label">Canadian Exports</div>
+          <div class="data-cell-value">~$460M</div>
+          <div class="data-cell-note">Machinery, wheat, vehicles</div>
+        </div>
+        <div class="data-cell">
+          <div class="data-cell-label">Canadian Imports</div>
+          <div class="data-cell-value">~$340M</div>
+          <div class="data-cell-note">Gold, cocoa, commodities</div>
+        </div>
+        <div class="data-cell">
+          <div class="data-cell-label">#1 Export Sector</div>
+          <div class="data-cell-value" style="font-size:16px">Mining Inputs</div>
+          <div class="data-cell-note">Equipment & services</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- OPPORTUNITIES -->
+    <section class="dossier-section" id="opportunities">
+      <div class="section-label">03 / Opportunities</div>
+      <h2 class="section-title">Sector Entry Points</h2>
+      <div class="section-rule"></div>
+      <div class="section-body">
+        <p>Ghana's stabilisation trajectory, established mining presence, and digital economy growth create several entry points for Canadian exporters and investors. The government's focus on value-added processing, renewable energy, and fintech infrastructure aligns with Canadian competencies.</p>
+      </div>
+      <div class="opportunity-grid">
+        <div class="opp-card tier-high">
+          <div class="opp-card-sector">Critical Minerals</div>
+          <div class="opp-card-title">Gold Mining Expansion & Services</div>
+          <div class="opp-card-body">Canada's dominant mining position creates a natural market for Canadian mining equipment, engineering services, environmental consulting, and reclamation technology. Kinross and Galiano are ongoing clients; junior exploration companies represent future pipeline.</div>
+        </div>
+        <div class="opp-card tier-high">
+          <div class="opp-card-sector">Energy / Cleantech</div>
+          <div class="opp-card-title">Renewable Energy Infrastructure</div>
+          <div class="opp-card-body">Ghana has ambitious renewables targets (10% by 2030). The country faces electricity access deficits outside major cities. Canadian solar, mini-grid, and grid-management technology companies are well-positioned, particularly with FinDev Canada blended finance support available.</div>
+        </div>
+        <div class="opp-card tier-mid">
+          <div class="opp-card-sector">Technology / Digital</div>
+          <div class="opp-card-title">Fintech & Digital Infrastructure</div>
+          <div class="opp-card-body">Ghana is one of Africa's leading fintech markets. Mobile money penetration is high; the Bank of Ghana has piloted a CBDC (eCedi). Canadian fintech and cybersecurity companies have early-mover opportunities as the regulatory framework matures.</div>
+        </div>
+        <div class="opp-card tier-mid">
+          <div class="opp-card-sector">Agri-Food</div>
+          <div class="opp-card-title">Cocoa Processing & Agri-Tech</div>
+          <div class="opp-card-body">Ghana exports raw cocoa but has prioritised local processing. Canadian agri-food technology, storage, and processing equipment firms can partner with COCOBOD (Ghana Cocoa Board) initiatives. Wheat, malt, and food processing inputs are established Canadian exports.</div>
+        </div>
+        <div class="opp-card tier-watch">
+          <div class="opp-card-sector">Development Finance</div>
+          <div class="opp-card-title">FinDev Canada Blended Finance</div>
+          <div class="opp-card-body">FinDev Canada has active Ghana commitments across financial services, agribusiness, and clean energy. Canadian SMEs with bankable projects can co-invest alongside FinDev instruments (equity, guarantees, subordinated debt) to reduce market entry risk.</div>
+        </div>
+        <div class="opp-card tier-watch">
+          <div class="opp-card-sector">Critical Minerals</div>
+          <div class="opp-card-title">Bauxite & Lithium Exploration</div>
+          <div class="opp-card-body">Ghana holds significant bauxite reserves (Atewa Range — controversial due to environmental concerns) and emerging lithium prospects. The Minerals Commission is seeking investment in critical minerals beyond gold. Canadian juniors with African experience are monitoring.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RISKS -->
+    <section class="dossier-section" id="risks">
+      <div class="section-label">04 / Risk Assessment</div>
+      <h2 class="section-title">Fiscal Fragility & Operational Risk</h2>
+      <div class="section-rule"></div>
+      <div class="section-body">
+        <p>Ghana's democratic stability is a genuine comparative advantage on the continent, but the 2022–23 debt crisis exposed underlying fiscal vulnerabilities. Companies operating in Ghana must navigate currency instability, fiscal consolidation constraints, community relations risk in mining areas, and an evolving regulatory environment as the Mahama government settles its policies.</p>
+      </div>
+      <div class="risk-table">
+        <div class="risk-row risk-row-header">
+          <div class="risk-cell">Risk Factor</div>
+          <div class="risk-cell">Level</div>
+          <div class="risk-cell">Commentary</div>
+        </div>
+        <div class="risk-row">
+          <div class="risk-cell">Currency (GHS) Volatility</div>
+          <div class="risk-cell"><span class="risk-level risk-high">HIGH</span></div>
+          <div class="risk-cell">The cedi lost >50% of value in 2022. Stabilisation underway under IMF programme, but structural pressures persist. USD-denominated contracts preferred for mining sector.</div>
+        </div>
+        <div class="risk-row">
+          <div class="risk-cell">Fiscal Constraint / Debt</div>
+          <div class="risk-cell"><span class="risk-level risk-high">HIGH</span></div>
+          <div class="risk-cell">External debt restructuring completed 2024 under Common Framework. Domestic DDEP imposed haircuts. Government fiscal space remains tight; public sector payment delays common.</div>
+        </div>
+        <div class="risk-row">
+          <div class="risk-cell">Community & Social Risk (Mining)</div>
+          <div class="risk-cell"><span class="risk-level risk-mid">MED</span></div>
+          <div class="risk-cell">Galamsey (illegal artisanal mining) conflicts with licensed operations and causes environmental damage that can be attributed to large-scale miners. Community benefit agreements are essential.</div>
+        </div>
+        <div class="risk-row">
+          <div class="risk-cell">Political Transition Risk</div>
+          <div class="risk-cell"><span class="risk-level risk-low">LOW</span></div>
+          <div class="risk-cell">December 2024 election completed peacefully. NDC-NPP alternation is Ghana's established pattern. No meaningful coup or political violence risk by regional standards.</div>
+        </div>
+        <div class="risk-row">
+          <div class="risk-cell">Regulatory / Licence Risk</div>
+          <div class="risk-cell"><span class="risk-level risk-mid">MED</span></div>
+          <div class="risk-cell">Mining licence renegotiation, royalty rate changes, and local content requirements can shift with new governments. Mahama government's specific mining policy stance being monitored.</div>
+        </div>
+        <div class="risk-row">
+          <div class="risk-cell">Sahel Security Spillover</div>
+          <div class="risk-cell"><span class="risk-level risk-mid">MED</span></div>
+          <div class="risk-cell">Terrorist activity in Burkina Faso and Mali is expanding toward Ghana's northern border. No significant incidents in southern Ghana (where most Canadian assets are located), but northern operations warrant enhanced security protocols.</div>
+        </div>
+      </div>
+      <div class="watch-box">
+        <div class="watch-box-title">Near-Term Watch Items</div>
+        <div class="watch-box-body">
+          <ul>
+            <li><strong>Mahama government's mining policy review</strong> — any changes to royalty rates, local content rules, or the Minerals Commission's investment facilitation approach will directly affect Kinross and Galiano operations.</li>
+            <li><strong>IMF programme reviews</strong> — quarterly reviews determine Ghana's access to tranches; a missed review could trigger renewed currency pressure and reduced investor confidence.</li>
+            <li><strong>Galamsey enforcement</strong> — anti-galamsey operations are popular politically but create operational disruptions near licensed mining areas.</li>
+            <li><strong>Atewa bauxite decision</strong> — the fate of the Atewa Forest Reserve (bauxite concession vs. conservation) has implications for future critical minerals investment signals.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- FTA -->
+    <section class="dossier-section" id="fta">
+      <div class="section-label">05 / Trade Agreements</div>
+      <h2 class="section-title">WTO Framework & AfCFTA</h2>
+      <div class="section-rule"></div>
+      <div class="section-body">
+        <p>Canada and Ghana do not have a bilateral free trade agreement. Trade is governed by WTO Most Favoured Nation terms. Canada extends GSP (Generalized System of Preferences) benefits to Ghana as a developing country, reducing tariffs on many Ghanaian exports to Canada. Ghana signed and ratified the African Continental Free Trade Area (AfCFTA) agreement — headquartered in Accra — which is progressively liberalising intra-African trade.</p>
+      </div>
+      <div class="fta-block">
+        <div class="fta-header">
+          <span class="fta-name">Canada–Ghana Bilateral FTA</span>
+          <span class="fta-status none">Not Applicable</span>
+        </div>
+        <div class="fta-body">No bilateral free trade agreement exists. Exploratory discussions between Canada and sub-Saharan African nations have not resulted in formal negotiations. Canadian exporters face standard WTO MFN tariffs in Ghana. Ghana's import tariff structure includes ECOWAS Common External Tariff (CET) bands of 0%, 5%, 10%, and 20%.</div>
+      </div>
+      <div class="fta-block">
+        <div class="fta-header">
+          <span class="fta-name">Canada GSP for Ghana</span>
+          <span class="fta-status">In Force</span>
+        </div>
+        <div class="fta-body">Canada provides preferential tariff access to Ghana under its General Preferential Tariff (GPT) scheme as a developing country. Many Ghanaian agricultural and manufactured goods enter Canada at reduced or zero tariffs, supporting bilateral trade in cocoa products and light manufactures.</div>
+      </div>
+      <div class="fta-block">
+        <div class="fta-header">
+          <span class="fta-name">African Continental Free Trade Area (AfCFTA)</span>
+          <span class="fta-status">In Force (Ghana)</span>
+        </div>
+        <div class="fta-body">The AfCFTA Secretariat is headquartered in Accra, and Ghana is an active participant. As AfCFTA liberalisation deepens, Ghana's role as a gateway to the broader West African market (ECOWAS, 340M+ people) becomes more commercially significant for Canadian companies seeking a regional hub strategy.</div>
+      </div>
+    </section>
+
+    <!-- INVESTMENT -->
+    <section class="dossier-section" id="investment">
+      <div class="section-label">06 / Investment Climate</div>
+      <h2 class="section-title">Mining-Led FDI & Development Finance</h2>
+      <div class="section-rule"></div>
+      <div class="section-body">
+        <p>Canada is Ghana's largest source of foreign direct investment in the mining sector, a distinction earned through decades of continuous presence by Kinross Gold and Galiano Gold (formerly Asanko Gold). The Ghana Investment Promotion Centre (GIPC) facilitates FDI registration, and the sector is generally open to foreign investors with no equity caps in mining (though local content requirements apply).</p>
+        <p>FinDev Canada — Canada's development finance institution — maintains an active Ghana portfolio across financial inclusion, agribusiness, and clean energy. FinDev instruments include equity investments, guarantees, and subordinated debt that can be co-deployed alongside private Canadian capital, significantly de-risking market entry for SMEs.</p>
+        <p>The 2022–23 debt crisis created short-term disruptions (public sector payment delays, currency depreciation affecting USD-denominated returns) but also created acquisition opportunities for well-capitalised companies. Mineral rights and exploration licences that were abandoned by distressed holders are available at reduced cost.</p>
+      </div>
+      <div class="gov-signals">
+        <div class="signal-item">
+          <div class="signal-icon">⛏</div>
+          <div>
+            <div class="signal-title">Kinross Gold — Chirano Mine</div>
+            <div class="signal-body">Kinross has operated the Chirano mine in the Brong-Ahafo region since 2005. The mine has produced millions of ounces of gold. Kinross also holds the Chirano exploration licence covering the broader district, providing a long-term pipeline.</div>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-icon">🪨</div>
+          <div>
+            <div class="signal-title">Galiano Gold — Asanko Gold Mine (JV)</div>
+            <div class="signal-body">Galiano Gold (Vancouver) operates the Asanko Gold Mine in the Ashanti region as a 45% joint venture with Gold Fields (South Africa). The mine is one of Ghana's larger producing operations and represents one of the most significant Canadian-South African investment partnerships in Africa.</div>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-icon">🏦</div>
+          <div>
+            <div class="signal-title">FinDev Canada — Active Portfolio</div>
+            <div class="signal-body">FinDev Canada has invested in Ghanaian financial institutions, agribusinesses, and clean energy projects. Its instruments are specifically designed to mobilise additional private capital and are available to Canadian companies entering the market as development-aligned investments.</div>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-icon">🌍</div>
+          <div>
+            <div class="signal-title">AfCFTA Secretariat — Accra Advantage</div>
+            <div class="signal-body">Ghana's hosting of the AfCFTA Secretariat gives Accra-based companies early access to regulatory developments, trade facilitation tools, and Pan-African commercial networks as the agreement's implementation deepens through 2025–2030.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- POLITICAL -->
+    <section class="dossier-section" id="political">
+      <div class="section-label">07 / Political Environment</div>
+      <h2 class="section-title">Mahama Returns — Democratic Benchmark</h2>
+      <div class="section-rule"></div>
+      <div class="section-body">
+        <p>John Mahama (NDC — National Democratic Congress) won Ghana's December 2024 presidential election, defeating Vice President Mahamudu Bawumia of the incumbent NPP (New Patriotic Party). Mahama previously served as President from 2012–2017. This eighth consecutive peaceful transfer of power reaffirmed Ghana's status as West Africa's democratic benchmark.</p>
+        <p>Mahama inherited an economy stabilising under the IMF Extended Credit Facility but constrained by debt restructuring commitments and limited fiscal space. His stated priorities include: completing the Common Framework debt restructuring, renegotiating aspects of the domestic DDEP with bondholders, economic diversification beyond commodities, and addressing the cost-of-living crisis for ordinary Ghanaians.</p>
+        <p>For Canadian companies, the key policy question is Mahama's approach to the mining sector — specifically royalty rates, local content, and community benefit frameworks. His first term saw some tensions with the mining industry, but the current fiscal environment creates a strong incentive to maintain investor confidence and royalty revenues.</p>
+        <p>Ghana's foreign policy is non-aligned and pragmatic. Accra maintains strong ties with the West (US, UK, Canada, EU) while engaging with China (Belt and Road, Sinohydro bauxite-for-infrastructure arrangements) and other partners. The government is not ideologically anti-Western but is assertively pursuing Ghana's national interests in commodity negotiations.</p>
+      </div>
+    </section>
+
+    <!-- PROCUREMENT -->
+    <section class="dossier-section" id="procurement">
+      <div class="section-label">08 / Procurement Access</div>
+      <h2 class="section-title">Public Procurement & Mining Licences</h2>
+      <div class="section-rule"></div>
+      <div class="section-body">
+        <p>Ghana's public procurement is governed by the Public Procurement Authority (PPA) and its e-procurement portal (Ghana e-Procurement System — GHANEPS). Ghana is not a member of the WTO Government Procurement Agreement (GPA), so Canadian companies do not have guaranteed non-discriminatory access to Ghanaian government contracts. In practice, international competitive bidding is used for large government and donor-funded contracts, and Canadian companies are eligible to bid.</p>
+        <p>For mining sector procurement, the Minerals Commission administers the licence and concession system. Key instruments include: Reconnaissance Licence, Prospecting Licence, Exploration Licence, and Mining Lease. Canadian companies have long navigated this system and are familiar with the administrative requirements.</p>
+      </div>
+      <div class="gov-signals">
+        <div class="signal-item">
+          <div class="signal-icon">🖥</div>
+          <div>
+            <div class="signal-title">GHANEPS — Ghana e-Procurement System</div>
+            <div class="signal-body">Ghana's national e-procurement portal publishes tenders from government entities. Donor-funded procurement (World Bank, AfDB, USAID) follows international competitive bidding rules and is accessible to Canadian companies. The PPA website (ppaghana.org) lists active tenders.</div>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-icon">⛏</div>
+          <div>
+            <div class="signal-title">Minerals Commission — Licence Registry</div>
+            <div class="signal-body">The Minerals Commission (Ghana) manages the Mining Cadaster — the register of mineral rights. Canadian companies can apply for exploration and mining licences. The Commission publishes available ground and licence status online, and local content requirements apply at the operating stage.</div>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-icon">🌞</div>
+          <div>
+            <div class="signal-title">Energy Commission — Renewable Energy Tenders</div>
+            <div class="signal-body">The Energy Commission and PURC (Public Utilities Regulatory Commission) periodically issue renewable energy procurement tenders under Ghana's Renewable Energy Act. International developers have participated in solar IPP procurement rounds. Canadian clean energy companies should monitor Commission announcements.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CANADIAN PRESENCE -->
+    <section class="dossier-section" id="canadian">
+      <div class="section-label">09 / Canadian Presence</div>
+      <h2 class="section-title">Mining Anchor + Development Finance</h2>
+      <div class="section-rule"></div>
+      <div class="section-body">
+        <p>Canada's commercial presence in Ghana is dominated by the mining sector, where Canadian companies have the largest foreign footprint. This is supplemented by development finance institutions, NGOs, and a growing number of technology-oriented companies attracted by Ghana's educated English-speaking workforce and fintech dynamism.</p>
+        <p>The Ghanaian-Canadian diaspora is an important bilateral connector. Ghanaian Canadians maintain strong economic and social ties to Ghana and are increasingly active as investors, advisors, and market intermediaries for Canadian companies seeking Ghana entry.</p>
+      </div>
+      <div class="gov-signals">
+        <div class="signal-item">
+          <div class="signal-icon">🏭</div>
+          <div>
+            <div class="signal-title">Kinross Gold (Toronto) — Chirano Mine, Brong-Ahafo</div>
+            <div class="signal-body">Kinross's Chirano mine is a flagship West African operation producing approximately 200,000 oz gold annually. The mine employs thousands of Ghanaians directly and through contractors, and operates community development programmes across the Chirano mine area. Kinross has been in Ghana continuously since 2005.</div>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-icon">🪨</div>
+          <div>
+            <div class="signal-title">Galiano Gold (Vancouver) — Asanko Gold Mine JV</div>
+            <div class="signal-body">Galiano Gold holds 45% of the Asanko Gold Mine joint venture (Gold Fields holds 45%, with Ghanaian government interest). The Asanko complex comprises the Nkran and Esaase deposits in the Ashanti region. Galiano is responsible for operations management.</div>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-icon">🏦</div>
+          <div>
+            <div class="signal-title">FinDev Canada — Development Finance Portfolio</div>
+            <div class="signal-body">FinDev Canada's Ghana portfolio includes investments in financial institutions providing SME lending, agribusiness value chains, and clean energy projects. FinDev is available as a co-financing partner for Canadian companies with investable Ghana projects in these sectors.</div>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-icon">🇨🇦</div>
+          <div>
+            <div class="signal-title">High Commission of Canada — Accra</div>
+            <div class="signal-body">The Canadian High Commission in Accra covers Ghana and serves as the regional hub for West Africa diplomatic and Trade Commissioner Service (TCS) operations. The Trade Commissioner Service provides market intelligence, matchmaking, and support for Canadian companies entering the Ghanaian market.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACTS -->
+    <section class="dossier-section" id="contacts">
+      <div class="section-label">10 / Key Contacts</div>
+      <h2 class="section-title">Entry Points & Institutions</h2>
+      <div class="section-rule"></div>
+      <div class="section-body">
+        <p>The following institutional contacts are the primary entry points for Canadian companies approaching the Ghanaian market. The High Commission in Accra is the recommended first contact for TCS-eligible Canadian businesses.</p>
+      </div>
+      <div class="gov-signals">
+        <div class="signal-item">
+          <div class="signal-icon">🇨🇦</div>
+          <div>
+            <div class="signal-title">Trade Commissioner Service — Accra</div>
+            <div class="signal-body">Canadian High Commission, 40 Independence Avenue, Accra. TCS Ghana is the primary support channel for Canadian companies entering the Ghanaian market. Sector specialists cover mining, agribusiness, clean energy, and technology. Access via TCS online portal or the High Commission.</div>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-icon">🏛</div>
+          <div>
+            <div class="signal-title">Ghana Investment Promotion Centre (GIPC)</div>
+            <div class="signal-body">GIPC is Ghana's investment facilitation agency, providing registration, incentives guidance, and investor support. GIPC coordinates with sector ministries and can facilitate introductions to relevant government counterparts. The GIPC Act specifies minimum foreign equity thresholds by sector.</div>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-icon">⛏</div>
+          <div>
+            <div class="signal-title">Ghana Chamber of Mines</div>
+            <div class="signal-body">The Ghana Chamber of Mines represents major mining operators including Canadian companies. The Chamber is the industry's primary advocacy and liaison body with government on royalty rates, local content, security, and environmental regulations. Membership provides direct peer-network access.</div>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-icon">🏦</div>
+          <div>
+            <div class="signal-title">FinDev Canada — Ghana Desk</div>
+            <div class="signal-body">FinDev Canada's investment officers with West Africa responsibility are accessible through the FinDev website and represent the primary Canadian DFI instrument for blended finance structures in Ghana. Co-financing enquiries should begin with FinDev's sector teams in Montreal.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SOURCES -->
+    <section class="dossier-section" id="sources">
+      <div class="section-label">11 / Sources & Methodology</div>
+      <h2 class="section-title">Data Sources</h2>
+      <div class="section-rule"></div>
+      <div class="section-body">
+        <p>This dossier draws on publicly available data from: Statistics Canada trade data portal; Global Affairs Canada country and sector reports; IMF Ghana Article IV consultations and ECF programme documentation; World Bank Ghana country data; Ghana Investment Promotion Centre; Minerals Commission of Ghana; Kinross Gold and Galiano Gold public filings and annual reports; FinDev Canada portfolio disclosures; Bank of Ghana monetary policy reports; PPA Ghana procurement data; AfCFTA Secretariat publications; and ECOWAS trade statistics.</p>
+        <p>Trade figures are estimates based on 2022–23 data and may not reflect the most recent Statistics Canada releases. All figures in Canadian dollars unless otherwise stated. This dossier is for informational purposes only and does not constitute investment advice.</p>
+        <p><strong>Classification:</strong> CTI-PROFILE-GHA · Prepared by Canadian Trade Intelligence · For authorized distribution only.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <aside class="dossier-aside">
+    <div class="aside-card">
+      <div class="aside-card-title">Quick Facts</div>
+      <div class="aside-row"><span class="aside-row-label">Capital</span><span class="aside-row-value">Accra</span></div>
+      <div class="aside-row"><span class="aside-row-label">President</span><span class="aside-row-value">Mahama (NDC)</span></div>
+      <div class="aside-row"><span class="aside-row-label">Since</span><span class="aside-row-value">Jan 2025</span></div>
+      <div class="aside-row"><span class="aside-row-label">Currency</span><span class="aside-row-value">GHS (Cedi)</span></div>
+      <div class="aside-row"><span class="aside-row-label">Language</span><span class="aside-row-value">English (official)</span></div>
+      <div class="aside-row"><span class="aside-row-label">Region</span><span class="aside-row-value">West Africa / ECOWAS</span></div>
+      <div class="aside-row"><span class="aside-row-label">AfCFTA</span><span class="aside-row-value">Signatory + Host</span></div>
+    </div>
+    <div class="aside-card">
+      <div class="aside-card-title">Canadian Anchors</div>
+      <ul class="aside-list">
+        <li><strong>Kinross Gold</strong> — Chirano Mine</li>
+        <li><strong>Galiano Gold</strong> — Asanko JV</li>
+        <li><strong>FinDev Canada</strong> — DFI portfolio</li>
+        <li><strong>High Commission</strong> — Accra (TCS)</li>
+      </ul>
+    </div>
+    <div class="aside-card">
+      <div class="aside-card-title">Key Commodities</div>
+      <div class="aside-row"><span class="aside-row-label">Gold</span><span class="aside-row-value">#6 globally</span></div>
+      <div class="aside-row"><span class="aside-row-label">Cocoa</span><span class="aside-row-value">#2 globally</span></div>
+      <div class="aside-row"><span class="aside-row-label">Oil (offshore)</span><span class="aside-row-value">Jubilee Field</span></div>
+      <div class="aside-row"><span class="aside-row-label">Bauxite</span><span class="aside-row-value">Significant reserves</span></div>
+    </div>
+    <div class="aside-card">
+      <div class="aside-card-title">Access Points</div>
+      <div class="aside-contact">
+        <strong>TCS Accra</strong>
+        Canadian High Commission<br>
+        40 Independence Ave, Accra<br>
+        West Africa regional hub
+      </div>
+      <div class="aside-contact">
+        <strong>Ghana Investment Promotion Centre</strong>
+        GIPC — FDI registration &amp; facilitation
+      </div>
+      <div class="aside-contact">
+        <strong>Ghana Chamber of Mines</strong>
+        Industry advocacy &amp; peer network
+      </div>
+    </div>
+    <div class="aside-card">
+      <div class="aside-card-title">Risk Snapshot</div>
+      <div class="aside-row"><span class="aside-row-label">Political</span><span class="aside-row-value" style="color:#1A6B3A">LOW</span></div>
+      <div class="aside-row"><span class="aside-row-label">Currency</span><span class="aside-row-value" style="color:#C0392B">HIGH</span></div>
+      <div class="aside-row"><span class="aside-row-label">Fiscal</span><span class="aside-row-value" style="color:#C0392B">HIGH</span></div>
+      <div class="aside-row"><span class="aside-row-label">Community/Social</span><span class="aside-row-value" style="color:#8B6507">MED</span></div>
+      <div class="aside-row"><span class="aside-row-label">Regulatory</span><span class="aside-row-value" style="color:#8B6507">MED</span></div>
+    </div>
+  </aside>
+</div>
+
+<footer class="dossier-footer">
+  <div>CTI-PROFILE-GHA · Canadian Trade Intelligence · Restricted Circulation</div>
+  <div>Last updated: Q1 2025 · Data current to Dec 2024</div>
+</footer>
+
+<script>
+  const navLinks = document.querySelectorAll('.section-nav a');
+  const sections = document.querySelectorAll('.dossier-section');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.getAttribute('id');
+        navLinks.forEach(link => {
+          link.classList.toggle('active', link.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

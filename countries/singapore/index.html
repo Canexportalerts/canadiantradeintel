@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Singapore — Canadian Trade Intelligence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@400;500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0A0F1A;
+    --ink-mid: #2A3248;
+    --ink-light: #4A5570;
+    --paper: #F5F3EE;
+    --paper-mid: #EAE7E0;
+    --paper-warm: #E2DDD5;
+    --accent: #C8960A;
+    --accent-deep: #8B6507;
+    --red: #C0392B;
+    --green: #1A6B3A;
+    --mono: 'DM Mono', monospace;
+    --serif: 'Cormorant Garamond', Georgia, serif;
+    --sans: 'Jost', system-ui, sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 15px; line-height: 1.6; overflow-x: hidden; }
+
+  .dossier-masthead {
+    background: #08121A;
+    color: #fff;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .dossier-masthead::after {
+    content: 'SINGAPORE';
+    position: absolute;
+    right: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: var(--serif);
+    font-size: 86px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.04);
+    pointer-events: none;
+    white-space: nowrap;
+    letter-spacing: 0.05em;
+  }
+  .dossier-top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 40px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    font-family: var(--mono);
+    font-size: 11px;
+    color: rgba(255,255,255,0.45);
+  }
+  .dossier-top-bar a { color: rgba(255,255,255,0.45); text-decoration: none; }
+  .dossier-top-bar a:hover { color: rgba(255,255,255,0.8); }
+  .dossier-ref { letter-spacing: 0.08em; }
+  .dossier-main {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 40px;
+    padding: 48px 40px 52px;
+    align-items: end;
+  }
+  .dossier-kicker { font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em; color: rgba(255,255,255,0.4); text-transform: uppercase; margin-bottom: 14px; }
+  .dossier-title { font-family: var(--serif); font-size: 56px; font-weight: 600; line-height: 1.05; color: #fff; margin-bottom: 18px; }
+  .dossier-sub { font-size: 15px; font-weight: 300; color: rgba(255,255,255,0.6); max-width: 560px; line-height: 1.65; }
+  .sector-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 22px; }
+  .sector-tag { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; padding: 4px 10px; border-radius: 2px; text-transform: uppercase; }
+  .s-cm { background: rgba(180,120,40,0.25); color: #F0C060; border: 1px solid rgba(180,120,40,0.3); }
+  .s-am { background: rgba(60,100,180,0.2); color: #90B4F0; border: 1px solid rgba(60,100,180,0.3); }
+  .s-af { background: rgba(40,140,70,0.2); color: #70C090; border: 1px solid rgba(40,140,70,0.3); }
+  .s-ae { background: rgba(140,60,180,0.2); color: #C090E0; border: 1px solid rgba(140,60,180,0.3); }
+  .s-td { background: rgba(0,160,180,0.2); color: #60D4E0; border: 1px solid rgba(0,160,180,0.3); }
+  .s-ec { background: rgba(20,160,100,0.2); color: #50D4A0; border: 1px solid rgba(20,160,100,0.3); }
+  .s-ls { background: rgba(220,80,80,0.2); color: #F09090; border: 1px solid rgba(220,80,80,0.3); }
+  .dossier-vitals { display: flex; flex-direction: column; gap: 16px; min-width: 210px; }
+  .vital-item { text-align: right; }
+  .vital-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; color: rgba(255,255,255,0.35); text-transform: uppercase; margin-bottom: 3px; }
+  .vital-value { font-family: var(--serif); font-size: 26px; font-weight: 600; color: #fff; line-height: 1; }
+  .vital-value.positive { color: #6EE4A0; }
+  .vital-note { font-family: var(--mono); font-size: 10px; color: rgba(255,255,255,0.35); margin-top: 2px; }
+
+  .section-nav { position: sticky; top: 0; z-index: 50; background: var(--ink); border-bottom: 1px solid rgba(255,255,255,0.08); overflow-x: auto; }
+  .section-nav ul { display: flex; list-style: none; padding: 0 40px; gap: 0; }
+  .section-nav a { display: block; padding: 13px 16px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; color: rgba(255,255,255,0.4); text-decoration: none; white-space: nowrap; border-bottom: 2px solid transparent; transition: color 0.2s, border-color 0.2s; }
+  .section-nav a:hover { color: rgba(255,255,255,0.8); }
+  .section-nav a.active { color: #fff; border-bottom-color: var(--accent); }
+
+  .dossier-body { display: grid; grid-template-columns: 1fr 300px; gap: 0; max-width: 1200px; margin: 0 auto; padding: 48px 40px; }
+  .dossier-content { display: flex; flex-direction: column; gap: 56px; padding-right: 48px; }
+  .dossier-aside { position: sticky; top: 50px; height: fit-content; display: flex; flex-direction: column; gap: 20px; }
+
+  .dossier-section {}
+  .section-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; color: var(--ink-light); text-transform: uppercase; margin-bottom: 8px; }
+  .section-title { font-family: var(--serif); font-size: 30px; font-weight: 600; color: var(--ink); margin-bottom: 6px; line-height: 1.2; }
+  .section-rule { width: 40px; height: 2px; background: var(--accent); margin-bottom: 20px; }
+  .section-body { font-size: 15px; color: var(--ink-mid); line-height: 1.75; }
+  .section-body p + p { margin-top: 14px; }
+
+  .data-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--paper-warm); border: 1px solid var(--paper-warm); margin-top: 24px; }
+  .data-cell { background: var(--paper); padding: 16px 18px; }
+  .data-cell-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; color: var(--ink-light); text-transform: uppercase; margin-bottom: 6px; }
+  .data-cell-value { font-family: var(--serif); font-size: 22px; font-weight: 600; color: var(--ink); line-height: 1.1; }
+  .data-cell-note { font-family: var(--mono); font-size: 10px; color: var(--ink-light); margin-top: 3px; }
+
+  .opportunity-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 24px; }
+  .opp-card { background: var(--paper); border: 1px solid var(--paper-warm); border-left: 3px solid var(--accent); padding: 18px 20px; }
+  .opp-card.tier-high { border-left-color: #1A6B3A; }
+  .opp-card.tier-mid { border-left-color: var(--accent); }
+  .opp-card.tier-watch { border-left-color: #4A6090; }
+  .opp-card-sector { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; color: var(--ink-light); text-transform: uppercase; margin-bottom: 6px; }
+  .opp-card-title { font-weight: 600; font-size: 14px; color: var(--ink); margin-bottom: 6px; }
+  .opp-card-body { font-size: 13px; color: var(--ink-mid); line-height: 1.6; }
+
+  .risk-table { margin-top: 24px; border: 1px solid var(--paper-warm); }
+  .risk-row { display: grid; grid-template-columns: 180px 80px 1fr; gap: 0; border-bottom: 1px solid var(--paper-warm); }
+  .risk-row:last-child { border-bottom: none; }
+  .risk-row-header { background: var(--ink); color: #fff; }
+  .risk-cell { padding: 12px 16px; font-size: 13px; border-right: 1px solid var(--paper-warm); display: flex; align-items: center; }
+  .risk-cell:last-child { border-right: none; }
+  .risk-row-header .risk-cell { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; color: rgba(255,255,255,0.6); text-transform: uppercase; border-right-color: rgba(255,255,255,0.1); }
+  .risk-level { font-family: var(--mono); font-size: 11px; font-weight: 500; padding: 3px 8px; border-radius: 2px; }
+  .risk-high { background: rgba(192,57,43,0.12); color: #C0392B; }
+  .risk-mid { background: rgba(200,150,10,0.12); color: #8B6507; }
+  .risk-low { background: rgba(26,107,58,0.12); color: #1A6B3A; }
+
+  .fta-block { margin-top: 24px; border: 1px solid var(--paper-warm); padding: 20px 24px; }
+  .fta-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+  .fta-name { font-weight: 600; font-size: 15px; color: var(--ink); }
+  .fta-status { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; padding: 4px 10px; border-radius: 2px; background: rgba(26,107,58,0.12); color: #1A6B3A; text-transform: uppercase; }
+  .fta-status.none { background: rgba(192,57,43,0.1); color: #C0392B; }
+  .fta-body { font-size: 13px; color: var(--ink-mid); line-height: 1.65; }
+
+  .gov-signals { margin-top: 20px; display: flex; flex-direction: column; gap: 12px; }
+  .signal-item { display: flex; gap: 14px; padding: 14px 16px; background: var(--paper); border: 1px solid var(--paper-warm); }
+  .signal-icon { font-family: var(--mono); font-size: 18px; line-height: 1; flex-shrink: 0; margin-top: 2px; }
+  .signal-title { font-weight: 600; font-size: 14px; color: var(--ink); margin-bottom: 3px; }
+  .signal-body { font-size: 13px; color: var(--ink-mid); line-height: 1.6; }
+
+  .watch-box { margin-top: 20px; background: rgba(200,150,10,0.06); border: 1px solid rgba(200,150,10,0.2); border-left: 3px solid var(--accent); padding: 18px 20px; }
+  .watch-box-title { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; color: var(--accent-deep); text-transform: uppercase; margin-bottom: 8px; }
+  .watch-box-body { font-size: 13px; color: var(--ink-mid); line-height: 1.65; }
+  .watch-box-body ul { padding-left: 16px; }
+  .watch-box-body li + li { margin-top: 6px; }
+
+  .aside-card { background: var(--paper); border: 1px solid var(--paper-warm); padding: 18px 20px; }
+  .aside-card-title { font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; color: var(--ink-light); text-transform: uppercase; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--paper-warm); }
+  .aside-row { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 0; border-bottom: 1px solid var(--paper-warm); }
+  .aside-row:last-child { border-bottom: none; }
+  .aside-row-label { font-size: 12px; color: var(--ink-mid); }
+  .aside-row-value { font-family: var(--mono); font-size: 12px; color: var(--ink); font-weight: 500; }
+  .aside-list { list-style: none; }
+  .aside-list li { padding: 6px 0; border-bottom: 1px solid var(--paper-warm); font-size: 13px; color: var(--ink-mid); }
+  .aside-list li:last-child { border-bottom: none; }
+  .aside-list li strong { color: var(--ink); }
+  .aside-contact { font-size: 13px; color: var(--ink-mid); line-height: 1.65; }
+  .aside-contact strong { color: var(--ink); display: block; margin-bottom: 2px; }
+  .aside-contact + .aside-contact { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--paper-warm); }
+
+  .dossier-footer { background: var(--ink); color: rgba(255,255,255,0.35); padding: 28px 40px; display: flex; justify-content: space-between; align-items: center; font-family: var(--mono); font-size: 11px; }
+</style>
+</head>
+<body>
+
+<header class="dossier-masthead">
+  <div class="dossier-top-bar">
+    <div><a href="../../index.html">Canadian Trade Intelligence</a> / <a href="../index.html">Countries</a> / Singapore</div>
+    <div class="dossier-ref">CTI-PROFILE-SGP · RESTRICTED CIRCULATION</div>
+  </div>
+  <div class="dossier-main">
+    <div>
+      <div class="dossier-kicker">Country Dossier · Asia-Pacific · Southeast Asia</div>
+      <h1 class="dossier-title">Singapore</h1>
+      <p class="dossier-sub">Asia-Pacific's premier financial hub and gateway to ASEAN. A CPTPP partner with every major Canadian bank, pension fund, and institutional investor present — Singapore is Canada's most commercially dense relationship in Southeast Asia and a critical node in global supply chains.</p>
+      <div class="sector-tags">
+        <span class="sector-tag s-td">Technology/Digital</span>
+        <span class="sector-tag s-ls">Life Sciences</span>
+        <span class="sector-tag s-am">Advanced Mfg</span>
+        <span class="sector-tag s-ec">Energy/Cleantech</span>
+        <span class="sector-tag s-ae">Aerospace</span>
+      </div>
+    </div>
+    <div class="dossier-vitals">
+      <div class="vital-item">
+        <div class="vital-label">Bilateral Trade</div>
+        <div class="vital-value">~$5B</div>
+        <div class="vital-note">CAD, 2023 est.</div>
+      </div>
+      <div class="vital-item">
+        <div class="vital-label">Trade Balance</div>
+        <div class="vital-value positive">+$1.2B</div>
+        <div class="vital-note">Canadian surplus</div>
+      </div>
+      <div class="vital-item">
+        <div class="vital-label">FTA Status</div>
+        <div class="vital-value" style="font-size:16px;color:#6EE4A0">CPTPP</div>
+        <div class="vital-note">In force Jan 2019</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="section-nav">
+  <ul>
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#trade">Trade</a></li>
+    <li><a href="#opportunities">Opportunities</a></li>
+    <li><a href="#risks">Risks</a></li>
+    <li><a href="#fta">Trade Agreements</a></li>
+    <li><a href="#investment">Investment</a></li>
+    <li><a href="#political">Political</a></li>
+    <li><a href="#procurement">Procurement</a></li>
+    <li><a href="#canadian">Canadian Presence</a></li>
+    <li><a href="#contacts">Contacts</a></li>
+    <li><a href="#sources">Sources</a></li>
+  </ul>
+</nav>
+
+<div class="dossier-body">
+  <main class="dossier-content">
+
+    <!-- OVERVIEW -->
+    <section class="dossier-section" id="overview">
+      <div class="section-label">01 / Overview</div>
+      <h2 class="section-title">Asia-Pacific's Commercial Headquarters</h2>
+      <div class="section-rule"></div>
+      <div class="section-body">
+        <p>Singapore punches far above its geographic weight. With a population of just 5.9 million and a land area smaller than Greater Toronto, the city-state is nonetheless Asia-Pacific's premier financial centre, a top-five global port by container throughput, ASEAN's primary headquarters location for multinational corporations, and one of the world's most competitive economies by virtually every international ranking.</p>
+        <p>For Canadian companies, Singapore operates simultaneously as: a bilateral market in its own right (~$5B in annual trade); the Asia-Pacific headquarters of virtually every major Canadian financial institution (RBC, TD, BMO, Scotiabank, CIBC, National Bank); the primary base for Canada's largest pension funds in Asia (CPPIB, Ontario Teachers', OMERS, PSP Investments); and the natural gateway and regional hub for ASEAN market entry.</p>
+        <p>Canada and Singapore are CPTPP partners — one of Canada's most commercially significant trade agreements with Asia. CPTPP gives Canadian goods preferential access to Singapore's already low-tariff market (Singapore maintains zero tariffs on virtually all goods under its general schedule anyway, but CPTPP also covers services, investment, and government procurement). The agreement's ASEAN connectivity provisions make Singapore-based operations attractive for serving the broader CPTPP bloc in Southeast Asia (Vietnam, Malaysia, Brunei).</p>
+        <p>Singapore's economy is highly services-oriented: financial services, logistics, professional services, and the maritime cluster contribute the majority of GDP. Manufacturing is concentrated in electronics, pharmaceuticals, and precision engineering. The government under the PAP has maintained a long-run policy framework of economic openness, rule of law, and strategic industry development that has been remarkably consistent over six decades.</p>
+      </div>
+      <div class="data-grid">
+        <div class="data-cell">
+          <div class="data-cell-label">Population</div>
+          <div class="data-cell-value">5.9M</div>
+          <div class="data-cell-note">2024 estimate</div>
+        </div>
+        <div class="data-cell">
+          <div class="data-cell-label">GDP (Nominal)</div>
+          <div class="data-cell-value">~$525B</div>
+          <div class="data-cell-note">USD, 2023</div>
+        </div>
+        <div class="data-cell">
+          <div class="data-cell-label">GDP per Capita</div>
+          <div class="data-cell-value">~$88K</div>
+          <div class="data-cell-note">USD PPP, one of world's highest</div>
+        </div>
+        <div class="data-cell">
+          <div class="data-cell-label">Port Rank</div>
+          <div class="data-cell-value" style="font-size:17px">#2 Global</div>
+          <div class="data-cell-note">Container throughput</div>
+        </div>
+        <div class="data-cell">
+          <div class="data-cell-label">Currency</div>
+          <div class="data-cell-value" style="font-size:17px">SGD</div>
+          <div class="data-cell-note">Singapore Dollar — stable</div>
+        </div>
+        <div class="data-cell">
+          <div class="data-cell-label">CPTPP</div>
+          <div class="data-cell-value" style="font-size:17px">In Force</div>
+          <div class="data-cell-note">Since Jan 2019</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRADE -->
+    <section class="dossier-section" id="trade">
+      <div class="section-label">02 / Trade Profile</div>
+      <h2 class="section-title">Financial Services, Technology & Re-Export Hub</h2>
+      <div class="section-rule"></div>
+      <div class="section-body">
+        <p>Singapore is Canada's largest trade partner in Southeast Asia by a significant margin. Bilateral goods trade of ~$5B is underpinned by Canadian exports of machinery, electronics, pharmaceuticals, and professional services. Singapore's role as a re-export hub means that some Canadian exports recorded as destined for Singapore are ultimately consumed or processed in other ASEAN markets.</p>
+        <p>Canadian imports from Singapore include electronics, refined petroleum products, chemicals, and pharmaceutical products — reflecting Singapore's role as a regional manufacturing and processing hub. Singapore is also the primary gateway for Canadian financial institutions' Asian operations, with the financial services trade flows (fees, dividends, capital flows) representing very substantial economic activity not captured in goods trade statistics.</p>
+        <p>CPTPP has deepened market access. Under the agreement, Singapore has provided Canadian service suppliers with enhanced market access, investment protections, and government procurement rights — a significant gain given that Singapore's GPA membership already provides baseline procurement access, but CPTPP adds ASEAN-chain connectivity benefits.</p>
+      </div>
+      <div class="data-grid">
+        <div class="data-cell">
+          <div class="data-cell-label">Canadian Exports</div>
+          <div class="data-cell-value">~$3.1B</div>
+          <div class="data-cell-note">Machinery, pharma, services</div>
+        </div>
+        <div class="data-cell">
+          <div class="data-cell-label">Canadian Imports</div>
+          <div class="data-cell-value">~$1.9B</div>
+          <div class="data-cell-note">Electronics, chemicals, refined products</div>
+        </div>
+        <div class="data-cell">
+          <div class="data-cell-label">ASEAN Market</div>
+          <div class="data-cell-value" style="font-size:16px">680M+</div>
+          <div class="data-cell-note">People accessible via Singapore hub</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- OPPORTUNITIES -->
+    <section class="dossier-section" id="opportunities">
+      <div class="section-label">03 / Opportunities</div>
+      <h2 class="section-title">Financial Hub, Deep Tech & Green Economy</h2>
+      <div class="section-rule"></div>
+      <div class="section-body">
+        <p>Singapore's status as Asia-Pacific's commercial headquarters creates opportunities across virtually all professional and technology sectors. The government's strategic focus on the digital economy, green economy, and advanced manufacturing aligns closely with Canadian export competencies. CPTPP provides the preferential legal framework to maximise these opportunities.</p>
+      </div>
+      <div class="opportunity-grid">
+        <div class="opp-card tier-high">
+          <div class="opp-card-sector">Technology / Digital</div>
+          <div class="opp-card-title">AI, Fintech & Cybersecurity</div>
+          <div class="opp-card-body">Singapore is Southeast Asia's AI and fintech capital. MAS (Monetary Authority of Singapore) operates one of the world's most progressive fintech regulatory sandboxes. Canadian AI companies (Montreal/Toronto/Waterloo ecosystem) are strongly positioned to partner with Singapore institutions and use the city-state as their ASEAN launch pad.</div>
+        </div>
+        <div class="opp-card tier-high">
+          <div class="opp-card-sector">Life Sciences</div>
+          <div class="opp-card-title">Biomedical & Pharmaceutical</div>
+          <div class="opp-card-body">Singapore's Biopolis — Asia's largest biomedical research cluster — hosts global pharmaceutical giants (GSK, Novartis, Roche, Pfizer) alongside Singapore government research agencies. Canadian life sciences companies can partner with Biopolis institutions, access clinical research infrastructure, and reach the ASEAN market through Singapore regulatory approval pathways.</div>
+        </div>
+        <div class="opp-card tier-high">
+          <div class="opp-card-sector">Financial Services</div>
+          <div class="opp-card-title">Wealth Management & Capital Markets</div>
+          <div class="opp-card-body">Singapore is Asia's top wealth management centre, managing over USD $4 trillion in assets. All major Canadian banks have their Asia-Pacific headquarters in Singapore. Canadian asset managers, insurance companies, and alternative investment firms have a well-established institutional framework for establishing Singapore operations as their Asian base.</div>
+        </div>
+        <div class="opp-card tier-mid">
+          <div class="opp-card-sector">Energy / Cleantech</div>
+          <div class="opp-card-title">Green Economy & Sustainability</div>
+          <div class="opp-card-body">Singapore's Singapore Green Plan 2030 commits to solar deployment, green buildings, and carbon market development. The city-state is developing as a carbon credit trading hub. Canadian cleantech companies in solar integration, green hydrogen, carbon markets, and sustainable urban systems have strong alignment with Singapore's strategic priorities.</div>
+        </div>
+        <div class="opp-card tier-mid">
+          <div class="opp-card-sector">Aerospace</div>
+          <div class="opp-card-title">MRO & Aerospace Manufacturing</div>
+          <div class="opp-card-body">Singapore is Asia's largest aerospace MRO hub. The Singapore Airshow (biennial) is Asia-Pacific's largest aerospace event. Canadian aerospace companies (CAE, Bombardier, Héroux-Devtek, IMP, Magellan) have established Singapore relationships. The Singapore Air Force and commercial MRO procurement are ongoing opportunities.</div>
+        </div>
+        <div class="opp-card tier-watch">
+          <div class="opp-card-sector">Advanced Manufacturing</div>
+          <div class="opp-card-title">Semiconductors & Precision Engineering</div>
+          <div class="opp-card-body">Singapore is a global semiconductor fabrication hub (TSMC, GlobalFoundries, Micron). The government's semiconductor supply chain push creates demand for precision manufacturing equipment, metrology systems, and advanced materials. Canadian companies in these niches can enter through Singapore's well-established industrial ecosystem.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RISKS -->
+    <section class="dossier-section" id="risks">
+      <div class="section-label">04 / Risk Assessment</div>
+      <h2 class="section-title">Geopolitical Exposure & Cost of Operations</h2>
+      <div class="section-rule"></div>
+      <div class="section-body">
+        <p>Singapore is one of the lowest-risk operating environments in Asia-Pacific for Canadian companies. The primary risk factors are external (US-China geopolitical tensions, global supply chain disruption, regional security in the South China Sea) rather than domestic. Singapore's rule of law, contract enforcement, and regulatory stability are world-class. The principal operational challenge is cost — Singapore is among the world's most expensive cities for expatriate operations.</p>
+      </div>
+      <div class="risk-table">
+        <div class="risk-row risk-row-header">
+          <div class="risk-cell">Risk Factor</div>
+          <div class="risk-cell">Level</div>
+          <div class="risk-cell">Commentary</div>
+        </div>
+        <div class="risk-row">
+          <div class="risk-cell">US-China Geopolitics</div>
+          <div class="risk-cell"><span class="risk-level risk-mid">MED</span></div>
+          <div class="risk-cell">Singapore walks a careful line between the US and China — its two largest economic partners. Escalating US-China tensions could force Singapore into uncomfortable choices. Canadian companies with both US and China operations may face technology control compliance issues in a Singapore hub structure.</div>
+        </div>
+        <div class="risk-row">
+          <div class="risk-cell">Operating Cost</div>
+          <div class="risk-cell"><span class="risk-level risk-mid">MED</span></div>
+          <div class="risk-cell">Singapore is one of Asia's most expensive operating environments. Office rents, expatriate compensation, and business registration costs are high by regional standards. SMEs must carefully structure their Singapore entity (representative office, branch, subsidiary) to manage fixed cost exposure.</div>
+        </div>
+        <div class="risk-row">
+          <div class="risk-cell">Supply Chain Disruption</div>
+          <div class="risk-cell"><span class="risk-level risk-low">LOW</span></div>
+          <div class="risk-cell">Singapore's port and logistics infrastructure is highly resilient. The government maintains strategic stockpiles and diversified supply chains for essential goods. No meaningful supply chain risk from domestic sources.</div>
+        </div>
+        <div class="risk-row">
+          <div class="risk-cell">Political / Governance</div>
+          <div class="risk-cell"><span class="risk-level risk-low">LOW</span></div>
+          <div class="risk-cell">PAP has governed Singapore continuously since 1959. Lawrence Wong became Prime Minister in May 2024 following Lee Hsien Loong's planned handover. Political transition was smooth and orderly. No meaningful political instability risk.</div>
+        </div>
+        <div class="risk-row">
+          <div class="risk-cell">Regulatory Compliance</div>
+          <div class="risk-cell"><span class="risk-level risk-low">LOW</span></div>
+          <div class="risk-cell">Singapore has world-class regulatory clarity and consistency. MAS regulation for financial services is stringent but predictable. Companies must comply with Singapore's Personal Data Protection Act (PDPA) and various sector-specific requirements. Compliance costs are manageable for well-structured operations.</div>
+        </div>
+      </div>
+      <div class="watch-box">
+        <div class="watch-box-title">Near-Term Watch Items</div>
+        <div class="watch-box-body">
+          <ul>
+            <li><strong>Lawrence Wong's economic policy direction</strong> — PM Wong (since May 2024) is expected to maintain continuity but may shift emphasis toward social equity and cost-of-living measures; monitoring for any change in FDI incentive structure.</li>
+            <li><strong>CPTPP expansion</strong> — UK accession to CPTPP (signed 2023) expands the agreement's value. China and Taiwan's applications remain unresolved — resolution either way would significantly change CPTPP's strategic character.</li>
+            <li><strong>Singapore-China JEPA</strong> — Singapore-China Free Trade Agreement upgrade (JEPA) negotiations; any deepening of China-Singapore trade preferences could slightly tilt ASEAN supply chains in ways that affect Canadian CPTPP strategy.</li>
+            <li><strong>MAS digital bank licensing</strong> — MAS's continued digital bank licensing framework creates opportunities for Canadian fintech companies seeking MAS-regulated Singapore operations as their ASEAN base.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- FTA -->
+    <section class="dossier-section" id="fta">
+      <div class="section-label">05 / Trade Agreements</div>
+      <h2 class="section-title">CPTPP — Canada's ASEAN Gateway</h2>
+      <div class="section-rule"></div>
+      <div class="section-body">
+        <p>The Comprehensive and Progressive Agreement for Trans-Pacific Partnership (CPTPP) entered into force between Canada and Singapore on January 14, 2019. CPTPP is Canada's most commercially significant trade agreement with Asia-Pacific and provides Canadian exporters with preferential market access, investment protections, and government procurement rights in Singapore and ten other CPTPP parties.</p>
+      </div>
+      <div class="fta-block">
+        <div class="fta-header">
+          <span class="fta-name">CPTPP — Comprehensive and Progressive Agreement for Trans-Pacific Partnership</span>
+          <span class="fta-status">In Force</span>
+        </div>
+        <div class="fta-body">In force between Canada and Singapore since January 14, 2019. CPTPP covers goods (tariff elimination), services (market access), investment (ISDS), government procurement, intellectual property, and e-commerce. Singapore already maintains very low tariffs generally (most goods at 0%), so the primary CPTPP gains for Canadian companies are in services, investment, and government procurement access — plus the regional rules-of-origin benefits for ASEAN supply chains.</div>
+      </div>
+      <div class="fta-block">
+        <div class="fta-header">
+          <span class="fta-name">WTO Government Procurement Agreement (GPA)</span>
+          <span class="fta-status">In Force</span>
+        </div>
+        <div class="fta-body">Singapore is a GPA member, giving Canadian suppliers non-discriminatory access to Singaporean government procurement above specified thresholds. This baseline access is augmented by CPTPP's government procurement chapter, which covers a broader range of entities and lower thresholds. Canadian companies are eligible to bid on Singapore Government and Statutory Board tenders.</div>
+      </div>
+    </section>
+
+    <!-- INVESTMENT -->
+    <section class="dossier-section" id="investment">
+      <div class="section-label">06 / Investment Climate</div>
+      <h2 class="section-title">Canadian Pension Funds & Big Bank HQs</h2>
+      <div class="section-rule"></div>
+      <div class="section-body">
+        <p>Singapore hosts the Asia-Pacific headquarters of every major Canadian bank and all of Canada's largest pension funds. This concentration of institutional capital makes Singapore the most important single location outside Canada for the Canadian financial services sector. CPPIB, Ontario Teachers' Pension Plan, OMERS, PSP Investments, and AIMCo collectively manage hundreds of billions in assets with significant Singapore-deployed teams making Asian investment decisions.</p>
+        <p>The Economic Development Board (EDB) of Singapore is the primary FDI facilitation agency. Singapore's investment environment is characterised by: no foreign equity restrictions in most sectors; zero capital gains tax; competitive corporate tax rate (17%); extensive double taxation agreement (DTA) network (85+ countries, including Canada); and GIC/Temasek as sophisticated co-investment partners for large projects.</p>
+        <p>Singapore's two sovereign wealth funds — GIC (Government of Singapore Investment Corporation, ~$770B+ AUM) and Temasek Holdings (~$300B+ AUM) — are significant investors in Canadian assets (real estate, infrastructure, technology) and potential co-investment partners for Canadian companies pursuing large-scale projects.</p>
+      </div>
+      <div class="gov-signals">
+        <div class="signal-item">
+          <div class="signal-icon">🏦</div>
+          <div>
+            <div class="signal-title">Canadian Banks — Asia-Pacific HQs in Singapore</div>
+            <div class="signal-body">RBC, TD, BMO, Scotiabank, CIBC, and National Bank all maintain Singapore as their primary Asia-Pacific hub. These institutions provide trade finance, FX, capital markets, and advisory services to Canadian companies entering the Asian market, and serve as relationship anchors between Canadian and Singaporean institutional counterparts.</div>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-icon">💰</div>
+          <div>
+            <div class="signal-title">Canadian Pension Funds — Singapore Investment Teams</div>
+            <div class="signal-body">CPPIB (Singapore office opened 2010), Ontario Teachers', OMERS, PSP Investments, and AIMCo all have Singapore-based investment professionals managing Asian private equity, infrastructure, and real estate portfolios. These funds are significant investors in Asian assets and are co-investment partners for large-ticket Canadian infrastructure or private equity opportunities in the region.</div>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-icon">🧬</div>
+          <div>
+            <div class="signal-title">Biopolis — Biomedical R&D Cluster</div>
+            <div class="signal-body">Singapore's Biopolis (one-north district) is Southeast Asia's largest biomedical research and manufacturing cluster. Canadian pharmaceutical and biotech companies can access the cluster's shared infrastructure, government research grants (A*STAR), and proximity to Asia-Pacific clinical trial networks. Several Canadian companies have Biopolis-adjacent operations.</div>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-icon">🌿</div>
+          <div>
+            <div class="signal-title">Singapore Carbon Market — Article 6 Pioneer</div>
+            <div class="signal-body">Singapore is a leading jurisdiction for carbon credit trading under Paris Agreement Article 6. The Climate Impact X (CIX) exchange — backed by Singapore Exchange, DBS, Standard Chartered, and Temasek — is developing as Asia's premier voluntary carbon market. Canadian carbon project developers and climate finance companies have early-mover opportunities.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- POLITICAL -->
+    <section class="dossier-section" id="political">
+      <div class="section-label">07 / Political Environment</div>
+      <h2 class="section-title">Lawrence Wong — Generational Transition, PAP Continuity</h2>
+      <div class="section-rule"></div>
+      <div class="section-body">
+        <p>Lawrence Wong became Singapore's fourth Prime Minister in May 2024, succeeding Lee Hsien Loong who stepped down after 20 years in the role. The transition — the most significant in Singapore's political history since Lee Kuan Yew — was meticulously planned and executed. Wong, a former Finance Minister, is widely seen as a competent technocrat committed to PAP's core governance philosophy of pragmatic economic management, meritocracy, and social stability.</p>
+        <p>The People's Action Party has governed Singapore since 1959. While Singapore holds regular elections and maintains formal democratic institutions, the PAP's structural dominance is unchallenged. The 2025 General Election (expected by November 2025) will be the first under Wong's leadership — PAP is widely expected to maintain its supermajority in Parliament.</p>
+        <p>Singapore's foreign policy is explicitly non-aligned and rules-based. The government maintains strong relationships with the United States (US-Singapore defence and trade ties are deep) while managing a substantial economic relationship with China (Singapore's largest trade partner). On Canada-specific issues: relations are warm, underpinned by CPTPP, strong institutional ties, and no significant bilateral tensions.</p>
+        <p>Canada-Singapore relations in practice are managed largely through commercial and institutional channels rather than high-level political engagement, reflecting the depth and maturity of the relationship. The CPTPP Joint Commission provides a formal bilateral trade governance mechanism.</p>
+      </div>
+    </section>
+
+    <!-- PROCUREMENT -->
+    <section class="dossier-section" id="procurement">
+      <div class="section-label">08 / Procurement Access</div>
+      <h2 class="section-title">GPA + CPTPP: Open Market for Canadian Suppliers</h2>
+      <div class="section-rule"></div>
+      <div class="section-body">
+        <p>Singapore's government procurement market is among the most accessible for Canadian suppliers in Asia. Singapore is a GPA member, and CPTPP's government procurement chapter provides additional access to Statutory Board and Government-Linked Corporation (GLC) procurement. The Government Electronic Business (GeBIZ) portal is the central Singapore government procurement platform — all government tenders are published here.</p>
+        <p>Major Statutory Boards with significant procurement budgets relevant to Canadian companies include: the Infocomm Media Development Authority (IMDA) for ICT; the Land Transport Authority (LTA) for transit infrastructure; the Building and Construction Authority (BCA) for construction; and the Health Sciences Authority (HSA) for healthcare and pharmaceuticals.</p>
+      </div>
+      <div class="gov-signals">
+        <div class="signal-item">
+          <div class="signal-icon">🖥</div>
+          <div>
+            <div class="signal-title">GeBIZ — Government Electronic Business Portal</div>
+            <div class="signal-body">GeBIZ (gebiz.gov.sg) is Singapore's central government procurement portal. All Singapore Government ministry and Statutory Board tenders above SGD 6,000 are published on GeBIZ. Canadian suppliers can register as GeBIZ trading partners and receive notifications for relevant tenders. The CPTPP government procurement chapter and GPA ensure non-discriminatory access.</div>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-icon">💻</div>
+          <div>
+            <div class="signal-title">IMDA — Smart Nation ICT Procurement</div>
+            <div class="signal-body">The Infocomm Media Development Authority (IMDA) coordinates Singapore's Smart Nation initiative procurement. Large-scale government ICT projects (cloud migration, AI deployment, digital identity, cybersecurity) are primarily procured through IMDA frameworks. Canadian ICT companies should engage IMDA and the Government Technology Agency (GovTech) for Smart Nation opportunities.</div>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-icon">✈</div>
+          <div>
+            <div class="signal-title">RSAF & DSTA — Defence Procurement</div>
+            <div class="signal-body">The Republic of Singapore Air Force (RSAF) and Defence Science and Technology Agency (DSTA) manage Singapore's defence procurement. Singapore operates a mixed fleet including F-16s, F-15SGs, and has announced F-35 acquisition. Canadian aerospace companies (CAE, Héroux-Devtek, Magellan) have existing Singapore defence relationships via training systems and component supply.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CANADIAN PRESENCE -->
+    <section class="dossier-section" id="canadian">
+      <div class="section-label">09 / Canadian Presence</div>
+      <h2 class="section-title">Banks, Pensions & Tech — Canada's Asian Hub</h2>
+      <div class="section-rule"></div>
+      <div class="section-body">
+        <p>Canada's commercial presence in Singapore is the most concentrated of any Asian jurisdiction. All major Canadian financial institutions, pension funds, and several leading technology and professional services firms maintain Singapore operations. This critical mass creates a self-reinforcing network: Canadian companies entering Asia benefit from an established community of Canadian institutional anchors, shared professional networks, and a well-understood bilateral commercial relationship.</p>
+      </div>
+      <div class="gov-signals">
+        <div class="signal-item">
+          <div class="signal-icon">🏦</div>
+          <div>
+            <div class="signal-title">Canadian Banks — Full Asia-Pacific Operations</div>
+            <div class="signal-body">RBC Capital Markets, TD Securities, BMO Capital Markets, Scotiabank, CIBC, and National Bank Financial all operate Singapore entities as their Asia-Pacific bases. Services include trade finance, commodity finance, FX, capital markets, and M&A advisory — creating a comprehensive Canadian financial infrastructure for companies entering the Asian market.</div>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-icon">💰</div>
+          <div>
+            <div class="signal-title">CPPIB — Singapore Regional Office</div>
+            <div class="signal-body">Canada Pension Plan Investment Board's Singapore office (opened 2010) is one of its largest international teams, managing private equity, real estate, infrastructure, and credit investments across Asia. CPPIB's Singapore portfolio includes significant infrastructure investments in India, China, and Southeast Asia.</div>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-icon">✈</div>
+          <div>
+            <div class="signal-title">CAE — Asia-Pacific Training Centre</div>
+            <div class="signal-body">CAE operates flight simulation training centres in Singapore, serving both commercial aviation and defence clients. CAE's Singapore presence is its largest Asia-Pacific hub, with full-flight simulators for multiple aircraft types used by regional airlines and the RSAF. CAE Singapore won RSAF training contracts and has expanded to serve regional customers.</div>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-icon">🇨🇦</div>
+          <div>
+            <div class="signal-title">High Commission of Canada — Singapore</div>
+            <div class="signal-body">The Canadian High Commission in Singapore covers Singapore and serves as one of Canada's most commercially active diplomatic posts in Asia-Pacific. Trade Commissioner Service (TCS) Singapore provides comprehensive market support for Canadian companies and serves as a regional coordination point for ASEAN market entry strategies.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACTS -->
+    <section class="dossier-section" id="contacts">
+      <div class="section-label">10 / Key Contacts</div>
+      <h2 class="section-title">Entry Points & Institutions</h2>
+      <div class="section-rule"></div>
+      <div class="section-body">
+        <p>Singapore's institutional ecosystem for Canadian companies is the most developed in Southeast Asia. The High Commission TCS team, EDB, and the established Canadian financial network provide comprehensive entry support for companies of all sizes.</p>
+      </div>
+      <div class="gov-signals">
+        <div class="signal-item">
+          <div class="signal-icon">🇨🇦</div>
+          <div>
+            <div class="signal-title">Trade Commissioner Service — Singapore</div>
+            <div class="signal-body">Canadian High Commission, 1 George Street, Singapore. TCS Singapore is one of Canada's busiest commercial posts. Sector specialists cover financial services, technology, life sciences, cleantech, and aerospace. Primary first contact for Canadian companies entering Singapore or using Singapore as their ASEAN hub.</div>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-icon">🏛</div>
+          <div>
+            <div class="signal-title">Singapore Economic Development Board (EDB)</div>
+            <div class="signal-body">EDB facilitates foreign investment into Singapore manufacturing and services. EDB manages investment incentives including the Global Investor Programme, Pioneer Status, and Development and Expansion Incentives. EDB Singapore also maintains North American representative offices for proactive investor engagement.</div>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-icon">💹</div>
+          <div>
+            <div class="signal-title">Monetary Authority of Singapore (MAS)</div>
+            <div class="signal-body">MAS is Singapore's central bank and financial regulator. For Canadian financial services companies, MAS is the primary licensing authority. MAS's Financial Centre Development department engages foreign financial institutions on Singapore market entry. MAS also runs the Global Finance & Technology Network and various fintech initiatives relevant to Canadian companies.</div>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-icon">🤝</div>
+          <div>
+            <div class="signal-title">Canadian Chamber of Commerce in Singapore</div>
+            <div class="signal-body">The CanCham Singapore provides a peer network of Canadian companies and executives in Singapore. CanCham events, roundtables, and member introductions are valuable for companies entering the market. CanCham also engages with the High Commission on bilateral commercial issues and CPTPP implementation.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SOURCES -->
+    <section class="dossier-section" id="sources">
+      <div class="section-label">11 / Sources & Methodology</div>
+      <h2 class="section-title">Data Sources</h2>
+      <div class="section-rule"></div>
+      <div class="section-body">
+        <p>This dossier draws on publicly available data from: Statistics Canada trade data portal; Global Affairs Canada CPTPP implementation and Singapore country reports; Singapore Department of Statistics; Singapore Economic Development Board; Monetary Authority of Singapore; Government Electronic Business (GeBIZ) portal; CPPIB, Ontario Teachers', OMERS, PSP Investments public disclosures; Canadian bank annual reports; IMDA and GovTech publications; Singapore Ministry of Finance; and ASEAN Secretariat trade data.</p>
+        <p>Trade figures are estimates based on 2022–23 data and may not reflect the most recent Statistics Canada releases. All figures in Canadian dollars unless otherwise stated. This dossier is for informational purposes only and does not constitute investment advice.</p>
+        <p><strong>Classification:</strong> CTI-PROFILE-SGP · Prepared by Canadian Trade Intelligence · For authorized distribution only.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <aside class="dossier-aside">
+    <div class="aside-card">
+      <div class="aside-card-title">Quick Facts</div>
+      <div class="aside-row"><span class="aside-row-label">Capital</span><span class="aside-row-value">Singapore City</span></div>
+      <div class="aside-row"><span class="aside-row-label">Prime Minister</span><span class="aside-row-value">Lawrence Wong</span></div>
+      <div class="aside-row"><span class="aside-row-label">Since</span><span class="aside-row-value">May 2024</span></div>
+      <div class="aside-row"><span class="aside-row-label">Currency</span><span class="aside-row-value">SGD (stable)</span></div>
+      <div class="aside-row"><span class="aside-row-label">CPTPP</span><span class="aside-row-value">In Force Jan 2019</span></div>
+      <div class="aside-row"><span class="aside-row-label">Commonwealth</span><span class="aside-row-value">Member</span></div>
+    </div>
+    <div class="aside-card">
+      <div class="aside-card-title">Canadian Anchors</div>
+      <ul class="aside-list">
+        <li><strong>All 6 major banks</strong> — Asia-Pacific HQs</li>
+        <li><strong>CPPIB</strong> — regional investment office</li>
+        <li><strong>Ontario Teachers'</strong> — Asia team</li>
+        <li><strong>OMERS / PSP / AIMCo</strong> — Asia presence</li>
+        <li><strong>CAE</strong> — training centre</li>
+      </ul>
+    </div>
+    <div class="aside-card">
+      <div class="aside-card-title">Key Institutions</div>
+      <div class="aside-row"><span class="aside-row-label">FDI Facilitation</span><span class="aside-row-value">EDB</span></div>
+      <div class="aside-row"><span class="aside-row-label">Financial Regulator</span><span class="aside-row-value">MAS</span></div>
+      <div class="aside-row"><span class="aside-row-label">Procurement</span><span class="aside-row-value">GeBIZ</span></div>
+      <div class="aside-row"><span class="aside-row-label">SWF 1</span><span class="aside-row-value">GIC (~$770B)</span></div>
+      <div class="aside-row"><span class="aside-row-label">SWF 2</span><span class="aside-row-value">Temasek (~$300B)</span></div>
+    </div>
+    <div class="aside-card">
+      <div class="aside-card-title">Access Points</div>
+      <div class="aside-contact">
+        <strong>TCS Singapore</strong>
+        Canadian High Commission<br>
+        1 George Street, Singapore<br>
+        ASEAN regional hub
+      </div>
+      <div class="aside-contact">
+        <strong>CanCham Singapore</strong>
+        Peer network &amp; events
+      </div>
+      <div class="aside-contact">
+        <strong>Singapore EDB</strong>
+        FDI facilitation &amp; incentives
+      </div>
+    </div>
+    <div class="aside-card">
+      <div class="aside-card-title">Risk Snapshot</div>
+      <div class="aside-row"><span class="aside-row-label">Political</span><span class="aside-row-value" style="color:#1A6B3A">LOW</span></div>
+      <div class="aside-row"><span class="aside-row-label">Regulatory</span><span class="aside-row-value" style="color:#1A6B3A">LOW</span></div>
+      <div class="aside-row"><span class="aside-row-label">Currency</span><span class="aside-row-value" style="color:#1A6B3A">LOW</span></div>
+      <div class="aside-row"><span class="aside-row-label">Geopolitical</span><span class="aside-row-value" style="color:#8B6507">MED</span></div>
+      <div class="aside-row"><span class="aside-row-label">Operating Cost</span><span class="aside-row-value" style="color:#8B6507">MED</span></div>
+    </div>
+  </aside>
+</div>
+
+<footer class="dossier-footer">
+  <div>CTI-PROFILE-SGP · Canadian Trade Intelligence · Restricted Circulation</div>
+  <div>Last updated: Q1 2025 · Data current to Dec 2024</div>
+</footer>
+
+<script>
+  const navLinks = document.querySelectorAll('.section-nav a');
+  const sections = document.querySelectorAll('.dossier-section');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.getAttribute('id');
+        navLinks.forEach(link => {
+          link.classList.toggle('active', link.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

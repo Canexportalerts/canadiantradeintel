@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thailand — Canadian Trade Intelligence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@400;500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0A0F1A;
+    --ink-mid: #2A3248;
+    --ink-light: #4A5570;
+    --paper: #F5F3EE;
+    --paper-mid: #EAE7E0;
+    --paper-warm: #E2DDD5;
+    --accent: #C8960A;
+    --accent-deep: #8B6507;
+    --red: #C0392B;
+    --green: #1A6B3A;
+    --mono: 'DM Mono', monospace;
+    --serif: 'Cormorant Garamond', Georgia, serif;
+    --sans: 'Jost', system-ui, sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 15px; line-height: 1.6; overflow-x: hidden; }
+
+  .dossier-masthead {
+    background: #1A0E08;
+    color: #fff;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .dossier-masthead::after {
+    content: 'THAILAND';
+    position: absolute;
+    right: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: var(--serif);
+    font-size: 100px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.04);
+    pointer-events: none;
+    white-space: nowrap;
+    letter-spacing: 0.05em;
+  }
+  .dossier-top-bar { display: flex; align-items: center; justify-content: space-between; padding: 12px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); font-family: var(--mono); font-size: 11px; color: rgba(255,255,255,0.45); }
+  .dossier-top-bar a { color: rgba(255,255,255,0.45); text-decoration: none; }
+  .dossier-top-bar a:hover { color: rgba(255,255,255,0.8); }
+  .dossier-ref { letter-spacing: 0.08em; }
+  .dossier-main { display: grid; grid-template-columns: 1fr auto; gap: 40px; padding: 48px 40px 52px; align-items: end; }
+  .dossier-kicker { font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em; color: rgba(255,255,255,0.4); text-transform: uppercase; margin-bottom: 14px; }
+  .dossier-title { font-family: var(--serif); font-size: 56px; font-weight: 600; line-height: 1.05; color: #fff; margin-bottom: 18px; }
+  .dossier-sub { font-size: 15px; font-weight: 300; color: rgba(255,255,255,0.6); max-width: 560px; line-height: 1.65; }
+  .sector-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 22px; }
+  .sector-tag { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; padding: 4px 10px; border-radius: 2px; text-transform: uppercase; }
+  .s-cm { background: rgba(180,120,40,0.25); color: #F0C060; border: 1px solid rgba(180,120,40,0.3); }
+  .s-am { background: rgba(60,100,180,0.2); color: #90B4F0; border: 1px solid rgba(60,100,180,0.3); }
+  .s-af { background: rgba(40,140,70,0.2); color: #70C090; border: 1px solid rgba(40,140,70,0.3); }
+  .s-ae { background: rgba(140,60,180,0.2); color: #C090E0; border: 1px solid rgba(140,60,180,0.3); }
+  .s-td { background: rgba(0,160,180,0.2); color: #60D4E0; border: 1px solid rgba(0,160,180,0.3); }
+  .s-ec { background: rgba(20,160,100,0.2); color: #50D4A0; border: 1px solid rgba(20,160,100,0.3); }
+  .s-ls { background: rgba(220,80,80,0.2); color: #F09090; border: 1px solid rgba(220,80,80,0.3); }
+  .dossier-vitals { display: flex; flex-direction: column; gap: 16px; min-width: 210px; }
+  .vital-item { text-align: right; }
+  .vital-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; color: rgba(255,255,255,0.35); text-transform: uppercase; margin-bottom: 3px; }
+  .vital-value { font-family: var(--serif); font-size: 26px; font-weight: 600; color: #fff; line-height: 1; }
+  .vital-value.positive { color: #6EE4A0; }
+  .vital-note { font-family: var(--mono); font-size: 10px; color: rgba(255,255,255,0.35); margin-top: 2px; }
+
+  .section-nav { position: sticky; top: 0; z-index: 50; background: var(--ink); border-bottom: 1px solid rgba(255,255,255,0.08); overflow-x: auto; }
+  .section-nav ul { display: flex; list-style: none; padding: 0 40px; gap: 0; }
+  .section-nav a { display: block; padding: 13px 16px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; color: rgba(255,255,255,0.4); text-decoration: none; white-space: nowrap; border-bottom: 2px solid transparent; transition: color 0.2s, border-color 0.2s; }
+  .section-nav a:hover { color: rgba(255,255,255,0.8); }
+  .section-nav a.active { color: #fff; border-bottom-color: var(--accent); }
+
+  .dossier-body { display: grid; grid-template-columns: 1fr 300px; gap: 0; max-width: 1200px; margin: 0 auto; padding: 48px 40px; }
+  .dossier-content { display: flex; flex-direction: column; gap: 56px; padding-right: 48px; }
+  .dossier-aside { position: sticky; top: 50px; height: fit-content; display: flex; flex-direction: column; gap: 20px; }
+
+  .section-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; color: var(--ink-light); text-transform: uppercase; margin-bottom: 8px; }
+  .section-title { font-family: var(--serif); font-size: 30px; font-weight: 600; color: var(--ink); margin-bottom: 6px; line-height: 1.2; }
+  .section-rule { width: 40px; height: 2px; background: var(--accent); margin-bottom: 20px; }
+  .section-body { font-size: 15px; color: var(--ink-mid); line-height: 1.75; }
+  .section-body p + p { margin-top: 14px; }
+
+  .data-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--paper-warm); border: 1px solid var(--paper-warm); margin-top: 24px; }
+  .data-cell { background: var(--paper); padding: 16px 18px; }
+  .data-cell-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; color: var(--ink-light); text-transform: uppercase; margin-bottom: 6px; }
+  .data-cell-value { font-family: var(--serif); font-size: 22px; font-weight: 600; color: var(--ink); line-height: 1.1; }
+  .data-cell-note { font-family: var(--mono); font-size: 10px; color: var(--ink-light); margin-top: 3px; }
+
+  .opportunity-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 24px; }
+  .opp-card { background: var(--paper); border: 1px solid var(--paper-warm); border-left: 3px solid var(--accent); padding: 18px 20px; }
+  .opp-card.tier-high { border-left-color: #1A6B3A; }
+  .opp-card.tier-mid { border-left-color: var(--accent); }
+  .opp-card.tier-watch { border-left-color: #4A6090; }
+  .opp-card-sector { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; color: var(--ink-light); text-transform: uppercase; margin-bottom: 6px; }
+  .opp-card-title { font-weight: 600; font-size: 14px; color: var(--ink); margin-bottom: 6px; }
+  .opp-card-body { font-size: 13px; color: var(--ink-mid); line-height: 1.6; }
+
+  .risk-table { margin-top: 24px; border: 1px solid var(--paper-warm); }
+  .risk-row { display: grid; grid-template-columns: 180px 80px 1fr; gap: 0; border-bottom: 1px solid var(--paper-warm); }
+  .risk-row:last-child { border-bottom: none; }
+  .risk-row-header { background: var(--ink); color: #fff; }
+  .risk-cell { padding: 12px 16px; font-size: 13px; border-right: 1px solid var(--paper-warm); display: flex; align-items: center; }
+  .risk-cell:last-child { border-right: none; }
+  .risk-row-header .risk-cell { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; color: rgba(255,255,255,0.6); text-transform: uppercase; border-right-color: rgba(255,255,255,0.1); }
+  .risk-level { font-family: var(--mono); font-size: 11px; font-weight: 500; padding: 3px 8px; border-radius: 2px; }
+  .risk-high { background: rgba(192,57,43,0.12); color: #C0392B; }
+  .risk-mid { background: rgba(200,150,10,0.12); color: #8B6507; }
+  .risk-low { background: rgba(26,107,58,0.12); color: #1A6B3A; }
+
+  .fta-block { margin-top: 24px; border: 1px solid var(--paper-warm); padding: 20px 24px; }
+  .fta-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+  .fta-name { font-weight: 600; font-size: 15px; color: var(--ink); }
+  .fta-status { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; padding: 4px 10px; border-radius: 2px; background: rgba(26,107,58,0.12); color: #1A6B3A; text-transform: uppercase; }
+  .fta-status.none { background: rgba(192,57,43,0.1); color: #C0392B; }
+  .fta-body { font-size: 13px; color: var(--ink-mid); line-height: 1.65; }
+
+  .gov-signals { margin-top: 20px; display: flex; flex-direction: column; gap: 12px; }
+  .signal-item { display: flex; gap: 14px; padding: 14px 16px; background: var(--paper); border: 1px solid var(--paper-warm); }
+  .signal-icon { font-family: var(--mono); font-size: 18px; line-height: 1; flex-shrink: 0; margin-top: 2px; }
+  .signal-title { font-weight: 600; font-size: 14px; color: var(--ink); margin-bottom: 3px; }
+  .signal-body { font-size: 13px; color: var(--ink-mid); line-height: 1.6; }
+
+  .watch-box { margin-top: 20px; background: rgba(200,150,10,0.06); border: 1px solid rgba(200,150,10,0.2); border-left: 3px solid var(--accent); padding: 18px 20px; }
+  .watch-box-title { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; color: var(--accent-deep); text-transform: uppercase; margin-bottom: 8px; }
+  .watch-box-body { font-size: 13px; color: var(--ink-mid); line-height: 1.65; }
+  .watch-box-body ul { padding-left: 16px; }
+  .watch-box-body li + li { margin-top: 6px; }
+
+  .aside-card { background: var(--paper); border: 1px solid var(--paper-warm); padding: 18px 20px; }
+  .aside-card-title { font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; color: var(--ink-light); text-transform: uppercase; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--paper-warm); }
+  .aside-row { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 0; border-bottom: 1px solid var(--paper-warm); }
+  .aside-row:last-child { border-bottom: none; }
+  .aside-row-label { font-size: 12px; color: var(--ink-mid); }
+  .aside-row-value { font-family: var(--mono); font-size: 12px; color: var(--ink); font-weight: 500; }
+  .aside-list { list-style: none; }
+  .aside-list li { padding: 6px 0; border-bottom: 1px solid var(--paper-warm); font-size: 13px; color: var(--ink-mid); }
+  .aside-list li:last-child { border-bottom: none; }
+  .aside-list li strong { color: var(--ink); }
+  .aside-contact { font-size: 13px; color: var(--ink-mid); line-height: 1.65; }
+  .aside-contact strong { color: var(--ink); display: block; margin-bottom: 2px; }
+  .aside-contact + .aside-contact { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--paper-warm); }
+
+  .dossier-footer { background: var(--ink); color: rgba(255,255,255,0.35); padding: 28px 40px; display: flex; justify-content: space-between; align-items: center; font-family: var(--mono); font-size: 11px; }
+</style>
+</head>
+<body>
+
+<header class="dossier-masthead">
+  <div class="dossier-top-bar">
+    <div><a href="../../index.html">Canadian Trade Intelligence</a> / <a href="../index.html">Countries</a> / Thailand</div>
+    <div class="dossier-ref">CTI-PROFILE-THA · RESTRICTED CIRCULATION</div>
+  </div>
+  <div class="dossier-main">
+    <div>
+      <div class="dossier-kicker">Country Dossier · Asia-Pacific · Southeast Asia</div>
+      <h1 class="dossier-title">Thailand</h1>
+      <p class="dossier-sub">Southeast Asia's second-largest economy and the region's automotive manufacturing heartland. A significant market for Canadian canola, pork, and potash — and a country navigating a strategic pivot toward EVs, semiconductors, and renewable energy that creates new entry points for Canadian exporters and investors.</p>
+      <div class="sector-tags">
+        <span class="sector-tag s-af">Agri-Food</span>
+        <span class="sector-tag s-am">Advanced Mfg</span>
+        <span class="sector-tag s-ec">Energy/Cleantech</span>
+        <span class="sector-tag s-td">Technology/Digital</span>
+      </div>
+    </div>
+    <div class="dossier-vitals">
+      <div class="vital-item">
+        <div class="vital-label">Bilateral Trade</div>
+        <div class="vital-value">~$3B</div>
+        <div class="vital-note">CAD, 2023 est.</div>
+      </div>
+      <div class="vital-item">
+        <div class="vital-label">Trade Balance</div>
+        <div class="vital-value negative">-$1.1B</div>
+        <div class="vital-note">Canadian deficit</div>
+      </div>
+      <div class="vital-item">
+        <div class="vital-label">FTA Status</div>
+        <div class="vital-value" style="font-size:16px;color:rgba(255,255,255,0.5)">No CPTPP</div>
+        <div class="vital-note">WTO MFN; negotiations pending</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="section-nav">
+  <ul>
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#trade">Trade</a></li>
+    <li><a href="#opportunities">Opportunities</a></li>
+    <li><a href="#risks">Risks</a></li>
+    <li><a href="#fta">Trade Agreements</a></li>
+    <li><a href="#investment">Investment</a></li>
+    <li><a href="#political">Political</a></li>
+    <li><a href="#procurement">Procurement</a></li>
+    <li><a href="#canadian">Canadian Presence</a></li>
+    <li><a href="#contacts">Contacts</a></li>
+    <li><a href="#sources">Sources</a></li>
+  </ul>
+</nav>
+
+<div class="dossier-body">
+  <main class="dossier-content">
+
+    <!-- OVERVIEW -->
+    <section class="dossier-section" id="overview">
+      <div class="section-label">01 / Overview</div>
+      <h2 class="section-title">Southeast Asia's Industrial Engine</h2>
+      <div class="section-rule"></div>
+      <div class="section-body">
+        <p>Thailand is Southeast Asia's second-largest economy (after Indonesia) and one of the region's most industrialised nations. The country has built a globally competitive manufacturing base across automotive, electronics, and food processing — earning Thailand the nickname "Detroit of Asia" for its automotive sector, which produces over 1.9 million vehicles annually and hosts plants from Toyota, Honda, Ford, Mitsubishi, and others.</p>
+        <p>Canada's bilateral relationship with Thailand is mature and commercially significant. Canadian exports of canola oil (Thailand is one of the world's largest canola importers), pork, potash, and machinery have long underpinned the relationship. Thai exports to Canada include electronics, automotive parts, processed foods, and gems/jewellery.</p>
+        <p>Thailand is not a CPTPP member — a significant gap in market access for Canadian exporters relative to competitors from Japan, Australia, and Vietnam who enjoy CPTPP preferences. Thailand has expressed interest in joining CPTPP, and preliminary discussions have occurred, but no formal accession process has been launched. A Thailand CPTPP accession would substantially reshape the commercial relationship.</p>
+        <p>Politically, Thailand returned to elected civilian government in 2023 after a decade of military-influenced rule. The Pheu Thai party government under Prime Minister Paetongtarn Shinawatra (daughter of former PM Thaksin) took office in August 2024, continuing the post-election democratic transition. The military retains significant institutional influence, but the political environment is more open than during the 2014–2023 period.</p>
+      </div>
+      <div class="data-grid">
+        <div class="data-cell">
+          <div class="data-cell-label">Population</div>
+          <div class="data-cell-value">72M</div>
+          <div class="data-cell-note">2024 estimate</div>
+        </div>
+        <div class="data-cell">
+          <div class="data-cell-label">GDP (Nominal)</div>
+          <div class="data-cell-value">~$570B</div>
+          <div class="data-cell-note">USD, 2023</div>
+        </div>
+        <div class="data-cell">
+          <div class="data-cell-label">GDP Growth</div>
+          <div class="data-cell-value">~2.7%</div>
+          <div class="data-cell-note">2024, below potential</div>
+        </div>
+        <div class="data-cell">
+          <div class="data-cell-label">Capital</div>
+          <div class="data-cell-value" style="font-size:17px">Bangkok</div>
+          <div class="data-cell-note">TCS location</div>
+        </div>
+        <div class="data-cell">
+          <div class="data-cell-label">Currency</div>
+          <div class="data-cell-value" style="font-size:17px">THB / Baht</div>
+          <div class="data-cell-note">Managed float</div>
+        </div>
+        <div class="data-cell">
+          <div class="data-cell-label">Auto Production</div>
+          <div class="data-cell-value" style="font-size:17px">1.9M+</div>
+          <div class="data-cell-note">Vehicles/yr — "Detroit of Asia"</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRADE -->
+    <section class="dossier-section" id="trade">
+      <div class="section-label">02 / Trade Profile</div>
+      <h2 class="section-title">Canola, Pork & Potash vs. Electronics & Auto Parts</h2>
+      <div class="section-rule"></div>
+      <div class="section-body">
+        <p>Canada runs a trade deficit with Thailand, reflecting the scale of Thai electronics and manufactured goods entering the Canadian market. Canada's exports to Thailand are dominated by agricultural commodities — canola oil (Thailand is among the world's top canola importing countries), pork, and potash — alongside smaller volumes of machinery and professional services.</p>
+        <p>Thailand's exports to Canada include computers and electronics, automotive parts (for North American assembly plants), processed seafood, and rubber products. Thailand's position in global electronics supply chains (hard drives, semiconductors, automotive components) means Thai exports to Canada are closely tied to North American manufacturing cycles.</p>
+        <p>The absence of an FTA is a structural constraint. Canadian agricultural exporters face Thai import tariffs (canola can face tariffs of up to 40–80% depending on form) compared to zero or near-zero tariffs for CPTPP competitors. CPTPP accession by Thailand would be transformational for Canadian agricultural exports, potentially adding hundreds of millions in annual trade.</p>
+      </div>
+      <div class="data-grid">
+        <div class="data-cell">
+          <div class="data-cell-label">Canadian Exports</div>
+          <div class="data-cell-value">~$950M</div>
+          <div class="data-cell-note">Canola, pork, potash, machinery</div>
+        </div>
+        <div class="data-cell">
+          <div class="data-cell-label">Canadian Imports</div>
+          <div class="data-cell-value">~$2.05B</div>
+          <div class="data-cell-note">Electronics, auto parts, food</div>
+        </div>
+        <div class="data-cell">
+          <div class="data-cell-label">Top Canadian Export</div>
+          <div class="data-cell-value" style="font-size:16px">Canola Oil</div>
+          <div class="data-cell-note">Largest single category</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- OPPORTUNITIES -->
+    <section class="dossier-section" id="opportunities">
+      <div class="section-label">03 / Opportunities</div>
+      <h2 class="section-title">EV Pivot, Agri-Food Growth & EEC Investment</h2>
+      <div class="section-rule"></div>
+      <div class="section-body">
+        <p>Thailand's strategic economic shift toward electric vehicles, semiconductors, and advanced manufacturing — anchored by the Eastern Economic Corridor (EEC) — creates new entry points for Canadian companies beyond the traditional agricultural trade relationship. The government's "Thailand 4.0" industrial policy actively incentivises investment in ten target industries relevant to Canadian competencies.</p>
+      </div>
+      <div class="opportunity-grid">
+        <div class="opp-card tier-high">
+          <div class="opp-card-sector">Agri-Food</div>
+          <div class="opp-card-title">Canola, Pork & Agricultural Inputs</div>
+          <div class="opp-card-body">Thailand's food processing industry — one of the world's largest — consumes vast quantities of canola oil, pork, and grain. Canadian agricultural exporters have an established market. Growth opportunity lies in premium and functional food ingredients as Thai middle-class consumption patterns evolve. Canadian agri-tech companies have market entry opportunities via Thailand's food processing clusters.</div>
+        </div>
+        <div class="opp-card tier-high">
+          <div class="opp-card-sector">Advanced Manufacturing</div>
+          <div class="opp-card-title">EV Supply Chain & Battery Technology</div>
+          <div class="opp-card-body">Thailand has set a target of 30% EV production by 2030. Chinese EV manufacturers (BYD, SAIC, Great Wall) are establishing Thailand plants. This creates supply chain opportunities for Canadian battery material suppliers, EV component manufacturers, and testing/validation services companies with existing Canadian OEM relationships.</div>
+        </div>
+        <div class="opp-card tier-mid">
+          <div class="opp-card-sector">Energy / Cleantech</div>
+          <div class="opp-card-title">Renewable Energy — Solar & Biomass</div>
+          <div class="opp-card-body">Thailand has ambitious renewable energy targets (30% by 2030). The BOI offers enhanced incentives for renewable energy investment. Canadian solar technology, biomass energy systems (Thailand has large agricultural waste streams from rice, sugar, and rubber), and grid management companies are well-positioned for this expanding sector.</div>
+        </div>
+        <div class="opp-card tier-mid">
+          <div class="opp-card-sector">Technology / Digital</div>
+          <div class="opp-card-title">Smart City & Digital Economy</div>
+          <div class="opp-card-body">Thailand's EEC includes a smart city development zone. The government's digital economy push creates demand for cloud services, cybersecurity, IoT infrastructure, and digital payment systems. Canadian technology companies serving the ASEAN market via Singapore can extend service delivery to Thailand's rapidly digitalising economy.</div>
+        </div>
+        <div class="opp-card tier-watch">
+          <div class="opp-card-sector">Critical Minerals</div>
+          <div class="opp-card-title">Potash — Established & Growing</div>
+          <div class="opp-card-body">Canadian potash (Nutrien, Mosaic) is already exported to Thailand for its large agricultural sector. Thailand's Maha Sarakham potash deposit is one of Asia's largest — a domestic production development that could eventually displace Canadian imports or create joint venture opportunities for Canadian mining companies with potash expertise.</div>
+        </div>
+        <div class="opp-card tier-watch">
+          <div class="opp-card-sector">Life Sciences</div>
+          <div class="opp-card-title">Medical Tourism & Health Tech</div>
+          <div class="opp-card-body">Thailand is a global medical tourism destination — an underappreciated commercial opportunity for Canadian medical device, diagnostic, and health IT companies. Thai private hospitals (Bumrungrad, Bangkok Hospital, Samitivej) are sophisticated buyers of medical technology and are actively modernising their digital health infrastructure.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RISKS -->
+    <section class="dossier-section" id="risks">
+      <div class="section-label">04 / Risk Assessment</div>
+      <h2 class="section-title">Political Cycles, Structural Slowdown & No FTA</h2>
+      <div class="section-rule"></div>
+      <div class="section-body">
+        <p>Thailand's risk profile for Canadian companies is moderate. The primary structural risk is the absence of an FTA, which creates a competitive disadvantage vs. CPTPP members. Political uncertainty — rooted in Thailand's recurring cycle of military-civilian tension — has somewhat stabilised post-2023 election, but constitutional and institutional vulnerabilities persist. Economic growth has been disappointing (below 3% since COVID recovery), reflecting structural challenges in productivity and investment climate.</p>
+      </div>
+      <div class="risk-table">
+        <div class="risk-row risk-row-header">
+          <div class="risk-cell">Risk Factor</div>
+          <div class="risk-cell">Level</div>
+          <div class="risk-cell">Commentary</div>
+        </div>
+        <div class="risk-row">
+          <div class="risk-cell">No FTA — Tariff Disadvantage</div>
+          <div class="risk-cell"><span class="risk-level risk-high">HIGH</span></div>
+          <div class="risk-cell">Canadian agricultural exporters face Thai tariffs while Australian, New Zealand, and Japanese competitors benefit from ASEAN FTA preferences. Until Thailand joins CPTPP or a bilateral agreement is concluded, this structural disadvantage persists for goods exporters.</div>
+        </div>
+        <div class="risk-row">
+          <div class="risk-cell">Political Instability (Structural)</div>
+          <div class="risk-cell"><span class="risk-level risk-mid">MED</span></div>
+          <div class="risk-cell">Thailand has experienced 13 coups since 1932. While the current democratic government (Pheu Thai) has stabilised the political environment, the constitutional court's ability to dissolve parties and the military's institutional role remain sources of latent instability. Monitor the relationship between the Shinawatra family network and the military establishment.</div>
+        </div>
+        <div class="risk-row">
+          <div class="risk-cell">Structural Economic Slowdown</div>
+          <div class="risk-cell"><span class="risk-level risk-mid">MED</span></div>
+          <div class="risk-cell">Thailand's potential growth rate has declined. Demographics (ageing population), low productivity growth, and a tourism-dependent post-COVID recovery have constrained the economy. GDP growth below 3% is well below ASEAN peers. The EEC industrial upgrade is a long-term bet, not a near-term remedy.</div>
+        </div>
+        <div class="risk-row">
+          <div class="risk-cell">Chinese Competition in EV Sector</div>
+          <div class="risk-cell"><span class="risk-level risk-mid">MED</span></div>
+          <div class="risk-cell">Chinese EV manufacturers are rapidly establishing Thailand production, partly to access ASEAN markets. This creates supply chain opportunities but also introduces competitive Chinese technology and components that may crowd out Canadian-aligned suppliers in automotive value chains.</div>
+        </div>
+        <div class="risk-row">
+          <div class="risk-cell">Regulatory / IPR</div>
+          <div class="risk-cell"><span class="risk-level risk-mid">MED</span></div>
+          <div class="risk-cell">Thailand ranks mid-tier on IP protection indices. Patent and trademark enforcement is improving but remains below advanced economy standards. Technology companies should register IP in Thailand and use technology licensing structures that limit exposure.</div>
+        </div>
+        <div class="risk-row">
+          <div class="risk-cell">Currency (THB) Risk</div>
+          <div class="risk-cell"><span class="risk-level risk-low">LOW</span></div>
+          <div class="risk-cell">The Thai Baht is a managed float with a track record of relative stability. The Bank of Thailand has intervened effectively during stress episodes. Currency risk is moderate-to-low by emerging market standards, with the primary concern being gradual depreciation pressure from structural current account shifts.</div>
+        </div>
+      </div>
+      <div class="watch-box">
+        <div class="watch-box-title">Near-Term Watch Items</div>
+        <div class="watch-box-body">
+          <ul>
+            <li><strong>Thailand CPTPP accession</strong> — any formal announcement of Thailand's CPTPP accession process would be a transformational event for Canadian agricultural exporters; monitor Thai trade ministry statements and CPTPP Commission communications.</li>
+            <li><strong>Paetongtarn Shinawatra government stability</strong> — the new PM's relationship with the military establishment and ability to manage political coalitions will determine the policy continuity and investment climate through 2027.</li>
+            <li><strong>EEC EV ecosystem development</strong> — progress on attracting EV manufacturers and battery supply chain to the Eastern Economic Corridor will shape near-term Canadian advanced manufacturing opportunity.</li>
+            <li><strong>Maha Sarakham potash development</strong> — if Thailand proceeds with domestic potash mining, Canadian potash exporters (Nutrien, Mosaic) would face reduced market access over a 5–10 year horizon.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- FTA -->
+    <section class="dossier-section" id="fta">
+      <div class="section-label">05 / Trade Agreements</div>
+      <h2 class="section-title">WTO MFN — CPTPP Accession Pending</h2>
+      <div class="section-rule"></div>
+      <div class="section-body">
+        <p>Canada and Thailand do not have a bilateral FTA. Trade is governed by WTO MFN terms. Thailand is a member of the ASEAN Free Trade Area (AFTA) and has bilateral FTAs with Australia, New Zealand, Japan, India, and China through ASEAN frameworks — giving competitors preferential access that Canadian exporters lack. Thailand has expressed interest in CPTPP membership, but no formal accession process has begun as of early 2025.</p>
+      </div>
+      <div class="fta-block">
+        <div class="fta-header">
+          <span class="fta-name">Canada–Thailand Bilateral FTA</span>
+          <span class="fta-status none">Not Applicable</span>
+        </div>
+        <div class="fta-body">No bilateral FTA exists. Canada and Thailand are both WTO members; trade occurs at MFN rates. Thailand's import tariff structure includes agricultural products at rates of 5–80% (canola oil at the high end), while most manufactured goods face lower tariffs. Canadian exporters face a structural disadvantage vs. ASEAN FTA and CPTPP partner competitors.</div>
+      </div>
+      <div class="fta-block">
+        <div class="fta-header">
+          <span class="fta-name">Thailand CPTPP Accession — Prospective</span>
+          <span class="fta-status none">Not Yet Launched</span>
+        </div>
+        <div class="fta-body">Thailand has formally expressed interest in CPTPP accession. If Thailand were to accede to CPTPP, Canadian agricultural exporters (canola, pork, wheat, pulses) would gain significant preferential access — potentially adding $500M+ in annual trade. Canada would need to agree to Thailand's accession terms within the CPTPP Commission. Timeline is uncertain; not expected before 2026–2027 at the earliest.</div>
+      </div>
+      <div class="fta-block">
+        <div class="fta-header">
+          <span class="fta-name">RCEP — Thailand is a Member</span>
+          <span class="fta-status">In Force (Thailand)</span>
+        </div>
+        <div class="fta-body">Thailand is a party to the Regional Comprehensive Economic Partnership (RCEP), which includes China, Japan, Korea, Australia, New Zealand, and ASEAN. RCEP competitors enjoy preferential access to Thailand that Canadian companies do not have. Canada is not a RCEP member. This reinforces the strategic importance of a Canada-Thailand trade agreement or Thailand's CPTPP accession.</div>
+      </div>
+    </section>
+
+    <!-- INVESTMENT -->
+    <section class="dossier-section" id="investment">
+      <div class="section-label">06 / Investment Climate</div>
+      <h2 class="section-title">BOI Incentives & Eastern Economic Corridor</h2>
+      <div class="section-rule"></div>
+      <div class="section-body">
+        <p>Thailand's Board of Investment (BOI) is the primary FDI facilitation agency. BOI offers extensive investment incentives including corporate income tax exemptions (3–13 years), import duty exemptions on machinery and raw materials, and non-tax benefits (land ownership rights for foreign companies, work permit facilitation). The "Thailand 4.0" policy directs BOI incentives toward ten target industries including next-generation automotive, advanced electronics, medical technology, and smart electronics.</p>
+        <p>The Eastern Economic Corridor (EEC) — covering Chonburi, Rayong, and Chachoengsao provinces on the Gulf of Thailand coast — is Thailand's flagship investment zone. EEC offers enhanced BOI incentives, streamlined regulatory approvals, and world-class infrastructure (U-Tapao International Airport expansion, Map Ta Phut deepwater port, high-speed rail link to Bangkok). The EEC is specifically targeting EV manufacturing, medical devices, aerospace MRO, and digital economy investments.</p>
+      </div>
+      <div class="gov-signals">
+        <div class="signal-item">
+          <div class="signal-icon">🚗</div>
+          <div>
+            <div class="signal-title">EEC EV Hub — Thai Government Priority</div>
+            <div class="signal-body">The Thai government is committed to transforming the EEC into Southeast Asia's leading EV manufacturing hub. BOI offers maximum incentives for EV and EV component manufacturers. BYD, SAIC-GM-Wuling, and Great Wall Motor have announced Thai EV plants. Canadian battery material and EV component suppliers can leverage this cluster to establish ASEAN supply chain positions.</div>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-icon">🌾</div>
+          <div>
+            <div class="signal-title">Nutrien & Mosaic — Established Potash Exporters</div>
+            <div class="signal-body">Canadian potash producers (Nutrien and Mosaic) are well-established in the Thai agricultural market. Thailand's large rice, sugar, and rubber cultivation creates sustained potash demand. The bilateral agricultural trade relationship provides a commercial foundation and banking/logistics relationships that other Canadian agricultural exporters can leverage.</div>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-icon">✈</div>
+          <div>
+            <div class="signal-title">U-Tapao Airport & Aerospace MRO</div>
+            <div class="signal-body">The EEC's U-Tapao International Airport expansion includes a dedicated Aerospace and Aviation City. Thai AirAsia, Thai Airways, and regional carriers require MRO services. The Thai government is targeting aerospace MRO as an EEC anchor industry, creating partnership opportunities for Canadian aerospace companies (CAE, IMP Aerospace, StandardAero) with existing regional relationships.</div>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-icon">🏥</div>
+          <div>
+            <div class="signal-title">Medical Hub — BOI Target Industry</div>
+            <div class="signal-body">Thailand is targeting medical device manufacturing and health services as a BOI priority sector. Thai private hospitals are investing in digital health and diagnostic equipment. Canadian medical technology companies have BOI incentive access and can co-locate in Thailand's medical device clusters to serve both the domestic market and the ASEAN medical tourism patient base.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- POLITICAL -->
+    <section class="dossier-section" id="political">
+      <div class="section-label">07 / Political Environment</div>
+      <h2 class="section-title">Pheu Thai Returns — Democratic Transition Under Surveillance</h2>
+      <div class="section-rule"></div>
+      <div class="section-body">
+        <p>Thailand's political trajectory since the 2023 general election has been a managed return to civilian-led government. The Move Forward Party won the most seats in the May 2023 election but was blocked from forming a government by the military-appointed Senate. Pheu Thai — the Shinawatra family-aligned party — ultimately formed a government under Srettha Thavisin (August 2023), who was subsequently removed by the Constitutional Court (August 2024). Paetongtarn Shinawatra (Thaksin's daughter) became Prime Minister in August 2024.</p>
+        <p>The revolving-door quality of Thai prime ministerial succession reflects the structural tension between the Pheu Thai political network (which consistently wins elections) and the conservative establishment (military, monarchy, judiciary) that has repeatedly used constitutional mechanisms to remove or block Shinawatra-aligned governments. This tension is a persistent feature of Thai politics — not a temporary crisis but a structural feature of the country's political economy.</p>
+        <p>For Canadian companies, the practical implications are: (a) policy continuity on economic matters is relatively intact regardless of PM changes, as the economic bureaucracy (BOI, Bank of Thailand, Finance Ministry) is professionally managed; (b) large infrastructure projects and regulatory approvals can be slowed by political uncertainty; (c) CPTPP accession, as a long-horizon trade policy matter, requires sustained political will that has been inconsistent.</p>
+        <p>Thailand's foreign policy is pragmatic and non-aligned. Bangkok maintains close security ties with the US while managing a large and growing economic relationship with China. On Canada specifically: relations are warm but low-intensity, with no significant bilateral tensions and limited high-level political engagement.</p>
+      </div>
+    </section>
+
+    <!-- PROCUREMENT -->
+    <section class="dossier-section" id="procurement">
+      <div class="section-label">08 / Procurement Access</div>
+      <h2 class="section-title">Government Procurement — GPA Non-Member</h2>
+      <div class="section-rule"></div>
+      <div class="section-body">
+        <p>Thailand is not a member of the WTO Government Procurement Agreement (GPA), meaning Canadian companies do not have guaranteed non-discriminatory access to Thai government procurement. In practice, large infrastructure and utility contracts often use international competitive bidding — particularly for donor-funded or World Bank-financed projects — where Canadian companies can bid. The Thai Government Procurement and Supplies Management Act governs public procurement.</p>
+        <p>State enterprise procurement (Electricity Generating Authority of Thailand — EGAT, PTT Group, Thai Airways) represents a significant market accessible to international suppliers, particularly for energy, aviation, and petroleum sector inputs where Canadian companies have competitive products.</p>
+      </div>
+      <div class="gov-signals">
+        <div class="signal-item">
+          <div class="signal-icon">⚡</div>
+          <div>
+            <div class="signal-title">EGAT — Electricity Generating Authority of Thailand</div>
+            <div class="signal-body">EGAT procures power generation equipment, grid infrastructure, and renewable energy systems for Thailand's electricity network. EGAT's renewable energy procurement programme (solar, wind, biomass) creates export opportunities for Canadian cleantech companies. EGAT tenders are published on the government procurement portal and EGAT's own website.</div>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-icon">🛢</div>
+          <div>
+            <div class="signal-title">PTT Group — Petroleum & Energy</div>
+            <div class="signal-body">PTT Group (Thailand's state petroleum company) and its subsidiaries (PTTEP, IRPC, GC) are major buyers of oilfield equipment, LNG infrastructure, and petrochemical inputs. Canadian oil and gas technology and engineering companies (SNC-Lavalin/AtkinsRéalis, Stantec, Worley) have existing PTT-group relationships in various forms.</div>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-icon">🏗</div>
+          <div>
+            <div class="signal-title">EEC Office — Investment Facilitation</div>
+            <div class="signal-body">The EEC Office (EECO) provides a one-stop service for EEC investments, including land allocation, environmental approvals, and BOI coordination. Canadian companies investing in EEC target industries should engage EECO as the primary administrative counterpart for permit and incentive processing.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CANADIAN PRESENCE -->
+    <section class="dossier-section" id="canadian">
+      <div class="section-label">09 / Canadian Presence</div>
+      <h2 class="section-title">Agricultural Anchors & Nascent Tech Presence</h2>
+      <div class="section-rule"></div>
+      <div class="section-body">
+        <p>Canada's commercial presence in Thailand is led by agricultural exporters (canola producers, pork processors, potash miners) and professional services firms. Unlike Singapore, Canada does not have a large financial institution or pension fund presence in Bangkok. The market is less penetrated by Canadian companies relative to its size, suggesting headroom for early-mover advantage in technology, cleantech, and advanced manufacturing sectors aligned with Thailand's industrial upgrade ambitions.</p>
+      </div>
+      <div class="gov-signals">
+        <div class="signal-item">
+          <div class="signal-icon">🌾</div>
+          <div>
+            <div class="signal-title">Nutrien & Mosaic — Potash & Canola Supply Chain</div>
+            <div class="signal-body">Canadian potash producers have long-term supply relationships with Thai agricultural distributors and the Thai government's agricultural input supply system. Canadian canola oil producers (through the Canola Council of Canada's promotion activities) have developed Thailand as a major canola oil export market. These agricultural anchors provide logistics and banking relationships that new Canadian exporters can leverage.</div>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-icon">🏗</div>
+          <div>
+            <div class="signal-title">AtkinsRéalis (SNC-Lavalin) — Infrastructure Engineering</div>
+            <div class="signal-body">AtkinsRéalis has been active in Southeast Asian infrastructure projects including Thailand, providing engineering and project management services for energy, water, and transport infrastructure. Its regional presence provides a Canadian engineering anchor for infrastructure-related trade and investment in the Thai market.</div>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-icon">🇨🇦</div>
+          <div>
+            <div class="signal-title">Embassy of Canada — Bangkok</div>
+            <div class="signal-body">The Embassy of Canada in Bangkok covers Thailand and several neighbouring countries. Trade Commissioner Service (TCS) Bangkok provides market intelligence, matchmaking, and sector expertise for Canadian companies entering the Thai market. TCS Bangkok has developed expertise in agricultural trade, automotive supply chains, and the EEC investment environment.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACTS -->
+    <section class="dossier-section" id="contacts">
+      <div class="section-label">10 / Key Contacts</div>
+      <h2 class="section-title">Entry Points & Institutions</h2>
+      <div class="section-rule"></div>
+      <div class="section-body">
+        <p>The Canadian Embassy in Bangkok and Thailand's BOI are the primary entry points for Canadian companies. For agricultural trade, the Canola Council of Canada and Canada Pork International maintain active Thailand engagement. For EEC investment, the EECO one-stop service is the recommended administrative interface.</p>
+      </div>
+      <div class="gov-signals">
+        <div class="signal-item">
+          <div class="signal-icon">🇨🇦</div>
+          <div>
+            <div class="signal-title">Trade Commissioner Service — Bangkok</div>
+            <div class="signal-body">Canadian Embassy, 15th Floor, Abdulrahim Place, 990 Rama IV Road, Bangkok. TCS Bangkok provides market intelligence, sector expertise, and matchmaking for Canadian companies entering the Thai market. Primary first contact for all Canadian businesses considering Thailand market entry or expansion.</div>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-icon">🏛</div>
+          <div>
+            <div class="signal-title">Thailand Board of Investment (BOI)</div>
+            <div class="signal-body">BOI is Thailand's investment facilitation agency, administering tax incentive schemes and providing investor support. BOI maintains offices in North America (Los Angeles) for proactive investor outreach. Canadian companies eligible for BOI incentives in target industry categories should engage BOI early to structure their investment for maximum incentive access.</div>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-icon">🏗</div>
+          <div>
+            <div class="signal-title">Eastern Economic Corridor Office (EECO)</div>
+            <div class="signal-body">EECO provides one-stop service for EEC investments. For Canadian companies targeting EV supply chain, aerospace MRO, medical devices, or digital economy investment in the EEC, EECO is the primary administrative counterpart. EECO can facilitate land allocation, environmental approval fast-tracking, and BOI incentive coordination.</div>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-icon">🌾</div>
+          <div>
+            <div class="signal-title">Canola Council of Canada — Thailand Market Development</div>
+            <div class="signal-body">The Canola Council of Canada has an active Thailand market development programme promoting Canadian canola oil to Thai food processors and distributors. The Council maintains relationships with the Thai Food and Drug Administration, major food industry associations, and individual processors — a valuable network for Canadian canola and food ingredient companies.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SOURCES -->
+    <section class="dossier-section" id="sources">
+      <div class="section-label">11 / Sources & Methodology</div>
+      <h2 class="section-title">Data Sources</h2>
+      <div class="section-rule"></div>
+      <div class="section-body">
+        <p>This dossier draws on publicly available data from: Statistics Canada trade data portal; Global Affairs Canada Thailand country and sector reports; Thailand Board of Investment (BOI) investment statistics; Eastern Economic Corridor Office (EECO) publications; Bank of Thailand economic data; National Economic and Social Development Council (NESDC) reports; Canola Council of Canada market development reports; ASEAN Secretariat trade statistics; IMF Thailand Article IV consultations; and World Bank Thailand country data.</p>
+        <p>Trade figures are estimates based on 2022–23 data and may not reflect the most recent Statistics Canada releases. All figures in Canadian dollars unless otherwise stated. This dossier is for informational purposes only and does not constitute investment advice.</p>
+        <p><strong>Classification:</strong> CTI-PROFILE-THA · Prepared by Canadian Trade Intelligence · For authorized distribution only.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <aside class="dossier-aside">
+    <div class="aside-card">
+      <div class="aside-card-title">Quick Facts</div>
+      <div class="aside-row"><span class="aside-row-label">Capital</span><span class="aside-row-value">Bangkok</span></div>
+      <div class="aside-row"><span class="aside-row-label">Prime Minister</span><span class="aside-row-value">Paetongtarn S.</span></div>
+      <div class="aside-row"><span class="aside-row-label">Since</span><span class="aside-row-value">Aug 2024</span></div>
+      <div class="aside-row"><span class="aside-row-label">Currency</span><span class="aside-row-value">THB (Baht)</span></div>
+      <div class="aside-row"><span class="aside-row-label">CPTPP</span><span class="aside-row-value">Not a Member</span></div>
+      <div class="aside-row"><span class="aside-row-label">GPA</span><span class="aside-row-value">Not a Member</span></div>
+    </div>
+    <div class="aside-card">
+      <div class="aside-card-title">Key Sectors</div>
+      <ul class="aside-list">
+        <li><strong>Automotive</strong> — 1.9M+ vehicles/yr</li>
+        <li><strong>Electronics</strong> — hard drives, semiconductors</li>
+        <li><strong>Food Processing</strong> — world-scale</li>
+        <li><strong>Tourism</strong> — medical hub</li>
+        <li><strong>EV Manufacturing</strong> — EEC target</li>
+      </ul>
+    </div>
+    <div class="aside-card">
+      <div class="aside-card-title">Top Canadian Exports</div>
+      <div class="aside-row"><span class="aside-row-label">Canola Oil</span><span class="aside-row-value">Largest category</span></div>
+      <div class="aside-row"><span class="aside-row-label">Pork</span><span class="aside-row-value">Significant</span></div>
+      <div class="aside-row"><span class="aside-row-label">Potash</span><span class="aside-row-value">Nutrien / Mosaic</span></div>
+      <div class="aside-row"><span class="aside-row-label">Machinery</span><span class="aside-row-value">Industrial</span></div>
+    </div>
+    <div class="aside-card">
+      <div class="aside-card-title">Access Points</div>
+      <div class="aside-contact">
+        <strong>TCS Bangkok</strong>
+        Canadian Embassy<br>
+        990 Rama IV Road, Bangkok<br>
+        Regional Southeast Asia coverage
+      </div>
+      <div class="aside-contact">
+        <strong>Thailand BOI</strong>
+        FDI incentives &amp; facilitation
+      </div>
+      <div class="aside-contact">
+        <strong>EECO</strong>
+        Eastern Economic Corridor one-stop
+      </div>
+    </div>
+    <div class="aside-card">
+      <div class="aside-card-title">Risk Snapshot</div>
+      <div class="aside-row"><span class="aside-row-label">No FTA</span><span class="aside-row-value" style="color:#C0392B">HIGH</span></div>
+      <div class="aside-row"><span class="aside-row-label">Political</span><span class="aside-row-value" style="color:#8B6507">MED</span></div>
+      <div class="aside-row"><span class="aside-row-label">Economic</span><span class="aside-row-value" style="color:#8B6507">MED</span></div>
+      <div class="aside-row"><span class="aside-row-label">Currency</span><span class="aside-row-value" style="color:#1A6B3A">LOW</span></div>
+      <div class="aside-row"><span class="aside-row-label">Regulatory</span><span class="aside-row-value" style="color:#8B6507">MED</span></div>
+    </div>
+  </aside>
+</div>
+
+<footer class="dossier-footer">
+  <div>CTI-PROFILE-THA · Canadian Trade Intelligence · Restricted Circulation</div>
+  <div>Last updated: Q1 2025 · Data current to Dec 2024</div>
+</footer>
+
+<script>
+  const navLinks = document.querySelectorAll('.section-nav a');
+  const sections = document.querySelectorAll('.dossier-section');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.getAttribute('id');
+        navLinks.forEach(link => {
+          link.classList.toggle('active', link.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

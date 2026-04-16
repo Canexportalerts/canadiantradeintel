@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kenya — Canadian Trade Intelligence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@400;500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0A0F1A;
+    --ink-mid: #2A3248;
+    --ink-light: #4A5570;
+    --paper: #F5F3EE;
+    --paper-mid: #EAE7E0;
+    --paper-warm: #E2DDD5;
+    --accent: #C8960A;
+    --accent-deep: #8B6507;
+    --red: #C0392B;
+    --green: #1A6B3A;
+    --mono: 'DM Mono', monospace;
+    --serif: 'Cormorant Garamond', Georgia, serif;
+    --sans: 'Jost', system-ui, sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 15px; line-height: 1.6; overflow-x: hidden; }
+
+  /* MASTHEAD */
+  .dossier-masthead {
+    background: #0A1A12;
+    color: #fff;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .dossier-masthead::after {
+    content: 'KENYA';
+    position: absolute;
+    right: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: var(--serif);
+    font-size: 130px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.04);
+    pointer-events: none;
+    white-space: nowrap;
+    letter-spacing: 0.05em;
+  }
+  .dossier-top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 40px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    font-family: var(--mono);
+    font-size: 11px;
+    color: rgba(255,255,255,0.45);
+  }
+  .dossier-top-bar a { color: rgba(255,255,255,0.45); text-decoration: none; }
+  .dossier-top-bar a:hover { color: rgba(255,255,255,0.8); }
+  .dossier-ref { letter-spacing: 0.08em; }
+  .dossier-main {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 40px;
+    padding: 48px 40px 52px;
+    align-items: end;
+  }
+  .dossier-kicker {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: rgba(255,255,255,0.4);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .dossier-title {
+    font-family: var(--serif);
+    font-size: 56px;
+    font-weight: 600;
+    line-height: 1.05;
+    color: #fff;
+    margin-bottom: 18px;
+  }
+  .dossier-sub {
+    font-size: 15px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.6);
+    max-width: 560px;
+    line-height: 1.65;
+  }
+  .sector-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 22px; }
+  .sector-tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    padding: 4px 10px;
+    border-radius: 2px;
+    text-transform: uppercase;
+  }
+  .s-cm { background: rgba(180,120,40,0.25); color: #F0C060; border: 1px solid rgba(180,120,40,0.3); }
+  .s-am { background: rgba(60,100,180,0.2); color: #90B4F0; border: 1px solid rgba(60,100,180,0.3); }
+  .s-af { background: rgba(40,140,70,0.2); color: #70C090; border: 1px solid rgba(40,140,70,0.3); }
+  .s-ae { background: rgba(140,60,180,0.2); color: #C090E0; border: 1px solid rgba(140,60,180,0.3); }
+  .s-td { background: rgba(0,160,180,0.2); color: #60D4E0; border: 1px solid rgba(0,160,180,0.3); }
+  .s-ec { background: rgba(20,160,100,0.2); color: #50D4A0; border: 1px solid rgba(20,160,100,0.3); }
+  .s-ls { background: rgba(220,80,80,0.2); color: #F09090; border: 1px solid rgba(220,80,80,0.3); }
+  .dossier-vitals {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-width: 210px;
+  }
+  .vital-item { text-align: right; }
+  .vital-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.35);
+    text-transform: uppercase;
+    margin-bottom: 3px;
+  }
+  .vital-value {
+    font-family: var(--serif);
+    font-size: 26px;
+    font-weight: 600;
+    color: #fff;
+    line-height: 1;
+  }
+  .vital-value.positive { color: #6EE4A0; }
+  .vital-value.negative { color: #F08080; }
+  .vital-note {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: rgba(255,255,255,0.35);
+    margin-top: 2px;
+  }
+
+  /* NAV */
+  .section-nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--ink);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    overflow-x: auto;
+  }
+  .section-nav ul {
+    display: flex;
+    list-style: none;
+    padding: 0 40px;
+    gap: 0;
+  }
+  .section-nav a {
+    display: block;
+    padding: 13px 16px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: rgba(255,255,255,0.4);
+    text-decoration: none;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .section-nav a:hover { color: rgba(255,255,255,0.8); }
+  .section-nav a.active { color: #fff; border-bottom-color: var(--accent); }
+
+  /* BODY LAYOUT */
+  .dossier-body {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 0;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 48px 40px;
+  }
+  .dossier-content { display: flex; flex-direction: column; gap: 56px; padding-right: 48px; }
+  .dossier-aside { position: sticky; top: 50px; height: fit-content; display: flex; flex-direction: column; gap: 20px; }
+
+  /* SECTIONS */
+  .dossier-section {}
+  .section-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    color: var(--ink-light);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .section-title {
+    font-family: var(--serif);
+    font-size: 30px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 6px;
+    line-height: 1.2;
+  }
+  .section-rule {
+    width: 40px;
+    height: 2px;
+    background: var(--accent);
+    margin-bottom: 20px;
+  }
+  .section-body { font-size: 15px; color: var(--ink-mid); line-height: 1.75; }
+  .section-body p + p { margin-top: 14px; }
+
+  /* DATA GRID */
+  .data-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--paper-warm);
+    border: 1px solid var(--paper-warm);
+    margin-top: 24px;
+  }
+  .data-cell {
+    background: var(--paper);
+    padding: 16px 18px;
+  }
+  .data-cell-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--ink-light);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .data-cell-value {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.1;
+  }
+  .data-cell-note {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--ink-light);
+    margin-top: 3px;
+  }
+
+  /* OPPORTUNITY GRID */
+  .opportunity-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 24px; }
+  .opp-card {
+    background: var(--paper);
+    border: 1px solid var(--paper-warm);
+    border-left: 3px solid var(--accent);
+    padding: 18px 20px;
+  }
+  .opp-card.tier-high { border-left-color: #1A6B3A; }
+  .opp-card.tier-mid { border-left-color: var(--accent); }
+  .opp-card.tier-watch { border-left-color: #4A6090; }
+  .opp-card-sector {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--ink-light);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .opp-card-title { font-weight: 600; font-size: 14px; color: var(--ink); margin-bottom: 6px; }
+  .opp-card-body { font-size: 13px; color: var(--ink-mid); line-height: 1.6; }
+
+  /* RISK TABLE */
+  .risk-table { margin-top: 24px; border: 1px solid var(--paper-warm); }
+  .risk-row {
+    display: grid;
+    grid-template-columns: 180px 80px 1fr;
+    gap: 0;
+    border-bottom: 1px solid var(--paper-warm);
+  }
+  .risk-row:last-child { border-bottom: none; }
+  .risk-row-header { background: var(--ink); color: #fff; }
+  .risk-cell {
+    padding: 12px 16px;
+    font-size: 13px;
+    border-right: 1px solid var(--paper-warm);
+    display: flex;
+    align-items: center;
+  }
+  .risk-cell:last-child { border-right: none; }
+  .risk-row-header .risk-cell {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.6);
+    text-transform: uppercase;
+    border-right-color: rgba(255,255,255,0.1);
+  }
+  .risk-level {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 8px;
+    border-radius: 2px;
+  }
+  .risk-high { background: rgba(192,57,43,0.12); color: #C0392B; }
+  .risk-mid { background: rgba(200,150,10,0.12); color: #8B6507; }
+  .risk-low { background: rgba(26,107,58,0.12); color: #1A6B3A; }
+
+  /* FTA BLOCK */
+  .fta-block { margin-top: 24px; border: 1px solid var(--paper-warm); padding: 20px 24px; }
+  .fta-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+  .fta-name { font-weight: 600; font-size: 15px; color: var(--ink); }
+  .fta-status {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    padding: 4px 10px;
+    border-radius: 2px;
+    background: rgba(26,107,58,0.12);
+    color: #1A6B3A;
+    text-transform: uppercase;
+  }
+  .fta-status.none {
+    background: rgba(192,57,43,0.1);
+    color: #C0392B;
+  }
+  .fta-body { font-size: 13px; color: var(--ink-mid); line-height: 1.65; }
+
+  /* GOV SIGNALS */
+  .gov-signals { margin-top: 20px; display: flex; flex-direction: column; gap: 12px; }
+  .signal-item { display: flex; gap: 14px; padding: 14px 16px; background: var(--paper); border: 1px solid var(--paper-warm); }
+  .signal-icon {
+    font-family: var(--mono);
+    font-size: 18px;
+    line-height: 1;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .signal-title { font-weight: 600; font-size: 14px; color: var(--ink); margin-bottom: 3px; }
+  .signal-body { font-size: 13px; color: var(--ink-mid); line-height: 1.6; }
+
+  /* WATCH BOX */
+  .watch-box {
+    margin-top: 20px;
+    background: rgba(200,150,10,0.06);
+    border: 1px solid rgba(200,150,10,0.2);
+    border-left: 3px solid var(--accent);
+    padding: 18px 20px;
+  }
+  .watch-box-title {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--accent-deep);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .watch-box-body { font-size: 13px; color: var(--ink-mid); line-height: 1.65; }
+  .watch-box-body ul { padding-left: 16px; }
+  .watch-box-body li + li { margin-top: 6px; }
+
+  /* ASIDE */
+  .aside-card {
+    background: var(--paper);
+    border: 1px solid var(--paper-warm);
+    padding: 18px 20px;
+  }
+  .aside-card-title {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--ink-light);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--paper-warm);
+  }
+  .aside-row { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 0; border-bottom: 1px solid var(--paper-warm); }
+  .aside-row:last-child { border-bottom: none; }
+  .aside-row-label { font-size: 12px; color: var(--ink-mid); }
+  .aside-row-value { font-family: var(--mono); font-size: 12px; color: var(--ink); font-weight: 500; }
+  .aside-list { list-style: none; }
+  .aside-list li { padding: 6px 0; border-bottom: 1px solid var(--paper-warm); font-size: 13px; color: var(--ink-mid); }
+  .aside-list li:last-child { border-bottom: none; }
+  .aside-list li strong { color: var(--ink); }
+  .aside-contact { font-size: 13px; color: var(--ink-mid); line-height: 1.65; }
+  .aside-contact strong { color: var(--ink); display: block; margin-bottom: 2px; }
+  .aside-contact + .aside-contact { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--paper-warm); }
+
+  /* FOOTER */
+  .dossier-footer {
+    background: var(--ink);
+    color: rgba(255,255,255,0.35);
+    padding: 28px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--mono);
+    font-size: 11px;
+  }
+</style>
+</head>
+<body>
+
+<header class="dossier-masthead">
+  <div class="dossier-top-bar">
+    <div><a href="../../index.html">Canadian Trade Intelligence</a> / <a href="../index.html">Countries</a> / Kenya</div>
+    <div class="dossier-ref">CTI-PROFILE-KEN · RESTRICTED CIRCULATION</div>
+  </div>
+  <div class="dossier-main">
+    <div>
+      <div class="dossier-kicker">Country Dossier · Africa · East Africa</div>
+      <h1 class="dossier-title">Kenya</h1>
+      <p class="dossier-sub">East Africa's commercial hub and home to M-Pesa — the world's most advanced mobile money ecosystem. A Commonwealth partner with deep Canadian ties in development finance, education, and an increasingly sophisticated technology sector attracting global investment.</p>
+      <div class="sector-tags">
+        <span class="sector-tag s-td">Technology/Digital</span>
+        <span class="sector-tag s-af">Agri-Food</span>
+        <span class="sector-tag s-ec">Energy/Cleantech</span>
+        <span class="sector-tag s-ls">Life Sciences</span>
+      </div>
+    </div>
+    <div class="dossier-vitals">
+      <div class="vital-item">
+        <div class="vital-label">Bilateral Trade</div>
+        <div class="vital-value">~$600M</div>
+        <div class="vital-note">CAD, 2023 est.</div>
+      </div>
+      <div class="vital-item">
+        <div class="vital-label">Trade Balance</div>
+        <div class="vital-value positive">+$90M</div>
+        <div class="vital-note">Canadian surplus</div>
+      </div>
+      <div class="vital-item">
+        <div class="vital-label">FTA Status</div>
+        <div class="vital-value" style="font-size:16px;color:rgba(255,255,255,0.5)">WTO MFN</div>
+        <div class="vital-note">No bilateral FTA</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="section-nav">
+  <ul>
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#trade">Trade</a></li>
+    <li><a href="#opportunities">Opportunities</a></li>
+    <li><a href="#risks">Risks</a></li>
+    <li><a href="#fta">Trade Agreements</a></li>
+    <li><a href="#investment">Investment</a></li>
+    <li><a href="#political">Political</a></li>
+    <li><a href="#procurement">Procurement</a></li>
+    <li><a href="#canadian">Canadian Presence</a></li>
+    <li><a href="#contacts">Contacts</a></li>
+    <li><a href="#sources">Sources</a></li>
+  </ul>
+</nav>
+
+<div class="dossier-body">
+  <main class="dossier-content">
+
+    <!-- OVERVIEW -->
+    <section class="dossier-section" id="overview">
+      <div class="section-label">01 / Overview</div>
+      <h2 class="section-title">East Africa's Digital & Commercial Hub</h2>
+      <div class="section-rule"></div>
+      <div class="section-body">
+        <p>Kenya is East Africa's largest economy and its primary commercial and logistics gateway. Nairobi hosts the UN Environment Programme (UNEP), UN-Habitat, and the regional headquarters of hundreds of multinational corporations — a concentration of institutional and commercial presence that reflects Kenya's hub status for the East African Community (EAC) and the broader Horn of Africa region.</p>
+        <p>Kenya is the birthplace of mobile money. M-Pesa, launched by Safaricom in 2007, has become the world's most successful mobile financial services platform, processing over 60% of Kenya's GDP in transaction value annually and serving as a model for financial inclusion globally. Kenya's technology sector — centred on Nairobi's "Silicon Savannah" — is one of Africa's most dynamic, attracting venture capital and talent from across the continent.</p>
+        <p>The country is a Commonwealth member with strong historical ties to Britain, Canada, and other Anglophone partners. Canadian development institutions (FinDev Canada, GAC's development branch) have maintained long-term commitments to Kenya across health, agriculture, and financial inclusion. A substantial Kenyan-Canadian diaspora community maintains active remittance and investment flows.</p>
+        <p>Kenya's economy is structurally diverse for the region: services (especially ICT and finance), agriculture (tea, coffee, horticulture), and tourism are the primary sectors. The country faces persistent fiscal pressures — elevated public debt and a heavy debt service burden — but its long-term growth trajectory is supported by a young population, digital infrastructure, and regional connectivity.</p>
+      </div>
+      <div class="data-grid">
+        <div class="data-cell">
+          <div class="data-cell-label">Population</div>
+          <div class="data-cell-value">57M</div>
+          <div class="data-cell-note">2024 estimate</div>
+        </div>
+        <div class="data-cell">
+          <div class="data-cell-label">GDP (Nominal)</div>
+          <div class="data-cell-value">~$118B</div>
+          <div class="data-cell-note">USD, 2023</div>
+        </div>
+        <div class="data-cell">
+          <div class="data-cell-label">GDP Growth</div>
+          <div class="data-cell-value">~5.0%</div>
+          <div class="data-cell-note">2024 projected</div>
+        </div>
+        <div class="data-cell">
+          <div class="data-cell-label">Capital</div>
+          <div class="data-cell-value" style="font-size:17px">Nairobi</div>
+          <div class="data-cell-note">TCS + HC location</div>
+        </div>
+        <div class="data-cell">
+          <div class="data-cell-label">Currency</div>
+          <div class="data-cell-value" style="font-size:17px">KES</div>
+          <div class="data-cell-note">Kenyan Shilling</div>
+        </div>
+        <div class="data-cell">
+          <div class="data-cell-label">Mobile Money</div>
+          <div class="data-cell-value" style="font-size:17px">M-Pesa</div>
+          <div class="data-cell-note">60%+ of GDP in transactions</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRADE -->
+    <section class="dossier-section" id="trade">
+      <div class="section-label">02 / Trade Profile</div>
+      <h2 class="section-title">Diversified Flows: Tea, Tech & Development Inputs</h2>
+      <div class="section-rule"></div>
+      <div class="section-body">
+        <p>Canada's exports to Kenya include machinery, pharmaceuticals, wheat, and development-related goods (medical equipment, educational materials). Canadian imports from Kenya are led by tea, coffee, horticulture (cut flowers, vegetables), and small volumes of processed foods. Kenya is also a significant recipient of Canadian development assistance and FinDev Canada investments, which create commercial relationships not fully captured in goods trade data.</p>
+        <p>The relatively modest bilateral goods trade figure ($600M) understates the depth of the relationship when Canadian development finance, institutional partnerships (universities, health organisations), and diaspora remittances are included. Canadian banks — particularly Scotiabank — have limited direct Kenya presence, but international banking partnerships facilitate trade finance.</p>
+        <p>Kenya's port of Mombasa and the Standard Gauge Railway (SGR) to Nairobi give the country strategic logistics advantage for serving the landlocked EAC interior markets (Uganda, Rwanda, South Sudan, DRC). Companies exporting to Kenya can reach a broader regional market.</p>
+      </div>
+      <div class="data-grid">
+        <div class="data-cell">
+          <div class="data-cell-label">Canadian Exports</div>
+          <div class="data-cell-value">~$345M</div>
+          <div class="data-cell-note">Machinery, pharma, wheat</div>
+        </div>
+        <div class="data-cell">
+          <div class="data-cell-label">Canadian Imports</div>
+          <div class="data-cell-value">~$255M</div>
+          <div class="data-cell-note">Tea, coffee, horticulture</div>
+        </div>
+        <div class="data-cell">
+          <div class="data-cell-label">EAC Market</div>
+          <div class="data-cell-value" style="font-size:16px">300M+</div>
+          <div class="data-cell-note">People via regional access</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- OPPORTUNITIES -->
+    <section class="dossier-section" id="opportunities">
+      <div class="section-label">03 / Opportunities</div>
+      <h2 class="section-title">Silicon Savannah & Cleantech Frontier</h2>
+      <div class="section-rule"></div>
+      <div class="section-body">
+        <p>Kenya's technology dynamism, renewable energy ambitions, healthcare demand, and agricultural modernisation create multiple entry points for Canadian companies. Nairobi's startup ecosystem — Konza Technopolis, iHub, Nairobi Garage — is East Africa's most active, and Kenyan tech talent increasingly attracts Canadian technology companies seeking African R&D or distribution partnerships.</p>
+      </div>
+      <div class="opportunity-grid">
+        <div class="opp-card tier-high">
+          <div class="opp-card-sector">Technology / Digital</div>
+          <div class="opp-card-title">Fintech & Digital Financial Services</div>
+          <div class="opp-card-body">Kenya's M-Pesa ecosystem creates a sophisticated infrastructure for fintech innovation. Canadian fintech companies — payments, lending, insurance, savings — can partner with or build on the M-Pesa API. The Central Bank of Kenya has a progressive fintech sandbox regulatory approach.</div>
+        </div>
+        <div class="opp-card tier-high">
+          <div class="opp-card-sector">Energy / Cleantech</div>
+          <div class="opp-card-title">Geothermal & Renewable Energy</div>
+          <div class="opp-card-body">Kenya generates ~90% of electricity from renewables, led by geothermal (Olkaria, world's largest geothermal complex). Canadian geothermal technology and engineering companies have export opportunities in Kenya's expansion plans. Solar mini-grids for rural electrification are an active procurement segment.</div>
+        </div>
+        <div class="opp-card tier-mid">
+          <div class="opp-card-sector">Agri-Food</div>
+          <div class="opp-card-title">Agricultural Technology & Cold Chain</div>
+          <div class="opp-card-body">Kenya's horticulture sector (tea, coffee, flowers, vegetables) is export-oriented and globally competitive. Canadian precision agriculture technology, cold chain logistics, and post-harvest management solutions are in demand, particularly for smallholder value chain integration.</div>
+        </div>
+        <div class="opp-card tier-mid">
+          <div class="opp-card-sector">Life Sciences</div>
+          <div class="opp-card-title">Health Technology & Pharmaceuticals</div>
+          <div class="opp-card-body">Kenya hosts major international health organisations and is an EAC pharmaceutical hub. Canadian health technology companies (diagnostics, digital health, vaccines) have export opportunities via Kenya's Universal Health Coverage (UHC) roll-out and the Africa CDC regional framework.</div>
+        </div>
+        <div class="opp-card tier-watch">
+          <div class="opp-card-sector">Technology / Digital</div>
+          <div class="opp-card-title">AI & Cybersecurity</div>
+          <div class="opp-card-body">Kenya is East Africa's cybersecurity hub, with the Communications Authority of Kenya (CA) leading national cyber strategy. Canadian cybersecurity firms have partnership opportunities with the CA, Kenyan financial institutions, and regional governments that use Nairobi-based managed security services.</div>
+        </div>
+        <div class="opp-card tier-watch">
+          <div class="opp-card-sector">Development Finance</div>
+          <div class="opp-card-title">FinDev Canada Blended Finance</div>
+          <div class="opp-card-body">FinDev Canada has a long-term Kenya commitment across financial services, agribusiness, and clean energy. Canadian companies with investable projects in these sectors can structure co-financing with FinDev instruments (equity, guarantees) to access development capital and DFI relationships.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RISKS -->
+    <section class="dossier-section" id="risks">
+      <div class="section-label">04 / Risk Assessment</div>
+      <h2 class="section-title">Fiscal Stress & Regional Security</h2>
+      <div class="section-rule"></div>
+      <div class="section-body">
+        <p>Kenya's risk profile is moderate for the region. The primary concerns for Canadian companies are fiscal stress and debt sustainability, currency depreciation, and the security environment (primarily the Al-Shabaab threat from Somalia). Kenya's democratic institutions are functional but politically contentious, with recurring cycles of electoral tension.</p>
+      </div>
+      <div class="risk-table">
+        <div class="risk-row risk-row-header">
+          <div class="risk-cell">Risk Factor</div>
+          <div class="risk-cell">Level</div>
+          <div class="risk-cell">Commentary</div>
+        </div>
+        <div class="risk-row">
+          <div class="risk-cell">Fiscal / Debt Stress</div>
+          <div class="risk-cell"><span class="risk-level risk-high">HIGH</span></div>
+          <div class="risk-cell">Kenya's public debt exceeds 70% of GDP. High debt service consumes fiscal space; IMF programme (ECF) is active. Government arrears to private contractors are common. USD-denominated contracts preferred.</div>
+        </div>
+        <div class="risk-row">
+          <div class="risk-cell">Currency (KES) Risk</div>
+          <div class="risk-cell"><span class="risk-level risk-mid">MED</span></div>
+          <div class="risk-cell">The shilling depreciated significantly in 2023 (lost ~25% vs USD), recovering somewhat in 2024 after IMF support. Structural current account deficit creates ongoing depreciation pressure. Hedge USD exposures where possible.</div>
+        </div>
+        <div class="risk-row">
+          <div class="risk-cell">Al-Shabaab Security Threat</div>
+          <div class="risk-cell"><span class="risk-level risk-mid">MED</span></div>
+          <div class="risk-cell">Al-Shabaab (Somalia) has conducted attacks in Kenya, including the Westgate Mall (2013) and DusitD2 Hotel (2019) attacks. Nairobi security protocols are robust; Canadian companies follow Global Affairs Canada travel advisories and site-hardening standards.</div>
+        </div>
+        <div class="risk-row">
+          <div class="risk-cell">Political / Electoral Cycle</div>
+          <div class="risk-cell"><span class="risk-level risk-mid">MED</span></div>
+          <div class="risk-cell">Kenya's 2022 elections were closely contested (Ruto won narrowly). Political tension between the Ruto government and opposition has been episodic. Anti-government protests in June–July 2024 ("Gen-Z protests") over Finance Bill 2024 resulted in the bill's withdrawal — demonstrating a functioning political feedback mechanism but operational disruption risk.</div>
+        </div>
+        <div class="risk-row">
+          <div class="risk-cell">Contract Enforcement</div>
+          <div class="risk-cell"><span class="risk-level risk-mid">MED</span></div>
+          <div class="risk-cell">Kenya's judiciary is independent but enforcement of commercial judgments can be slow. International arbitration (LCIA, ICC, ICSID) is preferred for high-value contracts. Kenya signed the New York Convention; arbitral awards are enforceable.</div>
+        </div>
+        <div class="risk-row">
+          <div class="risk-cell">Corruption / Governance</div>
+          <div class="risk-cell"><span class="risk-level risk-mid">MED</span></div>
+          <div class="risk-cell">Kenya ranks mid-tier on Transparency International's CPI. Procurement corruption is a known risk in public sector contracts. Anti-corruption bodies (EACC, DCI) are active but prosecutorial outcomes are limited. Canadian companies must apply rigorous CFPOA compliance procedures.</div>
+        </div>
+      </div>
+      <div class="watch-box">
+        <div class="watch-box-title">Near-Term Watch Items</div>
+        <div class="watch-box-body">
+          <ul>
+            <li><strong>IMF programme reviews</strong> — Kenya's ECF programme is subject to quarterly reviews; missed targets could trigger renewed KES pressure and reduced public sector spending.</li>
+            <li><strong>Gen-Z protest movement</strong> — the June 2024 Finance Bill protests demonstrated a new dynamic in Kenyan politics; future fiscal measures could trigger similar disruptions.</li>
+            <li><strong>2027 General Election</strong> — Ruto faces re-election; electoral campaigning typically begins 18+ months ahead and can distort policy and procurement decisions.</li>
+            <li><strong>Konza Technopolis development</strong> — progress on Kenya's smart city/ICT hub south of Nairobi signals long-term tech sector ambition and creates early-mover opportunities for Canadian tech companies.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- FTA -->
+    <section class="dossier-section" id="fta">
+      <div class="section-label">05 / Trade Agreements</div>
+      <h2 class="section-title">WTO Framework & EAC Bloc</h2>
+      <div class="section-rule"></div>
+      <div class="section-body">
+        <p>Canada and Kenya do not have a bilateral free trade agreement. Trade is governed by WTO Most Favoured Nation terms. Canada extends preferential GSP access to Kenya as a developing country. Kenya is a member of the East African Community (EAC) Customs Union and the African Continental Free Trade Area (AfCFTA). Kenya has also been pursuing a standalone trade deal with the United States (Kenya-US FTA) — if concluded, it would provide US exporters preferential access that Canadian companies currently lack from AGOA or WTO terms alone.</p>
+      </div>
+      <div class="fta-block">
+        <div class="fta-header">
+          <span class="fta-name">Canada–Kenya Bilateral FTA</span>
+          <span class="fta-status none">Not Applicable</span>
+        </div>
+        <div class="fta-body">No bilateral free trade agreement exists. Canadian exporters access Kenya on WTO MFN terms. Kenya's EAC Common External Tariff applies, with most goods subject to 0%, 10%, or 25% tariff bands. Canada provides preferential GPT access to Kenyan exports, particularly agricultural products and light manufactures.</div>
+      </div>
+      <div class="fta-block">
+        <div class="fta-header">
+          <span class="fta-name">East African Community (EAC) — Regional Bloc</span>
+          <span class="fta-status">In Force</span>
+        </div>
+        <div class="fta-body">Kenya is a founding EAC member. The EAC Common Market allows free movement of goods, services, and capital among member states (Kenya, Uganda, Tanzania, Rwanda, Burundi, South Sudan, DRC). Canadian companies establishing in Kenya can access the broader EAC market (300M+ people) without internal customs barriers (in theory — implementation is uneven).</div>
+      </div>
+      <div class="fta-block">
+        <div class="fta-header">
+          <span class="fta-name">Kenya–UK Economic Partnership Agreement</span>
+          <span class="fta-status">In Force</span>
+        </div>
+        <div class="fta-body">Kenya signed a standalone Economic Partnership Agreement (EPA) with the UK post-Brexit, granting preferential access to the UK market for Kenyan goods. This provides insight into the depth of preferential access possible with Commonwealth partners and a template for a potential Canada–Kenya arrangement.</div>
+      </div>
+    </section>
+
+    <!-- INVESTMENT -->
+    <section class="dossier-section" id="investment">
+      <div class="section-label">06 / Investment Climate</div>
+      <h2 class="section-title">Open Economy with Silicon Savannah Pull</h2>
+      <div class="section-rule"></div>
+      <div class="section-body">
+        <p>Kenya is among East Africa's most open economies for foreign investment. The Kenya Investment Authority (KenInvest) facilitates FDI registration and investor support. There are no sector-specific equity caps for most industries, and 100% foreign ownership is generally permitted. Special Economic Zones (SEZs) and Export Processing Zones (EPZs) offer tax incentives for qualifying investments.</p>
+        <p>FinDev Canada maintains active Kenya commitments across financial inclusion (MSME lending, digital finance), agribusiness value chains, and clean energy. The World Bank, AfDB, IFC, and USAID also maintain large Kenya portfolios, creating a dense development finance ecosystem that Canadian companies can leverage as risk-sharing and co-financing partners.</p>
+        <p>Kenya's vibrant startup ecosystem — including iHub, Nairobi Garage, Nailab, and the Strathmore University technology incubator — provides access points for Canadian technology companies seeking local partnerships, pilots, or talent. East Africa's largest VC investment consistently flows to Nairobi, confirming the city's position as Africa's leading startup hub.</p>
+      </div>
+      <div class="gov-signals">
+        <div class="signal-item">
+          <div class="signal-icon">📱</div>
+          <div>
+            <div class="signal-title">M-Pesa / Safaricom Ecosystem</div>
+            <div class="signal-body">Safaricom (Nairobi Stock Exchange, partially owned by Vodafone/Vodacom) operates M-Pesa across Kenya and is expanding into Ethiopia. The M-Pesa API is open to third-party developers, enabling Canadian fintech companies to build on the world's most mature mobile money infrastructure without building payment rails from scratch.</div>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-icon">🌍</div>
+          <div>
+            <div class="signal-title">Konza Technopolis — Smart City Development</div>
+            <div class="signal-body">Konza Technopolis (60km south of Nairobi) is Kenya's flagship smart city and ICT hub project. Phase 1 infrastructure is underway. Canadian smart city, ICT infrastructure, and data centre companies have early-mover opportunities as construction and tenant attraction accelerates through 2025–2030.</div>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-icon">⚡</div>
+          <div>
+            <div class="signal-title">KenGen — Geothermal Expansion</div>
+            <div class="signal-body">KenGen (Kenya Electricity Generating Company) is the public electricity generator, operating the Olkaria geothermal complex. KenGen is actively pursuing capacity expansion and has procurement needs for geothermal drilling equipment, steam management systems, and plant engineering. Canadian geothermal expertise is directly applicable.</div>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-icon">🏦</div>
+          <div>
+            <div class="signal-title">FinDev Canada — East Africa Portfolio</div>
+            <div class="signal-body">FinDev Canada's East Africa portfolio includes investments in financial institutions (equity stakes, subordinated debt), agricultural enterprises, and clean energy developers. FinDev can co-invest alongside Canadian private capital, significantly reducing market entry risk for qualifying projects.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- POLITICAL -->
+    <section class="dossier-section" id="political">
+      <div class="section-label">07 / Political Environment</div>
+      <h2 class="section-title">Ruto Government & Fiscal Consolidation</h2>
+      <div class="section-rule"></div>
+      <div class="section-body">
+        <p>William Ruto (Kenya Kwanza coalition) won Kenya's August 2022 presidential election, defeating opposition candidate Raila Odinga in a closely contested vote. Ruto — a former Deputy President under Uhuru Kenyatta — ran on a "hustler nation" platform focused on bottom-up economic development and small business support. His administration has grappled with inherited fiscal stress (large debt servicing obligations, high cost-of-living) while pursuing an IMF stabilisation programme.</p>
+        <p>The June–July 2024 anti-Finance Bill protests — driven by "Gen-Z" Kenyan youth via social media — resulted in Ruto withdrawing the Finance Bill 2024, which had proposed tax increases to close a fiscal gap. The episode demonstrated: (a) functioning political accountability mechanisms; and (b) the vulnerability of unpopular fiscal measures to popular backlash. Ruto subsequently formed a broad-based government including some opposition figures, reducing political polarisation.</p>
+        <p>Kenya's foreign policy under Ruto has been assertively pro-investment and globally engaged. Kenya sent police forces to Haiti (MNSS mission) under Ruto's leadership — a significant foreign policy commitment. Nairobi hosted the Africa Climate Summit in 2023. Relations with Canada are warm, underpinned by Commonwealth ties, development partnerships, and diaspora connections.</p>
+        <p>The 2027 general election will be the primary political risk horizon. Ruto will seek re-election; opposition figures (including Odinga, who is now pursuing the AU Commission chairmanship) are reorganising. Campaign spending and policy distortions typically begin 18+ months ahead of election date.</p>
+      </div>
+    </section>
+
+    <!-- PROCUREMENT -->
+    <section class="dossier-section" id="procurement">
+      <div class="section-label">08 / Procurement Access</div>
+      <h2 class="section-title">Public Procurement & ICT Tenders</h2>
+      <div class="section-rule"></div>
+      <div class="section-body">
+        <p>Kenya's public procurement is governed by the Public Procurement and Asset Disposal Act (2015) and administered by the Public Procurement Regulatory Authority (PPRA). The government's e-procurement system (PPIP — Public Procurement Information Portal) publishes procurement opportunities from all procuring entities. Kenya is not a GPA member, but large donor-funded contracts (World Bank, AfDB, EU) follow international competitive bidding rules accessible to Canadian companies.</p>
+        <p>ICT procurement is a significant opportunity: Kenya's government digitisation programme (Huduma Kenya, eCitizen platform, digital ID) generates regular procurement of technology, systems integration, and cloud services. The Kenya National ICT Policy and the ICTA (Information Communications Technology Authority) coordinate government ICT procurement.</p>
+      </div>
+      <div class="gov-signals">
+        <div class="signal-item">
+          <div class="signal-icon">🖥</div>
+          <div>
+            <div class="signal-title">PPIP — Public Procurement Information Portal</div>
+            <div class="signal-body">Kenya's national procurement portal (ppip.treasury.go.ke) publishes tenders from all government procuring entities. Canadian companies can register and bid on open tenders. Donor-funded procurement from World Bank and AfDB-financed projects follows ICB rules and is accessible to international bidders.</div>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-icon">💻</div>
+          <div>
+            <div class="signal-title">ICTA — Government ICT Procurement</div>
+            <div class="signal-body">The ICT Authority of Kenya coordinates government technology procurement and the eCitizen platform. Kenya's ambitious digital government programme creates demand for cloud services, cybersecurity, systems integration, and digital ID solutions. Canadian ICT companies should monitor ICTA and Ministry of ICT tender announcements.</div>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-icon">⚡</div>
+          <div>
+            <div class="signal-title">KETRACO / KenGen — Energy Infrastructure Procurement</div>
+            <div class="signal-body">Kenya Electricity Transmission Company (KETRACO) and KenGen regularly procure grid expansion, generation capacity, and transmission infrastructure. These are large capital projects financed with concessional loans (World Bank, EIB, JICA), creating internationally competitive procurement opportunities for Canadian energy companies.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CANADIAN PRESENCE -->
+    <section class="dossier-section" id="canadian">
+      <div class="section-label">09 / Canadian Presence</div>
+      <h2 class="section-title">Development Finance & Tech Partnerships</h2>
+      <div class="section-rule"></div>
+      <div class="section-body">
+        <p>Canada's presence in Kenya is anchored by development institutions, NGOs, and an active High Commission in Nairobi. Unlike Ghana (mining) or Nigeria (oil), Canada does not have a dominant commercial sector presence — but this creates headroom for Canadian technology, clean energy, and professional services companies to establish distinctive positions.</p>
+        <p>The Kenyan-Canadian diaspora is an important bilateral bridge. Kenyan Canadians — particularly in Ontario and Alberta — maintain active remittance, investment, and professional ties to Kenya. This diaspora network is an increasingly valuable asset for Canadian companies seeking local partnerships, cultural insight, and market intelligence.</p>
+      </div>
+      <div class="gov-signals">
+        <div class="signal-item">
+          <div class="signal-icon">🏦</div>
+          <div>
+            <div class="signal-title">FinDev Canada — East Africa / Kenya Portfolio</div>
+            <div class="signal-body">FinDev Canada's Kenya investments span financial inclusion (backing Kenyan MFIs and digital lenders), agribusiness supply chain finance, and renewable energy. FinDev is the most prominent Canadian institutional presence in Kenya's investment landscape and serves as a credibility anchor for Canadian companies entering the market.</div>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-icon">🎓</div>
+          <div>
+            <div class="signal-title">Canadian University Partnerships</div>
+            <div class="signal-body">Multiple Canadian universities maintain research partnerships, field schools, and faculty exchange programmes with Kenyan universities (University of Nairobi, Strathmore University, USIU-Africa). These academic connections are entry points for Canadian companies seeking research partnerships or talent identification.</div>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-icon">🏥</div>
+          <div>
+            <div class="signal-title">Canadian Global Health Organisations</div>
+            <div class="signal-body">Canadian global health organisations (Grand Challenges Canada, IDRC, various NGOs) have long-term Kenya programmes in health technology, maternal health, and nutrition. These institutional relationships create commercial pathways for Canadian health technology companies working with the same Kenyan health system counterparts.</div>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-icon">🇨🇦</div>
+          <div>
+            <div class="signal-title">High Commission of Canada — Nairobi</div>
+            <div class="signal-body">The Canadian High Commission in Nairobi covers Kenya and serves as the regional hub for East Africa. Trade Commissioner Service (TCS) Nairobi provides market intelligence, matchmaking support, and sector expertise for Canadian companies entering the East African market. TCS also covers Uganda, Tanzania, and Rwanda from the Nairobi base.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACTS -->
+    <section class="dossier-section" id="contacts">
+      <div class="section-label">10 / Key Contacts</div>
+      <h2 class="section-title">Entry Points & Institutions</h2>
+      <div class="section-rule"></div>
+      <div class="section-body">
+        <p>The following institutions are primary entry points for Canadian companies approaching Kenya. The High Commission in Nairobi is the recommended first contact for TCS-eligible Canadian businesses. FinDev Canada is the primary DFI co-investment partner for qualifying projects.</p>
+      </div>
+      <div class="gov-signals">
+        <div class="signal-item">
+          <div class="signal-icon">🇨🇦</div>
+          <div>
+            <div class="signal-title">Trade Commissioner Service — Nairobi</div>
+            <div class="signal-body">Canadian High Commission, Limuru Road, Gigiri, Nairobi. TCS Nairobi covers Kenya and serves as the East Africa regional hub. Sector specialists cover technology, clean energy, agribusiness, and health. Access via TCS online portal or the High Commission directly.</div>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-icon">🏛</div>
+          <div>
+            <div class="signal-title">Kenya Investment Authority (KenInvest)</div>
+            <div class="signal-body">KenInvest facilitates FDI registration, provides investment certificates, and coordinates with sector ministries. KenInvest organises investor engagement events and maintains a database of investment opportunities. One-stop shop for foreign investor entry into Kenya.</div>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-icon">💻</div>
+          <div>
+            <div class="signal-title">ICT Authority of Kenya (ICTA)</div>
+            <div class="signal-body">ICTA is the government ICT coordination and procurement body. Canadian ICT companies pursuing government digitisation contracts should engage ICTA early and build relationships with the Ministry of ICT, Innovation and Youth Affairs. ICTA also oversees the Konza Technopolis development.</div>
+          </div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-icon">🏦</div>
+          <div>
+            <div class="signal-title">FinDev Canada — East Africa Desk</div>
+            <div class="signal-body">FinDev Canada's investment officers covering East Africa are accessible through the FinDev website. Co-financing enquiries for financial services, agribusiness, or clean energy projects in Kenya should begin with FinDev's sector teams based in Montreal.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SOURCES -->
+    <section class="dossier-section" id="sources">
+      <div class="section-label">11 / Sources & Methodology</div>
+      <h2 class="section-title">Data Sources</h2>
+      <div class="section-rule"></div>
+      <div class="section-body">
+        <p>This dossier draws on publicly available data from: Statistics Canada trade data portal; Global Affairs Canada country and sector reports; IMF Kenya Article IV consultations and ECF programme documentation; World Bank Kenya country data; Kenya National Bureau of Statistics; Kenya Investment Authority; ICTA Kenya; KenInvest; Safaricom/M-Pesa public disclosures; FinDev Canada portfolio disclosures; Communications Authority of Kenya; PPRA Kenya; and East African Community trade statistics.</p>
+        <p>Trade figures are estimates based on 2022–23 data and may not reflect the most recent Statistics Canada releases. All figures in Canadian dollars unless otherwise stated. This dossier is for informational purposes only and does not constitute investment advice.</p>
+        <p><strong>Classification:</strong> CTI-PROFILE-KEN · Prepared by Canadian Trade Intelligence · For authorized distribution only.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <aside class="dossier-aside">
+    <div class="aside-card">
+      <div class="aside-card-title">Quick Facts</div>
+      <div class="aside-row"><span class="aside-row-label">Capital</span><span class="aside-row-value">Nairobi</span></div>
+      <div class="aside-row"><span class="aside-row-label">President</span><span class="aside-row-value">Ruto (Kenya Kwanza)</span></div>
+      <div class="aside-row"><span class="aside-row-label">Since</span><span class="aside-row-value">Sept 2022</span></div>
+      <div class="aside-row"><span class="aside-row-label">Currency</span><span class="aside-row-value">KES (Shilling)</span></div>
+      <div class="aside-row"><span class="aside-row-label">Language</span><span class="aside-row-value">English + Swahili</span></div>
+      <div class="aside-row"><span class="aside-row-label">Commonwealth</span><span class="aside-row-value">Member</span></div>
+      <div class="aside-row"><span class="aside-row-label">Next Election</span><span class="aside-row-value">Aug 2027</span></div>
+    </div>
+    <div class="aside-card">
+      <div class="aside-card-title">Key Assets</div>
+      <ul class="aside-list">
+        <li><strong>M-Pesa</strong> — world-leading mobile money</li>
+        <li><strong>Nairobi</strong> — Silicon Savannah tech hub</li>
+        <li><strong>KenGen</strong> — geothermal leader</li>
+        <li><strong>Mombasa Port</strong> — EAC gateway</li>
+        <li><strong>FinDev Canada</strong> — active DFI portfolio</li>
+      </ul>
+    </div>
+    <div class="aside-card">
+      <div class="aside-card-title">Top Exports to Canada</div>
+      <div class="aside-row"><span class="aside-row-label">Tea</span><span class="aside-row-value">Largest item</span></div>
+      <div class="aside-row"><span class="aside-row-label">Coffee</span><span class="aside-row-value">Premium grades</span></div>
+      <div class="aside-row"><span class="aside-row-label">Flowers/Horticulture</span><span class="aside-row-value">Growing</span></div>
+    </div>
+    <div class="aside-card">
+      <div class="aside-card-title">Access Points</div>
+      <div class="aside-contact">
+        <strong>TCS Nairobi</strong>
+        Canadian High Commission<br>
+        Limuru Road, Gigiri, Nairobi<br>
+        East Africa regional hub
+      </div>
+      <div class="aside-contact">
+        <strong>KenInvest</strong>
+        FDI registration &amp; facilitation
+      </div>
+      <div class="aside-contact">
+        <strong>ICTA</strong>
+        Government ICT procurement
+      </div>
+    </div>
+    <div class="aside-card">
+      <div class="aside-card-title">Risk Snapshot</div>
+      <div class="aside-row"><span class="aside-row-label">Political</span><span class="aside-row-value" style="color:#8B6507">MED</span></div>
+      <div class="aside-row"><span class="aside-row-label">Fiscal</span><span class="aside-row-value" style="color:#C0392B">HIGH</span></div>
+      <div class="aside-row"><span class="aside-row-label">Currency</span><span class="aside-row-value" style="color:#8B6507">MED</span></div>
+      <div class="aside-row"><span class="aside-row-label">Security</span><span class="aside-row-value" style="color:#8B6507">MED</span></div>
+      <div class="aside-row"><span class="aside-row-label">Corruption</span><span class="aside-row-value" style="color:#8B6507">MED</span></div>
+    </div>
+  </aside>
+</div>
+
+<footer class="dossier-footer">
+  <div>CTI-PROFILE-KEN · Canadian Trade Intelligence · Restricted Circulation</div>
+  <div>Last updated: Q1 2025 · Data current to Dec 2024</div>
+</footer>
+
+<script>
+  const navLinks = document.querySelectorAll('.section-nav a');
+  const sections = document.querySelectorAll('.dossier-section');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.getAttribute('id');
+        navLinks.forEach(link => {
+          link.classList.toggle('active', link.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
