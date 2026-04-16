@@ -157,7 +157,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--warm-bg);color:var(--ink)
   <div class="proc-hero">
     <div class="proc-label">Procurement Intelligence</div>
     <h1 class="proc-title">Active Tender Watch</h1>
-    <p class="proc-subtitle">Active procurement opportunities from federal, provincial Ontario, EU, and US federal sources — for any Canadian business seeking contracts: federal suppliers, defence contractors, cleantech installers, food processors, tech firms, and consultants.</p>
+    <p class="proc-subtitle">Government and institutional procurement opportunities for Canadian businesses — federal, EU, and US federal sources, filtered by sector and updated weekly. Each opportunity includes context on why it matters for Canadian businesses. For full tender documents and bid submission, follow the direct link to the source.</p>
     <div class="proc-stats">
       <div class="proc-stat"><div class="proc-stat-val" id="stat-total">—</div><div class="proc-stat-label">Active tenders</div></div>
       <div class="proc-stat"><div class="proc-stat-val" id="stat-urgent">—</div><div class="proc-stat-label">Close within 7 days</div></div>
@@ -255,6 +255,10 @@ body{font-family:'DM Sans',sans-serif;background:var(--warm-bg);color:var(--ink)
       <a href="https://merx.com" target="_blank" rel="noopener" class="aside-link">MERX &#8594;</a>
     </div>
   </aside>
+</div>
+
+<div style="max-width:1200px;margin:0 auto;padding:0 48px 24px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.06em;color:var(--slate);line-height:1.7;">
+  CTI surfaces federal Canadian (CanadaBuys), EU (TED), and US federal (SAM.gov) tenders. For Canada's largest private tender database including construction and utility tenders, see <a href="https://merx.com" target="_blank" rel="noopener" style="color:var(--slate);text-decoration:underline;">MERX (merx.com)</a>.
 </div>
 
 <div class="proc-footer">
@@ -463,13 +467,13 @@ function render() {
       <div class="proc-item-inner">
         <div>
           ${titleEl}
+          ${t.why ? `<div style="font-size:13px;font-style:italic;color:var(--slate);margin-top:3px;margin-bottom:5px;line-height:1.55;">${escHtml(firstSentence(t.why))}</div>` : ''}
           <div class="proc-item-meta">
             <span class="proc-item-buyer">${escHtml(t.buyer)}</span>
-            ${t.value ? `<span class="proc-item-value">${escHtml(t.value)}</span>` : ''}
+            ${formatValue(t.value) ? `<span class="proc-item-value">${escHtml(formatValue(t.value))}</span>` : ''}
             <span class="proc-item-source">${sourceLabel(t.source)}</span>
             ${sectorTags(t.sectors)}
           </div>
-          ${t.why ? `<div style="font-size:12px;color:var(--slate);margin-top:6px;line-height:1.6;max-width:600px;">${escHtml(t.why.substring(0,180))}${t.why.length > 180 ? '…' : ''}</div>` : ''}
         </div>
         <div class="proc-item-date-col">
           <div class="proc-item-date ${dClass}">${formatDate(t.deadline)}</div>
@@ -490,7 +494,8 @@ function render() {
     return `<div class="proc-card">
       ${titleEl}
       <div class="proc-card-buyer">${escHtml(t.buyer)}</div>
-      ${t.why ? `<div style="font-size:12px;color:var(--slate);line-height:1.6;">${escHtml(t.why.substring(0,160))}${t.why.length > 160 ? '…' : ''}</div>` : ''}
+      ${t.why ? `<div style="font-size:13px;font-style:italic;color:var(--slate);line-height:1.55;">${escHtml(firstSentence(t.why))}</div>` : ''}
+      ${formatValue(t.value) ? `<div style="font-family:'DM Mono',monospace;font-size:11px;color:#2e7d32;font-weight:600;">${escHtml(formatValue(t.value))}</div>` : ''}
       <div class="proc-card-footer">
         <div class="proc-card-date ${dClass}">${formatDate(t.deadline)}${days !== null ? ` (${days}d)` : ''}</div>
         <div class="proc-card-meta">
@@ -515,6 +520,28 @@ function escHtml(s) {
   return String(s || '')
     .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
     .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
+function formatValue(v) {
+  if (!v) return '';
+  if (typeof v === 'string') {
+    // Try to parse numeric strings like "$1,200,000" or "1200000"
+    const cleaned = v.replace(/[$,\s]/g, '');
+    const n = parseFloat(cleaned);
+    if (isNaN(n)) return '';
+    v = n;
+  }
+  if (typeof v !== 'number') return '';
+  if (v >= 1e9) return `Est. $${(v / 1e9).toFixed(1)}B`;
+  if (v >= 1e6) return `Est. $${(v / 1e6).toFixed(1)}M`;
+  if (v >= 1e3) return `Est. $${Math.round(v / 1e3)}K`;
+  return `Est. $${Math.round(v).toLocaleString()}`;
+}
+
+function firstSentence(s) {
+  if (!s) return '';
+  const m = s.match(/^[^.!?]+[.!?]/);
+  return m ? m[0].trim() : s.substring(0, 160) + (s.length > 160 ? '…' : '');
 }
 
 // ── CONTROLS ──────────────────────────────────────────────────────────────────
