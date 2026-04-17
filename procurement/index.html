@@ -161,16 +161,16 @@ body{font-family:'DM Sans',sans-serif;background:var(--warm-bg);color:var(--ink)
     <div class="proc-stats">
       <div class="proc-stat"><div class="proc-stat-val" id="stat-total">—</div><div class="proc-stat-label">Active tenders</div></div>
       <div class="proc-stat"><div class="proc-stat-val" id="stat-urgent">—</div><div class="proc-stat-label">Close within 7 days</div></div>
-      <div class="proc-stat"><div class="proc-stat-val" id="stat-sources">4</div><div class="proc-stat-label">Data sources</div></div>
+      <div class="proc-stat"><div class="proc-stat-val" id="stat-sources">4</div><div class="proc-stat-label">Data sources active</div></div>
     </div>
   </div>
 </div>
 
 <div class="proc-value-strip">
-  <div class="proc-value-item"><div class="proc-value-dot"></div>CanadaBuys — federal tenders</div>
-  <div class="proc-value-item"><div class="proc-value-dot"></div>Ontario Tenders Portal — provincial</div>
+  <div class="proc-value-item"><div class="proc-value-dot"></div>CanadaBuys — federal</div>
   <div class="proc-value-item"><div class="proc-value-dot"></div>EU TED — GPA open notices</div>
-  <div class="proc-value-item"><div class="proc-value-dot"></div>SAM.gov — US federal opportunities</div>
+  <div class="proc-value-item"><div class="proc-value-dot"></div>SAM.gov — US federal</div>
+  <div class="proc-value-item"><div class="proc-value-dot"></div>SaskTenders — Saskatchewan</div>
   <div class="proc-value-item"><div class="proc-value-dot"></div>Updated every Tuesday</div>
 </div>
 
@@ -203,7 +203,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--warm-bg);color:var(--ink)
     <button class="filter-btn" onclick="setFilter('source','canadabuys',this)">CanadaBuys</button>
     <button class="filter-btn" onclick="setFilter('source','eu',this)">EU TED</button>
     <button class="filter-btn" onclick="setFilter('source','sam',this)">SAM.gov</button>
-    <button class="filter-btn" onclick="setFilter('source','ontario',this)">Ontario</button>
+    <button class="filter-btn" onclick="setFilter('source','sasktenders',this)">SaskTenders</button>
     <span class="proc-result-count" id="result-count">Loading…</span>
   </div>
 </div>
@@ -237,10 +237,12 @@ body{font-family:'DM Sans',sans-serif;background:var(--warm-bg);color:var(--ink)
 
     <div class="aside-card">
       <div class="aside-card-title">Find Tenders</div>
-      <a href="https://canadabuys.canada.ca" target="_blank" rel="noopener" class="aside-link">CanadaBuys</a>
+      <a href="https://canadabuys.canada.ca" target="_blank" rel="noopener" class="aside-link">CanadaBuys (Federal)</a>
       <a href="https://ted.europa.eu" target="_blank" rel="noopener" class="aside-link">EU TED</a>
-      <a href="https://sam.gov" target="_blank" rel="noopener" class="aside-link">SAM.gov</a>
-      <a href="https://www.tradecommissioner.gc.ca" target="_blank" rel="noopener" class="aside-link">Trade Commissioner Service</a>
+      <a href="https://sam.gov" target="_blank" rel="noopener" class="aside-link">SAM.gov (US Federal)</a>
+      <a href="https://www.sasktenders.ca" target="_blank" rel="noopener" class="aside-link">SaskTenders (SK)</a>
+      <a href="https://purchasing.alberta.ca" target="_blank" rel="noopener" class="aside-link">Alberta Purchasing Connection</a>
+      <a href="https://www.bcbid.gov.bc.ca" target="_blank" rel="noopener" class="aside-link">BC Bid</a>
     </div>
 
     <div class="aside-card">
@@ -251,7 +253,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--warm-bg);color:var(--ink)
     </div>
     <div class="aside-card" style="border-left:3px solid var(--gold);">
       <div class="aside-card-title">Looking for more?</div>
-      <p style="font-size:12px;color:var(--slate);line-height:1.65;"><strong style="color:var(--ink);">MERX</strong> (merx.com) is Canada&#8217;s largest private tender platform covering additional federal, provincial, and municipal sources. CTI covers public federal, Ontario provincial, EU, and US federal sources &#8212; MERX adds private-sector and additional municipal listings beyond our scope.</p>
+      <p style="font-size:12px;color:var(--slate);line-height:1.65;"><strong style="color:var(--ink);">MERX</strong> (merx.com) is Canada&#8217;s largest private tender platform covering additional federal, provincial, and municipal sources. CTI surfaces CanadaBuys (federal), SaskTenders (SK), EU TED, and SAM.gov &#8212; MERX adds private-sector, construction, utility, and additional provincial listings beyond our scope.</p>
       <a href="https://merx.com" target="_blank" rel="noopener" class="aside-link">MERX &#8594;</a>
     </div>
   </aside>
@@ -368,41 +370,53 @@ function urgencyClass(days) {
 
 function sourceLabel(src) {
   if (!src) return '';
-  if (src.includes('ontario') || src.includes('ontariotenders')) return 'Ontario';
-  if (src.includes('canada') || src.includes('buy')) return 'CanadaBuys';
-  if (src.includes('eu') || src.includes('ted') || src.includes('europe')) return 'EU TED';
-  if (src.includes('sam') || src.includes('us')) return 'SAM.gov';
-  return src.substring(0,12);
+  const s = src.toLowerCase();
+  if (s.includes('sask')) return 'SaskTenders';
+  if (s.includes('ontario') || s.includes('ontariotenders')) return 'Ontario';
+  if (s.includes('canada') || s.includes('buy')) return 'CanadaBuys';
+  if (s.includes('eu') || s.includes('ted') || s.includes('europe')) return 'EU TED';
+  if (s.includes('sam') || s.includes('us federal')) return 'SAM.gov';
+  if (s.includes('alberta') || s.includes('apc')) return 'Alberta';
+  if (s.includes('bc') || s.includes('bcbid')) return 'BC Bid';
+  if (s.includes('seao') || s.includes('quebec')) return 'SEAO';
+  return src.substring(0, 14);
 }
 
 function sourceKey(src) {
   if (!src) return 'other';
-  if (src.includes('ontario') || src.includes('ontariotenders')) return 'ontario';
-  if (src.includes('canada') || src.includes('buy')) return 'canadabuys';
-  if (src.includes('eu') || src.includes('ted') || src.includes('europe')) return 'eu';
-  if (src.includes('sam') || src.includes('us')) return 'sam';
+  const s = src.toLowerCase();
+  if (s.includes('sask')) return 'sasktenders';
+  if (s.includes('ontario') || s.includes('ontariotenders')) return 'ontario';
+  if (s.includes('canada') || s.includes('buy')) return 'canadabuys';
+  if (s.includes('eu') || s.includes('ted') || s.includes('europe')) return 'eu';
+  if (s.includes('sam') || s.includes('us federal')) return 'sam';
+  if (s.includes('alberta') || s.includes('apc')) return 'alberta';
+  if (s.includes('bc') || s.includes('bcbid')) return 'bc';
   return 'other';
 }
 
 function updateStats() {
-  const today = new Date(); today.setHours(0,0,0,0);
-  const total   = allTenders.length;
-  const urgent  = allTenders.filter(t => { const d = getDaysLeft(t.deadline); return d !== null && d <= 7; }).length;
-  const month   = allTenders.filter(t => { const d = getDaysLeft(t.deadline); return d !== null && d <= 30; }).length;
-  const canada  = allTenders.filter(t => sourceKey(t.source) === 'canadabuys').length;
-  const ontario = allTenders.filter(t => sourceKey(t.source) === 'ontario').length;
-  const intl    = allTenders.filter(t => ['eu','sam'].includes(sourceKey(t.source))).length;
+  const total  = allTenders.length;
+  const urgent = allTenders.filter(t => { const d = getDaysLeft(t.deadline); return d !== null && d <= 7; }).length;
+  const month  = allTenders.filter(t => { const d = getDaysLeft(t.deadline); return d !== null && d <= 30; }).length;
+  const canada = allTenders.filter(t => sourceKey(t.source) === 'canadabuys').length;
+  const intl   = allTenders.filter(t => ['eu','sam'].includes(sourceKey(t.source))).length;
+  const prov   = allTenders.filter(t => ['sasktenders','ontario','alberta','bc'].includes(sourceKey(t.source))).length;
 
-  document.getElementById('stat-total').textContent  = total;
-  document.getElementById('stat-urgent').textContent = urgent;
+  // Count distinct active source keys in the data
+  const activeSrcs = new Set(allTenders.map(t => sourceKey(t.source))).size;
+
+  document.getElementById('stat-total').textContent   = total;
+  document.getElementById('stat-urgent').textContent  = urgent;
+  document.getElementById('stat-sources').textContent = activeSrcs || 4;
   document.getElementById('aside-total').textContent  = total;
   document.getElementById('aside-urgent').textContent = urgent;
   document.getElementById('aside-month').textContent  = month;
-  document.getElementById('aside-canada').textContent = canada;
+  document.getElementById('aside-canada').textContent = canada + (prov ? ` (+${prov} prov.)` : '');
   document.getElementById('aside-intl').textContent   = intl;
 
   const upd = document.getElementById('proc-updated');
-  if (upd) upd.textContent = `${total} active tenders · Updated weekly`;
+  if (upd) upd.textContent = `${total} active tenders · ${activeSrcs || 4} sources · Updated weekly`;
 }
 
 function getFiltered() {
