@@ -187,9 +187,32 @@ body{font-family:'Jost',sans-serif;background:var(--bg);color:var(--text);-webki
 .proc-src a{color:inherit;text-decoration:none;}
 .proc-src a:hover{color:rgba(204,0,0,0.8);}
 
-/* ── SECTION LABEL ── */
+/* ── SECTION LABEL / DIVIDER ── */
 .section-label{grid-column:span 12;padding:16px 0 4px;border-bottom:1px solid var(--border);margin-bottom:2px;}
 .section-label-text{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-faint);}
+.section-divider{grid-column:span 12;display:flex;align-items:center;gap:12px;padding:10px 0 4px;margin-top:4px;}
+.section-divider-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.22em;text-transform:uppercase;color:var(--text-faint);white-space:nowrap;}
+.section-divider-line{flex:1;height:1px;background:var(--border);}
+.section-divider-ts{font-family:'DM Mono',monospace;font-size:7px;color:rgba(255,255,255,0.12);white-space:nowrap;}
+
+/* ── REGULATORY PULSE ── */
+.reg-item{padding:10px 0;border-bottom:1px solid var(--border);display:flex;flex-direction:column;gap:4px;}
+.reg-item:last-child{border-bottom:none;}
+.reg-item-head{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+.reg-date{font-family:'DM Mono',monospace;font-size:8px;color:var(--text-faint);}
+.reg-src-badge{font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.08em;padding:2px 6px;}
+.reg-src-gazette{background:rgba(139,0,0,0.25);color:#e08080;}
+.reg-src-citt{background:rgba(42,80,144,0.25);color:#7090d0;}
+.reg-src-cbsa{background:rgba(176,120,0,0.25);color:#c8a040;}
+.reg-src-parl{background:rgba(26,107,66,0.25);color:#5acc8a;}
+.reg-high-dot{width:6px;height:6px;border-radius:50%;background:#c05050;flex-shrink:0;}
+.reg-title{font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:600;color:#e8f0e0;line-height:1.35;}
+.reg-title a{color:inherit;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.1);}
+.reg-title a:hover{border-color:rgba(255,255,255,0.4);}
+.reg-summary{font-size:11px;color:var(--text-dim);line-height:1.6;}
+.reg-sectors{display:flex;gap:4px;flex-wrap:wrap;margin-top:2px;}
+.reg-sector-tag{font-family:'DM Mono',monospace;font-size:6px;letter-spacing:0.06em;padding:1px 5px;background:rgba(255,255,255,0.06);color:var(--text-faint);}
+.reg-empty{font-family:'DM Mono',monospace;font-size:9px;color:var(--text-faint);padding:16px 0;text-align:center;letter-spacing:0.08em;}
 
 /* ── FOOTER ── */
 footer{background:#0a0c0f;border-top:1px solid var(--border);padding:28px 32px;}
@@ -203,7 +226,10 @@ footer{background:#0a0c0f;border-top:1px solid var(--border);padding:28px 32px;}
 
 <!-- PAGE HEADER -->
 <div class="t-header">
-  <span class="t-title">🇨🇦 Canadian Trade Intelligence — Terminal</span>
+  <div>
+    <span class="t-title">Live Intelligence Terminal</span>
+    <div style="font-family:'DM Mono',monospace;font-size:8px;color:rgba(255,255,255,0.25);letter-spacing:0.1em;margin-top:3px;" id="t-date-line">🇨🇦 Canadian Trade Intelligence · Loading…</div>
+  </div>
   <div class="t-status">
     <span class="t-live-badge">FX rates live</span>
     <span class="t-weekly-badge">Signals &amp; scores updated Tuesdays</span>
@@ -428,6 +454,13 @@ footer{background:#0a0c0f;border-top:1px solid var(--border);padding:28px 32px;}
     <div class="panel-footer">
       Each signal links to the full sector report · <a href="/reports/">All reports →</a>
     </div>
+  </div>
+
+  <!-- ── SECTION DIVIDER: MARKET DATA ── -->
+  <div class="section-divider">
+    <span class="section-divider-label">Market Data — FX &amp; Commodities</span>
+    <div class="section-divider-line"></div>
+    <span class="section-divider-ts">● FX live via Bank of Canada · Commodities weekly</span>
   </div>
 
   <!-- FX RATES — live, with context links -->
@@ -693,6 +726,13 @@ footer{background:#0a0c0f;border-top:1px solid var(--border);padding:28px 32px;}
     </div>
   </div>
 
+  <!-- ── SECTION DIVIDER: INTELLIGENCE ── -->
+  <div class="section-divider">
+    <span class="section-divider-label">Canadian Intelligence</span>
+    <div class="section-divider-line"></div>
+    <span class="section-divider-ts">▸ Updated weekly · Tuesdays</span>
+  </div>
+
   <!-- CANADIAN SPOTLIGHT preview -->
   <div class="panel col-4">
     <div class="panel-hd">
@@ -805,6 +845,13 @@ footer{background:#0a0c0f;border-top:1px solid var(--border);padding:28px 32px;}
     </div>
   </div>
 
+  <!-- ── SECTION DIVIDER: PROCUREMENT & REGULATORY ── -->
+  <div class="section-divider">
+    <span class="section-divider-label">Procurement &amp; Regulatory</span>
+    <div class="section-divider-line"></div>
+    <span class="section-divider-ts" id="proc-reg-ts">▸ Updated weekly</span>
+  </div>
+
   <!-- PROCUREMENT FEED -->
   <div class="panel col-6">
     <div class="panel-hd">
@@ -862,6 +909,24 @@ footer{background:#0a0c0f;border-top:1px solid var(--border);padding:28px 32px;}
     </div>
   </div>
 
+  <!-- REGULATORY PULSE PANEL -->
+  <div class="panel col-6" id="reg-pulse-panel">
+    <div class="panel-hd">
+      <div>
+        <span class="panel-title">Regulatory Pulse</span>
+        <div style="font-family:'DM Mono',monospace;font-size:7px;color:var(--text-faint);margin-top:3px;letter-spacing:0.08em;">This week in Canadian trade law</div>
+      </div>
+      <span class="panel-badge badge-weekly" id="reg-pulse-badge">▸ Weekly</span>
+    </div>
+    <div id="reg-pulse-content">
+      <div class="reg-empty">Loading regulatory updates…</div>
+    </div>
+    <div class="panel-footer">
+      Sources: Canada Gazette Part II · CITT · CBSA · Parliament ·
+      <a href="/tools/sanctions-check/">Sanctions Screener →</a>
+    </div>
+  </div>
+
 </div><!-- end .t-body -->
 
 <footer>
@@ -875,10 +940,16 @@ footer{background:#0a0c0f;border-top:1px solid var(--border);padding:28px 32px;}
 </footer>
 
 <script>
-// ── Clock ──
+// ── Clock + date line ──
 function updateClock(){
   const el=document.getElementById('t-clock');
   if(el)el.textContent=new Date().toLocaleTimeString('en-CA',{hour:'2-digit',minute:'2-digit',timeZone:'America/Toronto'})+' ET';
+  const dl=document.getElementById('t-date-line');
+  if(dl){
+    const now=new Date();
+    const ds=now.toLocaleDateString('en-CA',{weekday:'long',year:'numeric',month:'long',day:'numeric',timeZone:'America/Toronto'});
+    dl.textContent='🇨🇦 Canadian Trade Intelligence · '+ds;
+  }
 }
 updateClock();
 setInterval(updateClock,30000);
@@ -1004,6 +1075,48 @@ async function loadTerminalData(){
   }catch(e){}
 }
 loadTerminalData();
+
+// ── Regulatory Pulse ──
+async function loadRegulatoryPulse(){
+  const container=document.getElementById('reg-pulse-content');
+  const badge=document.getElementById('reg-pulse-badge');
+  if(!container)return;
+  try{
+    const res=await fetch('/api/regulatory_pulse.json?_='+Date.now());
+    if(!res.ok)throw new Error('no data');
+    const items=await res.json();
+    if(!items||!items.length){
+      container.innerHTML='<div class="reg-empty">No significant regulatory changes this week.</div>';
+      return;
+    }
+    const show=items.slice(0,10);
+    const srcClass={'Canada Gazette Part II':'reg-src-gazette','CITT':'reg-src-citt','CBSA':'reg-src-cbsa','Parliament':'reg-src-parl'};
+    const sectorLabel={'critical_minerals':'Crit. Min.','energy_cleantech':'Energy','advanced_manufacturing':'Mfg','aerospace_defence':'Aerospace','agri_food':'Agri','technology_digital':'Tech','general':'General'};
+    const sigDot=(s)=>s==='high'?'<div class="reg-high-dot" title="High significance"></div>':'';
+    container.innerHTML=show.map(it=>{
+      const sc=srcClass[it.source]||'reg-src-gazette';
+      const sectors=(it.sector_relevance||[]).map(s=>`<span class="reg-sector-tag">${sectorLabel[s]||s}</span>`).join('');
+      const url=it.url||'#';
+      return`<div class="reg-item">
+        <div class="reg-item-head">
+          ${sigDot(it.significance)}
+          <span class="reg-date">${(it.date||'').slice(0,10)}</span>
+          <span class="reg-src-badge ${sc}">${it.source||''}</span>
+        </div>
+        <div class="reg-title"><a href="${url}" target="_blank" rel="noopener">${it.title||''}</a></div>
+        ${it.summary?`<div class="reg-summary">${it.summary}</div>`:''}
+        ${sectors?`<div class="reg-sectors">${sectors}</div>`:''}
+      </div>`;
+    }).join('');
+    if(badge){
+      const d=items[0]&&items[0].date?items[0].date.slice(0,10):'';
+      badge.textContent=`▸ ${items.length} items${d?' · '+d:''}`;
+    }
+  }catch(e){
+    container.innerHTML='<div class="reg-empty">No regulatory pulse data available this week.</div>';
+  }
+}
+loadRegulatoryPulse();
 </script>
 </body>
 </html>
