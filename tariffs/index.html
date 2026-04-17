@@ -166,6 +166,43 @@
     .link-grid { grid-template-columns: 1fr; }
   }
 
+  /* ── TARIFF RATE FINDER ── */
+  .finder-wrap { background: #fff; border-bottom: 2px solid var(--rule); }
+  .finder-inner { max-width: 1140px; margin: 0 auto; padding: 32px 40px; }
+  .finder-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--brand); margin-bottom: 6px; }
+  .finder-desc { font-size: 13px; color: var(--ink-light); margin-bottom: 18px; }
+  .finder-form { display: flex; gap: 10px; flex-wrap: wrap; }
+  .finder-input { flex: 1; min-width: 260px; padding: 11px 16px; font-family: 'DM Sans', sans-serif; font-size: 14px; border: 1.5px solid var(--rule); background: var(--cream); color: var(--ink); outline: none; transition: border-color 0.18s; }
+  .finder-input:focus { border-color: var(--brand); background: #fff; }
+  .finder-input::placeholder { color: var(--ink-light); }
+  .finder-btn { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; background: var(--brand); color: #fff; border: none; padding: 11px 20px; cursor: pointer; white-space: nowrap; transition: background 0.18s; }
+  .finder-btn:hover { background: var(--brand-deep); }
+  .finder-results { margin-top: 20px; }
+  .finder-no-results { font-size: 13px; color: var(--ink-light); padding: 14px 0; }
+  .finder-card { background: var(--cream); border: 1px solid var(--rule); border-top: 3px solid var(--green); padding: 20px 22px; }
+  .finder-hs { font-family: 'DM Mono', monospace; font-size: 13px; letter-spacing: 0.06em; color: var(--brand); margin-bottom: 4px; }
+  .finder-desc-text { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 16px; line-height: 1.4; }
+  .finder-rates-top { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 18px; align-items: center; }
+  .finder-rate-chip { display: inline-flex; flex-direction: column; background: #fff; border: 1px solid var(--rule); padding: 8px 14px; min-width: 100px; }
+  .finder-rate-chip-label { font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-light); margin-bottom: 4px; }
+  .finder-rate-chip-val { font-family: 'DM Mono', monospace; font-size: 14px; font-weight: 500; }
+  .rate-free { color: var(--green); }
+  .rate-some { color: var(--amber); }
+  .rate-high { color: var(--risk); }
+  .finder-fta-label { font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-light); margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px solid var(--rule); }
+  .finder-fta-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 6px; margin-bottom: 14px; }
+  .finder-fta-item { background: #fff; border: 1px solid var(--rule); padding: 7px 10px; }
+  .finder-fta-name { font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-light); margin-bottom: 3px; }
+  .finder-fta-rate { font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 500; }
+  .finder-meta { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--rule); }
+  .finder-meta-item { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.08em; color: var(--ink-light); }
+  .finder-meta-item strong { color: var(--ink); }
+  .finder-source-link { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.08em; color: var(--brand); }
+  @media(max-width:900px){
+    .finder-inner { padding: 24px 20px; }
+    .finder-fta-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
+  }
+
 .nav-dropdown{position:relative;display:inline-flex;align-items:center;}
 .nav-dropdown-btn{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.6);background:none;border:none;cursor:pointer;padding:0;transition:color 0.2s;}
 .nav-dropdown-btn:hover{color:rgba(204,0,0,0.9);}
@@ -225,6 +262,22 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
   </div>
 </div>
 
+<!-- TARIFF RATE FINDER -->
+<div class="finder-wrap" id="rate-finder">
+  <div class="finder-inner">
+    <div class="finder-label">Tariff Rate Finder</div>
+    <p class="finder-desc">Search Canadian tariff rates by HS code or product description.</p>
+    <div class="finder-form">
+      <input type="text" class="finder-input" id="finder-input"
+        placeholder="Enter HS code (e.g. 2601.10) or product description (e.g. canola, aircraft, aluminum)"
+        onkeydown="if(event.key==='Enter')findRate()"
+        autocomplete="off" spellcheck="false">
+      <button class="finder-btn" onclick="findRate()">Find Rate →</button>
+    </div>
+    <div class="finder-results" id="finder-results"></div>
+  </div>
+</div>
+
 <!-- MAIN -->
 <div class="main">
 
@@ -232,6 +285,8 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
   <aside class="sidebar">
     <div class="sidebar-label">On This Page</div>
     <ul class="sidebar-nav">
+      <li><a href="#rate-finder">↳ Rate Finder</a></li>
+      <div class="sidebar-divider"></div>
       <li><a href="#current-tariffs" class="active">Current Tariff Situations</a></li>
       <div class="sidebar-divider"></div>
       <li><a href="#cusma">CUSMA / USMCA</a></li>
@@ -801,6 +856,213 @@ document.addEventListener('click', function(e) {
     if (btn) btn.classList.remove('open');
   }
 });
+
+/* ════════════════════════════════════════════════════════════
+   TARIFF RATE FINDER
+   Data sourced from /api/tariff_data.json (pipeline-generated).
+   Falls back to DEMO_DATA if API not yet available.
+   ════════════════════════════════════════════════════════════ */
+const TARIFF_DEMO = [
+  /* ── Critical Minerals ── */
+  { hs:"2601.10", desc:"Iron ores and concentrates, non-agglomerated",
+    sector:"Critical Minerals", mfn:"Free", gpt:"Free",
+    fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+    coo:false, notes:"Canada is a net exporter; MFN import duty is free." },
+  { hs:"2601.20", desc:"Iron ore pellets (agglomerated iron ores and concentrates)",
+    sector:"Critical Minerals", mfn:"Free", gpt:"Free",
+    fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+    coo:false, notes:"Iron ore pellets produced in Labrador/Quebec. MFN duty free." },
+  { hs:"2804.69", desc:"Silicon (polycrystalline; other than metallurgical or electrical grade)",
+    sector:"Critical Minerals", mfn:"Free", gpt:"Free",
+    fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+    coo:true, notes:"Silicon for semiconductor use. Certificate of origin required for FTA preferential rates." },
+  { hs:"2844.10", desc:"Natural uranium and its compounds; alloys, dispersions (including cermets), ceramic products and mixtures",
+    sector:"Critical Minerals", mfn:"Free", gpt:"Free",
+    fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+    coo:true, notes:"Uranium exports subject to Nuclear Non-Proliferation Treaty licensing. CNSC permit required." },
+  { hs:"2825.90", desc:"Rare earth metals, scandium and yttrium (hydrazine, hydroxylamine and inorganic salts)",
+    sector:"Critical Minerals", mfn:"Free", gpt:"Free",
+    fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+    coo:true, notes:"Rare earth compounds. Subject to export controls for certain end uses under the Export and Import Permits Act." },
+
+  /* ── Energy ── */
+  { hs:"2709.00", desc:"Petroleum oils and oils obtained from bituminous minerals, crude",
+    sector:"Energy", mfn:"Free", gpt:"Free",
+    fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+    coo:false, notes:"Crude oil. Canada is a net exporter. MFN import duty: Free. NEB export licence required for crude oil exports." },
+  { hs:"2711.12", desc:"Propane, liquefied (petroleum gases and other gaseous hydrocarbons)",
+    sector:"Energy", mfn:"Free", gpt:"Free",
+    fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+    coo:false, notes:"LPG — propane. Western Canada exports significant volumes to Asia via LPG terminals." },
+  { hs:"2711.21", desc:"Natural gas in gaseous state",
+    sector:"Energy", mfn:"Free", gpt:"Free",
+    fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+    coo:false, notes:"Piped natural gas. Canada Gas Act and NEB export licences apply. LNG (liquefied) classified separately under 2711.11." },
+
+  /* ── Manufacturing / Metals ── */
+  { hs:"7208.51", desc:"Flat-rolled products of iron or non-alloy steel, >4.75mm thick, not further worked",
+    sector:"Manufacturing", mfn:"Free", gpt:"Free",
+    fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+    coo:true, notes:"Structural steel plate. Note: US Section 232 25% tariff applies on Canadian steel exports to the US, despite CUSMA. This table shows Canadian import rates." },
+  { hs:"7208.10", desc:"Flat-rolled iron or non-alloy steel, hot-rolled, in coils, not clad, plated or coated, >10mm",
+    sector:"Manufacturing", mfn:"Free", gpt:"Free",
+    fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+    coo:true, notes:"Hot-rolled steel coil. Canada is a net importer of some steel products from CUSMA partners." },
+  { hs:"7601.10", desc:"Unwrought aluminum, not alloyed",
+    sector:"Manufacturing", mfn:"6%", gpt:"Free",
+    fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+    coo:true, notes:"Primary aluminum. Canada's MFN rate: 6%. All FTA partners: Free. Note: US Section 232 25% tariff applies on Canadian aluminum exports to the US." },
+  { hs:"7601.20", desc:"Unwrought aluminum alloys",
+    sector:"Manufacturing", mfn:"6%", gpt:"Free",
+    fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+    coo:true, notes:"Aluminum alloys (ingots, T-bars). Canada is the world's 4th largest aluminum producer. MFN rate 6%; FTA rate: Free." },
+
+  /* ── Agri-food ── */
+  { hs:"1205.10", desc:"Low erucic acid rape or colza seeds (canola seed)",
+    sector:"Agri-food", mfn:"Free", gpt:"Free",
+    fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+    coo:false, notes:"Canola seed. Canadian import rate Free. For Canadian canola exports to China, China's tariff was 15% as of March 2026 (reduced from 100%; canola oil remains at 100%)." },
+  { hs:"1205.90", desc:"Other rape or colza seeds",
+    sector:"Agri-food", mfn:"Free", gpt:"Free",
+    fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+    coo:false, notes:"High erucic acid rapeseed and other varieties. Industrial uses (lubricants, biofuels). MFN: Free." },
+  { hs:"1001.11", desc:"Durum wheat, seed quality",
+    sector:"Agri-food", mfn:"Free", gpt:"Free",
+    fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+    coo:true, notes:"Canadian hard red spring and durum wheat. Canada is the world's largest durum wheat exporter. TRQ system may apply in some export markets." },
+  { hs:"1001.99", desc:"Other wheat and meslin (non-durum, non-seed)",
+    sector:"Agri-food", mfn:"Free", gpt:"Free",
+    fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+    coo:false, notes:"Hard red spring wheat. Canadian Wheat Board regime ended 2012; all varieties now sold at market." },
+  { hs:"0202.30", desc:"Frozen boneless bovine meat",
+    sector:"Agri-food", mfn:"26.5%", gpt:"Free",
+    fta:{CUSMA:"Free",CETA:"Free",CPTPP:"9% → 0% (2026)",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+    coo:true, notes:"Frozen boneless beef. Canada's MFN rate: 26.5%. Significant preferential reductions under all FTAs. CPTPP beef tariff eliminated 2026." },
+
+  /* ── Aerospace & Defence ── */
+  { hs:"8802.40", desc:"Aeroplanes and other powered aircraft (unladen weight >15,000 kg)",
+    sector:"Aerospace", mfn:"Free", gpt:"Free",
+    fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+    coo:true, notes:"Large commercial aircraft (Airbus A320/A330 class and larger). MFN: Free. No country applies significant tariffs on large civil aircraft (WTO Civil Aircraft Agreement)." },
+  { hs:"8802.30", desc:"Aeroplanes and other powered aircraft (unladen weight 2,000–15,000 kg)",
+    sector:"Aerospace", mfn:"Free", gpt:"Free",
+    fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+    coo:true, notes:"Regional turboprop/jet aircraft (Bombardier Q400/CRJ class). Free under WTO Aircraft Agreement and all FTAs." },
+  { hs:"8803.30", desc:"Other parts of aeroplanes or helicopters",
+    sector:"Aerospace", mfn:"Free", gpt:"Free",
+    fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+    coo:true, notes:"Aircraft parts. Free under WTO Civil Aircraft Agreement. Parts must meet airworthiness certification. COO required for FTA rates." },
+
+  /* ── Technology & Digital ── */
+  { hs:"8541.10", desc:"Diodes (excluding photosensitive or light-emitting diodes)",
+    sector:"Technology", mfn:"Free", gpt:"Free",
+    fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+    coo:true, notes:"Semiconductor diodes. Free under WTO Information Technology Agreement (ITA). Some products subject to dual-use export controls — verify BIS and ECCC requirements." },
+  { hs:"8541.40", desc:"Photosensitive semiconductor devices; solar cells",
+    sector:"Technology", mfn:"Free", gpt:"Free",
+    fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+    coo:true, notes:"Solar PV cells and modules. Free under ITA. Note: US Section 201 tariffs on imported solar cells may apply at point of entry into US." },
+  { hs:"8471.30", desc:"Portable automatic data processing machines (laptops, notebooks)",
+    sector:"Technology", mfn:"Free", gpt:"Free",
+    fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+    coo:false, notes:"Laptops, tablets. Duty-free globally under WTO ITA. No tariff in Canada or any major trading partner." },
+  { hs:"8542.31", desc:"Processors and controllers (electronic integrated circuits)",
+    sector:"Technology", mfn:"Free", gpt:"Free",
+    fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+    coo:true, notes:"CPUs, MCUs, DSPs. Free under WTO ITA. Advanced chips subject to US BIS export controls restricting supply to certain entities and countries." },
+  { hs:"8517.62", desc:"Machines for the reception, conversion and transmission or regeneration of voice, images or other data (base stations)",
+    sector:"Technology", mfn:"Free", gpt:"Free",
+    fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+    coo:true, notes:"5G base stations and telecommunications equipment. Free under ITA. Equipment from sanctioned suppliers may be restricted under Canadian national security review provisions." },
+];
+
+let TARIFF_DATA = null;
+
+async function initTariffFinder() {
+  try {
+    const res = await fetch('/api/tariff_data.json');
+    if (res.ok) {
+      TARIFF_DATA = await res.json();
+    }
+  } catch(e) { /* fall through to demo data */ }
+  if (!TARIFF_DATA) TARIFF_DATA = TARIFF_DEMO;
+}
+initTariffFinder();
+
+function findRate() {
+  const raw = (document.getElementById('finder-input').value || '').trim();
+  const out = document.getElementById('finder-results');
+  if (!raw) { out.innerHTML = ''; return; }
+  const q = raw.toLowerCase();
+  const data = TARIFF_DATA || TARIFF_DEMO;
+
+  // Score each entry
+  const scored = data.map(e => {
+    let score = 0;
+    const hsClean = e.hs.replace('.','').toLowerCase();
+    const qClean = q.replace(/[.\s]/g,'');
+    if (e.hs.toLowerCase() === q || e.hs.replace('.','') === qClean) score += 100;
+    else if (e.hs.toLowerCase().startsWith(q) || hsClean.startsWith(qClean)) score += 60;
+    else if (e.hs.includes(raw)) score += 40;
+    if (e.desc.toLowerCase().includes(q)) score += 30;
+    if (e.sector && e.sector.toLowerCase().includes(q)) score += 20;
+    if (e.notes && e.notes.toLowerCase().includes(q)) score += 10;
+    return { entry: e, score };
+  }).filter(x => x.score > 0).sort((a,b) => b.score - a.score);
+
+  if (scored.length === 0) {
+    out.innerHTML = `<p class="finder-no-results">No matching HS codes found for "<strong>${escHtml(raw)}</strong>". Try a broader term like <em>canola</em>, <em>aluminum</em>, or a 4-digit HS heading like <em>7601</em>.</p>`;
+    return;
+  }
+
+  out.innerHTML = scored.slice(0,3).map(x => renderFinderCard(x.entry)).join('');
+}
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function rateClass(r) {
+  if (!r || r === 'Free' || r === 'free') return 'rate-free';
+  if (r.includes('%')) {
+    const n = parseFloat(r);
+    if (n <= 5) return 'rate-some';
+    return 'rate-high';
+  }
+  return '';
+}
+
+function renderFinderCard(e) {
+  const ftaRows = Object.entries(e.fta).map(([name, rate]) =>
+    `<div class="finder-fta-item">
+      <div class="finder-fta-name">${escHtml(name)}</div>
+      <div class="finder-fta-rate ${rateClass(rate)}">${escHtml(rate)}</div>
+    </div>`
+  ).join('');
+
+  return `
+    <div class="finder-card" style="margin-bottom:12px;">
+      <div class="finder-hs">HS ${escHtml(e.hs)}<span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:10px;text-transform:uppercase;letter-spacing:0.1em;">${escHtml(e.sector||'')}</span></div>
+      <div class="finder-desc-text">${escHtml(e.desc)}</div>
+      <div class="finder-rates-top">
+        <div class="finder-rate-chip">
+          <span class="finder-rate-chip-label">MFN Rate</span>
+          <span class="finder-rate-chip-val ${rateClass(e.mfn)}">${escHtml(e.mfn)}</span>
+        </div>
+        <div class="finder-rate-chip">
+          <span class="finder-rate-chip-label">GPT Rate</span>
+          <span class="finder-rate-chip-val ${rateClass(e.gpt)}">${escHtml(e.gpt)}</span>
+        </div>
+        <div style="font-size:12px;color:var(--ink-light);max-width:340px;line-height:1.6;padding:4px 0;">${escHtml(e.notes||'')}</div>
+      </div>
+      <div class="finder-fta-label">FTA Preferential Rates — Certificate of Origin ${e.coo ? 'required' : 'not required'}</div>
+      <div class="finder-fta-grid">${ftaRows}</div>
+      <div class="finder-meta">
+        <span class="finder-meta-item">COO Required: <strong>${e.coo ? 'Yes' : 'No'}</strong></span>
+        <a class="finder-source-link" href="https://www.cbsa-asfc.gc.ca/trade-commerce/tariff-tarif/2026/html/tblmod-eng.html" target="_blank" rel="noopener">Verify in Canada Customs Tariff 2026 →</a>
+      </div>
+    </div>`;
+}
 
 // Accordion scroll-aware sidebar highlighting
 const sections = document.querySelectorAll('.content-section');
