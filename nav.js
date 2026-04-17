@@ -162,8 +162,9 @@
         '<div class="nav-dropdown-menu">' +
           '<span class="nav-dropdown-label">Tools</span>' +
           '<a href="/terminal/">Live Data Terminal</a>' +
-          '<a href="/map/">Business Map <span style="font-size:9px;opacity:0.5;">\u2014 Coming Soon</span></a>' +
           '<a href="/procurement/">Procurement Hub</a>' +
+          '<a href="/tools/sanctions-check/">Sanctions Screener</a>' +
+          '<a href="/map/">Business Map <span style="font-size:9px;opacity:0.5;">\u2014 Coming Soon</span></a>' +
           '<div class="nav-dropdown-divider"></div>' +
           '<span class="nav-dropdown-label">Reference</span>' +
           '<a href="/resources/trade-agreements/">Trade Agreements</a>' +
@@ -187,8 +188,9 @@
     '<a href="/canada-forward/">Canada Forward</a>' +
     '<span class="nav-mobile-section">Tools</span>' +
     '<a href="/terminal/">Live Data Terminal</a>' +
-    '<a href="/map/">Business Map \u2014 Coming Soon</a>' +
     '<a href="/procurement/">Procurement Hub</a>' +
+    '<a href="/tools/sanctions-check/">Sanctions Screener</a>' +
+    '<a href="/map/">Business Map \u2014 Coming Soon</a>' +
     '<span class="nav-mobile-section">Reference</span>' +
     '<a href="/resources/trade-agreements/">Trade Agreements</a>' +
     '<a href="/tariffs/">Tariff Rates</a>' +
@@ -220,7 +222,7 @@
     });
 
     // Highlight Resources dropdown button when on a Resources sub-page
-    var resourcePaths = ['/terminal', '/map', '/procurement', '/resources', '/tariffs', '/guides', '/methodology'];
+    var resourcePaths = ['/terminal', '/map', '/procurement', '/resources', '/tariffs', '/guides', '/methodology', '/tools'];
     var btn = nav.querySelector('.nav-dropdown-btn');
     if (btn && resourcePaths.some(function (p) { return path === p || path.startsWith(p + '/'); })) {
       btn.classList.add('active');

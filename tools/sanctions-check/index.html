@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Sanctions Screener — Search Canadian, OFAC, UN &amp; BIS Lists | CTI</title>
+<meta name="description" content="Free sanctions screening tool for Canadian businesses. Search Canada GACC, US OFAC SDN, UN Consolidated, and BIS Entity List simultaneously. Updated weekly.">
+<link rel="canonical" href="https://canadiantradeintel.ca/tools/sanctions-check/">
+<meta property="og:title" content="Sanctions Screener — Canadian, OFAC, UN & BIS Lists">
+<meta property="og:description" content="Free sanctions screening for Canadian businesses. Search GACC, OFAC SDN, UN Consolidated, and BIS Entity List simultaneously.">
+<meta property="og:type" content="website">
+<meta name="keywords" content="Canadian sanctions list search, OFAC SDN lookup Canada, UN sanctions check, BIS entity list, sanctions screening tool free, Canada GACC search, export controls Canada">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "CTI Sanctions Screener",
+  "description": "Free sanctions screening tool for Canadian businesses. Search Canada GACC, US OFAC SDN, UN Consolidated, and BIS Entity List simultaneously.",
+  "url": "https://canadiantradeintel.ca/tools/sanctions-check/",
+  "applicationCategory": "BusinessApplication",
+  "offers": {"@type": "Offer", "price": "0"},
+  "provider": {
+    "@type": "Organization",
+    "name": "Canadian Trade Intelligence Inc.",
+    "url": "https://canadiantradeintel.ca"
+  }
+}
+</script>
+<script src="/nav.js"></script>
+<style>
+:root {
+  --brand:#cc0000; --brand-dark:#1a0505; --cream:#f8f6f2;
+  --ink:#1a1a14; --ink-mid:#3a3a30; --ink-light:#888880;
+  --rule:#e0dcd4; --slate:#888880;
+  --amber:#b06000; --amber-bg:#fff8e6; --amber-border:#e8c060;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans','Jost',sans-serif;background:var(--cream);color:var(--ink);-webkit-font-smoothing:antialiased;}
+a{text-decoration:none;color:var(--brand);}
+a:hover{text-decoration:underline;}
+
+/* ── Page header ── */
+.page-header{background:var(--brand-dark);padding:52px 40px 44px;border-bottom:3px solid var(--brand);}
+.page-header-inner{max-width:1140px;margin:0 auto;}
+.page-eyebrow{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.26em;text-transform:uppercase;color:var(--brand);margin-bottom:14px;}
+.page-header h1{font-family:'Cormorant Garamond',serif;font-size:clamp(26px,3.8vw,44px);font-weight:600;font-style:italic;color:#f0f0e8;line-height:1.1;margin-bottom:12px;}
+.page-header-desc{font-size:14px;color:rgba(240,240,232,0.5);line-height:1.75;max-width:600px;}
+
+/* ── Stats bar ── */
+.stats-bar{background:#fff;border-bottom:1px solid var(--rule);padding:10px 40px;}
+.stats-bar-inner{max-width:1140px;margin:0 auto;display:flex;gap:32px;align-items:center;flex-wrap:wrap;}
+.stat-item{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-light);}
+.stat-item strong{color:var(--ink);font-weight:500;}
+.stat-sep{color:var(--rule);}
+
+/* ── Tool body ── */
+.tool-body{max-width:1140px;margin:0 auto;padding:36px 40px 80px;}
+
+/* ── Disclaimer ── */
+.disclaimer{background:#fff;border:1px solid var(--rule);border-left:3px solid var(--amber);padding:14px 18px;margin-bottom:28px;display:flex;gap:12px;align-items:flex-start;}
+.disclaimer-icon{font-size:14px;flex-shrink:0;margin-top:1px;}
+.disclaimer p{font-size:12px;color:var(--ink-mid);line-height:1.65;}
+.disclaimer p strong{color:var(--ink);}
+
+/* ── Tab bar ── */
+.tab-bar{display:flex;gap:0;border-bottom:2px solid var(--rule);margin-bottom:28px;}
+.tab-btn{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;background:none;border:none;border-bottom:2px solid transparent;margin-bottom:-2px;padding:10px 20px;cursor:pointer;color:var(--ink-light);transition:color 0.16s,border-color 0.16s;}
+.tab-btn:hover{color:var(--ink);}
+.tab-btn.active{color:var(--brand);border-bottom-color:var(--brand);}
+
+/* ── Filter row ── */
+.filter-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:24px;align-items:center;}
+.filter-select{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.08em;background:#fff;border:1px solid var(--rule);padding:8px 12px;color:var(--ink);cursor:pointer;-webkit-appearance:none;appearance:none;padding-right:28px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23888880'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;}
+.filter-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-light);}
+.filter-count{font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:auto;}
+
+/* ── Search input ── */
+.search-wrap{position:relative;margin-bottom:20px;}
+.search-input{width:100%;padding:14px 18px 14px 44px;font-family:'DM Sans',sans-serif;font-size:15px;border:2px solid var(--rule);background:#fff;color:var(--ink);outline:none;transition:border-color 0.2s;}
+.search-input:focus{border-color:var(--brand);}
+.search-input::placeholder{color:var(--ink-light);}
+.search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--ink-light);font-size:16px;pointer-events:none;}
+.search-clear{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--ink-light);cursor:pointer;font-size:16px;display:none;}
+
+/* ── Search results ── */
+.results-header{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-light);margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid var(--rule);}
+.results-empty{text-align:center;padding:56px 20px;color:var(--ink-light);}
+.results-empty-icon{font-size:32px;margin-bottom:12px;}
+.results-empty p{font-size:13px;line-height:1.7;}
+.results-empty .hint{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.08em;color:var(--rule);margin-top:8px;text-transform:uppercase;}
+.results-list{display:flex;flex-direction:column;gap:8px;}
+
+/* ── Result card ── */
+.result-card{background:#fff;border:1px solid var(--rule);border-left:3px solid transparent;cursor:pointer;transition:box-shadow 0.16s,border-color 0.16s;}
+.result-card:hover{box-shadow:0 3px 12px rgba(0,0,0,0.07);}
+.result-card.expanded{border-left-color:var(--brand);box-shadow:0 4px 16px rgba(0,0,0,0.08);}
+.result-card-head{padding:14px 18px;display:flex;align-items:flex-start;gap:12px;}
+.result-card-name{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;color:var(--ink);line-height:1.2;flex:1;}
+.result-card-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;align-items:center;}
+.result-card-arrow{font-size:12px;color:var(--ink-light);transition:transform 0.2s;flex-shrink:0;margin-top:2px;}
+.result-card.expanded .result-card-arrow{transform:rotate(90deg);}
+.result-card-detail{display:none;padding:0 18px 16px;border-top:1px solid var(--rule);}
+.result-card.expanded .result-card-detail{display:block;}
+.detail-row{display:grid;grid-template-columns:120px 1fr;gap:6px 16px;font-size:12px;margin-top:12px;}
+.detail-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-light);padding-top:2px;}
+.detail-val{color:var(--ink-mid);line-height:1.6;}
+.detail-link{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.08em;color:var(--brand);}
+
+/* ── Badges ── */
+.badge{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.08em;text-transform:uppercase;padding:2px 7px;border:1px solid;display:inline-flex;align-items:center;gap:3px;white-space:nowrap;}
+.badge-gacc{background:#fff0f0;color:#990000;border-color:#f0b0b0;}
+.badge-ofac{background:#f0f4ff;color:#1a3a8b;border-color:#b0c0e8;}
+.badge-un{background:#f0f6ff;color:#0a4a8b;border-color:#a0c0e0;}
+.badge-bis{background:#f0fff8;color:#0a5a3a;border-color:#a0d8b8;}
+.badge-type{background:var(--cream);color:var(--ink-mid);border-color:var(--rule);}
+.badge-country{background:var(--cream);color:var(--ink-light);border-color:var(--rule);}
+.badge-dualuse{background:var(--amber-bg);color:var(--amber);border-color:var(--amber-border);font-weight:500;}
+.badge-material{background:#f0faff;color:#0a5a80;border-color:#a0d0e8;}
+
+/* ── Browse table ── */
+.browse-table-wrap{background:#fff;border:1px solid var(--rule);overflow-x:auto;}
+.browse-table{width:100%;border-collapse:collapse;}
+.browse-table th{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);background:#faf9f6;padding:10px 14px;text-align:left;border-bottom:1px solid var(--rule);white-space:nowrap;cursor:pointer;user-select:none;position:sticky;top:0;}
+.browse-table th:hover{color:var(--ink);}
+.browse-table th.sort-asc::after{content:" ↑";color:var(--brand);}
+.browse-table th.sort-desc::after{content:" ↓";color:var(--brand);}
+.browse-table th.nosort{cursor:default;}
+.browse-table td{padding:10px 14px;font-size:12px;color:var(--ink-mid);border-bottom:1px solid var(--rule);vertical-align:top;}
+.browse-table tr:last-child td{border-bottom:none;}
+.browse-table tr.data-row{cursor:pointer;transition:background 0.12s;}
+.browse-table tr.data-row:hover{background:#faf9f6;}
+.browse-table tr.data-row.expanded{background:#fff8f8;}
+.browse-table tr.detail-row td{padding:0;}
+.browse-table tr.detail-row .detail-inner{padding:16px 18px 18px;background:#fffcfc;border-top:1px solid #f0e8e8;}
+.browse-name{font-weight:500;color:var(--ink);font-size:13px;}
+.browse-dualuse{font-size:10px;color:var(--amber);margin-top:3px;}
+.browse-date{font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);}
+.no-results-row td{text-align:center;padding:48px 20px;color:var(--ink-light);font-size:13px;}
+
+/* ── Pagination ── */
+.pagination{display:flex;align-items:center;justify-content:space-between;margin-top:20px;flex-wrap:wrap;gap:12px;}
+.pagination-info{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-light);}
+.pagination-controls{display:flex;gap:8px;align-items:center;}
+.page-btn{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;background:#fff;border:1px solid var(--rule);padding:7px 14px;cursor:pointer;color:var(--ink-mid);transition:background 0.16s,color 0.16s;}
+.page-btn:hover:not(:disabled){background:var(--brand);color:#fff;border-color:var(--brand);}
+.page-btn:disabled{opacity:0.35;cursor:not-allowed;}
+.page-current{font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);}
+
+/* ── Sort controls ── */
+.sort-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px;align-items:center;}
+
+/* ── CTA strip ── */
+.cta-strip{background:var(--brand-dark);border-top:3px solid var(--brand);padding:40px 40px;}
+.cta-inner{max-width:1140px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap;}
+.cta-strip h3{font-family:'Cormorant Garamond',serif;font-size:22px;font-style:italic;color:#f0f0e8;margin-bottom:6px;}
+.cta-strip p{font-size:13px;color:rgba(240,240,232,0.45);line-height:1.7;max-width:480px;}
+.cta-btn{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;background:var(--brand);color:#fff;padding:12px 22px;white-space:nowrap;display:inline-block;}
+
+/* ── Footer ── */
+footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
+.footer-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:32px;padding-bottom:40px;}
+.footer-brand-name{font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;color:#f0f0e8;margin-bottom:8px;}
+.footer-brand-tagline{font-family:'DM Mono',monospace;font-size:9px;color:rgba(255,255,255,0.4);letter-spacing:0.08em;line-height:1.8;margin-bottom:16px;}
+.footer-plans-btn{display:inline-block;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;background:#cc0000;color:#fff;padding:8px 14px;}
+.footer-col-title{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(204,0,0,0.6);margin-bottom:12px;}
+.footer-links{display:flex;flex-direction:column;gap:8px;}
+.footer-links a{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.5);transition:color 0.16s;}
+.footer-links a:hover{color:rgba(204,0,0,0.8);}
+.footer-bottom{max-width:1200px;margin:0 auto;padding:20px 0 28px;border-top:1px solid rgba(255,255,255,0.05);}
+.footer-copy{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.08em;color:rgba(255,255,255,0.3);}
+
+/* ── Responsive ── */
+@media(max-width:900px){
+  .page-header{padding:36px 20px 30px;}
+  .stats-bar{padding:10px 20px;}
+  .tool-body{padding:24px 16px 60px;}
+  .footer-grid{grid-template-columns:1fr 1fr;gap:28px;}
+  footer{padding:36px 24px 0;}
+}
+@media(max-width:600px){
+  .filter-row{gap:8px;}
+  .browse-table th:nth-child(3),.browse-table td:nth-child(3),
+  .browse-table th:nth-child(5),.browse-table td:nth-child(5){display:none;}
+  .footer-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<nav id="main-nav"></nav>
+
+<!-- ── MASTHEAD ── -->
+<header class="page-header">
+  <div class="page-header-inner">
+    <div class="page-eyebrow">Tools &middot; Compliance Awareness &middot; Updated weekly by CTI pipeline</div>
+    <h1>Sanctions &amp; Export Controls Screener</h1>
+    <p class="page-header-desc">Search Canada GACC, US OFAC SDN, UN Consolidated, and BIS Entity List simultaneously. For compliance awareness — always verify against official sources before making business decisions.</p>
+  </div>
+</header>
+
+<!-- ── STATS BAR ── -->
+<div class="stats-bar">
+  <div class="stats-bar-inner">
+    <div class="stat-item"><strong id="stat-total">60</strong> entities indexed</div>
+    <div class="stat-sep">·</div>
+    <div class="stat-item"><strong>4</strong> lists</div>
+    <div class="stat-sep">·</div>
+    <div class="stat-item">Canada <strong>GACC</strong> · US <strong>OFAC SDN</strong> · <strong>UN</strong> Consolidated · <strong>BIS</strong> Entity List</div>
+    <div class="stat-sep">·</div>
+    <div class="stat-item">Updated <strong>weekly</strong></div>
+  </div>
+</div>
+
+<!-- ── TOOL BODY ── -->
+<div class="tool-body">
+
+  <!-- Disclaimer -->
+  <div class="disclaimer">
+    <div class="disclaimer-icon">⚠</div>
+    <p><strong>For compliance awareness only.</strong> This tool is not a substitute for legal advice or official government screening services. Always verify against the authoritative sources: <a href="https://www.international.gc.ca/world-monde/international_relations-relations_internationales/sanctions/consolidated-consolide.aspx?lang=eng" target="_blank" rel="noopener">Canada GACC</a>, <a href="https://sanctionssearch.ofac.treas.gov/" target="_blank" rel="noopener">OFAC SDN Search</a>, <a href="https://www.un.org/securitycouncil/content/un-sc-consolidated-list" target="_blank" rel="noopener">UN Consolidated List</a>, <a href="https://www.bis.doc.gov/index.php/policy-guidance/lists-of-parties-of-concern/entity-list" target="_blank" rel="noopener">BIS Entity List</a>. Data is representative and updated weekly — not real-time.</p>
+  </div>
+
+  <!-- Tab bar -->
+  <div class="tab-bar">
+    <button class="tab-btn active" id="tab-search" onclick="setMode('search',this)">Search</button>
+    <button class="tab-btn" id="tab-browse" onclick="setMode('browse',this)">Browse Lists</button>
+  </div>
+
+  <!-- ── SEARCH PANEL ── -->
+  <div id="panel-search">
+    <div class="search-wrap">
+      <span class="search-icon">⌕</span>
+      <input type="text" class="search-input" id="search-input"
+        placeholder="Search by name, alias, or country (e.g. Huawei, Russia, OFAC)"
+        oninput="onSearchInput(this.value)"
+        autocomplete="off" spellcheck="false">
+      <button class="search-clear" id="search-clear" onclick="clearSearch()">✕</button>
+    </div>
+
+    <div class="filter-row">
+      <span class="filter-label">Filter:</span>
+      <select class="filter-select" id="sf-list" onchange="setSearchFilter('list',this.value)">
+        <option value="all">All Lists</option>
+        <option value="gacc">Canada GACC</option>
+        <option value="ofac">OFAC SDN</option>
+        <option value="un">UN Consolidated</option>
+        <option value="bis">BIS Entity List</option>
+      </select>
+      <select class="filter-select" id="sf-country" onchange="setSearchFilter('country',this.value)">
+        <option value="all">All Countries</option>
+      </select>
+      <select class="filter-select" id="sf-type" onchange="setSearchFilter('type',this.value)">
+        <option value="all">All Types</option>
+        <option value="Individual">Individual</option>
+        <option value="Entity">Entity</option>
+        <option value="Vessel">Vessel</option>
+        <option value="Material / Substance">Material / Substance</option>
+      </select>
+    </div>
+
+    <div id="search-results-header" class="results-header" style="display:none;"></div>
+    <div id="search-results"></div>
+  </div>
+
+  <!-- ── BROWSE PANEL ── -->
+  <div id="panel-browse" style="display:none;">
+    <div class="filter-row">
+      <span class="filter-label">Filter:</span>
+      <select class="filter-select" id="bf-list" onchange="setBrowseFilter('list',this.value)">
+        <option value="all">All Lists</option>
+        <option value="gacc">Canada GACC</option>
+        <option value="ofac">OFAC SDN</option>
+        <option value="un">UN Consolidated</option>
+        <option value="bis">BIS Entity List</option>
+      </select>
+      <select class="filter-select" id="bf-country" onchange="setBrowseFilter('country',this.value)">
+        <option value="all">All Countries</option>
+      </select>
+      <select class="filter-select" id="bf-type" onchange="setBrowseFilter('type',this.value)">
+        <option value="all">All Types</option>
+        <option value="Individual">Individual</option>
+        <option value="Entity">Entity</option>
+        <option value="Vessel">Vessel</option>
+        <option value="Material / Substance">Material / Substance</option>
+      </select>
+      <span class="filter-count" id="browse-count"></span>
+    </div>
+
+    <div class="browse-table-wrap">
+      <table class="browse-table" id="browse-table">
+        <thead>
+          <tr>
+            <th onclick="toggleSort('name')" id="th-name">Name</th>
+            <th onclick="toggleSort('country')" id="th-country">Country</th>
+            <th class="nosort">Lists</th>
+            <th class="nosort">Type</th>
+            <th onclick="toggleSort('date')" id="th-date">Date Designated</th>
+            <th class="nosort">⚠ Dual-use</th>
+          </tr>
+        </thead>
+        <tbody id="browse-tbody"></tbody>
+      </table>
+    </div>
+
+    <div class="pagination">
+      <span class="pagination-info" id="page-info"></span>
+      <div class="pagination-controls">
+        <button class="page-btn" id="btn-prev" onclick="changePage(-1)">← Previous</button>
+        <span class="page-current" id="page-current"></span>
+        <button class="page-btn" id="btn-next" onclick="changePage(1)">Next →</button>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /tool-body -->
+
+<!-- ── CTA STRIP ── -->
+<div class="cta-strip">
+  <div class="cta-inner">
+    <div>
+      <h3>Trade intelligence that includes compliance signals.</h3>
+      <p>Weekly reports flag sanctioned entities active in procurement, new designation rounds, and export control changes relevant to your sector.</p>
+    </div>
+    <a href="/pricing" class="cta-btn">See Plans →</a>
+  </div>
+</div>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand-name">Canadian Trade Intel</div>
+      <div class="footer-brand-tagline">Weekly trade intelligence for Canadian businesses.<br>Six sectors. Every Tuesday.</div>
+      <a href="/pricing" class="footer-plans-btn">See Plans →</a>
+    </div>
+    <div>
+      <div class="footer-col-title">Intelligence</div>
+      <div class="footer-links">
+        <a href="/reports">Weekly Reports</a>
+        <a href="/spotlight">Spotlight</a>
+        <a href="/dashboard">Dashboard</a>
+        <a href="/terminal/">FDI Monitor</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Tools</div>
+      <div class="footer-links">
+        <a href="/terminal">Live Data Terminal</a>
+        <a href="/procurement">Procurement Hub</a>
+        <a href="/tariffs">Tariff Reference</a>
+        <a href="/tools/sanctions-check/">Sanctions Screener</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Resources</div>
+      <div class="footer-links">
+        <a href="/guides">Practical Guides</a>
+        <a href="/map">Canadian Business Map</a>
+        <a href="/methodology">Methodology</a>
+        <a href="/guides/canexport-sme">CanExport SME</a>
+        <a href="/guides/ised-programmes">ISED Programmes</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Company</div>
+      <div class="footer-links">
+        <a href="/about">About</a>
+        <a href="/pricing">Pricing</a>
+        <a href="mailto:hello@canadiantradeintel.ca">Contact</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2026 Canadian Trade Intelligence Inc. · Federally incorporated · Not legal or investment advice</span>
+  </div>
+</footer>
+
+<script>
+/* ════════════════════════════════════════════════════════════════════
+   SANCTIONS DATABASE
+   Schema: { id, name, aliases[], country, lists[], type, date,
+             reason, url, dual_use, jurisdiction }
+   ════════════════════════════════════════════════════════════════════ */
+const DB = [
+
+  /* ── Canada GACC ─────────────────────────────────────────────── */
+  { id:"GACC-001", name:"Rosneft Oil Company", aliases:["OJSC Rosneft","Rosneft PJSC"],
+    country:"Russia", lists:["gacc"], type:"Entity", date:"2022-02-24",
+    reason:"State-owned energy company subject to SEMA sanctions. Designated for activities that undermine the sovereignty and territorial integrity of Ukraine.",
+    url:"https://www.international.gc.ca/world-monde/international_relations-relations_internationales/sanctions/russia-russie.aspx?lang=eng", dual_use:false },
+
+  { id:"GACC-002", name:"Sberbank of Russia PJSC", aliases:["Sberbank","Savings Bank of Russia"],
+    country:"Russia", lists:["gacc"], type:"Entity", date:"2022-02-25",
+    reason:"Russia's largest state-owned bank. Sanctioned under SEMA for providing financial support to activities destabilizing Ukraine.",
+    url:"https://www.international.gc.ca/world-monde/international_relations-relations_internationales/sanctions/russia-russie.aspx?lang=eng", dual_use:false },
+
+  { id:"GACC-003", name:"Uralvagonzavod Research and Production Corporation",
+    aliases:["UVZ","Uralvagonzavod"],
+    country:"Russia", lists:["gacc"], type:"Entity", date:"2022-03-11",
+    reason:"Russia's primary producer of main battle tanks (T-72, T-90). Sanctioned under SEMA for direct role in Russian military capacity.",
+    url:"https://www.international.gc.ca/world-monde/international_relations-relations_internationales/sanctions/russia-russie.aspx?lang=eng", dual_use:false },
+
+  { id:"GACC-004", name:"Gazprom Neft PJSC", aliases:["Sibneft","Gazpromneft"],
+    country:"Russia", lists:["gacc"], type:"Entity", date:"2022-03-11",
+    reason:"State-controlled oil subsidiary of Gazprom. Sanctioned under SEMA as part of Russia's state energy sector financing the war.",
+    url:"https://www.international.gc.ca/world-monde/international_relations-relations_internationales/sanctions/russia-russie.aspx?lang=eng", dual_use:false },
+
+  { id:"GACC-005", name:"Igor Ivanovich Sechin", aliases:["Igor Sechin"],
+    country:"Russia", lists:["gacc"], type:"Individual", date:"2022-02-24",
+    reason:"CEO of Rosneft and close associate of the Russian President. Designated for benefit derived from and support of Russia's destabilizing policies.",
+    url:"https://www.international.gc.ca/world-monde/international_relations-relations_internationales/sanctions/russia-russie.aspx?lang=eng", dual_use:false },
+
+  { id:"GACC-006", name:"Vladimir Olegovitch Potanin", aliases:["Vladimir Potanin"],
+    country:"Russia", lists:["gacc"], type:"Individual", date:"2022-09-07",
+    reason:"Owner of Norilsk Nickel (Nornickel). Canada's largest mining company sanctions on a Russian oligarch; designated for support of Russia's government and military.",
+    url:"https://www.international.gc.ca/world-monde/international_relations-relations_internationales/sanctions/russia-russie.aspx?lang=eng", dual_use:false },
+
+  { id:"GACC-007", name:"Alisher Burkhanovich Usmanov", aliases:["Alisher Usmanov","USM Holdings"],
+    country:"Russia", lists:["gacc"], type:"Individual", date:"2022-03-11",
+    reason:"Russian oligarch and owner of major industrial assets. Designated for providing support to Russia's government and benefiting from Russia's destabilizing policies.",
+    url:"https://www.international.gc.ca/world-monde/international_relations-relations_internationales/sanctions/russia-russie.aspx?lang=eng", dual_use:false },
+
+  { id:"GACC-008", name:"Roman Arkadyevich Abramovich", aliases:["Roman Abramovich"],
+    country:"Russia", lists:["gacc"], type:"Individual", date:"2022-03-11",
+    reason:"Russian-Israeli billionaire and former Chelsea FC owner. Designated as oligarch with close ties to Russian government. Canadian citizenship previously obtained under investor programme.",
+    url:"https://www.international.gc.ca/world-monde/international_relations-relations_internationales/sanctions/russia-russie.aspx?lang=eng", dual_use:false },
+
+  { id:"GACC-009", name:"Alexander Grigoryevich Lukashenko", aliases:["Alyaksandr Lukashenka"],
+    country:"Belarus", lists:["gacc"], type:"Individual", date:"2020-10-01",
+    reason:"President of Belarus. Designated for serious violations of human rights and democratic principles following the fraudulent 2020 election and subsequent crackdown on protesters.",
+    url:"https://www.international.gc.ca/world-monde/international_relations-relations_internationales/sanctions/belarus-bielorussie.aspx?lang=eng", dual_use:false },
+
+  { id:"GACC-010", name:"Belaruskali Joint Stock Company", aliases:["Belarusian Potash Company","BPC"],
+    country:"Belarus", lists:["gacc"], type:"Entity", date:"2021-08-09",
+    reason:"State-owned potash producer and one of the world's largest potash exporters. Designated as a major source of revenue for the Lukashenko regime.",
+    url:"https://www.international.gc.ca/world-monde/international_relations-relations_internationales/sanctions/belarus-bielorussie.aspx?lang=eng", dual_use:false },
+
+  { id:"GACC-011", name:"Mahan Air", aliases:["Mahan Airlines","Iran Air Tours"],
+    country:"Iran", lists:["gacc"], type:"Entity", date:"2019-10-01",
+    reason:"Iranian private airline designated for providing material support to the IRGC-Quds Force and transporting personnel and military equipment on behalf of sanctioned entities.",
+    url:"https://www.international.gc.ca/world-monde/international_relations-relations_internationales/sanctions/iran.aspx?lang=eng", dual_use:false },
+
+  { id:"GACC-012", name:"Bank Mellat", aliases:["Mellat Bank"],
+    country:"Iran", lists:["gacc"], type:"Entity", date:"2018-11-05",
+    reason:"Iranian state-linked commercial bank. Designated for providing banking services to Iran's nuclear and ballistic missile programmes.",
+    url:"https://www.international.gc.ca/world-monde/international_relations-relations_internationales/sanctions/iran.aspx?lang=eng", dual_use:false },
+
+  { id:"GACC-013", name:"Transneft PJSC", aliases:["Transneft","AK Transneft"],
+    country:"Russia", lists:["gacc"], type:"Entity", date:"2022-03-11",
+    reason:"State-owned oil pipeline monopoly. Designated as part of Russia's state energy sector that finances the war in Ukraine.",
+    url:"https://www.international.gc.ca/world-monde/international_relations-relations_internationales/sanctions/russia-russie.aspx?lang=eng", dual_use:false },
+
+  { id:"GACC-014", name:"Novatek PJSC", aliases:["OAO Novatek","Novatek"],
+    country:"Russia", lists:["gacc"], type:"Entity", date:"2022-09-07",
+    reason:"Russia's second-largest natural gas producer. Designated for being an integral part of Russia's oil and gas sector financing its war against Ukraine.",
+    url:"https://www.international.gc.ca/world-monde/international_relations-relations_internationales/sanctions/russia-russie.aspx?lang=eng", dual_use:false },
+
+  { id:"GACC-015", name:"Viktor Fedorovych Yanukovych", aliases:["Viktor Yanukovych"],
+    country:"Ukraine", lists:["gacc"], type:"Individual", date:"2014-03-04",
+    reason:"Former President of Ukraine. Designated for misappropriation of Ukrainian state funds and violation of human rights, including use of force against civilian protesters.",
+    url:"https://www.international.gc.ca/world-monde/international_relations-relations_internationales/sanctions/ukraine.aspx?lang=eng", dual_use:false },
+
+  /* ── US OFAC SDN ─────────────────────────────────────────────── */
+  { id:"OFAC-001", name:"Arkady Romanovich Rotenberg", aliases:["Arkady Rotenberg"],
+    country:"Russia", lists:["ofac"], type:"Individual", date:"2014-03-20",
+    reason:"Designated for benefiting from Russia's actions in Ukraine and for materially assisting Russian government officials. Member of Putin's inner circle; awarded contracts worth billions for Sochi Olympics.",
+    url:"https://sanctionssearch.ofac.treas.gov/", dual_use:false },
+
+  { id:"OFAC-002", name:"Boris Romanovich Rotenberg", aliases:["Boris Rotenberg"],
+    country:"Russia", lists:["ofac"], type:"Individual", date:"2014-03-20",
+    reason:"Designated for benefiting materially from Russian government actions. Brother of Arkady Rotenberg; co-owns SMP Bank and Stroygazmontazh.",
+    url:"https://sanctionssearch.ofac.treas.gov/", dual_use:false },
+
+  { id:"OFAC-003", name:"Gennady Nikolaevich Timchenko", aliases:["Gennady Timchenko","Gunvor Group"],
+    country:"Russia", lists:["ofac"], type:"Individual", date:"2014-03-20",
+    reason:"Co-founder of Gunvor, one of the world's largest commodities trading firms. Designated for having ties to Putin and benefiting from senior Russian government officials' actions.",
+    url:"https://sanctionssearch.ofac.treas.gov/", dual_use:false },
+
+  { id:"OFAC-004", name:"Viktor Felixovich Vekselberg", aliases:["Viktor Vekselberg","Renova Group"],
+    country:"Russia", lists:["ofac"], type:"Individual", date:"2018-04-06",
+    reason:"CEO of Renova Group. Designated under Countering America's Adversaries Through Sanctions Act (CAATSA) for operating in the energy sector of the Russian economy.",
+    url:"https://sanctionssearch.ofac.treas.gov/", dual_use:false },
+
+  { id:"OFAC-005", name:"Oleg Vladimirovich Deripaska", aliases:["Oleg Deripaska","EN+ Group","Rusal"],
+    country:"Russia", lists:["ofac"], type:"Individual", date:"2018-04-06",
+    reason:"Owner of Rusal (world's second-largest aluminum producer) and EN+ Group. Designated under CAATSA for acting for senior Russian government officials.",
+    url:"https://sanctionssearch.ofac.treas.gov/", dual_use:false },
+
+  { id:"OFAC-006", name:"VEB.RF (Vnesheconombank)", aliases:["Vnesheconombank","Bank for Development and Foreign Economic Affairs"],
+    country:"Russia", lists:["ofac"], type:"Entity", date:"2022-02-24",
+    reason:"Russian state development bank. Designated as part of the Russian government's financial system. VEB.RF is a core financing vehicle for Russian state and military industrial activities.",
+    url:"https://sanctionssearch.ofac.treas.gov/", dual_use:false },
+
+  { id:"OFAC-007", name:"Promsvyazbank PJSC", aliases:["PSB","Promsvyazbank"],
+    country:"Russia", lists:["ofac"], type:"Entity", date:"2022-02-24",
+    reason:"Russian state bank used specifically to finance Russian defense contracts and military procurement. Designated as part of the first tranche of Ukraine invasion sanctions.",
+    url:"https://sanctionssearch.ofac.treas.gov/", dual_use:false },
+
+  { id:"OFAC-008", name:"National Iranian Oil Company", aliases:["NIOC","Sherkate Melli Naft Iran"],
+    country:"Iran", lists:["ofac"], type:"Entity", date:"2012-07-31",
+    reason:"Iran's state oil company and primary vehicle for oil export revenues. Designated for providing support to the Iranian government and acting for the IRGC.",
+    url:"https://sanctionssearch.ofac.treas.gov/", dual_use:false },
+
+  { id:"OFAC-009", name:"Islamic Revolutionary Guard Corps Quds Force",
+    aliases:["IRGC-QF","Quds Force","IRGC Qods Force"],
+    country:"Iran", lists:["ofac"], type:"Entity", date:"2007-10-25",
+    reason:"The IRGC-QF provides support to terrorist organizations including Hezbollah, Hamas, and Palestinian Islamic Jihad. Designated for proliferation activities and support for terrorism.",
+    url:"https://sanctionssearch.ofac.treas.gov/", dual_use:false },
+
+  { id:"OFAC-010", name:"Ryonbong General Corporation",
+    aliases:["Korea Ryonbong General Corp","Sobaeku United Corp"],
+    country:"North Korea", lists:["ofac"], type:"Entity", date:"2005-06-29",
+    reason:"North Korean conglomerate that specializes in acquisition for DPRK defense industries and support to DPRK's military-related sales. Designated for WMD proliferation activities.",
+    url:"https://sanctionssearch.ofac.treas.gov/", dual_use:false },
+
+  { id:"OFAC-011", name:"Petróleos de Venezuela S.A.", aliases:["PDVSA","PdVSA"],
+    country:"Venezuela", lists:["ofac"], type:"Entity", date:"2019-01-28",
+    reason:"Venezuelan state oil company. Designated after determination that PDVSA is an instrumentality of the Venezuelan state used by Maduro to preserve and strengthen his grip on power.",
+    url:"https://sanctionssearch.ofac.treas.gov/", dual_use:false },
+
+  { id:"OFAC-012", name:"Severstal PAO", aliases:["Severstal","Cherepovets Steel Mill"],
+    country:"Russia", lists:["ofac"], type:"Entity", date:"2022-09-15",
+    reason:"Russia's largest domestic steelmaker. Designated for operating in the metals and mining sector of the Russian economy following escalation of sanctions.",
+    url:"https://sanctionssearch.ofac.treas.gov/", dual_use:false },
+
+  { id:"OFAC-013", name:"Evraz PLC", aliases:["Evraz"],
+    country:"Russia", lists:["ofac"], type:"Entity", date:"2022-03-11",
+    reason:"Anglo-Russian steel and mining company. Designated for operating in the metals and mining sector. Produces steel used in Russia's defense sector, including steel for tank armor.",
+    url:"https://sanctionssearch.ofac.treas.gov/", dual_use:false },
+
+  { id:"OFAC-014", name:"Metalloinvest Management Company LLC",
+    aliases:["Metalloinvest","Mikhailovsky GOK","Lebedinsky GOK"],
+    country:"Russia", lists:["ofac"], type:"Entity", date:"2022-09-15",
+    reason:"Russia's largest iron ore producer and one of the world's largest iron ore and HBI producers. Designated as owned or controlled by a sanctioned Russian oligarch.",
+    url:"https://sanctionssearch.ofac.treas.gov/", dual_use:false },
+
+  { id:"OFAC-015", name:"Kolmar Group AG", aliases:["Kolmar","Kolmar Coal"],
+    country:"Russia", lists:["ofac"], type:"Entity", date:"2022-09-15",
+    reason:"Russian coking coal producer. Designated for operating in the energy sector of the Russian economy providing revenues supporting Russia's war against Ukraine.",
+    url:"https://sanctionssearch.ofac.treas.gov/", dual_use:false },
+
+  /* ── UN Consolidated ─────────────────────────────────────────── */
+  { id:"UN-001", name:"Al-Qaida", aliases:["Al-Qaeda","Al Qaida","Base of Jihad"],
+    country:"Afghanistan", lists:["un"], type:"Entity", date:"2001-10-15",
+    reason:"Designated by the UN Security Council for association with Osama bin Laden, financing, planning, facilitating, or perpetrating terrorist acts. Subject to travel ban, asset freeze, and arms embargo.",
+    url:"https://www.un.org/securitycouncil/content/un-sc-consolidated-list", dual_use:false },
+
+  { id:"UN-002", name:"Islamic State in Iraq and the Levant",
+    aliases:["ISIL","ISIS","Da'esh","Islamic State","IS"],
+    country:"Iraq", lists:["un"], type:"Entity", date:"2014-05-30",
+    reason:"Designated under UNSC Resolution 2253 for association with Al-Qaida and for financing, planning, facilitating and perpetrating terrorist acts across multiple countries.",
+    url:"https://www.un.org/securitycouncil/content/un-sc-consolidated-list", dual_use:false },
+
+  { id:"UN-003", name:"Jabhat al-Nusra", aliases:["Al-Nusrah Front","Jabhat Fath al-Sham","HTS"],
+    country:"Syria", lists:["un"], type:"Entity", date:"2013-05-30",
+    reason:"Designated for association with Al-Qaida and ISIL. Al-Nusra Front is Al-Qaida's Syrian affiliate and was formed by Abu Mohammad al-Julani.",
+    url:"https://www.un.org/securitycouncil/content/un-sc-consolidated-list", dual_use:false },
+
+  { id:"UN-004", name:"Haqqani Network",
+    aliases:["Tora Bora Military Front","Tora Bora Front"],
+    country:"Afghanistan", lists:["un"], type:"Entity", date:"2012-09-07",
+    reason:"Designated for association with the Taliban and for financing, planning and facilitating terrorist acts in Afghanistan and Pakistan. Subject to asset freeze, travel ban, and arms embargo.",
+    url:"https://www.un.org/securitycouncil/content/un-sc-consolidated-list", dual_use:false },
+
+  { id:"UN-005", name:"Kim Jong Un", aliases:["Kim Jong-un","Kim Cho'ng-u'n"],
+    country:"North Korea", lists:["un"], type:"Individual", date:"2016-12-02",
+    reason:"Supreme Leader of the DPRK. Designated by UNSC Resolution 2321 for being responsible for the DPRK's nuclear and ballistic missile programmes. Subject to travel ban and asset freeze.",
+    url:"https://www.un.org/securitycouncil/content/un-sc-consolidated-list", dual_use:false },
+
+  { id:"UN-006", name:"Kim Yo Jong", aliases:["Kim Yo-jong"],
+    country:"North Korea", lists:["un"], type:"Individual", date:"2022-02-24",
+    reason:"Deputy Director of the Workers' Party of Korea Propaganda and Agitation Department. Designated for being an associate of the DPRK leader and for roles in DPRK weapons programmes.",
+    url:"https://www.un.org/securitycouncil/content/un-sc-consolidated-list", dual_use:false },
+
+  { id:"UN-007", name:"Vladislav Yurievich Surkov",
+    aliases:["Vladislav Surkov","Vladyslav Surkov"],
+    country:"Russia", lists:["un"], type:"Individual", date:"2022-03-02",
+    reason:"Former Deputy Prime Minister and presidential aide. Designated for contributing to activities that undermine the peace, stability, and security of Ukraine.",
+    url:"https://www.un.org/securitycouncil/content/un-sc-consolidated-list", dual_use:false },
+
+  { id:"UN-008", name:"Valery Vasilyevich Gerasimov",
+    aliases:["Valery Gerasimov","Chief of the General Staff"],
+    country:"Russia", lists:["un"], type:"Individual", date:"2022-02-28",
+    reason:"Chief of the General Staff of Russia's Armed Forces. Designated for planning and directing military operations against Ukraine. Subject to asset freeze and travel ban.",
+    url:"https://www.un.org/securitycouncil/content/un-sc-consolidated-list", dual_use:false },
+
+  { id:"UN-009", name:"Libyan Islamic Fighting Group",
+    aliases:["LIFG","Al-Jama'a al-Islamiyyah al-Muqatilah bi-Libya"],
+    country:"Libya", lists:["un"], type:"Entity", date:"2001-10-15",
+    reason:"Designated for association with Al-Qaida. LIFG aims to establish an Islamic state in Libya and has sent fighters to Afghanistan and later to conflict zones in Syria and Iraq.",
+    url:"https://www.un.org/securitycouncil/content/un-sc-consolidated-list", dual_use:false },
+
+  { id:"UN-010", name:"Ansar Dine", aliases:["Ancar Dine","Defenders of Faith"],
+    country:"Mali", lists:["un"], type:"Entity", date:"2012-03-20",
+    reason:"Designated for association with Al-Qaida in the Islamic Maghreb (AQIM). Controls northern Mali territories and responsible for destruction of cultural heritage sites in Timbuktu.",
+    url:"https://www.un.org/securitycouncil/content/un-sc-consolidated-list", dual_use:false },
+
+  /* ── BIS Entity List ─────────────────────────────────────────── */
+  { id:"BIS-001", name:"Huawei Technologies Co., Ltd",
+    aliases:["Huawei","Huawei Device Co.","HiSilicon Technologies"],
+    country:"China", lists:["bis"], type:"Entity", date:"2019-05-16",
+    reason:"Added to BIS Entity List for activities contrary to US national security and foreign policy interests. Subject to export licence requirements for all items subject to the EAR. Involves telecommunications infrastructure that could enable intelligence collection.",
+    url:"https://www.bis.doc.gov/index.php/policy-guidance/lists-of-parties-of-concern/entity-list", dual_use:true },
+
+  { id:"BIS-002", name:"Semiconductor Manufacturing International Corporation",
+    aliases:["SMIC","Zhongxin Guoji Jidian Zhizao"],
+    country:"China", lists:["bis"], type:"Entity", date:"2020-12-18",
+    reason:"China's largest semiconductor foundry added to Entity List for potential diversion of items to military end uses. Restricted from receiving US semiconductor manufacturing equipment and materials without licence.",
+    url:"https://www.bis.doc.gov/index.php/policy-guidance/lists-of-parties-of-concern/entity-list", dual_use:true },
+
+  { id:"BIS-003", name:"Yangtze Memory Technologies Co., Ltd",
+    aliases:["YMTC","Yangtze Memory"],
+    country:"China", lists:["bis"], type:"Entity", date:"2022-12-15",
+    reason:"Chinese NAND flash memory manufacturer. Added to Entity List for advanced semiconductor chips and manufacturing equipment activities that undermine US national security. Produces 3D NAND used in consumer electronics globally.",
+    url:"https://www.bis.doc.gov/index.php/policy-guidance/lists-of-parties-of-concern/entity-list", dual_use:true },
+
+  { id:"BIS-004", name:"Phytium Information Technology Co., Ltd",
+    aliases:["Phytium","Tianjin Phytium"],
+    country:"China", lists:["bis"], type:"Entity", date:"2021-04-08",
+    reason:"Chinese chip designer added to Entity List for supplying high-performance computing chips used by China's military to develop supercomputers for weapons simulation. Products include ARM-based processors.",
+    url:"https://www.bis.doc.gov/index.php/policy-guidance/lists-of-parties-of-concern/entity-list", dual_use:true },
+
+  { id:"BIS-005", name:"Beijing Megvii Technology Co., Ltd",
+    aliases:["Megvii","Face++"],
+    country:"China", lists:["bis"], type:"Entity", date:"2019-10-07",
+    reason:"Chinese AI and facial recognition company. Added to Entity List for enabling surveillance and repression of ethnic minorities including Uyghurs in Xinjiang. Products are subject to licence requirements for all EAR-controlled items.",
+    url:"https://www.bis.doc.gov/index.php/policy-guidance/lists-of-parties-of-concern/entity-list", dual_use:true },
+
+  { id:"BIS-006", name:"Hikvision Digital Technology Co., Ltd",
+    aliases:["Hangzhou Hikvision","Hikvision"],
+    country:"China", lists:["bis"], type:"Entity", date:"2019-10-07",
+    reason:"World's largest video surveillance equipment manufacturer. Added to Entity List for implementation of China's campaign of repression, mass arbitrary detention, and high-technology surveillance in Xinjiang.",
+    url:"https://www.bis.doc.gov/index.php/policy-guidance/lists-of-parties-of-concern/entity-list", dual_use:true },
+
+  { id:"BIS-007", name:"Aviation Industry Corporation of China",
+    aliases:["AVIC","Zhongguo Hangkong Gongye Jituan Gongsi"],
+    country:"China", lists:["bis"], type:"Entity", date:"2020-12-18",
+    reason:"China's state-owned aerospace and defence conglomerate. Included in BIS Entity List restrictions for military-civil fusion activities. Produces military aircraft, missiles, and avionics. Subject to export licence requirements for military end use.",
+    url:"https://www.bis.doc.gov/index.php/policy-guidance/lists-of-parties-of-concern/entity-list", dual_use:true },
+
+  { id:"BIS-008", name:"China Electronics Technology Group Corporation",
+    aliases:["CETC","China Electronics Technology"],
+    country:"China", lists:["bis"], type:"Entity", date:"2020-12-18",
+    reason:"State-owned electronics R&D conglomerate. Added to Entity List for supplying electronic systems and components to China's military including radar, electronic warfare systems, and military communications.",
+    url:"https://www.bis.doc.gov/index.php/policy-guidance/lists-of-parties-of-concern/entity-list", dual_use:true },
+
+  { id:"BIS-009", name:"Rostec State Corporation",
+    aliases:["Rostekhnologii","Russian Technologies State Corporation"],
+    country:"Russia", lists:["bis"], type:"Entity", date:"2022-03-02",
+    reason:"Russia's state-controlled defense and industrial conglomerate. Added to Entity List for being Russia's primary military-industrial complex vehicle, producing weapons systems used in Ukraine including helicopters, aircraft, and weapons.",
+    url:"https://www.bis.doc.gov/index.php/policy-guidance/lists-of-parties-of-concern/entity-list", dual_use:true },
+
+  { id:"BIS-010", name:"JSC Concern Radio-Electronic Technologies",
+    aliases:["KRET","Concern Radioelectronic Technologies"],
+    country:"Russia", lists:["bis"], type:"Entity", date:"2022-03-02",
+    reason:"Russian radio-electronic technologies holding company, subsidiary of Rostec. Produces avionics, electronic warfare systems, air defence radar, and IFF systems. Subject to export restrictions for all EAR items.",
+    url:"https://www.bis.doc.gov/index.php/policy-guidance/lists-of-parties-of-concern/entity-list", dual_use:true },
+
+  { id:"BIS-011", name:"Iran Electronics Industries",
+    aliases:["IEI","Sanaye Electronic Iran"],
+    country:"Iran", lists:["bis"], type:"Entity", date:"2010-06-11",
+    reason:"Iranian state-owned defense electronics manufacturer. Added to Entity List for contributing to Iran's weapons of mass destruction proliferation and missile delivery systems. Produces military communications and radar equipment.",
+    url:"https://www.bis.doc.gov/index.php/policy-guidance/lists-of-parties-of-concern/entity-list", dual_use:true },
+
+  { id:"BIS-012", name:"Irkut Corporation",
+    aliases:["PJSC Irkut","Irkutsk Aviation Plant"],
+    country:"Russia", lists:["bis"], type:"Entity", date:"2022-03-02",
+    reason:"Russian commercial and military aircraft manufacturer, subsidiary of United Aircraft Corporation. Produces Su-30 and Su-30MK military aircraft, as well as the MC-21 commercial jet. Subject to Entity List export licence requirements.",
+    url:"https://www.bis.doc.gov/index.php/policy-guidance/lists-of-parties-of-concern/entity-list", dual_use:true },
+
+  { id:"BIS-013", name:"Poly Technologies Inc.",
+    aliases:["Poly Technologies","Bao Li Ke Ji"],
+    country:"China", lists:["bis"], type:"Entity", date:"2019-05-16",
+    reason:"Chinese state-owned arms exporter. Added to Entity List for contributing to the proliferation of conventional weapons and related technologies. A subsidiary of China Poly Group Corporation.",
+    url:"https://www.bis.doc.gov/index.php/policy-guidance/lists-of-parties-of-concern/entity-list", dual_use:true },
+
+  { id:"BIS-014", name:"Loongson Technology Corporation",
+    aliases:["Loongson","Dragon Core","ICT Loongson"],
+    country:"China", lists:["bis"], type:"Entity", date:"2021-04-08",
+    reason:"Chinese processor designer developing MIPS-architecture CPUs used in Chinese government and military systems. Added to Entity List for supplying processors used in Chinese military supercomputers and for military-civil fusion activities.",
+    url:"https://www.bis.doc.gov/index.php/policy-guidance/lists-of-parties-of-concern/entity-list", dual_use:true },
+
+  /* ── BIS Entity List — Material / Substance entries ──────────── */
+  { id:"BIS-MAT-001", name:"Gallium Metal — Controlled Supply Designations",
+    aliases:["Gallium","Ga metal","primary gallium"],
+    country:"China", lists:["bis"], type:"Material / Substance", date:"2023-08-01",
+    reason:"China's Ministry of Commerce export controls on gallium (effective August 2023) mirror BIS dual-use export control concerns. Gallium is essential for GaN semiconductors used in 5G base stations, radar, and EV power electronics. Importers must verify end-use certificates.",
+    url:"https://www.bis.doc.gov/index.php/regulations/export-administration-regulations-ear", dual_use:true },
+
+  { id:"BIS-MAT-002", name:"Germanium and Germanium Compounds",
+    aliases:["Germanium","Ge metal","germanium dioxide"],
+    country:"China", lists:["bis"], type:"Material / Substance", date:"2023-08-01",
+    reason:"China introduced export controls on germanium concurrent with gallium controls. Germanium is essential for fibre-optic systems, solar cells, and infrared optics. Subject to BIS dual-use concerns for military optics and electronic warfare. Export licence required.",
+    url:"https://www.bis.doc.gov/index.php/regulations/export-administration-regulations-ear", dual_use:true },
+
+  { id:"BIS-MAT-003", name:"Gallium Arsenide Epitaxial Wafers",
+    aliases:["GaAs wafers","GaAs epitaxial","GaAs substrates"],
+    country:"Multiple", lists:["bis"], type:"Material / Substance", date:"2022-01-01",
+    reason:"Gallium arsenide wafers are a controlled dual-use material under EAR ECCN 3C001. Used in microwave and millimetre-wave integrated circuits for military radar, communications, and electronic warfare. Require BIS licence for export to restricted parties.",
+    url:"https://www.bis.doc.gov/index.php/regulations/export-administration-regulations-ear", dual_use:true },
+
+  { id:"BIS-MAT-004", name:"Silicon Carbide (SiC) Substrates — Controlled Grade",
+    aliases:["SiC wafers","silicon carbide substrates","4H-SiC"],
+    country:"China", lists:["bis"], type:"Material / Substance", date:"2023-01-01",
+    reason:"High-quality SiC wafers are an EAR-controlled material (ECCN 3C005) critical for wide-bandgap power semiconductors used in EV traction inverters, grid systems, and military power electronics. Chinese producers now subject to BIS monitoring.",
+    url:"https://www.bis.doc.gov/index.php/regulations/export-administration-regulations-ear", dual_use:true },
+
+  { id:"BIS-MAT-005", name:"Hafnium Metal and Hafnium Oxide",
+    aliases:["Hafnium","Hf metal","hafnium tetrachloride","HfO2"],
+    country:"Russia", lists:["bis"], type:"Material / Substance", date:"2022-03-15",
+    reason:"Hafnium is an EAR-controlled strategic material (ECCN 1C012) used in nuclear reactor control rods, high-k gate dielectrics for advanced semiconductors, and plasma-facing components. Russian hafnium exports subject to restrictions following Ukraine invasion.",
+    url:"https://www.bis.doc.gov/index.php/regulations/export-administration-regulations-ear", dual_use:true },
+
+  { id:"BIS-MAT-006", name:"Beryllium Powder, Alloys and Compounds",
+    aliases:["Beryllium","Be metal","beryllium copper","beryllium oxide"],
+    country:"Kazakhstan", lists:["bis"], type:"Material / Substance", date:"2022-06-01",
+    reason:"Beryllium is a controlled dual-use material (ECCN 1C234) used in nuclear weapons, aerospace structural components, X-ray windows, and gyroscopes. Beryllium powder is specifically controlled for nuclear applications. Requires BIS export licence for most destinations.",
+    url:"https://www.bis.doc.gov/index.php/regulations/export-administration-regulations-ear", dual_use:true },
+];
+
+/* ════════════════════════════════════════════════════════════════════
+   STATE
+   ════════════════════════════════════════════════════════════════════ */
+const state = {
+  mode: 'search',
+  query: '',
+  searchFilters: { list:'all', country:'all', type:'all' },
+  browseFilters: { list:'all', country:'all', type:'all' },
+  sort: 'name',
+  sortDir: 'asc',
+  page: 1,
+  perPage: 50,
+  expandedId: null,
+  browseExpandedId: null,
+};
+
+/* ── Populate country selects ─────────────────────────────────── */
+(function populateCountries() {
+  const countries = [...new Set(DB.map(e => e.country))].sort();
+  ['sf-country','bf-country'].forEach(id => {
+    const sel = document.getElementById(id);
+    countries.forEach(c => {
+      const opt = document.createElement('option');
+      opt.value = c; opt.textContent = c;
+      sel.appendChild(opt);
+    });
+  });
+  document.getElementById('stat-total').textContent = DB.length;
+})();
+
+/* ════════════════════════════════════════════════════════════════════
+   HELPERS
+   ════════════════════════════════════════════════════════════════════ */
+function esc(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function listBadge(l) {
+  const map = { gacc:'badge-gacc', ofac:'badge-ofac', un:'badge-un', bis:'badge-bis' };
+  const label = { gacc:'Canada GACC', ofac:'OFAC SDN', un:'UN Consolidated', bis:'BIS Entity List' };
+  return `<span class="badge ${map[l]}">${esc(label[l]||l)}</span>`;
+}
+
+function typeBadge(t) {
+  if (t === 'Material / Substance') return `<span class="badge badge-material">⬡ ${esc(t)}</span>`;
+  return `<span class="badge badge-type">${esc(t)}</span>`;
+}
+
+function dualUseBadge() {
+  return `<span class="badge badge-dualuse">⚠ Dual-use export control</span>`;
+}
+
+function formatDate(d) {
+  if (!d) return '—';
+  const [y,m,day] = d.split('-');
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return `${months[+m-1]} ${+day}, ${y}`;
+}
+
+function matchesFilters(entry, filters) {
+  if (filters.list !== 'all' && !entry.lists.includes(filters.list)) return false;
+  if (filters.country !== 'all' && entry.country !== filters.country) return false;
+  if (filters.type !== 'all' && entry.type !== filters.type) return false;
+  return true;
+}
+
+function searchMatch(entry, q) {
+  const needle = q.toLowerCase();
+  if (entry.name.toLowerCase().includes(needle)) return true;
+  if (entry.country.toLowerCase().includes(needle)) return true;
+  if (entry.aliases && entry.aliases.some(a => a.toLowerCase().includes(needle))) return true;
+  if (entry.lists.some(l => l.includes(needle) || listLabel(l).toLowerCase().includes(needle))) return true;
+  return false;
+}
+
+function listLabel(l) {
+  return { gacc:'Canada GACC', ofac:'OFAC SDN', un:'UN Consolidated', bis:'BIS Entity List' }[l] || l;
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   MODE / FILTER HANDLERS
+   ════════════════════════════════════════════════════════════════════ */
+function setMode(mode, btn) {
+  state.mode = mode;
+  document.getElementById('panel-search').style.display = mode === 'search' ? '' : 'none';
+  document.getElementById('panel-browse').style.display = mode === 'browse' ? '' : 'none';
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  if (mode === 'browse') renderBrowse();
+  if (mode === 'search') renderSearch();
+}
+
+function onSearchInput(val) {
+  state.query = val;
+  state.expandedId = null;
+  const clearBtn = document.getElementById('search-clear');
+  if (clearBtn) clearBtn.style.display = val ? 'block' : 'none';
+  renderSearch();
+}
+
+function clearSearch() {
+  state.query = '';
+  state.expandedId = null;
+  const inp = document.getElementById('search-input');
+  if (inp) inp.value = '';
+  const clearBtn = document.getElementById('search-clear');
+  if (clearBtn) clearBtn.style.display = 'none';
+  renderSearch();
+}
+
+function setSearchFilter(key, val) {
+  state.searchFilters[key] = val;
+  state.expandedId = null;
+  renderSearch();
+}
+
+function setBrowseFilter(key, val) {
+  state.browseFilters[key] = val;
+  state.page = 1;
+  state.browseExpandedId = null;
+  renderBrowse();
+}
+
+function toggleSort(field) {
+  if (state.sort === field) {
+    state.sortDir = state.sortDir === 'asc' ? 'desc' : 'asc';
+  } else {
+    state.sort = field;
+    state.sortDir = field === 'date' ? 'desc' : 'asc';
+  }
+  state.page = 1;
+  state.browseExpandedId = null;
+  renderBrowse();
+}
+
+function changePage(delta) {
+  const filtered = getFiltered();
+  const pages = Math.ceil(filtered.length / state.perPage);
+  state.page = Math.max(1, Math.min(pages, state.page + delta));
+  state.browseExpandedId = null;
+  renderBrowse();
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   DATA PIPELINE
+   ════════════════════════════════════════════════════════════════════ */
+function getFiltered() {
+  let data = DB.filter(e => matchesFilters(e, state.browseFilters));
+  data.sort((a, b) => {
+    let va, vb;
+    if (state.sort === 'name')    { va = a.name.toLowerCase(); vb = b.name.toLowerCase(); }
+    else if (state.sort === 'country') { va = a.country.toLowerCase(); vb = b.country.toLowerCase(); }
+    else if (state.sort === 'date') { va = a.date || ''; vb = b.date || ''; }
+    if (va < vb) return state.sortDir === 'asc' ? -1 : 1;
+    if (va > vb) return state.sortDir === 'asc' ? 1 : -1;
+    return 0;
+  });
+  return data;
+}
+
+function getSearchResults() {
+  const hasQuery = state.query.trim().length >= 2;
+  const hasFilter = Object.values(state.searchFilters).some(v => v !== 'all');
+  if (!hasQuery && !hasFilter) return null; // null = show placeholder
+  let data = DB;
+  if (hasQuery) data = data.filter(e => searchMatch(e, state.query.trim()));
+  data = data.filter(e => matchesFilters(e, state.searchFilters));
+  return data;
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   RENDER: SEARCH
+   ════════════════════════════════════════════════════════════════════ */
+function renderSearch() {
+  const results = getSearchResults();
+  const header = document.getElementById('search-results-header');
+  const container = document.getElementById('search-results');
+
+  if (results === null) {
+    // Show placeholder
+    header.style.display = 'none';
+    container.innerHTML = `
+      <div class="results-empty">
+        <div class="results-empty-icon">⌕</div>
+        <p>Enter a name, alias, or country to screen against all lists.<br>
+           Try <strong>Huawei</strong>, <strong>Russia</strong>, <strong>IRGC</strong>, or <strong>Rosneft</strong>.</p>
+        <div class="hint">Minimum 2 characters &nbsp;·&nbsp; Searches name, alias, and country</div>
+      </div>`;
+    return;
+  }
+
+  header.style.display = '';
+  header.textContent = results.length === 0
+    ? 'No matches found'
+    : `${results.length} match${results.length !== 1 ? 'es' : ''} found`;
+
+  if (results.length === 0) {
+    container.innerHTML = `
+      <div class="results-empty">
+        <div class="results-empty-icon">✗</div>
+        <p>No sanctions records match your search. This result is for compliance awareness only — always verify against official sources.</p>
+      </div>`;
+    return;
+  }
+
+  container.innerHTML = '<div class="results-list">' +
+    results.map(e => renderCard(e)).join('') + '</div>';
+}
+
+function renderCard(e) {
+  const isExpanded = state.expandedId === e.id;
+  return `
+    <div class="result-card${isExpanded?' expanded':''}" onclick="toggleCard('${esc(e.id)}')">
+      <div class="result-card-head">
+        <div style="flex:1;">
+          <div class="result-card-name">${esc(e.name)}</div>
+          <div class="result-card-tags">
+            ${e.lists.map(listBadge).join('')}
+            <span class="badge badge-country">⊕ ${esc(e.country)}</span>
+            ${typeBadge(e.type)}
+            ${e.dual_use ? dualUseBadge() : ''}
+          </div>
+        </div>
+        <span class="result-card-arrow">›</span>
+      </div>
+      <div class="result-card-detail">
+        <div class="detail-row">
+          ${e.aliases && e.aliases.length ? `<span class="detail-label">Also known as</span><span class="detail-val">${esc(e.aliases.join('; '))}</span>` : ''}
+          <span class="detail-label">Designation</span><span class="detail-val">${esc(formatDate(e.date))}</span>
+          <span class="detail-label">Reason</span><span class="detail-val">${esc(e.reason)}</span>
+          ${e.dual_use ? `<span class="detail-label">Export control</span><span class="detail-val" style="color:var(--amber);">Dual-use export control designation — verify with <a href="https://www.bis.doc.gov/index.php/policy-guidance/lists-of-parties-of-concern/entity-list" target="_blank" rel="noopener" style="color:var(--amber);">BIS Entity List</a> and confirm end-use before shipping any controlled items.</span>` : ''}
+          <span class="detail-label">Source</span><span class="detail-val"><a class="detail-link" href="${esc(e.url)}" target="_blank" rel="noopener">Official record →</a></span>
+        </div>
+      </div>
+    </div>`;
+}
+
+function toggleCard(id) {
+  state.expandedId = state.expandedId === id ? null : id;
+  renderSearch();
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   RENDER: BROWSE
+   ════════════════════════════════════════════════════════════════════ */
+function renderBrowse() {
+  const filtered = getFiltered();
+  const total = filtered.length;
+  const pages = Math.max(1, Math.ceil(total / state.perPage));
+  state.page = Math.min(state.page, pages);
+
+  const start = (state.page - 1) * state.perPage;
+  const pageData = filtered.slice(start, start + state.perPage);
+
+  // Update sort header indicators
+  ['name','country','date'].forEach(f => {
+    const th = document.getElementById('th-' + f);
+    if (!th) return;
+    th.className = '';
+    if (state.sort === f) th.className = state.sortDir === 'asc' ? 'sort-asc' : 'sort-desc';
+  });
+
+  // Count
+  document.getElementById('browse-count').textContent =
+    `${total} entit${total !== 1 ? 'ies' : 'y'}`;
+
+  // Table body
+  const tbody = document.getElementById('browse-tbody');
+  if (pageData.length === 0) {
+    tbody.innerHTML = `<tr class="no-results-row"><td colspan="6">No entries match the selected filters.</td></tr>`;
+  } else {
+    tbody.innerHTML = pageData.map(e => {
+      const isExpanded = state.browseExpandedId === e.id;
+      return `
+        <tr class="data-row${isExpanded?' expanded':''}" onclick="toggleBrowseRow('${esc(e.id)}')">
+          <td>
+            <div class="browse-name">${esc(e.name)}</div>
+            ${e.dual_use ? `<div class="browse-dualuse">⚠ Dual-use export control</div>` : ''}
+          </td>
+          <td>${esc(e.country)}</td>
+          <td>${e.lists.map(listBadge).join(' ')}</td>
+          <td>${typeBadge(e.type)}</td>
+          <td><span class="browse-date">${esc(formatDate(e.date))}</span></td>
+          <td style="text-align:center;">${e.dual_use ? '<span style="color:var(--amber);font-size:14px;" title="Dual-use export control">⚠</span>' : '<span style="color:var(--rule);">—</span>'}</td>
+        </tr>
+        ${isExpanded ? `
+        <tr class="detail-row">
+          <td colspan="6">
+            <div class="detail-inner">
+              <div style="font-family:\'Cormorant Garamond\',serif;font-size:16px;font-weight:600;color:var(--ink);margin-bottom:10px;">${esc(e.name)}</div>
+              <div class="detail-row">
+                ${e.aliases && e.aliases.length ? `<span class="detail-label">Also known as</span><span class="detail-val">${esc(e.aliases.join('; '))}</span>` : ''}
+                <span class="detail-label">Designation</span><span class="detail-val">${esc(formatDate(e.date))}</span>
+                <span class="detail-label">Reason</span><span class="detail-val">${esc(e.reason)}</span>
+                ${e.dual_use ? `<span class="detail-label">Export control</span><span class="detail-val" style="color:var(--amber);">Dual-use export control — verify end-use with <a href="https://www.bis.doc.gov/index.php/policy-guidance/lists-of-parties-of-concern/entity-list" target="_blank" rel="noopener" style="color:var(--amber);">BIS Entity List</a>.</span>` : ''}
+                <span class="detail-label">Source</span><span class="detail-val"><a class="detail-link" href="${esc(e.url)}" target="_blank" rel="noopener">Official record →</a></span>
+              </div>
+            </div>
+          </td>
+        </tr>` : ''}`;
+    }).join('');
+  }
+
+  // Pagination
+  document.getElementById('page-info').textContent =
+    `Showing ${total === 0 ? 0 : start+1}–${Math.min(start+state.perPage,total)} of ${total}`;
+  document.getElementById('page-current').textContent =
+    `Page ${state.page} of ${pages}`;
+  document.getElementById('btn-prev').disabled = state.page <= 1;
+  document.getElementById('btn-next').disabled = state.page >= pages;
+}
+
+function toggleBrowseRow(id) {
+  state.browseExpandedId = state.browseExpandedId === id ? null : id;
+  renderBrowse();
+}
+
+/* ── Initial render ────────────────────────────────────────────── */
+renderSearch();
+</script>
+</body>
+</html>
