@@ -91,6 +91,13 @@ body{font-family:'Jost',sans-serif;background:var(--warm-bg);color:var(--ink);fo
   .sector-nav-inner{padding:0 20px;}
 }
 </style>
+<meta property="og:title" content="Sector Reports — Canadian Trade Intelligence">
+<meta property="og:description" content="Six sector intelligence reports published every Tuesday. Critical Minerals, Energy, Manufacturing, Aerospace, Agri-food, and Technology.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Canadian Trade Intelligence">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Sector Reports — Canadian Trade Intelligence">
+<meta name="twitter:description" content="Six sector intelligence reports published every Tuesday. Critical Minerals, Energy, Manufacturing, Aerospace, Agri-food, and Technology.">
 </head>
 <body>
 <nav id="main-nav"></nav>
@@ -100,7 +107,7 @@ body{font-family:'Jost',sans-serif;background:var(--warm-bg);color:var(--ink);fo
     <div class="r-eyebrow">Weekly Intelligence · Published every Tuesday</div>
     <h1 class="r-title">Sector Reports</h1>
     <p class="r-sub">Six sector intelligence reports published each Tuesday. Each report covers the specific signals, markets, compliance changes, and procurement opportunities that matter, with market scores for 20+ countries, procurement signals, and step-by-step entry pathways.</p>
-    <div class="r-meta">Issue #003 current · April 14, 2026 · Six sectors · New issues published every Tuesday</div>
+    <div class="r-meta" id="current-issue-meta">Loading...</div>
   </div>
 </div>
 
@@ -366,6 +373,20 @@ fetch('/reports/reports-index.json')
   .then(r => r.json())
   .then(data => {
     allReports = [...data].sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
+
+  // Update current issue meta from loaded reports
+  function updateCurrentIssueMeta() {
+    if (!allReports || allReports.length === 0) return;
+    const latest = allReports.reduce((a, b) => 
+      (a.issue || 0) > (b.issue || 0) ? a : b);
+    const issueNum = String(latest.issue || '').padStart(3, '0');
+    const dateStr = latest.date ? new Date(latest.date).toLocaleDateString(
+      'en-CA', {month:'long', day:'numeric', year:'numeric'}) : '';
+    const el = document.getElementById('current-issue-meta');
+    if (el) el.textContent = 
+      `Issue #${issueNum} current · ${dateStr} · Six sectors · New issues published every Tuesday`;
+  }
+    updateCurrentIssueMeta();
     // Overview is shown by default; pre-render minerals for when user clicks that tab
   })
   .catch(() => {
