@@ -406,8 +406,8 @@ footer{background:#0a0c0f;border-top:1px solid var(--border);padding:28px 32px;}
       <span class="panel-title">Intelligence signals — six sectors</span>
       <span class="panel-badge badge-weekly">▸ Updated Tuesday</span>
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 28px;">
-      <div>
+    <div id="intel-signals-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:0 28px;">
+      <div id="intel-signals-col-a">
         <div class="signal-item">
           <div class="signal-pip" style="background:var(--minerals);"></div>
           <div class="signal-inner">
@@ -433,7 +433,7 @@ footer{background:#0a0c0f;border-top:1px solid var(--border);padding:28px 32px;}
           <span class="sig-badge sig-risk">Risk</span>
         </div>
       </div>
-      <div>
+      <div id="intel-signals-col-b">
         <div class="signal-item">
           <div class="signal-pip" style="background:var(--aerospace);"></div>
           <div class="signal-inner">
@@ -1080,6 +1080,55 @@ async function loadTerminalData(){
     // stock-time label
     const stEl=document.getElementById('stock-time');
     if(stEl&&d.generated)stEl.textContent='▸ Pipeline · '+d.generated;
+
+    // Intelligence signals — populate dynamically if pipeline wrote signals array
+    const signals=d.signals;
+    if(signals&&signals.length){
+      const sectorColor={
+        'critical_minerals':      'var(--minerals)',
+        'energy_cleantech':       'var(--energy)',
+        'agri_food':              'var(--agri)',
+        'aerospace_defence':      'var(--aerospace)',
+        'technology_digital':     'var(--tech)',
+        'advanced_manufacturing': 'var(--mfg)',
+      };
+      const sectorLabel={
+        'critical_minerals':      'Critical Minerals',
+        'energy_cleantech':       'Energy & Cleantech',
+        'agri_food':              'Agri-food',
+        'aerospace_defence':      'Aerospace & Defence',
+        'technology_digital':     'Technology',
+        'advanced_manufacturing': 'Manufacturing',
+      };
+      const badgeClass={
+        'opportunity':'sig-opp','immediate':'sig-opp','risk':'sig-risk','watch':'sig-watch'
+      };
+      const badgeLabel={
+        'opportunity':'Opp','immediate':'Now','risk':'Risk','watch':'Watch'
+      };
+      const buildCard=(s)=>{
+        const color=sectorColor[s.sector]||'var(--minerals)';
+        const label=sectorLabel[s.sector]||s.sector;
+        const meta=s.country?`${label} · ${s.country}`:label;
+        const bc=badgeClass[s.signal_type]||'sig-watch';
+        const bl=badgeLabel[s.signal_type]||'Watch';
+        return`<div class="signal-item">
+          <div class="signal-pip" style="background:${color};"></div>
+          <div class="signal-inner">
+            <div class="signal-meta">${meta}</div>
+            <div class="signal-hl"><a href="${s.report_url||'#'}">${s.headline||''}</a></div>
+          </div>
+          <span class="sig-badge ${bc}">${bl}</span>
+        </div>`;
+      };
+      const colA=document.getElementById('intel-signals-col-a');
+      const colB=document.getElementById('intel-signals-col-b');
+      if(colA&&colB){
+        const half=Math.ceil(signals.length/2);
+        colA.innerHTML=signals.slice(0,half).map(buildCard).join('');
+        colB.innerHTML=signals.slice(half).map(buildCard).join('');
+      }
+    }
 
   }catch(e){}
 }
