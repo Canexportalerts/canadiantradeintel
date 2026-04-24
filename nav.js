@@ -152,23 +152,19 @@
   var navHTML = '<div class="nav-inner">' +
     '<a href="/" class="nav-brand">Canadian Trade Intelligence</a>' +
     '<div class="nav-links">' +
+      '<a href="/reports/">Reports</a>' +
       '<a href="/dashboard/">Dashboard</a>' +
+      '<a href="/procurement/">Procurement</a>' +
       '<a href="/countries/">Countries</a>' +
       '<a href="/spotlight/">Spotlight</a>' +
-      '<a href="/reports/">Reports</a>' +
       '<a href="/canada-forward/">Canada Forward</a>' +
       '<div class="nav-dropdown">' +
         '<button class="nav-dropdown-btn">Resources \u25be</button>' +
         '<div class="nav-dropdown-menu">' +
-          '<span class="nav-dropdown-label">Tools</span>' +
-          '<a href="/terminal/">Live Data Terminal</a>' +
-          '<a href="/procurement/">Procurement Hub</a>' +
-          '<a href="/tools/sanctions-check/">Sanctions Screener</a>' +
-          '<a href="/map/">Business Map <span style="font-size:9px;opacity:0.5;">\u2014 Coming Soon</span></a>' +
-          '<div class="nav-dropdown-divider"></div>' +
           '<span class="nav-dropdown-label">Reference</span>' +
           '<a href="/resources/trade-agreements/">Trade Agreements</a>' +
           '<a href="/tariffs/">Tariff Rates</a>' +
+          '<a href="/tools/sanctions-check/">Sanctions Screener</a>' +
           '<a href="/guides/">Practical Guides</a>' +
           '<a href="/methodology/">Methodology</a>' +
         '</div>' +
@@ -181,19 +177,16 @@
     '</button>' +
   '</div>' +
   '<div class="nav-mobile-menu" id="nav-mobile-menu">' +
+    '<a href="/reports/">Reports</a>' +
     '<a href="/dashboard/">Dashboard</a>' +
+    '<a href="/procurement/">Procurement Hub</a>' +
     '<a href="/countries/">Countries</a>' +
     '<a href="/spotlight/">Canadian Spotlight</a>' +
-    '<a href="/reports/">Reports Archive</a>' +
     '<a href="/canada-forward/">Canada Forward</a>' +
-    '<span class="nav-mobile-section">Tools</span>' +
-    '<a href="/terminal/">Live Data Terminal</a>' +
-    '<a href="/procurement/">Procurement Hub</a>' +
-    '<a href="/tools/sanctions-check/">Sanctions Screener</a>' +
-    '<a href="/map/">Business Map \u2014 Coming Soon</a>' +
-    '<span class="nav-mobile-section">Reference</span>' +
+    '<span class="nav-mobile-section">Resources</span>' +
     '<a href="/resources/trade-agreements/">Trade Agreements</a>' +
     '<a href="/tariffs/">Tariff Rates</a>' +
+    '<a href="/tools/sanctions-check/">Sanctions Screener</a>' +
     '<a href="/guides/">Practical Guides</a>' +
     '<a href="/methodology/">Methodology</a>' +
     '<a href="/about/">About</a>' +
