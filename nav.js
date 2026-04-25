@@ -156,7 +156,30 @@
       '<a href="/procurement/">Procurement</a>' +
       '<a href="/spotlight/">Spotlight</a>' +
       '<a href="/countries/">Countries</a>' +
-      '<a href="/canada-forward/">Canada Forward</a>' +
+      '<div class="nav-dropdown">' +
+        '<button class="nav-dropdown-btn">Canada Forward \u25be</button>' +
+        '<div class="nav-dropdown-menu">' +
+          '<span class="nav-dropdown-label">Overview</span>' +
+          '<a href="/canada-forward/">Canada Forward</a>' +
+          '<div class="nav-dropdown-divider"></div>' +
+          '<span class="nav-dropdown-label">Themes</span>' +
+          '<a href="/canada-forward/build-canada/">Build Canada</a>' +
+          '<a href="/canada-forward/energy-transition/">Energy Transition</a>' +
+          '<a href="/canada-forward/defence-security/">Defence &amp; Security</a>' +
+          '<a href="/canada-forward/digital-economy/">Digital Economy</a>' +
+          '<a href="/canada-forward/care-economy/">Care Economy</a>' +
+          '<a href="/canada-forward/indigenous-economy/">Indigenous Economy</a>' +
+          '<a href="/canada-forward/ocean-economy/">Ocean Economy</a>' +
+          '<a href="/canada-forward/financial-services/">Financial Services</a>' +
+          '<a href="/canada-forward/foreign-investment/">Foreign Investment</a>' +
+          '<a href="/canada-forward/cities/">Cities &amp; Infrastructure</a>' +
+          '<a href="/canada-forward/provinces/">Provinces</a>' +
+          '<div class="nav-dropdown-divider"></div>' +
+          '<span class="nav-dropdown-label">Research</span>' +
+          '<a href="/canada-forward/research/">Research Hub</a>' +
+          '<a href="/canada-forward/cusma-review/">CUSMA 2026 Tracker</a>' +
+        '</div>' +
+      '</div>' +
       '<a href="/reports/">Reports</a>' +
       '<div class="nav-dropdown">' +
         '<button class="nav-dropdown-btn">Resources \u25be</button>' +
@@ -183,7 +206,21 @@
     '<a href="/procurement/">Procurement Hub</a>' +
     '<a href="/spotlight/">Canadian Spotlight</a>' +
     '<a href="/countries/">Countries</a>' +
-    '<a href="/canada-forward/">Canada Forward</a>' +
+    '<span class="nav-mobile-section">Canada Forward</span>' +
+    '<a href="/canada-forward/">Overview</a>' +
+    '<a href="/canada-forward/build-canada/">Build Canada</a>' +
+    '<a href="/canada-forward/energy-transition/">Energy Transition</a>' +
+    '<a href="/canada-forward/defence-security/">Defence &amp; Security</a>' +
+    '<a href="/canada-forward/digital-economy/">Digital Economy</a>' +
+    '<a href="/canada-forward/care-economy/">Care Economy</a>' +
+    '<a href="/canada-forward/indigenous-economy/">Indigenous Economy</a>' +
+    '<a href="/canada-forward/ocean-economy/">Ocean Economy</a>' +
+    '<a href="/canada-forward/financial-services/">Financial Services</a>' +
+    '<a href="/canada-forward/foreign-investment/">Foreign Investment</a>' +
+    '<a href="/canada-forward/cities/">Cities &amp; Infrastructure</a>' +
+    '<a href="/canada-forward/provinces/">Provinces</a>' +
+    '<a href="/canada-forward/research/">Research Hub</a>' +
+    '<a href="/canada-forward/cusma-review/">CUSMA 2026 Tracker</a>' +
     '<a href="/reports/">Reports</a>' +
     '<span class="nav-mobile-section">Resources</span>' +
     '<a href="/resources/trade-agreements/">Trade Agreements</a>' +
@@ -217,12 +254,22 @@
       }
     });
 
-    // Highlight Resources dropdown button when on a Resources sub-page
+    // Highlight dropdown buttons when on a sub-page of that dropdown
+    var dropdownBtns = nav.querySelectorAll('.nav-dropdown-btn');
+    var canadaForwardPaths = ['/canada-forward'];
     var resourcePaths = ['/map', '/resources', '/tariffs', '/guides', '/methodology', '/tools', '/about'];
-    var btn = nav.querySelector('.nav-dropdown-btn');
-    if (btn && resourcePaths.some(function (p) { return path === p || path.startsWith(p + '/'); })) {
-      btn.classList.add('active');
-    }
+    dropdownBtns.forEach(function (btn) {
+      var text = btn.textContent.trim();
+      if (text.indexOf('Canada Forward') !== -1) {
+        if (canadaForwardPaths.some(function (p) { return path === p || path.startsWith(p + '/'); })) {
+          btn.classList.add('active');
+        }
+      } else if (text.indexOf('Resources') !== -1) {
+        if (resourcePaths.some(function (p) { return path === p || path.startsWith(p + '/'); })) {
+          btn.classList.add('active');
+        }
+      }
+    });
 
     // Mobile menu toggle
     var hamburger = document.getElementById('nav-hamburger');
