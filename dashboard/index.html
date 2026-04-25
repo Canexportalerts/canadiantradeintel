@@ -55,8 +55,9 @@ h1 { font-family: var(--display); font-size: clamp(36px,4vw,52px); font-weight: 
 .page-sub { font-size: 13px; color: var(--ink-mid); max-width: 320px; text-align: right; line-height: 1.7; }
 .data-note { font-family: var(--mono); font-size: 11px; color: var(--ink-light); letter-spacing: 0.1em; margin-top: 8px; }
 
-.tab-bar { max-width: 1100px; margin: 0 auto; padding: 0; display: flex; justify-content: center; border-bottom: 1px solid var(--rule-dark); overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; flex-wrap: wrap; }
-.tab-btn { font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; padding: 16px 24px; border: none; background: none; cursor: pointer; color: var(--ink-light); border-bottom: 2px solid transparent; margin-bottom: -1px; white-space: nowrap; transition: color 0.2s, border-color 0.2s; }
+.tab-bar { max-width: 1100px; margin: 0 auto; padding: 0; display: flex; justify-content: center; border-bottom: 1px solid var(--rule-dark); overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; flex-wrap: nowrap; }
+.tab-bar::-webkit-scrollbar { display: none; }
+.tab-btn { font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; padding: 0 24px; min-height: 44px; border: none; background: none; cursor: pointer; color: var(--ink-light); border-bottom: 2px solid transparent; margin-bottom: -1px; white-space: nowrap; transition: color 0.2s, border-color 0.2s; display: inline-flex; align-items: center; }
 .tab-btn:hover { color: var(--ink-mid); }
 .tab-btn.active[data-sector="overview"] { color: var(--ink); border-bottom-color: var(--ink); }
 .tab-btn.active[data-sector="critical_minerals"] { color: var(--green-mid); border-bottom-color: var(--green-mid); }
@@ -304,7 +305,7 @@ footer { background: var(--ink-2); padding: 32px 40px; display: flex; justify-co
 
 @media (max-width: 768px) {
   nav { padding: 0 20px; } .nav-links { display: none; } .nav-hamburger { display: flex; }
-  .page-header, .dashboard { padding: 32px 20px; } .tab-bar { padding: 0; justify-content: flex-start; }
+  .page-header, .dashboard { padding: 32px 20px; } .tab-bar { padding: 0; justify-content: flex-start; flex-wrap: nowrap; max-width: 100%; }
   .page-sub { text-align: left; } .stat-row { grid-template-columns: repeat(2,1fr); }
   .chart-grid-2, .chart-grid-3, .demand-grid { grid-template-columns: 1fr; }
   .commodity-strip { grid-template-columns: repeat(2,1fr); }
@@ -423,9 +424,9 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
       <div style="font-family:var(--mono);font-size:9px;color:var(--ink-light);margin-top:4px;">Weekly pipeline</div>
     </div>
     <div style="background:#fff;padding:16px 20px;">
-      <div style="font-family:var(--mono);font-size:8px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;">Uranium U₃O₈ / lb</div>
-      <div style="font-family:var(--display);font-size:28px;font-weight:600;color:var(--ink);line-height:1;" id="ov-uranium">US$—</div>
-      <div style="font-family:var(--mono);font-size:9px;color:var(--ink-light);margin-top:4px;">Weekly pipeline · UxC</div>
+      <div style="font-family:var(--mono);font-size:8px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;">Top sector signals</div>
+      <div style="font-family:var(--display);font-size:28px;font-weight:600;color:var(--ink);line-height:1;" id="ov-signal-count">—</div>
+      <div style="font-family:var(--mono);font-size:9px;color:var(--ink-light);margin-top:4px;">This week · six sectors</div>
     </div>
   </div>
 
@@ -439,21 +440,21 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
 
   <!-- Quick nav cards 2×2 -->
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:28px;">
-    <a href="/reports/" style="display:block;border:1px solid var(--rule-dark);padding:18px 20px;text-decoration:none;color:var(--ink);transition:border-color 0.15s;" onmouseover="this.style.borderColor='#cc0000'" onmouseout="this.style.borderColor=''">
-      <div style="font-family:var(--mono);font-size:8px;letter-spacing:0.14em;text-transform:uppercase;color:#cc0000;margin-bottom:6px;">Weekly Reports</div>
-      <div style="font-size:13px;color:var(--ink-mid);line-height:1.5;">Six sector intelligence briefs. Every Tuesday.</div>
+    <a href="/procurement/" style="display:block;border:1px solid var(--rule-dark);padding:18px 20px;text-decoration:none;color:var(--ink);transition:border-color 0.15s;" onmouseover="this.style.borderColor='#cc0000'" onmouseout="this.style.borderColor=''">
+      <div style="font-family:var(--mono);font-size:8px;letter-spacing:0.14em;text-transform:uppercase;color:#cc0000;margin-bottom:6px;">Procurement Hub</div>
+      <div style="font-size:13px;color:var(--ink-mid);line-height:1.5;">CanadaBuys · NATO · EU TED · SAM.gov tenders.</div>
     </a>
     <a href="/countries/" style="display:block;border:1px solid var(--rule-dark);padding:18px 20px;text-decoration:none;color:var(--ink);transition:border-color 0.15s;" onmouseover="this.style.borderColor='#cc0000'" onmouseout="this.style.borderColor=''">
       <div style="font-family:var(--mono);font-size:8px;letter-spacing:0.14em;text-transform:uppercase;color:#cc0000;margin-bottom:6px;">Country Intelligence</div>
       <div style="font-size:13px;color:var(--ink-mid);line-height:1.5;">Market profiles, FTA status, compliance risk.</div>
     </a>
-    <a href="/procurement/" style="display:block;border:1px solid var(--rule-dark);padding:18px 20px;text-decoration:none;color:var(--ink);transition:border-color 0.15s;" onmouseover="this.style.borderColor='#cc0000'" onmouseout="this.style.borderColor=''">
-      <div style="font-family:var(--mono);font-size:8px;letter-spacing:0.14em;text-transform:uppercase;color:#cc0000;margin-bottom:6px;">Procurement Hub</div>
-      <div style="font-size:13px;color:var(--ink-mid);line-height:1.5;">CanadaBuys · NATO · EU TED · SAM.gov tenders.</div>
-    </a>
     <a href="/spotlight/" style="display:block;border:1px solid var(--rule-dark);padding:18px 20px;text-decoration:none;color:var(--ink);transition:border-color 0.15s;" onmouseover="this.style.borderColor='#cc0000'" onmouseout="this.style.borderColor=''">
       <div style="font-family:var(--mono);font-size:8px;letter-spacing:0.14em;text-transform:uppercase;color:#cc0000;margin-bottom:6px;">Canadian Spotlight</div>
       <div style="font-size:13px;color:var(--ink-mid);line-height:1.5;">Company strategies and market entry case studies.</div>
+    </a>
+    <a href="/canada-forward/" style="display:block;border:1px solid var(--rule-dark);padding:18px 20px;text-decoration:none;color:var(--ink);transition:border-color 0.15s;" onmouseover="this.style.borderColor='#cc0000'" onmouseout="this.style.borderColor=''">
+      <div style="font-family:var(--mono);font-size:8px;letter-spacing:0.14em;text-transform:uppercase;color:#cc0000;margin-bottom:6px;">Canada Forward</div>
+      <div style="font-size:13px;color:var(--ink-mid);line-height:1.5;">Canada's economic strategy — domestic strength, global ties.</div>
     </a>
   </div>
 
@@ -1786,7 +1787,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
     <div>
       <div class="footer-col-title">Tools</div>
       <div class="footer-links">
-        <a href="/terminal">Live Data Terminal</a>
+        <a href="/dashboard/">Live Data Terminal</a>
         <a href="/procurement">Procurement Hub</a>
         <a href="/tariffs">Tariff Reference</a>
       </div>
@@ -1973,9 +1974,7 @@ async function loadTerminalData() {
       // Gold for Overview tab
       const ovGold = document.getElementById('ov-gold');
       if (ovGold && data.commodities.gold) ovGold.textContent = data.commodities.gold.price;
-      // Uranium for Overview tab
-      const ovUra = document.getElementById('ov-uranium');
-      if (ovUra && data.commodities.uranium) ovUra.textContent = data.commodities.uranium.price;
+      // Signal count for Overview tab (populated after signals load)
     }
 
     // Stocks
@@ -1993,6 +1992,12 @@ async function loadTerminalData() {
           chEl.style.color = v >= 0 ? '#4a9a58' : '#cc4444';
         }
       });
+    }
+
+    // Signal count for Overview stat card
+    if (data.signals && Array.isArray(data.signals)) {
+      const ovCount = document.getElementById('ov-signal-count');
+      if (ovCount) ovCount.textContent = data.signals.length;
     }
 
     // Signals → Live Data tab

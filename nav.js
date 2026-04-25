@@ -152,24 +152,26 @@
   var navHTML = '<div class="nav-inner">' +
     '<a href="/" class="nav-brand">Canadian Trade Intelligence</a>' +
     '<div class="nav-links">' +
-      '<a href="/reports/">Reports</a>' +
       '<a href="/dashboard/">Dashboard</a>' +
       '<a href="/procurement/">Procurement</a>' +
-      '<a href="/countries/">Countries</a>' +
       '<a href="/spotlight/">Spotlight</a>' +
+      '<a href="/countries/">Countries</a>' +
       '<a href="/canada-forward/">Canada Forward</a>' +
+      '<a href="/reports/">Reports</a>' +
       '<div class="nav-dropdown">' +
         '<button class="nav-dropdown-btn">Resources \u25be</button>' +
         '<div class="nav-dropdown-menu">' +
           '<span class="nav-dropdown-label">Reference</span>' +
           '<a href="/resources/trade-agreements/">Trade Agreements</a>' +
-          '<a href="/tariffs/">Tariff Rates</a>' +
+          '<a href="/tariffs/">Tariff Reference</a>' +
           '<a href="/tools/sanctions-check/">Sanctions Screener</a>' +
           '<a href="/guides/">Practical Guides</a>' +
+          '<a href="/map/">Business Map \u2192 <small style="opacity:0.55;font-size:0.85em;">(coming soon)</small></a>' +
           '<a href="/methodology/">Methodology</a>' +
+          '<div class="nav-dropdown-divider"></div>' +
+          '<a href="/about/">About CTI</a>' +
         '</div>' +
       '</div>' +
-      '<a href="/about/">About</a>' +
       '<a href="/pricing/" class="nav-cta">See Plans</a>' +
     '</div>' +
     '<button class="nav-hamburger" id="nav-hamburger" aria-label="Menu">' +
@@ -177,19 +179,20 @@
     '</button>' +
   '</div>' +
   '<div class="nav-mobile-menu" id="nav-mobile-menu">' +
-    '<a href="/reports/">Reports</a>' +
     '<a href="/dashboard/">Dashboard</a>' +
     '<a href="/procurement/">Procurement Hub</a>' +
-    '<a href="/countries/">Countries</a>' +
     '<a href="/spotlight/">Canadian Spotlight</a>' +
+    '<a href="/countries/">Countries</a>' +
     '<a href="/canada-forward/">Canada Forward</a>' +
+    '<a href="/reports/">Reports</a>' +
     '<span class="nav-mobile-section">Resources</span>' +
     '<a href="/resources/trade-agreements/">Trade Agreements</a>' +
-    '<a href="/tariffs/">Tariff Rates</a>' +
+    '<a href="/tariffs/">Tariff Reference</a>' +
     '<a href="/tools/sanctions-check/">Sanctions Screener</a>' +
     '<a href="/guides/">Practical Guides</a>' +
+    '<a href="/map/">Business Map (coming soon)</a>' +
     '<a href="/methodology/">Methodology</a>' +
-    '<a href="/about/">About</a>' +
+    '<a href="/about/">About CTI</a>' +
     '<a href="/pricing/" class="nav-cta-mobile">See Plans</a>' +
   '</div>';
 
@@ -215,7 +218,7 @@
     });
 
     // Highlight Resources dropdown button when on a Resources sub-page
-    var resourcePaths = ['/terminal', '/map', '/procurement', '/resources', '/tariffs', '/guides', '/methodology', '/tools'];
+    var resourcePaths = ['/map', '/resources', '/tariffs', '/guides', '/methodology', '/tools', '/about'];
     var btn = nav.querySelector('.nav-dropdown-btn');
     if (btn && resourcePaths.some(function (p) { return path === p || path.startsWith(p + '/'); })) {
       btn.classList.add('active');
