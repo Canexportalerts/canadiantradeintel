@@ -213,7 +213,7 @@
           '<a href="/about/">About CTI</a>' +
         '</div>' +
       '</div>' +
-      '<a href="/pricing/" class="nav-cta">See Plans</a>' +
+      '<a href="/subscribe/" class="nav-cta">See Plans</a>' +
     '</div>' +
     '<button class="nav-hamburger" id="nav-hamburger" aria-label="Menu">' +
       '<span></span><span></span><span></span>' +
@@ -248,7 +248,7 @@
     '<a href="/map/">Business Map (coming soon)</a>' +
     '<a href="/methodology/">Methodology</a>' +
     '<a href="/about/">About CTI</a>' +
-    '<a href="/pricing/" class="nav-cta-mobile">See Plans</a>' +
+    '<a href="/subscribe/" class="nav-cta-mobile">See Plans</a>' +
   '</div>';
 
   // ── Init ────────────────────────────────────────────────────────────

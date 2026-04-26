@@ -72,8 +72,11 @@
     background: var(--brand-dark);
     border-bottom: 3px solid var(--brand);
     padding: 40px 40px 32px;
+    max-height: 45vh;
+    display: flex;
+    align-items: center;
   }
-  .hero-inner { max-width: 1200px; margin: 0 auto; max-width: 720px; }
+  .hero-inner { max-width: 720px; text-align: left; }
   .hero-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.18em;
                 text-transform: uppercase; color: rgba(204,0,0,0.55); margin-bottom: 14px; }
   .hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(26px, 3.2vw, 42px);
@@ -89,9 +92,11 @@
                letter-spacing: 0.14em; text-transform: uppercase; color: rgba(240,240,232,0.35);
                padding: 11px 20px; border: 1px solid rgba(255,255,255,0.1); transition: all 0.2s; }
   .btn-ghost:hover { color: rgba(240,240,232,0.7); border-color: rgba(255,255,255,0.25); }
+  .hero-product-strip { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: rgba(255,255,255,0.28); margin-top: 18px; line-height: 2; }
 
   /* ── CUSMA ALERT STRIP ── */
-  .cusma-strip { background: #0e0808; border-bottom: 1px solid rgba(204,0,0,0.18); padding: 0 40px; }
+  .cusma-strip { background: #0e0808; border-bottom: 2px solid rgba(204,0,0,0.4); border-top: 1px solid rgba(204,0,0,0.15); padding: 0 40px; width: 100%; }
   .cusma-strip-inner { max-width: 1200px; margin: 0 auto; height: 40px; display: flex; align-items: center; gap: 12px; }
   .cusma-badge { font-family: 'DM Mono', monospace; font-size: 7px; letter-spacing: 0.14em;
                  text-transform: uppercase; background: rgba(204,0,0,0.2); color: rgba(255,100,100,0.9);
@@ -103,8 +108,9 @@
   .cusma-link:hover { color: rgba(204,0,0,1); }
 
   /* ── SIGNAL STRIP ── */
-  .signal-strip { background: #fff; border-bottom: 1px solid var(--rule); padding: 0 40px; }
+  .signal-strip { background: #fff; border-bottom: 1px solid var(--rule); border-left: 3px solid var(--brand); padding: 0 40px; }
   .signal-strip-inner { max-width: 1200px; margin: 0 auto; height: 44px; display: flex; align-items: center; gap: 12px; }
+  .signal-strip-sector { font-family: 'DM Mono', monospace; font-size: 7px; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 500; color: var(--brand); flex-shrink: 0; }
   .signal-strip-label { font-family: 'DM Mono', monospace; font-size: 7px; letter-spacing: 0.16em;
                         text-transform: uppercase; color: var(--ink-light); flex-shrink: 0; }
   .signal-strip-pip { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
@@ -127,7 +133,7 @@
   /* ── HOW IT WORKS ── */
   .how { background: #fff; border-bottom: 1px solid var(--rule); }
   .how-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
-  .how-card { padding: 28px 24px 24px; border: 1px solid var(--rule); border-top: 3px solid var(--brand); }
+  .how-card { padding: 28px 24px 24px; border: 1px solid var(--rule); border-top: 2px solid var(--brand); box-shadow: var(--shadow-sm, 0 1px 3px rgba(28,26,23,0.08)); }
   .how-num  { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.12em;
               color: var(--brand); margin-bottom: 14px; }
   .how-title { font-family: 'Cormorant Garamond', serif; font-size: 19px; font-weight: 600;
@@ -339,6 +345,11 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
       <a href="/reports/" class="btn-primary">See this week's intelligence →</a>
       <a href="/countries/" class="btn-ghost">Browse countries →</a>
     </div>
+    <div class="hero-product-strip">
+      Weekly sector reports &middot; Country intelligence &middot;
+      Procurement signals &middot; Live market data &middot;
+      Canada Forward analysis &middot; Canadian Spotlight
+    </div>
   </div>
 </section>
 
@@ -354,6 +365,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
 <!-- ── SIGNAL STRIP ── -->
 <div class="signal-strip" id="signal-strip" style="display:none;">
   <div class="signal-strip-inner">
+    <span class="signal-strip-sector" id="ss-sector">Signal</span>
     <span class="signal-strip-label">Latest</span>
     <span class="signal-strip-pip" id="ss-pip"></span>
     <span class="signal-strip-text" id="ss-text"></span>
@@ -394,8 +406,8 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
 <section class="section sectors" id="sectors">
   <div class="section-inner">
     <div class="section-kicker">Coverage</div>
-    <h2 class="section-h2">Six sectors. One platform.</h2>
-    <p class="sectors-intro">Sector-specific intelligence — you receive only what's relevant to your industry, analysed through a Canadian trade lens. Subscribe to one sector or all six.</p>
+    <h2 class="section-h2">Intelligence across the Canadian economy</h2>
+    <p class="sectors-intro">Sector-specific intelligence analysed through a Canadian trade lens — specific implications, named programmes, named next steps. Subscribe to one sector or the full platform.</p>
     <div class="sectors-grid">
 
       <!-- Critical Minerals & Mining -->
@@ -515,6 +527,9 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
         </div>
       </div>
 
+    </div>
+    <div style="margin-top:20px;padding:14px 20px;background:#f9f7f4;border:1px solid var(--rule);border-top:2px solid var(--brand);font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-mid);">
+      Plus: Country Intelligence &middot; Procurement Hub &middot; Canada Forward &middot; Canadian Spotlight &middot; Live Market Data
     </div>
   </div>
 </section>
