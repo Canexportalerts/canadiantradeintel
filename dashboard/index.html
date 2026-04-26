@@ -154,6 +154,9 @@ h1 { font-family: var(--display); font-size: clamp(36px,4vw,52px); font-weight: 
 .ld-reg-title a { color: inherit; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.1); }
 .ld-reg-summary { font-size: 11px; color: rgba(255,255,255,0.45); line-height: 1.6; }
 .ld-reg-empty { font-family: 'DM Mono', monospace; font-size: 9px; color: rgba(255,255,255,0.22); padding: 16px 0; text-align: center; }
+.ld-reg-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 4px; margin-bottom: 4px; }
+.ld-reg-src { display: inline-block; font-family: 'DM Mono', monospace; font-size: 7px; letter-spacing: 0.08em; padding: 1px 6px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: rgba(255,255,255,0.45); }
+.ld-reg-tag { font-family: 'DM Mono', monospace; font-size: 7px; letter-spacing: 0.06em; color: rgba(255,255,255,0.3); }
 .ld-agr-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.07); }
 .ld-agr-row:last-child { border-bottom: none; }
 .ld-agr-name { font-family: 'DM Mono', monospace; font-size: 10px; color: rgba(212,223,208,0.9); font-weight: 500; flex: 1; }
@@ -485,11 +488,13 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
     <div class="ld-ticker-item ld-ticker-live"><div class="ld-ticker-label">CAD/JPY</div><div class="ld-ticker-value" id="ld-fx-jpy">—</div><div class="ld-ticker-src">● Live · BoC</div></div>
     <div class="ld-ticker-item ld-ticker-live"><div class="ld-ticker-label">CAD/CNY</div><div class="ld-ticker-value" id="ld-fx-cny">—</div><div class="ld-ticker-src">● Live · BoC</div></div>
     <div class="ld-ticker-item ld-ticker-live"><div class="ld-ticker-label">CAD/AUD</div><div class="ld-ticker-value" id="ld-fx-aud">—</div><div class="ld-ticker-src">● Live · BoC</div></div>
+    <div class="ld-ticker-item ld-ticker-live"><div class="ld-ticker-label">BoC BCPI</div><div class="ld-ticker-value" id="ld-bcpi">—</div><div class="ld-ticker-src">● Live · BoC</div></div>
     <div class="ld-ticker-item"><div class="ld-ticker-label">Gold /oz</div><div class="ld-ticker-value">US$2,184</div><div class="ld-ticker-src">▸ Weekly</div></div>
     <div class="ld-ticker-item"><div class="ld-ticker-label">Copper /t</div><div class="ld-ticker-value">US$9,850</div><div class="ld-ticker-src">▸ Weekly</div></div>
     <div class="ld-ticker-item"><div class="ld-ticker-label">Uranium /lb</div><div class="ld-ticker-value">US$68.50</div><div class="ld-ticker-src">▸ Weekly</div></div>
     <div class="ld-ticker-item"><div class="ld-ticker-label">Canola /t</div><div class="ld-ticker-value">C$642</div><div class="ld-ticker-src">▸ Weekly</div></div>
     <div class="ld-ticker-item"><div class="ld-ticker-label">Steel HRC /t</div><div class="ld-ticker-value">US$780</div><div class="ld-ticker-src">▸ Weekly</div></div>
+    <div class="ld-ticker-item"><div class="ld-ticker-label">Softwood /Mbf</div><div class="ld-ticker-value">US$385</div><div class="ld-ticker-src">▸ Weekly</div></div>
   </div>
 
   <div class="ld-grid">
@@ -549,6 +554,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
       <div class="ld-com-row"><div><div class="ld-com-name">Lithium carbonate</div><div class="ld-com-note">Battery grade · Shanghai · <a href="/tariffs/">tariff impact →</a></div></div><div style="text-align:right;"><div class="ld-com-price" id="ld-cp-lithium">US$9,200/t</div><div class="ld-com-cad" id="ld-li-cad">≈ C$— /t</div></div></div>
       <div class="ld-com-row"><div><div class="ld-com-name">Copper (LME 3m)</div><div class="ld-com-note"><a href="/reports/critical-minerals/issue-002">CM report →</a></div></div><div style="text-align:right;"><div class="ld-com-price" id="ld-cp-copper">US$9,850/t</div><div class="ld-com-cad" id="ld-cu-cad">≈ C$— /t</div></div></div>
       <div class="ld-com-row"><div><div class="ld-com-name">Softwood Lumber</div><div class="ld-com-note">Random Lengths · US tariff 14.54% · <a href="/tariffs/">impact →</a></div></div><div style="text-align:right;"><div class="ld-com-price" id="ld-cp-softwood">US$385/Mbf</div><div class="ld-com-cad" id="ld-softwood-cad">≈ C$— /Mbf</div></div></div>
+      <div class="ld-com-row"><div><div class="ld-com-name">Natural Gas (HH)</div><div class="ld-com-note">Henry Hub spot · US LNG export benchmark</div></div><div style="text-align:right;"><div class="ld-com-price" id="ld-cp-natgas">US$2.18/MMBtu</div><div class="ld-com-cad" id="ld-ng-cad">≈ C$— /MMBtu</div></div></div>
       <div class="ld-com-row"><div><div class="ld-com-name">Steel (HRC)</div><div class="ld-com-note">US Midwest spot · Section 232 active · <a href="/tariffs/">tariff →</a></div></div><div style="text-align:right;"><div class="ld-com-price" id="ld-cp-steel_hrc">US$780/t</div><div class="ld-com-cad" id="ld-steel-cad">≈ C$— /t</div></div></div>
       <div class="ld-com-row"><div><div class="ld-com-name">Canola</div><div class="ld-com-note">ICE Futures · <a href="/reports/agri-food/issue-002">Agri-food report →</a></div></div><div style="text-align:right;"><div class="ld-com-price" id="ld-cp-canola">C$642/t</div><div class="ld-com-cad">CAD native</div></div></div>
       <div class="ld-panel-footer">CAD values use live BoC rate · <a href="/tariffs/">How tariffs affect input costs →</a></div>
@@ -579,6 +585,15 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
       <div class="ld-stock-row"><div><div class="ld-stock-ticker">SHOP.TO</div><div class="ld-stock-name">Shopify Inc.</div><span class="ld-stock-sector" style="background:rgba(10,96,128,0.18);color:#60a8c8;">Technology</span></div><div style="text-align:right;"><div class="ld-stock-price" id="ld-s-shop">C$—</div><div class="ld-stock-chg ld-chg-fl" id="ld-s-shop-chg">—</div></div></div>
       <div class="ld-stock-row"><div><div class="ld-stock-ticker">BLDP.TO</div><div class="ld-stock-name">Ballard Power Systems</div><span class="ld-stock-sector" style="background:rgba(26,92,122,0.18);color:#60a8c8;">Energy</span></div><div style="text-align:right;"><div class="ld-stock-price" id="ld-s-bldp">C$—</div><div class="ld-stock-chg ld-chg-fl" id="ld-s-bldp-chg">—</div></div></div>
       <div class="ld-panel-footer">Corporate intelligence context only — not investment advice · <a href="/methodology/">Disclaimer →</a></div>
+    </div>
+
+    <!-- FDI Monitor -->
+    <div class="ld-panel ld-col-6">
+      <div class="ld-panel-hd"><span class="ld-panel-title">FDI Monitor — inbound investment</span><span class="ld-panel-badge">▸ Annual pipeline</span></div>
+      <div class="ld-fx-row"><div><div class="ld-fx-pair" style="color:#cce8c4;">Inbound FDI (annual)</div><div class="ld-fx-ctx">Total foreign direct investment into Canada</div></div><div><div class="ld-fx-rate" id="fdi-annual" style="color:#e4f4dc;">C$85.5B</div></div></div>
+      <div class="ld-fx-row"><div><div class="ld-fx-pair" style="color:#cce8c4;">Year-over-year change</div><div class="ld-fx-ctx">vs. prior year · driven by GCC &amp; Asia commitments</div></div><div><div class="ld-fx-rate" id="fdi-chg" style="color:#4a9a58;">+36.2%</div></div></div>
+      <div class="ld-fx-row"><div><div class="ld-fx-pair" style="color:#cce8c4;">Latest signal</div><div class="ld-fx-ctx">Largest single-source commitment this cycle</div></div><div><div class="ld-fx-rate" id="fdi-signal" style="color:#d0e8cc;font-size:11px;text-align:right;">UAE $70B commitment</div></div></div>
+      <div class="ld-panel-footer">Source: Statistics Canada · Invest in Canada · Annual FDI release · <a href="/reports/">Sector context →</a></div>
     </div>
 
     <!-- Programme deadlines -->
@@ -1905,7 +1920,7 @@ async function loadBoC() {
   try {
     const res = await fetch(BOC_FX);
     const data = await res.json();
-    const obs = data.observations[0];
+    const obs = data.observations.find(o => o.FXUSDCAD?.v) || data.observations[0];
     const date = obs.d;
     PAIRS.forEach(({ key, id }) => {
       const raw = parseFloat(obs[key]?.v);
@@ -1958,15 +1973,17 @@ async function loadTerminalData() {
         { key: 'lithium',    id: 'ld-cp-lithium' },
         { key: 'copper',     id: 'ld-cp-copper' },
         { key: 'softwood',   id: 'ld-cp-softwood' },
+        { key: 'natural_gas', id: 'ld-cp-natgas' },
         { key: 'steel_hrc',  id: 'ld-cp-steel_hrc' },
         { key: 'canola',     id: 'ld-cp-canola' },
       ];
       const CAD_IDS = {
-        'uranium':   'ld-ura-cad',
-        'lithium':   'ld-li-cad',
-        'copper':    'ld-cu-cad',
-        'softwood':  'ld-softwood-cad',
-        'steel_hrc': 'ld-steel-cad',
+        'uranium':     'ld-ura-cad',
+        'lithium':     'ld-li-cad',
+        'copper':      'ld-cu-cad',
+        'softwood':    'ld-softwood-cad',
+        'natural_gas': 'ld-ng-cad',
+        'steel_hrc':   'ld-steel-cad',
       };
       COMS.forEach(({ key, id }) => {
         const c = data.commodities[key];
@@ -1984,19 +2001,24 @@ async function loadTerminalData() {
       // Signal count for Overview tab (populated after signals load)
     }
 
-    // Stocks
+    // Stocks — map display IDs to actual JSON keys
     if (data.stocks) {
-      const STOCKS = ['cco','ntr','bbd','shop','bldp'];
-      STOCKS.forEach(k => {
-        const s = data.stocks[k];
+      const STOCK_MAP = {
+        cco:  data.stocks['CCO.TO'],
+        ntr:  data.stocks['NTR.TO'],
+        bbd:  data.stocks['BBD-B.TO'],
+        shop: data.stocks['SHOP.TO'],
+        bldp: data.stocks['BLDP.TO'],
+      };
+      Object.entries(STOCK_MAP).forEach(([k, s]) => {
         if (!s) return;
         const prEl = document.getElementById('ld-s-' + k);
         const chEl = document.getElementById('ld-s-' + k + '-chg');
-        if (prEl && s.price !== undefined) prEl.textContent = s.price;
+        if (prEl && s.price !== undefined) prEl.textContent = 'C$' + parseFloat(s.price).toFixed(2);
         if (chEl && s.change_pct !== undefined) {
           const v = parseFloat(s.change_pct);
           chEl.textContent = (v >= 0 ? '+' : '') + v.toFixed(2) + '%';
-          chEl.style.color = v >= 0 ? '#4a9a58' : '#cc4444';
+          chEl.className = 'ld-stock-chg ' + (v > 0 ? 'ld-chg-up' : v < 0 ? 'ld-chg-dn' : 'ld-chg-fl');
         }
       });
     }
@@ -2015,21 +2037,32 @@ async function loadTerminalData() {
         const half = Math.ceil(data.signals.length / 2);
         [colA, colB].forEach((col, i) => {
           const slice = data.signals.slice(i * half, (i + 1) * half);
-          col.innerHTML = slice.map(s => `
-            <div class="ld-signal-item">
-              <span class="ld-sig-badge ld-sig-${(s.type||'info').toLowerCase()}">${s.type||'INFO'}</span>
-              <span class="ld-sig-text">${s.text || s.title || ''}</span>
-            </div>`).join('');
+          col.innerHTML = slice.map(s => {
+            const sType = (s.signal_type || s.type || 'watch').toLowerCase();
+            const sText = s.headline || s.text || s.title || '';
+            const sLabel = sType === 'opportunity' ? 'OPP' : sType === 'risk' ? 'RISK' : 'WATCH';
+            return `<div class="ld-signal-item">
+              <div class="ld-signal-pip" style="background:${sType==='opportunity'?'#1a6b42':sType==='risk'?'#c05050':'#b36b00'};"></div>
+              <div style="flex:1;">
+                <div class="ld-signal-meta">${s.sector||''} ${s.country ? '· '+s.country : ''}</div>
+                <div class="ld-signal-hl">${sText}</div>
+              </div>
+              <span class="ld-sig-badge ld-sig-${sType==='opportunity'?'opp':sType==='risk'?'risk':'watch'}">${sLabel}</span>
+            </div>`;
+          }).join('');
         });
       }
       // Overview signals grid
       const ovGrid = document.getElementById('ov-signals-grid');
       if (ovGrid) {
-        ovGrid.innerHTML = data.signals.slice(0, 4).map(s => `
-          <div class="ov-signal-row">
-            <span class="ov-sig-type">${s.type||'INFO'}</span>
-            <span class="ov-sig-text">${s.text || s.title || ''}</span>
-          </div>`).join('');
+        ovGrid.innerHTML = data.signals.slice(0, 4).map(s => {
+          const sType = (s.signal_type || s.type || 'watch').toLowerCase();
+          const sText = s.headline || s.text || s.title || '';
+          return `<div class="ov-signal-row">
+            <span class="ov-sig-type">${sType.toUpperCase()}</span>
+            <span class="ov-sig-text">${sText}</span>
+          </div>`;
+        }).join('');
       }
     }
   } catch (e) { /* static fallbacks rendered */ }
