@@ -178,8 +178,9 @@ body{font-family:'DM Sans',sans-serif;background:var(--warm-bg);color:var(--ink)
 
 <div class="proc-value-strip">
   <div class="proc-value-item"><div class="proc-value-dot"></div>CanadaBuys — federal</div>
-  <div class="proc-value-item"><div class="proc-value-dot"></div>EU TED — GPA open notices</div>
   <div class="proc-value-item"><div class="proc-value-dot"></div>SAM.gov — US federal</div>
+  <div class="proc-value-item"><div class="proc-value-dot"></div>EU TED — GPA open notices</div>
+  <div class="proc-value-item"><div class="proc-value-dot"></div>MERX — federal &amp; provincial</div>
   <div class="proc-value-item"><div class="proc-value-dot"></div>SaskTenders — Saskatchewan</div>
   <div class="proc-value-item"><div class="proc-value-dot"></div>Updated every Tuesday</div>
 </div>
@@ -195,25 +196,17 @@ body{font-family:'DM Sans',sans-serif;background:var(--warm-bg);color:var(--ink)
     </div>
   </div>
   <div class="proc-filters">
-    <span class="filter-label">Sector</span>
-    <button class="filter-btn active" onclick="setFilter('sector','all',this)">All</button>
-    <button class="filter-btn" onclick="setFilter('sector','critical_minerals',this)">Critical Minerals</button>
-    <button class="filter-btn" onclick="setFilter('sector','energy_cleantech',this)">Energy</button>
-    <button class="filter-btn" onclick="setFilter('sector','advanced_manufacturing',this)">Manufacturing</button>
-    <button class="filter-btn" onclick="setFilter('sector','aerospace_defence',this)">Aerospace</button>
-    <button class="filter-btn" onclick="setFilter('sector','agri_food',this)">Agri-food</button>
-    <button class="filter-btn" onclick="setFilter('sector','technology_digital',this)">Technology</button>
-    <button class="filter-btn" onclick="setFilter('sector','other',this)">Other</button>
-    <span style="width:1px;height:18px;background:var(--warm-border);margin:0 4px"></span>
-    <span class="filter-label">Urgency</span>
-    <button class="filter-btn" onclick="setFilter('urgency','7',this)">≤7 days</button>
-    <button class="filter-btn" onclick="setFilter('urgency','30',this)">≤30 days</button>
-    <span style="width:1px;height:18px;background:var(--warm-border);margin:0 4px"></span>
     <span class="filter-label">Source</span>
-    <button class="filter-btn" onclick="setFilter('source','canadabuys',this)">CanadaBuys</button>
-    <button class="filter-btn" onclick="setFilter('source','eu',this)">EU TED</button>
-    <button class="filter-btn" onclick="setFilter('source','sam',this)">SAM.gov</button>
-    <button class="filter-btn" onclick="setFilter('source','sasktenders',this)">SaskTenders</button>
+    <button class="filter-btn active" onclick="setFilter('source','all',this)">All</button>
+    <button class="filter-btn" onclick="setFilter('source','federal',this)">Federal</button>
+    <button class="filter-btn" onclick="setFilter('source','us',this)">US Federal</button>
+    <button class="filter-btn" onclick="setFilter('source','eu',this)">EU / International</button>
+    <button class="filter-btn" onclick="setFilter('source','provincial',this)">Provincial</button>
+    <span style="width:1px;height:18px;background:var(--warm-border);margin:0 4px"></span>
+    <span class="filter-label">Closing</span>
+    <button class="filter-btn" onclick="setFilter('closing','week',this)">This week</button>
+    <button class="filter-btn" onclick="setFilter('closing','month',this)">This month</button>
+    <button class="filter-btn" onclick="setFilter('closing','none',this)">No deadline</button>
     <span class="proc-result-count" id="result-count">Loading…</span>
   </div>
 </div>
@@ -238,7 +231,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--warm-bg);color:var(--ink)
       <div class="aside-stat"><span class="aside-stat-label">EU / International</span><span class="aside-stat-val" id="aside-intl">—</span></div>
     </div>
 
-    <a class="aside-cta" href="/pricing/">
+    <a class="aside-cta" href="/subscribe/">
       <div class="aside-cta-label">Weekly Intelligence</div>
       <div class="aside-cta-title">Get the full procurement brief</div>
       <div class="aside-cta-text">Every Tuesday — 130+ tenders filtered and ranked by sector, urgency, and Canadian relevance. Plus six sector reports and the multi-sector digest.</div>
@@ -280,7 +273,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--warm-bg);color:var(--ink)
   </div>
   <div class="proc-footer-links">
     <a href="/reports/">Intelligence Briefs</a>
-    <a href="/pricing/">Subscribe</a>
+    <a href="/subscribe/">Subscribe</a>
     <a href="/methodology/">Methodology</a>
   </div>
 </div>
@@ -289,7 +282,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--warm-bg);color:var(--ink)
 // ── DATA LOADING ──────────────────────────────────────────────────────────────
 let allTenders = [];
 let currentView = 'list';
-let activeFilters = { sector: 'all', urgency: 'all', source: 'all' };
+let activeFilters = { source: 'all', closing: 'all' };
 let searchQuery = '';
 let currentPage = 1;
 const PAGE_SIZE = 20;
@@ -389,19 +382,19 @@ function sourceLabel(src) {
   if (s.includes('alberta') || s.includes('apc')) return 'Alberta';
   if (s.includes('bc') || s.includes('bcbid')) return 'BC Bid';
   if (s.includes('seao') || s.includes('quebec')) return 'SEAO';
+  if (s.includes('merx')) return 'MERX';
   return src.substring(0, 14);
 }
 
+// Returns a broad category key for the Source filter
 function sourceKey(src) {
   if (!src) return 'other';
   const s = src.toLowerCase();
-  if (s.includes('sask')) return 'sasktenders';
-  if (s.includes('ontario') || s.includes('ontariotenders')) return 'ontario';
-  if (s.includes('canada') || s.includes('buy')) return 'canadabuys';
+  if (s.includes('canada') || s.includes('buy') || s.includes('merx')) return 'federal';
   if (s.includes('eu') || s.includes('ted') || s.includes('europe')) return 'eu';
-  if (s.includes('sam') || s.includes('us federal')) return 'sam';
-  if (s.includes('alberta') || s.includes('apc')) return 'alberta';
-  if (s.includes('bc') || s.includes('bcbid')) return 'bc';
+  if (s.includes('sam') || s.includes('us federal')) return 'us';
+  if (s.includes('sask') || s.includes('ontario') || s.includes('alberta') ||
+      s.includes('bc') || s.includes('seao') || s.includes('quebec')) return 'provincial';
   return 'other';
 }
 
@@ -409,52 +402,48 @@ function updateStats() {
   const total  = allTenders.length;
   const urgent = allTenders.filter(t => { const d = getDaysLeft(t.deadline); return d !== null && d <= 7; }).length;
   const month  = allTenders.filter(t => { const d = getDaysLeft(t.deadline); return d !== null && d <= 30; }).length;
-  const canada = allTenders.filter(t => sourceKey(t.source) === 'canadabuys').length;
-  const intl   = allTenders.filter(t => ['eu','sam'].includes(sourceKey(t.source))).length;
-  const prov   = allTenders.filter(t => ['sasktenders','ontario','alberta','bc'].includes(sourceKey(t.source))).length;
+  const federal = allTenders.filter(t => sourceKey(t.source) === 'federal').length;
+  const intl    = allTenders.filter(t => ['eu','us'].includes(sourceKey(t.source))).length;
+  const prov    = allTenders.filter(t => sourceKey(t.source) === 'provincial').length;
 
-  // Count distinct active source keys in the data
-  const activeSrcs = new Set(allTenders.map(t => sourceKey(t.source))).size;
+  // Count distinct raw source names present in data
+  const activeSrcNames = new Set(allTenders.map(t => sourceLabel(t.source))).size;
 
   document.getElementById('stat-total').textContent   = total;
   document.getElementById('stat-urgent').textContent  = urgent;
-  document.getElementById('stat-sources').textContent = activeSrcs || 4;
+  document.getElementById('stat-sources').textContent = activeSrcNames || 5;
   document.getElementById('aside-total').textContent  = total;
   document.getElementById('aside-urgent').textContent = urgent;
   document.getElementById('aside-month').textContent  = month;
-  document.getElementById('aside-canada').textContent = canada + (prov ? ` (+${prov} prov.)` : '');
+  document.getElementById('aside-canada').textContent = federal + (prov ? ` (+${prov} prov.)` : '');
   document.getElementById('aside-intl').textContent   = intl;
 
   const upd = document.getElementById('proc-updated');
-  if (upd) upd.textContent = `${total} active tenders · ${activeSrcs || 4} sources · Updated weekly`;
+  if (upd) upd.textContent = `${total} tenders · Sources: CanadaBuys · SAM.gov · EU TED · MERX · SaskTenders`;
 }
 
 function getFiltered() {
   return allTenders.filter(t => {
-    // Search
+    // Keyword search
     if (searchQuery) {
       const q = searchQuery.toLowerCase();
       if (!t.title.toLowerCase().includes(q) &&
-          !t.buyer.toLowerCase().includes(q) &&
-          !t.why.toLowerCase().includes(q)) return false;
+          !t.buyer.toLowerCase().includes(q)) return false;
     }
-    // Sector
-    if (activeFilters.sector !== 'all') {
-      if (activeFilters.sector === 'other') {
-        const known = Object.keys(SECTOR_MAP).filter(k => k !== 'other');
-        if (t.sectors.some(s => known.includes(s))) return false;
-      } else {
-        if (!t.sectors.includes(activeFilters.sector)) return false;
-      }
-    }
-    // Urgency
-    if (activeFilters.urgency !== 'all') {
-      const days = getDaysLeft(t.deadline);
-      if (days === null || days > parseInt(activeFilters.urgency)) return false;
-    }
-    // Source
+    // Source category filter
     if (activeFilters.source !== 'all') {
       if (sourceKey(t.source) !== activeFilters.source) return false;
+    }
+    // Closing filter
+    if (activeFilters.closing !== 'all') {
+      const days = getDaysLeft(t.deadline);
+      if (activeFilters.closing === 'none') {
+        if (t.deadline) return false;
+      } else if (activeFilters.closing === 'week') {
+        if (days === null || days > 7) return false;
+      } else if (activeFilters.closing === 'month') {
+        if (days === null || days > 30) return false;
+      }
     }
     return true;
   });
@@ -491,7 +480,6 @@ function render() {
       <div class="proc-item-inner">
         <div>
           ${titleEl}
-          ${t.why ? `<div style="font-size:13px;font-style:italic;color:var(--slate);margin-top:3px;margin-bottom:5px;line-height:1.55;">${escHtml(firstSentence(t.why))}</div>` : ''}
           <div class="proc-item-meta">
             <span class="proc-item-buyer">${escHtml(t.buyer)}</span>
             ${formatValue(t.value) ? `<span class="proc-item-value">${escHtml(formatValue(t.value))}</span>` : ''}
@@ -518,7 +506,6 @@ function render() {
     return `<div class="proc-card">
       ${titleEl}
       <div class="proc-card-buyer">${escHtml(t.buyer)}</div>
-      ${t.why ? `<div style="font-size:13px;font-style:italic;color:var(--slate);line-height:1.55;">${escHtml(firstSentence(t.why))}</div>` : ''}
       ${formatValue(t.value) ? `<div style="font-family:'DM Mono',monospace;font-size:11px;color:#2e7d32;font-weight:600;">${escHtml(formatValue(t.value))}</div>` : ''}
       <div class="proc-card-footer">
         <div class="proc-card-date ${dClass}">${formatDate(t.deadline)}${days !== null ? ` (${days}d)` : ''}</div>
