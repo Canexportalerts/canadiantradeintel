@@ -17,6 +17,24 @@
 (function () {
   'use strict';
 
+  // ── Shadow & depth variables (injected early, before any page CSS) ──
+  if (!document.getElementById('nav-js-vars')) {
+    var styleVars = document.createElement('style');
+    styleVars.id = 'nav-js-vars';
+    styleVars.textContent = [
+      ':root {',
+      '  --shadow-sm: 0 1px 3px rgba(28,26,23,0.08);',
+      '  --shadow-md: 0 4px 12px rgba(28,26,23,0.10);',
+      '  --shadow-lg: 0 8px 24px rgba(28,26,23,0.12);',
+      '  --shadow-lift: 0 6px 16px rgba(28,26,23,0.14);',
+      '  --radius-sm: 2px;',
+      '  --radius-md: 4px;',
+      '  --transition-quick: all 0.15s ease;',
+      '}',
+    ].join('\n');
+    document.head.insertBefore(styleVars, document.head.firstChild);
+  }
+
   // ── Fonts ───────────────────────────────────────────────────────────
   if (!document.getElementById('nav-js-fonts')) {
     var fontLink = document.createElement('link');
