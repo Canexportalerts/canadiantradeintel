@@ -181,7 +181,7 @@
           '<a href="/canada-forward/">Canada Forward</a>' +
           '<div class="nav-dropdown-divider"></div>' +
           '<span class="nav-dropdown-label">Themes</span>' +
-          '<a href="/canada-forward/build-canada/">Build Canada</a>' +
+          '<a href="/canada-forward/housing-and-infrastructure/">Housing &amp; Infrastructure</a>' +
           '<a href="/canada-forward/energy-transition/">Energy Transition</a>' +
           '<a href="/canada-forward/defence-security/">Defence &amp; Security</a>' +
           '<a href="/canada-forward/digital-economy/">Digital Economy</a>' +
@@ -196,6 +196,7 @@
           '<span class="nav-dropdown-label">Research</span>' +
           '<a href="/canada-forward/research/">Research Hub</a>' +
           '<a href="/canada-forward/cusma-review/">CUSMA 2026 Tracker</a>' +
+          '<a href="/canada-forward/#quarterly">Quarterly Research</a>' +
         '</div>' +
       '</div>' +
       '<a href="/reports/">Reports</a>' +
@@ -226,7 +227,7 @@
     '<a href="/countries/">Countries</a>' +
     '<span class="nav-mobile-section">Canada Forward</span>' +
     '<a href="/canada-forward/">Overview</a>' +
-    '<a href="/canada-forward/build-canada/">Build Canada</a>' +
+    '<a href="/canada-forward/housing-and-infrastructure/">Housing &amp; Infrastructure</a>' +
     '<a href="/canada-forward/energy-transition/">Energy Transition</a>' +
     '<a href="/canada-forward/defence-security/">Defence &amp; Security</a>' +
     '<a href="/canada-forward/digital-economy/">Digital Economy</a>' +
