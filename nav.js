@@ -196,7 +196,6 @@
           '<span class="nav-dropdown-label">Research</span>' +
           '<a href="/canada-forward/research/">Research Hub</a>' +
           '<a href="/canada-forward/cusma-review/">CUSMA 2026 Tracker</a>' +
-          '<a href="/canada-forward/#quarterly">Quarterly Research</a>' +
         '</div>' +
       '</div>' +
       '<a href="/reports/">Reports</a>' +
