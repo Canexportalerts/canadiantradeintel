@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="color-scheme" content="light">
 <title>Procurement Intelligence — Canadian Trade Intelligence Inc.</title>
-<meta name="description" content="Active government and institutional procurement tenders relevant to Canadian businesses — exporters, importers, suppliers, and contractors. Updated every Tuesday.">
+<meta name="description" content="Government and institutional procurement opportunities for Canadian businesses — federal, provincial, EU, and international sources, filtered by sector and updated weekly. Each opportunity includes context on why it matters for Canadian businesses.">
 <link rel="canonical" href="https://canadiantradeintel.ca/procurement/">
 
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -149,12 +149,12 @@ body{font-family:'DM Sans',sans-serif;background:var(--warm-bg);color:var(--ink)
 }
 </style>
 <meta property="og:title" content="Procurement Hub — Canadian Trade Intelligence">
-<meta property="og:description" content="Government procurement opportunities for Canadian businesses. Federal, EU, and US federal tenders filtered by sector.">
+<meta property="og:description" content="Government procurement opportunities for Canadian businesses. Federal, provincial, EU, and international sources filtered by sector and updated weekly.">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Canadian Trade Intelligence">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Procurement Hub — Canadian Trade Intelligence">
-<meta name="twitter:description" content="Government procurement opportunities for Canadian businesses. Federal, EU, and US federal tenders filtered by sector.">
+<meta name="twitter:description" content="Government procurement opportunities for Canadian businesses. Federal, provincial, EU, and international sources filtered by sector and updated weekly.">
 </head>
 <body>
 <nav id="main-nav"></nav>
@@ -167,7 +167,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--warm-bg);color:var(--ink)
   <div class="proc-hero">
     <div class="proc-label">Procurement Intelligence</div>
     <h1 class="proc-title">Active Tender Watch</h1>
-    <p class="proc-subtitle">Government and institutional procurement opportunities for Canadian businesses — federal, EU, and US federal sources, filtered by sector and updated weekly. Each opportunity includes context on why it matters for Canadian businesses. For full tender documents and bid submission, follow the direct link to the source.</p>
+    <p class="proc-subtitle">Government and institutional procurement opportunities for Canadian businesses — federal, provincial, EU, and international sources, filtered by sector and updated weekly. Each opportunity includes context on why it matters for Canadian businesses.</p>
     <div class="proc-stats">
       <div class="proc-stat"><div class="proc-stat-val" id="stat-total">—</div><div class="proc-stat-label">Active tenders</div></div>
       <div class="proc-stat"><div class="proc-stat-val" id="stat-urgent">—</div><div class="proc-stat-label">Close within 7 days</div></div>
@@ -207,6 +207,24 @@ body{font-family:'DM Sans',sans-serif;background:var(--warm-bg);color:var(--ink)
     <button class="filter-btn" onclick="setFilter('closing','week',this)">This week</button>
     <button class="filter-btn" onclick="setFilter('closing','month',this)">This month</button>
     <button class="filter-btn" onclick="setFilter('closing','none',this)">No deadline</button>
+    <div style="width:100%;height:1px;background:var(--rule);margin:4px 0;"></div>
+    <span class="filter-label">Sector</span>
+    <button class="filter-btn active" id="sector-all"
+            onclick="setFilter('sector','all',this)">All Sectors</button>
+    <button class="filter-btn"
+            onclick="setFilter('sector','critical_minerals',this)">⚗ Minerals</button>
+    <button class="filter-btn"
+            onclick="setFilter('sector','energy_cleantech',this)">⚡ Energy</button>
+    <button class="filter-btn"
+            onclick="setFilter('sector','advanced_manufacturing',this)">🏭 Manufacturing</button>
+    <button class="filter-btn"
+            onclick="setFilter('sector','aerospace_defence',this)">✈ Aerospace</button>
+    <button class="filter-btn"
+            onclick="setFilter('sector','agri_food',this)">🌾 Agri-food</button>
+    <button class="filter-btn"
+            onclick="setFilter('sector','technology_digital',this)">💻 Technology</button>
+    <button class="filter-btn"
+            onclick="setFilter('sector','general',this)">📋 General</button>
     <span class="proc-result-count" id="result-count">Loading…</span>
   </div>
 </div>
@@ -228,13 +246,14 @@ body{font-family:'DM Sans',sans-serif;background:var(--warm-bg);color:var(--ink)
       <div class="aside-stat"><span class="aside-stat-label">Close this week</span><span class="aside-stat-val" id="aside-urgent" style="color:#c62828">—</span></div>
       <div class="aside-stat"><span class="aside-stat-label">Close this month</span><span class="aside-stat-val" id="aside-month" style="color:#b36b00">—</span></div>
       <div class="aside-stat"><span class="aside-stat-label">Federal (Canada)</span><span class="aside-stat-val" id="aside-canada">—</span></div>
+      <div class="aside-stat"><span class="aside-stat-label">Provincial</span><span class="aside-stat-val" id="aside-prov">—</span></div>
       <div class="aside-stat"><span class="aside-stat-label">EU / International</span><span class="aside-stat-val" id="aside-intl">—</span></div>
     </div>
 
     <a class="aside-cta" href="/subscribe/">
       <div class="aside-cta-label">Weekly Intelligence</div>
-      <div class="aside-cta-title">Get the full procurement brief</div>
-      <div class="aside-cta-text">Every Tuesday — 130+ tenders filtered and ranked by sector, urgency, and Canadian relevance. Plus six sector reports and the multi-sector digest.</div>
+      <div class="aside-cta-title">Subscribe for weekly procurement alerts →</div>
+      <div class="aside-cta-text">Every Tuesday — <span id="tender-count">active tenders</span> filtered and ranked by sector, urgency, and Canadian relevance. Plus six sector reports and the multi-sector digest.</div>
       <div class="aside-cta-btn">See plans →</div>
     </a>
 
@@ -282,7 +301,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--warm-bg);color:var(--ink)
 // ── DATA LOADING ──────────────────────────────────────────────────────────────
 let allTenders = [];
 let currentView = 'list';
-let activeFilters = { source: 'all', closing: 'all' };
+let activeFilters = { source: 'all', closing: 'all', sector: 'all' };
 let searchQuery = '';
 let currentPage = 1;
 const PAGE_SIZE = 20;
@@ -405,6 +424,7 @@ function updateStats() {
   const federal = allTenders.filter(t => sourceKey(t.source) === 'federal').length;
   const intl    = allTenders.filter(t => ['eu','us'].includes(sourceKey(t.source))).length;
   const prov    = allTenders.filter(t => sourceKey(t.source) === 'provincial').length;
+  const provincialCount = allTenders.filter(t => t.jurisdiction === 'provincial').length;
 
   // Count distinct raw source names present in data
   const activeSrcNames = new Set(allTenders.map(t => sourceLabel(t.source))).size;
@@ -415,8 +435,13 @@ function updateStats() {
   document.getElementById('aside-total').textContent  = total;
   document.getElementById('aside-urgent').textContent = urgent;
   document.getElementById('aside-month').textContent  = month;
-  document.getElementById('aside-canada').textContent = federal + (prov ? ` (+${prov} prov.)` : '');
+  document.getElementById('aside-canada').textContent = federal;
+  const asideProv = document.getElementById('aside-prov');
+  if (asideProv) asideProv.textContent = provincialCount || prov;
   document.getElementById('aside-intl').textContent   = intl;
+
+  const tenderCountEl = document.getElementById('tender-count');
+  if (tenderCountEl) tenderCountEl.textContent = allTenders.length + '+ active tenders';
 
   const upd = document.getElementById('proc-updated');
   if (upd) upd.textContent = `${total} tenders · Sources: CanadaBuys · SAM.gov · EU TED · MERX · SaskTenders`;
@@ -430,22 +455,7 @@ function getFiltered() {
       if (!t.title.toLowerCase().includes(q) &&
           !t.buyer.toLowerCase().includes(q)) return false;
     }
-    // Source category filter
-    if (activeFilters.source !== 'all') {
-      if (sourceKey(t.source) !== activeFilters.source) return false;
-    }
-    // Closing filter
-    if (activeFilters.closing !== 'all') {
-      const days = getDaysLeft(t.deadline);
-      if (activeFilters.closing === 'none') {
-        if (t.deadline) return false;
-      } else if (activeFilters.closing === 'week') {
-        if (days === null || days > 7) return false;
-      } else if (activeFilters.closing === 'month') {
-        if (days === null || days > 30) return false;
-      }
-    }
-    return true;
+    return tenderMatchesFilters(t);
   });
 }
 
@@ -467,12 +477,32 @@ function render() {
   document.getElementById('proc-empty').style.display = count === 0 ? 'block' : 'none';
   renderPagination(count, totalPages);
 
+  const sectorColors = {
+    critical_minerals: '#1a6b42', energy_cleantech: '#0d7a45',
+    advanced_manufacturing: '#2a5090', aerospace_defence: '#6a20b0',
+    agri_food: '#c8860a', technology_digital: '#0a6080',
+    general: '#888',
+  };
+  const sectorLabels = {
+    critical_minerals: 'Minerals', energy_cleantech: 'Energy',
+    advanced_manufacturing: 'Manufacturing',
+    aerospace_defence: 'Aerospace', agri_food: 'Agri-food',
+    technology_digital: 'Technology', general: 'General',
+  };
+
+  function makeSectorBadges(t) {
+    return (t.sectors || [t.sector]).filter(Boolean)
+      .map(s => `<span style="display:inline-block;font-size:9px;padding:2px 6px;border-radius:2px;margin-right:4px;background:${sectorColors[s]||'#888'}18;color:${sectorColors[s]||'#888'};font-family:'DM Mono',monospace;letter-spacing:0.08em;">${sectorLabels[s]||s}</span>`)
+      .join('');
+  }
+
   // List view
   const listEl = document.getElementById('proc-list-view');
   listEl.innerHTML = paged.map(t => {
     const days = getDaysLeft(t.deadline);
     const dClass = urgencyClass(days);
     const daysStr = days !== null ? `(${days}d)` : '';
+    const sectorBadges = makeSectorBadges(t);
     const titleEl = t.url
       ? `<a href="${t.url}" target="_blank" rel="noopener" class="proc-item-title">${escHtml(t.title)}</a>`
       : `<span class="proc-item-title" style="color:var(--ink);cursor:default">${escHtml(t.title)}</span>`;
@@ -486,6 +516,7 @@ function render() {
             <span class="proc-item-source">${sourceLabel(t.source)}</span>
             ${sectorTags(t.sectors)}
           </div>
+          ${sectorBadges ? `<div style="margin-top:4px;">${sectorBadges}</div>` : ''}
         </div>
         <div class="proc-item-date-col">
           <div class="proc-item-date ${dClass}">${formatDate(t.deadline)}</div>
@@ -500,6 +531,7 @@ function render() {
   cardEl.innerHTML = paged.map(t => {
     const days = getDaysLeft(t.deadline);
     const dClass = urgencyClass(days);
+    const sectorBadges = makeSectorBadges(t);
     const titleEl = t.url
       ? `<a href="${t.url}" target="_blank" rel="noopener" class="proc-card-title">${escHtml(t.title)}</a>`
       : `<span class="proc-card-title" style="color:var(--ink);cursor:default">${escHtml(t.title)}</span>`;
@@ -507,6 +539,7 @@ function render() {
       ${titleEl}
       <div class="proc-card-buyer">${escHtml(t.buyer)}</div>
       ${formatValue(t.value) ? `<div style="font-family:'DM Mono',monospace;font-size:11px;color:#2e7d32;font-weight:600;">${escHtml(formatValue(t.value))}</div>` : ''}
+      ${sectorBadges ? `<div>${sectorBadges}</div>` : ''}
       <div class="proc-card-footer">
         <div class="proc-card-date ${dClass}">${formatDate(t.deadline)}${days !== null ? ` (${days}d)` : ''}</div>
         <div class="proc-card-meta">
@@ -517,6 +550,8 @@ function render() {
     </div>`;
   }).join('');
 }
+
+function renderTenders() { render(); }
 
 function renderEmpty(msg) {
   const el = document.getElementById('proc-empty');
@@ -593,17 +628,56 @@ function goPage(p) {
   document.getElementById('proc-list-view').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-function setFilter(type, val, btn) {
-  activeFilters[type] = val;
-  currentPage = 1;
-  // Update button states within that filter group
-  btn.closest('.proc-filters').querySelectorAll(`.filter-btn`).forEach(b => {
-    if (b.getAttribute('onclick') && b.getAttribute('onclick').includes(`'${type}'`)) {
-      b.classList.remove('active');
-    }
-  });
+function setFilter(type, value, btn) {
+  document.querySelectorAll(
+    `button[onclick*="setFilter('${type}"]`
+  ).forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  render();
+  activeFilters[type] = value;
+  currentPage = 1;
+  renderTenders();
+}
+
+function tenderMatchesFilters(t) {
+  // Source filter
+  if (activeFilters.source !== 'all') {
+    const sk = sourceKey(t.source);
+    if (sk !== activeFilters.source) return false;
+  }
+  // Closing filter
+  if (activeFilters.closing === 'week') {
+    const d = getDaysLeft(t.deadline);
+    if (d === null || d > 7) return false;
+  } else if (activeFilters.closing === 'month') {
+    const d = getDaysLeft(t.deadline);
+    if (d === null || d > 30) return false;
+  } else if (activeFilters.closing === 'none') {
+    if (t.deadline) return false;
+  }
+  // Sector filter — with client-side fallback for untagged tenders
+  if (activeFilters.sector !== 'all') {
+    const tSectors = t.sectors || (t.sector ? [t.sector] : []);
+    if (!tSectors.includes(activeFilters.sector)) {
+      const SECTOR_KW = {
+        critical_minerals: ['mining','mineral','uranium','lithium','cobalt','copper','rare earth','nickel','gold'],
+        energy_cleantech: ['energy','solar','wind','hydrogen','renewable','battery','power','electricity','nuclear'],
+        advanced_manufacturing: ['manufactur','steel','aluminum','fabricat','machining','automotive','precision'],
+        aerospace_defence: ['aerospace','defence','defense','aircraft','military','radar','naval','norad'],
+        agri_food: ['agriculture','agri','food','grain','canola','livestock','dairy','fisheries','crop','farm'],
+        technology_digital: ['software','technology','digital','cloud','data','artificial intelligence','cyber','network','analytics'],
+        general: [],
+      };
+      const kws = SECTOR_KW[activeFilters.sector] || [];
+      const text = ((t.title || '') + ' ' + (t.description || '') + ' ' + (t.buyer || '')).toLowerCase();
+      if (activeFilters.sector === 'general') {
+        const allKws = Object.values(SECTOR_KW).flat();
+        if (allKws.some(kw => text.includes(kw))) return false;
+      } else {
+        if (!kws.some(kw => text.includes(kw))) return false;
+      }
+    }
+  }
+  return true;
 }
 
 let searchTimer;
