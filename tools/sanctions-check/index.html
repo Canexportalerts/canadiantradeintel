@@ -3,19 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Sanctions Screener — Search Canadian, OFAC, UN &amp; BIS Lists | CTI</title>
-<meta name="description" content="Free sanctions screening tool for Canadian businesses. Search Canada GACC, US OFAC SDN, UN Consolidated, and BIS Entity List simultaneously. Updated weekly.">
+<title>Sanctions Screener — Search Canadian GACC, OFAC SDN &amp; UN Lists | CTI</title>
+<meta name="description" content="Free sanctions screening tool for Canadian businesses. Search Canada GACC, US OFAC SDN, and UN Consolidated sanctions lists simultaneously. Updated weekly.">
 <link rel="canonical" href="https://canadiantradeintel.ca/tools/sanctions-check/">
-<meta property="og:title" content="Sanctions Screener — Canadian, OFAC, UN & BIS Lists">
-<meta property="og:description" content="Free sanctions screening for Canadian businesses. Search GACC, OFAC SDN, UN Consolidated, and BIS Entity List simultaneously.">
+<meta property="og:title" content="Sanctions Screener — Canada GACC, OFAC SDN &amp; UN Consolidated">
+<meta property="og:description" content="Free sanctions screening for Canadian businesses. Search Canada GACC, US OFAC SDN, and UN Consolidated sanctions lists simultaneously.">
 <meta property="og:type" content="website">
-<meta name="keywords" content="Canadian sanctions list search, OFAC SDN lookup Canada, UN sanctions check, BIS entity list, sanctions screening tool free, Canada GACC search, export controls Canada">
+<meta name="keywords" content="Canadian sanctions list search, OFAC SDN lookup Canada, UN sanctions check, sanctions screening tool free, Canada GACC search, export controls Canada">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "WebApplication",
   "name": "CTI Sanctions Screener",
-  "description": "Free sanctions screening tool for Canadian businesses. Search Canada GACC, US OFAC SDN, UN Consolidated, and BIS Entity List simultaneously.",
+  "description": "Free sanctions screening tool for Canadian businesses. Search Canada GACC, US OFAC SDN, and UN Consolidated sanctions lists simultaneously.",
   "url": "https://canadiantradeintel.ca/tools/sanctions-check/",
   "applicationCategory": "BusinessApplication",
   "offers": {"@type": "Offer", "price": "0"},
@@ -203,9 +203,9 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
   <div class="stats-bar-inner">
     <div class="stat-item"><strong id="stat-total">60</strong> entities indexed</div>
     <div class="stat-sep">·</div>
-    <div class="stat-item"><strong>4</strong> lists</div>
+    <div class="stat-item"><strong>3</strong> lists</div>
     <div class="stat-sep">·</div>
-    <div class="stat-item">Canada <strong>GACC</strong> · US <strong>OFAC SDN</strong> · <strong>UN</strong> Consolidated · <strong>BIS</strong> Entity List</div>
+    <div class="stat-item">Canada <strong>GACC</strong> · US <strong>OFAC SDN</strong> · <strong>UN</strong> Consolidated</div>
     <div class="stat-sep">·</div>
     <div class="stat-item">Updated <strong>weekly</strong></div>
   </div>
@@ -217,7 +217,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
   <!-- Disclaimer -->
   <div class="disclaimer">
     <div class="disclaimer-icon">⚠</div>
-    <p><strong>For compliance awareness only.</strong> This tool is not a substitute for legal advice or official government screening services. Always verify against the authoritative sources: <a href="https://www.international.gc.ca/world-monde/international_relations-relations_internationales/sanctions/consolidated-consolide.aspx?lang=eng" target="_blank" rel="noopener">Canada GACC</a>, <a href="https://sanctionssearch.ofac.treas.gov/" target="_blank" rel="noopener">OFAC SDN Search</a>, <a href="https://www.un.org/securitycouncil/content/un-sc-consolidated-list" target="_blank" rel="noopener">UN Consolidated List</a>, <a href="https://www.bis.doc.gov/index.php/policy-guidance/lists-of-parties-of-concern/entity-list" target="_blank" rel="noopener">BIS Entity List</a>. Data is representative and updated weekly — not real-time.</p>
+    <p><strong>For compliance awareness only.</strong> This tool is not a substitute for legal advice or official government screening services. Always verify against the authoritative sources: <a href="https://www.international.gc.ca/world-monde/international_relations-relations_internationales/sanctions/consolidated-consolide.aspx?lang=eng" target="_blank" rel="noopener">Canada GACC</a>, <a href="https://sanctionssearch.ofac.treas.gov/" target="_blank" rel="noopener">OFAC SDN Search</a>, <a href="https://www.un.org/securitycouncil/content/un-sc-consolidated-list" target="_blank" rel="noopener">UN Consolidated List</a>. Data is representative and updated weekly — not real-time.</p>
   </div>
 
   <!-- Tab bar -->
@@ -228,6 +228,15 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
 
   <!-- ── SEARCH PANEL ── -->
   <div id="panel-search">
+    <p style="font-size:16px;line-height:1.8;color:var(--ink-mid);max-width:680px;margin-bottom:24px;">
+      Before doing business with a company, individual, or
+      country — check whether they appear on any official
+      sanctions list. This tool searches three major lists
+      simultaneously: Canada's GACC list, the US OFAC
+      Specially Designated Nationals list, and the UN
+      Security Council sanctions list. If a name appears,
+      consult a lawyer before proceeding. Free to use.
+    </p>
     <div class="search-wrap">
       <span class="search-icon">⌕</span>
       <input type="text" class="search-input" id="search-input"
@@ -236,6 +245,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
         autocomplete="off" spellcheck="false">
       <button class="search-clear" id="search-clear" onclick="clearSearch()">✕</button>
     </div>
+    <div id="data-freshness" style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.08em;color:var(--ink-light);margin-top:-14px;margin-bottom:20px;"></div>
 
     <div class="filter-row">
       <span class="filter-label">Filter:</span>
@@ -244,7 +254,6 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
         <option value="gacc" title="Canada's official sanctions and arms export list">Canada GACC</option>
         <option value="ofac" title="US Treasury's Specially Designated Nationals list">OFAC SDN</option>
         <option value="un" title="United Nations Security Council sanctions list">UN Consolidated</option>
-        <option value="bis" title="US Bureau of Industry and Security entity restrictions">BIS Entity List</option>
       </select>
       <select class="filter-select" id="sf-country" onchange="setSearchFilter('country',this.value)">
         <option value="all">All Countries</option>
@@ -271,7 +280,6 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
         <option value="gacc" title="Canada's official sanctions and arms export list">Canada GACC</option>
         <option value="ofac" title="US Treasury's Specially Designated Nationals list">OFAC SDN</option>
         <option value="un" title="United Nations Security Council sanctions list">UN Consolidated</option>
-        <option value="bis" title="US Bureau of Industry and Security entity restrictions">BIS Entity List</option>
       </select>
       <select class="filter-select" id="bf-country" onchange="setBrowseFilter('country',this.value)">
         <option value="all">All Countries</option>
@@ -1034,6 +1042,20 @@ function toggleBrowseRow(id) {
   state.browseExpandedId = state.browseExpandedId === id ? null : id;
   renderBrowse();
 }
+
+/* ── Data freshness ────────────────────────────────────────────── */
+(function loadDataFreshness() {
+  const el = document.getElementById('data-freshness');
+  if (!el) return;
+  fetch('/api/sanctions_all.json')
+    .then(r => r.ok ? r.json() : null)
+    .then(data => {
+      if (data && data.generated) {
+        el.textContent = 'Data updated: ' + data.generated;
+      }
+    })
+    .catch(() => {}); // silently skip if fetch unavailable
+})();
 
 /* ── Initial render ────────────────────────────────────────────── */
 renderSearch();
