@@ -57,7 +57,8 @@
   .nav-mobile-menu a:hover { color: rgba(204,0,0,0.9); }
   .nav-mobile-menu.open { display: flex; }
 
-  /* ── PAGE HEADER ── */
+  /* ── PAGE HEADER (deprecated) ──
+  Replaced by .spotlight-header */
   .page-header { background: var(--brand-dark); padding: 48px 40px 40px; border-bottom: 3px solid var(--brand); }
   .page-header-inner { max-width: 1140px; margin: 0 auto; display: flex; align-items: flex-end; justify-content: space-between; gap: 40px; }
   .page-eyebrow { font-family: 'DM Mono', monospace; font-size: 16px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--brand); margin-bottom: 14px; }
@@ -66,6 +67,50 @@
   .page-header-stats { display: flex; gap: 28px; }
   .header-stat-value { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 600; color: rgba(240,240,232,0.15); line-height: 1; margin-bottom: 2px; }
   .header-stat-label { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.2); }
+
+
+  /* ── SPOTLIGHT HEADER ── */
+  .spotlight-header {
+    background: #1a1a14;
+    padding: 48px 0 36px;
+    margin-bottom: 0;
+  }
+  .spotlight-header-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+  .sh-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #cc0000;
+    margin-bottom: 12px;
+  }
+  .sh-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 5vw, 54px);
+    font-weight: 600;
+    color: #fff;
+    margin: 0 0 10px;
+    line-height: 1.05;
+  }
+  .sh-tagline {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+    margin: 0 0 14px;
+  }
+  .sh-description {
+    font-size: 16px;
+    line-height: 1.75;
+    color: rgba(255,255,255,0.72);
+    max-width: 600px;
+    margin: 0;
+  }
 
   /* ── FILTER BAR ── */
   .filter-bar { background: #fff; border-bottom: 1px solid var(--rule); padding: 0 40px; position: sticky; top: 56px; z-index: 190; }
@@ -89,16 +134,54 @@
   /* ── ISSUE GROUP ── */
   .issue-group { margin-bottom: 52px; }
   .issue-group-header { display: flex; align-items: baseline; gap: 14px; margin-bottom: 20px; padding-bottom: 9px; border-bottom: 1px solid var(--rule); }
-  .issue-group-label { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--brand); }
+  .issue-group-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #bbb;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 40px 0 20px;
+  }
+  .issue-group-label::before,
+  .issue-group-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #e8e4dc;
+  }
   .issue-group-date { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--ink-light); letter-spacing: 0.1em; }
   .issue-group-rule { flex: 1; height: 1px; background: var(--rule); }
 
   /* ── ARTICLE GRID ── */
-  .article-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
-  .article-card { background: #fff; padding: 20px 22px; cursor: pointer; transition: var(--transition-quick, all 0.15s ease); position: relative; }
-  .article-card:hover { background: #fafaf8; box-shadow: var(--shadow-lift, 0 6px 16px rgba(28,26,23,0.14)); transform: translateY(-2px); }
+  .article-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 8px;
+    background: transparent;
+    border: none;
+  }
+  .article-card {
+    background: #fff;
+    border: 1px solid #e0dcd4;
+    border-top: 3px solid var(--card-sector-color, #cc0000);
+    border-radius: 0 0 3px 3px;
+    padding: 20px 20px 16px;
+    cursor: pointer;
+    transition: box-shadow 0.15s, border-color 0.15s;
+    display: flex;
+    flex-direction: column;
+    min-height: 200px;
+  }
+  .article-card:hover {
+    box-shadow: 0 3px 20px rgba(0,0,0,0.09);
+  }
+
   .article-card.open { background: #fafaf8; }
-  .article-sector { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+  .article-sector { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.14e  .article-card.open { background: #fafaf8; }6px; display: flex; align-items: center; gap: 6px; }
   .sector-pip { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
   .article-card[data-sector="minerals"] .sector-pip { background: var(--minerals); }
   .article-card[data-sector="agri"]     .sector-pip { background: var(--agri); }
@@ -114,9 +197,30 @@
   .article-card[data-sector="aerospace"].article-sector { color: var(--aerospace); }
   .article-card[data-sector="energy"]   .article-sector { color: var(--energy); }
   .article-card[data-sector="economy"]  .article-sector { color: var(--economy); }
+  /* ── SECTOR BORDER COLORS (card top border) ── */
+  .article-card[data-sector="minerals"] { --card-sector-color: var(--minerals); }
+  .article-card[data-sector="agri"]     { --card-sector-color: var(--agri); }
+  .article-card[data-sector="mfg"]      { --card-sector-color: var(--mfg); }
+  .article-card[data-sector="tech"]     { --card-sector-color: var(--tech); }
+  .article-card[data-sector="aerospace"]{ --card-sector-color: var(--aerospace); }
+  .article-card[data-sector="energy"]   { --card-sector-color: var(--energy); }
+  .article-card[data-sector="economy"]  { --card-sector-color: var(--economy); }
+
   .article-country { display: inline-block; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #3A3A3A; background: rgba(90,90,90,0.08); border: 1px solid rgba(90,90,90,0.2); padding: 2px 8px; margin-bottom: 7px; }
-  .article-company { font-family: 'Cormorant Garamond', serif; font-size: 16px; font-weight: 600; font-style: italic; color: var(--ink); line-height: 1.2; margin-bottom: 8px; }
-  .article-headline { font-size: 15px; color: var(--ink-mid); line-height: 1.55; margin-bottom: 10px; }
+  .article-company {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 21px;
+    font-weight: 600;
+    color: #1a1a14;
+    line-height: 1.15;
+    margin-bottom: 5px;
+  }
+  .article-headline {
+    font-size: 13px;
+    color: #5a5a50;
+    line-height: 1.55;
+    margin-bottom: 10px;
+  }
   .article-source { font-family: 'DM Mono', monospace; font-size: 16px; letter-spacing: 0.08em; color: var(--ink-light); margin-bottom: 12px; }
   .article-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 12px; border-top: 1px solid var(--rule); }
   .article-date { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; color: var(--ink-light); }
@@ -208,7 +312,14 @@
     .page-header-inner { flex-direction: column; align-items: flex-start; }
     .page-header-stats { display: none; }
     .spotlight-body { padding: 24px 16px 60px; }
-    .article-grid { grid-template-columns: 1fr 1fr; }
+    .article-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 8px;
+    background: transparent;
+    border: none;
+  }
     .drawer-inner { grid-template-columns: 1fr; }
     .drawer-aside { border-top: 1px solid var(--rule); }
     .cta-strip { padding: 24px 20px; }
@@ -217,8 +328,18 @@
     .site-footer-inner { flex-direction: column; gap: 20px; }
     .footer-links { text-align: left; }
   }
+    @media (max-width: 960px) {
+    .article-grid { grid-template-columns: repeat(2, 1fr); }
+  }
   @media (max-width: 640px) {
-    .article-grid { grid-template-columns: 1fr; }
+    .article-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 8px;
+    background: transparent;
+    border: none;
+  }
     .filter-bar-inner { flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
     .filter-bar-inner::-webkit-scrollbar { display: none; }
     .type-bar-inner { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
@@ -248,8 +369,6 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
 .footer-copy{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:0.08em;color:rgba(255,255,255,0.3);}
 @media(max-width:900px){.footer-grid{grid-template-columns:1fr 1fr;gap:28px;}footer{padding:36px 24px 0;}}
 @media(max-width:560px){.footer-grid{grid-template-columns:1fr;}}
-  .issue-pill { display: inline-block; }
-  .issue-pill:hover { background: #8B1A1A; color: #fff !important; }
 </style>
 <script src="/nav.js"></script>
 </head>
@@ -258,42 +377,32 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
 <nav id="main-nav"></nav>
 
 <!-- PAGE HEADER -->
-<header class="page-header">
-  <div class="page-header-inner">
-    <div>
-      <div class="page-eyebrow">🇨🇦 Canadian Spotlight</div>
-      <h1>Canadian Businesses,<br>Making Moves.</h1>
-      <p class="page-header-desc">Every week, Canadian businesses close deals, win contracts, secure financing, and enter new markets. We recognize that success stories come from more than just national outlets — from local business journals to the largest enterprises, this is where we track Canadian businesses engaging with global markets.</p>
-      <p class="page-header-desc" style="margin-top:10px;color:rgba(240,240,232,0.3);">Exporting, importing, winning contracts abroad, attracting foreign investment, opening new offices — every story is a data point on the map we're building. Free, always.</p>
-    </div>
-    <div class="page-header-stats">
-      <div>
-        <div class="header-stat-value">32</div>
-        <div class="header-stat-label">Stories This Month</div>
-      </div>
-      <div>
-        <div class="header-stat-value">7</div>
-        <div class="header-stat-label">Sectors Covered</div>
-      </div>
-      <div>
-        <div class="header-stat-value">19</div>
-        <div class="header-stat-label">Markets</div>
-      </div>
-    </div>
+<div class="spotlight-header">
+  <div class="spotlight-header-inner">
+    <div class="sh-eyebrow">Canadian Trade Intelligence</div>
+    <h1 class="sh-title">Business Spotlight</h1>
+    <p class="sh-tagline">
+      Canadian companies making moves — updated every Tuesday
+    </p>
+    <p class="sh-description">
+      Each week CTI identifies Canadian businesses closing deals, entering new markets, winning contracts, and building partnerships across the global economy. Behind every trade number is a company making a decision. These are their stories.
+    </p>
   </div>
-</header>
+</div>
 
 <!-- FILTER BAR -->
 <div class="filter-bar">
   <div class="filter-bar-inner">
-    <button class="filter-btn active" onclick="filterSector('all',this)">All Sectors</button>
-    <button class="filter-btn f-min"    onclick="filterSector('minerals',this)">⚗ Critical Minerals</button>
-    <button class="filter-btn f-agri"   onclick="filterSector('agri',this)">🌾 Agri-food</button>
-    <button class="filter-btn f-mfg"    onclick="filterSector('mfg',this)">🏭 Manufacturing</button>
-    <button class="filter-btn f-tech"   onclick="filterSector('tech',this)">💻 Technology</button>
-    <button class="filter-btn f-aero"   onclick="filterSector('aerospace',this)">✈ Aerospace</button>
-    <button class="filter-btn f-energy" onclick="filterSector('energy',this)">⚡ Energy & Cleantech</button>
-    <button class="filter-btn f-economy" data-sector="economy" onclick="filterSector('economy', this)">🍁 Economy</button>
+    <div class="spotlight-filters">
+      <button class="filter-btn active" onclick="filterSector('all',this)">All Stories</button>
+      <button class="filter-btn f-min" onclick="filterSector('minerals',this)">Critical Minerals</button>
+      <button class="filter-btn f-energy" onclick="filterSector('energy',this)">Energy</button>
+      <button class="filter-btn f-mfg" onclick="filterSector('mfg',this)">Manufacturing</button>
+      <button class="filter-btn f-aero" onclick="filterSector('aerospace',this)">Aerospace &amp; Defence</button>
+      <button class="filter-btn f-agri" onclick="filterSector('agri',this)">Agri-food</button>
+      <button class="filter-btn f-tech" onclick="filterSector('tech',this)">Technology</button>
+      <button class="filter-btn f-economy" onclick="filterSector('economy',this)">Canadian Economy</button>
+    </div>
     <input type="search" id="spotlight-search" class="search-input" placeholder="Search companies, markets..." oninput="applyFilters()" />
   </div>
 </div>
@@ -318,8 +427,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
   <!-- ════ ISSUE — May 5, 2026 ════ -->
   <div class="issue-group" id="issue-006">
     <div class="issue-group-header">
-      <span class="issue-group-label">Issue #006</span>
-      <span class="issue-group-date">May 5, 2026</span>
+      <span class="issue-group-label">May 2026</span>
       <div class="issue-group-rule"></div>
     </div>
 
@@ -352,8 +460,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
             <p style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-light);margin-bottom:4px;margin-top:12px;">What Others Can Learn</p><p>Canadian equipment suppliers and engineering firms serving LNG projects should use this expansion signal to pre-position capacity bids with Shell and EPC contractors managing the build-out. Track LNG Canada&#x27;s released expansion scope through NRCan and provincial energy ministry announcements; contact Shell&#x27;s supply chain office directly to qualify for vendor lists before major RFP waves begin. This expansion cycle will likely span 3–5 years and generate C$3–5B in supply contracts.</p>
             </div>
             <div class="drawer-actions">
-              <a href="https://www.canadianmanufacturing.com/environment-and-safety/blockbuster-22b-shell-arc-deal-bodes-well-for-expansion-to-lng-canada-experts-say-318323/" target="_blank" rel="noopener" class="drawer-link" style="color:var(--ink-mid);">Read original story →</a>
-              <a href="/reports/full_report_critical_minerals_2026-05-05.html" class="drawer-link" style="color:var(--ink-mid);">Read the Critical Minerals report →</a>
+              <a href="https://www.canadianmanufacturing.com/environment-and-safety/blockbuster-22b-shell-arc-deal-bodes-well-for-expansion-to-lng-canada-experts-say-318323/" target="_blank" rel="noopener" class="drawer-link" style="color:var(--ink-mid);">Where we first saw it →</a>
               <div class="drawer-share">
                 <span class="drawer-share-label">Share</span>
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://canadiantradeintel.ca/spotlight" target="_blank" rel="noopener">LinkedIn</a>
@@ -399,8 +506,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
             <p style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-light);margin-bottom:4px;margin-top:12px;">What Others Can Learn</p><p>Canadian junior miners and processors in critical minerals should prioritize downstream partnerships with battery OEMs and defense contractors rather than commodity-only sales. Engage EDC and NRCan&#x27;s critical minerals programs to identify allied battery and defense buyers actively seeking supply diversification. Tyfast&#x27;s selection of Strategic Resources suggests buyers are actively seeking MOU-stage partnerships—early engagement with technology developers in allied nations yields better positioning than reactive tendering.</p>
             </div>
             <div class="drawer-actions">
-              <a href="https://www.canadianmanufacturing.com/manufacturing/strategic-resources-and-tyfast-energy-sign-mou-to-build-a-vanadium-to-battery-pathway-318304/" target="_blank" rel="noopener" class="drawer-link" style="color:var(--ink-mid);">Read original story →</a>
-              <a href="/reports/full_report_critical_minerals_2026-05-05.html" class="drawer-link" style="color:var(--ink-mid);">Read the Critical Minerals report →</a>
+              <a href="https://www.canadianmanufacturing.com/manufacturing/strategic-resources-and-tyfast-energy-sign-mou-to-build-a-vanadium-to-battery-pathway-318304/" target="_blank" rel="noopener" class="drawer-link" style="color:var(--ink-mid);">Where we first saw it →</a>
               <div class="drawer-share">
                 <span class="drawer-share-label">Share</span>
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://canadiantradeintel.ca/spotlight" target="_blank" rel="noopener">LinkedIn</a>
@@ -446,8 +552,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
             <p style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-light);margin-bottom:4px;margin-top:12px;">What Others Can Learn</p><p>Canadian AI and deep-tech founders should actively cultivate government relationships early; visible policy support accelerates cross-border M&amp;A and validates valuations to international buyers. Contact ISED&#x27;s Technology and Innovation branch and explore EU market entry via Comprehensive Economic and Trade Agreement (CETA) advantages to position for similar strategic partnerships.</p>
             </div>
             <div class="drawer-actions">
-              <a href="https://mobilesyrup.com/2026/04/27/canadian-ai-firm-cohere-merger-germany-aleph-alpha/" target="_blank" rel="noopener" class="drawer-link" style="color:var(--ink-mid);">Read original story →</a>
-              <a href="/reports/full_report_technology_digital_2026-05-05.html" class="drawer-link" style="color:var(--ink-mid);">Read the Technology report →</a>
+              <a href="https://mobilesyrup.com/2026/04/27/canadian-ai-firm-cohere-merger-germany-aleph-alpha/" target="_blank" rel="noopener" class="drawer-link" style="color:var(--ink-mid);">Where we first saw it →</a>
               <div class="drawer-share">
                 <span class="drawer-share-label">Share</span>
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://canadiantradeintel.ca/spotlight" target="_blank" rel="noopener">LinkedIn</a>
@@ -493,8 +598,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
             <p style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-light);margin-bottom:4px;margin-top:12px;">What Others Can Learn</p><p>Canadian deeptech founders should map EU regulatory roadmaps (AI Act implementation, sectoral requirements) 18-24 months ahead and position technical capabilities around compliance and data sovereignty early. Aleph Alpha&#x27;s acquisition price and integration pathway provide a template for valuing European regulatory assets. Engage with ISED&#x27;s Tech and Digital Talent Initiative and EDC trade financing for European acquisition strategies—sovereign AI plays increasingly attract government-adjacent support in allied nations.</p>
             </div>
             <div class="drawer-actions">
-              <a href="https://betakit.com/cohere-to-acquire-germanys-aleph-alpha-in-sovereign-ai-play/" target="_blank" rel="noopener" class="drawer-link" style="color:var(--ink-mid);">Read original story →</a>
-              <a href="/reports/full_report_technology_digital_2026-05-05.html" class="drawer-link" style="color:var(--ink-mid);">Read the Technology report →</a>
+              <a href="https://betakit.com/cohere-to-acquire-germanys-aleph-alpha-in-sovereign-ai-play/" target="_blank" rel="noopener" class="drawer-link" style="color:var(--ink-mid);">Where we first saw it →</a>
               <div class="drawer-share">
                 <span class="drawer-share-label">Share</span>
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://canadiantradeintel.ca/spotlight" target="_blank" rel="noopener">LinkedIn</a>
@@ -540,8 +644,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
             <p style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-light);margin-bottom:4px;margin-top:12px;">What Others Can Learn</p><p>Canadian cleantech firms targeting mining waste should track NRCan&#x27;s critical minerals programme and SDTC funding windows; these agencies actively back waste valorization projects. Connect with major Canadian mining operators (Barrick, Teck, Agnico) early to validate technical assumptions and secure pilot agreements—operational data accelerates commercialization and attracts follow-on capital.</p>
             </div>
             <div class="drawer-actions">
-              <a href="https://betakit.com/carbonyx-raises-1-2-million-to-turn-mining-waste-into-usable-materials/" target="_blank" rel="noopener" class="drawer-link" style="color:var(--ink-mid);">Read original story →</a>
-              <a href="/reports/full_report_critical_minerals_2026-05-05.html" class="drawer-link" style="color:var(--ink-mid);">Read the Critical Minerals report →</a>
+              <a href="https://betakit.com/carbonyx-raises-1-2-million-to-turn-mining-waste-into-usable-materials/" target="_blank" rel="noopener" class="drawer-link" style="color:var(--ink-mid);">Where we first saw it →</a>
               <div class="drawer-share">
                 <span class="drawer-share-label">Share</span>
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://canadiantradeintel.ca/spotlight" target="_blank" rel="noopener">LinkedIn</a>
@@ -587,8 +690,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
             <p style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-light);margin-bottom:4px;margin-top:12px;">What Others Can Learn</p><p>Canadian robotics and autonomous systems startups should prioritize pilot-to-deployment transitions in high-traffic, regulated environments (airports, ports, hospitals) where proven safety and operational data strengthen investor appetite and create defensible reference customers. Document performance metrics rigorously during pilots; international airport operators and logistics partners watch Canadian deployments closely. Engage EDC&#x27;s Technology Trade Accelerator and Innovation Canada programmes early to map export-ready pathways once domestic operations are stable.</p>
             </div>
             <div class="drawer-actions">
-              <a href="https://betakit.com/ak-robotics-closes-8-million-series-a-round-to-put-self-driving-pods-in-airports/" target="_blank" rel="noopener" class="drawer-link" style="color:var(--ink-mid);">Read original story →</a>
-              <a href="/reports/full_report_technology_digital_2026-05-05.html" class="drawer-link" style="color:var(--ink-mid);">Read the Technology report →</a>
+              <a href="https://betakit.com/ak-robotics-closes-8-million-series-a-round-to-put-self-driving-pods-in-airports/" target="_blank" rel="noopener" class="drawer-link" style="color:var(--ink-mid);">Where we first saw it →</a>
               <div class="drawer-share">
                 <span class="drawer-share-label">Share</span>
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://canadiantradeintel.ca/spotlight" target="_blank" rel="noopener">LinkedIn</a>
@@ -613,8 +715,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
   <!-- ════ ISSUE — April 29, 2026 ════ -->
   <div class="issue-group" id="issue-005">
     <div class="issue-group-header">
-      <span class="issue-group-label">Issue #005</span>
-      <span class="issue-group-date">April 29, 2026</span>
+      <span class="issue-group-label">April 2026</span>
       <div class="issue-group-rule"></div>
     </div>
 
@@ -646,8 +747,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
             <p style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-light);margin-bottom:4px;margin-top:12px;">What Others Can Learn</p><p>Canadian equipment suppliers and engineering firms serving LNG projects should use this expansion signal to pre-position capacity bids with Shell and EPC contractors managing the build-out. Track LNG Canada&#x27;s released expansion scope through NRCan and provincial energy ministry announcements; contact Shell&#x27;s supply chain office directly to qualify for vendor lists before major RFP waves begin. This expansion cycle will likely span 3–5 years and generate C$3–5B in supply contracts.</p>
             </div>
             <div class="drawer-actions">
-              <a href="https://www.canadianmanufacturing.com/environment-and-safety/blockbuster-22b-shell-arc-deal-bodes-well-for-expansion-to-lng-canada-experts-say-318323/" target="_blank" rel="noopener" class="drawer-link" style="color:var(--ink-mid);">Read original story →</a>
-              <a href="/reports/full_report_critical_minerals_2026-04-29.html" class="drawer-link" style="color:var(--ink-mid);">Read the Critical Minerals report →</a>
+              <a href="https://www.canadianmanufacturing.com/environment-and-safety/blockbuster-22b-shell-arc-deal-bodes-well-for-expansion-to-lng-canada-experts-say-318323/" target="_blank" rel="noopener" class="drawer-link" style="color:var(--ink-mid);">Where we first saw it →</a>
               <div class="drawer-share">
                 <span class="drawer-share-label">Share</span>
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://canadiantradeintel.ca/spotlight" target="_blank" rel="noopener">LinkedIn</a>
@@ -692,8 +792,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
             <p style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-light);margin-bottom:4px;margin-top:12px;">What Others Can Learn</p><p>Canadian junior miners and processors in critical minerals should prioritize downstream partnerships with battery OEMs and defense contractors rather than commodity-only sales. Engage EDC and NRCan&#x27;s critical minerals programs to identify allied battery and defense buyers actively seeking supply diversification. Tyfast&#x27;s selection of Strategic Resources suggests buyers are actively seeking MOU-stage partnerships—early engagement with technology developers in allied nations yields better positioning than reactive tendering.</p>
             </div>
             <div class="drawer-actions">
-              <a href="https://www.canadianmanufacturing.com/manufacturing/strategic-resources-and-tyfast-energy-sign-mou-to-build-a-vanadium-to-battery-pathway-318304/" target="_blank" rel="noopener" class="drawer-link" style="color:var(--ink-mid);">Read original story →</a>
-              <a href="/reports/full_report_critical_minerals_2026-04-29.html" class="drawer-link" style="color:var(--ink-mid);">Read the Critical Minerals report →</a>
+              <a href="https://www.canadianmanufacturing.com/manufacturing/strategic-resources-and-tyfast-energy-sign-mou-to-build-a-vanadium-to-battery-pathway-318304/" target="_blank" rel="noopener" class="drawer-link" style="color:var(--ink-mid);">Where we first saw it →</a>
               <div class="drawer-share">
                 <span class="drawer-share-label">Share</span>
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://canadiantradeintel.ca/spotlight" target="_blank" rel="noopener">LinkedIn</a>
@@ -738,8 +837,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
             <p style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-light);margin-bottom:4px;margin-top:12px;">What Others Can Learn</p><p>Canadian AI and deep-tech founders should actively cultivate government relationships early; visible policy support accelerates cross-border M&amp;A and validates valuations to international buyers. Contact ISED&#x27;s Technology and Innovation branch and explore EU market entry via Comprehensive Economic and Trade Agreement (CETA) advantages to position for similar strategic partnerships.</p>
             </div>
             <div class="drawer-actions">
-              <a href="https://mobilesyrup.com/2026/04/27/canadian-ai-firm-cohere-merger-germany-aleph-alpha/" target="_blank" rel="noopener" class="drawer-link" style="color:var(--ink-mid);">Read original story →</a>
-              <a href="/reports/full_report_technology_digital_2026-04-29.html" class="drawer-link" style="color:var(--ink-mid);">Read the Technology report →</a>
+              <a href="https://mobilesyrup.com/2026/04/27/canadian-ai-firm-cohere-merger-germany-aleph-alpha/" target="_blank" rel="noopener" class="drawer-link" style="color:var(--ink-mid);">Where we first saw it →</a>
               <div class="drawer-share">
                 <span class="drawer-share-label">Share</span>
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://canadiantradeintel.ca/spotlight" target="_blank" rel="noopener">LinkedIn</a>
@@ -784,8 +882,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
             <p style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-light);margin-bottom:4px;margin-top:12px;">What Others Can Learn</p><p>Canadian deeptech founders should map EU regulatory roadmaps (AI Act implementation, sectoral requirements) 18-24 months ahead and position technical capabilities around compliance and data sovereignty early. Aleph Alpha&#x27;s acquisition price and integration pathway provide a template for valuing European regulatory assets. Engage with ISED&#x27;s Tech and Digital Talent Initiative and EDC trade financing for European acquisition strategies—sovereign AI plays increasingly attract government-adjacent support in allied nations.</p>
             </div>
             <div class="drawer-actions">
-              <a href="https://betakit.com/cohere-to-acquire-germanys-aleph-alpha-in-sovereign-ai-play/" target="_blank" rel="noopener" class="drawer-link" style="color:var(--ink-mid);">Read original story →</a>
-              <a href="/reports/full_report_technology_digital_2026-04-29.html" class="drawer-link" style="color:var(--ink-mid);">Read the Technology report →</a>
+              <a href="https://betakit.com/cohere-to-acquire-germanys-aleph-alpha-in-sovereign-ai-play/" target="_blank" rel="noopener" class="drawer-link" style="color:var(--ink-mid);">Where we first saw it →</a>
               <div class="drawer-share">
                 <span class="drawer-share-label">Share</span>
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://canadiantradeintel.ca/spotlight" target="_blank" rel="noopener">LinkedIn</a>
@@ -810,8 +907,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
 <!-- ════ ISSUE — April 21, 2026 ════ -->
   <div class="issue-group" id="issue-004">
     <div class="issue-group-header">
-      <span class="issue-group-label">Issue #004</span>
-      <span class="issue-group-date">April 21, 2026</span>
+      <span class="issue-group-label">April 2026</span>
       <div class="issue-group-rule"></div>
     </div>
 
@@ -832,8 +928,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
             <p style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-light);margin-bottom:4px;margin-top:12px;">What Others Can Learn</p><p>Canadian space and defence-tech companies should actively pursue federal validation letters and threat assessments from DND/CSE early—these become table-stakes for U.S. investor confidence and export licensing. Engage ISED&#x27;s Integrated Border Enforcement Teams and EDC for export credit on allied government sales. Track the SPAC merger close and NorthStar&#x27;s U.S. customer wins; if they land U.S. Space Force contracts, study their pathway to identify replicable partnership or supplier opportunities.</p>
             </div>
             <div class="drawer-actions">
-              <a href="https://financialpost.com/technology/canadian-satellite-startup-northstar-us300-million-valuation-spac-merger" target="_blank" rel="noopener" class="drawer-link" style="color:var(--ink-mid);">Read original story →</a>
-              <a href="/reports/full_report_aerospace_defence_2026-04-21.html" class="drawer-link" style="color:var(--ink-mid);">Read the Aerospace report →</a>
+              <a href="https://financialpost.com/technology/canadian-satellite-startup-northstar-us300-million-valuation-spac-merger" target="_blank" rel="noopener" class="drawer-link" style="color:var(--ink-mid);">Where we first saw it →</a>
               <div class="drawer-share">
                 <span class="drawer-share-label">Share</span>
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://canadiantradeintel.ca/spotlight" target="_blank" rel="noopener">LinkedIn</a>
@@ -882,8 +977,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
             <p style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-light);margin-bottom:4px;margin-top:12px;">What Others Can Learn</p><p>Canadian space and defence-tech companies should actively pursue federal validation letters and threat assessments from DND/CSE early—these become table-stakes for U.S. investor confidence and export licensing. Engage ISED&#x27;s Integrated Border Enforcement Teams and EDC for export credit on allied government sales. Track the SPAC merger close and NorthStar&#x27;s U.S. customer wins; if they land U.S. Space Force contracts, study their pathway to identify replicable partnership or supplier opportunities.</p>
             </div>
             <div class="drawer-actions">
-              <a href="https://financialpost.com/technology/canadian-satellite-startup-northstar-us300-million-valuation-spac-merger" target="_blank" rel="noopener" class="drawer-link" style="color:var(--ink-mid);">Read original story →</a>
-              <a href="/reports/full_report_aerospace_defence_2026-04-21.html" class="drawer-link" style="color:var(--ink-mid);">Read the Aerospace report →</a>
+              <a href="https://financialpost.com/technology/canadian-satellite-startup-northstar-us300-million-valuation-spac-merger" target="_blank" rel="noopener" class="drawer-link" style="color:var(--ink-mid);">Where we first saw it →</a>
               <div class="drawer-share">
                 <span class="drawer-share-label">Share</span>
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://canadiantradeintel.ca/spotlight" target="_blank" rel="noopener">LinkedIn</a>
@@ -911,8 +1005,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
 
 <div class="issue-group" id="issue-003">
     <div class="issue-group-header">
-      <span class="issue-group-label">Issue #003</span>
-      <span class="issue-group-date">April 14, 2026</span>
+      <span class="issue-group-label">April 2026</span>
       <div class="issue-group-rule"></div>
     </div>
 
@@ -933,7 +1026,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
             <p style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-light);margin-bottom:4px;margin-top:12px;">What Others Can Learn</p><p>Canadian forged-steel and specialty metallurgy firms should formally engage European defence OEMs (TKMS, Naval Group, Rheinmetall) through Export Development Canada&#x27;s defence supply chain programmes and industry associations like Aerospace Industries Association of Canada. Finkl&#x27;s success was likely built on NATO compliance certifications (AS9100, NADCAP); prioritize these credentials if targeting defence export. Sorel&#x27;s geographic proximity to U.S. and European markets and existing steel expertise made it attractive—similar firms should audit their certifications and compliance posture now.</p>
             </div>
             <div class="drawer-actions">
-              <a href="https://www.canadianmanufacturing.com/manufacturing/tkms-teams-up-with-que-steel-firm-in-sub-competition-317952/" target="_blank" rel="noopener" class="drawer-link" style="color:var(--ink-mid);">Read original story →</a>
+              <a href="https://www.canadianmanufacturing.com/manufacturing/tkms-teams-up-with-que-steel-firm-in-sub-competition-317952/" target="_blank" rel="noopener" class="drawer-link" style="color:var(--ink-mid);">Where we first saw it →</a>
               <div style="background:var(--color-background-secondary,#f8f6f2);border-top:1px solid var(--rule);padding:14px 18px;margin-top:16px;margin-left:-22px;margin-right:-22px;">
   <div style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-light);margin-bottom:8px;">Related intelligence</div>
   <div style="font-size:11px;color:var(--ink-mid);margin-bottom:10px;">Finkl Steel's entry into TKMS defence supply chains reflects the broader NATO industrial rearmament trend tracked in our Advanced Manufacturing report.</div>
@@ -968,7 +1061,6 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
         <div class="article-headline">Prolonged Hormuz Strait closure would have ‘profound’ impact on mining: Friedland</div>
         <div class="article-footer">
           <span class="article-date">Apr 13, 2026</span>
-          <a href="/reports/" class="issue-pill" style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.1em;text-transform:uppercase;color:#8B1A1A;border:1px solid #8B1A1A;padding:2px 7px;text-decoration:none;white-space:nowrap;" target="_self">Featured in #003 →</a>
           <span class="article-toggle">+</span>
         </div>
       </div>
@@ -993,7 +1085,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
             <p style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-light);margin-bottom:4px;margin-top:12px;">What Others Can Learn</p><p>Canadian mining and battery material firms should map their logistics exposure to critical chokepoints (Hormuz, South China Sea, Panama Canal) and document alternative routing costs now. Engage Export Development Canada and Global Affairs Canada on supply chain resilience funding and allied sourcing partnerships before disruption forces reactive decisions.</p>
             </div>
             <div class="drawer-actions">
-              <a href="https://www.northernminer.com/news/prolonged-hormuz-strait-closure-would-have-profound-impact-on-mining-friedland/1003889913/" target="_blank" rel="noopener" class="drawer-link" style="color:var(--ink-mid);">Read original story →</a>
+              <a href="https://www.northernminer.com/news/prolonged-hormuz-strait-closure-would-have-profound-impact-on-mining-friedland/1003889913/" target="_blank" rel="noopener" class="drawer-link" style="color:var(--ink-mid);">Where we first saw it →</a>
               <div style="background:var(--color-background-secondary,#f8f6f2);border-top:1px solid var(--rule);padding:14px 18px;margin-top:16px;margin-left:-22px;margin-right:-22px;">
   <div style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-light);margin-bottom:8px;">Related intelligence</div>
   <div style="font-size:11px;color:var(--ink-mid);margin-bottom:10px;">Ivanhoe Mines' Hormuz warning connects to our Critical Minerals report's analysis of supply chain chokepoint exposure for Canadian copper producers.</div>
@@ -1027,7 +1119,6 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
         <div class="article-headline">M&amp;A: Denarius targets Emerita in Spain’s zinc-copper belt</div>
         <div class="article-footer">
           <span class="article-date">Apr 13, 2026</span>
-          <a href="/reports/" class="issue-pill" style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.1em;text-transform:uppercase;color:#8B1A1A;border:1px solid #8B1A1A;padding:2px 7px;text-decoration:none;white-space:nowrap;" target="_self">Featured in #003 →</a>
           <span class="article-toggle">+</span>
         </div>
       </div>
@@ -1052,7 +1143,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
             <p style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-light);margin-bottom:4px;margin-top:12px;">What Others Can Learn</p><p>Canadian junior miners targeting base metals should prioritize European jurisdictions with EU Critical Raw Materials Act alignment and EU taxonomy eligibility—these unlock ESG capital and customer offtake interest unavailable in less-regulated regions. Scout consolidation candidates early; Denarius&#x27;s all-share offer suggests premium valuations for assets with contiguous exploration optionality. Engage EU trade bodies (Eurometaux, ICMM chapters) to signal security-of-supply credentials before M&amp;A.</p>
             </div>
             <div class="drawer-actions">
-              <a href="https://www.northernminer.com/news/ma-denarius-targets-emerita-in-spains-zinc-copper-belt/1003889924/" target="_blank" rel="noopener" class="drawer-link" style="color:var(--ink-mid);">Read original story →</a>
+              <a href="https://www.northernminer.com/news/ma-denarius-targets-emerita-in-spains-zinc-copper-belt/1003889924/" target="_blank" rel="noopener" class="drawer-link" style="color:var(--ink-mid);">Where we first saw it →</a>
               <div style="background:var(--color-background-secondary,#f8f6f2);border-top:1px solid var(--rule);padding:14px 18px;margin-top:16px;margin-left:-22px;margin-right:-22px;">
   <div style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-light);margin-bottom:8px;">Related intelligence</div>
   <div style="font-size:11px;color:var(--ink-mid);margin-bottom:10px;">Denarius Metals' Iberian acquisition reflects the European base metals consolidation wave detailed in our Critical Minerals report.</div>
@@ -1087,7 +1178,6 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
         <div class="article-headline">Montage expands West Africa presence with new Mauritania exploration permits</div>
         <div class="article-footer">
           <span class="article-date">Apr 14, 2026</span>
-          <a href="/reports/" class="issue-pill" style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.1em;text-transform:uppercase;color:#8B1A1A;border:1px solid #8B1A1A;padding:2px 7px;text-decoration:none;white-space:nowrap;" target="_self">Featured in #003 →</a>
           <span class="article-toggle">+</span>
         </div>
       </div>
@@ -1112,7 +1202,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
             <p style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-light);margin-bottom:4px;margin-top:12px;">What Others Can Learn</p><p>Canadian exploration and mining services firms should monitor permit awards in Mauritania and similar frontier markets as early indicators of demand for drilling, assay, environmental, and logistics support. Contact the Mauritania Ministry of Mines or Canadian embassy in Nouakchott to understand permitting timelines and partnership opportunities with junior explorers expanding regional presence.</p>
             </div>
             <div class="drawer-actions">
-              <a href="https://www.mining.com/montage-expands-west-africa-presence-with-new-mauritania-exploration-permits/" target="_blank" rel="noopener" class="drawer-link" style="color:var(--ink-mid);">Read original story →</a>
+              <a href="https://www.mining.com/montage-expands-west-africa-presence-with-new-mauritania-exploration-permits/" target="_blank" rel="noopener" class="drawer-link" style="color:var(--ink-mid);">Where we first saw it →</a>
               <div style="background:var(--color-background-secondary,#f8f6f2);border-top:1px solid var(--rule);padding:14px 18px;margin-top:16px;margin-left:-22px;margin-right:-22px;">
   <div style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-light);margin-bottom:8px;">Related intelligence</div>
   <div style="font-size:11px;color:var(--ink-mid);margin-bottom:10px;">Montage Resources' West Africa expansion aligns with the frontier exploration strategies reviewed in our Critical Minerals report.</div>
@@ -1146,7 +1236,6 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
         <div class="article-headline">Canola industry welcomes significant progress on Chinese tariffs</div>
         <div class="article-footer">
           <span class="article-date">Jan 16, 2026</span>
-          <a href="/reports/" class="issue-pill" style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.1em;text-transform:uppercase;color:#8B1A1A;border:1px solid #8B1A1A;padding:2px 7px;text-decoration:none;white-space:nowrap;" target="_self">Featured in #003 →</a>
           <span class="article-toggle">+</span>
         </div>
       </div>
@@ -1171,7 +1260,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
             <p style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-light);margin-bottom:4px;margin-top:12px;">What Others Can Learn</p><p>Canadian exporters in tariff-affected sectors (pulses, beef, seafood) should commission a detailed market analysis of China&#x27;s current purchasing patterns and competitor positioning, then brief Global Affairs Canada and Agriculture and Agri-Food Canada on sector-specific negotiation priorities. The window for sectoral trade gains with Beijing appears to have shifted; waiting for generalized relief is riskier than pushing for category-specific deals now.</p>
             </div>
             <div class="drawer-actions">
-              <a href="https://www.canolacouncil.org/news/canola-industry-welcomes-significant-progress-on-chinese-tariffs/" target="_blank" rel="noopener" class="drawer-link" style="color:var(--ink-mid);">Read original story →</a>
+              <a href="https://www.canolacouncil.org/news/canola-industry-welcomes-significant-progress-on-chinese-tariffs/" target="_blank" rel="noopener" class="drawer-link" style="color:var(--ink-mid);">Where we first saw it →</a>
               <div style="background:var(--color-background-secondary,#f8f6f2);border-top:1px solid var(--rule);padding:14px 18px;margin-top:16px;margin-left:-22px;margin-right:-22px;">
   <div style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-light);margin-bottom:8px;">Related intelligence</div>
   <div style="font-size:11px;color:var(--ink-mid);margin-bottom:10px;">The canola tariff relief from China is analysed in depth — including its durability and implications for other agri-exporters — in our Agri-food report.</div>
@@ -1206,7 +1295,6 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
         <div class="article-headline">AppDirect acquires PartnerStack to build unified platform for partner-led growth</div>
         <div class="article-footer">
           <span class="article-date">Apr 14, 2026</span>
-          <a href="/reports/" class="issue-pill" style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.1em;text-transform:uppercase;color:#8B1A1A;border:1px solid #8B1A1A;padding:2px 7px;text-decoration:none;white-space:nowrap;" target="_self">Featured in #003 →</a>
           <span class="article-toggle">+</span>
         </div>
       </div>
@@ -1231,7 +1319,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
             <p style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-light);margin-bottom:4px;margin-top:12px;">What Others Can Learn</p><p>Canadian SaaS founders targeting the US should monitor AppDirect&#x27;s playbook: six acquisitions in 12 months requires institutional capital backing and disciplined integration. If you operate in B2B enablement or partner platforms, assess whether acquisition or partnership with a consolidator better serves your growth timeline. Connect with Canadian PE and growth equity firms that specialize in tech rollups—they can move quickly and understand cross-border integration.</p>
             </div>
             <div class="drawer-actions">
-              <a href="https://betakit.com/appdirect-acquires-partnerstack-to-build-unified-platform-for-partner-led-growth/" target="_blank" rel="noopener" class="drawer-link" style="color:var(--ink-mid);">Read original story →</a>
+              <a href="https://betakit.com/appdirect-acquires-partnerstack-to-build-unified-platform-for-partner-led-growth/" target="_blank" rel="noopener" class="drawer-link" style="color:var(--ink-mid);">Where we first saw it →</a>
               <div style="background:var(--color-background-secondary,#f8f6f2);border-top:1px solid var(--rule);padding:14px 18px;margin-top:16px;margin-left:-22px;margin-right:-22px;">
   <div style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-light);margin-bottom:8px;">Related intelligence</div>
   <div style="font-size:11px;color:var(--ink-mid);margin-bottom:10px;">AppDirect's M&A velocity in Canadian SaaS is contextualised within the North American tech consolidation trends in our Technology & Digital report.</div>
@@ -1265,7 +1353,6 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
         <div class="article-headline">pH7 wraps Series B as it readies to bring critical mineral extraction tech to mining</div>
         <div class="article-footer">
           <span class="article-date">Apr 13, 2026</span>
-          <a href="/reports/" class="issue-pill" style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.1em;text-transform:uppercase;color:#8B1A1A;border:1px solid #8B1A1A;padding:2px 7px;text-decoration:none;white-space:nowrap;" target="_self">Featured in #003 →</a>
           <span class="article-toggle">+</span>
         </div>
       </div>
@@ -1290,7 +1377,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
             <p style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-light);margin-bottom:4px;margin-top:12px;">What Others Can Learn</p><p>Canadian cleantech firms in mining support should examine pH7&#x27;s funding structure (equity plus venture debt) and investor base to replicate capital-raising success. Track which mining operators become pH7 customers—early adoption by majors like Teck or Barrick signals market readiness. Connect with Innovation Canada and SDTC (Sustainable Development Technology Canada) for similar-stage cleantech companies seeking capital and deployment support.</p>
             </div>
             <div class="drawer-actions">
-              <a href="https://betakit.com/ph7-wraps-series-b-as-it-readies-to-bring-critical-mineral-extraction-tech-to-mining/" target="_blank" rel="noopener" class="drawer-link" style="color:var(--ink-mid);">Read original story →</a>
+              <a href="https://betakit.com/ph7-wraps-series-b-as-it-readies-to-bring-critical-mineral-extraction-tech-to-mining/" target="_blank" rel="noopener" class="drawer-link" style="color:var(--ink-mid);">Where we first saw it →</a>
               <div style="background:var(--color-background-secondary,#f8f6f2);border-top:1px solid var(--rule);padding:14px 18px;margin-top:16px;margin-left:-22px;margin-right:-22px;">
   <div style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-light);margin-bottom:8px;">Related intelligence</div>
   <div style="font-size:11px;color:var(--ink-mid);margin-bottom:10px;">pH7's Series B raise sits within the broader Canadian cleantech-minerals funding landscape tracked in our Critical Minerals report.</div>
@@ -1324,7 +1411,6 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
         <div class="article-headline">POET Technologies Provides Clarity on its Passive Foreign Investment Company (PFIC) Status</div>
         <div class="article-footer">
           <span class="article-date">Apr 14, 2026</span>
-          <a href="/reports/" class="issue-pill" style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.1em;text-transform:uppercase;color:#8B1A1A;border:1px solid #8B1A1A;padding:2px 7px;text-decoration:none;white-space:nowrap;" target="_self">Featured in #003 →</a>
           <span class="article-toggle">+</span>
         </div>
       </div>
@@ -1349,7 +1435,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
             <p style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-light);margin-bottom:4px;margin-top:12px;">What Others Can Learn</p><p>Canadian tech companies approaching significant U.S. equity raises should engage U.S. tax counsel on PFIC classification at the deal structuring stage, not after listing. Consider whether a Delaware subsidiary or dual-listing structure shields shareholders before committing to Canadian domicile. Early coordination with legal and investor relations prevents costly governance surprises that force redomiciliation.</p>
             </div>
             <div class="drawer-actions">
-              <a href="https://montrealgazette.com/press-releases/globe-newswire/poet-technologies-provides-clarity-on-its-passive-foreign-investment-company-pfic-status/" target="_blank" rel="noopener" class="drawer-link" style="color:var(--ink-mid);">Read original story →</a>
+              <a href="https://montrealgazette.com/press-releases/globe-newswire/poet-technologies-provides-clarity-on-its-passive-foreign-investment-company-pfic-status/" target="_blank" rel="noopener" class="drawer-link" style="color:var(--ink-mid);">Where we first saw it →</a>
               <div style="background:var(--color-background-secondary,#f8f6f2);border-top:1px solid var(--rule);padding:14px 18px;margin-top:16px;margin-left:-22px;margin-right:-22px;">
   <div style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-light);margin-bottom:8px;">Related intelligence</div>
   <div style="font-size:11px;color:var(--ink-mid);margin-bottom:10px;">POET Technologies' PFIC redomiciliation is part of a larger structural challenge for Canadian tech companies with US listings, covered in our Technology report.</div>
@@ -1397,8 +1483,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
 
 <div class="issue-group" id="issue-002">
     <div class="issue-group-header">
-      <span class="issue-group-label">Issue #002</span>
-      <span class="issue-group-date">April 7, 2026</span>
+      <span class="issue-group-label">April 2026</span>
       <div class="issue-group-rule"></div>
     </div>
 
@@ -1419,7 +1504,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
             <p style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-light);margin-bottom:4px;margin-top:12px;">What Others Can Learn</p><p>Canadian resource firms considering or maintaining Mexico operations should audit security protocols through Export Development Canada (EDC) risk assessment tools and engage the Canadian Embassy in Mexico for real-time threat briefings. Contemporaneously engage insurance brokers specializing in political risk and kidnap-and-ransom coverage. Consider whether operational footprint can be rightsized or relocated to lower-risk Mexican jurisdictions or alternative suppliers.</p>
             </div>
             <div class="drawer-actions">
-              <a href="https://vancouversun.com/news/vancouver-based-mining-company-nine-workers-dead-mexico" target="_blank" rel="noopener" class="drawer-link" style="color:var(--ink-mid);">Read original story →</a>
+              <a href="https://vancouversun.com/news/vancouver-based-mining-company-nine-workers-dead-mexico" target="_blank" rel="noopener" class="drawer-link" style="color:var(--ink-mid);">Where we first saw it →</a>
               <div style="background:var(--color-background-secondary,#f8f6f2);border-top:1px solid var(--rule);padding:14px 18px;margin-top:16px;margin-left:-22px;margin-right:-22px;">
   <div style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-light);margin-bottom:8px;">Related intelligence</div>
   <div style="font-size:11px;color:var(--ink-mid);margin-bottom:10px;">Vizsla Silver's Mexico security crisis underscores the operational risk dimension of Canadian mining in Latin America, covered in our Critical Minerals report.</div>
@@ -1454,7 +1539,6 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
         <div class="article-headline">Drilling establishes continuity of high-grade core, bolstering scope for strong early cashflow</div>
         <div class="article-footer">
           <span class="article-date">Apr 8, 2026</span>
-          <a href="/reports/" class="issue-pill" style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.1em;text-transform:uppercase;color:#8B1A1A;border:1px solid #8B1A1A;padding:2px 7px;text-decoration:none;white-space:nowrap;" target="_self">Featured in #002 →</a>
           <span class="article-toggle">+</span>
         </div>
       </div>
@@ -1479,7 +1563,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
             <p style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-light);margin-bottom:4px;margin-top:12px;">What Others Can Learn</p><p>If you operate an adjacent junior mining or exploration project in Quebec or Atlantic Canada, track this operator&#x27;s resource estimate release and permitting timeline; engage early with the engineering and equipment supply chain (crushing, flotation, smelting services) and identify potential joint-venture or toll-processing partnerships. Contact Minerals and Metals Division at ISED Canada for critical minerals project support grants and export readiness programming.</p>
             </div>
             <div class="drawer-actions">
-              <a href="https://montrealgazette.com/press-releases/globe-newswire/drilling-establishes-continuity-of-high-grade-core-bolstering-scope-for-strong-early-cashflow/" target="_blank" rel="noopener" class="drawer-link" style="color:var(--ink-mid);">Read original story →</a>
+              <a href="https://montrealgazette.com/press-releases/globe-newswire/drilling-establishes-continuity-of-high-grade-core-bolstering-scope-for-strong-early-cashflow/" target="_blank" rel="noopener" class="drawer-link" style="color:var(--ink-mid);">Where we first saw it →</a>
               <div style="background:var(--color-background-secondary,#f8f6f2);border-top:1px solid var(--rule);padding:14px 18px;margin-top:16px;margin-left:-22px;margin-right:-22px;">
   <div style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-light);margin-bottom:8px;">Related intelligence</div>
   <div style="font-size:11px;color:var(--ink-mid);margin-bottom:10px;">Green Bay's high-grade copper-gold drilling results connect to the Quebec critical minerals development pipeline tracked in our Critical Minerals report.</div>
@@ -1530,7 +1614,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
             <p style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-light);margin-bottom:4px;margin-top:12px;">What Others Can Learn</p><p>Canadian resource firms considering or maintaining Mexico operations should audit security protocols through Export Development Canada (EDC) risk assessment tools and engage the Canadian Embassy in Mexico for real-time threat briefings. Contemporaneously engage insurance brokers specializing in political risk and kidnap-and-ransom coverage. Consider whether operational footprint can be rightsized or relocated to lower-risk Mexican jurisdictions or alternative suppliers.</p>
             </div>
             <div class="drawer-actions">
-              <a href="https://vancouversun.com/news/vancouver-based-mining-company-nine-workers-dead-mexico" target="_blank" rel="noopener" class="drawer-link" style="color:var(--ink-mid);">Read original story →</a>
+              <a href="https://vancouversun.com/news/vancouver-based-mining-company-nine-workers-dead-mexico" target="_blank" rel="noopener" class="drawer-link" style="color:var(--ink-mid);">Where we first saw it →</a>
               <div style="background:var(--color-background-secondary,#f8f6f2);border-top:1px solid var(--rule);padding:14px 18px;margin-top:16px;margin-left:-22px;margin-right:-22px;">
   <div style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-light);margin-bottom:8px;">Related intelligence</div>
   <div style="font-size:11px;color:var(--ink-mid);margin-bottom:10px;">Vizsla Silver's Mexico security crisis underscores the operational risk dimension of Canadian mining in Latin America, covered in our Critical Minerals report.</div>
@@ -1566,8 +1650,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
 
 <div class="issue-group" id="issue-001">
     <div class="issue-group-header">
-      <span class="issue-group-label">Issue #001</span>
-      <span class="issue-group-date">March 2026</span>
+      <span class="issue-group-label">March 2026</span>
       <div class="issue-group-rule"></div>
     </div>
 
@@ -1583,7 +1666,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
             <h2>Upstart B.C. mining company makes play in critical minerals sector. Can it compete with China?</h2>
             <div class="drawer-body"><p>Vancouver-based Defense Metals Corp. is developing Canada&#x27;s first rare earths mine to compete with China&#x27;s dominance in critical minerals supply.</p></div>
             <div class="drawer-actions">
-              <a href="https://vancouversun.com/business/upstart-bc-mining-company-makes-play-in-critical-minerals-sector-can-it-compete-with-china" target="_blank" rel="noopener" class="drawer-link" style="color:var(--ink-mid);">Read original story →</a>
+              <a href="https://vancouversun.com/business/upstart-bc-mining-company-makes-play-in-critical-minerals-sector-can-it-compete-with-china" target="_blank" rel="noopener" class="drawer-link" style="color:var(--ink-mid);">Where we first saw it →</a>
               <a href="https://defensemetals.com" target="_blank" rel="noopener" class="drawer-link" style="color:var(--ink-mid);">Visit Defense Metals Corp. →</a>
               <div style="background:var(--color-background-secondary,#f8f6f2);border-top:1px solid var(--rule);padding:14px 18px;margin-top:16px;margin-left:-22px;margin-right:-22px;">
   <div style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-light);margin-bottom:8px;">Related intelligence</div>
@@ -1621,7 +1704,6 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
         <div class="article-headline">EDC and CIB extend financing package to Nouveau Monde Graphite</div>
         <div class="article-footer">
           <span class="article-date">Mar 17, 2026</span>
-          <a href="/reports/" class="issue-pill" style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.1em;text-transform:uppercase;color:#8B1A1A;border:1px solid #8B1A1A;padding:2px 7px;text-decoration:none;white-space:nowrap;" target="_self">Featured in #001 →</a>
           <span class="article-toggle">+</span>
         </div>
       </div>
@@ -1641,7 +1723,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
             <h2>EDC and CIB extend financing package to Nouveau Monde Graphite</h2>
             <div class="drawer-body"><p>Nouveau Monde Graphite secured EDC and CIB financing to develop a graphite mine supporting critical mineral supply chains for energy and defence sectors.</p></div>
             <div class="drawer-actions">
-              <a href="https://www.canadianmanufacturing.com/manufacturing/edc-and-cib-extend-financing-package-to-nouveau-monde-graphite-317167/" target="_blank" rel="noopener" class="drawer-link" style="color:var(--ink-mid);">Read original story →</a>
+              <a href="https://www.canadianmanufacturing.com/manufacturing/edc-and-cib-extend-financing-package-to-nouveau-monde-graphite-317167/" target="_blank" rel="noopener" class="drawer-link" style="color:var(--ink-mid);">Where we first saw it →</a>
               <a href="https://nouveaumonde.ca" target="_blank" rel="noopener" class="drawer-link" style="color:var(--ink-mid);">Visit Nouveau Monde Graphite →</a>
               <div style="background:var(--color-background-secondary,#f8f6f2);border-top:1px solid var(--rule);padding:14px 18px;margin-top:16px;margin-left:-22px;margin-right:-22px;">
   <div style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-light);margin-bottom:8px;">Related intelligence</div>
@@ -1678,7 +1760,6 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
         <div class="article-headline">Unifor releases statement after Boart Longyear decision to move jobs to China</div>
         <div class="article-footer">
           <span class="article-date">Mar 17, 2026</span>
-          <a href="/reports/" class="issue-pill" style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.1em;text-transform:uppercase;color:#8B1A1A;border:1px solid #8B1A1A;padding:2px 7px;text-decoration:none;white-space:nowrap;" target="_self">Featured in #001 →</a>
           <span class="article-toggle">+</span>
         </div>
       </div>
@@ -1698,7 +1779,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
             <h2>Unifor releases statement after Boart Longyear decision to move jobs to China</h2>
             <div class="drawer-body"><p>Boart Longyear is relocating jobs from Canada to China, representing a supply chain loss in the strategic mining equipment sector.</p></div>
             <div class="drawer-actions">
-              <a href="https://www.canadianmanufacturing.com/manufacturing/unifor-releases-statement-after-boart-longyear-decision-to-move-jobs-to-china-317165/" target="_blank" rel="noopener" class="drawer-link" style="color:var(--ink-mid);">Read original story →</a>
+              <a href="https://www.canadianmanufacturing.com/manufacturing/unifor-releases-statement-after-boart-longyear-decision-to-move-jobs-to-china-317165/" target="_blank" rel="noopener" class="drawer-link" style="color:var(--ink-mid);">Where we first saw it →</a>
               <a href="https://boartlongyear.com" target="_blank" rel="noopener" class="drawer-link" style="color:var(--ink-mid);">Visit Boart Longyear →</a>
               <div style="background:var(--color-background-secondary,#f8f6f2);border-top:1px solid var(--rule);padding:14px 18px;margin-top:16px;margin-left:-22px;margin-right:-22px;">
   <div style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-light);margin-bottom:8px;">Related intelligence</div>
@@ -1734,7 +1815,6 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
         <div class="article-headline">Saint John&#x27;s port is booming as Ontario shippers seek to dodge U.S. tariffs</div>
         <div class="article-footer">
           <span class="article-date">Mar 16, 2026</span>
-          <a href="/reports/" class="issue-pill" style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.1em;text-transform:uppercase;color:#8B1A1A;border:1px solid #8B1A1A;padding:2px 7px;text-decoration:none;white-space:nowrap;" target="_self">Featured in #001 →</a>
           <span class="article-toggle">+</span>
         </div>
       </div>
@@ -1754,7 +1834,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
             <h2>Saint John&#x27;s port is booming as Ontario shippers seek to dodge U.S. tariffs</h2>
             <div class="drawer-body"><p>Port of Saint John saw 153% container traffic surge as Canadian shippers reroute exports to avoid U.S. tariffs, reshaping national trade corridors.</p></div>
             <div class="drawer-actions">
-              <a href="https://financialpost.com/news/economy/saint-johns-port-booming-ontario-shippers-dodge-tariffs" target="_blank" rel="noopener" class="drawer-link" style="color:var(--ink-mid);">Read original story →</a>
+              <a href="https://financialpost.com/news/economy/saint-johns-port-booming-ontario-shippers-dodge-tariffs" target="_blank" rel="noopener" class="drawer-link" style="color:var(--ink-mid);">Where we first saw it →</a>
               <a href="https://sjport.com" target="_blank" rel="noopener" class="drawer-link" style="color:var(--ink-mid);">Visit Port of Saint John →</a>
               <div style="background:var(--color-background-secondary,#f8f6f2);border-top:1px solid var(--rule);padding:14px 18px;margin-top:16px;margin-left:-22px;margin-right:-22px;">
   <div style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-light);margin-bottom:8px;">Related intelligence</div>
@@ -1790,7 +1870,6 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
         <div class="article-headline">Top Aces awarded contract for F-16 pilot training in support of the Argentine Air Force</div>
         <div class="article-footer">
           <span class="article-date">Mar 16, 2026</span>
-          <a href="/reports/" class="issue-pill" style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.1em;text-transform:uppercase;color:#8B1A1A;border:1px solid #8B1A1A;padding:2px 7px;text-decoration:none;white-space:nowrap;" target="_self">Featured in #001 →</a>
           <span class="article-toggle">+</span>
         </div>
       </div>
@@ -1810,7 +1889,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
             <h2>Top Aces awarded contract for F-16 pilot training in support of the Argentine Air Force</h2>
             <div class="drawer-body"><p>Montreal-based Top Aces won a multi-year contract to provide F-16 pilot training services to the Argentine Air Force as Argentina transitions to new Danish F-16 aircraft.</p></div>
             <div class="drawer-actions">
-              <a href="https://www.canadianmanufacturing.com/manufacturing/top-aces-awarded-contract-for-f-16-pilot-training-in-support-of-the-argentine-air-force-317109/" target="_blank" rel="noopener" class="drawer-link" style="color:var(--ink-mid);">Read original story →</a>
+              <a href="https://www.canadianmanufacturing.com/manufacturing/top-aces-awarded-contract-for-f-16-pilot-training-in-support-of-the-argentine-air-force-317109/" target="_blank" rel="noopener" class="drawer-link" style="color:var(--ink-mid);">Where we first saw it →</a>
               <a href="https://topaces.com" target="_blank" rel="noopener" class="drawer-link" style="color:var(--ink-mid);">Visit Top Aces →</a>
               <div style="background:var(--color-background-secondary,#f8f6f2);border-top:1px solid var(--rule);padding:14px 18px;margin-top:16px;margin-left:-22px;margin-right:-22px;">
   <div style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-light);margin-bottom:8px;">Related intelligence</div>
@@ -1846,7 +1925,6 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
         <div class="article-headline">C$42M closed — Japanese trading house leads Quebec lithium round</div>
         <div class="article-footer">
           <span class="article-date">Mar 15, 2026</span>
-          <a href="/reports/" class="issue-pill" style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.1em;text-transform:uppercase;color:#8B1A1A;border:1px solid #8B1A1A;padding:2px 7px;text-decoration:none;white-space:nowrap;" target="_self">Featured in #001 →</a>
           <span class="article-toggle">+</span>
         </div>
       </div>
@@ -1909,7 +1987,6 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
         <div class="article-headline">5-year Indonesia potash agreement — 800,000MT annually, EDC underpins the deal</div>
         <div class="article-footer">
           <span class="article-date">Mar 15, 2026</span>
-          <a href="/reports/" class="issue-pill" style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.1em;text-transform:uppercase;color:#8B1A1A;border:1px solid #8B1A1A;padding:2px 7px;text-decoration:none;white-space:nowrap;" target="_self">Featured in #001 →</a>
           <span class="article-toggle">+</span>
         </div>
       </div>
@@ -1970,7 +2047,6 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
         <div class="article-headline">£180M UK MoD flight training contract — Five Eyes credential grows</div>
         <div class="article-footer">
           <span class="article-date">Mar 15, 2026</span>
-          <a href="/reports/" class="issue-pill" style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.1em;text-transform:uppercase;color:#8B1A1A;border:1px solid #8B1A1A;padding:2px 7px;text-decoration:none;white-space:nowrap;" target="_self">Featured in #001 →</a>
           <span class="article-toggle">+</span>
         </div>
       </div>
@@ -2031,7 +2107,6 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
         <div class="article-headline">Canada's first end-to-end rare earth processing pathway — now open to other producers</div>
         <div class="article-footer">
           <span class="article-date">Mar 15, 2026</span>
-          <a href="/reports/" class="issue-pill" style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.1em;text-transform:uppercase;color:#8B1A1A;border:1px solid #8B1A1A;padding:2px 7px;text-decoration:none;white-space:nowrap;" target="_self">Featured in #001 →</a>
           <span class="article-toggle">+</span>
         </div>
       </div>
@@ -2092,7 +2167,6 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
         <div class="article-headline">Shortlisted for Japan Digital Agency ¥80B pilot — CPTPP access at work</div>
         <div class="article-footer">
           <span class="article-date">Mar 15, 2026</span>
-          <a href="/reports/" class="issue-pill" style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.1em;text-transform:uppercase;color:#8B1A1A;border:1px solid #8B1A1A;padding:2px 7px;text-decoration:none;white-space:nowrap;" target="_self">Featured in #001 →</a>
           <span class="article-toggle">+</span>
         </div>
       </div>
@@ -2153,7 +2227,6 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
         <div class="article-headline">$180M Hamilton acquisition — Canadian supply chain opportunity opens</div>
         <div class="article-footer">
           <span class="article-date">Mar 15, 2026</span>
-          <a href="/reports/" class="issue-pill" style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.1em;text-transform:uppercase;color:#8B1A1A;border:1px solid #8B1A1A;padding:2px 7px;text-decoration:none;white-space:nowrap;" target="_self">Featured in #001 →</a>
           <span class="article-toggle">+</span>
         </div>
       </div>
@@ -2213,7 +2286,6 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
         <div class="article-company">Cameco</div>
         <div class="article-headline">Kazakhstan supply disruption — Cameco moves first on European utility demand</div>
         <div class="article-footer"><span class="article-date">Mar 10, 2026</span>
-          <a href="/reports/" class="issue-pill" style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.1em;text-transform:uppercase;color:#8B1A1A;border:1px solid #8B1A1A;padding:2px 7px;text-decoration:none;white-space:nowrap;" target="_self">Featured in #001 →</a>
           <span class="article-toggle">+</span></div>
       </div>
       
@@ -2261,7 +2333,6 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
         <div class="article-company">Richardson International</div>
         <div class="article-headline">EU canola oil pivot — reducing China concentration risk under CETA</div>
         <div class="article-footer"><span class="article-date">Mar 10, 2026</span>
-          <a href="/reports/" class="issue-pill" style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.1em;text-transform:uppercase;color:#8B1A1A;border:1px solid #8B1A1A;padding:2px 7px;text-decoration:none;white-space:nowrap;" target="_self">Featured in #001 →</a>
           <span class="article-toggle">+</span></div>
       </div>
       
@@ -2308,7 +2379,6 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
         <div class="article-company">StandardAero</div>
         <div class="article-headline">USAF C-130 MRO contract — NORAD adjacency as a market entry tool</div>
         <div class="article-footer"><span class="article-date">Mar 10, 2026</span>
-          <a href="/reports/" class="issue-pill" style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.1em;text-transform:uppercase;color:#8B1A1A;border:1px solid #8B1A1A;padding:2px 7px;text-decoration:none;white-space:nowrap;" target="_self">Featured in #001 →</a>
           <span class="article-toggle">+</span></div>
       </div>
       
@@ -2450,11 +2520,36 @@ function closeTile(id, event) {
 }
 
 function filterSector(sector, btn) {
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
+  document.querySelectorAll('.filter-btn')
+    .forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
   activeFilter = sector;
   if (openTile) closeTile(openTile);
-  applyFilters();
+
+  let visibleCount = 0;
+  document.querySelectorAll('.article-card').forEach(card => {
+    const show = sector === 'all' ||
+                 card.dataset.sector === sector;
+    card.style.display = show ? '' : 'none';
+    if (show) visibleCount++;
+    if (!show) {
+      const tid = card.dataset.tile;
+      if (tid) {
+        const drawer = document.getElementById('drawer-'+tid);
+        if (drawer) {
+          drawer.style.maxHeight = '0';
+          drawer.style.overflow = 'hidden';
+        }
+      }
+    }
+  });
+
+  // Show/hide month groups based on visible cards
+  document.querySelectorAll('.issue-group').forEach(group => {
+    const hasVisible = group.querySelector(
+      '.article-card:not([style*="display: none"])');
+    group.style.display = hasVisible ? '' : 'none';
+  });
 }
 
 function filterType(type, btn) {
@@ -2482,38 +2577,6 @@ function applyFilters() {
 }
 </script>
 
-<script>
-
-  </div>
-</div>
-
-// Dynamically update hardcoded report links with latest from reports-index.json
-fetch('/reports/reports-index.json')
-  .then(r=>r.json())
-  .then(data=>{
-    // Build a map: sector key → latest report URL
-    const latestBySector = {};
-    data.forEach(r=>{
-      const key = r.sector;
-      if(!key) return;
-      const url = r.url || r.html_file || (r.full_report ? '/reports/'+r.full_report : null);
-      if(!url) return;
-      if(!latestBySector[key] || new Date(r.date||0) > new Date(latestBySector[key].date||0)){
-        latestBySector[key] = {url, date: r.date||''};
-      }
-    });
-    // Update all drawer-link anchors pointing to hardcoded /reports/full_report_ URLs
-    document.querySelectorAll('a.drawer-link[href*="/reports/full_report_"]').forEach(a=>{
-      const href = a.getAttribute('href');
-      // Extract sector from filename pattern: full_report_SECTOR_DATE.html
-      const m = href.match(/full_report_([a-z_]+)_\d{4}-\d{2}-\d{2}\.html/);
-      if(m){
-        const sector = m[1];
-        if(latestBySector[sector]) a.href = latestBySector[sector].url;
-      }
-    });
-  }).catch(()=>{});
-</script>
 
 </body>
 </html>
