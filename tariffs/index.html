@@ -205,6 +205,15 @@
     .finder-fta-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
   }
 
+  /* ── CONSUMER SEARCH ── */
+  .consumer-search-section { max-width: 1140px; margin: 0 auto; padding: 32px 40px 24px; border-bottom: 2px solid var(--rule); background: #fff; }
+  .consumer-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--brand); margin-bottom: 6px; }
+  .consumer-desc { font-size: 13px; color: var(--ink-light); margin-bottom: 18px; line-height: 1.65; }
+  .consumer-match { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; color: var(--green); margin-top: 12px; padding: 8px 12px; background: #f0faf5; border-left: 3px solid var(--green); }
+  .consumer-no-match { font-size: 13px; color: var(--ink-light); margin-top: 12px; padding: 10px 14px; background: var(--cream); border-left: 3px solid var(--rule); line-height: 1.65; }
+  .consumer-no-match a { color: var(--brand); }
+  @media(max-width:900px){ .consumer-search-section { padding: 24px 20px; } }
+
 .nav-dropdown{position:relative;display:inline-flex;align-items:center;}
 .nav-dropdown-btn{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.6);background:none;border:none;cursor:pointer;padding:0;transition:color 0.2s;}
 .nav-dropdown-btn:hover{color:rgba(204,0,0,0.9);}
@@ -261,6 +270,23 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
       <strong>Active tariff situation:</strong> US Section 232 tariffs on Canadian steel (25%) and aluminum (25%) remain in effect with no CUSMA exemption. Canada's retaliatory tariffs on US steel and aluminum also remain. Canola tariff situation with China partially resolved March 1, 2026 — canola meal tariff eliminated, seed reduced to 15%, but canola oil remains subject to 100% tariff.
       <a href="#current-tariffs">See current tariff table →</a>
     </div>
+  </div>
+</div>
+
+<!-- CONSUMER SEARCH -->
+<div class="finder-wrap" id="consumer-search">
+  <div class="consumer-search-section">
+    <div class="consumer-label">NOT SURE WHAT TO SEARCH? TYPE WHAT YOU BUY</div>
+    <p class="consumer-desc">Type everyday products — "running shoes", "laptop", "baby formula", "wine" — and we'll find the relevant tariff information for you. No codes required.</p>
+    <div class="finder-form">
+      <input type="text" id="consumer-input"
+        placeholder="e.g. running shoes, laptop, olive oil, cotton t-shirt…"
+        class="finder-input"
+        onkeydown="if(event.key==='Enter')consumerSearch()"
+        autocomplete="off" spellcheck="false">
+      <button onclick="consumerSearch()" class="finder-btn">Look Up →</button>
+    </div>
+    <div id="consumer-results"></div>
   </div>
 </div>
 
@@ -977,6 +1003,72 @@ const TARIFF_DEMO = [
     fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
     coo:true, notes:"5G base stations and telecommunications equipment. Free under ITA. Equipment from sanctioned suppliers may be restricted under Canadian national security review provisions." },
 ];
+
+const CONSUMER_MAP = {
+  "running shoes": "6404", "sneakers": "6404", "shoes": "6401",
+  "boots": "6403", "sandals": "6402",
+  "t-shirt": "6109", "shirt": "6105", "clothing": "6109",
+  "jeans": "6203", "pants": "6203", "dress": "6204",
+  "jacket": "6201", "coat": "6201", "sweater": "6110",
+  "laptop": "8471", "computer": "8471", "tablet": "8471",
+  "phone": "8517", "smartphone": "8517",
+  "television": "8528", "tv": "8528",
+  "refrigerator": "8418", "washing machine": "8450",
+  "wine": "2204", "beer": "2203", "spirits": "2208",
+  "olive oil": "1509", "vegetable oil": "1512",
+  "coffee": "0901", "tea": "0902",
+  "chocolate": "1806", "candy": "1704",
+  "baby formula": "1901", "infant formula": "1901",
+  "cheese": "0406", "butter": "0405", "milk": "0401",
+  "beef": "0202", "chicken": "0207", "pork": "0203", "fish": "0302",
+  "rice": "1006", "wheat": "1001", "bread": "1905",
+  "apple": "0808", "orange": "0805", "banana": "0803",
+  "tomato": "0702", "potato": "0701",
+  "car": "8703", "automobile": "8703", "truck": "8704",
+  "bicycle": "8712", "motorcycle": "8711",
+  "furniture": "9403", "chair": "9401", "table": "9403",
+  "lumber": "4407", "wood": "4407", "steel": "7208",
+  "aluminum": "7601", "copper": "7403",
+  "solar panel": "8541", "battery": "8507",
+  "medication": "3004", "medicine": "3004",
+  "toy": "9503", "game": "9504",
+  "book": "4901", "magazine": "4902",
+  "perfume": "3303", "cosmetics": "3304",
+  "watch": "9102", "jewellery": "7113", "jewelry": "7113",
+  "mattress": "9404", "pillow": "9404",
+  "candle": "3406", "soap": "3401",
+  "pet food": "2309", "dog food": "2309"
+};
+
+function consumerSearch() {
+  const term = document.getElementById('consumer-input').value.toLowerCase().trim();
+  if (!term) return;
+
+  let matched = null;
+  for (const [key, code] of Object.entries(CONSUMER_MAP)) {
+    if (term.includes(key) || key.includes(term)) {
+      matched = code;
+      break;
+    }
+  }
+
+  const resultsDiv = document.getElementById('consumer-results');
+  if (matched) {
+    // Populate the main finder input (by ID to avoid ambiguity) and trigger search
+    const finderInput = document.getElementById('finder-input');
+    if (finderInput) {
+      finderInput.value = matched;
+      findRate();
+      // Scroll down to show the results in the finder
+      document.getElementById('rate-finder').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    resultsDiv.innerHTML =
+      `<p class="consumer-match">Searching for HS chapter ${matched} — ${escHtml(term)}</p>`;
+  } else {
+    resultsDiv.innerHTML =
+      `<p class="consumer-no-match">We don't have a direct match for "${escHtml(term)}". Try searching the HS code lookup below, or <a href="https://www.cbsa-asfc.gc.ca/trade-commerce/tariff-tarif/2026/html/tblmod-1-eng.html" target="_blank" rel="noopener">browse CBSA tariff schedules →</a></p>`;
+  }
+}
 
 let TARIFF_DATA = null;
 
