@@ -1066,6 +1066,19 @@ function renderFinderCard(e) {
     </div>`;
 }
 
+// URL param pre-filter — ?country=japan populates and runs the search
+(function() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const countryParam = urlParams.get('country');
+  if (countryParam) {
+    const input = document.querySelector('.finder-input');
+    if (input) {
+      input.value = countryParam.replace(/-/g, ' ');
+      findRate();
+    }
+  }
+})();
+
 // Accordion scroll-aware sidebar highlighting
 const sections = document.querySelectorAll('.content-section');
 const sidebarLinks = document.querySelectorAll('.sidebar-nav a');
