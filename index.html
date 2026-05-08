@@ -703,7 +703,8 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
 <div class="sample-strip" id="latest-issue-strip">
   <div class="section-kicker" style="margin-bottom:10px;">Latest Issue</div>
   <p style="font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-light);margin-bottom:8px;">What subscribers received this week:</p>
-  <div id="latest-issue-line" style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;font-style:italic;color:var(--ink);margin-bottom:16px;">Loading latest issue…</div>
+  <div id="latest-issue-line" style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;font-style:italic;color:var(--ink);margin-bottom:12px;">Loading latest issue…</div>
+  <div id="latest-issue-sectors" style="margin-bottom:16px;"></div>
   <a href="/samples/" class="btn-primary" style="display:inline-block;">READ A SAMPLE REPORT →</a>
 </div>
 
@@ -800,17 +801,35 @@ const SECTOR_COLOURS = {
       }
     }
 
-    // Latest issue strip
-    const issueEl = document.getElementById('latest-issue-line');
-    if (issueEl && d.issue && d.generated) {
-      const dt = new Date(d.generated + 'T12:00:00');
-      const dateStr = dt.toLocaleDateString('en-CA', { month: 'long', day: 'numeric', year: 'numeric' });
-      issueEl.textContent = 'Issue #' + String(d.issue).padStart(3,'0') + ' is live. Six sectors. ' + dateStr + '.';
-    }
   } catch(e) {
     // Fallback — hide signal strip, keep static sample text
-    const issueEl = document.getElementById('latest-issue-line');
-    if (issueEl) issueEl.textContent = 'This week\'s intelligence brief — six sectors, every Tuesday.';
+  }
+})();
+
+// Latest issue strip — auto-updates from reports-index.json
+(async function() {
+  const issueEl = document.getElementById('latest-issue-line');
+  const sectorsEl = document.getElementById('latest-issue-sectors');
+  try {
+    const r = await fetch('/reports/reports-index.json');
+    if (!r.ok) throw new Error('fetch failed');
+    const data = await r.json();
+    const maxIssue = Math.max(...data.map(function(e) { return e.issue; }));
+    const entries = data.filter(function(e) { return e.issue === maxIssue; });
+    if (!entries.length) throw new Error('no entries');
+    const dt = new Date(entries[0].date + 'T12:00:00');
+    const dateStr = dt.toLocaleDateString('en-CA', { month: 'long', day: 'numeric', year: 'numeric' });
+    if (issueEl) {
+      issueEl.textContent = 'Issue #' + String(maxIssue).padStart(3,'0') + ' \u2014 ' + dateStr;
+    }
+    if (sectorsEl) {
+      var links = entries.map(function(e) {
+        return '<a href="/reports/' + e.full_report + '" style="font-family:\'DM Mono\',monospace;font-size:11px;color:var(--ink);text-decoration:none;display:inline-block;margin:0 10px 6px 0;padding:4px 10px;border:1px solid rgba(0,0,0,0.18);">' + e.sector_display + ' \u2192</a>';
+      }).join('');
+      sectorsEl.innerHTML = links + '<br><a href="/reports/" style="font-family:\'DM Mono\',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--red,#cc0000);text-decoration:none;display:inline-block;margin-top:10px;">Browse all reports \u2192</a>';
+    }
+  } catch(e) {
+    if (issueEl) issueEl.textContent = 'This week\'s intelligence brief \u2014 six sectors, every Tuesday.';
   }
 })();
 </script>
