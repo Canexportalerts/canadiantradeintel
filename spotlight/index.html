@@ -369,6 +369,67 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
 .footer-copy{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:0.08em;color:rgba(255,255,255,0.3);}
 @media(max-width:900px){.footer-grid{grid-template-columns:1fr 1fr;gap:28px;}footer{padding:36px 24px 0;}}
 @media(max-width:560px){.footer-grid{grid-template-columns:1fr;}}
+
+/* ── SEARCH BAR ── */
+.ed-search-bar{background:#1a1a14;border-bottom:1px solid rgba(255,255,255,0.08);padding:0 40px;}
+.ed-search-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:10px;height:48px;}
+.ed-search-icon{color:rgba(255,255,255,0.3);font-size:14px;flex-shrink:0;}
+.ed-search-input{flex:1;background:transparent;border:none;outline:none;font-family:'DM Mono',monospace;font-size:12px;letter-spacing:0.06em;color:#fff;caret-color:#cc0000;}
+.ed-search-input::placeholder{color:rgba(255,255,255,0.3);}
+@media(max-width:900px){.ed-search-bar{padding:0 16px;}}
+
+/* ── EDITORIAL CONTAINER ── */
+.ed-container{max-width:1100px;margin:0 auto;padding:44px 40px 0;}
+@media(max-width:900px){.ed-container{padding:28px 16px 0;}}
+
+/* ── EDITORIAL SECTION ── */
+.ed-section{margin-bottom:52px;}
+.ed-section-header{display:flex;align-items:center;justify-content:space-between;padding-bottom:8px;border-bottom:2px solid #cc0000;margin-bottom:20px;}
+.ed-section-title{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:#1a1a14;}
+.ed-section-count{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;color:#aaa;}
+
+/* ── STANDARD 3-COL GRID ── */
+.ed-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+@media(max-width:960px){.ed-cards{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:600px){.ed-cards{grid-template-columns:1fr;}}
+
+/* ── FEATURED GRID (Canada in the World) ── */
+.ed-cards-featured{display:grid;grid-template-columns:2fr 1fr;gap:18px;}
+.ed-cards-featured .article-card:first-child{grid-row:1/3;}
+@media(max-width:700px){.ed-cards-featured{grid-template-columns:1fr;}.ed-cards-featured .article-card:first-child{grid-row:auto;}}
+
+/* ── SME SIDEBAR GRID ── */
+.ed-cards-sme{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+.ed-cards-sme .article-card{min-height:auto;}
+.ed-cards-sme .article-headline{display:none;}
+@media(max-width:960px){.ed-cards-sme{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:600px){.ed-cards-sme{grid-template-columns:1fr;}}
+
+/* ── FEATURED CARD ── */
+.article-card.card-featured .article-company{font-size:26px;}
+.article-card.card-featured .article-headline{font-size:14px;display:block;}
+
+/* ── DRAWERS IN ED GRID ── */
+.ed-cards .article-drawer,.ed-cards-featured .article-drawer,.ed-cards-sme .article-drawer{grid-column:1/-1;}
+
+/* ── TARIFF CALLOUT ── */
+.tariff-callout{max-width:1100px;margin:0 auto 40px;padding:0 40px;}
+.tariff-callout-inner{background:#f8f6f2;border-left:3px solid #cc0000;border-radius:0 4px 4px 0;padding:18px 24px;display:flex;align-items:center;gap:32px;flex-wrap:wrap;}
+.tariff-callout-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.16em;text-transform:uppercase;color:#888;min-width:120px;}
+.tariff-callout-desc{font-size:14px;color:#3a3a30;line-height:1.65;flex:1;margin:0;}
+.tariff-callout-link{font-family:'DM Mono',monospace;font-size:11px;color:#cc0000;text-decoration:none;white-space:nowrap;flex-shrink:0;}
+.tariff-callout-link:hover{text-decoration:underline;}
+@media(max-width:900px){.tariff-callout{padding:0 16px;}.tariff-callout-inner{gap:16px;}}
+
+/* ── PAGE NAV ── */
+.page-nav{max-width:1100px;margin:0 auto 60px;padding:0 40px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid #e0dcd4;padding-top:20px;}
+.page-nav-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#aaa;}
+.page-nav-link{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#cc0000;text-decoration:none;}
+.page-nav-link:hover{text-decoration:underline;}
+@media(max-width:900px){.page-nav{padding:20px 16px 0;}}
+
+/* ── SEARCH HIDDEN ── */
+.article-card.ed-hidden{display:none!important;}
 </style>
 <script src="/nav.js"></script>
 </head>
@@ -390,39 +451,48 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
   </div>
 </div>
 
-<!-- FILTER BAR -->
-<div class="filter-bar">
-  <div class="filter-bar-inner">
-    <div class="spotlight-filters">
-      <button class="filter-btn active" onclick="filterSector('all',this)">All Stories</button>
-      <button class="filter-btn f-min" onclick="filterSector('minerals',this)">Critical Minerals</button>
-      <button class="filter-btn f-energy" onclick="filterSector('energy',this)">Energy</button>
-      <button class="filter-btn f-mfg" onclick="filterSector('mfg',this)">Manufacturing</button>
-      <button class="filter-btn f-aero" onclick="filterSector('aerospace',this)">Aerospace &amp; Defence</button>
-      <button class="filter-btn f-agri" onclick="filterSector('agri',this)">Agri-food</button>
-      <button class="filter-btn f-tech" onclick="filterSector('tech',this)">Technology</button>
-      <button class="filter-btn f-economy" onclick="filterSector('economy',this)">Canadian Economy</button>
+<!-- SEARCH BAR -->
+<div class="ed-search-bar">
+  <div class="ed-search-inner">
+    <span class="ed-search-icon">&#9906;</span>
+    <input type="search" id="ed-search" class="ed-search-input"
+           placeholder="Search stories, companies, sectors, provinces…"
+           oninput="edSearch()" autocomplete="off">
+  </div>
+</div>
+
+<!-- EDITORIAL GRID -->
+<div id="editorial-grid" class="ed-container"></div>
+
+<!-- TARIFF CALLOUT -->
+<div class="tariff-callout">
+  <div class="tariff-callout-inner">
+    <div class="tariff-callout-label">Tariff Reference</div>
+    <p class="tariff-callout-desc">See how tariffs affect the goods and deals in these stories. Look up any product by name — no HS codes needed.</p>
+    <a href="/tariffs/" class="tariff-callout-link">Open Tariff Tool →</a>
+  </div>
+</div>
+
+<!-- PAGE NAV -->
+<div class="page-nav">
+  <span id="page-nav-current" class="page-nav-label"></span>
+  <a id="page-nav-prev" href="?week=prev" class="page-nav-link">← Previous Week</a>
+</div>
+
+<div class="cta-strip">
+    <div class="cta-strip-inner">
+      <div>
+        <h3>Want the intelligence behind each story?</h3>
+        <p>Spotlight stories are free. Full weekly intelligence reports — signals, step-by-step actions, market entry pathways — are for subscribers.</p>
+      </div>
+      <a href="https://canadiantradeintel.ca/pricing" class="cta-btn">See Plans →</a>
     </div>
-    <input type="search" id="spotlight-search" class="search-input" placeholder="Search companies, markets..." oninput="applyFilters()" />
   </div>
-</div>
 
-<!-- STORY TYPE BAR -->
-<div class="type-bar">
-  <div class="type-bar-inner">
-    <button class="type-btn active" onclick="filterType('all',this)">All Types</button>
-    <button class="type-btn" onclick="filterType('international_deal',this)">Int'l Deal</button>
-    <button class="type-btn" onclick="filterType('investment',this)">Investment</button>
-    <button class="type-btn" onclick="filterType('company_growth',this)">Company Growth</button>
-    <button class="type-btn" onclick="filterType('commodity_trade',this)">Commodity</button>
-    <button class="type-btn" onclick="filterType('supply_chain',this)">Supply Chain</button>
-    <button class="type-btn" onclick="filterType('trade_mission',this)">Trade Mission</button>
-    <button class="type-btn" onclick="filterType('regulatory',this)">Regulatory</button>
-  </div>
-</div>
+<!-- CARD POOL (hidden — publisher.py injects here) -->
+<main id="card-pool" style="display:none">
+<!-- SPOTLIGHT:NEW-ISSUE -->
 
-<!-- BODY -->
-<main class="spotlight-body">
 
   <!-- ════ ISSUE — May 5, 2026 ════ -->
   <div class="issue-group" id="issue-006">
@@ -434,7 +504,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
     <div class="article-grid" id="grid-006">
 
       <!-- CARD 006-1: Shell Canada Energy / LNG Canada -->
-      <div class="article-card" data-sector="minerals" data-signal-type="international_deal" data-tile="006-1" onclick="toggleTile('006-1')">
+      <div class="article-card" data-sector="minerals" data-signal-type="international_deal" data-tile="006-1" onclick="toggleTile('006-1')" data-story-type="deal" data-is-sme="false">
         <div class="article-sector"><span class="sector-pip"></span> Critical Minerals<span class="article-signal-type st-international_deal">Int'l Deal</span></div>
         <div class="article-country">Japan, Malaysia, China, South Korea</div>
         <div class="article-company">Shell Canada Energy / LNG Canada</div>
@@ -479,7 +549,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
       </div>
 
       <!-- CARD 006-2: Strategic Resources -->
-      <div class="article-card" data-sector="minerals" data-signal-type="international_deal" data-tile="006-2" onclick="toggleTile('006-2')">
+      <div class="article-card" data-sector="minerals" data-signal-type="international_deal" data-tile="006-2" onclick="toggleTile('006-2')" data-story-type="deal" data-is-sme="false">
         <div class="article-sector"><span class="sector-pip"></span> Critical Minerals<span class="article-signal-type st-international_deal">Int'l Deal</span></div>
         <div class="article-country">United States (implied - Tyfast Energy location not confirmed but battery pathway suggests U.S. defense/EV market)</div>
         <div class="article-company">Strategic Resources</div>
@@ -524,7 +594,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
       </div>
 
       <!-- CARD 006-3: Cohere, Inc. -->
-      <div class="article-card" data-sector="tech" data-signal-type="international_deal" data-tile="006-3" onclick="toggleTile('006-3')">
+      <div class="article-card" data-sector="tech" data-signal-type="international_deal" data-tile="006-3" onclick="toggleTile('006-3')" data-story-type="deal" data-is-sme="false">
         <div class="article-sector"><span class="sector-pip"></span> Technology & Digital<span class="article-signal-type st-international_deal">Int'l Deal</span></div>
         <div class="article-country">Germany / European Union</div>
         <div class="article-company">Cohere, Inc.</div>
@@ -569,7 +639,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
       </div>
 
       <!-- CARD 006-4: Cohere -->
-      <div class="article-card" data-sector="tech" data-signal-type="international_deal" data-tile="006-4" onclick="toggleTile('006-4')">
+      <div class="article-card" data-sector="tech" data-signal-type="international_deal" data-tile="006-4" onclick="toggleTile('006-4')" data-story-type="deal" data-is-sme="false">
         <div class="article-sector"><span class="sector-pip"></span> Technology & Digital<span class="article-signal-type st-international_deal">Int'l Deal</span></div>
         <div class="article-country">Germany / European Union</div>
         <div class="article-company">Cohere</div>
@@ -614,7 +684,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
       </div>
 
       <!-- CARD 006-5: Carbonyx -->
-      <div class="article-card" data-sector="minerals" data-signal-type="company_growth" data-tile="006-5" onclick="toggleTile('006-5')">
+      <div class="article-card" data-sector="minerals" data-signal-type="company_growth" data-tile="006-5" onclick="toggleTile('006-5')" data-story-type="investment" data-is-sme="false">
         <div class="article-sector"><span class="sector-pip"></span> Critical Minerals<span class="article-signal-type st-company_growth">Company Growth</span></div>
         <div class="article-country"></div>
         <div class="article-company">Carbonyx</div>
@@ -659,7 +729,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
       </div>
 
       <!-- CARD 006-6: A&amp;K Robotics -->
-      <div class="article-card" data-sector="tech" data-signal-type="company_growth" data-tile="006-6" onclick="toggleTile('006-6')">
+      <div class="article-card" data-sector="tech" data-signal-type="company_growth" data-tile="006-6" onclick="toggleTile('006-6')" data-story-type="investment" data-is-sme="false">
         <div class="article-sector"><span class="sector-pip"></span> Technology & Digital<span class="article-signal-type st-company_growth">Company Growth</span></div>
         <div class="article-country"></div>
         <div class="article-company">A&amp;K Robotics</div>
@@ -716,7 +786,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
     <div class="article-grid" id="grid-005">
 
       <!-- CARD 005-1: Shell Canada Energy / LNG Canada -->
-      <div class="article-card" data-sector="minerals" data-signal-type="international_deal" data-tile="005-1" onclick="toggleTile('005-1')">
+      <div class="article-card" data-sector="minerals" data-signal-type="international_deal" data-tile="005-1" onclick="toggleTile('005-1')" data-story-type="deal" data-is-sme="false">
         <div class="article-sector"><span class="sector-pip"></span> Critical Minerals<span class="article-signal-type st-international_deal">Int'l Deal</span></div>
         <div class="article-country">Japan, Malaysia, China, South Korea</div>
         <div class="article-company">Shell Canada Energy / LNG Canada</div>
@@ -761,7 +831,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
       </div>
 
       <!-- CARD 005-2: Strategic Resources -->
-      <div class="article-card" data-sector="minerals" data-signal-type="international_deal" data-tile="005-2" onclick="toggleTile('005-2')">
+      <div class="article-card" data-sector="minerals" data-signal-type="international_deal" data-tile="005-2" onclick="toggleTile('005-2')" data-story-type="deal" data-is-sme="false">
         <div class="article-sector"><span class="sector-pip"></span> Critical Minerals<span class="article-signal-type st-international_deal">Int'l Deal</span></div>
         <div class="article-country">United States (implied - Tyfast Energy location not confirmed but battery pathway suggests U.S. defense/EV market)</div>
         <div class="article-company">Strategic Resources</div>
@@ -806,7 +876,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
       </div>
 
       <!-- CARD 005-3: Cohere, Inc. -->
-      <div class="article-card" data-sector="tech" data-signal-type="international_deal" data-tile="005-3" onclick="toggleTile('005-3')">
+      <div class="article-card" data-sector="tech" data-signal-type="international_deal" data-tile="005-3" onclick="toggleTile('005-3')" data-story-type="deal" data-is-sme="false">
         <div class="article-sector"><span class="sector-pip"></span> Technology<span class="article-signal-type st-international_deal">Int'l Deal</span></div>
         <div class="article-country">Germany / European Union</div>
         <div class="article-company">Cohere, Inc.</div>
@@ -851,7 +921,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
       </div>
 
       <!-- CARD 005-4: Cohere -->
-      <div class="article-card" data-sector="tech" data-signal-type="international_deal" data-tile="005-4" onclick="toggleTile('005-4')">
+      <div class="article-card" data-sector="tech" data-signal-type="international_deal" data-tile="005-4" onclick="toggleTile('005-4')" data-story-type="deal" data-is-sme="false">
         <div class="article-sector"><span class="sector-pip"></span> Technology<span class="article-signal-type st-international_deal">Int'l Deal</span></div>
         <div class="article-country">Germany / European Union</div>
         <div class="article-company">Cohere</div>
@@ -942,7 +1012,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
       </div>
 
       <!-- CARD 004-2: AtkinsRéalis Group Inc. -->
-      <div class="article-card" data-sector="minerals" data-tile="004-1" onclick="toggleTile('004-1')">
+      <div class="article-card" data-sector="minerals" data-tile="004-1" onclick="toggleTile('004-1')" data-story-type="deal" data-is-sme="false">
         <div class="article-sector"><span class="sector-pip"></span> Advanced Manufacturing & Industrial</div>
         <div class="article-country">Australia</div>
         <div class="article-company">AtkinsRéalis Group Inc.</div>
@@ -1048,7 +1118,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
       </div>
 
       <!-- CARD 002-2: Ivanhoe Mines -->
-      <div class="article-card" data-sector="minerals" data-tile="003-1" onclick="toggleTile('003-1')">
+      <div class="article-card" data-sector="minerals" data-tile="003-1" onclick="toggleTile('003-1')" data-story-type="deal" data-is-sme="false">
         <div class="article-sector"><span class="sector-pip"></span> Critical Minerals</div>
         <div class="article-country">Global (Middle East geopolitical risk)</div>
         <div class="article-company">Ivanhoe Mines</div>
@@ -1106,7 +1176,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
       </div>
 
       <!-- CARD 002-3: Denarius Metals Corp. -->
-      <div class="article-card" data-sector="minerals" data-tile="003-2" onclick="toggleTile('003-2')">
+      <div class="article-card" data-sector="minerals" data-tile="003-2" onclick="toggleTile('003-2')" data-story-type="deal" data-is-sme="false">
         <div class="article-sector"><span class="sector-pip"></span> Critical Minerals</div>
         <div class="article-country">Spain</div>
         <div class="article-company">Denarius Metals Corp.</div>
@@ -1165,7 +1235,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
       </div>
 
       <!-- CARD 002-4: Montage Resources -->
-      <div class="article-card" data-sector="minerals" data-tile="003-3" onclick="toggleTile('003-3')">
+      <div class="article-card" data-sector="minerals" data-tile="003-3" onclick="toggleTile('003-3')" data-story-type="deal" data-is-sme="false">
         <div class="article-sector"><span class="sector-pip"></span> Critical Minerals</div>
         <div class="article-country">Mauritania (West Africa)</div>
         <div class="article-company">Montage Resources</div>
@@ -1223,7 +1293,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
       </div>
 
       <!-- CARD 002-5: Canola Council of Canada / Canadian Canola Growers Association (industry bodies) -->
-      <div class="article-card" data-sector="minerals" data-tile="003-4" onclick="toggleTile('003-4')">
+      <div class="article-card" data-sector="minerals" data-tile="003-4" onclick="toggleTile('003-4')" data-story-type="deal" data-is-sme="false">
         <div class="article-sector"><span class="sector-pip"></span> Agri-food & Agriculture</div>
         <div class="article-country">China</div>
         <div class="article-company">Canola Council of Canada / Canadian Canola Growers Association (industry bodies)</div>
@@ -1282,7 +1352,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
       </div>
 
       <!-- CARD 002-6: AppDirect -->
-      <div class="article-card" data-sector="tech" data-tile="003-5" onclick="toggleTile('003-5')">
+      <div class="article-card" data-sector="tech" data-tile="003-5" onclick="toggleTile('003-5')" data-story-type="deal" data-is-sme="false">
         <div class="article-sector"><span class="sector-pip"></span> Technology</div>
         <div class="article-country">Global (US-headquartered acquisition target)</div>
         <div class="article-company">AppDirect</div>
@@ -1340,7 +1410,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
       </div>
 
       <!-- CARD 002-7: pH7 -->
-      <div class="article-card" data-sector="minerals" data-tile="003-6" onclick="toggleTile('003-6')">
+      <div class="article-card" data-sector="minerals" data-tile="003-6" onclick="toggleTile('003-6')" data-story-type="deal" data-is-sme="false">
         <div class="article-sector"><span class="sector-pip"></span> Critical Minerals</div>
         <div class="article-country">Global (mining sector)</div>
         <div class="article-company">pH7</div>
@@ -1398,7 +1468,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
       </div>
 
       <!-- CARD 002-8: POET Technologies Inc. -->
-      <div class="article-card" data-sector="tech" data-tile="003-7" onclick="toggleTile('003-7')">
+      <div class="article-card" data-sector="tech" data-tile="003-7" onclick="toggleTile('003-7')" data-story-type="deal" data-is-sme="false">
         <div class="article-sector"><span class="sector-pip"></span> Technology</div>
         <div class="article-country">United States</div>
         <div class="article-company">POET Technologies Inc.</div>
@@ -1526,7 +1596,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
       </div>
 
       <!-- CARD 006-2: Green Bay Copper-Gold Project (operator not named in excerpt) -->
-      <div class="article-card" data-sector="minerals" data-tile="002-1" onclick="toggleTile('002-1')">
+      <div class="article-card" data-sector="minerals" data-tile="002-1" onclick="toggleTile('002-1')" data-story-type="deal" data-is-sme="false">
         <div class="article-sector"><span class="sector-pip"></span> Critical Minerals</div>
         <div class="article-country"></div>
         <div class="article-company">Green Bay Copper-Gold Project (operator not named in excerpt)</div>
@@ -1691,7 +1761,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
       </div>
 
       <!-- CARD 001-02: Nouveau Monde Graphite -->
-      <div class="article-card" data-sector="minerals" data-tile="001-1" onclick="toggleTile('001-1')">
+      <div class="article-card" data-sector="minerals" data-tile="001-1" onclick="toggleTile('001-1')" data-story-type="deal" data-is-sme="false">
         <div class="article-sector"><span class="sector-pip"></span> Critical Minerals</div>
         <div class="article-country"></div>
         <div class="article-company">Nouveau Monde Graphite</div>
@@ -1747,7 +1817,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
       </div>
 
       <!-- CARD 001-03: Boart Longyear -->
-      <div class="article-card" data-sector="minerals" data-tile="001-2" onclick="toggleTile('001-2')">
+      <div class="article-card" data-sector="minerals" data-tile="001-2" onclick="toggleTile('001-2')" data-story-type="deal" data-is-sme="false">
         <div class="article-sector"><span class="sector-pip"></span> Critical Minerals</div>
         <div class="article-country">China</div>
         <div class="article-company">Boart Longyear</div>
@@ -1802,7 +1872,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
       </div>
 
       <!-- CARD 001-04: Port of Saint John -->
-      <div class="article-card" data-sector="minerals" data-tile="001-3" onclick="toggleTile('001-3')">
+      <div class="article-card" data-sector="minerals" data-tile="001-3" onclick="toggleTile('001-3')" data-story-type="deal" data-is-sme="false">
         <div class="article-sector"><span class="sector-pip"></span> Cross-sector</div>
         <div class="article-country">United States</div>
         <div class="article-company">Port of Saint John</div>
@@ -1857,7 +1927,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
       </div>
 
       <!-- CARD 001-05: Top Aces -->
-      <div class="article-card" data-sector="aerospace" data-tile="001-4" onclick="toggleTile('001-4')">
+      <div class="article-card" data-sector="aerospace" data-tile="001-4" onclick="toggleTile('001-4')" data-story-type="deal" data-is-sme="false">
         <div class="article-sector"><span class="sector-pip"></span> Aerospace</div>
         <div class="article-country">Argentina</div>
         <div class="article-company">Top Aces</div>
@@ -1912,7 +1982,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
       </div>
 
       <!-- CARD 001-06: Patriot Battery Metals -->
-      <div class="article-card" data-sector="minerals" data-tile="001-5" onclick="toggleTile('001-5')">
+      <div class="article-card" data-sector="minerals" data-tile="001-5" onclick="toggleTile('001-5')" data-story-type="deal" data-is-sme="false">
         <div class="article-sector"><span class="sector-pip"></span> Critical Minerals</div>
         <div class="article-country">Japan</div>
         <div class="article-company">Patriot Battery Metals</div>
@@ -1974,7 +2044,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
       </div>
 
       <!-- CARD 001-07: Nutrien -->
-      <div class="article-card" data-sector="agri" data-tile="001-6" onclick="toggleTile('001-6')">
+      <div class="article-card" data-sector="agri" data-tile="001-6" onclick="toggleTile('001-6')" data-story-type="deal" data-is-sme="false">
         <div class="article-sector"><span class="sector-pip"></span> Agri-food</div>
         <div class="article-country">Indonesia</div>
         <div class="article-company">Nutrien</div>
@@ -2034,7 +2104,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
       </div>
 
       <!-- CARD 001-08: CAE Inc. -->
-      <div class="article-card" data-sector="aerospace" data-tile="001-7" onclick="toggleTile('001-7')">
+      <div class="article-card" data-sector="aerospace" data-tile="001-7" onclick="toggleTile('001-7')" data-story-type="deal" data-is-sme="false">
         <div class="article-sector"><span class="sector-pip"></span> Aerospace</div>
         <div class="article-country">United Kingdom</div>
         <div class="article-company">CAE Inc.</div>
@@ -2094,7 +2164,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
       </div>
 
       <!-- CARD 001-09: Vital Metals + SRC -->
-      <div class="article-card" data-sector="minerals" data-tile="001-8" onclick="toggleTile('001-8')">
+      <div class="article-card" data-sector="minerals" data-tile="001-8" onclick="toggleTile('001-8')" data-story-type="deal" data-is-sme="false">
         <div class="article-sector"><span class="sector-pip"></span> Critical Minerals</div>
         <div class="article-country">EU &amp; USA</div>
         <div class="article-company">Vital Metals + SRC</div>
@@ -2154,7 +2224,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
       </div>
 
       <!-- CARD 001-10: Ottawa GovTech Firms -->
-      <div class="article-card" data-sector="tech" data-tile="001-9" onclick="toggleTile('001-9')">
+      <div class="article-card" data-sector="tech" data-tile="001-9" onclick="toggleTile('001-9')" data-story-type="deal" data-is-sme="false">
         <div class="article-sector"><span class="sector-pip"></span> Technology</div>
         <div class="article-country">Japan</div>
         <div class="article-company">Ottawa GovTech Firms</div>
@@ -2214,7 +2284,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
       </div>
 
       <!-- CARD 001-11: Thyssenkrupp Canada -->
-      <div class="article-card" data-sector="mfg" data-tile="001-10" onclick="toggleTile('001-10')">
+      <div class="article-card" data-sector="mfg" data-tile="001-10" onclick="toggleTile('001-10')" data-story-type="deal" data-is-sme="false">
         <div class="article-sector"><span class="sector-pip"></span> Manufacturing</div>
         <div class="article-country">Germany</div>
         <div class="article-company">Thyssenkrupp Canada</div>
@@ -2274,7 +2344,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
       </div>
 
       <!-- CARD 001-12: Cameco -->
-      <div class="article-card" data-sector="minerals" data-tile="001-11" onclick="toggleTile('001-11')">
+      <div class="article-card" data-sector="minerals" data-tile="001-11" onclick="toggleTile('001-11')" data-story-type="deal" data-is-sme="false">
         <div class="article-sector"><span class="sector-pip"></span> Critical Minerals</div>
         <div class="article-country">Europe</div>
         <div class="article-company">Cameco</div>
@@ -2321,7 +2391,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
       </div>
 
       <!-- CARD 001-13: Richardson International -->
-      <div class="article-card" data-sector="agri" data-tile="001-12" onclick="toggleTile('001-12')">
+      <div class="article-card" data-sector="agri" data-tile="001-12" onclick="toggleTile('001-12')" data-story-type="deal" data-is-sme="false">
         <div class="article-sector"><span class="sector-pip"></span> Agri-food</div>
         <div class="article-country">European Union</div>
         <div class="article-company">Richardson International</div>
@@ -2367,7 +2437,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
       </div>
 
       <!-- CARD 001-14: StandardAero -->
-      <div class="article-card" data-sector="aerospace" data-tile="001-13" onclick="toggleTile('001-13')">
+      <div class="article-card" data-sector="aerospace" data-tile="001-13" onclick="toggleTile('001-13')" data-story-type="deal" data-is-sme="false">
         <div class="article-sector"><span class="sector-pip"></span> Aerospace</div>
         <div class="article-country">United States</div>
         <div class="article-company">StandardAero</div>
@@ -2416,18 +2486,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
   </div>
 
   <!-- CTA STRIP -->
-  <div class="cta-strip">
-    <div class="cta-strip-inner">
-      <div>
-        <h3>Want the intelligence behind each story?</h3>
-        <p>Spotlight stories are free. Full weekly intelligence reports — signals, step-by-step actions, market entry pathways — are for subscribers.</p>
-      </div>
-      <a href="https://canadiantradeintel.ca/pricing" class="cta-btn">See Plans →</a>
-    </div>
-  </div>
-
-
-
+  
 </main>
 
 <!-- FOOTER -->
@@ -2546,29 +2605,147 @@ function filterSector(sector, btn) {
   });
 }
 
-function filterType(type, btn) {
-  document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  activeType = type;
-  if (openTile) closeTile(openTile);
-  applyFilters();
+// ── EDITORIAL GRID BUILDER ──────────────────────────────────────────────────
+
+var SECTIONS = [
+  { id: 'sec-deal',      title: 'Canada in the World',   types: ['deal'],         featured: true },
+  { id: 'sec-geo',       title: 'Policy & Trade',        types: ['geopolitics','economy'] },
+  { id: 'sec-invest',    title: 'Capital & Growth',      types: ['investment'] },
+  { id: 'sec-provinces', title: 'Across the Provinces',  types: ['provinces'] },
+  { id: 'sec-sme',       title: 'Small Business',        types: ['small_business'], sme: true },
+];
+
+function buildEditorialGrid() {
+  var pool = document.getElementById('card-pool');
+  var grid = document.getElementById('editorial-grid');
+  if (!pool || !grid) return;
+
+  // Determine week filter from URL param
+  var urlParams = new URLSearchParams(window.location.search);
+  var weekParam = urlParams.get('week'); // 'prev' or null
+
+  // Collect all cards + adjacent drawers
+  var allCards = Array.prototype.slice.call(pool.querySelectorAll('.article-card'));
+
+  // Filter by week if needed
+  if (weekParam === 'prev') {
+    var now = Date.now();
+    var cutoff8 = now - 8 * 86400000;
+    var cutoff15 = now - 15 * 86400000;
+    allCards = allCards.filter(function(c) {
+      var dateEl = c.querySelector('.article-date');
+      if (!dateEl) return false;
+      var d = new Date(dateEl.textContent.trim());
+      return d >= cutoff15 && d < cutoff8;
+    });
+  }
+
+  // Group by effective story_type
+  var groups = {};
+  allCards.forEach(function(card) {
+    var st = card.dataset.storyType || 'deal';
+    var isSme = card.dataset.isSme === 'true';
+    var eff = isSme ? 'small_business' : st;
+    if (!groups[eff]) groups[eff] = [];
+    groups[eff].push(card);
+  });
+
+  // Build each section
+  SECTIONS.forEach(function(sec) {
+    var sectionCards = [];
+    sec.types.forEach(function(t) { if (groups[t]) sectionCards = sectionCards.concat(groups[t]); });
+    if (!sectionCards.length) return;
+
+    var secEl = document.createElement('div');
+    secEl.className = 'ed-section';
+    secEl.id = sec.id;
+
+    // Header
+    var hdr = document.createElement('div');
+    hdr.className = 'ed-section-header';
+    hdr.innerHTML = '<span class="ed-section-title">' + sec.title + '</span>' +
+                    '<span class="ed-section-count">' + sectionCards.length + ' ' + (sectionCards.length === 1 ? 'story' : 'stories') + '</span>';
+    secEl.appendChild(hdr);
+
+    // Card grid
+    var gridClass = sec.featured ? 'ed-cards-featured' : (sec.sme ? 'ed-cards-sme' : 'ed-cards');
+    var cardGrid = document.createElement('div');
+    cardGrid.className = gridClass;
+
+    sectionCards.forEach(function(card, idx) {
+      if (sec.featured && idx === 0) card.classList.add('card-featured');
+      if (sec.sme) card.classList.add('card-sme');
+
+      // Move card into section grid
+      cardGrid.appendChild(card);
+
+      // Move adjacent drawer if present
+      var tile = card.dataset.tile;
+      if (tile) {
+        var drawer = document.getElementById('drawer-' + tile);
+        if (drawer) cardGrid.appendChild(drawer);
+      }
+    });
+
+    secEl.appendChild(cardGrid);
+    grid.appendChild(secEl);
+  });
+
+  // Update pagination labels
+  updatePageNav(weekParam);
 }
 
-function applyFilters() {
-  const q = (document.getElementById('spotlight-search')?.value || '').toLowerCase().trim();
-  document.querySelectorAll('.article-card').forEach(card => {
-    const sectorMatch = activeFilter === 'all' || card.dataset.sector === activeFilter;
-    const typeMatch   = activeType   === 'all' || (card.dataset.signalType || '') === activeType;
-    const text = [
-      card.querySelector('.article-company')?.textContent  || '',
-      card.querySelector('.article-headline')?.textContent || '',
-      card.querySelector('.article-sector')?.textContent   || '',
-      card.querySelector('.article-country')?.textContent  || '',
+function updatePageNav(weekParam) {
+  var labelEl = document.getElementById('page-nav-current');
+  var prevEl  = document.getElementById('page-nav-prev');
+  if (!labelEl) return;
+  if (weekParam === 'prev') {
+    labelEl.textContent = 'Previous week';
+    if (prevEl) { prevEl.textContent = '\u2190 Current Week'; prevEl.href = '/spotlight/'; }
+  } else {
+    labelEl.textContent = 'Current week';
+    if (prevEl) { prevEl.textContent = '\u2190 Previous Week'; prevEl.href = '?week=prev'; }
+  }
+}
+
+// ── MASTHEAD: pull issue date from reports-index.json ────────────────────────
+(async function() {
+  try {
+    var r = await fetch('/reports/reports-index.json');
+    if (!r.ok) return;
+    var data = await r.json();
+    var maxIssue = Math.max.apply(null, data.map(function(e) { return e.issue; }));
+    var latest = data.filter(function(e) { return e.issue === maxIssue; })[0];
+    if (!latest) return;
+    var dt = new Date(latest.date + 'T12:00:00');
+    var dateStr = dt.toLocaleDateString('en-CA', { month: 'long', day: 'numeric', year: 'numeric' });
+    var taglineEl = document.querySelector('.sh-tagline');
+    if (taglineEl) taglineEl.textContent = 'Issue #' + String(maxIssue).padStart(3,'0') + ' \u00b7 ' + dateStr;
+  } catch(e) {}
+})();
+
+// ── SEARCH FILTER ────────────────────────────────────────────────────────────
+function edSearch() {
+  var q = (document.getElementById('ed-search').value || '').toLowerCase().trim();
+  document.querySelectorAll('#editorial-grid .article-card').forEach(function(card) {
+    var text = [
+      card.querySelector('.article-company') ? card.querySelector('.article-company').textContent : '',
+      card.querySelector('.article-headline') ? card.querySelector('.article-headline').textContent : '',
+      card.querySelector('.article-sector')   ? card.querySelector('.article-sector').textContent   : '',
+      card.querySelector('.article-country')  ? card.querySelector('.article-country').textContent  : '',
     ].join(' ').toLowerCase();
-    const searchMatch = !q || text.includes(q);
-    card.classList.toggle('hidden', !sectorMatch || !typeMatch || !searchMatch);
+    var show = !q || text.includes(q);
+    card.classList.toggle('ed-hidden', !show);
+  });
+  // Hide empty sections
+  document.querySelectorAll('.ed-section').forEach(function(sec) {
+    var hasVisible = sec.querySelector('.article-card:not(.ed-hidden)');
+    sec.style.display = hasVisible ? '' : 'none';
   });
 }
+
+// ── INIT ─────────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', buildEditorialGrid);
 </script>
 
 
