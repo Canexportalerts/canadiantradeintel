@@ -191,7 +191,7 @@
     '<div class="nav-links">' +
       '<a href="/dashboard/">Dashboard</a>' +
       '<a href="/procurement/">Procurement</a>' +
-      '<a href="/spotlight/">Spotlight</a>' +
+      '<a href="/spotlight/">Business Spotlight</a>' +
       '<a href="/countries/">Countries</a>' +
       '<div class="nav-dropdown">' +
         '<button class="nav-dropdown-btn">Canada Forward \u25be</button>' +
@@ -241,7 +241,7 @@
   '<div class="nav-mobile-menu" id="nav-mobile-menu">' +
     '<a href="/dashboard/">Dashboard</a>' +
     '<a href="/procurement/">Procurement Hub</a>' +
-    '<a href="/spotlight/">Canadian Spotlight</a>' +
+    '<a href="/spotlight/">Business Spotlight</a>' +
     '<a href="/countries/">Countries</a>' +
     '<span class="nav-mobile-section">Canada Forward</span>' +
     '<a href="/canada-forward/">Overview</a>' +
