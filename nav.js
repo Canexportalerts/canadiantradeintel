@@ -187,7 +187,10 @@
 
   // ── HTML ────────────────────────────────────────────────────────────
   var navHTML = '<div class="nav-inner">' +
-    '<a href="/" class="nav-brand">Canadian Trade Intelligence</a>' +
+    '<a href="/" class="nav-brand">' +
+      '<span style="display:block;font-family:\'DM Mono\',monospace;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:#ffffff;line-height:1.3;">CANADIAN TRADE</span>' +
+      '<span style="display:block;font-family:\'DM Mono\',monospace;font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:rgba(204,0,0,0.85);line-height:1.3;">INTELLIGENCE</span>' +
+    '</a>' +
     '<div class="nav-links">' +
       '<a href="/dashboard/">Dashboard</a>' +
       '<a href="/procurement/">Procurement</a>' +
