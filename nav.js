@@ -79,8 +79,10 @@
     '}',
     '#main-nav .nav-brand {',
     '  font-family: "Cormorant Garamond", Georgia, serif;',
-    '  font-size: 17px; font-weight: 600; font-style: italic; color: #f0ece4;',
+    '  font-size: 17px; font-weight: 600; font-style: normal !important; color: #f0ece4;',
     '  text-decoration: none;',
+    '  display: flex;',
+    '  flex-direction: column;',
     '}',
     '#main-nav .nav-links {',
     '  display: flex; gap: 28px; align-items: center;',
@@ -187,9 +189,9 @@
 
   // ── HTML ────────────────────────────────────────────────────────────
   var navHTML = '<div class="nav-inner">' +
-    '<a href="/" class="nav-brand">' +
-      '<span style="display:block;font-family:\'DM Mono\',monospace;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:#ffffff;line-height:1.3;">CANADIAN TRADE</span>' +
-      '<span style="display:block;font-family:\'DM Mono\',monospace;font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:rgba(204,0,0,0.85);line-height:1.3;">INTELLIGENCE</span>' +
+    '<a href="/" class="nav-brand" style="text-decoration:none;display:flex;flex-direction:column;justify-content:center;gap:1px;">' +
+      '<span style="display:block;font-family:\'DM Mono\',monospace;font-size:8px;letter-spacing:0.2em;text-transform:uppercase;color:#ffffff;font-style:normal;font-weight:500;line-height:1.2;">CANADIAN TRADE</span>' +
+      '<span style="display:block;font-family:\'DM Mono\',monospace;font-size:8px;letter-spacing:0.24em;text-transform:uppercase;color:rgba(204,0,0,0.9);font-style:normal;font-weight:500;line-height:1.2;">INTELLIGENCE</span>' +
     '</a>' +
     '<div class="nav-links">' +
       '<a href="/dashboard/">Dashboard</a>' +
