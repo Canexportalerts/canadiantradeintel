@@ -230,6 +230,7 @@
           '<a href="/resources/trade-agreements/">Trade Agreements</a>' +
           '<a href="/tariffs/">Tariff Reference</a>' +
           '<a href="/tools/sanctions-check/">Sanctions Screener</a>' +
+          '<a href="/cusma-impact/">CUSMA Impact Lookup</a>' +
           '<a href="/guides/">Practical Guides</a>' +
           '<a href="/map/">Business Map \u2192 <small style="opacity:0.55;font-size:0.85em;">(coming soon)</small></a>' +
           '<a href="/methodology/">Methodology</a>' +
@@ -268,6 +269,7 @@
     '<a href="/resources/trade-agreements/">Trade Agreements</a>' +
     '<a href="/tariffs/">Tariff Reference</a>' +
     '<a href="/tools/sanctions-check/">Sanctions Screener</a>' +
+    '<a href="/cusma-impact/">CUSMA Impact Lookup</a>' +
     '<a href="/guides/">Practical Guides</a>' +
     '<a href="/map/">Business Map (coming soon)</a>' +
     '<a href="/methodology/">Methodology</a>' +
@@ -299,7 +301,7 @@
     // Highlight dropdown buttons when on a sub-page of that dropdown
     var dropdownBtns = nav.querySelectorAll('.nav-dropdown-btn');
     var canadaForwardPaths = ['/canada-forward'];
-    var resourcePaths = ['/map', '/resources', '/tariffs', '/guides', '/methodology', '/tools', '/about'];
+    var resourcePaths = ['/map', '/resources', '/tariffs', '/guides', '/methodology', '/tools', '/about', '/cusma-impact'];
     dropdownBtns.forEach(function (btn) {
       var text = btn.textContent.trim();
       if (text.indexOf('Canada Forward') !== -1) {
