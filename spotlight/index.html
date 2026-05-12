@@ -277,6 +277,18 @@
   .type-btn.active { color: var(--brand); border-bottom-color: var(--brand); }
   @media (max-width: 900px) { .type-bar { padding: 0 16px; } }
 
+  /* ── EXCERPT ── */
+  .article-excerpt {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-size: 12px;
+    color: var(--ink-light);
+    line-height: 1.6;
+    margin-top: 6px;
+  }
+
   /* ── HIDDEN ── */
   .article-card.hidden, .article-drawer.hidden { display: none !important; }
 
@@ -476,7 +488,10 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
 <!-- PAGE NAV -->
 <div class="page-nav">
   <span id="page-nav-current" class="page-nav-label"></span>
-  <a id="page-nav-prev" href="?week=prev" class="page-nav-link">← Previous Week</a>
+  <div style="display:flex;gap:20px;">
+    <a id="page-nav-earlier" href="#" class="page-nav-link" style="display:none;"></a>
+    <a id="page-nav-prev" href="#" class="page-nav-link">← Previous Week</a>
+  </div>
 </div>
 
 <div class="cta-strip">
@@ -2615,6 +2630,27 @@ var SECTIONS = [
   { id: 'sec-sme',       title: 'Small Business',        types: ['small_business'], sme: true },
 ];
 
+function getWeekKey(dateStr) {
+  var d = new Date(dateStr + 'T12:00:00');
+  if (isNaN(d)) return null;
+  var day = d.getDay();
+  var monday = new Date(d);
+  monday.setDate(d.getDate() - ((day + 6) % 7));
+  return monday.toISOString().slice(0, 10);
+}
+
+function getMostRecentWeekKey(cards) {
+  var keys = {};
+  cards.forEach(function(card) {
+    var dateEl = card.querySelector('.article-date');
+    if (!dateEl) return;
+    var key = getWeekKey(dateEl.textContent.trim());
+    if (key) keys[key] = true;
+  });
+  var sorted = Object.keys(keys).sort().reverse();
+  return sorted[0] || null;
+}
+
 function buildEditorialGrid() {
   var pool = document.getElementById('card-pool');
   var grid = document.getElementById('editorial-grid');
@@ -2622,21 +2658,37 @@ function buildEditorialGrid() {
 
   // Determine week filter from URL param
   var urlParams = new URLSearchParams(window.location.search);
-  var weekParam = urlParams.get('week'); // 'prev' or null
+  var weekParam = urlParams.get('week');
 
-  // Collect all cards + adjacent drawers
+  // Collect all cards
   var allCards = Array.prototype.slice.call(pool.querySelectorAll('.article-card'));
 
-  // Filter by week if needed
-  if (weekParam === 'prev') {
-    var now = Date.now();
-    var cutoff8 = now - 8 * 86400000;
-    var cutoff15 = now - 15 * 86400000;
-    allCards = allCards.filter(function(c) {
-      var dateEl = c.querySelector('.article-date');
+  // Collect all week keys before filtering (for pagination nav)
+  var allWeekKeys = (function() {
+    var keys = {};
+    allCards.forEach(function(card) {
+      var dateEl = card.querySelector('.article-date');
+      if (!dateEl) return;
+      var key = getWeekKey(dateEl.textContent.trim());
+      if (key) keys[key] = true;
+    });
+    return Object.keys(keys).sort().reverse();
+  })();
+
+  if (!weekParam) {
+    var currentWeekKey = getMostRecentWeekKey(allCards);
+    if (currentWeekKey) {
+      allCards = allCards.filter(function(card) {
+        var dateEl = card.querySelector('.article-date');
+        if (!dateEl) return false;
+        return getWeekKey(dateEl.textContent.trim()) === currentWeekKey;
+      });
+    }
+  } else {
+    allCards = allCards.filter(function(card) {
+      var dateEl = card.querySelector('.article-date');
       if (!dateEl) return false;
-      var d = new Date(dateEl.textContent.trim());
-      return d >= cutoff15 && d < cutoff8;
+      return getWeekKey(dateEl.textContent.trim()) === weekParam;
     });
   }
 
@@ -2676,15 +2728,27 @@ function buildEditorialGrid() {
       if (sec.featured && idx === 0) card.classList.add('card-featured');
       if (sec.sme) card.classList.add('card-sme');
 
+      // Inject 3-line excerpt from drawer body
+      var tile = card.dataset.tile;
+      var drawer = tile ? document.getElementById('drawer-' + tile) : null;
+      if (drawer && !card.querySelector('.article-excerpt')) {
+        var bodyEl = drawer.querySelector('.drawer-body');
+        if (bodyEl) {
+          var firstP = bodyEl.querySelector('p');
+          var excerptText = (firstP ? firstP.textContent : bodyEl.textContent).trim();
+          if (excerptText) {
+            var excerptEl = document.createElement('div');
+            excerptEl.className = 'article-excerpt';
+            excerptEl.textContent = excerptText;
+            var footerEl = card.querySelector('.article-footer');
+            footerEl ? card.insertBefore(excerptEl, footerEl) : card.appendChild(excerptEl);
+          }
+        }
+      }
+
       // Move card into section grid
       cardGrid.appendChild(card);
-
-      // Move adjacent drawer if present
-      var tile = card.dataset.tile;
-      if (tile) {
-        var drawer = document.getElementById('drawer-' + tile);
-        if (drawer) cardGrid.appendChild(drawer);
-      }
+      if (drawer) cardGrid.appendChild(drawer);
     });
 
     secEl.appendChild(cardGrid);
@@ -2692,19 +2756,53 @@ function buildEditorialGrid() {
   });
 
   // Update pagination labels
-  updatePageNav(weekParam);
+  updatePageNav(weekParam, allWeekKeys);
 }
 
-function updatePageNav(weekParam) {
-  var labelEl = document.getElementById('page-nav-current');
-  var prevEl  = document.getElementById('page-nav-prev');
+function updatePageNav(weekParam, allWeekKeys) {
+  var labelEl   = document.getElementById('page-nav-current');
+  var prevEl    = document.getElementById('page-nav-prev');
+  var earlierEl = document.getElementById('page-nav-earlier');
   if (!labelEl) return;
-  if (weekParam === 'prev') {
-    labelEl.textContent = 'Previous week';
-    if (prevEl) { prevEl.textContent = '\u2190 Current Week'; prevEl.href = '/spotlight/'; }
+
+  var keys = allWeekKeys || [];
+
+  if (!weekParam) {
+    // Showing current (most recent) week
+    labelEl.textContent = 'This week';
+    if (prevEl) {
+      if (keys.length > 1) {
+        prevEl.textContent = '\u2190 Previous week';
+        prevEl.href = '?week=' + keys[1];
+        prevEl.style.display = '';
+      } else {
+        prevEl.style.display = 'none';
+      }
+    }
+    if (earlierEl) earlierEl.style.display = 'none';
   } else {
-    labelEl.textContent = 'Current week';
-    if (prevEl) { prevEl.textContent = '\u2190 Previous Week'; prevEl.href = '?week=prev'; }
+    // Showing a specific past week
+    var d = new Date(weekParam + 'T12:00:00');
+    var dateLabel = isNaN(d) ? weekParam : d.toLocaleDateString('en-CA', { month: 'long', day: 'numeric', year: 'numeric' });
+    labelEl.textContent = 'Week of ' + dateLabel;
+
+    var idx = keys.indexOf(weekParam);
+    var earlierKey = (idx >= 0 && idx + 1 < keys.length) ? keys[idx + 1] : null;
+
+    if (prevEl) {
+      prevEl.textContent = '\u2190 Current week';
+      prevEl.href = '/spotlight/';
+      prevEl.style.display = '';
+    }
+    if (earlierEl) {
+      if (earlierKey) {
+        earlierEl.textContent = '\u2190 Earlier';
+        earlierEl.href = '?week=' + earlierKey;
+        earlierEl.style.display = '';
+      } else {
+        earlierEl.style.display = 'none';
+      }
+    }
   }
 }
 
