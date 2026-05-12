@@ -177,9 +177,8 @@
   .finder-input { flex: 1; min-width: 260px; padding: 11px 16px; font-family: 'DM Sans', sans-serif; font-size: 14px; border: 1.5px solid var(--rule); background: var(--cream); color: var(--ink); outline: none; transition: border-color 0.18s; }
   .finder-input:focus { border-color: var(--brand); background: #fff; }
   .finder-input::placeholder { color: var(--ink-light); }
-  .consumer-finder-input { flex: 1; min-width: 260px; padding: 11px 16px; font-family: 'DM Sans', sans-serif; font-size: 14px; border: 1.5px solid var(--rule); background: var(--cream); color: var(--ink); outline: none; transition: border-color 0.18s; }
-  .consumer-finder-input:focus { border-color: var(--brand); background: #fff; }
-  .consumer-finder-input::placeholder { color: var(--ink-light); }
+  .finder-helper { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.08em; color: var(--ink-light); margin-top: 10px; line-height: 1.6; }
+  .finder-match-note { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; color: var(--green); margin-bottom: 12px; padding: 8px 12px; background: #f0faf5; border-left: 3px solid var(--green); }
   .finder-btn { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; background: var(--brand); color: #fff; border: none; padding: 11px 20px; cursor: pointer; white-space: nowrap; transition: background 0.18s; }
   .finder-btn:hover { background: var(--brand-deep); }
   .finder-results { margin-top: 20px; }
@@ -208,14 +207,6 @@
     .finder-fta-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
   }
 
-  /* ── CONSUMER SEARCH ── */
-  .consumer-search-section { max-width: 1140px; margin: 0 auto; padding: 32px 40px 24px; border-bottom: 2px solid var(--rule); background: #fff; }
-  .consumer-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--brand); margin-bottom: 6px; }
-  .consumer-desc { font-size: 13px; color: var(--ink-light); margin-bottom: 18px; line-height: 1.65; }
-  .consumer-match { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; color: var(--green); margin-top: 12px; padding: 8px 12px; background: #f0faf5; border-left: 3px solid var(--green); }
-  .consumer-no-match { font-size: 13px; color: var(--ink-light); margin-top: 12px; padding: 10px 14px; background: var(--cream); border-left: 3px solid var(--rule); line-height: 1.65; }
-  .consumer-no-match a { color: var(--brand); }
-  @media(max-width:900px){ .consumer-search-section { padding: 24px 20px; } }
 
 .nav-dropdown{position:relative;display:inline-flex;align-items:center;}
 .nav-dropdown-btn{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.6);background:none;border:none;cursor:pointer;padding:0;transition:color 0.2s;}
@@ -276,35 +267,18 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
   </div>
 </div>
 
-<!-- CONSUMER SEARCH -->
-<div class="finder-wrap" id="consumer-search">
-  <div class="consumer-search-section">
-    <div class="consumer-label">NOT SURE WHAT TO SEARCH? TYPE WHAT YOU BUY</div>
-    <p class="consumer-desc">Type everyday products — "running shoes", "laptop", "baby formula", "wine" — and we'll find the relevant tariff information for you. No codes required.</p>
-    <div class="finder-form">
-      <input type="text" id="consumer-input"
-        placeholder="e.g. running shoes, laptop, olive oil, cotton t-shirt…"
-        class="consumer-finder-input"
-        onkeydown="if(event.key==='Enter')consumerSearch()"
-        autocomplete="off" spellcheck="false">
-      <button onclick="consumerSearch()" class="finder-btn">Look Up →</button>
-    </div>
-    <div id="consumer-results"></div>
-  </div>
-</div>
-
-<!-- TARIFF RATE FINDER -->
+<!-- UNIFIED TARIFF LOOKUP -->
 <div class="finder-wrap" id="rate-finder">
   <div class="finder-inner">
     <div class="finder-label">Search by HS Code or Description</div>
-    <p class="finder-desc">Search Canadian tariff rates by HS code or product description.</p>
     <div class="finder-form">
       <input type="text" class="finder-input" id="finder-input"
-        placeholder="Enter HS code (e.g. 2601.10) or product description (e.g. canola, aircraft, aluminum)"
+        placeholder="Search by product name or HS code (e.g. 'running shoes' or '6404' or 'canola')"
         onkeydown="if(event.key==='Enter')findRate()"
         autocomplete="off" spellcheck="false">
-      <button class="finder-btn" onclick="findRate()">Find Rate →</button>
+      <button class="finder-btn" onclick="findRate()">Look up →</button>
     </div>
+    <p class="finder-helper">Type a product name, HS code, or keyword. Not sure about codes? Just describe what you're looking for.</p>
     <div class="finder-results" id="finder-results"></div>
   </div>
 </div>
@@ -1043,36 +1017,6 @@ const CONSUMER_MAP = {
   "pet food": "2309", "dog food": "2309"
 };
 
-function consumerSearch() {
-  const term = document.getElementById('consumer-input').value.toLowerCase().trim();
-  if (!term) return;
-
-  let matched = null;
-  for (const [key, code] of Object.entries(CONSUMER_MAP)) {
-    if (term.includes(key) || key.includes(term)) {
-      matched = code;
-      break;
-    }
-  }
-
-  const resultsDiv = document.getElementById('consumer-results');
-  if (matched) {
-    // Populate the main finder input (by ID to avoid ambiguity) and trigger search
-    const finderInput = document.getElementById('finder-input');
-    if (finderInput) {
-      finderInput.value = matched;
-      findRate();
-      // Scroll down to show the results in the finder
-      document.getElementById('rate-finder').scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-    resultsDiv.innerHTML =
-      `<p class="consumer-match">Searching for HS chapter ${matched} — ${escHtml(term)}</p>`;
-  } else {
-    resultsDiv.innerHTML =
-      `<p class="consumer-no-match">We don't have a direct match for "${escHtml(term)}". Try searching the HS code lookup below, or <a href="https://www.cbsa-asfc.gc.ca/trade-commerce/tariff-tarif/2026/html/tblmod-1-eng.html" target="_blank" rel="noopener">browse CBSA tariff schedules →</a></p>`;
-  }
-}
-
 let TARIFF_DATA = null;
 
 async function initTariffFinder() {
@@ -1093,26 +1037,45 @@ function findRate() {
   const q = raw.toLowerCase();
   const data = TARIFF_DATA || TARIFF_DEMO;
 
+  // Check CONSUMER_MAP for natural language match (skip if input looks like an HS code)
+  let matchCode = null;
+  let matchKey = null;
+  const isHSLike = /^\d[\d.]*$/.test(raw.replace(/\s/g, ''));
+  if (!isHSLike) {
+    for (const [key, code] of Object.entries(CONSUMER_MAP)) {
+      if (q.includes(key) || key.includes(q)) {
+        matchCode = code;
+        matchKey = key;
+        break;
+      }
+    }
+  }
+
+  const searchQ = matchCode ? matchCode.toLowerCase() : q;
+  const noteHtml = matchCode
+    ? `<div class="finder-match-note">Matched to HS ${escHtml(matchCode)}: ${escHtml(matchKey)}</div>`
+    : '';
+
   // Score each entry
   const scored = data.map(e => {
     let score = 0;
-    const hsClean = e.hs.replace('.','').toLowerCase();
-    const qClean = q.replace(/[.\s]/g,'');
-    if (e.hs.toLowerCase() === q || e.hs.replace('.','') === qClean) score += 100;
-    else if (e.hs.toLowerCase().startsWith(q) || hsClean.startsWith(qClean)) score += 60;
-    else if (e.hs.includes(raw)) score += 40;
-    if (e.desc.toLowerCase().includes(q)) score += 30;
-    if (e.sector && e.sector.toLowerCase().includes(q)) score += 20;
-    if (e.notes && e.notes.toLowerCase().includes(q)) score += 10;
+    const hsClean = e.hs.replace('.', '').toLowerCase();
+    const qClean = searchQ.replace(/[.\s]/g, '');
+    if (e.hs.toLowerCase() === searchQ || e.hs.replace('.', '') === qClean) score += 100;
+    else if (e.hs.toLowerCase().startsWith(searchQ) || hsClean.startsWith(qClean)) score += 60;
+    else if (e.hs.includes(searchQ)) score += 40;
+    if (e.desc.toLowerCase().includes(searchQ)) score += 30;
+    if (e.sector && e.sector.toLowerCase().includes(searchQ)) score += 20;
+    if (e.notes && e.notes.toLowerCase().includes(searchQ)) score += 10;
     return { entry: e, score };
-  }).filter(x => x.score > 0).sort((a,b) => b.score - a.score);
+  }).filter(x => x.score > 0).sort((a, b) => b.score - a.score);
 
   if (scored.length === 0) {
-    out.innerHTML = `<p class="finder-no-results">No matching HS codes found for "<strong>${escHtml(raw)}</strong>". Try a broader term like <em>canola</em>, <em>aluminum</em>, or a 4-digit HS heading like <em>7601</em>.</p>`;
+    out.innerHTML = noteHtml + `<p class="finder-no-results">No matching HS codes found for "<strong>${escHtml(raw)}</strong>". Try a broader term like <em>canola</em>, <em>aluminum</em>, or a 4-digit HS heading like <em>7601</em>.</p>`;
     return;
   }
 
-  out.innerHTML = scored.slice(0,3).map(x => renderFinderCard(x.entry)).join('');
+  out.innerHTML = noteHtml + scored.slice(0, 3).map(x => renderFinderCard(x.entry)).join('');
 }
 
 function escHtml(s) {
