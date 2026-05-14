@@ -2711,60 +2711,104 @@ function filterSector(sector, btn) {
     policy_regulation: '#6a20b0',
     innovation: '#0a6080',
   };
-  var THEME_MAP = {
-    canada_in_the_world: 'canada_in_the_world',
-    capital_growth: 'capital_growth',
-    canadian_business: 'canadian_business',
-    consumer_trade: 'consumer_trade',
-    indigenous_economy: 'indigenous_economy',
-    diaspora_corridors: 'diaspora_corridors',
-    policy_regulation: 'policy_regulation',
-    innovation_tech: 'innovation_tech',
-  };
-
-  fetch('/api/spotlight_latest.json')
-    .then(function(r) { return r.ok ? r.json() : Promise.reject(); })
-    .then(function(data) {
-      var entries = (data.entries || []).slice(0, 6);
-      if (!entries.length) return;
-      var grid = document.getElementById('this-week-grid');
-      var placeholder = document.getElementById('tw-placeholder');
-      if (placeholder) placeholder.remove();
-
-      entries.forEach(function(e) {
-        var color = SECTOR_COLORS[e.sector] || '#888';
-        var theme = e.theme || '';
-        var slug  = (e.slug || '').trim();
-        var storyLink = slug
-          ? '<a href="/spotlight/' + slug + '/" class="tw-link">Full story \u2192</a>'
-          : '';
-        var sourceLink = e.source_url
-          ? '<a href="' + e.source_url + '" target="_blank" rel="noopener" class="tw-link">Source \u2192</a>'
-          : '';
-        var card = document.createElement('div');
-        card.className = 'this-week-card';
-        card.dataset.theme = theme;
-        card.dataset.sector = (e.sector || '').replace('_', '-');
-        card.innerHTML = [
-          '<div class="tw-sector-badge" style="color:' + color + '">',
-            '<span class="tw-pip" style="background:' + color + '"></span>',
-            (e.sector_display || (e.sector || '').replace(/_/g, ' ')),
-          '</div>',
-          '<div class="tw-company">' + _esc(e.company || '') + '</div>',
-          '<div class="tw-headline">' + _esc(e.headline || '') + '</div>',
-          '<div class="tw-summary">'  + _esc(e.summary  || '') + '</div>',
-          '<div class="tw-meta">',
-            '<span>' + _esc(e.source_name || '') + (e.date ? ' &middot; ' + e.date : '') + '</span>',
-            '<span class="tw-links">' + storyLink + sourceLink + '</span>',
-          '</div>',
-        ].join('');
-        grid.appendChild(card);
-      });
-    })
-    .catch(function() { /* placeholder stays */ });
 
   function _esc(s) {
     return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function _addDay(dateStr, n) {
+    // Add n days to a YYYY-MM-DD string
+    var d = new Date(dateStr + 'T12:00:00');
+    d.setDate(d.getDate() + n);
+    return d.toISOString().slice(0, 10);
+  }
+
+  function _renderSpotlightEntries(entries, eyebrow) {
+    var section = document.getElementById('this-week');
+    var grid = document.getElementById('this-week-grid');
+    var placeholder = document.getElementById('tw-placeholder');
+    if (!grid) return;
+    if (placeholder) placeholder.remove();
+    if (eyebrow) {
+      var eyebrowEl = section && section.querySelector('.this-week-eyebrow');
+      if (eyebrowEl) eyebrowEl.textContent = eyebrow;
+    }
+    entries.forEach(function(e) {
+      var color = SECTOR_COLORS[e.sector] || '#888';
+      var theme = e.theme || '';
+      var slug  = (e.slug || '').trim();
+      var storyLink = slug
+        ? '<a href="/spotlight/' + slug + '/" class="tw-link">Full story \u2192</a>'
+        : '';
+      var sourceLink = e.source_url
+        ? '<a href="' + e.source_url + '" target="_blank" rel="noopener" class="tw-link">Source \u2192</a>'
+        : '';
+      var card = document.createElement('div');
+      card.className = 'this-week-card';
+      card.dataset.theme = theme;
+      card.dataset.sector = (e.sector || '').replace(/_/g, '-');
+      card.innerHTML = [
+        '<div class="tw-sector-badge" style="color:' + color + '">',
+          '<span class="tw-pip" style="background:' + color + '"></span>',
+          _esc(e.sector_display || (e.sector || '').replace(/_/g, ' ')),
+        '</div>',
+        '<div class="tw-company">' + _esc(e.company || '') + '</div>',
+        '<div class="tw-headline">' + _esc(e.headline || '') + '</div>',
+        '<div class="tw-summary">'  + _esc(e.summary  || '') + '</div>',
+        '<div class="tw-meta">',
+          '<span>' + _esc(e.source_name || '') + (e.date ? ' \u00b7 ' + e.date : '') + '</span>',
+          '<span class="tw-links">' + storyLink + sourceLink + '</span>',
+        '</div>',
+      ].join('');
+      grid.appendChild(card);
+    });
+  }
+
+  function _extractEntries(data) {
+    // Handle both list format and {entries:[]} format
+    if (Array.isArray(data)) return data;
+    return data.entries || [];
+  }
+
+  // Determine if we are on a past week
+  var _urlParams = new URLSearchParams(window.location.search);
+  var _weekParam = _urlParams.get('week'); // Monday-based YYYY-MM-DD or null
+
+  if (!_weekParam) {
+    // Current week — load spotlight_latest.json
+    fetch('/api/spotlight_latest.json')
+      .then(function(r) { return r.ok ? r.json() : Promise.reject(); })
+      .then(function(data) {
+        var entries = _extractEntries(data).slice(0, 6);
+        if (!entries.length) return;
+        _renderSpotlightEntries(entries, 'This Week\u2019s Stories');
+      })
+      .catch(function() { /* placeholder stays */ });
+  } else {
+    // Past week — try spotlight_weekly_{weekParam}.json, then +1 day (Tuesday)
+    var _candidates = [
+      '/api/spotlight_weekly_' + _weekParam + '.json',
+      '/api/spotlight_weekly_' + _addDay(_weekParam, 1) + '.json',
+    ];
+    var _section = document.getElementById('this-week');
+
+    (function _tryNext(i) {
+      if (i >= _candidates.length) {
+        // No weekly JSON for this week — hide Zone 1
+        if (_section) _section.style.display = 'none';
+        return;
+      }
+      fetch(_candidates[i])
+        .then(function(r) { return r.ok ? r.json() : Promise.reject(); })
+        .then(function(data) {
+          var entries = _extractEntries(data).slice(0, 6);
+          if (!entries.length) { _tryNext(i + 1); return; }
+          var d = new Date(_weekParam + 'T12:00:00');
+          var label = isNaN(d) ? 'Stories' : 'Stories \u2014 Week of ' + d.toLocaleDateString('en-CA', {month:'long', day:'numeric', year:'numeric'});
+          _renderSpotlightEntries(entries, label);
+        })
+        .catch(function() { _tryNext(i + 1); });
+    })(0);
   }
 })();
 
