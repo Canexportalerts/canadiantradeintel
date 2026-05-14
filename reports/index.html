@@ -360,10 +360,23 @@ function renderSectorReports(sector) {
   grid.innerHTML = reports.slice(0, 9).map(r => {
     const title = r.title || r.sector_display || 'Intelligence Report';
     const date = r.date || r.published_date || '';
-    const url = r.url || r.html_file || (r.full_report ? '/reports/' + r.full_report : '#');
     const summary = r.summary || r.executive_summary || 'Full intelligence report with signals, market scores, compliance desk, procurement, and entry pathways.';
+
+    if (r.placeholder) {
+      return `<div class="report-card" style="background:var(--warm-mid);border:1px solid var(--warm-border);">
+        <div class="report-issue" style="color:var(--slate);">Issue #${String(r.issue || '').padStart(3,'0')} · ${date}</div>
+        <div class="report-title" style="color:var(--slate);font-weight:400;">${title}</div>
+        <div class="report-summary" style="font-style:italic;color:var(--slate);">${r.status || summary}</div>
+        <div class="report-actions" style="border-top:1px solid var(--warm-border);">
+          <span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--slate);">No report this week</span>
+          <span class="report-date">${date}</span>
+        </div>
+      </div>`;
+    }
+
+    const url = r.url || r.html_file || (r.full_report ? '/reports/' + r.full_report : '#');
     return `<div class="report-card">
-      <div class="report-issue">Issue #${r.issue || '003'} · ${date}</div>
+      <div class="report-issue">Issue #${String(r.issue || '').padStart(3,'0')} · ${date}</div>
       <div class="report-title">${title}</div>
       <div class="report-summary">${summary.slice(0, 160)}${summary.length > 160 ? '...' : ''}</div>
       <div class="report-actions">
