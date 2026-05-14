@@ -602,34 +602,64 @@
   </div>
 </div>
 
-<!-- TODO: replace static cards with JS fetch from spotlight stories JSON when pipeline exports spotlight_latest.json -->
 <!-- ── SECTION 4: THIS WEEK IN CANADIAN BUSINESS ── -->
-<div class="hp-this-week">
+<div class="hp-this-week" id="hp-this-week-section">
   <div class="hp-this-week-inner">
     <div class="hp-this-week-header">
       <span class="hp-this-week-label">This week in Canadian business</span>
       <span class="hp-this-week-issue" id="this-week-issue-label"></span>
     </div>
-    <div class="hp-news-grid">
-      <div class="hp-news-card">
-        <div class="hp-news-sector" style="color:#185FA5;">Critical Minerals</div>
-        <div class="hp-news-headline">Patriot Battery Metals closes $85M financing with South Korean strategic partner for Quebec lithium project</div>
-        <div class="hp-news-meta">Val-d'Or, QC · May 5, 2026</div>
-      </div>
-      <div class="hp-news-card">
-        <div class="hp-news-sector" style="color:#854F0B;">Agri-food</div>
-        <div class="hp-news-headline">China extends canola import restrictions through Q3 — Prairie producers pivot toward EU and Southeast Asian buyers</div>
-        <div class="hp-news-meta">National · May 6, 2026</div>
-      </div>
-      <div class="hp-news-card">
-        <div class="hp-news-sector" style="color:#534AB7;">Technology</div>
-        <div class="hp-news-headline">Cohere confirms merger with Germany's Aleph Alpha in sovereign AI play — largest Canadian AI deal of 2026</div>
-        <div class="hp-news-meta">Toronto / Berlin · May 4, 2026</div>
-      </div>
+    <div class="hp-news-grid" id="hp-news-grid-dynamic">
+      <!-- populated by JS fetch from /api/spotlight_latest.json -->
     </div>
     <a href="/spotlight/" class="hp-news-see-all">See all business spotlight stories this week →</a>
   </div>
 </div>
+<script>
+(function() {
+  var SECTOR_COLORS = {
+    critical_minerals: '#185FA5',
+    energy_cleantech:  '#1A7A4A',
+    advanced_manufacturing: '#8B3A3A',
+    aerospace_defence: '#5A4A8A',
+    agri_food:         '#854F0B',
+    technology_digital:'#534AB7',
+    innovation:        '#534AB7',
+    consumer_goods:    '#854F0B',
+    canadian_economy:  '#3A6A5A',
+    policy_regulation: '#5A5A5A',
+    diaspora_trade:    '#8B5A3A'
+  };
+  var grid = document.getElementById('hp-news-grid-dynamic');
+  var section = document.getElementById('hp-this-week-section');
+  if (!grid || !section) return;
+  fetch('/api/spotlight_latest.json')
+    .then(function(r) { return r.ok ? r.json() : Promise.reject(r.status); })
+    .then(function(data) {
+      var entries = (data.entries || []).slice(0, 3);
+      if (!entries.length) { section.style.display = 'none'; return; }
+      // Update issue label from spotlight data
+      var labelEl = document.getElementById('this-week-issue-label');
+      if (labelEl && data.week_label) {
+        labelEl.textContent = 'Issue #' + String(data.issue || '').padStart(3, '0') + ' \u00b7 ' + data.week_label;
+      }
+      grid.innerHTML = entries.map(function(e) {
+        var color = SECTOR_COLORS[e.sector] || '#555';
+        var href = e.slug ? '/spotlight/' + e.slug + '/' : e.source_url;
+        var target = e.slug ? '' : ' target="_blank" rel="noopener"';
+        var date = e.date || '';
+        var market = e.market ? ' \u00b7 ' + e.market : '';
+        return '<a href="' + href + '"' + target + ' style="text-decoration:none;color:inherit;">' +
+          '<div class="hp-news-card">' +
+          '<div class="hp-news-sector" style="color:' + color + ';">' + (e.sector_display || e.sector || '') + '</div>' +
+          '<div class="hp-news-headline">' + (e.headline || '') + '</div>' +
+          '<div class="hp-news-meta">' + date + market + '</div>' +
+          '</div></a>';
+      }).join('');
+    })
+    .catch(function() { section.style.display = 'none'; });
+})();
+</script>
 
 <!-- ── SECTION 5: TOOLS & RESOURCES ── -->
 <div class="hp-tools">

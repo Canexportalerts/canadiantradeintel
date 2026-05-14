@@ -348,11 +348,15 @@ async function loadTenders() {
         sectors:  Array.isArray(t.sectors) ? t.sectors : (t.sector ? [t.sector] : []),
         source:   (t.source || t.platform || '').toLowerCase(),
         why:      t.why_this_matters || '',
+        status:   t.status || '',
       }))
       .filter(t => {
         if (!t.deadline) return true; // include undated
         const d = new Date(t.deadline.substring(0,10));
-        return !isNaN(d) && d >= today;
+        if (isNaN(d)) return true;
+        // Include open tenders and recently closed (up to 14 days past)
+        const daysAgo = Math.round((today - d) / 86400000);
+        return d >= today || (t.status === 'recently_closed' && daysAgo <= 14);
       })
       .sort((a, b) => {
         if (!a.deadline) return 1;
@@ -503,10 +507,12 @@ function render() {
     const dClass = urgencyClass(days);
     const daysStr = days !== null ? `(${days}d)` : '';
     const sectorBadges = makeSectorBadges(t);
+    const isClosed = t.status === 'recently_closed' || (days !== null && days < 0);
+    const closedBadge = isClosed ? `<span style="display:inline-block;font-size:9px;padding:2px 6px;border-radius:2px;margin-right:4px;background:#88888818;color:#888;font-family:'DM Mono',monospace;letter-spacing:0.08em;text-transform:uppercase;">Recently Closed</span>` : '';
     const titleEl = t.url
-      ? `<a href="${t.url}" target="_blank" rel="noopener" class="proc-item-title">${escHtml(t.title)}</a>`
-      : `<span class="proc-item-title" style="color:var(--ink);cursor:default">${escHtml(t.title)}</span>`;
-    return `<div class="proc-item">
+      ? `<a href="${t.url}" target="_blank" rel="noopener" class="proc-item-title" ${isClosed ? 'style="color:var(--slate);"' : ''}>${escHtml(t.title)}</a>`
+      : `<span class="proc-item-title" style="color:${isClosed ? 'var(--slate)' : 'var(--ink)'};cursor:default">${escHtml(t.title)}</span>`;
+    return `<div class="proc-item" ${isClosed ? 'style="opacity:0.7;"' : ''}>
       <div class="proc-item-inner">
         <div>
           ${titleEl}
@@ -515,6 +521,7 @@ function render() {
             ${formatValue(t.value) ? `<span class="proc-item-value">${escHtml(formatValue(t.value))}</span>` : ''}
             <span class="proc-item-source">${sourceLabel(t.source)}</span>
             ${sectorTags(t.sectors)}
+            ${closedBadge}
           </div>
           ${sectorBadges ? `<div style="margin-top:4px;">${sectorBadges}</div>` : ''}
         </div>
@@ -654,28 +661,10 @@ function tenderMatchesFilters(t) {
   } else if (activeFilters.closing === 'none') {
     if (t.deadline) return false;
   }
-  // Sector filter — with client-side fallback for untagged tenders
+  // Sector filter — use feed's own sector classification (trust the pipeline, don't re-classify client-side)
   if (activeFilters.sector !== 'all') {
     const tSectors = t.sectors || (t.sector ? [t.sector] : []);
-    if (!tSectors.includes(activeFilters.sector)) {
-      const SECTOR_KW = {
-        critical_minerals: ['mining','mineral','uranium','lithium','cobalt','copper','rare earth','nickel','gold'],
-        energy_cleantech: ['energy','solar','wind','hydrogen','renewable','battery','power','electricity','nuclear'],
-        advanced_manufacturing: ['manufactur','steel','aluminum','fabricat','machining','automotive','precision'],
-        aerospace_defence: ['aerospace','defence','defense','aircraft','military','radar','naval','norad'],
-        agri_food: ['agriculture','agri','food','grain','canola','livestock','dairy','fisheries','crop','farm'],
-        technology_digital: ['software','technology','digital','cloud','data','artificial intelligence','cyber','network','analytics'],
-        general: [],
-      };
-      const kws = SECTOR_KW[activeFilters.sector] || [];
-      const text = ((t.title || '') + ' ' + (t.description || '') + ' ' + (t.buyer || '')).toLowerCase();
-      if (activeFilters.sector === 'general') {
-        const allKws = Object.values(SECTOR_KW).flat();
-        if (allKws.some(kw => text.includes(kw))) return false;
-      } else {
-        if (!kws.some(kw => text.includes(kw))) return false;
-      }
-    }
+    if (!tSectors.includes(activeFilters.sector)) return false;
   }
   return true;
 }
