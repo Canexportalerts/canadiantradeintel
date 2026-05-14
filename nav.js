@@ -131,6 +131,9 @@
     '}',
     '#main-nav .nav-dropdown-menu a:hover { color: #fff; background: rgba(204,0,0,0.1); }',
     '#main-nav .nav-dropdown-menu a.active { color: rgba(204,0,0,0.9); }',
+    '#main-nav .nav-dropdown-menu a.nav-item-muted { color: rgba(255,255,255,0.3); }',
+    '#main-nav .nav-dropdown-menu a.nav-item-muted:hover { color: rgba(255,255,255,0.45); background: none; }',
+    '#main-nav .nav-mobile-menu a.nav-item-muted { color: rgba(255,255,255,0.3); }',
     '#main-nav .nav-cta {',
     '  background: #cc0000 !important; color: #fff !important;',
     '  padding: 8px 16px; border-radius: 3px;',
@@ -218,7 +221,7 @@
           '<a href="/canada-forward/provinces/">Provinces</a>' +
           '<div class="nav-dropdown-divider"></div>' +
           '<span class="nav-dropdown-label">Research</span>' +
-          '<a href="/canada-forward/research/">Research Hub</a>' +
+          '<a href="/canada-forward/research/" class="nav-item-muted">Research Hub</a>' +
           '<a href="/canada-forward/cusma-review/">CUSMA 2026 Tracker</a>' +
         '</div>' +
       '</div>' +
@@ -261,7 +264,7 @@
     '<a href="/canada-forward/foreign-investment/">Foreign Investment</a>' +
     '<a href="/canada-forward/cities/">Cities &amp; Infrastructure</a>' +
     '<a href="/canada-forward/provinces/">Provinces</a>' +
-    '<a href="/canada-forward/research/">Research Hub</a>' +
+    '<a href="/canada-forward/research/" class="nav-item-muted">Research Hub</a>' +
     '<a href="/canada-forward/cusma-review/">CUSMA 2026 Tracker</a>' +
     '<a href="/reports/">Reports</a>' +
     '<span class="nav-mobile-section">Resources</span>' +
