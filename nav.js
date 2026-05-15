@@ -206,9 +206,11 @@
         '<div class="nav-dropdown-menu">' +
           '<span class="nav-dropdown-label">Overview</span>' +
           '<a href="/canada-forward/">Canada Forward</a>' +
+          '<a href="/canada-forward/review/">Publications</a>' +
           '<div class="nav-dropdown-divider"></div>' +
           '<span class="nav-dropdown-label">Themes</span>' +
           '<a href="/canada-forward/housing-and-infrastructure/">Housing &amp; Infrastructure</a>' +
+          '<a href="/canada-forward/cities/">Cities &amp; Urban Infrastructure</a>' +
           '<a href="/canada-forward/energy-transition/">Energy Transition</a>' +
           '<a href="/canada-forward/defence-security/">Defence &amp; Security</a>' +
           '<a href="/canada-forward/digital-economy/">Digital Economy</a>' +
@@ -217,7 +219,6 @@
           '<a href="/canada-forward/ocean-economy/">Ocean Economy</a>' +
           '<a href="/canada-forward/financial-services/">Financial Services</a>' +
           '<a href="/canada-forward/foreign-investment/">Foreign Investment</a>' +
-          '<a href="/canada-forward/cities/">Cities &amp; Infrastructure</a>' +
           '<a href="/canada-forward/provinces/">Provinces</a>' +
           '<div class="nav-dropdown-divider"></div>' +
           '<span class="nav-dropdown-label">Research</span>' +
@@ -253,7 +254,9 @@
     '<a href="/countries/">Countries</a>' +
     '<span class="nav-mobile-section">Canada Forward</span>' +
     '<a href="/canada-forward/">Overview</a>' +
+    '<a href="/canada-forward/review/">Publications</a>' +
     '<a href="/canada-forward/housing-and-infrastructure/">Housing &amp; Infrastructure</a>' +
+    '<a href="/canada-forward/cities/">Cities &amp; Urban Infrastructure</a>' +
     '<a href="/canada-forward/energy-transition/">Energy Transition</a>' +
     '<a href="/canada-forward/defence-security/">Defence &amp; Security</a>' +
     '<a href="/canada-forward/digital-economy/">Digital Economy</a>' +
@@ -262,7 +265,6 @@
     '<a href="/canada-forward/ocean-economy/">Ocean Economy</a>' +
     '<a href="/canada-forward/financial-services/">Financial Services</a>' +
     '<a href="/canada-forward/foreign-investment/">Foreign Investment</a>' +
-    '<a href="/canada-forward/cities/">Cities &amp; Infrastructure</a>' +
     '<a href="/canada-forward/provinces/">Provinces</a>' +
     '<a href="/canada-forward/research/" class="nav-item-muted">Research Hub</a>' +
     '<a href="/canada-forward/cusma-review/">CUSMA 2026 Tracker</a>' +
