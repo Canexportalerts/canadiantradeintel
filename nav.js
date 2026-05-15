@@ -71,6 +71,7 @@
     '  background: #1a0505;',
     '  border-bottom: 1px solid rgba(204,0,0,0.2);',
     '  padding: 0 40px; height: 56px;',
+    '  overflow: visible;',
     '}',
     '#main-nav .nav-inner {',
     '  max-width: 1200px; margin: 0 auto;',
@@ -109,8 +110,9 @@
     '#main-nav .nav-dropdown-menu {',
     '  display: none; position: absolute; top: 100%; right: 0;',
     '  background: #1a0505; border: 1px solid rgba(204,0,0,0.2);',
-    '  min-width: 240px; z-index: 400; padding: 8px 0 10px;',
+    '  min-width: 240px; z-index: 9999; padding: 8px 0 10px;',
     '  box-shadow: 0 8px 24px rgba(0,0,0,0.4);',
+    '  max-height: 90vh; overflow-y: auto; overflow-x: visible;',
     '}',
     '#main-nav .nav-dropdown-label {',
     '  display: block; padding: 10px 16px 5px;',
@@ -222,7 +224,7 @@
           '<a href="/canada-forward/provinces/">Provinces</a>' +
           '<div class="nav-dropdown-divider"></div>' +
           '<span class="nav-dropdown-label">Research</span>' +
-          '<a href="/canada-forward/research/" class="nav-item-muted">Research Hub</a>' +
+          '<a href="/canada-forward/research/" class="nav-item-muted">Library \u2014 Coming Soon</a>' +
           '<a href="/canada-forward/cusma-review/">CUSMA 2026 Tracker</a>' +
         '</div>' +
       '</div>' +
@@ -266,7 +268,7 @@
     '<a href="/canada-forward/financial-services/">Financial Services</a>' +
     '<a href="/canada-forward/foreign-investment/">Foreign Investment</a>' +
     '<a href="/canada-forward/provinces/">Provinces</a>' +
-    '<a href="/canada-forward/research/" class="nav-item-muted">Research Hub</a>' +
+    '<a href="/canada-forward/research/" class="nav-item-muted">Library \u2014 Coming Soon</a>' +
     '<a href="/canada-forward/cusma-review/">CUSMA 2026 Tracker</a>' +
     '<a href="/reports/">Reports</a>' +
     '<span class="nav-mobile-section">Resources</span>' +
