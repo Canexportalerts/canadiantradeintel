@@ -511,6 +511,39 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
 .archive-label-rule { flex: 1; height: 1px; background: var(--rule); }
 @media (max-width: 900px) { .archive-label-bar { padding: 20px 16px 0; } }
 
+  /* ── PROMINENT SEARCH BAR (above This Week) ── */
+  .spotlight-search-bar {
+    background: #111109;
+    border-bottom: 1px solid rgba(204,0,0,0.2);
+    padding: 0 40px;
+  }
+  .spotlight-search-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    height: 52px;
+  }
+  .spotlight-search-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    color: #fff;
+    caret-color: #cc0000;
+  }
+  .spotlight-search-input::placeholder {
+    color: rgba(255,255,255,0.45);
+    font-size: 13px;
+  }
+  @media (max-width: 900px) {
+    .spotlight-search-bar { padding: 0 16px; }
+  }
+
 </style>
 <script src="/nav.js"></script>
 </head>
@@ -533,6 +566,15 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
 </div>
 
 <!-- ════ ZONE 1: THIS WEEK'S STORIES ════ -->
+<div class="spotlight-search-bar" id="spotlight-search-bar">
+  <div class="spotlight-search-inner">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0;color:rgba(255,255,255,0.5)"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input type="search" id="ed-search" class="spotlight-search-input"
+           placeholder="Search stories, companies, sectors, provinces…"
+           oninput="edSearch()" autocomplete="off">
+  </div>
+</div>
+
 <section class="this-week-section" id="this-week">
   <div class="this-week-inner">
     <div class="this-week-eyebrow">This Week&#x2019;s Stories</div>
@@ -546,7 +588,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
 </section>
 
 <!-- ════ ZONE 2: FILTER BARS ════ -->
-<div class="filter-bars" id="filter-bars">
+<div class="filter-bars" id="filter-bars" style="display:none">
   <!-- Theme row -->
   <div class="filter-bar-row theme-row" role="toolbar" aria-label="Filter by theme">
     <span class="filter-row-label">Filter by theme</span>
@@ -575,24 +617,12 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
 </div>
 
 <!-- ════ ZONE 3: ARCHIVE ════ -->
-<div class="archive-label-bar">
-  <span class="archive-label-text">Archive</span>
-  <span class="archive-label-rule"></span>
-</div>
 
 
 <!-- SEARCH BAR -->
-<div class="ed-search-bar">
-  <div class="ed-search-inner">
-    <span class="ed-search-icon">&#9906;</span>
-    <input type="search" id="ed-search" class="ed-search-input"
-           placeholder="Search stories, companies, sectors, provinces…"
-           oninput="edSearch()" autocomplete="off">
-  </div>
-</div>
 
 <!-- EDITORIAL GRID -->
-<div id="editorial-grid" class="ed-container"></div>
+<div id="editorial-grid" class="ed-container" style="display:none"></div>
 
 <!-- TARIFF CALLOUT -->
 <div class="tariff-callout">
@@ -3275,6 +3305,18 @@ function buildEditorialGrid() {
 
   // Update pagination labels
   updatePageNav(weekParam, allWeekKeys);
+
+  // Main page: hide archive grid and filters, show only This Week + search
+  // Week pages: show archive grid and filters
+  var editGrid  = document.getElementById('editorial-grid');
+  var filterBars = document.getElementById('filter-bars');
+  if (!weekParam) {
+    if (editGrid)   editGrid.style.display   = 'none';
+    if (filterBars) filterBars.style.display = 'none';
+  } else {
+    if (editGrid)   editGrid.style.display   = '';
+    if (filterBars) filterBars.style.display = '';
+  }
 }
 
 function updatePageNav(weekParam, allWeekKeys) {
@@ -3287,7 +3329,7 @@ function updatePageNav(weekParam, allWeekKeys) {
 
   if (!weekParam) {
     // Showing current (most recent) week
-    labelEl.textContent = 'This week';
+    labelEl.textContent = '';
     if (prevEl) {
       if (keys.length > 1) {
         prevEl.textContent = '\u2190 Previous week';
@@ -3343,24 +3385,39 @@ function updatePageNav(weekParam, allWeekKeys) {
 // ── SEARCH FILTER ────────────────────────────────────────────────────────────
 function edSearch() {
   var q = (document.getElementById('ed-search').value || '').toLowerCase().trim();
-  document.querySelectorAll('#editorial-grid .article-card').forEach(function(card) {
+  var urlParams = new URLSearchParams(window.location.search);
+  var weekParam = urlParams.get('week');
+
+  // Search this-week cards (Zone 1) — always visible on main page
+  document.querySelectorAll('.this-week-card').forEach(function(card) {
     var text = [
-      card.querySelector('.article-company') ? card.querySelector('.article-company').textContent : '',
-      card.querySelector('.article-headline') ? card.querySelector('.article-headline').textContent : '',
-      card.querySelector('.article-sector')   ? card.querySelector('.article-sector').textContent   : '',
-      card.querySelector('.article-country')  ? card.querySelector('.article-country').textContent  : '',
+      card.querySelector('.tw-company')  ? card.querySelector('.tw-company').textContent  : '',
+      card.querySelector('.tw-headline') ? card.querySelector('.tw-headline').textContent : '',
+      card.querySelector('.tw-summary')  ? card.querySelector('.tw-summary').textContent  : '',
+      card.querySelector('.tw-sector-badge') ? card.querySelector('.tw-sector-badge').textContent : '',
     ].join(' ').toLowerCase();
-    var matchesSearch = !q || text.includes(q);
-    var matchesSector = activeFilter === 'all' || card.dataset.sector === activeFilter;
-    var matchesTheme  = activeTheme  === 'all' || card.dataset.theme  === activeTheme;
-    var show = matchesSearch && matchesSector && matchesTheme;
-    card.style.display = show ? '' : 'none';
+    card.classList.toggle('tw-hidden', !!q && !text.includes(q));
   });
-  // Hide empty sections
-  document.querySelectorAll('.ed-section').forEach(function(sec) {
-    var hasVisible = sec.querySelector('.article-card:not([style*="display: none"])');
-    sec.style.display = hasVisible ? '' : 'none';
-  });
+
+  // Search archive cards (Zone 3) — only shown on ?week= pages
+  if (weekParam) {
+    document.querySelectorAll('#editorial-grid .article-card').forEach(function(card) {
+      var text = [
+        card.querySelector('.article-company') ? card.querySelector('.article-company').textContent : '',
+        card.querySelector('.article-headline') ? card.querySelector('.article-headline').textContent : '',
+        card.querySelector('.article-sector')   ? card.querySelector('.article-sector').textContent   : '',
+        card.querySelector('.article-country')  ? card.querySelector('.article-country').textContent  : '',
+      ].join(' ').toLowerCase();
+      var matchesSearch  = !q || text.includes(q);
+      var matchesSector  = activeFilter === 'all' || card.dataset.sector === activeFilter;
+      var matchesTheme   = activeTheme  === 'all' || card.dataset.theme  === activeTheme;
+      card.style.display = (matchesSearch && matchesSector && matchesTheme) ? '' : 'none';
+    });
+    document.querySelectorAll('.ed-section').forEach(function(sec) {
+      var hasVisible = sec.querySelector('.article-card:not([style*="display: none"])');
+      sec.style.display = hasVisible ? '' : 'none';
+    });
+  }
 }
 
 // ── INIT ─────────────────────────────────────────────────────────────────────
