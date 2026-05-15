@@ -196,7 +196,7 @@
     transition: background 0.15s;
     display: flex;
     flex-direction: column;
-    min-height: 220px;
+    min-height: 240px;
     position: relative;
     border-top: 3px solid transparent;
   }
@@ -378,10 +378,32 @@
     line-height: 1.65;
     margin-bottom: 12px;
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
+
+  /* Paired small sections sit side by side */
+  .ed-section-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin-bottom: 48px;
+  }
+  .ed-section-pair .ed-section {
+    margin-bottom: 0;
+  }
+  @media (max-width: 760px) {
+    .ed-section-pair {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* 1- and 2-column overrides for small sections */
+  .ed-cards-1col { display: grid; grid-template-columns: 1fr; gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
+  .ed-cards-2col { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
+  .ed-cards-1col .article-drawer,
+  .ed-cards-2col .article-drawer { grid-column: 1 / -1; }
 
   /* ── HIDDEN ── */
   .article-card.hidden,
@@ -488,12 +510,17 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
 
 /* ══ EDITORIAL CONTAINER + SECTIONS + GRIDS ══════════════════ */
 
-/* Editorial grid background — gives cards a surface to sit on */
+/* Editorial grid — full-bleed warm surface, children max-width constrained */
 .ed-container {
-  max-width: 1100px;
-  margin: 0 auto;
+  max-width: 100%;
+  margin: 0;
   padding: 36px 40px 60px;
   background: #f2f0eb;
+}
+.ed-container > * {
+  max-width: 1100px;
+  margin-left: auto;
+  margin-right: auto;
 }
 @media (max-width: 900px) { .ed-container { padding: 24px 16px 40px; } }
 
@@ -3352,8 +3379,8 @@ function applyArchiveFilters() {
 var SECTIONS = [
   { id: 'sec-world',     title: 'Canada in the World',    types: ['deal'],                                          featured: true },
   { id: 'sec-invest',    title: 'Capital & Growth',       types: ['investment'] },
-  { id: 'sec-canadian',  title: 'Canadian Business',      types: ['canadian_business'] },
   { id: 'sec-policy',    title: 'Policy & Regulation',    types: ['geopolitics','economy','policy_regulation'] },
+  { id: 'sec-canadian',  title: 'Canadian Business',      types: ['canadian_business'] },
   { id: 'sec-innovation',title: 'Innovation & Tech',      types: ['innovation_tech','innovation'] },
   { id: 'sec-provinces', title: 'Across the Provinces',   types: ['provinces','provincial','provincial_regional'] },
   { id: 'sec-indigenous',title: 'Indigenous Economy',     types: ['indigenous_economy'] },
@@ -3438,6 +3465,8 @@ function buildEditorialGrid() {
   });
 
   // Build each section
+  // Build section elements
+  var builtSections = [];
   SECTIONS.forEach(function(sec) {
     var sectionCards = [];
     sec.types.forEach(function(t) { if (groups[t]) sectionCards = sectionCards.concat(groups[t]); });
@@ -3447,30 +3476,39 @@ function buildEditorialGrid() {
     secEl.className = 'ed-section';
     secEl.id = sec.id;
 
-    // Header
     var hdr = document.createElement('div');
     hdr.className = 'ed-section-header';
     hdr.innerHTML = '<span class="ed-section-title">' + sec.title + '</span>' +
                     '<span class="ed-section-count">' + sectionCards.length + ' ' + (sectionCards.length === 1 ? 'story' : 'stories') + '</span>';
     secEl.appendChild(hdr);
 
-    // Card grid
+    var cardCount = sectionCards.length;
     var gridClass = sec.featured ? 'ed-cards-featured' : (sec.sme ? 'ed-cards-sme' : 'ed-cards');
+    if (!sec.featured && !sec.sme) {
+      if (cardCount === 1) gridClass = 'ed-cards-1col';
+      else if (cardCount === 2) gridClass = 'ed-cards-2col';
+    }
     var cardGrid = document.createElement('div');
     cardGrid.className = gridClass;
 
     sectionCards.forEach(function(card, idx) {
       if (sec.featured && idx === 0) card.classList.add('card-featured');
-      if (sec.sme) card.classList.add('card-sme');
-
-      // Inject 3-line excerpt from drawer body
       var tile = card.dataset.tile;
       var drawer = tile ? document.getElementById('drawer-' + tile) : null;
       if (drawer && !card.querySelector('.article-excerpt')) {
         var bodyEl = drawer.querySelector('.drawer-body');
         if (bodyEl) {
-          var firstP = bodyEl.querySelector('p');
-          var excerptText = (firstP ? firstP.textContent : bodyEl.textContent).trim();
+          // Skip label paragraphs (What Happened, Why It Matters etc)
+          // and grab the first paragraph that contains actual content
+          var allPs = bodyEl.querySelectorAll('p');
+          var excerptText = '';
+          for (var pi = 0; pi < allPs.length; pi++) {
+            var pText = allPs[pi].textContent.trim();
+            if (pText.length > 60 && pText !== pText.toUpperCase()) {
+              excerptText = pText;
+              break;
+            }
+          }
           if (excerptText) {
             var excerptEl = document.createElement('div');
             excerptEl.className = 'article-excerpt';
@@ -3480,15 +3518,34 @@ function buildEditorialGrid() {
           }
         }
       }
-
-      // Move card into section grid
       cardGrid.appendChild(card);
       if (drawer) cardGrid.appendChild(drawer);
     });
 
     secEl.appendChild(cardGrid);
-    grid.appendChild(secEl);
+    builtSections.push({ el: secEl, count: cardCount, sec: sec });
   });
+
+  // Render sections — pair small sections (≤2 cards) side by side
+  // to avoid large empty spaces
+  var i = 0;
+  while (i < builtSections.length) {
+    var current = builtSections[i];
+    var next = builtSections[i + 1];
+
+    if (!current.sec.featured && current.count <= 2 &&
+        next && !next.sec.featured && next.count <= 2) {
+      var pairRow = document.createElement('div');
+      pairRow.className = 'ed-section-pair';
+      pairRow.appendChild(current.el);
+      pairRow.appendChild(next.el);
+      grid.appendChild(pairRow);
+      i += 2;
+    } else {
+      grid.appendChild(current.el);
+      i += 1;
+    }
+  }
 
   // Update pagination labels
   updatePageNav(weekParam, allWeekKeys);
