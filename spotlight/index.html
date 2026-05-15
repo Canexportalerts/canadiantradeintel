@@ -575,7 +575,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
   </div>
 </div>
 
-<section class="this-week-section" id="this-week">
+<section class="this-week-section" id="this-week" style="display:none">
   <div class="this-week-inner">
     <div class="this-week-eyebrow">This Week&#x2019;s Stories</div>
     <div class="this-week-grid" id="this-week-grid">
@@ -622,7 +622,12 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
 <!-- SEARCH BAR -->
 
 <!-- EDITORIAL GRID -->
-<div id="editorial-grid" class="ed-container" style="display:none"></div>
+<div id="editorial-grid" class="ed-container" style="display:none">
+  <div id="ed-week-eyebrow" style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:var(--brand);margin-bottom:28px;padding-top:8px;display:flex;align-items:center;gap:10px;">
+    <span id="ed-week-label">This Week&#x2019;s Stories</span>
+    <span style="flex:1;height:1px;background:var(--rule);display:block;"></span>
+  </div>
+</div>
 
 <!-- TARIFF CALLOUT -->
 <div class="tariff-callout">
@@ -3096,33 +3101,46 @@ function filterSector(sector, btn) {
   var _weekParam = _urlParams.get('week'); // Monday-based YYYY-MM-DD or null
 
   if (!_weekParam) {
-    // Current week — load spotlight_latest.json
-    fetch('/api/spotlight_latest.json')
-      .then(function(r) { return r.ok ? r.json() : Promise.reject(); })
-      .then(function(data) {
-        var entries = _extractEntries(data).slice(0, 6);
-        if (!entries.length) return;
-        _renderSpotlightEntries(entries, 'This Week\u2019s Stories');
-      })
-      .catch(function() { /* placeholder stays */ });
+    // Main page — check if card pool already has this week's stories.
+    // If yes, the editorial grid handles display and we hide Zone 1.
+    // If no cards yet (pipeline running), show Zone 1 as fallback.
+    setTimeout(function() {
+      var editGrid = document.getElementById('editorial-grid');
+      var hasCards = editGrid && editGrid.querySelector('.article-card');
+      if (hasCards) {
+        // Card pool has this week — hide Zone 1 entirely
+        var thisWeekSection = document.getElementById('this-week');
+        if (thisWeekSection) thisWeekSection.style.display = 'none';
+      } else {
+        // No cards in pool yet — show Zone 1 as fallback from JSON
+        var thisWeekSection = document.getElementById('this-week');
+        if (thisWeekSection) thisWeekSection.style.display = '';
+        fetch('/api/spotlight_latest.json')
+          .then(function(r) { return r.ok ? r.json() : Promise.reject(); })
+          .then(function(data) {
+            var entries = _extractEntries(data).slice(0, 8);
+            if (!entries.length) return;
+            _renderSpotlightEntries(entries, 'This Week\u2019s Stories');
+          })
+          .catch(function() {});
+      }
+    }, 200);
   } else {
-    // Past week — try spotlight_weekly_{weekParam}.json, then +1 day (Tuesday)
+    // Past week page — try weekly JSON for Zone 1 header label
+    var _section = document.getElementById('this-week');
     var _candidates = [
       '/api/spotlight_weekly_' + _weekParam + '.json',
       '/api/spotlight_weekly_' + _addDay(_weekParam, 1) + '.json',
     ];
-    var _section = document.getElementById('this-week');
-
     (function _tryNext(i) {
       if (i >= _candidates.length) {
-        // No weekly JSON for this week — hide Zone 1
         if (_section) _section.style.display = 'none';
         return;
       }
       fetch(_candidates[i])
         .then(function(r) { return r.ok ? r.json() : Promise.reject(); })
         .then(function(data) {
-          var entries = _extractEntries(data).slice(0, 6);
+          var entries = _extractEntries(data).slice(0, 8);
           if (!entries.length) { _tryNext(i + 1); return; }
           var d = new Date(_weekParam + 'T12:00:00');
           var label = isNaN(d) ? 'Stories' : 'Stories \u2014 Week of ' + d.toLocaleDateString('en-CA', {month:'long', day:'numeric', year:'numeric'});
@@ -3229,9 +3247,16 @@ function buildEditorialGrid() {
   })();
 
   if (!weekParam) {
-    // Archive grid shows all historical cards. Current week (Issue #007) loads
-    // separately via spotlight_latest.json into Zone 1 (This Week's Stories).
-    // No filter needed here — show everything in the card pool.
+    // Main page: show only the most recent week from the card pool.
+    // This is this week's stories in the themed editorial layout.
+    var mostRecentWeek = allWeekKeys[0] || null;
+    if (mostRecentWeek) {
+      allCards = allCards.filter(function(card) {
+        var dateEl = card.querySelector('.article-date');
+        if (!dateEl) return false;
+        return getWeekKey(dateEl.textContent.trim()) === mostRecentWeek;
+      });
+    }
   } else {
     allCards = allCards.filter(function(card) {
       var dateEl = card.querySelector('.article-date');
@@ -3306,16 +3331,23 @@ function buildEditorialGrid() {
   // Update pagination labels
   updatePageNav(weekParam, allWeekKeys);
 
-  // Main page: hide archive grid and filters, show only This Week + search
-  // Week pages: show archive grid and filters
-  var editGrid  = document.getElementById('editorial-grid');
+  // Editorial grid and filters are always visible — main page shows
+  // this week's stories in the themed layout, ?week= pages show that
+  // week's stories in the same layout.
+  var editGrid   = document.getElementById('editorial-grid');
   var filterBars = document.getElementById('filter-bars');
-  if (!weekParam) {
-    if (editGrid)   editGrid.style.display   = 'none';
-    if (filterBars) filterBars.style.display = 'none';
-  } else {
-    if (editGrid)   editGrid.style.display   = '';
-    if (filterBars) filterBars.style.display = '';
+  if (editGrid)   editGrid.style.display   = '';
+  if (filterBars) filterBars.style.display = '';
+
+  // Update the week eyebrow label
+  var eyebrowLabel = document.getElementById('ed-week-label');
+  if (eyebrowLabel) {
+    if (!weekParam) {
+      eyebrowLabel.textContent = 'This Week\u2019s Stories';
+    } else {
+      var d = new Date(weekParam + 'T12:00:00');
+      eyebrowLabel.textContent = isNaN(d) ? 'Stories' : 'Week of ' + d.toLocaleDateString('en-CA', {month:'long', day:'numeric', year:'numeric'});
+    }
   }
 }
 
@@ -3329,7 +3361,7 @@ function updatePageNav(weekParam, allWeekKeys) {
 
   if (!weekParam) {
     // Showing current (most recent) week
-    labelEl.textContent = '';
+    labelEl.textContent = 'Issue #007 \u00b7 May 12, 2026';
     if (prevEl) {
       if (keys.length > 1) {
         prevEl.textContent = '\u2190 Previous week';
