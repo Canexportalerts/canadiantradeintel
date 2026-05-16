@@ -399,18 +399,79 @@
     }
   }
 
-  /* 1- and 2-column overrides for small sections */
-  .ed-cards-1col { display: grid; grid-template-columns: 1fr; gap: 1px; background: var(--rule); border: 1px solid var(--rule); align-items: start; }
-  .ed-cards-2col { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--rule); border: 1px solid var(--rule); align-items: start; }
-  .ed-cards-1col .article-drawer,
-  .ed-cards-2col .article-drawer { grid-column: 1 / -1; }
+  /* ══ EDITORIAL MOSAIC GRID ══════════════════════════════════ */
 
-  .ed-cards > .article-card,
-  .ed-cards-featured > .article-card,
-  .ed-cards-1col > .article-card,
-  .ed-cards-2col > .article-card,
-  .ed-cards-sme > .article-card {
-    align-self: start;
+  /* Base mosaic container */
+  .ed-mosaic {
+    display: grid;
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    grid-template-columns: repeat(12, 1fr);
+  }
+
+  /* WIDE: full row, horizontal feel — 12 cols */
+  .article-card.size-wide {
+    grid-column: span 12;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 32px;
+    padding: 24px 28px;
+    min-height: 0;
+  }
+  .article-card.size-wide .article-headline { font-size: 15px; }
+  .article-card.size-wide .article-excerpt { margin-top: 0; -webkit-line-clamp: 5; }
+  .article-card.size-wide .article-footer { grid-column: 1 / -1; }
+
+  /* LARGE: 8 cols — the lead story in a section */
+  .article-card.size-large {
+    grid-column: span 8;
+    padding: 22px 24px 18px;
+    min-height: 0;
+  }
+  .article-card.size-large .article-company { font-size: 26px; }
+  .article-card.size-large .article-excerpt { -webkit-line-clamp: 5; }
+
+  /* MEDIUM: 6 cols — standard story */
+  .article-card.size-medium {
+    grid-column: span 6;
+    padding: 20px 22px 18px;
+    min-height: 0;
+  }
+
+  /* SMALL: 4 cols — brief, sidebar feel */
+  .article-card.size-small {
+    grid-column: span 4;
+    padding: 18px 18px 16px;
+    min-height: 0;
+  }
+  .article-card.size-small .article-company { font-size: 18px; }
+  .article-card.size-small .article-excerpt { -webkit-line-clamp: 2; }
+
+  /* SLIM: 3 cols — narrow column, title + one line */
+  .article-card.size-slim {
+    grid-column: span 3;
+    padding: 16px 16px 14px;
+    min-height: 0;
+  }
+  .article-card.size-slim .article-company { font-size: 16px; }
+  .article-card.size-slim .article-excerpt { display: none; }
+
+  /* Drawer always spans full row */
+  .ed-mosaic .article-drawer { grid-column: 1 / -1; }
+
+  /* Responsive */
+  @media (max-width: 960px) {
+    .ed-mosaic { grid-template-columns: repeat(6, 1fr); }
+    .article-card.size-wide,
+    .article-card.size-large  { grid-column: span 6; display: flex; }
+    .article-card.size-medium { grid-column: span 6; }
+    .article-card.size-small,
+    .article-card.size-slim   { grid-column: span 3; }
+  }
+  @media (max-width: 600px) {
+    .ed-mosaic { grid-template-columns: 1fr; }
+    .article-card[class*="size-"] { grid-column: span 1; display: flex; }
   }
 
   /* ── HIDDEN ── */
@@ -565,24 +626,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
   margin-bottom: 18px;
 }
 
-/* Card grids */
-.ed-cards {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1px;
-  background: var(--rule);
-  border: 1px solid var(--rule);
-  align-items: start;
-}
-.ed-cards-featured {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 1px;
-  background: var(--rule);
-  border: 1px solid var(--rule);
-  align-items: start;
-}
-.ed-cards-featured .article-card:first-child { grid-row: 1 / 3; }
+/* SME (Local Business) grid — compact 4-col */
 .ed-cards-sme {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -590,20 +634,8 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
   background: var(--rule);
   border: 1px solid var(--rule);
 }
-@media (max-width: 960px) {
-  .ed-cards { grid-template-columns: repeat(2, 1fr); }
-  .ed-cards-featured { grid-template-columns: 1fr; }
-  .ed-cards-featured .article-card:first-child { grid-row: auto; }
-  .ed-cards-sme { grid-template-columns: repeat(2, 1fr); }
-}
-@media (max-width: 600px) {
-  .ed-cards { grid-template-columns: 1fr; }
-  .ed-cards-sme { grid-template-columns: 1fr; }
-}
-
-/* Drawers in ed grids */
-.ed-cards .article-drawer,
-.ed-cards-featured .article-drawer,
+@media (max-width: 960px) { .ed-cards-sme { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .ed-cards-sme { grid-template-columns: 1fr; } }
 .ed-cards-sme .article-drawer { grid-column: 1 / -1; }
 
 /* Tariff callout — vertical card, not a horizontal banner */
@@ -3421,6 +3453,59 @@ function getMostRecentWeekKey(cards) {
   return sorted[0] || null;
 }
 
+function assignCardSizes(cards, isFeatured) {
+  var count = cards.length;
+  cards.forEach(function(card) {
+    card.classList.remove('size-wide','size-large','size-medium','size-small','size-slim');
+  });
+
+  if (isFeatured) {
+    cards.forEach(function(card, i) {
+      if (i === 0) card.classList.add('size-large');
+      else         card.classList.add('size-small');
+    });
+    return;
+  }
+
+  if (count === 1) {
+    cards[0].classList.add('size-wide');
+    return;
+  }
+  if (count === 2) {
+    cards[0].classList.add('size-large');
+    cards[1].classList.add('size-small');
+    return;
+  }
+  if (count === 3) {
+    cards[0].classList.add('size-medium');
+    cards[1].classList.add('size-medium');
+    cards[2].classList.add('size-wide');
+    return;
+  }
+  if (count === 4) {
+    cards[0].classList.add('size-large');
+    cards[1].classList.add('size-small');
+    cards[2].classList.add('size-medium');
+    cards[3].classList.add('size-medium');
+    return;
+  }
+  if (count === 5) {
+    cards[0].classList.add('size-large');
+    cards[1].classList.add('size-small');
+    cards[2].classList.add('size-slim');
+    cards[3].classList.add('size-medium');
+    cards[4].classList.add('size-slim');
+    return;
+  }
+  // 6+ cards — mix of medium and slim
+  cards.forEach(function(card, i) {
+    if (i === 0) card.classList.add('size-large');
+    else if (i % 4 === 0) card.classList.add('size-wide');
+    else if (i % 3 === 0) card.classList.add('size-medium');
+    else card.classList.add('size-slim');
+  });
+}
+
 function buildEditorialGrid() {
   var pool = document.getElementById('card-pool');
   var grid = document.getElementById('editorial-grid');
@@ -3493,13 +3578,8 @@ function buildEditorialGrid() {
     secEl.appendChild(hdr);
 
     var cardCount = sectionCards.length;
-    var gridClass = sec.featured ? 'ed-cards-featured' : (sec.sme ? 'ed-cards-sme' : 'ed-cards');
-    if (!sec.featured && !sec.sme) {
-      if (cardCount === 1) gridClass = 'ed-cards-1col';
-      else if (cardCount === 2) gridClass = 'ed-cards-2col';
-    }
     var cardGrid = document.createElement('div');
-    cardGrid.className = gridClass;
+    cardGrid.className = sec.sme ? 'ed-cards-sme' : 'ed-mosaic';
 
     sectionCards.forEach(function(card, idx) {
       if (sec.featured && idx === 0) card.classList.add('card-featured');
@@ -3530,6 +3610,38 @@ function buildEditorialGrid() {
       }
       cardGrid.appendChild(card);
       if (drawer) cardGrid.appendChild(drawer);
+    });
+
+    // Assign editorial sizes based on count and section type
+    var mosaicCards = Array.prototype.slice.call(
+      cardGrid.querySelectorAll('.article-card')
+    );
+    assignCardSizes(mosaicCards, sec.featured || false);
+
+    // Restructure wide cards for two-column horizontal layout
+    cardGrid.querySelectorAll('.article-card.size-wide').forEach(function(card) {
+      if (card.dataset.restructured) return;
+      card.dataset.restructured = 'true';
+      var sector  = card.querySelector('.article-sector');
+      var country = card.querySelector('.article-country');
+      var company = card.querySelector('.article-company');
+      var headline= card.querySelector('.article-headline');
+      var excerpt = card.querySelector('.article-excerpt');
+      var footer  = card.querySelector('.article-footer');
+      if (!headline || !excerpt) return;
+      var leftCol  = document.createElement('div');
+      leftCol.style.cssText = 'display:flex;flex-direction:column;gap:6px;';
+      var rightCol = document.createElement('div');
+      rightCol.style.cssText = 'display:flex;flex-direction:column;justify-content:flex-start;';
+      if (sector)   leftCol.appendChild(sector);
+      if (country)  leftCol.appendChild(country);
+      if (company)  leftCol.appendChild(company);
+      if (headline) leftCol.appendChild(headline);
+      if (excerpt)  rightCol.appendChild(excerpt);
+      card.innerHTML = '';
+      card.appendChild(leftCol);
+      card.appendChild(rightCol);
+      if (footer) card.appendChild(footer);
     });
 
     secEl.appendChild(cardGrid);
