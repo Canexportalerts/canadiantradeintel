@@ -279,6 +279,41 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
       <button class="finder-btn" onclick="findRate()">Look up →</button>
     </div>
     <p class="finder-helper">Type a product name, HS code, or keyword. Not sure about codes? Just describe what you're looking for.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;
+margin-top:16px;padding-top:16px;border-top:1px solid var(--rule);">
+  <div style="font-size:12px;color:var(--ink-mid);line-height:1.7;">
+    <span style="font-family:'DM Mono',monospace;font-size:8px;
+    letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-light);
+    display:block;margin-bottom:4px;">MFN Rate</span>
+    The <strong>Most Favoured Nation</strong> rate is Canada's default
+    tariff — applied equally to all WTO members with no trade agreement.
+    If Canada has no FTA with a country, this is what importers pay.
+  </div>
+  <div style="font-size:12px;color:var(--ink-mid);line-height:1.7;">
+    <span style="font-family:'DM Mono',monospace;font-size:8px;
+    letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-light);
+    display:block;margin-bottom:4px;">FTA Rate</span>
+    Under a <strong>Free Trade Agreement</strong> (CUSMA, CETA, CPTPP
+    and others), Canada and partner countries grant each other reduced
+    or zero tariff rates. A Certificate of Origin is usually required
+    to claim the preferential rate at the border.
+  </div>
+  <div style="font-size:12px;color:var(--ink-mid);line-height:1.7;">
+    <span style="font-family:'DM Mono',monospace;font-size:8px;
+    letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-light);
+    display:block;margin-bottom:4px;">GPT Rate</span>
+    The <strong>General Preferential Tariff</strong> applies to imports
+    from developing countries — typically lower than MFN. Canada uses
+    GPT to support trade with lower-income economies outside its FTA
+    network.
+  </div>
+</div>
+<div style="font-size:11px;color:var(--ink-light);margin-top:10px;
+font-family:'DM Mono',monospace;letter-spacing:0.06em;">
+  Rates shown are Canadian import duties. Supply-managed goods (dairy,
+  poultry, eggs) have TRQ systems — over-quota rates are prohibitive.
+  Not legal advice — verify with CBSA before acting.
+</div>
     <div class="finder-results" id="finder-results"></div>
   </div>
 </div>
@@ -863,158 +898,343 @@ document.addEventListener('click', function(e) {
 });
 
 /* ════════════════════════════════════════════════════════════
-   TARIFF RATE FINDER
-   Data sourced from /api/tariff_data.json (pipeline-generated).
-   Falls back to DEMO_DATA if API not yet available.
+   TARIFF RATE FINDER — CTI v2
+   Primary: /api/tariff_data.json (pipeline-generated, 25 sector entries)
+   Extended: TARIFF_EXTENDED below (consumer goods + full CONSUMER_MAP coverage)
+   Country selector highlights the relevant FTA column in results.
    ════════════════════════════════════════════════════════════ */
-const TARIFF_DEMO = [
-  /* ── Critical Minerals ── */
-  { hs:"2601.10", desc:"Iron ores and concentrates, non-agglomerated",
-    sector:"Critical Minerals", mfn:"Free", gpt:"Free",
-    fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
-    coo:false, notes:"Canada is a net exporter; MFN import duty is free." },
-  { hs:"2601.20", desc:"Iron ore pellets (agglomerated iron ores and concentrates)",
-    sector:"Critical Minerals", mfn:"Free", gpt:"Free",
-    fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
-    coo:false, notes:"Iron ore pellets produced in Labrador/Quebec. MFN duty free." },
-  { hs:"2804.69", desc:"Silicon (polycrystalline; other than metallurgical or electrical grade)",
-    sector:"Critical Minerals", mfn:"Free", gpt:"Free",
-    fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
-    coo:true, notes:"Silicon for semiconductor use. Certificate of origin required for FTA preferential rates." },
-  { hs:"2844.10", desc:"Natural uranium and its compounds; alloys, dispersions (including cermets), ceramic products and mixtures",
-    sector:"Critical Minerals", mfn:"Free", gpt:"Free",
-    fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
-    coo:true, notes:"Uranium exports subject to Nuclear Non-Proliferation Treaty licensing. CNSC permit required." },
-  { hs:"2825.90", desc:"Rare earth metals, scandium and yttrium (hydrazine, hydroxylamine and inorganic salts)",
-    sector:"Critical Minerals", mfn:"Free", gpt:"Free",
-    fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
-    coo:true, notes:"Rare earth compounds. Subject to export controls for certain end uses under the Export and Import Permits Act." },
 
-  /* ── Energy ── */
-  { hs:"2709.00", desc:"Petroleum oils and oils obtained from bituminous minerals, crude",
-    sector:"Energy", mfn:"Free", gpt:"Free",
-    fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
-    coo:false, notes:"Crude oil. Canada is a net exporter. MFN import duty: Free. NEB export licence required for crude oil exports." },
-  { hs:"2711.12", desc:"Propane, liquefied (petroleum gases and other gaseous hydrocarbons)",
-    sector:"Energy", mfn:"Free", gpt:"Free",
-    fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
-    coo:false, notes:"LPG — propane. Western Canada exports significant volumes to Asia via LPG terminals." },
-  { hs:"2711.21", desc:"Natural gas in gaseous state",
-    sector:"Energy", mfn:"Free", gpt:"Free",
-    fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
-    coo:false, notes:"Piped natural gas. Canada Gas Act and NEB export licences apply. LNG (liquefied) classified separately under 2711.11." },
+const COUNTRY_FTA = {
+  "united states":"CUSMA","usa":"CUSMA","us":"CUSMA","mexico":"CUSMA",
+  "france":"CETA","germany":"CETA","italy":"CETA","spain":"CETA",
+  "netherlands":"CETA","belgium":"CETA","poland":"CETA","sweden":"CETA",
+  "denmark":"CETA","ireland":"CETA","portugal":"CETA","austria":"CETA",
+  "czech republic":"CETA","czechia":"CETA","romania":"CETA","hungary":"CETA",
+  "finland":"CETA","greece":"CETA","croatia":"CETA","slovakia":"CETA",
+  "bulgaria":"CETA","latvia":"CETA","lithuania":"CETA","estonia":"CETA",
+  "slovenia":"CETA","luxembourg":"CETA","malta":"CETA","cyprus":"CETA",
+  "european union":"CETA","eu":"CETA",
+  "united kingdom":"CUKTCA","uk":"CUKTCA","britain":"CUKTCA",
+  "japan":"CPTPP","australia":"CPTPP","new zealand":"CPTPP","new-zealand":"CPTPP",
+  "vietnam":"CPTPP","malaysia":"CPTPP","singapore":"CPTPP","philippines":"CPTPP",
+  "peru":"CPTPP","chile":"CPTPP","brunei":"CPTPP","indonesia":"CPTPP",
+  "south korea":"CKFTA","korea":"CKFTA","south-korea":"CKFTA",
+  "israel":"CIFTA","jordan":"CJFTA","panama":"CPAFTA",
+  "colombia":"CCOFTA","honduras":"CHFTA","nicaragua":"CHFTA",
+  "el salvador":"CHFTA","guatemala":"CHFTA","costa rica":"CCRFTA",
+  "ukraine":"CUFTA","morocco":"CMFTA",
+  "china":null,"india":null,"brazil":null,"argentina":null,
+  "south africa":null,"south-africa":null,"nigeria":null,"ghana":null,
+  "kenya":null,"tanzania":null,"ethiopia":null,"egypt":null,
+  "bangladesh":null,"pakistan":null,"sri lanka":null,"myanmar":null,
+  "thailand":null,"cambodia":null,"laos":null,"taiwan":null,
+  "hong kong":null,"china (hong kong)":null,
+  "saudi arabia":null,"saudi-arabia":null,"uae":null,
+  "united arab emirates":null,"qatar":null,"kuwait":null,
+  "oman":null,"bahrain":null,"iraq":null,"iran":null,
+  "turkey":null,"russia":null,"kazakhstan":null,"uzbekistan":null,
+  "switzerland":null,"norway":null,"iceland":null,"liechtenstein":null,
+  "new caledonia":null,"algeria":null,"tunisia":null,"libya":null,
+  "senegal":null,"ivory coast":null,"cameroon":null,"angola":null,
+  "mozambique":null,"zambia":null,"zimbabwe":null,"botswana":null,
+  "namibia":null,"madagascar":null,"sudan":null,"somalia":null,
+  "venezuela":null,"ecuador":null,"bolivia":null,"paraguay":null,
+  "uruguay":null,"cuba":null,"haiti":null,"dominican republic":null,
+  "trinidad and tobago":null,"jamaica":null,"barbados":null,
+  "united-states":"CUSMA","united-kingdom":"CUKTCA"
+};
 
-  /* ── Manufacturing / Metals ── */
-  { hs:"7208.51", desc:"Flat-rolled products of iron or non-alloy steel, >4.75mm thick, not further worked",
-    sector:"Manufacturing", mfn:"Free", gpt:"Free",
-    fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
-    coo:true, notes:"Structural steel plate. Note: US Section 232 25% tariff applies on Canadian steel exports to the US, despite CUSMA. This table shows Canadian import rates." },
-  { hs:"7208.10", desc:"Flat-rolled iron or non-alloy steel, hot-rolled, in coils, not clad, plated or coated, >10mm",
-    sector:"Manufacturing", mfn:"Free", gpt:"Free",
-    fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
-    coo:true, notes:"Hot-rolled steel coil. Canada is a net importer of some steel products from CUSMA partners." },
-  { hs:"7601.10", desc:"Unwrought aluminum, not alloyed",
-    sector:"Manufacturing", mfn:"6%", gpt:"Free",
-    fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
-    coo:true, notes:"Primary aluminum. Canada's MFN rate: 6%. All FTA partners: Free. Note: US Section 232 25% tariff applies on Canadian aluminum exports to the US." },
-  { hs:"7601.20", desc:"Unwrought aluminum alloys",
-    sector:"Manufacturing", mfn:"6%", gpt:"Free",
-    fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
-    coo:true, notes:"Aluminum alloys (ingots, T-bars). Canada is the world's 4th largest aluminum producer. MFN rate 6%; FTA rate: Free." },
+const TARIFF_EXTENDED = [
+  /* FOOTWEAR */
+  {hs:"6404.11",desc:"Sports footwear with outer soles of rubber/plastics (running shoes, sneakers)",
+   sector:"Consumer Goods",mfn:"20%",gpt:"Free",
+   fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+   coo:true,notes:"Canada's MFN rate on footwear is 20% — one of the higher consumer good rates. All FTA partners pay Free. Vietnamese footwear enters duty-free under CPTPP. Chinese footwear: 20%."},
+  {hs:"6404.19",desc:"Other footwear with outer soles of rubber or plastics (casual shoes, sneakers)",
+   sector:"Consumer Goods",mfn:"20%",gpt:"Free",
+   fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+   coo:true,notes:"Casual footwear. 20% MFN applies to imports from China, India, and other non-FTA countries."},
+  {hs:"6401.99",desc:"Waterproof footwear, rubber or plastic soles and uppers (boots, rain boots)",
+   sector:"Consumer Goods",mfn:"20%",gpt:"Free",
+   fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+   coo:true,notes:"Waterproof boots. 20% MFN. Chinese boots: 20%. Vietnamese boots: Free under CPTPP."},
+  {hs:"6403.99",desc:"Footwear with leather uppers (dress shoes, leather boots)",
+   sector:"Consumer Goods",mfn:"20%",gpt:"Free",
+   fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+   coo:true,notes:"Leather footwear. Italian shoes enter Canada at Free under CETA. Chinese leather shoes: 20% MFN."},
+  {hs:"6402.99",desc:"Footwear with rubber or plastic uppers (sandals, flip-flops)",
+   sector:"Consumer Goods",mfn:"20%",gpt:"Free",
+   fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+   coo:true,notes:"Plastic/rubber upper footwear including sandals. 20% MFN from non-FTA countries."},
 
-  /* ── Agri-food ── */
-  { hs:"1205.10", desc:"Low erucic acid rape or colza seeds (canola seed)",
-    sector:"Agri-food", mfn:"Free", gpt:"Free",
-    fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
-    coo:false, notes:"Canola seed. Canadian import rate Free. For Canadian canola exports to China, China's tariff was 15% as of March 2026 (reduced from 100%; canola oil remains at 100%)." },
-  { hs:"1205.90", desc:"Other rape or colza seeds",
-    sector:"Agri-food", mfn:"Free", gpt:"Free",
-    fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
-    coo:false, notes:"High erucic acid rapeseed and other varieties. Industrial uses (lubricants, biofuels). MFN: Free." },
-  { hs:"1001.11", desc:"Durum wheat, seed quality",
-    sector:"Agri-food", mfn:"Free", gpt:"Free",
-    fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
-    coo:true, notes:"Canadian hard red spring and durum wheat. Canada is the world's largest durum wheat exporter. TRQ system may apply in some export markets." },
-  { hs:"1001.99", desc:"Other wheat and meslin (non-durum, non-seed)",
-    sector:"Agri-food", mfn:"Free", gpt:"Free",
-    fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
-    coo:false, notes:"Hard red spring wheat. Canadian Wheat Board regime ended 2012; all varieties now sold at market." },
-  { hs:"0202.30", desc:"Frozen boneless bovine meat",
-    sector:"Agri-food", mfn:"26.5%", gpt:"Free",
-    fta:{CUSMA:"Free",CETA:"Free",CPTPP:"9% → 0% (2026)",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
-    coo:true, notes:"Frozen boneless beef. Canada's MFN rate: 26.5%. Significant preferential reductions under all FTAs. CPTPP beef tariff eliminated 2026." },
+  /* CLOTHING */
+  {hs:"6109.10",desc:"T-shirts, singlets and other vests, of cotton",
+   sector:"Consumer Goods",mfn:"18%",gpt:"Free",
+   fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+   coo:true,notes:"Cotton t-shirts. Canada's MFN rate: 18%. Bangladesh and China face 18%. Vietnamese t-shirts: Free under CPTPP. US t-shirts: Free under CUSMA. Rules of origin apply — yarn-forward for CUSMA."},
+  {hs:"6109.90",desc:"T-shirts and vests of synthetic fibres (polyester, synthetic t-shirt)",
+   sector:"Consumer Goods",mfn:"18%",gpt:"Free",
+   fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+   coo:true,notes:"Synthetic fibre t-shirts (polyester, nylon blend). Same 18% MFN as cotton. Vietnam and Malaysia are major producers — Free under CPTPP."},
+  {hs:"6105.10",desc:"Men's or boys' shirts of cotton (dress shirt, casual shirt)",
+   sector:"Consumer Goods",mfn:"18%",gpt:"Free",
+   fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+   coo:true,notes:"Dress and casual shirts, cotton. 18% MFN from non-FTA countries. Major sources: China, Bangladesh, Vietnam, India."},
+  {hs:"6203.42",desc:"Men's trousers and shorts, of cotton (jeans, pants, chinos)",
+   sector:"Consumer Goods",mfn:"18%",gpt:"Free",
+   fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+   coo:true,notes:"Jeans, chinos, casual pants. 18% MFN applies to Chinese denim. US-manufactured denim: Free under CUSMA (yarn-forward rules of origin apply)."},
+  {hs:"6204.62",desc:"Women's trousers and shorts, of cotton (women's pants, jeans, dress)",
+   sector:"Consumer Goods",mfn:"18%",gpt:"Free",
+   fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+   coo:true,notes:"Women's cotton trousers, shorts, casual pants. 18% MFN from non-FTA countries."},
+  {hs:"6201.93",desc:"Men's anoraks, windbreakers and similar articles of man-made fibres (jacket, coat, windbreaker)",
+   sector:"Consumer Goods",mfn:"18%",gpt:"Free",
+   fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+   coo:true,notes:"Outerwear jackets and coats, synthetic fibres. 18% MFN. Goose-down jackets from China: 18%. From Vietnam: Free under CPTPP."},
+  {hs:"6110.20",desc:"Jerseys, pullovers and sweatshirts of cotton (sweater, hoodie, sweatshirt)",
+   sector:"Consumer Goods",mfn:"18%",gpt:"Free",
+   fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+   coo:true,notes:"Sweaters, hoodies, sweatshirts. 18% MFN. A major import category from China, Bangladesh, and Vietnam."},
 
-  /* ── Aerospace & Defence ── */
-  { hs:"8802.40", desc:"Aeroplanes and other powered aircraft (unladen weight >15,000 kg)",
-    sector:"Aerospace", mfn:"Free", gpt:"Free",
-    fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
-    coo:true, notes:"Large commercial aircraft (Airbus A320/A330 class and larger). MFN: Free. No country applies significant tariffs on large civil aircraft (WTO Civil Aircraft Agreement)." },
-  { hs:"8802.30", desc:"Aeroplanes and other powered aircraft (unladen weight 2,000–15,000 kg)",
-    sector:"Aerospace", mfn:"Free", gpt:"Free",
-    fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
-    coo:true, notes:"Regional turboprop/jet aircraft (Bombardier Q400/CRJ class). Free under WTO Aircraft Agreement and all FTAs." },
-  { hs:"8803.30", desc:"Other parts of aeroplanes or helicopters",
-    sector:"Aerospace", mfn:"Free", gpt:"Free",
-    fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
-    coo:true, notes:"Aircraft parts. Free under WTO Civil Aircraft Agreement. Parts must meet airworthiness certification. COO required for FTA rates." },
+  /* ELECTRONICS */
+  {hs:"8528.72",desc:"Colour television receivers, LCD or plasma (TV, television, monitor)",
+   sector:"Technology",mfn:"Free",gpt:"Free",
+   fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+   coo:false,notes:"LCD/OLED TVs. Duty-free globally under WTO ITA. Origin doesn't affect duty — Free from China, Korea, Vietnam, all countries."},
+  {hs:"8418.10",desc:"Combined refrigerator-freezers with separate external doors (refrigerator, fridge)",
+   sector:"Consumer Goods",mfn:"Free",gpt:"Free",
+   fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+   coo:false,notes:"Refrigerators. Duty-free in Canada. Major imports from US, Mexico (CUSMA), South Korea (CKFTA), and China."},
+  {hs:"8450.11",desc:"Fully-automatic washing machines up to 10 kg capacity (washing machine, washer)",
+   sector:"Consumer Goods",mfn:"Free",gpt:"Free",
+   fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+   coo:false,notes:"Washing machines. Duty-free in Canada. Samsung and LG (Korean) appliances enter free under CKFTA."},
 
-  /* ── Technology & Digital ── */
-  { hs:"8541.10", desc:"Diodes (excluding photosensitive or light-emitting diodes)",
-    sector:"Technology", mfn:"Free", gpt:"Free",
-    fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
-    coo:true, notes:"Semiconductor diodes. Free under WTO Information Technology Agreement (ITA). Some products subject to dual-use export controls — verify BIS and ECCC requirements." },
-  { hs:"8541.40", desc:"Photosensitive semiconductor devices; solar cells",
-    sector:"Technology", mfn:"Free", gpt:"Free",
-    fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
-    coo:true, notes:"Solar PV cells and modules. Free under ITA. Note: US Section 201 tariffs on imported solar cells may apply at point of entry into US." },
-  { hs:"8471.30", desc:"Portable automatic data processing machines (laptops, notebooks)",
-    sector:"Technology", mfn:"Free", gpt:"Free",
-    fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
-    coo:false, notes:"Laptops, tablets. Duty-free globally under WTO ITA. No tariff in Canada or any major trading partner." },
-  { hs:"8542.31", desc:"Processors and controllers (electronic integrated circuits)",
-    sector:"Technology", mfn:"Free", gpt:"Free",
-    fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
-    coo:true, notes:"CPUs, MCUs, DSPs. Free under WTO ITA. Advanced chips subject to US BIS export controls restricting supply to certain entities and countries." },
-  { hs:"8517.62", desc:"Machines for the reception, conversion and transmission or regeneration of voice, images or other data (base stations)",
-    sector:"Technology", mfn:"Free", gpt:"Free",
-    fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
-    coo:true, notes:"5G base stations and telecommunications equipment. Free under ITA. Equipment from sanctioned suppliers may be restricted under Canadian national security review provisions." },
+  /* BEVERAGES */
+  {hs:"2204.21",desc:"Wine of fresh grapes in containers of 2 litres or less (wine, bottled wine)",
+   sector:"Agri-food",mfn:"Free",gpt:"Free",
+   fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+   coo:false,notes:"Wine (standard bottles). Federal MFN import rate: Free. Provincial liquor board markups apply separately — these are not tariffs and vary by province."},
+  {hs:"2203.00",desc:"Beer made from malt (beer, ale, lager, stout)",
+   sector:"Agri-food",mfn:"Free",gpt:"Free",
+   fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+   coo:false,notes:"Beer. Federal import duty: Free. Provincial liquor board markups apply separately. US and Mexican beers: Free under CUSMA."},
+  {hs:"2208.40",desc:"Rum and spirits from distilled sugar-cane products (rum, spirits, whisky, vodka)",
+   sector:"Agri-food",mfn:"Free",gpt:"Free",
+   fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+   coo:false,notes:"Spirits and rum. Federal duty: Free. Excise duties under the Excise Act apply to all spirits — not a tariff. Provincial markups vary."},
+
+  /* FOOD */
+  {hs:"1509.10",desc:"Virgin olive oil and its fractions (olive oil)",
+   sector:"Agri-food",mfn:"Free",gpt:"Free",
+   fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+   coo:false,notes:"Olive oil. Duty-free in Canada. Spain, Italy, Greece are major exporters — all enter Free under CETA."},
+  {hs:"0901.21",desc:"Roasted coffee, not decaffeinated (coffee, roasted coffee, ground coffee)",
+   sector:"Agri-food",mfn:"Free",gpt:"Free",
+   fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+   coo:false,notes:"Roasted coffee. Duty-free in Canada regardless of origin — Brazil, Colombia, Vietnam, Ethiopia all at Free."},
+  {hs:"0902.10",desc:"Green tea, not fermented, packaged (tea, green tea)",
+   sector:"Agri-food",mfn:"Free",gpt:"Free",
+   fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+   coo:false,notes:"Green tea. Duty-free in Canada regardless of origin. China, Japan, Vietnam are major suppliers."},
+  {hs:"1806.31",desc:"Chocolate and food preparations containing cocoa (chocolate, cocoa)",
+   sector:"Agri-food",mfn:"6%",gpt:"Free",
+   fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+   coo:true,notes:"Chocolate products. MFN rate: 6%. Belgian, Swiss, German chocolate enters Free under CETA. US candy/chocolate: Free under CUSMA. Non-FTA countries (e.g. Brazil): 6%."},
+  {hs:"1704.90",desc:"Sugar confectionery not containing cocoa (candy, gummies, sweets)",
+   sector:"Agri-food",mfn:"8%",gpt:"Free",
+   fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+   coo:true,notes:"Non-chocolate candy. MFN: 8%. All FTA partners: Free."},
+  {hs:"0406.10",desc:"Fresh (unripened or uncured) cheese including whey cheese (cheese)",
+   sector:"Agri-food",mfn:"245.5%",gpt:"Free",
+   fta:{CUSMA:"Free (within TRQ)",CETA:"Free (within quota)",CPTPP:"Phasing",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+   coo:true,notes:"SUPPLY-MANAGED. MFN rate is prohibitive (245.5%) — designed to protect Canadian dairy. CETA provides a 16,000 tonne duty-free quota for EU cheese. CUSMA expanded US quota to ~3.9% of Canadian market. Over-quota imports face the full 245.5% rate."},
+  {hs:"0405.10",desc:"Butter of a fat content not exceeding 85% (butter)",
+   sector:"Agri-food",mfn:"298.5%",gpt:"Free",
+   fta:{CUSMA:"Free (within TRQ)",CETA:"Free (within quota)",CPTPP:"Phasing",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+   coo:true,notes:"SUPPLY-MANAGED. Prohibitive MFN rate (298.5%) protects Canadian dairy. TRQ quotas granted under CUSMA, CETA, CPTPP. Over-quota butter faces full rate."},
+  {hs:"0207.12",desc:"Frozen whole chickens (chicken, poultry, frozen chicken)",
+   sector:"Agri-food",mfn:"238%",gpt:"Free",
+   fta:{CUSMA:"Free (within TRQ)",CETA:"Free (within quota)",CPTPP:"Free (within TRQ)",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+   coo:true,notes:"SUPPLY-MANAGED. Over-quota MFN: 238%. TRQs apply under all major FTAs. CUSMA expanded US poultry access to ~4.3% of Canadian market."},
+  {hs:"0202.30",desc:"Frozen boneless bovine meat (beef, frozen beef)",
+   sector:"Agri-food",mfn:"26.5%",gpt:"Free",
+   fta:{CUSMA:"Free",CETA:"Free",CPTPP:"9% → 0% (2026)",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+   coo:true,notes:"Beef (frozen boneless). MFN: 26.5%. Australia and New Zealand beef: Free under CPTPP (fully eliminated 2026). US/Mexico beef: Free under CUSMA. Brazilian beef: 26.5% (no FTA with Canada)."},
+  {hs:"0203.29",desc:"Frozen swine meat other than carcasses (pork, frozen pork)",
+   sector:"Agri-food",mfn:"Free",gpt:"Free",
+   fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+   coo:false,notes:"Pork (frozen cuts). Duty-free in Canada. Canada is a major pork exporter. Imports mainly from US and EU — both Free."},
+  {hs:"0302.41",desc:"Pacific salmon, fresh or chilled (fish, salmon)",
+   sector:"Agri-food",mfn:"Free",gpt:"Free",
+   fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+   coo:false,notes:"Fresh salmon. Duty-free. Canada is a major salmon exporter. Imports mainly from Norway (MFN: Free) and Chile (CCFTA: Free)."},
+  {hs:"1006.30",desc:"Semi-milled or wholly milled rice (rice)",
+   sector:"Agri-food",mfn:"Free",gpt:"Free",
+   fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+   coo:false,notes:"Rice (milled). Duty-free. Thailand, India, Vietnam, US are major sources — all duty-free."},
+  {hs:"1905.90",desc:"Other bread, pastry, cakes, biscuits and bakers' wares (bread, baked goods, crackers)",
+   sector:"Agri-food",mfn:"Free",gpt:"Free",
+   fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+   coo:false,notes:"Bread, pastries, crackers, baked goods. Duty-free. Most bakery imports come from the US (CUSMA: Free)."},
+  {hs:"0808.10",desc:"Apples, fresh (apple, apples)",
+   sector:"Agri-food",mfn:"Free",gpt:"Free",
+   fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+   coo:false,notes:"Fresh apples. Duty-free year-round. US apples: Free under CUSMA. Chilean apples (off-season): Free under CCFTA."},
+  {hs:"0805.10",desc:"Oranges, fresh or dried (orange, oranges, citrus)",
+   sector:"Agri-food",mfn:"Free",gpt:"Free",
+   fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+   coo:false,notes:"Fresh oranges. Duty-free. US, Chile, South Africa, Morocco are major sources. All duty-free in Canada."},
+  {hs:"0803.90",desc:"Bananas, fresh or dried (banana, bananas)",
+   sector:"Agri-food",mfn:"Free",gpt:"Free",
+   fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+   coo:false,notes:"Bananas. Duty-free. Ecuador, Honduras, Guatemala, Colombia are major exporters. All duty-free."},
+  {hs:"0702.00",desc:"Tomatoes, fresh or chilled (tomato, tomatoes)",
+   sector:"Agri-food",mfn:"Free",gpt:"Free",
+   fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+   coo:false,notes:"Fresh tomatoes. Duty-free. Most imported tomatoes come from the US (CUSMA: Free). Ontario greenhouse sector is a major domestic producer."},
+  {hs:"0701.90",desc:"Potatoes, fresh or chilled, not seed (potato, potatoes)",
+   sector:"Agri-food",mfn:"Free",gpt:"Free",
+   fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+   coo:false,notes:"Fresh potatoes. Duty-free. Main imports from US (CUSMA: Free). PEI and Manitoba are major Canadian producers."},
+
+  /* VEHICLES */
+  {hs:"8703.23",desc:"Motor cars with spark-ignition engine, 1500–3000cc (car, automobile, SUV, vehicle)",
+   sector:"Advanced Manufacturing",mfn:"6.1%",gpt:"Free",
+   fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+   coo:true,notes:"Most passenger cars and SUVs. MFN: 6.1%. CUSMA vehicles must meet Regional Value Content and labour value content requirements. Japanese/Korean vehicles: Free under CPTPP/CKFTA. German, French, Italian vehicles: Free under CETA."},
+  {hs:"8704.21",desc:"Motor vehicles for goods transport, diesel engine, up to 5 tonnes (truck, van, pickup)",
+   sector:"Advanced Manufacturing",mfn:"6.1%",gpt:"Free",
+   fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+   coo:true,notes:"Light commercial trucks and vans. MFN: 6.1%. All FTA partners: Free."},
+  {hs:"8712.00",desc:"Bicycles and other cycles not motorized (bicycle, bike, cycling)",
+   sector:"Consumer Goods",mfn:"13%",gpt:"Free",
+   fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+   coo:true,notes:"Bicycles. MFN: 13%. Most imported to Canada from China or Taiwan (13% MFN, no FTA with Taiwan). Vietnamese and Malaysian bikes: Free under CPTPP."},
+  {hs:"8711.20",desc:"Motorcycles with piston engine 50–250cc (motorcycle, scooter, motorbike)",
+   sector:"Consumer Goods",mfn:"Free",gpt:"Free",
+   fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+   coo:false,notes:"Motorcycles and scooters. Duty-free. Japanese bikes (Honda, Yamaha, Kawasaki, Suzuki): Free under CPTPP."},
+
+  /* FURNITURE / HOME */
+  {hs:"9403.60",desc:"Other wooden furniture (furniture, table, desk, shelving, dresser, wardrobe)",
+   sector:"Consumer Goods",mfn:"Free",gpt:"Free",
+   fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+   coo:false,notes:"Wooden furniture. Duty-free in Canada. Major sources: China, Vietnam (CPTPP: Free), US (CUSMA: Free). No tariff barriers."},
+  {hs:"9401.61",desc:"Upholstered seats with wooden frames (chair, sofa, couch, armchair)",
+   sector:"Consumer Goods",mfn:"Free",gpt:"Free",
+   fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+   coo:false,notes:"Upholstered chairs and sofas. Duty-free. Note: US applies 25% Section 232 tariff on certain upholstered furniture from Canada — this table shows Canadian IMPORT rates only."},
+  {hs:"9404.21",desc:"Mattresses of cellular rubber or plastics (mattress, foam mattress)",
+   sector:"Consumer Goods",mfn:"8%",gpt:"Free",
+   fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+   coo:true,notes:"Foam and innerspring mattresses. MFN: 8%. US mattresses: Free under CUSMA. Chinese mattresses: 8%."},
+
+  /* MATERIALS */
+  {hs:"4407.10",desc:"Coniferous wood sawn or chipped lengthwise (lumber, softwood lumber, timber, wood)",
+   sector:"Advanced Manufacturing",mfn:"Free",gpt:"Free",
+   fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+   coo:false,notes:"Softwood lumber. Canada's federal import rate: Free. Canadian softwood lumber EXPORTED to the US faces a 10% US Section 232 tariff (Oct 2025) — with rates potentially rising January 2027."},
+  {hs:"7403.11",desc:"Refined copper cathodes and sections of cathodes (copper)",
+   sector:"Critical Minerals",mfn:"Free",gpt:"Free",
+   fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+   coo:false,notes:"Refined copper cathodes. Duty-free. US Section 232 proposes 50% tariff on copper — under review as of May 2026."},
+
+  /* HEALTH */
+  {hs:"3004.50",desc:"Medicaments containing vitamins or other products (medication, medicine, vitamins, drugs, pharmaceuticals)",
+   sector:"Consumer Goods",mfn:"Free",gpt:"Free",
+   fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+   coo:false,notes:"Pharmaceuticals and vitamins. Duty-free under WTO Pharmaceutical Tariff Elimination Agreement. Generic and branded drugs: Free regardless of origin."},
+  {hs:"3303.00",desc:"Perfumes and toilet waters (perfume, cologne, fragrance)",
+   sector:"Consumer Goods",mfn:"Free",gpt:"Free",
+   fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+   coo:false,notes:"Perfumes and colognes. Duty-free. French and other EU perfumes enter Free under CETA."},
+  {hs:"3304.99",desc:"Beauty or make-up preparations (cosmetics, makeup, skincare, beauty products)",
+   sector:"Consumer Goods",mfn:"Free",gpt:"Free",
+   fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+   coo:false,notes:"Cosmetics, skincare, makeup. Duty-free. Major sources: US, France, South Korea — all duty-free."},
+  {hs:"3401.11",desc:"Soap and organic surface-active products for toilet use (soap, hand soap)",
+   sector:"Consumer Goods",mfn:"Free",gpt:"Free",
+   fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+   coo:false,notes:"Bar soap and liquid soap. Duty-free in Canada."},
+
+  /* MISC */
+  {hs:"9503.00",desc:"Tricycles, scooters, toy pedal cars and similar wheeled toys (toy, toys, children's toys)",
+   sector:"Consumer Goods",mfn:"Free",gpt:"Free",
+   fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+   coo:false,notes:"Toys. Duty-free in Canada. China dominates Canadian toy imports at duty-free rate."},
+  {hs:"9504.50",desc:"Video game consoles and machines (game, gaming, console, video game, playstation, xbox)",
+   sector:"Technology",mfn:"Free",gpt:"Free",
+   fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+   coo:false,notes:"Video game consoles. Duty-free under WTO ITA. Japanese consoles also Free under CPTPP."},
+  {hs:"4901.10",desc:"Printed books in single sheets (book, books, novel, textbook)",
+   sector:"Consumer Goods",mfn:"Free",gpt:"Free",
+   fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+   coo:false,notes:"Books. Duty-free in Canada. No country faces a tariff on books imported into Canada."},
+  {hs:"9102.11",desc:"Wrist-watches, electrically operated, with mechanical display (watch, watches, smartwatch)",
+   sector:"Consumer Goods",mfn:"Free",gpt:"Free",
+   fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+   coo:false,notes:"Watches. Duty-free. Swiss watches (CETA), Japanese watches (CPTPP), Chinese watches — all duty-free in Canada."},
+  {hs:"7113.19",desc:"Jewellery and parts thereof of other precious metal (jewellery, jewelry, gold, silver, ring, necklace)",
+   sector:"Consumer Goods",mfn:"Free",gpt:"Free",
+   fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+   coo:false,notes:"Jewellery. Duty-free. Italian jewellery: Free under CETA."},
+  {hs:"3406.00",desc:"Candles, tapers and the like (candle, candles, wax candle)",
+   sector:"Consumer Goods",mfn:"Free",gpt:"Free",
+   fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+   coo:false,notes:"Candles. Duty-free in Canada."},
+  {hs:"2309.10",desc:"Dog or cat food put up for retail sale (pet food, dog food, cat food)",
+   sector:"Agri-food",mfn:"Free",gpt:"Free",
+   fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+   coo:false,notes:"Pet food. Duty-free. US pet food (major source): Free under CUSMA."},
+  {hs:"8507.60",desc:"Lithium-ion accumulators (battery, lithium battery, EV battery, rechargeable battery)",
+   sector:"Technology",mfn:"Free",gpt:"Free",
+   fta:{CUSMA:"Free",CETA:"Free",CPTPP:"Free",CUKTCA:"Free",CCFTA:"Free",CPAFTA:"Free",CAFTA:"Free",CUFTA:"Free"},
+   coo:true,notes:"Lithium-ion batteries. Duty-free under WTO ITA. Strategic for EV supply chain — subject to CUSMA rules of origin for qualifying EV assembly."}
 ];
 
+function mergeDatasets(pipeline, extended) {
+  const seen = new Set();
+  const merged = [];
+  for (const e of pipeline) { seen.add(e.hs); merged.push(e); }
+  for (const e of extended) { if (!seen.has(e.hs)) { seen.add(e.hs); merged.push(e); } }
+  return merged;
+}
+
 const CONSUMER_MAP = {
-  "running shoes": "6404", "sneakers": "6404", "shoes": "6401",
-  "boots": "6403", "sandals": "6402",
-  "t-shirt": "6109", "shirt": "6105", "clothing": "6109",
-  "jeans": "6203", "pants": "6203", "dress": "6204",
-  "jacket": "6201", "coat": "6201", "sweater": "6110",
-  "laptop": "8471", "computer": "8471", "tablet": "8471",
-  "phone": "8517", "smartphone": "8517",
-  "television": "8528", "tv": "8528",
-  "refrigerator": "8418", "washing machine": "8450",
-  "wine": "2204", "beer": "2203", "spirits": "2208",
-  "olive oil": "1509", "vegetable oil": "1512",
-  "coffee": "0901", "tea": "0902",
-  "chocolate": "1806", "candy": "1704",
-  "baby formula": "1901", "infant formula": "1901",
-  "cheese": "0406", "butter": "0405", "milk": "0401",
-  "beef": "0202", "chicken": "0207", "pork": "0203", "fish": "0302",
-  "rice": "1006", "wheat": "1001", "bread": "1905",
-  "apple": "0808", "orange": "0805", "banana": "0803",
-  "tomato": "0702", "potato": "0701",
-  "car": "8703", "automobile": "8703", "truck": "8704",
-  "bicycle": "8712", "motorcycle": "8711",
-  "furniture": "9403", "chair": "9401", "table": "9403",
-  "lumber": "4407", "wood": "4407", "steel": "7208",
-  "aluminum": "7601", "copper": "7403",
-  "solar panel": "8541", "battery": "8507",
-  "medication": "3004", "medicine": "3004",
-  "toy": "9503", "game": "9504",
-  "book": "4901", "magazine": "4902",
-  "perfume": "3303", "cosmetics": "3304",
-  "watch": "9102", "jewellery": "7113", "jewelry": "7113",
-  "mattress": "9404", "pillow": "9404",
-  "candle": "3406", "soap": "3401",
-  "pet food": "2309", "dog food": "2309"
+  "running shoes":"6404.11","sneakers":"6404.11","shoes":"6404.19","boots":"6401.99","sandals":"6402.99",
+  "t-shirt":"6109.10","tshirt":"6109.10","t shirt":"6109.10","shirt":"6105.10","clothing":"6109.10","apparel":"6109.10",
+  "jeans":"6203.42","pants":"6203.42","trousers":"6203.42","dress":"6204.62","jacket":"6201.93","coat":"6201.93",
+  "sweater":"6110.20","hoodie":"6110.20","sweatshirt":"6110.20","windbreaker":"6201.93",
+  "laptop":"8471.30","computer":"8471.30","tablet":"8471.30","notebook":"8471.30",
+  "phone":"8517.62","smartphone":"8517.62","mobile":"8517.62",
+  "television":"8528.72","tv":"8528.72","monitor":"8528.72",
+  "refrigerator":"8418.10","fridge":"8418.10","washing machine":"8450.11","washer":"8450.11","dryer":"8450.11",
+  "wine":"2204.21","beer":"2203.00","spirits":"2208.40","rum":"2208.40","whisky":"2208.40","vodka":"2208.40",
+  "olive oil":"1509.10","vegetable oil":"1512.11","sunflower oil":"1512.11",
+  "coffee":"0901.21","tea":"0902.10",
+  "chocolate":"1806.31","candy":"1704.90","sweets":"1704.90","gummies":"1704.90",
+  "cheese":"0406.10","butter":"0405.10","milk":"0401.10","dairy":"0406.10",
+  "beef":"0202.30","chicken":"0207.12","poultry":"0207.12","pork":"0203.29","fish":"0302.41","salmon":"0302.41",
+  "rice":"1006.30","bread":"1905.90","baked goods":"1905.90","crackers":"1905.90",
+  "apple":"0808.10","orange":"0805.10","banana":"0803.90","tomato":"0702.00","potato":"0701.90","fruit":"0808.10",
+  "car":"8703.23","automobile":"8703.23","suv":"8703.23","vehicle":"8703.23","truck":"8704.21","van":"8704.21",
+  "bicycle":"8712.00","bike":"8712.00","motorcycle":"8711.20","scooter":"8711.20",
+  "furniture":"9403.60","table":"9403.60","desk":"9403.60","chair":"9401.61","sofa":"9401.61","couch":"9401.61",
+  "lumber":"4407.10","wood":"4407.10","softwood":"4407.10","timber":"4407.10",
+  "steel":"7208.51","aluminum":"7601.10","aluminium":"7601.10","copper":"7403.11",
+  "solar panel":"8541.40","battery":"8507.60","lithium battery":"8507.60","ev battery":"8507.60",
+  "medication":"3004.50","medicine":"3004.50","vitamins":"3004.50","drugs":"3004.50","pharmaceuticals":"3004.50",
+  "toy":"9503.00","toys":"9503.00","game":"9504.50","console":"9504.50","video game":"9504.50","playstation":"9504.50","xbox":"9504.50",
+  "book":"4901.10","books":"4901.10","novel":"4901.10","textbook":"4901.10",
+  "perfume":"3303.00","cologne":"3303.00","fragrance":"3303.00",
+  "cosmetics":"3304.99","makeup":"3304.99","skincare":"3304.99",
+  "watch":"9102.11","jewellery":"7113.19","jewelry":"7113.19","gold":"7113.19","ring":"7113.19","necklace":"7113.19",
+  "mattress":"9404.21","candle":"3406.00","candles":"3406.00","soap":"3401.11",
+  "pet food":"2309.10","dog food":"2309.10","cat food":"2309.10",
+  "iron ore":"2601.10","canola":"1205.10","uranium":"2844.10","silicon":"2804.69",
+  "crude oil":"2709.00","oil":"2709.00","natural gas":"2711.21","propane":"2711.12"
 };
 
 let TARIFF_DATA = null;
@@ -1023,117 +1243,209 @@ async function initTariffFinder() {
   try {
     const res = await fetch('/api/tariff_data.json');
     if (res.ok) {
-      TARIFF_DATA = await res.json();
+      const pipeline = await res.json();
+      TARIFF_DATA = mergeDatasets(Array.isArray(pipeline) ? pipeline : [], TARIFF_EXTENDED);
     }
-  } catch(e) { /* fall through to demo data */ }
-  if (!TARIFF_DATA) TARIFF_DATA = TARIFF_DEMO;
+  } catch(e) {}
+  if (!TARIFF_DATA) TARIFF_DATA = TARIFF_EXTENDED;
+
+  // Inject country selector
+  const form = document.querySelector('.finder-form');
+  if (form && !document.getElementById('country-select')) {
+    const sel = document.createElement('select');
+    sel.id = 'country-select';
+    sel.className = 'finder-input';
+    sel.style.cssText = 'flex:0;min-width:180px;max-width:220px;cursor:pointer;';
+    sel.innerHTML = `
+      <option value="">Any country / MFN</option>
+      <optgroup label="── CUSMA (Free)">
+        <option value="united states">United States</option>
+        <option value="mexico">Mexico</option>
+      </optgroup>
+      <optgroup label="── CETA / EU (Free)">
+        <option value="france">France</option>
+        <option value="germany">Germany</option>
+        <option value="italy">Italy</option>
+        <option value="spain">Spain</option>
+        <option value="netherlands">Netherlands</option>
+        <option value="belgium">Belgium</option>
+        <option value="poland">Poland</option>
+        <option value="sweden">Sweden</option>
+      </optgroup>
+      <optgroup label="── CPTPP (Free or Phasing)">
+        <option value="japan">Japan</option>
+        <option value="australia">Australia</option>
+        <option value="vietnam">Vietnam</option>
+        <option value="malaysia">Malaysia</option>
+        <option value="singapore">Singapore</option>
+        <option value="new zealand">New Zealand</option>
+        <option value="chile">Chile</option>
+        <option value="peru">Peru</option>
+        <option value="indonesia">Indonesia</option>
+      </optgroup>
+      <optgroup label="── Other FTAs">
+        <option value="united kingdom">United Kingdom (CUKTCA)</option>
+        <option value="south korea">South Korea (CKFTA)</option>
+        <option value="ukraine">Ukraine (CUFTA)</option>
+        <option value="colombia">Colombia (CCOFTA)</option>
+        <option value="israel">Israel (CIFTA)</option>
+        <option value="morocco">Morocco (CMFTA)</option>
+      </optgroup>
+      <optgroup label="── No FTA — MFN Rate Applies">
+        <option value="china">China</option>
+        <option value="india">India</option>
+        <option value="brazil">Brazil</option>
+        <option value="bangladesh">Bangladesh</option>
+        <option value="indonesia (mfn)">Indonesia (pre-CPTPP)</option>
+        <option value="south africa">South Africa</option>
+        <option value="nigeria">Nigeria</option>
+        <option value="switzerland">Switzerland</option>
+        <option value="taiwan">Taiwan</option>
+      </optgroup>`;
+    const btn = form.querySelector('.finder-btn');
+    if (btn) form.insertBefore(sel, btn);
+    const helper = document.querySelector('.finder-helper');
+    if (helper) helper.innerHTML = 'Type a product name or HS code, then select a country of origin. You can also type naturally — <em>"cotton t-shirt from Vietnam"</em> or <em>"cheese from France"</em>.';
+  }
 }
 initTariffFinder();
 
 function findRate() {
-  const raw = (document.getElementById('finder-input').value || '').trim();
-  const out = document.getElementById('finder-results');
-  if (!raw) { out.innerHTML = ''; return; }
-  const q = raw.toLowerCase();
-  const data = TARIFF_DATA || TARIFF_DEMO;
+  const raw    = (document.getElementById('finder-input')?.value || '').trim();
+  const selVal = (document.getElementById('country-select')?.value || '').toLowerCase();
+  const out    = document.getElementById('finder-results');
+  if (!raw && !selVal) { out.innerHTML = ''; return; }
 
-  // Check CONSUMER_MAP for natural language match (skip if input looks like an HS code)
-  let matchCode = null;
-  let matchKey = null;
-  const isHSLike = /^\d[\d.]*$/.test(raw.replace(/\s/g, ''));
-  if (!isHSLike) {
+  let q = raw.toLowerCase();
+  let detectedCountry = selVal;
+
+  // Parse "t-shirt from vietnam" style
+  const fromMatch = q.match(/\bfrom\s+([a-z\s]+)$/);
+  if (fromMatch && !selVal) {
+    const c = fromMatch[1].trim();
+    if (Object.prototype.hasOwnProperty.call(COUNTRY_FTA, c)) {
+      detectedCountry = c;
+      q = q.replace(fromMatch[0], '').trim();
+    }
+  }
+
+  const ftaKey = detectedCountry ? COUNTRY_FTA[detectedCountry] : undefined;
+  const hasFTA = ftaKey != null && detectedCountry !== '';
+  const noFTA  = detectedCountry !== '' && ftaKey === null;
+
+  const data = TARIFF_DATA || TARIFF_EXTENDED;
+  const isHSLike = /^\d[\d.]*$/.test(q.replace(/\s/g,''));
+
+  let matchCode = null, matchKey = null;
+  if (!isHSLike && q) {
     for (const [key, code] of Object.entries(CONSUMER_MAP)) {
-      if (q.includes(key) || key.includes(q)) {
-        matchCode = code;
-        matchKey = key;
-        break;
-      }
+      if (q.includes(key) || key.includes(q)) { matchCode = code; matchKey = key; break; }
     }
   }
 
   const searchQ = matchCode ? matchCode.toLowerCase() : q;
   const noteHtml = matchCode
-    ? `<div class="finder-match-note">Matched to HS ${escHtml(matchCode)}: ${escHtml(matchKey)}</div>`
-    : '';
+    ? `<div class="finder-match-note">Matched "<strong>${escHtml(q)}</strong>" → HS ${escHtml(matchCode)}</div>` : '';
+  const capCountry = detectedCountry.replace(/\b\w/g,c=>c.toUpperCase());
+  const countryNote = detectedCountry
+    ? `<div class="finder-match-note" style="background:#f0f4ff;border-color:#2a5090;color:#1a3060;">
+        Origin: <strong>${escHtml(capCountry)}</strong> —
+        ${hasFTA ? `<strong>${escHtml(ftaKey)}</strong> preferential rate applies (duty-free or reduced)`
+                 : 'No FTA with Canada — <strong>MFN rate applies</strong>'}
+       </div>` : '';
 
-  // Score each entry
   const scored = data.map(e => {
     let score = 0;
-    const hsClean = e.hs.replace('.', '').toLowerCase();
-    const qClean = searchQ.replace(/[.\s]/g, '');
-    if (e.hs.toLowerCase() === searchQ || e.hs.replace('.', '') === qClean) score += 100;
-    else if (e.hs.toLowerCase().startsWith(searchQ) || hsClean.startsWith(qClean)) score += 60;
-    else if (e.hs.includes(searchQ)) score += 40;
-    if (e.desc.toLowerCase().includes(searchQ)) score += 30;
-    if (e.sector && e.sector.toLowerCase().includes(searchQ)) score += 20;
-    if (e.notes && e.notes.toLowerCase().includes(searchQ)) score += 10;
-    return { entry: e, score };
-  }).filter(x => x.score > 0).sort((a, b) => b.score - a.score);
+    const hc = e.hs.replace(/\./g,'').toLowerCase();
+    const qc = searchQ.replace(/[.\s]/g,'');
+    if (e.hs.toLowerCase()===searchQ||hc===qc) score+=100;
+    else if (e.hs.toLowerCase().startsWith(searchQ)||hc.startsWith(qc)) score+=60;
+    else if (e.hs.includes(searchQ)) score+=40;
+    if (e.desc.toLowerCase().includes(searchQ)) score+=30;
+    if (e.sector&&e.sector.toLowerCase().includes(searchQ)) score+=20;
+    if (e.notes&&e.notes.toLowerCase().includes(searchQ)) score+=10;
+    return {entry:e,score};
+  }).filter(x=>x.score>0).sort((a,b)=>b.score-a.score);
 
-  if (scored.length === 0) {
-    out.innerHTML = noteHtml + `<p class="finder-no-results">No matching HS codes found for "<strong>${escHtml(raw)}</strong>". Try a broader term like <em>canola</em>, <em>aluminum</em>, or a 4-digit HS heading like <em>7601</em>.</p>`;
+  if (scored.length===0) {
+    out.innerHTML = noteHtml+countryNote+
+      `<p class="finder-no-results">No results for "<strong>${escHtml(raw)}</strong>". Try: <em>t-shirt</em>, <em>beef</em>, <em>aluminum</em>, <em>cheese</em>, or a 4-digit HS code.</p>`;
     return;
   }
-
-  out.innerHTML = noteHtml + scored.slice(0, 3).map(x => renderFinderCard(x.entry)).join('');
+  out.innerHTML = noteHtml+countryNote+scored.slice(0,3).map(x=>renderFinderCard(x.entry,ftaKey,noFTA,capCountry)).join('');
 }
 
-function escHtml(s) {
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
-function rateClass(r) {
-  if (!r || r === 'Free' || r === 'free') return 'rate-free';
-  if (r.includes('%')) {
-    const n = parseFloat(r);
-    if (n <= 5) return 'rate-some';
-    return 'rate-high';
-  }
+function escHtml(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function rateClass(r){
+  if(!r||r==='Free'||r==='free') return 'rate-free';
+  const include = ['within TRQ','within quota','Phasing'];
+  if(include.some(x=>r.includes(x))) return 'rate-some';
+  if(r.includes('%')){const n=parseFloat(r);if(n<=10)return 'rate-some';return 'rate-high';}
   return '';
 }
 
-function renderFinderCard(e) {
-  const ftaRows = Object.entries(e.fta).map(([name, rate]) =>
-    `<div class="finder-fta-item">
-      <div class="finder-fta-name">${escHtml(name)}</div>
-      <div class="finder-fta-rate ${rateClass(rate)}">${escHtml(rate)}</div>
-    </div>`
-  ).join('');
+function renderFinderCard(e,ftaKey,noFTA,capCountry) {
+  const effectiveRate = noFTA ? e.mfn : (ftaKey&&e.fta[ftaKey]?e.fta[ftaKey]:null);
+  const effectiveChip = effectiveRate
+    ? `<div class="finder-rate-chip" style="border:1.5px solid #2a5090;background:#e8f0ff;">
+        <span class="finder-rate-chip-label">Rate from ${escHtml(capCountry||'selected country')}</span>
+        <span class="finder-rate-chip-val ${rateClass(effectiveRate)}">${escHtml(effectiveRate)}</span>
+       </div>` : '';
 
-  return `
-    <div class="finder-card" style="margin-bottom:12px;">
-      <div class="finder-hs">HS ${escHtml(e.hs)}<span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:10px;text-transform:uppercase;letter-spacing:0.1em;">${escHtml(e.sector||'')}</span></div>
-      <div class="finder-desc-text">${escHtml(e.desc)}</div>
-      <div class="finder-rates-top">
-        <div class="finder-rate-chip">
-          <span class="finder-rate-chip-label">MFN Rate</span>
-          <span class="finder-rate-chip-val ${rateClass(e.mfn)}">${escHtml(e.mfn)}</span>
-        </div>
-        <div class="finder-rate-chip">
-          <span class="finder-rate-chip-label">GPT Rate</span>
-          <span class="finder-rate-chip-val ${rateClass(e.gpt)}">${escHtml(e.gpt)}</span>
-        </div>
-        <div style="font-size:12px;color:var(--ink-light);max-width:340px;line-height:1.6;padding:4px 0;">${escHtml(e.notes||'')}</div>
-      </div>
-      <div class="finder-fta-label">FTA Preferential Rates — Certificate of Origin ${e.coo ? 'required' : 'not required'}</div>
-      <div class="finder-fta-grid">${ftaRows}</div>
-      <div class="finder-meta">
-        <span class="finder-meta-item">COO Required: <strong>${e.coo ? 'Yes' : 'No'}</strong></span>
-        <a class="finder-source-link" href="https://www.cbsa-asfc.gc.ca/trade-commerce/tariff-tarif/2026/html/tblmod-eng.html" target="_blank" rel="noopener">Verify in Canada Customs Tariff 2026 →</a>
-      </div>
+  const plainNote = noFTA
+    ? `<div style="font-size:12px;background:#fff8f0;border-left:3px solid #c8860a;padding:8px 12px;margin-bottom:12px;color:#6b4000;">
+        <strong>No Canada FTA with ${escHtml(capCountry)}</strong> — the MFN rate of <strong>${escHtml(e.mfn)}</strong> applies.
+        ${e.mfn!=='Free'?'Consider sourcing from an FTA partner country to reduce or eliminate this duty.':'No duty regardless of origin.'}
+       </div>` : '';
+
+  const supplyManaged = e.notes&&e.notes.includes('SUPPLY-MANAGED')
+    ? `<div style="font-size:12px;background:#fef2f2;border-left:3px solid #c62828;padding:8px 12px;margin-bottom:12px;color:#7a0000;">
+        ⚠ <strong>Supply-managed product.</strong> Canada's quota system limits imports. Over-quota imports face the prohibitive MFN rate shown. FTA rates apply only within allocated quotas.
+       </div>` : '';
+
+  const ftaRows = Object.entries(e.fta).map(([name,rate])=>{
+    const isHL = ftaKey&&name===ftaKey;
+    const s = isHL?'background:#e8f0ff;border:1.5px solid #2a5090;':'';
+    return `<div class="finder-fta-item" style="${s}">
+      <div class="finder-fta-name">${escHtml(name)}${isHL?` ◀ ${escHtml(capCountry)}`:''}</div>
+      <div class="finder-fta-rate ${rateClass(rate)}">${escHtml(rate)}</div>
     </div>`;
+  }).join('');
+
+  return `<div class="finder-card" style="margin-bottom:12px;">
+    <div class="finder-hs">HS ${escHtml(e.hs)}<span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:10px;letter-spacing:0.1em;text-transform:uppercase;">${escHtml(e.sector||'')}</span></div>
+    <div class="finder-desc-text">${escHtml(e.desc)}</div>
+    ${supplyManaged}${plainNote}
+    <div class="finder-rates-top">
+      <div class="finder-rate-chip">
+        <span class="finder-rate-chip-label">MFN Rate (no FTA)</span>
+        <span class="finder-rate-chip-val ${rateClass(e.mfn)}">${escHtml(e.mfn)}</span>
+      </div>
+      <div class="finder-rate-chip">
+        <span class="finder-rate-chip-label">GPT (developing countries)</span>
+        <span class="finder-rate-chip-val ${rateClass(e.gpt)}">${escHtml(e.gpt)}</span>
+      </div>
+      ${effectiveChip}
+      <div style="font-size:12px;color:var(--ink-light);max-width:420px;line-height:1.65;padding:4px 0;">${escHtml(e.notes||'')}</div>
+    </div>
+    <div class="finder-fta-label">FTA Preferential Rates — by trade agreement</div>
+    <div class="finder-fta-grid">${ftaRows}</div>
+    <div class="finder-meta">
+      <span class="finder-meta-item">Certificate of Origin Required: <strong>${e.coo?'Yes':'No'}</strong></span>
+      <a class="finder-source-link" href="https://www.cbsa-asfc.gc.ca/trade-commerce/tariff-tarif/2026/html/tblmod-eng.html" target="_blank" rel="noopener">Verify in Canada Customs Tariff 2026 →</a>
+    </div>
+  </div>`;
 }
 
-// URL param pre-filter — ?country=japan populates and runs the search
-(function() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const countryParam = urlParams.get('country');
-  if (countryParam) {
-    const input = document.getElementById('finder-input');
-    if (input) {
-      input.value = countryParam.replace(/-/g, ' ');
-      findRate();
-    }
+(function(){
+  const p=new URLSearchParams(window.location.search);
+  const c=p.get('country');
+  if(c){
+    const inp=document.getElementById('finder-input');
+    const sel=document.getElementById('country-select');
+    if(inp) inp.value=c.replace(/-/g,' ');
+    if(sel){const v=c.replace(/-/g,' ').toLowerCase();for(const o of sel.options)if(o.value===v){o.selected=true;break;}}
+    setTimeout(findRate,150);
   }
 })();
 
