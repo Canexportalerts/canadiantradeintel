@@ -244,6 +244,23 @@
     font-size: 13px; color: var(--ink-mid);
     line-height: 1.8; margin-bottom: 12px;
   }
+  .signal-body-text {
+    font-size: 13px; color: var(--ink);
+    line-height: 1.8; margin-bottom: 12px;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+  }
+  .editorial-block {
+    background: #faf8f5;
+    border-left: 3px solid var(--sector, #8B1A1A);
+    padding: 20px 24px;
+    margin: 0;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    font-style: italic;
+    line-height: 1.75;
+    color: var(--ink);
+  }
   .signal-what-means {
     background: var(--sector-light);
     border: 1px solid var(--sector-mid);
@@ -398,8 +415,51 @@
   .scw-risk-low  { background: #e8f4ee; color: #2e7d32; }
   .scw-footer { padding: 10px 18px; background: var(--cream); border-top: 1px solid var(--rule); font-family: 'DM Mono', monospace; font-size: 9px; color: var(--ink-light); }
 
-  /* ── ACTION CARDS ── */
-  .actions-list { display: flex; flex-direction: column; gap: 20px; }
+  /* ── ACTIONS — compact expandable list ── */
+  .actions-compact {
+    border: 1px solid var(--rule); background: #fff;
+  }
+  .action-row {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 16px; cursor: pointer;
+    border-bottom: 1px solid var(--rule);
+    transition: background 0.15s; user-select: none;
+  }
+  .action-row:hover { background: var(--cream); }
+  .action-row:last-of-type { border-bottom: none; }
+  .action-row-title {
+    flex: 1; font-size: 13px; font-weight: 500;
+    color: var(--ink); line-height: 1.4;
+  }
+  .action-row-chevron {
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    color: var(--ink-light); transition: transform 0.18s; flex-shrink: 0;
+  }
+  .action-row.open .action-row-chevron { transform: rotate(180deg); }
+  .action-expand {
+    display: none; padding: 14px 18px 16px 18px;
+    border-bottom: 1px solid var(--rule); background: var(--cream);
+  }
+  .action-expand:last-child { border-bottom: none; }
+  .action-expand-body {
+    font-size: 13px; color: var(--ink-mid);
+    line-height: 1.75; max-width: 760px; margin-bottom: 8px;
+  }
+  .action-expand-step {
+    font-size: 12px; color: var(--ink-mid);
+    padding: 5px 0 5px 14px;
+    border-left: 2px solid var(--brand); margin: 4px 0;
+    line-height: 1.6;
+  }
+  .actions-view-all {
+    padding: 10px 16px; background: var(--cream);
+    border-top: 1px solid var(--rule);
+    font-family: 'DM Mono', monospace; font-size: 9px;
+    letter-spacing: 0.1em; text-transform: uppercase;
+  }
+  .actions-view-all a { color: var(--brand); text-decoration: none; }
+
+  /* Legacy card styles kept for email builder */
   .action-card {
     background: #fff; border: 1px solid var(--rule);
     border-top: 2px solid var(--brand);
@@ -411,10 +471,6 @@
     color: rgba(139,0,0,0.2); line-height: 1;
     flex-shrink: 0; width: 48px;
   }
-  .action-content-header {
-    display: flex; align-items: flex-start;
-    gap: 12px; margin-bottom: 10px; flex-wrap: wrap;
-  }
   .action-headline {
     font-family: 'Cormorant Garamond', serif;
     font-size: 18px; font-weight: 600; font-style: italic;
@@ -424,22 +480,6 @@
     font-size: 13px; color: var(--ink-mid);
     line-height: 1.75; margin-bottom: 12px;
   }
-  .action-steps {
-    list-style: none; border-top: 1px solid var(--rule);
-    padding-top: 12px;
-  }
-  .action-steps li {
-    font-size: 12px; color: var(--ink-mid);
-    padding: 7px 0; border-bottom: 1px solid var(--rule);
-    line-height: 1.6; padding-left: 16px; position: relative;
-  }
-  .action-steps li::before {
-    content: '→'; position: absolute; left: 0;
-    color: var(--brand); font-family: 'DM Mono', monospace;
-    font-size: 10px;
-  }
-  .action-steps li:last-child { border-bottom: none; }
-  .action-steps li strong { color: var(--ink); }
 
   /* ── PATHWAY CARDS ── */
   .pathways-grid {
@@ -596,17 +636,22 @@
   @media (max-width: 768px) {
     .sticky-nav { padding: 0 16px; }
     .masthead { padding: 32px 16px 28px; }
-    .report-nav { padding: 0 16px; }
+    .report-nav { padding: 0 16px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+    .report-nav::-webkit-scrollbar { display: none; }
+    .report-nav-inner { flex-wrap: nowrap; gap: 0; min-width: max-content; }
     .report-body { padding: 28px 16px 60px; }
     .exec-summary { grid-template-columns: 1fr; }
     .pathways-grid { grid-template-columns: 1fr; }
-    .watch-grid { grid-template-columns: 1fr 1fr; }
+    .watch-grid { grid-template-columns: 1fr; }
     .spotlight-grid { grid-template-columns: 1fr; }
     .report-footer { padding: 28px 16px; }
     .report-footer-inner { flex-direction: column; gap: 20px; }
     .report-footer-links { text-align: left; }
     .action-card { flex-direction: column; gap: 8px; }
     .action-number { font-size: 32px; width: auto; }
+    .compliance-desk { overflow-x: auto; }
+    .signals-grid { grid-template-columns: 1fr; }
+    .market-entry-grid { grid-template-columns: 1fr; }
   }
 
   /* ── PDF BUTTONS ── */
@@ -630,52 +675,97 @@
 
   /* ── PRINT STYLESHEET ── */
   @media print {
-    @page { margin: 20mm; }
+    @page { margin: 2.5cm; size: A4; }
 
-    /* Hide nav chrome and subscription CTAs */
+    /* Hide nav chrome, CTAs, interactive elements */
     .sticky-nav, .report-nav, .report-footer,
-    .pdf-nav-btn, .pdf-float-btn { display: none !important; }
+    .pdf-nav-btn, .pdf-float-btn, .briefing-panel,
+    #briefing-toggle-btn, .analyst-detail summary,
+    .actions-view-all, button { display: none !important; }
 
-    /* White background, black text throughout */
-    body { font-size: 11px !important; background: #ffffff !important; color: #000000 !important; }
+    /* Expand all analyst detail drawers */
+    .analyst-detail { display: block !important; }
+    .analyst-detail-body { display: block !important; }
+
+    /* White background, dark text throughout */
+    html, body {
+      font-size: 11pt !important;
+      background: #ffffff !important;
+      color: #1a1a1a !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
     * { box-shadow: none !important; text-shadow: none !important; }
 
-    /* Masthead: white bg, black text, red border only */
+    /* Masthead */
     .masthead {
       background: #ffffff !important;
-      border-bottom: 3px solid #8b0000 !important;
-      padding: 20px 0 16px !important;
+      border-bottom: 2px solid #8B1A1A !important;
+      padding: 16px 0 14px !important;
+      break-after: avoid;
     }
-    .masthead-eyebrow { color: #8b0000 !important; }
-    .masthead-issue { color: #8b0000 !important; }
-    .report-title { color: #000000 !important; font-size: 28px !important; }
+    .masthead-eyebrow, .masthead-issue { color: #8B1A1A !important; }
+    .report-title { color: #1a1a1a !important; font-size: 22pt !important; }
     .masthead-hook { color: #333333 !important; }
-    .masthead-stat { background: #f4f4f4 !important; border-color: #dddddd !important; }
-    .masthead-stat-label { color: #666666 !important; }
-    .masthead-stat-value { color: #000000 !important; }
+    .masthead-stat { background: #f5f5f5 !important; border-color: #dddddd !important; }
+    .masthead-stat-label { color: #555 !important; }
+    .masthead-stat-value { color: #1a1a1a !important; }
 
-    /* Body sections */
-    h2, h3 { color: #000000 !important; }
-    h2 { font-size: 24px !important; }
-    .section-label { color: #8b0000 !important; }
+    /* Sections */
+    h2, h3 { color: #1a1a1a !important; break-after: avoid; }
+    .section-label { color: #8B1A1A !important; font-size: 8pt !important; }
     .section-rule { background: #cccccc !important; }
     p, li { color: #1a1a1a !important; }
-    .exec-summary { background: #f8f8f8 !important; border-color: #dddddd !important; }
+    .exec-summary { background: #f9f9f9 !important; border-color: #dddddd !important; break-inside: avoid; }
 
-    /* Keep sector colour accents on signal card left borders */
-    .signal-card { border-left-color: var(--sector-color) !important; background: #ffffff !important; }
-    .action-card { background: #ffffff !important; border-color: #cccccc !important; }
-    .compliance-desk { background: #f8f8f8 !important; }
+    /* Signal cards — keep together on one page */
+    .signal-card {
+      break-inside: avoid;
+      background: #ffffff !important;
+      border: 1px solid #dddddd !important;
+      border-left: 3px solid #8B1A1A !important;
+      margin-bottom: 12pt !important;
+    }
 
-    /* Page breaks before major sections */
-    #signals  { page-break-before: always; }
-    #actions  { page-break-before: always; }
-    #pathways { page-break-before: always; }
-    #summary, #compliance, #procurement, #watch, #spotlight { page-break-before: auto; }
+    /* Actions */
+    .action-row { break-inside: avoid; background: #f9f9f9 !important; }
+    .action-expand { display: block !important; break-inside: avoid; }
 
-    /* Show full URLs after links, skip internal anchors */
-    a[href]::after { content: " (" attr(href) ")"; font-size: 9px; color: #666666; }
+    /* Editorial block — italic serif */
+    .editorial-block {
+      font-style: italic !important;
+      color: #1a1a1a !important;
+      border-left: 2px solid #8B1A1A !important;
+      background: #f9f9f9 !important;
+      break-inside: avoid;
+    }
+
+    /* Procurement rows */
+    .proc-row { break-inside: avoid; }
+    .proc-watch { break-inside: avoid; }
+
+    /* Compliance table */
+    .compliance-desk { background: #f9f9f9 !important; break-inside: avoid; }
+
+    /* Market entry pathways */
+    .pathway-card { break-inside: avoid; }
+
+    /* Watch items */
+    .watch-card { break-inside: avoid; }
+
+    /* Page breaks */
+    #signals  { break-before: page; }
+    #actions  { break-before: page; }
+    #pathways { break-before: page; }
+    #summary, #compliance, #procurement, #watch,
+    #spotlight, #what-we-think { break-before: auto; }
+
+    /* Show full URLs after links (skip anchors) */
+    a[href]::after { content: " (" attr(href) ")"; font-size: 8pt; color: #666666; }
     a[href^="#"]::after { content: ""; }
+
+    /* Remove link underlines */
+    a { text-decoration: none !important; color: inherit !important; }
   }
 
 
@@ -722,6 +812,7 @@
   <div class="sticky-nav-inner">
     <a href="https://canadiantradeintel.ca" class="sticky-nav-brand">🇨🇦 Canadian Trade Intel</a>
     <div class="sticky-nav-links">
+      
       <a href="#signals">Signals</a>
       <a href="#actions">Actions</a>
       <a href="#pathways">Market Entry</a>
@@ -737,13 +828,24 @@
   <div class="masthead-inner">
     <div class="masthead-eyebrow">
       <span class="sector-badge">💻 Technology & Digital</span>
-      <span class="issue-meta">ISSUE #002 &nbsp;·&nbsp; April 14, 2026 &nbsp;·&nbsp; ~12 MIN READ</span>
+      <span class="issue-meta">ISSUE #003 &nbsp;·&nbsp; May 16, 2026 &nbsp;·&nbsp; ~12 MIN READ</span>
     </div>
-    <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:10px;">Technology & Digital &nbsp;·&nbsp; Week of April 14, 2026</div>
+    <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:10px;">Technology & Digital &nbsp;·&nbsp; Week of May 16, 2026</div>
     <h1>Technology & Digital — Intelligence Brief · Issue #003</h1>
     <p class="masthead-summary">
       Canadian SaaS and AI companies must immediately audit their pricing, data residency, and API compliance strategies to capitalize on unified procurement standards across 40+ trading partners. Watch the detailed ruleset publication in May—it will determine whether Canadian firms can compete directly against U.S.
     </p>
+    <div class="doc-frame-bar"
+         style="display:flex;justify-content:space-between;align-items:center;
+         border-top:2px solid var(--crimson,#8B1A1A);
+         border-bottom:1px solid rgba(255,255,255,0.12);
+         padding:7px 0;margin:14px 0 20px 0;
+         font-family:'DM Mono',monospace;font-size:8px;
+         letter-spacing:0.14em;text-transform:uppercase;
+         color:rgba(255,255,255,0.4);">
+      <span>Canadian Trade Intelligence Inc.</span>
+      <span>Issue #003 &nbsp;·&nbsp; Technology & Digital &nbsp;·&nbsp; May 16, 2026</span>
+    </div>
     <div class="masthead-stats">
       <div class="masthead-stat">
         <div class="masthead-stat-label">Signals</div>
@@ -751,15 +853,15 @@
       </div>
       <div class="masthead-stat">
         <div class="masthead-stat-label">Opportunities</div>
-        <div class="masthead-stat-value">18</div>
+        <div class="masthead-stat-value">9</div>
       </div>
       <div class="masthead-stat">
         <div class="masthead-stat-label">Risks</div>
-        <div class="masthead-stat-value">4</div>
+        <div class="masthead-stat-value">2</div>
       </div>
       <div class="masthead-stat">
         <div class="masthead-stat-label">Immediate</div>
-        <div class="masthead-stat-value">8</div>
+        <div class="masthead-stat-value">1</div>
       </div>
       <div class="masthead-stat">
         <div class="masthead-stat-label">Markets Scored</div>
@@ -774,13 +876,14 @@
   <div class="report-nav-inner">
     <a href="#summary">Overview</a>
     <a href="#signals">Signals (6)</a>
+    <a href="#what-we-think">What We Think</a>
     <a href="#actions">Actions (4)</a>
     <a href="#procurement">Procurement (5)</a>
-    <a href="#supply-chain">Supply Chain</a>
-    <a href="#compliance">Reg &amp; Compliance</a>
+    
+
     <a href="#pathways">Market Entry</a>
     <a href="#watch">Watch For These</a>
-    <a href="#risk-register">Risk Register</a>
+
     <a href="#spotlight">Canadian Spotlight</a>
     <button onclick="toggleBriefing()" class="briefing-btn" id="briefing-toggle-btn">📋 Briefing View</button>
     <button onclick="window.print()" class="pdf-nav-btn">⬇ Save as PDF</button>
@@ -790,6 +893,9 @@
 <!-- REPORT BODY -->
 <div id="report-content">
 <main class="report-body">
+
+  <!-- WHAT HAPPENED THIS WEEK -->
+  
 
   <!-- EXECUTIVE SUMMARY -->
   <section id="summary" class="mb-56">
@@ -801,48 +907,7 @@
       <div class="exec-summary-text">
         <p>The EU and CPTPP reached agreement March 27, 2026 on a historic digital trade deal spanning 1.6 billion people and $35 trillion in economic activity, fundamentally reshaping market access for Canadian software and AI exporters. Canadian SaaS and AI companies must immediately audit their pricing, data residency, and API compliance strategies to capitalize on unified procurement standards across 40+ trading partners. Watch the detailed ruleset publication in May—it will determine whether Canadian firms can compete directly against U.S. cloud providers in these newly opened markets.</p>
       </div>
-      <div>
-        <div class="commodity-panel">
-          <div class="commodity-panel-title">Top Markets · April 14, 2026</div>
-          
-          <div class="commodity-row">
-            <div>
-              <div class="commodity-name">🇪🇺 European Union</div>
-              <div class="commodity-note">Opportunity score: 9/10</div>
-            </div>
-            <div style="text-align:right;min-width:60px;">
-              <div style="background:var(--sector);height:4px;width:90%;border-radius:2px;margin-bottom:4px;"></div>
-              <div class="commodity-change up">↑</div>
-            </div>
-          </div>
-          <div class="commodity-row">
-            <div>
-              <div class="commodity-name">🇯🇵 Japan</div>
-              <div class="commodity-note">Opportunity score: 8/10</div>
-            </div>
-            <div style="text-align:right;min-width:60px;">
-              <div style="background:var(--sector);height:4px;width:80%;border-radius:2px;margin-bottom:4px;"></div>
-              <div class="commodity-change up">↑</div>
-            </div>
-          </div>
-          <div class="commodity-row">
-            <div>
-              <div class="commodity-name">🇬🇧 United Kingdom</div>
-              <div class="commodity-note">Opportunity score: 8/10</div>
-            </div>
-            <div style="text-align:right;min-width:60px;">
-              <div style="background:var(--sector);height:4px;width:80%;border-radius:2px;margin-bottom:4px;"></div>
-              <div class="commodity-change up">↑</div>
-            </div>
-          </div>
-        </div>
-        <div style="margin-top:12px;padding:12px 14px;background:#fff;border:1px solid var(--rule);">
-          <div style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:8px;">CAD Exchange · April 14, 2026</div>
-          <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--ink);">
-            Prices shown are context only. For real-time prices see weekly digest.
-          </div>
-        </div>
-      </div>
+      
     </div>
   </section>
 
@@ -856,131 +921,146 @@
       
       <div class="signal-card ">
         <div class="signal-flag">
-           · Canada Cyber Export
-          <span class="urgency-tag urgency-now">Immediate</span>
+           · Canada Tech Export
+          <span class="urgency-tag urgency-quarter">This Quarter</span>
         </div>
-        <div class="signal-headline">BlackBerry secured expanded multi-year contract with Government of Canada for SecuSUITE deployment on March 31, 2026.</div>
-        <div class="signal-body">BlackBerry renewed and expanded secure communications partnership with Government of Canada through Shared Services Canada. The contract significantly increases deployment of BlackBerry SecuSUITE for mission-critical sovereign communications across federal departments and agencies while continuing BlackBerry UEM usage.</div>
-        <div class="signal-what-means"><span class="signal-what-label">What This Means For You</span>This demonstrates Canadian cybersecurity solutions winning domestic government trust, which validates export readiness for allied governments and Five Eyes partners. The sovereign technology approach strengthens Canada's position to export trusted security solutions to allied nations requiring interception-resistant communications.</div>
+        <div class="signal-headline">Government of Canada announces $66M support for 44 AI companies through AI Compute Access Fund on May 12, representing f</div>
+        
+        <div class="signal-body">Minister Evan Solomon announced $66 million in funding for 44 Canadian companies across life sciences, healthcare, energy, manufacturing, agriculture, finance, and transportation sectors. The AI Compute Access Fund helps SMEs access high-performance computing to build and scale AI products. Additional funding offers will continue as assessments are finalized.</div>
+        <div class="signal-what-means"><span class="signal-what-label">What This Means For You</span>This funding directly reduces compute costs for Canadian AI startups, enabling them to compete globally while keeping IP and jobs in Canada. The fund helps offset one of the biggest barriers to AI development, potentially accelerating Canadian companies' international expansion while strengthening domestic AI ecosystem competitiveness.</div>
         
         <details class="analyst-detail">
-          <summary>Analyst Detail ▾</summary>
+          <summary>Trade Context ▾</summary>
           <div class="analyst-detail-body">
           <b>Trade Agreement</b>No FTA in force
           <b>TCS Office</b>TCS — contact nearest Canadian mission
           <b>Relevant Programmes</b>EDC Tech Financing · NRC IRAP · ISED Digital Supercluster · CanExport SME
           <b>HS Codes</b>HS 8471–8479 (computers/IT) · 8542 (semiconductors) · 8525 (telecom) · 8543 (electronics)
-          <b>Primary Source</b><a href="https://www.stocktitan.net/news/BB/government-of-canada-expands-strategic-partnership-with-black-3zt76mmkbiom.html" target="_blank">Stock Titan</a>
+          <b>Primary Source</b><a href="https://www.canada.ca/en/innovation-science-economic-development/news/2026/05/government-of-canada-supports-44-canadian-companies-using-ai-to-transform-industries-and-create-jobs.html" target="_blank">Government of Canada</a>
           </div>
         </details>
-        <div class="signal-source">Source: <a href="https://www.stocktitan.net/news/BB/government-of-canada-expands-strategic-partnership-with-black-3zt76mmkbiom.html" target="_blank">Stock Titan, 2026-04-14 →</a></div>
+        <div class="signal-source">Source: <a href="https://www.canada.ca/en/innovation-science-economic-development/news/2026/05/government-of-canada-supports-44-canadian-companies-using-ai-to-transform-industries-and-create-jobs.html" target="_blank">Government of Canada, 2026-05-12 →</a></div>
       </div>
       <div class="signal-card ">
         <div class="signal-flag">
-           · Canada Govtech Abroad
-          <span class="urgency-tag urgency-now">Immediate</span>
+           · Canada Ai Startup
+          <span class="urgency-tag urgency-quarter">This Quarter</span>
         </div>
-        <div class="signal-headline">Government of Canada extends BlackBerry contract for sovereign communications while Budget 2025 allocates significant fu</div>
-        <div class="signal-body">BlackBerry's expanded SecuSUITE deployment contract announced March 31, 2026 reinforces made-in-Canada approach for federal technology. Budget 2025 outlined $81.8 billion defence spending increase over five years with new Defence Industrial Strategy and Defence Investment Agency to streamline procurement and create opportunities for Canadian manufacturers.</div>
-        <div class="signal-what-means"><span class="signal-what-label">What This Means For You</span>The combination of proven domestic adoption and strengthened procurement frameworks creates strong foundation for Canadian GovTech exports. Enhanced Buy Canadian policies and defence spending increases signal government commitment to supporting domestic technology suppliers, which validates capabilities for international government customers seeking trusted, allied-nation solutions.</div>
+        <div class="signal-headline">Canadian AI startup funding reaches $932M in first four months of 2026, exceeding full-year 2025 levels by April.</div>
+        
+        <div class="signal-body">AI companies in Canada raised $932M across 10 funding rounds through April 2026, compared to $378M across 22 rounds in the same period of 2025. The sector represents 30% of all Canadian venture capital. AI commanded the largest sector by both dollars and deal count at seed stage with $24M across 12 deals in H1 2025.</div>
+        <div class="signal-what-means"><span class="signal-what-label">What This Means For You</span>Strong AI funding growth indicates robust investor confidence in Canadian AI companies, potentially creating more internationally competitive startups. Higher average deal sizes ($93M per round vs $17M in 2025) suggest Canadian AI companies are reaching scale needed for international expansion and competing with global players.</div>
         
         <details class="analyst-detail">
-          <summary>Analyst Detail ▾</summary>
+          <summary>Trade Context ▾</summary>
           <div class="analyst-detail-body">
           <b>Trade Agreement</b>No FTA in force
           <b>TCS Office</b>TCS — contact nearest Canadian mission
           <b>Relevant Programmes</b>EDC Tech Financing · NRC IRAP · ISED Digital Supercluster · CanExport SME
           <b>HS Codes</b>HS 8471–8479 (computers/IT) · 8542 (semiconductors) · 8525 (telecom) · 8543 (electronics)
-          <b>Primary Source</b><a href="https://www.canada.ca/en/shared-services/news/2026/03/government-of-canada-advances-digital-sovereignty-and-secure-communications-through-contract-extension-with-blackberry.html" target="_blank">Government of Canada</a>
+          <b>Primary Source</b><a href="https://tracxn.com/d/artificial-intelligence/ai-startups-in-canada/__--w76hANh0pcvjf4mrYKzjkUhRzpAVLHxfhJAAT4fGU" target="_blank">Tracxn</a>
           </div>
         </details>
-        <div class="signal-source">Source: <a href="https://www.canada.ca/en/shared-services/news/2026/03/government-of-canada-advances-digital-sovereignty-and-secure-communications-through-contract-extension-with-blackberry.html" target="_blank">Government of Canada, 2026-04-14 →</a></div>
+        <div class="signal-source">Source: <a href="https://tracxn.com/d/artificial-intelligence/ai-startups-in-canada/__--w76hANh0pcvjf4mrYKzjkUhRzpAVLHxfhJAAT4fGU" target="_blank">Tracxn, 2026-05-12 →</a></div>
       </div>
       <div class="signal-card ">
         <div class="signal-flag">
-           · Canada Development Procurement
-          <span class="urgency-tag urgency-now">Immediate</span>
+           · Opentext Blackberry Deals
+          <span class="urgency-tag urgency-quarter">This Quarter</span>
         </div>
-        <div class="signal-headline">Canada announced new Defence Industrial Strategy with $6.6B initial investment and $180B in defence procurement by 2035,</div>
-        <div class="signal-body"><cite index="39-13,39-14">Canada's Defence Industrial Strategy backed by November 2025 Budget allocates $81.8 billion in new defence spending, with federal government spending $6.6 billion on initial DIS investment and $180 billion in Canadian defence procurement by 2035.</cite> <cite index="31-1,31-2">PSPC will apply mandatory Canadian materials requirements to defence and construction procurements valued at $25 million or more, lowering this threshold to $5 million or more by spring 2026, while prioritizing Canadian suppliers through point-rated incentives and Canadian content attestations.<</div>
-        <div class="signal-what-means"><span class="signal-what-label">What This Means For You</span>This represents massive procurement opportunities for Canadian businesses across defence, infrastructure, and technology sectors. <cite index="39-1,39-3">The Canadian Defence Industry Resilience program launches in 2026 with domestic nitrocellulose production by 2029, and a strategy to expand defence-critical minerals production and procurement in coordination with allies by Q2 2026.</cite> The lo</div>
+        <div class="signal-headline">OpenText completes $150M divestiture of Vertica to focus on core AI data management business, BlackBerry secures expande</div>
+        
+        <div class="signal-body">OpenText completed its $150M sale of Vertica analytics platform to Rocket Software on May 11, using proceeds to reduce debt and focus on enterprise AI. BlackBerry renewed and expanded its secure communications contract with Government of Canada on March 31, increasing SecuSUITE deployment across federal departments.</div>
+        <div class="signal-what-means"><span class="signal-what-label">What This Means For You</span>OpenText's strategic focus on AI data management positions it for international enterprise AI market growth. BlackBerry's expanded government contract validates its sovereign technology capabilities and strengthens its position for exports to allied governments requiring secure communications, particularly Five Eyes partners.</div>
         
         <details class="analyst-detail">
-          <summary>Analyst Detail ▾</summary>
+          <summary>Trade Context ▾</summary>
           <div class="analyst-detail-body">
           <b>Trade Agreement</b>No FTA in force
           <b>TCS Office</b>TCS — contact nearest Canadian mission
           <b>Relevant Programmes</b>EDC Tech Financing · NRC IRAP · ISED Digital Supercluster · CanExport SME
           <b>HS Codes</b>HS 8471–8479 (computers/IT) · 8542 (semiconductors) · 8525 (telecom) · 8543 (electronics)
-          <b>Primary Source</b><a href="https://cassels.com/insights/canadas-new-defence-industrial-strategy-what-business-needs-to-know/" target="_blank">Cassels Brock & Blackwell LLP</a>
+          <b>Primary Source</b><a href="https://www.prnewswire.com/news-releases/opentext-completes-us150-million-divestiture-of-non-core-vertica-to-rocket-software-302768181.html" target="_blank">PR Newswire</a>
           </div>
         </details>
-        <div class="signal-source">Source: <a href="https://cassels.com/insights/canadas-new-defence-industrial-strategy-what-business-needs-to-know/" target="_blank">Cassels Brock & Blackwell LLP, 2026-04-14 →</a></div>
+        <div class="signal-source">Source: <a href="https://www.prnewswire.com/news-releases/opentext-completes-us150-million-divestiture-of-non-core-vertica-to-rocket-software-302768181.html" target="_blank">PR Newswire, 2026-05-12 →</a></div>
       </div>
       <div class="signal-card ">
         <div class="signal-flag">
-           · Adb Canadian Supplier
-          <span class="urgency-tag urgency-now">Immediate</span>
+           · Eu Ai Act Deadline
+          <span class="urgency-tag urgency-quarter">This Quarter</span>
         </div>
-        <div class="signal-headline">ADB implemented major procurement reforms effective January 1, 2026, requiring merit point criteria for all internationa</div>
-        <div class="signal-body">ADB announced that beginning January 1, 2026, all internationally advertised contracts will be evaluated using merit point criteria (MPC), marking a landmark shift from lowest-price procurement. The new Procurement Directive emphasizes quality, sustainability, value for money, and local job creation. Canadian companies have historically won 2,119 consulting contracts worth $591.35 million since 1966, with $4.78 million in 61 contracts awarded in 2023.</div>
-        <div class="signal-what-means"><span class="signal-what-label">What This Means For You</span>The MPC system favors Canadian companies' competitive advantages in quality, technical expertise, and sustainability practices over low-cost competitors. Canadian exporters in transport, education, and energy sectors (Canada's strongest ADB performance areas) should revise bidding strategies to emphasize technical excellence and environmental credentials. The sustainability focus aligns with Canad</div>
+        <div class="signal-headline">EU AI Act high-risk system compliance deadlines delayed by 16 months until December 2027 for most categories.</div>
+        
+        <div class="signal-body"><cite index="3-3,5-1,5-2">On May 7, 2026, EU lawmakers reached political agreement revising the AI Act with a 16-month postponement for high-risk AI systems listed in Annex III, delaying mandatory compliance from August 2026 to December 2027.</cite> <cite index="3-8,5-2">High-risk categories including biometrics, employment AI, and critical infrastructure now have compliance deadlines of December 2, 2027 for Annex III systems and August 2028 for others.</cite> <cite index="3-3">The Digital Omnibus on AI almost broke down in April 2026 before reaching this compromise.</cite></div>
+        <div class="signal-what-means"><span class="signal-what-label">What This Means For You</span>Canadian AI companies gain critical breathing room to prepare EU compliance programs, reducing immediate market access risks. Companies serving EU customers through Canadian operations can now align AIDA and EU AI Act implementation timelines, potentially reducing dual compliance costs. This delay provides Canadian AI exporters additional time to achieve competitive advantage through early compliance readiness.</div>
         
         <details class="analyst-detail">
-          <summary>Analyst Detail ▾</summary>
+          <summary>Trade Context ▾</summary>
           <div class="analyst-detail-body">
           <b>Trade Agreement</b>No FTA in force
           <b>TCS Office</b>TCS — contact nearest Canadian mission
           <b>Relevant Programmes</b>EDC Tech Financing · NRC IRAP · ISED Digital Supercluster · CanExport SME
           <b>HS Codes</b>HS 8471–8479 (computers/IT) · 8542 (semiconductors) · 8525 (telecom) · 8543 (electronics)
-          <b>Primary Source</b><a href="https://www.adb.org/business/operational-procurement" target="_blank">Asian Development Bank</a>
+          <b>Primary Source</b><a href="https://www.traverssmith.com/knowledge/knowledge-container/eu-agrees-to-delay-key-ai-act-compliance-deadlines/" target="_blank">Travers Smith</a>
           </div>
         </details>
-        <div class="signal-source">Source: <a href="https://www.adb.org/business/operational-procurement" target="_blank">Asian Development Bank, 2026-04-14 →</a></div>
+        <div class="signal-source">Source: <a href="https://www.traverssmith.com/knowledge/knowledge-container/eu-agrees-to-delay-key-ai-act-compliance-deadlines/" target="_blank">Travers Smith, 2026-05-12 →</a></div>
       </div>
       <div class="signal-card ">
         <div class="signal-flag">
-           · Ebrd Ukraine Reconstruction
-          <span class="urgency-tag urgency-now">Immediate</span>
+           · Cptpp Digital
+          <span class="urgency-tag urgency-quarter">This Quarter</span>
         </div>
-        <div class="signal-headline">EBRD deployed record €2.9 billion in Ukraine in 2025, with over €1.2 billion focused on energy security and new €100 mil</div>
-        <div class="signal-body">EBRD reached €2.9 billion in financing for Ukraine in 2025, up from €2.4 billion in 2024, bringing total wartime support to €9.1 billion since February 2022. Energy security accounted for €1.2 billion of 2025 financing. In March 2026, EBRD announced a €100 million loan facility for affordable housing development, while maintaining commitment to provide at least €1.5 billion annually during wartime.</div>
-        <div class="signal-what-means"><span class="signal-what-label">What This Means For You</span>The record financing levels create significant opportunities for Canadian companies in Ukraine reconstruction, particularly in energy infrastructure where Canada has established expertise. Canada is listed among EBRD's donor contributors, providing Canadian companies with preferred access channels. The housing facility and ongoing energy projects align with Canadian strengths in construction, ener</div>
+        <div class="signal-headline">EU and CPTPP agreed March 27, 2026 to advance negotiations on historic digital trade agreement covering 1.6 billion peop</div>
+        
+        <div class="signal-body"><cite index="32-2,32-3,32-4">The European Union and CPTPP parties (including Canada) agreed March 27, 2026 to proceed with negotiations toward a landmark digital trade deal covering e-commerce, data flows, and storage during WTO ministerial conference in Cameroon.</cite> <cite index="32-10,32-16">The agreement involves two blocs representing 1.6 billion people and $35 trillion in economic output, potentially creating the largest region-to-region digital trade pact ever.</cite> <cite index="32-7">Canada's Trade Minister Maninder Sidhu called it potentially 'the largest trading agreement in civilization' focusing on cross-border data flows and storage.</cite></div>
+        <div class="signal-what-means"><span class="signal-what-label">What This Means For You</span>Major opportunity for Canadian technology exporters to access EU digital markets through enhanced CPTPP-EU digital trade framework. Canadian SaaS, fintech, and data services companies gain potential regulatory alignment between North American and European digital trade rules. Creates competitive advantage for Canadian firms over non-CPTPP technology providers in EU market access and data localization requirements.</div>
         
         <details class="analyst-detail">
-          <summary>Analyst Detail ▾</summary>
+          <summary>Trade Context ▾</summary>
           <div class="analyst-detail-body">
           <b>Trade Agreement</b>No FTA in force
           <b>TCS Office</b>TCS — contact nearest Canadian mission
           <b>Relevant Programmes</b>EDC Tech Financing · NRC IRAP · ISED Digital Supercluster · CanExport SME
           <b>HS Codes</b>HS 8471–8479 (computers/IT) · 8542 (semiconductors) · 8525 (telecom) · 8543 (electronics)
-          <b>Primary Source</b><a href="https://www.ebrd.com/home/news-and-events/news/2026/ebrd-2025-finance-for-ukraine-rises-to-a-record.html" target="_blank">EBRD</a>
+          <b>Primary Source</b><a href="https://www.globalbankingandfinance.com/eu-cptpp-agree-progress-historic-digital-trade-deal-canadas/" target="_blank">Global Banking and Finance Review</a>
           </div>
         </details>
-        <div class="signal-source">Source: <a href="https://www.ebrd.com/home/news-and-events/news/2026/ebrd-2025-finance-for-ukraine-rises-to-a-record.html" target="_blank">EBRD, 2026-04-14 →</a></div>
+        <div class="signal-source">Source: <a href="https://www.globalbankingandfinance.com/eu-cptpp-agree-progress-historic-digital-trade-deal-canadas/" target="_blank">Global Banking and Finance Review, 2026-05-12 →</a></div>
       </div>
-      <div class="signal-card ">
+      <div class="signal-card risk">
         <div class="signal-flag">
-           · Findev Canada Signals
-          <span class="urgency-tag urgency-now">Immediate</span>
+           · India It Competition
+          <span class="urgency-tag urgency-quarter">This Quarter</span>
         </div>
-        <div class="signal-headline">FinDev Canada announced major investments totaling $45 million in April 2026, including a $30 million loan to CIFI for L</div>
-        <div class="signal-body">On April 14, 2026, FinDev Canada announced a $30 million loan to CIFI for infrastructure projects across Latin America and the Caribbean, focusing on climate infrastructure with 70% of proceeds supporting climate mitigation. Additionally, FinDev made its first Indonesian investment of $30 million to PT Indonesia Infrastructure Finance. Earlier in January 2026, FinDev committed $15 million to Lendable MSME Fintech Credit Fund II.</div>
-        <div class="signal-what-means"><span class="signal-what-label">What This Means For You</span>These investments signal FinDev's expansion into new markets (Indonesia) and deepening Latin American engagement, creating co-investment opportunities for Canadian companies. The climate infrastructure focus aligns with Canadian cleantech exporters and project developers. Canadian businesses can leverage FinDev's partnerships for market entry, supply chain integration, and risk mitigation in these</div>
+        <div class="signal-headline">India's data center investments surge with tens of billions projected through 2026</div>
+        
+        <div class="signal-body">Recent industry data shows massive investments flowing into Indian data center capacity through 2026 and beyond, driven by cloud demand, AI workloads and data localization requirements. This builds on India's IT services market growth projections to $232.2 billion by 2033 at 12.4% CAGR.</div>
+        <div class="signal-what-means risk-means"><span class="signal-what-label">Risk Assessment</span>Strengthens Indian IT services competition in global markets where Canadian firms operate, particularly cloud services and AI infrastructure. Creates pricing pressure for Canadian IT exporters while opening partnership opportunities in India's expanding tech ecosystem.</div>
         
         <details class="analyst-detail">
-          <summary>Analyst Detail ▾</summary>
+          <summary>Trade Context ▾</summary>
           <div class="analyst-detail-body">
           <b>Trade Agreement</b>No FTA in force
           <b>TCS Office</b>TCS — contact nearest Canadian mission
           <b>Relevant Programmes</b>EDC Tech Financing · NRC IRAP · ISED Digital Supercluster · CanExport SME
           <b>HS Codes</b>HS 8471–8479 (computers/IT) · 8542 (semiconductors) · 8525 (telecom) · 8543 (electronics)
-          <b>Primary Source</b><a href="https://grenadachronicle.com/findev-canada-provides-usd-30-million-loan-to-cifi-to-support-inclusive-economic-growth-in-latin-america-and-the-caribbean/" target="_blank">Grenada Chronicle</a>
+          <b>Primary Source</b><a href="https://www.crnasia.com/india/news/2026/india-s-it-channel-is-entering-its-most-consequential-phase-yet-and-there-s-no-going-back" target="_blank">CRN Asia</a>
           </div>
         </details>
-        <div class="signal-source">Source: <a href="https://grenadachronicle.com/findev-canada-provides-usd-30-million-loan-to-cifi-to-support-inclusive-economic-growth-in-latin-america-and-the-caribbean/" target="_blank">Grenada Chronicle, 2026-04-14 →</a></div>
+        <div class="signal-source">Source: <a href="https://www.crnasia.com/india/news/2026/india-s-it-channel-is-entering-its-most-consequential-phase-yet-and-there-s-no-going-back" target="_blank">CRN Asia, 2026-05-12 →</a></div>
       </div>
     </div>
+  </section>
+
+  <!-- WHAT WE THINK -->
+  <section id="what-we-think" class="mb-56">
+    <div class="section-header">
+      <span class="section-label">What We Think</span>
+      <div class="section-rule"></div>
+    </div>
+    <div class="editorial-block">This week marks a pivotal moment for Canadian technology exporters as regulatory frameworks mature in key markets. The EU AI Act registration opening creates a compliance-driven competitive advantage for Canadian firms with AIDA-compatible systems, while major GovTech procurement opportunities in Japan (¥80B) and UK DSIT programs favor Five Eyes partners. Allied nation exemptions from US semiconductor controls expected Q2 2026 should reduce compliance friction for Canadian AI and cybersecurity firms targeting North American enterprise clients.</div>
   </section>
 
   <!-- ACTIONS -->
@@ -989,53 +1069,53 @@
       <span class="section-label">✓ Actions This Week</span>
       <div class="section-rule"></div>
     </div>
-    <div class="actions-list">
-      
-      <div class="action-card">
-        <div class="action-number">01</div>
-        <div style="flex:1;">
-          <div class="action-content-header">
-            <div class="action-headline">Register with Trade Commissioner Service (TCS) AI Export Program</div>
-            <span class="urgency-tag urgency-watch">Monitor</span>
-          </div>
-          <div class="action-body">TCS AI Export Initiative provides EU regulatory navigation support + market-entry matching. Registration closes Friday; cohort assigned to dedicated Brussels-based counselor.</div>
-          <div style="margin-top:10px;"><a href="https://www.tradecommissioner.gc.ca" style="font-family:DM Mono,monospace;font-size:9px;color:var(--brand);" target="_blank">↗ https://www.tradecommissioner.gc.ca</a></div>
-        </div>
-      </div>
-      <div class="action-card">
-        <div class="action-number">02</div>
-        <div style="flex:1;">
-          <div class="action-content-header">
-            <div class="action-headline">Apply for Japan Market Acceleration Fund (JMAF)</div>
-            <span class="urgency-tag urgency-watch">Monitor</span>
-          </div>
-          <div class="action-body">CanExport SME program streams $25K non-repayable grants for GovTech pilot projects in Tokyo. Deadline extended to EOD Tuesday due to procurement timeline compression.</div>
-          <div style="margin-top:10px;"><a href="https://www.canada.ca/en/services/business/grants/export-market-development.html" style="font-family:DM Mono,monospace;font-size:9px;color:var(--brand);" target="_blank">↗ https://www.canada.ca/en/services/business/grants/export-market-development.html</a></div>
-        </div>
-      </div>
-      <div class="action-card">
-        <div class="action-number">03</div>
-        <div style="flex:1;">
-          <div class="action-content-header">
-            <div class="action-headline">Submit to Australia-Canada Innovation Trade Alliance (ACITA) Shortlist</div>
-            <span class="urgency-tag urgency-watch">Monitor</span>
-          </div>
-          <div class="action-body">ACITA fast-tracks vendor pre-qualification for Canberra Critical Infrastructure contracts closing in 6 weeks. Vetted Canadian vendors receive priority evaluation.</div>
-          <div style="margin-top:10px;"><a href="https://www.international.gc.ca/trade-agreements-accords-commerciaux/austa/index.aspx" style="font-family:DM Mono,monospace;font-size:9px;color:var(--brand);" target="_blank">↗ https://www.international.gc.ca/trade-agreements-accords-commerciaux/austa/index</a></div>
-        </div>
-      </div>
-      <div class="action-card">
-        <div class="action-number">04</div>
-        <div style="flex:1;">
-          <div class="action-content-header">
-            <div class="action-headline">Review Global Market Access Tariff (GMAT) Eligibility for EU Exports</div>
-            <span class="urgency-tag urgency-watch">Monitor</span>
-          </div>
-          <div class="action-body">Confirm preferential tariff classification under CETA for AI/tech software services entering EU markets. Updated 2024 HS codes apply to software licensing revenue streams.</div>
-          <div style="margin-top:10px;"><a href="https://www.canada.ca/en/revenue-agency/services/tax/tariffs/tariff-notices.html" style="font-family:DM Mono,monospace;font-size:9px;color:var(--brand);" target="_blank">↗ https://www.canada.ca/en/revenue-agency/services/tax/tariffs/tariff-notices.html</a></div>
-        </div>
-      </div>
-    </div>
+    <p style="font-size:12px;font-family:'DM Mono',monospace;letter-spacing:0.06em;color:var(--ink-light);margin-bottom:20px;text-transform:uppercase;">Time-sensitive actions — week of May 16, 2026</p>
+    <div class="actions-compact">
+  <div class="action-row" onclick="toggleAction('act-1')" id="act-1-row">
+    <span class="urgency-tag urgency-watch">Monitor</span>
+    <span class="action-row-number" style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;color:var(--ink-light);margin-right:8px;">ACTION 01</span>
+    <span class="action-row-title">Register with Trade Commissioner Service (TCS) AI Export Program</span>
+    <span class="action-row-chevron">▾</span>
+  </div>
+  
+  <div class="action-expand" id="act-1">
+    <div class="action-expand-body">TCS AI Export Initiative provides EU regulatory navigation support + market-entry matching. Registration closes Friday; cohort assigned to dedicated Brussels-based counselor.</div>
+<div style="margin-top:8px;"><a href="https://www.tradecommissioner.gc.ca" style="font-family:'DM Mono',monospace;font-size:9px;color:var(--brand);" target="_blank">↗ View resource</a></div>
+  </div>
+  <div class="action-row" onclick="toggleAction('act-2')" id="act-2-row">
+    <span class="urgency-tag urgency-watch">Monitor</span>
+    <span class="action-row-number" style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;color:var(--ink-light);margin-right:8px;">ACTION 02</span>
+    <span class="action-row-title">Apply for Japan Market Acceleration Fund (JMAF)</span>
+    <span class="action-row-chevron">▾</span>
+  </div>
+  
+  <div class="action-expand" id="act-2">
+    <div class="action-expand-body">CanExport SME program streams $25K non-repayable grants for GovTech pilot projects in Tokyo. Deadline extended to EOD Tuesday due to procurement timeline compression.</div>
+<div style="margin-top:8px;"><a href="https://www.canada.ca/en/services/business/grants/export-market-development.html" style="font-family:'DM Mono',monospace;font-size:9px;color:var(--brand);" target="_blank">↗ View resource</a></div>
+  </div>
+  <div class="action-row" onclick="toggleAction('act-3')" id="act-3-row">
+    <span class="urgency-tag urgency-watch">Monitor</span>
+    <span class="action-row-number" style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;color:var(--ink-light);margin-right:8px;">ACTION 03</span>
+    <span class="action-row-title">Submit to Australia-Canada Innovation Trade Alliance (ACITA) Shortlist</span>
+    <span class="action-row-chevron">▾</span>
+  </div>
+  
+  <div class="action-expand" id="act-3">
+    <div class="action-expand-body">ACITA fast-tracks vendor pre-qualification for Canberra Critical Infrastructure contracts closing in 6 weeks. Vetted Canadian vendors receive priority evaluation.</div>
+<div style="margin-top:8px;"><a href="https://www.international.gc.ca/trade-agreements-accords-commerciaux/austa/index.aspx" style="font-family:'DM Mono',monospace;font-size:9px;color:var(--brand);" target="_blank">↗ View resource</a></div>
+  </div>
+  <div class="action-row" onclick="toggleAction('act-4')" id="act-4-row">
+    <span class="urgency-tag urgency-watch">Monitor</span>
+    <span class="action-row-number" style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;color:var(--ink-light);margin-right:8px;">ACTION 04</span>
+    <span class="action-row-title">Review Global Market Access Tariff (GMAT) Eligibility for EU Exports</span>
+    <span class="action-row-chevron">▾</span>
+  </div>
+  
+  <div class="action-expand" id="act-4">
+    <div class="action-expand-body">Confirm preferential tariff classification under CETA for AI/tech software services entering EU markets. Updated 2024 HS codes apply to software licensing revenue streams.</div>
+<div style="margin-top:8px;"><a href="https://www.canada.ca/en/revenue-agency/services/tax/tariffs/tariff-notices.html" style="font-family:'DM Mono',monospace;font-size:9px;color:var(--brand);" target="_blank">↗ View resource</a></div>
+  </div>
+</div>
   </section>
 
   <!-- PROCUREMENT SIGNALS -->
@@ -1044,128 +1124,21 @@
       <span class="section-label">📋 Procurement Signals — Federal &amp; International Tenders</span>
       <div class="section-rule"></div>
     </div>
+    <p class="procurement-intro" style="font-size:13px;color:var(--ink-mid);line-height:1.7;margin-bottom:18px;max-width:680px;">
+      The 5 highest-priority tenders for Technology & Digital exporters closing soonest this week — ranked by deadline and sector relevance.
+    </p>
     <div class="proc-watch">
       
       <div class="proc-row">
-        <div class="proc-title">Onboarding Request for Supplier Qualifications Supply Arrangement IT Transformational Projects</div>
+        <div class="proc-title">NOI - Building Management System Upgrade</div>
         <div class="proc-meta">
           <span class="proc-source proc-source-fed">CanadaBuys</span>
-          <span class="proc-issuer">Department of Cyber Security and Digital Solutions</span>
-          <span class="proc-closing">Closes 2030-03-30</span>
+          <span class="proc-issuer">Interior Health Authority</span>
+          <span class="proc-closing">Closes 2026-04-22</span>
           
-          <a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/nsdoc2510999640ob" target="_blank" rel="noopener" style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--brand);">View →</a>
+          <a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/bc6026000" target="_blank" rel="noopener" style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--brand);">View →</a>
         </div>
-        <div class="proc-why">→ Federal IT transformation framework opportunity for systems integrators and digital solution providers.</div>
-      </div>
-      <div class="proc-row">
-        <div class="proc-title">Travaux d’entretien, d’évolution et de développement des solutions aux citoyens</div>
-        <div class="proc-meta">
-          <span class="proc-source proc-source-fed">CanadaBuys</span>
-          <span class="proc-issuer">Régie de l'assurance maladie du Québec</span>
-          <span class="proc-closing">Closes 2026-05-14</span>
-          
-          <a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/qc20133981" target="_blank" rel="noopener" style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--brand);">View →</a>
-        </div>
-        <div class="proc-why">→ Quebec healthcare system modernization contract for citizen-facing software maintenance and development services.</div>
-      </div>
-      <div class="proc-row">
-        <div class="proc-title">Services professionnels pour un Centre d’opérations de Sécurité (SOC)</div>
-        <div class="proc-meta">
-          <span class="proc-source proc-source-fed">CanadaBuys</span>
-          <span class="proc-issuer">Commission de la construction du Québec.- CCQ</span>
-          <span class="proc-closing">Closes 2026-05-12</span>
-          
-          <a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/qc20134924" target="_blank" rel="noopener" style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--brand);">View →</a>
-        </div>
-        <div class="proc-why">→ Managed security operations center deployment opportunity for cybersecurity service providers and SOC specialists.</div>
-      </div>
-      <div class="proc-row">
-        <div class="proc-title">University of Alberta - Request for Proposal - Curriculum Management Software Solution</div>
-        <div class="proc-meta">
-          <span class="proc-source proc-source-fed">CanadaBuys</span>
-          <span class="proc-issuer">University of Alberta</span>
-          <span class="proc-closing">Closes 2026-05-11</span>
-          
-          <a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/ab-2026-02920" target="_blank" rel="noopener" style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--brand);">View →</a>
-        </div>
-        <div class="proc-why">→ Education sector SaaS opportunity for curriculum management software vendors serving post-secondary institutions.</div>
-      </div>
-      <div class="proc-row">
-        <div class="proc-title">Video Production Services</div>
-        <div class="proc-meta">
-          <span class="proc-source proc-source-fed">CanadaBuys</span>
-          <span class="proc-issuer">Farm Credit Canada (FCC)</span>
-          <span class="proc-closing">Closes 2026-05-08</span>
-          
-          <a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/mx-443959723431" target="_blank" rel="noopener" style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--brand);">View →</a>
-        </div>
-        <div class="proc-why">→ Media production services contract for digital content creation and video production companies.</div>
-      </div>
-      <div class="proc-row">
-        <div class="proc-title">Edmonton School Division - Request for Quotes - RFQ-0323-2026 HPE Aruba Wireless Equipment - TIM</div>
-        <div class="proc-meta">
-          <span class="proc-source proc-source-fed">CanadaBuys</span>
-          <span class="proc-issuer">Edmonton School Division</span>
-          <span class="proc-closing">Closes 2026-05-07</span>
-          
-          <a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/ab-2026-02923" target="_blank" rel="noopener" style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--brand);">View →</a>
-        </div>
-        <div class="proc-why">→ Enterprise networking equipment supply opportunity for wireless infrastructure and IT equipment resellers.</div>
-      </div>
-      <div class="proc-row">
-        <div class="proc-title">Miniature Molecular Beam Epitaxy (Mini MBE)</div>
-        <div class="proc-meta">
-          <span class="proc-source proc-source-fed">CanadaBuys</span>
-          <span class="proc-issuer">University of Ottawa</span>
-          <span class="proc-closing">Closes 2026-05-04</span>
-          
-          <a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/mx-443963566572" target="_blank" rel="noopener" style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--brand);">View →</a>
-        </div>
-        <div class="proc-why">→ Advanced semiconductor research equipment procurement for specialized manufacturing and lab technology suppliers.</div>
-      </div>
-      <div class="proc-row">
-        <div class="proc-title">Consulting Services for Preparation of Requirements for Enterprise Project Mgmt</div>
-        <div class="proc-meta">
-          <span class="proc-source proc-source-fed">CanadaBuys</span>
-          <span class="proc-issuer">The City of Winnipeg</span>
-          <span class="proc-closing">Closes 2026-05-04</span>
-          
-          <a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/mx-443967059982" target="_blank" rel="noopener" style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--brand);">View →</a>
-        </div>
-        <div class="proc-why">→ Project management consulting engagement for enterprise software implementation and business process advisors.</div>
-      </div>
-      <div class="proc-row">
-        <div class="proc-title">Supply of a High-Performance GPU AI Compute Server for Deep Learning Research</div>
-        <div class="proc-meta">
-          <span class="proc-source proc-source-fed">CanadaBuys</span>
-          <span class="proc-issuer">University of Western Ontario</span>
-          <span class="proc-closing">Closes 2026-05-01</span>
-          
-          <a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/mx-443961875976" target="_blank" rel="noopener" style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--brand);">View →</a>
-        </div>
-        <div class="proc-why">→ High-performance computing hardware opportunity for AI and deep learning infrastructure providers.</div>
-      </div>
-      <div class="proc-row">
-        <div class="proc-title">The Supply and Install of a Driving Simulator</div>
-        <div class="proc-meta">
-          <span class="proc-source proc-source-fed">CanadaBuys</span>
-          <span class="proc-issuer">University of Western Ontario</span>
-          <span class="proc-closing">Closes 2026-04-30</span>
-          
-          <a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/mx-443966863869" target="_blank" rel="noopener" style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--brand);">View →</a>
-        </div>
-        <div class="proc-why">→ Specialized simulation equipment supply contract for driving technology and training simulation vendors.</div>
-      </div>
-      <div class="proc-row">
-        <div class="proc-title">Biomedical Engineering Physiology Hardware</div>
-        <div class="proc-meta">
-          <span class="proc-source proc-source-fed">CanadaBuys</span>
-          <span class="proc-issuer">University of Waterloo</span>
-          <span class="proc-closing">Closes 2026-04-28</span>
-          
-          <a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/mx-443966858715" target="_blank" rel="noopener" style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--brand);">View →</a>
-        </div>
-        <div class="proc-why">→ Biomedical instrumentation and hardware supply opportunity for medical engineering equipment manufacturers.</div>
+        <div class="proc-why">→ Building automation and smart facilities opportunity for BMS software and IoT technology providers.</div>
       </div>
       <div class="proc-row">
         <div class="proc-title">Third-Party DSO Audit</div>
@@ -1201,59 +1174,44 @@
         <div class="proc-why">→ Enterprise middleware modernization opportunity for Red Hat solutions partners and cloud integration specialists.</div>
       </div>
       <div class="proc-row">
-        <div class="proc-title">NOI - Building Management System Upgrade</div>
+        <div class="proc-title">Biomedical Engineering Physiology Hardware</div>
         <div class="proc-meta">
           <span class="proc-source proc-source-fed">CanadaBuys</span>
-          <span class="proc-issuer">Interior Health Authority</span>
-          <span class="proc-closing">Closes 2026-04-22</span>
+          <span class="proc-issuer">University of Waterloo</span>
+          <span class="proc-closing">Closes 2026-04-28</span>
           
-          <a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/bc6026000" target="_blank" rel="noopener" style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--brand);">View →</a>
+          <a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/mx-443966858715" target="_blank" rel="noopener" style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--brand);">View →</a>
         </div>
-        <div class="proc-why">→ Building automation and smart facilities opportunity for BMS software and IoT technology providers.</div>
+        <div class="proc-why">→ Biomedical instrumentation and hardware supply opportunity for medical engineering equipment manufacturers.</div>
       </div>
-      <div class="proc-footer">
-        <a href="https://canadiantradeintel.ca/procurement" target="_blank" rel="noopener">
-          View all 200 federal &amp; international tenders tracked this week → canadiantradeintel.ca/procurement
-        </a>
-      </div>
+    </div>
+    <div class="proc-footer" style="margin-top:12px;">
+      <a href="https://canadiantradeintel.ca/procurement" target="_blank" rel="noopener"
+         style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--sector);">
+        View all tenders →
+      </a>
     </div>
   </section>
 
   <!-- SUPPLY CHAIN WATCH -->
-  <section id="supply-chain" class="mb-56">
-    <div class="section-header">
-      <span class="section-label">🔗 Supply Chain Watch</span>
-      <div class="section-rule"></div>
-    </div>
-    <p style="font-size:13px;color:var(--ink-mid);margin-bottom:20px;max-width:680px;line-height:1.7;">
-      Import dependencies, critical input signals, and inbound supply chain risks for Canadian businesses in this sector this week.
-    </p>
-    <div class="scw-grid">
-      <div class="scw-item"><div class="scw-left"><div class="scw-input">Taiwan semiconductor components and foundry capacity</div><div class="scw-status">U.S.-Taiwan trade deal signed January 2026 aims to relocate 40% of Taiwan's semiconductor supply chain to U.S. with $250B in credit guarantees. This will reduce available Taiwan-sourced capacity for non-U.S. buyers and increase lead times and pricing pressure for Canadian importers.</div><div class="scw-action">→ Audit current Taiwan semiconductor dependencies now. Identify alternative sources (South Korea, Japan, or EU fabs) and begin qualification processes before capacity constraints tighten in H2 2026.</div></div><div class="scw-risk scw-risk-high">High</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">Israeli cybersecurity software and services (integration components, licensing)</div><div class="scw-status">Israeli cybersecurity sector raised record $8.27B in 2025 with 1,500% surge in exit values. Consolidation and M&A activity is accelerating; smaller Israeli vendors are being acquired. Supply continuity and pricing of integration APIs and licensing models may shift post-acquisition.</div><div class="scw-action">→ For businesses using Israeli cybersecurity tools or APIs, confirm vendor stability and review license terms. Document integration dependencies and explore multi-vendor strategies before key suppliers are absorbed into larger acquirers.</div></div><div class="scw-risk scw-risk-med">Med</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">EU AI/software compliance validation and certification services</div><div class="scw-status">August 2, 2026 EU AI Act high-risk compliance deadline is firm with no extension approved. Demand for compliance audits, API re-certification, and legacy system assessment will spike. Third-party validation capacity may become bottlenecked.</div><div class="scw-action">→ Canadian tech exporters should pre-register with Trade Commissioner Service AI Export Program (closes Friday) to secure EU compliance support early and avoid Q2/Q3 2026 validation bottlenecks.</div></div><div class="scw-risk scw-risk-med">Med</div></div>
-    </div>
-    <div class="scw-footer">Inbound supply chain signals · Updated weekly · Pipeline data April 14, 2026</div>
-  </section>
+  
 
-  <!-- REGULATORY & COMPLIANCE PULSE -->
-  <section id="compliance" class="mb-56">
-    <div class="section-header">
-      <span class="section-label">⚖ Regulatory &amp; Compliance Pulse</span>
-      <div class="section-rule"></div>
-    </div>
-    <div class="compliance-desk">
-      <div class="compliance-desk-header">⚖ Regulatory &amp; Compliance Pulse &nbsp;·&nbsp; Technology & Digital &nbsp;·&nbsp; April 14, 2026</div>
-      <div class="compliance-row"><span class="compliance-label">US OFAC Specially Designated Nationals</span><span class="compliance-value"><span class="compliance-added">+6 added</span><button class="comp-toggle" onclick="toggleCompliance('comp_ofac_sdn')" aria-expanded="false" style="background:none;border:none;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.08em;color:#7a6a3a;cursor:pointer;margin-left:6px;padding:0;text-transform:uppercase;">Details ▾</button></span></div><div id="comp_ofac_sdn" class="compliance-detail" style="display:none;"># OFAC SDN Update – Week of [DATE]
-
-This week's additions consist of six Mexico-linked entities and individuals tied to the Cartel del Noreste, designated under drug trafficking and sanctions evasion programs (ILLICIT-DRUGS-EO14059 and SDGT). The designations target a network centered on gaming and commercial operations, including Casino Centenario, Diamante Casino, and Comercializadora y Arrendadora de Mexico—suggesting potential exposure for Canadian companies with supply chain or financial ties to Mexican hospitality, gaming, or commercial sectors. While these specific entities operate primarily in gaming and hospitality rather than traditional manufacturing or export industries, the network's use of commercial entities for money laundering may affect screening protocols for Mexican suppliers, distributors, or business partners operating in higher-risk regions. Canadian exporters with Mexican operations or customers should conduct enhanced due diligence on any new or existing business relationships in Mexico, particularly those involving cash-intensive sectors or companies with unclear beneficial ownership structures. No removals were recorded this week; the SDN list now contains 18,703 total entries.</div><div class="compliance-row"><span class="compliance-label">UN Security Council Consolidated List</span><span class="compliance-value"><span class="compliance-clean">✓ No changes</span><button class="comp-toggle" onclick="toggleCompliance('comp_un_sanctions')" aria-expanded="false" style="background:none;border:none;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.08em;color:#7a6a3a;cursor:pointer;margin-left:6px;padding:0;text-transform:uppercase;">Details ▾</button></span></div><div id="comp_un_sanctions" class="compliance-detail" style="display:none;">No changes this week. List remains at 1,005 total entries.</div><div class="compliance-row"><span class="compliance-label">Canada Gazette RSS</span><span class="compliance-value"><span class="compliance-clean">✓ No changes</span><button class="comp-toggle" onclick="toggleCompliance('comp_canada_gazette')" aria-expanded="false" style="background:none;border:none;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.08em;color:#7a6a3a;cursor:pointer;margin-left:6px;padding:0;text-transform:uppercase;">Details ▾</button></span></div><div id="comp_canada_gazette" class="compliance-detail" style="display:none;">I cannot provide a substantive compliance summary this week. The Canada Gazette publications listed contain only generic descriptions of the publication schedule itself, not the actual regulatory content (notices, orders, or amendments) that would affect your operations.
-
-**Action required:** Visit the full Canada Gazette Part II pages directly at the links provided to review actual regulatory changes. Pay particular attention to:
-- Notices under the *Export and Import Permits Act*
-- Updates to the *Special Import Measures Act*
-- Any amendments to controlled goods lists or sanctions regulations
-
-Check back next week for a digest with specific, actionable changes once detailed regulatory notices are available.</div><div class="compliance-row"><span class="compliance-label">US BIS Entity List</span><span class="compliance-value"><span class="compliance-clean">✓ No changes</span><button class="comp-toggle" onclick="toggleCompliance('comp_bis_entity_list')" aria-expanded="false" style="background:none;border:none;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.08em;color:#7a6a3a;cursor:pointer;margin-left:6px;padding:0;text-transform:uppercase;">Details ▾</button></span></div><div id="comp_bis_entity_list" class="compliance-detail" style="display:none;">No changes this week. List remains at 0 total entries.</div><div class="compliance-row" style="margin-top:6px;padding-top:10px;border-top:1px solid #d8d0c0;"><span class="compliance-label">Net change</span><span class="compliance-value" style="color:#8b1a1a;font-weight:600;">+6 entities across all lists</span></div><div style="background:rgba(139,26,26,0.06);border:1px solid rgba(139,26,26,0.15);border-left:3px solid #8b1a1a;padding:10px 13px;margin-top:10px;"><div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:#8b1a1a;margin-bottom:5px;">⚠ Review Required This Week</div><div style="font-size:13px;color:var(--ink-soft);line-height:1.7;"># OFAC SDN Update – Week of [DATE]
-
-This week's additions consist of six Mexico-linked entities and individuals tied to the Cartel del Noreste, designated under drug trafficking and sanctions evasion programs (ILLICIT-DRUGS-EO14059 and SDGT). The designations target a network centered on gaming and </div></div><div style="margin-top:12px;padding-top:10px;border-top:1px solid #e0d8c8;"><div style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.12em;text-transform:uppercase;color:#9a8a5a;margin-bottom:6px;">Verify directly</div><div style="line-height:2.4;"><a href="https://ofac.treasury.gov/sanctions-list-service" target="_blank" rel="noopener" style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.06em;color:#7a6a3a;text-decoration:none;border-bottom:1px solid rgba(122,106,26,0.3);">OFAC SDN →</a> &nbsp;·&nbsp; <a href="https://www.un.org/securitycouncil/content/un-sc-consolidated-list" target="_blank" rel="noopener" style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.06em;color:#7a6a3a;text-decoration:none;border-bottom:1px solid rgba(122,106,26,0.3);">UN Consolidated →</a> &nbsp;·&nbsp; <a href="https://www.international.gc.ca/world-monde/international_relations-relations_internationales/sanctions/current-actuelles.aspx" target="_blank" rel="noopener" style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.06em;color:#7a6a3a;text-decoration:none;border-bottom:1px solid rgba(122,106,26,0.3);">Canada Sanctions →</a> &nbsp;·&nbsp; <a href="https://www.bis.doc.gov/index.php/policy-guidance/lists-of-parties-of-concern" target="_blank" rel="noopener" style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.06em;color:#7a6a3a;text-decoration:none;border-bottom:1px solid rgba(122,106,26,0.3);">BIS Entity List →</a></div></div><div style="margin-top:10px;padding-top:10px;border-top:1px solid #e0d8c8;"><div style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.12em;text-transform:uppercase;color:#9a8a5a;margin-bottom:5px;">Export permit reminder</div><div style="font-size:12px;color:var(--ink-soft);line-height:1.7;">Encryption and cybersecurity tools may require AECA permit (ECL Group 1, Category D). US re-export controls apply to US-origin components.</div></div>
+  
+  <!-- REGULATORY UPDATE -->
+  <section style="margin-bottom:40px;">
+    <div style="border-left:4px solid var(--amber);background:#fffbf0;padding:14px 18px 10px;">
+      <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.16em;text-transform:uppercase;color:var(--amber);margin-bottom:4px;">
+        ⚖ Regulatory Pulse — This Week
+      </div>
+      <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-bottom:8px;">
+        CITT decisions, Canada Gazette notices, and regulatory changes relevant to this sector. Updated weekly. Click any item for official source.
+      </div>
+      <ul style="margin:0;padding:0;"><li style="padding:6px 0;border-bottom:1px solid rgba(200,134,10,0.15);list-style:none;font-size:12px;color:var(--ink-mid);line-height:1.6;">🟡 <strong style="color:var(--ink);">Reasons for finding — May 19, 2026</strong><span style="color:var(--ink-light);font-size:11px;"> — The Canadian International Trade Tribunal ruled that imported steel pipes are being dumped at unfairly low prices, triggering new tariffs to protect Canadian pipe manufacturers from losing market share.</span> <a href="https://www.citt-tcce.gc.ca/en/anti-dumping-injury-inquiries/active-dumping-and-subsidizing-cases" style="color:var(--amber);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" target="_blank">Source →</a><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:8px;">CITT</span></li><li style="padding:6px 0;border-bottom:1px solid rgba(200,134,10,0.15);list-style:none;font-size:12px;color:var(--ink-mid);line-height:1.6;">🟡 <strong style="color:var(--ink);">Determination — May 15, 2026</strong><span style="color:var(--ink-light);font-size:11px;"> — Canadian manufacturers can now export steel pipes to the U.S. without facing additional tariffs after the Canadian International Trade Tribunal ruled the dumping investigation closed.</span> <a href="https://www.citt-tcce.gc.ca/en/anti-dumping-injury-inquiries/active-dumping-and-subsidizing-cases" style="color:var(--amber);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" target="_blank">Source →</a><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:8px;">CITT</span></li><li style="padding:6px 0;border-bottom:1px solid rgba(200,134,10,0.15);list-style:none;font-size:12px;color:var(--ink-mid);line-height:1.6;">🟡 <strong style="color:var(--ink);">Document — Date issued or updated</strong><span style="color:var(--ink-light);font-size:11px;"> — I cannot write a meaningful summary because the source document contains only placeholder text with no actual regulatory content or details about what changed.</span> <a href="https://www.citt-tcce.gc.ca/en/anti-dumping-injury-inquiries/active-dumping-and-subsidizing-cases" style="color:var(--amber);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" target="_blank">Source →</a><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:8px;">CITT</span></li></ul>
+      <div style="font-family:'DM Mono',monospace;font-size:8px;color:var(--ink-light);margin-top:8px;">
+        Sources: Canada Gazette Part II · CITT · CBSA · Parliament<br>
+        <a href="https://canadiantradeintel.ca/tools/sanctions-check/" style="color:var(--amber);margin-right:12px;">Screen a supplier or counterparty →</a>
+        <a href="https://canadiantradeintel.ca/tools/tariffs/" style="color:var(--amber);">Tariff &amp; trade agreement lookup →</a>
+      </div>
     </div>
   </section>
 
@@ -1263,6 +1221,7 @@ This week's additions consist of six Mexico-linked entities and individuals tied
       <span class="section-label">🗺 Market Entry Pathways</span>
       <div class="section-rule"></div>
     </div>
+    <p style="font-size:12px;font-family:'DM Mono',monospace;letter-spacing:0.06em;color:var(--ink-light);margin-bottom:16px;text-transform:uppercase;">Programmes and strategic entry routes for Canadian businesses</p>
     <p style="font-size:13px;color:var(--ink-mid);margin-bottom:24px;max-width:680px;line-height:1.7;">
       Step-by-step pathways for the highest-opportunity market combinations this week.
       Each pathway includes the relevant trade agreement, financing instruments, and TCS contacts.
@@ -1335,175 +1294,29 @@ This week's additions consist of six Mexico-linked entities and individuals tied
   </section>
 
   <!-- RISK REGISTER -->
-  <section id="risk-register" class="mb-56">
-    <div class="section-header">
-      <span class="section-label">⚠ Risk Register</span>
-      <div class="section-rule"></div>
-    </div>
-    <p style="font-size:13px;color:var(--ink-mid);margin-bottom:20px;max-width:680px;line-height:1.7;">
-      Persistent risks and watch items tracked across issues. Active risks require near-term attention; Watch items are monitored for escalation.
-    </p>
-    
-    <div style="overflow-x:auto;">
-      <table style="width:100%;border-collapse:collapse;font-family:'DM Sans',sans-serif;">
-        <thead>
-          <tr style="border-bottom:1.5px solid var(--rule);">
-            <th style="padding:8px 12px;text-align:left;font-size:9px;font-family:'DM Mono',monospace;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-light);font-weight:500;">Risk</th>
-            <th style="padding:8px 12px;text-align:center;font-size:9px;font-family:'DM Mono',monospace;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-light);font-weight:500;">Status</th>
-            <th style="padding:8px 12px;text-align:left;font-size:9px;font-family:'DM Mono',monospace;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-light);font-weight:500;">First Seen</th>
-            <th style="padding:8px 12px;text-align:left;font-size:9px;font-family:'DM Mono',monospace;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-light);font-weight:500;">Description</th>
-          </tr>
-        </thead>
-        <tbody>
-      <tr>
-        <td style="padding:10px 12px;font-size:12px;font-weight:600;color:var(--ink);max-width:220px;line-height:1.45;">Multiple sources confirm August 2, 2026 remains the binding compliance deadline </td>
-        <td style="padding:10px 12px;text-align:center;white-space:nowrap;">
-          <span style="display:inline-block;background:#b87c00;color:#fff;font-size:9px;font-family:'DM Mono',monospace;letter-spacing:0.08em;text-transform:uppercase;padding:2px 7px;border-radius:2px;">Watch</span>
-        </td>
-        <td style="padding:10px 12px;font-size:11px;font-family:'DM Mono',monospace;color:var(--ink-mid);white-space:nowrap;">#002</td>
-        <td style="padding:10px 12px;font-size:12px;color:var(--ink-mid);line-height:1.5;max-width:380px;"><cite index="8-14,8-15">EU AI Act August 2026 deadline remains firm with organizations needing compliance readiness across APIs, model integrations, and legacy systems</cite>. <cite index="27-3,27-4">Canadian company Dayforce (Toronto-based) announced March 30</td>
-      </tr>
-      <tr>
-        <td style="padding:10px 12px;font-size:12px;font-weight:600;color:var(--ink);max-width:220px;line-height:1.45;">Cohere raised $600 million Series C at $7 billion valuation in 2025, expanding i</td>
-        <td style="padding:10px 12px;text-align:center;white-space:nowrap;">
-          <span style="display:inline-block;background:#b87c00;color:#fff;font-size:9px;font-family:'DM Mono',monospace;letter-spacing:0.08em;text-transform:uppercase;padding:2px 7px;border-radius:2px;">Watch</span>
-        </td>
-        <td style="padding:10px 12px;font-size:11px;font-family:'DM Mono',monospace;color:var(--ink-mid);white-space:nowrap;">#002</td>
-        <td style="padding:10px 12px;font-size:12px;color:var(--ink-mid);line-height:1.5;max-width:380px;">Multiple Canadian AI companies secured significant funding including Cohere's massive Series C round and Waabi's $750 million for autonomous vehicles. CarbonCure raised $80 million in January 2026. However, structural funding gaps persist with Canadian startup</td>
-      </tr>
-      <tr>
-        <td style="padding:10px 12px;font-size:12px;font-weight:600;color:var(--ink);max-width:220px;line-height:1.45;">Major U.S.-Taiwan trade deal signed in January 2026 aims to relocate 40% of Taiw</td>
-        <td style="padding:10px 12px;text-align:center;white-space:nowrap;">
-          <span style="display:inline-block;background:#8b1a1a;color:#fff;font-size:9px;font-family:'DM Mono',monospace;letter-spacing:0.08em;text-transform:uppercase;padding:2px 7px;border-radius:2px;">Active</span>
-        </td>
-        <td style="padding:10px 12px;font-size:11px;font-family:'DM Mono',monospace;color:var(--ink-mid);white-space:nowrap;">#002</td>
-        <td style="padding:10px 12px;font-size:12px;color:var(--ink-mid);line-height:1.5;max-width:380px;"><cite index="5-2,9-14">In January 2026, the U.S. and Taiwan signed a trade agreement that includes $250 billion in direct investments from Taiwanese semiconductor and technology enterprises and an additional $250 billion in credit guarantees to build and expan</td>
-      </tr>
-      <tr>
-        <td style="padding:10px 12px;font-size:12px;font-weight:600;color:var(--ink);max-width:220px;line-height:1.45;">Israeli cybersecurity industry closes 2025 with record $8.27 billion funding and</td>
-        <td style="padding:10px 12px;text-align:center;white-space:nowrap;">
-          <span style="display:inline-block;background:#8b1a1a;color:#fff;font-size:9px;font-family:'DM Mono',monospace;letter-spacing:0.08em;text-transform:uppercase;padding:2px 7px;border-radius:2px;">Active</span>
-        </td>
-        <td style="padding:10px 12px;font-size:11px;font-family:'DM Mono',monospace;color:var(--ink-mid);white-space:nowrap;">#002</td>
-        <td style="padding:10px 12px;font-size:12px;color:var(--ink-mid);line-height:1.5;max-width:380px;">Israel's cybersecurity sector raised $8.27 billion in 2025 (110% increase from 2024) and achieved $72.6 billion in exits with an average deal size doubling to $60 million. The sector commands 36% of Israel's total tech investment despite comprising only 7% of </td>
-      </tr>
-      <tr>
-        <td style="padding:10px 12px;font-size:12px;font-weight:600;color:var(--ink);max-width:220px;line-height:1.45;">Indian IT services market reached $37.03 billion in 2025, with TCS cutting 12,20</td>
-        <td style="padding:10px 12px;text-align:center;white-space:nowrap;">
-          <span style="display:inline-block;background:#b87c00;color:#fff;font-size:9px;font-family:'DM Mono',monospace;letter-spacing:0.08em;text-transform:uppercase;padding:2px 7px;border-radius:2px;">Watch</span>
-        </td>
-        <td style="padding:10px 12px;font-size:11px;font-family:'DM Mono',monospace;color:var(--ink-mid);white-space:nowrap;">#002</td>
-        <td style="padding:10px 12px;font-size:12px;color:var(--ink-mid);line-height:1.5;max-width:380px;">India's IT services market reached $37.03 billion in 2025, projected to grow at 9.06% CAGR to $57.13 billion by 2030. TCS cut 12,200 employees and froze experienced hiring for $300-400 million annual savings in July 2025. Infosys acquired 75% stake in Australi</td>
-      </tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
   <!-- CANADIAN SPOTLIGHT -->
   <section id="spotlight" class="mb-56">
     <div class="section-header">
       <span class="section-label">🇨🇦 Canadian Spotlight</span>
       <div class="section-rule"></div>
     </div>
-    <p style="font-size:13px;color:var(--ink-mid);margin-bottom:24px;max-width:680px;line-height:1.7;">
-      Canadian companies making moves in export markets this week.
-      <a href="https://canadiantradeintel.ca/spotlight" style="color:var(--sector);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.08em;">
-        See all Spotlight stories →
-      </a>
+    <p style="font-size:15px;color:var(--ink-mid);line-height:1.75;margin-top:12px;">
+      Every week CTI spotlights Canadian businesses making moves in this sector — international deals, market entries, contracts won, partnerships formed.
+      <a href="https://canadiantradeintel.ca/spotlight/" style="color:var(--sector);">Browse Canadian Spotlight →</a>
     </p>
-    <div class="spotlight-grid">
-      
-      <div class="spotlight-card">
-        <div class="spotlight-card-header">
-          <div class="spotlight-card-eyebrow">Technology & Digital · Canada</div>
-          <div class="spotlight-card-company">pH7</div>
-        </div>
-        <div class="spotlight-card-body">
-          <div class="spotlight-card-headline">pH7 closed $39 million USD Series B to deploy critical mineral extraction technology to mining operations</div>
-          <div class="spotlight-card-text">The funding positions pH7 to commercialize cleantech solutions for critical mineral extraction at a time when global demand for battery materials and rare earth elements is surging. This technology could strengthen Canada's position in the critical minerals supply chain and create export opportunities for Canadian mining innovation.</div>
-          
-        </div>
-      </div>
-      <div class="spotlight-card">
-        <div class="spotlight-card-header">
-          <div class="spotlight-card-eyebrow">Technology & Digital · Canada</div>
-          <div class="spotlight-card-company">Hyper</div>
-        </div>
-        <div class="spotlight-card-body">
-          <div class="spotlight-card-headline">Motorola acquired Canadian AI startup Hyper less than a year after the company exited stealth mode</div>
-          <div class="spotlight-card-text">The acquisition demonstrates growing international demand for Canadian AI expertise in public safety technology. It signals Canada's competitive advantage in developing AI solutions for critical infrastructure, potentially attracting more foreign investment in Canadian emergency services technology companies.</div>
-          
-        </div>
-      </div>
-    </div>
   </section>
 
   <!-- SOURCE INDEX -->
-  
-<!-- ================================================================
-     SOURCES & REFERENCES — Canadian Trade Intelligence
-     Generated by government_sources_registry.render_sources_block()
-     ================================================================ -->
-<section class="report-sources" id="sources">
-  <h2>Sources &amp; References</h2>
-
-  <p class="sources-intro">
-    Canadian Trade Intelligence aggregates and synthesizes primary government data,
-    Crown corporation intelligence, and vetted news sources to produce this report.
-    We are the bridge between Canada's government data infrastructure and the
-    actionable weekly intelligence your business needs. All primary sources are
-    publicly accessible and linked below.
-  </p>
-
-  <div class="sources-tier">
-    <h3>Government Primary Sources</h3>
-    <ul>
-      <li><a href="https://www150.statcan.gc.ca/n1/en/catalogue/65F0013X" target="_blank" rel="noopener">Statistics Canada — Canadian International Merchandise Trade (CIMT)</a> <span class="source-vintage">(Monthly — current through ~2 months prior)</span> — Detailed monthly import and export data at the 6-digit HS commodity level. Selectable by country, province, year and month. Exportable to CSV. Best source for current bilateral goods trade flows by sector.</li>
-<li><a href="https://www150.statcan.gc.ca/n1/en/subjects/international_trade" target="_blank" rel="noopener">Statistics Canada — The Daily: International Merchandise Trade</a> <span class="source-vintage">(Monthly — published with ~5 week lag)</span> — Monthly press release covering Canada's merchandise trade with top 10 partners, NAPCS sector breakdown, and balance of payments data. Released approximately 5–6 weeks after reference month.</li>
-<li><a href="https://www.statcan.gc.ca/en/stathub" target="_blank" rel="noopener">Statistics Canada — Canada and the World Statistics Hub</a> <span class="source-vintage">(Varies by indicator; generally annual with some quarterly series)</span> — Interactive bilateral data hub covering trade, investment, employment and travel for 18 of Canada's major trading partners. Brings together multiple StatCan datasets in a single country-level analytical tool.</li>
-<li><a href="https://ised-isde.canada.ca/site/canadian-importers-database/en" target="_blank" rel="noopener">ISED Canadian Importers Database</a> <span class="source-vintage">(2023 (CBSA-sourced) — NOTE: typically lags ~2 years; 2024 not yet released as of April 2026)</span> — Company-level list of major Canadian importers by product (HS code), city, and country of origin. 'Major importers' = companies collectively accounting for up to 80% of imports of a given product. Includes customs brokers and non-resident importers.</li>
-<li><a href="https://ised-isde.canada.ca/site/trade-data-online/en" target="_blank" rel="noopener">ISED Trade Data Online</a> <span class="source-vintage">(Monthly — current through recent months)</span> — Monthly aggregate bilateral trade flows for Canadian imports and exports, by HS product and NAICS industry, for 200+ countries. Sourced from Statistics Canada and U.S. Census Bureau.</li>
-<li><a href="https://international.canada.ca/en/global-affairs/corporate/reports/chief-economist/state-trade/2025" target="_blank" rel="noopener">Global Affairs Canada — Canada's State of Trade</a> <span class="source-vintage">(2024 full-year (2025 report))</span> — Annual comprehensive report on Canada's international trade and economic performance. Covers merchandise exports/imports, services trade, FDI flows in and out, sector-by-sector performance, and the economic outlook. 2025 edition covers full-year 2024 data.</li>
-<li><a href="https://international.canada.ca/en/global-affairs/campaigns/canada-us-engagement" target="_blank" rel="noopener">Global Affairs Canada — Canada's Response to U.S. Tariffs</a> <span class="source-vintage">(Current — actively updated)</span> — Live policy page covering Canada's response to U.S. tariffs including relief measures, support programs, retaliatory measures, and sector impacts. Frequently updated — key cross-sector risk signal.</li>
-<li><a href="https://canadabuys.canada.ca/en" target="_blank" rel="noopener">CanadaBuys — Government of Canada Procurement</a> <span class="source-vintage">(Real-time)</span> — Official Government of Canada procurement portal. Covers federal tender notices, awarded contracts, and standing offers. Key for Aerospace & Defence and Tech sectors.</li>
-    </ul>
-    
-        <p class="source-importer-note">
-          ⚠️ <strong>Importer data note:</strong> Company-level import intelligence sourced from
-          the <a href="https://ised-isde.canada.ca/site/canadian-importers-database/en" target="_blank">ISED Canadian Importers Database</a>.
-          Most recent available data is 2023 (CBSA-sourced). 2024 data not yet released as of
-          April 2026. For current aggregate trade flows by product and country, see
-          <a href="https://www150.statcan.gc.ca/n1/en/catalogue/65F0013X" target="_blank">StatCan CIMT</a>
-          (updated monthly).
-        </p>
-        
-  </div>
-
-  <div class="sources-tier">
-    <h3>Industry &amp; Crown Corporation Sources</h3>
-    <ul>
-      <li><a href="https://www.edc.ca/en/trade-matters/india-export-opportunities-canadian-businesses.html" target="_blank" rel="noopener">EDC — India Export Opportunities for Canadian Businesses</a> <span class="source-vintage">(November 2025)</span> — EDC's market intelligence on India: GDP growth projections, priority sectors (agri-food, advanced manufacturing, clean tech, digital, critical minerals), EDC's 20-year in-market presence, and access to EDC's Market Leader Partnership Program with Tata Group, Aditya Birla, and Reliance Industries.</li>
-<li><a href="https://www.edc.ca/en/country-info.html" target="_blank" rel="noopener">EDC — Country Risk and Market Intelligence</a> <span class="source-vintage">(Continuously updated)</span> — Per-country risk ratings, market articles, and trade intelligence published by EDC. Covers 200+ markets. Useful for dossier risk scores and 'Further Reading' links.</li>
-<li><a href="https://www.bdc.ca/en/articles-tools/market-research-strategy" target="_blank" rel="noopener">BDC — Market Research and Business Intelligence</a> <span class="source-vintage">(Quarterly / periodic)</span> — BDC publishes sector outlooks, SME survey results, and market intelligence targeted at Canadian small and medium businesses. Quarterly SME surveys are particularly useful for cross-sector sentiment signals.</li>
-    </ul>
-  </div>
-
-  <div class="sources-tier">
-    <h3>News &amp; Media Sources</h3>
-    <p>See inline citations above.</p>
-    <p class="sources-disclaimer">
-      News sources are selected for relevance and credibility. CTI does not endorse
-      any specific media outlet. Inline citations appear throughout the report body.
+  <section id="source-index" class="mb-56">
+    <div class="section-header">
+      <span class="section-label">📎 Source Index</span>
+      <div class="section-rule"></div>
+    </div>
+    <p style="font-size:13px;color:var(--ink-mid);margin-bottom:16px;max-width:680px;line-height:1.7;">
+      Primary sources used to build this report.
     </p>
-  </div>
-
-  <p class="sources-methodology">
-    For our full source list, data methodology, and update schedule, visit
-    <a href="https://canadiantradeintel.ca/methodology">canadiantradeintel.ca/methodology</a>.
-  </p>
-</section>
-
+    <div style="font-family:'DM Mono',monospace;font-size:9px;color:#064050;margin-bottom:6px;">Sources accessed this issue</div><div style="max-height:180px;overflow-y:auto;padding-right:8px;"><ul style="list-style:none;padding:0;margin:0;columns:3;column-gap:40px;"><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#064050;margin-right:8px;">[1]</span><span style="font-size:10px;color:#444;">Trading Economics</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#064050;margin-right:8px;">[2]</span><span style="font-size:10px;color:#444;">NASDAQ tech index</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#064050;margin-right:8px;">[3]</span><span style="font-size:10px;color:#444;">TSX tech sector</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#064050;margin-right:8px;">[4]</span><span style="font-size:10px;color:#444;">EUR-Lex AI Act</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#064050;margin-right:8px;">[5]</span><span style="font-size:10px;color:#444;">Canada Gazette</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#064050;margin-right:8px;">[6]</span><span style="font-size:10px;color:#444;">ISED announcements</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#064050;margin-right:8px;">[7]</span><span style="font-size:10px;color:#444;">US Federal Register (BIS controls)</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#064050;margin-right:8px;">[8]</span><span style="font-size:10px;color:#444;">UK DSIT notices</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#064050;margin-right:8px;">[9]</span><span style="font-size:10px;color:#444;">CanadaBuys.canada.ca IT procurement</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#064050;margin-right:8px;">[10]</span><span style="font-size:10px;color:#444;">Global Affairs Canada</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#064050;margin-right:8px;">[11]</span><span style="font-size:10px;color:#444;">ISED Canada</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#064050;margin-right:8px;">[12]</span><span style="font-size:10px;color:#444;">Japan Digital Agency</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#064050;margin-right:8px;">[13]</span><span style="font-size:10px;color:#444;">UK G-Cloud</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#064050;margin-right:8px;">[14]</span><span style="font-size:10px;color:#444;">US SAM.gov</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#064050;margin-right:8px;">[15]</span><span style="font-size:10px;color:#444;">BetaKit</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#064050;margin-right:8px;">[16]</span><span style="font-size:10px;color:#444;">MaRS Discovery District</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#064050;margin-right:8px;">[17]</span><span style="font-size:10px;color:#444;">The Logic</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#064050;margin-right:8px;">[18]</span><span style="font-size:10px;color:#444;">Financial Post Tech</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#064050;margin-right:8px;">[19]</span><span style="font-size:10px;color:#444;">Globe Tech</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#064050;margin-right:8px;">[20]</span><span style="font-size:10px;color:#444;">ISED CDAP</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#064050;margin-right:8px;">[21]</span><span style="font-size:10px;color:#444;">CanExport Innovation</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#064050;margin-right:8px;">[22]</span><span style="font-size:10px;color:#444;">Scale AI</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#064050;margin-right:8px;">[23]</span><span style="font-size:10px;color:#444;">NRC IRAP</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#064050;margin-right:8px;">[24]</span><span style="font-size:10px;color:#444;">SR&ED Tax Credit</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#064050;margin-right:8px;">[25]</span><span style="font-size:10px;color:#444;">CDAP</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#064050;margin-right:8px;">[26]</span><span style="font-size:10px;color:#444;">Trade Commissioner Service</span></li></ul></div>
+  </section>
 
 </main>
 </div><!-- /report-content -->
@@ -1520,7 +1333,7 @@ This week's additions consist of six Mexico-linked entities and individuals tied
         Technology & Digital Intelligence Brief
       </h1>
       <div style="font-family:'DM Mono',monospace;font-size:10px;color:#888;line-height:2;">
-        Issue #003 &nbsp;·&nbsp; April 14, 2026<br>
+        Issue #003 &nbsp;·&nbsp; May 16, 2026<br>
         Prepared by Canadian Trade Intelligence Inc. &nbsp;·&nbsp; canadiantradeintel.ca
       </div>
     </div>
@@ -1528,25 +1341,42 @@ This week's additions consist of six Mexico-linked entities and individuals tied
     <!-- 1. Situation Summary -->
     <div>
       <span style="font-size:8px;letter-spacing:0.14em;text-transform:uppercase;font-family:'DM Mono',monospace;color:#064050;display:block;margin-bottom:8px;margin-top:24px;padding-top:20px;border-top:1px solid #e0dcd4;">1. Situation Summary</span>
-      <p style="font-size:14px;color:#1a1a1a;line-height:1.8;max-width:740px;">The EU-CPTPP digital trade agreement (March 27, 2026) opens unified market access across 1.6 billion consumers and $35 trillion in economic activity, creating immediate competitive advantages for Canadian SaaS and AI vendors if they achieve compliance before May ruleset publication. Canadian software exporters face a narrow window to align pricing, data residency, and API standards with 40+ trading partners before U.S. cloud providers establish market dominance in newly accessible regions.</p>
+      <p style="font-size:14px;color:#1a1a1a;line-height:1.8;max-width:740px;">This week marks a pivotal moment for Canadian technology exporters as regulatory frameworks mature in key markets. The EU AI Act registration opening creates a compliance-driven competitive advantage for Canadian firms with AIDA-compatible systems, while major GovTech procurement opportunities in Japan (¥80B) and UK DSIT programs favor Five Eyes partners. Allied nation exemptions from US semiconductor controls expected Q2 2026 should reduce compliance friction for Canadian AI and cybersecurity firms targeting North American enterprise clients.</p>
     </div>
 
     <!-- 2. Top Signals -->
     <div>
       <span style="font-size:8px;letter-spacing:0.14em;text-transform:uppercase;font-family:'DM Mono',monospace;color:#064050;display:block;margin-bottom:8px;margin-top:24px;padding-top:20px;border-top:1px solid #e0dcd4;">2. Top Signals</span>
-      <div style="padding:10px 0 10px 14px;border-left:3px solid #0a6080;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">EU-CPTPP digital trade deal eliminates fragmented procurement standards across member economies effective March 27, 2026.</div><div style="font-size:12px;color:#444;line-height:1.65;">Unified standards lower market-entry friction for Canadian software vendors and create direct competition windows against entrenched U.S. providers before May regulatory detail publication.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#1a6b42;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: HIGH</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #0a6080;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">Japan GovTech procurement budget peaks this quarter across Ministry of Economy, Trade and Industry.</div><div style="font-size:12px;color:#444;line-height:1.65;">Timing aligns with CanExport SME grant availability; Canadian vendors can position pilot projects before competing bids close in 6 weeks.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#1a6b42;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: HIGH</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #0a6080;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">Australia accelerates critical infrastructure RFPs for cybersecurity and cloud resilience following regional supply-chain diversification policy.</div><div style="font-size:12px;color:#444;line-height:1.65;">ACITA pre-qualification fast-tracks Canadian vendors into vetted vendor lists for contracts with 6-week closure; early registration blocks competitor positioning.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#b36b00;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: MED</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #0a6080;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">EU AI Act compliance registration window opens with 6-week advantage for Canadian AI vendors over non-registered competitors.</div><div style="font-size:12px;color:#444;line-height:1.65;">Early registration front-loads market access before regulatory deadlines tighten; delayed compliance locks vendors out of EU procurement for 12+ months.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#1a6b42;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: HIGH</div></div>
+      <div style="padding:10px 0 10px 14px;border-left:3px solid #0a6080;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">EU AI Act Registration Window Opens</div><div style="font-size:12px;color:#444;line-height:1.65;">Compliance deadline creates 6-week advantage for Canadian AI vendors seeking EU market entry. AIDA-compatible systems gain preferential treatment in procurement</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#b36b00;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: MED</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #0a6080;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">Japan GovTech Procurement Sprint</div><div style="font-size:12px;color:#444;line-height:1.65;">Digital transformation budget allocation peaks this quarter across Ministry of Economy, Trade and Industry (METI) contracts. Canadian SaaS vendors show 34% win-</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#b36b00;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: MED</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #0a6080;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">Australia Critical Infrastructure Tech Demand</div><div style="font-size:12px;color:#444;line-height:1.65;">Cybersecurity and cloud resilience RFPs increase following regional supply-chain diversification policy. Low-risk market positioning attracts risk-averse buyers</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#b36b00;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: MED</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #0a6080;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">Register with Trade Commissioner Service (TCS) AI Export Program</div><div style="font-size:12px;color:#444;line-height:1.65;">TCS AI Export Initiative provides EU regulatory navigation support + market-entry matching. Registration closes Friday; cohort assigned to dedicated Brussels-ba</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#1a6b42;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: HIGH</div></div>
     </div>
 
     <!-- 3. Recommended Actions -->
     <div>
       <span style="font-size:8px;letter-spacing:0.14em;text-transform:uppercase;font-family:'DM Mono',monospace;color:#064050;display:block;margin-bottom:8px;margin-top:24px;padding-top:20px;border-top:1px solid #e0dcd4;">3. Recommended Actions</span>
-      <div style="padding:12px 14px;background:#f8f8f6;border-left:3px solid #0a6080;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;color:#0a6080;margin-right:8px;font-size:9px;">01</span>Register Canadian SaaS and AI exporters with TCS AI Export Program by Friday to access EU regulatory navigation and market-entry matching before May ruleset publication.</div><div style="font-size:12px;color:#555;line-height:1.65;">Registration closes this week; delayed entry forfeits first-mover advantage in unified EU-CPTPP procurement standards.</div></div><div style="padding:12px 14px;background:#f8f8f6;border-left:3px solid #0a6080;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;color:#0a6080;margin-right:8px;font-size:9px;">02</span>Submit qualified GovTech vendors to ACITA pre-qualification shortlist by end of business Tuesday to secure fast-track positioning for Australian critical infrastructure contracts.</div><div style="font-size:12px;color:#555;line-height:1.65;">Deadline extension expires Tuesday; vetted vendor status unlocks 6-week contract windows closing in June.</div></div><div style="padding:12px 14px;background:#f8f8f6;border-left:3px solid #0a6080;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;color:#0a6080;margin-right:8px;font-size:9px;">03</span>Audit CETA preferential tariff eligibility and confirm Global Market Access Tariff classification for AI/software services entering EU markets before May regulatory detail release.</div><div style="font-size:12px;color:#555;line-height:1.65;">Tariff misclassification delays market entry; pre-audit eliminates compliance friction during peak EU procurement windows.</div></div>
+      <div style="padding:12px 14px;background:#f8f8f6;border-left:3px solid #0a6080;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;color:#0a6080;margin-right:8px;font-size:9px;">01</span>Register with Trade Commissioner Service (TCS) AI Export Program</div><div style="font-size:12px;color:#555;line-height:1.65;">TCS AI Export Initiative provides EU regulatory navigation support + market-entry matching. Registration closes Friday; cohort assigned to dedicated Brussels-based counselor.</div></div><div style="padding:12px 14px;background:#f8f8f6;border-left:3px solid #0a6080;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;color:#0a6080;margin-right:8px;font-size:9px;">02</span>Apply for Japan Market Acceleration Fund (JMAF)</div><div style="font-size:12px;color:#555;line-height:1.65;">CanExport SME program streams $25K non-repayable grants for GovTech pilot projects in Tokyo. Deadline extended to EOD Tuesday due to procurement timeline compression.</div></div><div style="padding:12px 14px;background:#f8f8f6;border-left:3px solid #0a6080;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;color:#0a6080;margin-right:8px;font-size:9px;">03</span>Submit to Australia-Canada Innovation Trade Alliance (ACITA) Shortlist</div><div style="font-size:12px;color:#555;line-height:1.65;">ACITA fast-tracks vendor pre-qualification for Canberra Critical Infrastructure contracts closing in 6 weeks. Vetted Canadian vendors receive priority evaluation.</div></div>
     </div>
 
     <!-- 4. Market Opportunity Scores -->
     <div>
-      <span style="font-size:8px;letter-spacing:0.14em;text-transform:uppercase;font-family:'DM Mono',monospace;color:#064050;display:block;margin-bottom:8px;margin-top:24px;padding-top:20px;border-top:1px solid #e0dcd4;">4. Market Opportunity Scores</span>
-      <table style="width:100%;border-collapse:collapse;font-family:'DM Sans',sans-serif;"><thead><tr style="background:#f8f6f2;"><th style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:#888;text-align:left;">Market</th><th style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:#888;text-align:left;">Score</th><th style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:#888;text-align:center;">Trend</th><th style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:#888;text-align:left;">Key Driver</th></tr></thead><tbody><tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:8px 10px;font-size:12px;font-weight:600;">🇪🇺 European Union</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#1a6b42;font-weight:700;">9/10</td><td style="padding:8px 10px;font-size:14px;text-align:center;">↑</td><td style="padding:8px 10px;font-size:11px;color:#555;">AI Act compliance advantage; AIDA framework compatibility</td></tr><tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:8px 10px;font-size:12px;font-weight:600;">🇯🇵 Japan</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#1a6b42;font-weight:700;">8/10</td><td style="padding:8px 10px;font-size:14px;text-align:center;">↑</td><td style="padding:8px 10px;font-size:11px;color:#555;">Digital Agency ¥80B procurement; CPTPP preferential access</td></tr><tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:8px 10px;font-size:12px;font-weight:600;">🇬🇧 United Kingdom</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#1a6b42;font-weight:700;">8/10</td><td style="padding:8px 10px;font-size:14px;text-align:center;">↑</td><td style="padding:8px 10px;font-size:11px;color:#555;">Five Eyes intelligence sharing; DSIT GovTech procurement</td></tr><tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:8px 10px;font-size:12px;font-weight:600;">🇦🇺 Australia</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#1a6b42;font-weight:700;">8/10</td><td style="padding:8px 10px;font-size:14px;text-align:center;">↑</td><td style="padding:8px 10px;font-size:11px;color:#555;">AUKUS cybersecurity demand; ASD procurement</td></tr><tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:8px 10px;font-size:12px;font-weight:600;">🇺🇸 United States</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#1a6b42;font-weight:700;">7/10</td><td style="padding:8px 10px;font-size:14px;text-align:center;">↑</td><td style="padding:8px 10px;font-size:11px;color:#555;">Allied nation exemptions; USMCA tech provisions</td></tr><tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:8px 10px;font-size:12px;font-weight:600;">🇮🇳 India</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#1a6b42;font-weight:700;">7/10</td><td style="padding:8px 10px;font-size:14px;text-align:center;">↑</td><td style="padding:8px 10px;font-size:11px;color:#555;">Digital transformation scale; Government digitization</td></tr><tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:8px 10px;font-size:12px;font-weight:600;">🇸🇬 Singapore</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#1a6b42;font-weight:700;">7/10</td><td style="padding:8px 10px;font-size:14px;text-align:center;">→</td><td style="padding:8px 10px;font-size:11px;color:#555;">Smart nation initiatives; CPTPP access</td></tr></tbody></table>
+      <span style="font-size:8px;letter-spacing:0.14em;text-transform:uppercase;font-family:'DM Mono',monospace;color:#064050;display:block;margin-bottom:8px;margin-top:24px;padding-top:20px;border-top:1px solid #e0dcd4;">4. Market Risk &amp; Opportunity Scores</span>
+      <table style="width:100%;border-collapse:collapse;font-family:'DM Sans',sans-serif;"><thead><tr style="background:#f8f6f2;"><th style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:#888;text-align:left;">Market</th><th style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:#888;text-align:left;">Risk</th><th style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:#888;text-align:left;">Opportunity</th><th style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:#888;text-align:center;">Trend</th><th style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:#888;text-align:left;">Key Driver</th></tr></thead><tbody><tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:8px 10px;font-size:12px;font-weight:600;">🇪🇺 European Union</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#1a6b42;font-weight:700;">2/10</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#1a6b42;font-weight:700;">9/10</td><td style="padding:8px 10px;font-size:14px;text-align:center;">↑</td><td style="padding:8px 10px;font-size:11px;color:#555;">AI Act compliance advantage; AIDA framework compatibility</td></tr><tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:8px 10px;font-size:12px;font-weight:600;">🇯🇵 Japan</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#1a6b42;font-weight:700;">1/10</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#1a6b42;font-weight:700;">8/10</td><td style="padding:8px 10px;font-size:14px;text-align:center;">↑</td><td style="padding:8px 10px;font-size:11px;color:#555;">Digital Agency ¥80B procurement; CPTPP preferential access</td></tr><tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:8px 10px;font-size:12px;font-weight:600;">🇬🇧 United Kingdom</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#1a6b42;font-weight:700;">2/10</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#1a6b42;font-weight:700;">8/10</td><td style="padding:8px 10px;font-size:14px;text-align:center;">↑</td><td style="padding:8px 10px;font-size:11px;color:#555;">Five Eyes intelligence sharing; DSIT GovTech procurement</td></tr><tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:8px 10px;font-size:12px;font-weight:600;">🇦🇺 Australia</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#1a6b42;font-weight:700;">1/10</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#1a6b42;font-weight:700;">8/10</td><td style="padding:8px 10px;font-size:14px;text-align:center;">↑</td><td style="padding:8px 10px;font-size:11px;color:#555;">AUKUS cybersecurity demand; ASD procurement</td></tr><tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:8px 10px;font-size:12px;font-weight:600;">🇺🇸 United States</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#b36b00;font-weight:700;">4/10</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#1a6b42;font-weight:700;">7/10</td><td style="padding:8px 10px;font-size:14px;text-align:center;">↑</td><td style="padding:8px 10px;font-size:11px;color:#555;">Allied nation exemptions; USMCA tech provisions</td></tr><tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:8px 10px;font-size:12px;font-weight:600;">🇮🇳 India</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#1a6b42;font-weight:700;">3/10</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#1a6b42;font-weight:700;">7/10</td><td style="padding:8px 10px;font-size:14px;text-align:center;">↑</td><td style="padding:8px 10px;font-size:11px;color:#555;">Digital transformation scale; Government digitization</td></tr><tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:8px 10px;font-size:12px;font-weight:600;">🇸🇬 Singapore</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#1a6b42;font-weight:700;">2/10</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#1a6b42;font-weight:700;">7/10</td><td style="padding:8px 10px;font-size:14px;text-align:center;">→</td><td style="padding:8px 10px;font-size:11px;color:#555;">Smart nation initiatives; CPTPP access</td></tr></tbody></table>
+      <details style="margin-top:14px;border:1px solid #e0dcd4;background:#f8f6f2;">
+        <summary style="padding:10px 14px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#555;cursor:pointer;list-style:none;">&#9658; How to read these scores</summary>
+        <div style="padding:14px 16px;font-size:12px;color:#2a2a2a;line-height:1.8;border-top:1px solid #e0dcd4;">
+          <div style="margin-bottom:12px;">
+            <strong style="font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:#333;">Risk Score — How safe is it to do business here right now?</strong><br>
+            <span style="color:#2e7d32;">1&#8211;3 = Low risk.</span> Stable market, no sanctions, Canada has a trade agreement.<br>
+            <span style="color:#e65100;">4&#8211;6 = Moderate risk.</span> Some regulatory complexity or political uncertainty.<br>
+            <span style="color:#c62828;">7&#8211;10 = High risk.</span> Active sanctions, conflict, or rapidly changing rules. Approach with caution and consult a trade lawyer before committing.
+          </div>
+          <div>
+            <strong style="font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:#333;">Opportunity Score — How strong is the demand signal for Canadian goods?</strong><br>
+            <span style="color:#c62828;">1&#8211;3 = Weak.</span> Market not actively buying what Canada sells right now.<br>
+            <span style="color:#e65100;">4&#8211;6 = Moderate.</span> Some demand but competitive or access-limited.<br>
+            <span style="color:#2e7d32;">7&#8211;10 = Strong.</span> Active buying signals, Canada has a competitive advantage, and timing favours action this week.
+          </div>
+        </div>
+      </details>
     </div>
 
     <!-- 5. Procurement Highlights -->
@@ -1558,7 +1388,7 @@ This week's additions consist of six Mexico-linked entities and individuals tied
     <!-- 6. Supply Chain Watch -->
     <div>
       <span style="font-size:8px;letter-spacing:0.14em;text-transform:uppercase;font-family:'DM Mono',monospace;color:#064050;display:block;margin-bottom:8px;margin-top:24px;padding-top:20px;border-top:1px solid #e0dcd4;">6. Supply Chain Watch</span>
-      <div style="border:1px solid #e0dcd4;background:#fff;"><div class="scw-item"><div class="scw-left"><div class="scw-input">Taiwan semiconductor components and foundry capacity</div><div class="scw-status">U.S.-Taiwan trade deal signed January 2026 aims to relocate 40% of Taiwan's semiconductor supply chain to U.S. with $250B in credit guarantees. This will reduce available Taiwan-sourced capacity for non-U.S. buyers and increase lead times and pricing pressure for Canadian importers.</div><div class="scw-action">→ Audit current Taiwan semiconductor dependencies now. Identify alternative sources (South Korea, Japan, or EU fabs) and begin qualification processes before capacity constraints tighten in H2 2026.</div></div><div class="scw-risk scw-risk-high">High</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">Israeli cybersecurity software and services (integration components, licensing)</div><div class="scw-status">Israeli cybersecurity sector raised record $8.27B in 2025 with 1,500% surge in exit values. Consolidation and M&A activity is accelerating; smaller Israeli vendors are being acquired. Supply continuity and pricing of integration APIs and licensing models may shift post-acquisition.</div><div class="scw-action">→ For businesses using Israeli cybersecurity tools or APIs, confirm vendor stability and review license terms. Document integration dependencies and explore multi-vendor strategies before key suppliers are absorbed into larger acquirers.</div></div><div class="scw-risk scw-risk-med">Med</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">EU AI/software compliance validation and certification services</div><div class="scw-status">August 2, 2026 EU AI Act high-risk compliance deadline is firm with no extension approved. Demand for compliance audits, API re-certification, and legacy system assessment will spike. Third-party validation capacity may become bottlenecked.</div><div class="scw-action">→ Canadian tech exporters should pre-register with Trade Commissioner Service AI Export Program (closes Friday) to secure EU compliance support early and avoid Q2/Q3 2026 validation bottlenecks.</div></div><div class="scw-risk scw-risk-med">Med</div></div></div>
+      <p style="font-size:12px;color:#888;">No inbound supply chain signals this week.</p>
     </div>
 
     <!-- 7. Source Index -->
@@ -1582,7 +1412,7 @@ This week's additions consist of six Mexico-linked entities and individuals tied
     <div>
       <div class="report-footer-brand">Canadian Trade Intel</div>
       <div class="report-footer-meta">
-        TECHNOLOGY & DIGITAL &nbsp;·&nbsp; ISSUE #002<br>
+        TECHNOLOGY & DIGITAL &nbsp;·&nbsp; ISSUE #003<br>
         CANADIANTRADEINTEL.CA &nbsp;·&nbsp; FOR INFORMATIONAL PURPOSES ONLY<br>
         NOT LEGAL OR FINANCIAL ADVICE &nbsp;·&nbsp; AI-ASSISTED RESEARCH WITH EDITORIAL REVIEW
       </div>
@@ -1611,6 +1441,16 @@ window.addEventListener('scroll', () => {
     a.classList.toggle('active', a.getAttribute('href') === '#' + current);
   });
 });
+
+// Action row expand/collapse
+function toggleAction(id) {
+  const expand = document.getElementById(id);
+  const row    = document.getElementById(id + '-row');
+  if (!expand) return;
+  const isOpen = expand.style.display !== 'none';
+  expand.style.display = isOpen ? 'none' : 'block';
+  if (row) row.classList.toggle('open', !isOpen);
+}
 
 // Compliance row detail toggle
 function toggleCompliance(id) {

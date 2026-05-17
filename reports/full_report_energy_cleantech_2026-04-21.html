@@ -244,6 +244,23 @@
     font-size: 13px; color: var(--ink-mid);
     line-height: 1.8; margin-bottom: 12px;
   }
+  .signal-body-text {
+    font-size: 13px; color: var(--ink);
+    line-height: 1.8; margin-bottom: 12px;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+  }
+  .editorial-block {
+    background: #faf8f5;
+    border-left: 3px solid var(--sector, #8B1A1A);
+    padding: 20px 24px;
+    margin: 0;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    font-style: italic;
+    line-height: 1.75;
+    color: var(--ink);
+  }
   .signal-what-means {
     background: var(--sector-light);
     border: 1px solid var(--sector-mid);
@@ -398,8 +415,51 @@
   .scw-risk-low  { background: #e8f4ee; color: #2e7d32; }
   .scw-footer { padding: 10px 18px; background: var(--cream); border-top: 1px solid var(--rule); font-family: 'DM Mono', monospace; font-size: 9px; color: var(--ink-light); }
 
-  /* ── ACTION CARDS ── */
-  .actions-list { display: flex; flex-direction: column; gap: 20px; }
+  /* ── ACTIONS — compact expandable list ── */
+  .actions-compact {
+    border: 1px solid var(--rule); background: #fff;
+  }
+  .action-row {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 16px; cursor: pointer;
+    border-bottom: 1px solid var(--rule);
+    transition: background 0.15s; user-select: none;
+  }
+  .action-row:hover { background: var(--cream); }
+  .action-row:last-of-type { border-bottom: none; }
+  .action-row-title {
+    flex: 1; font-size: 13px; font-weight: 500;
+    color: var(--ink); line-height: 1.4;
+  }
+  .action-row-chevron {
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    color: var(--ink-light); transition: transform 0.18s; flex-shrink: 0;
+  }
+  .action-row.open .action-row-chevron { transform: rotate(180deg); }
+  .action-expand {
+    display: none; padding: 14px 18px 16px 18px;
+    border-bottom: 1px solid var(--rule); background: var(--cream);
+  }
+  .action-expand:last-child { border-bottom: none; }
+  .action-expand-body {
+    font-size: 13px; color: var(--ink-mid);
+    line-height: 1.75; max-width: 760px; margin-bottom: 8px;
+  }
+  .action-expand-step {
+    font-size: 12px; color: var(--ink-mid);
+    padding: 5px 0 5px 14px;
+    border-left: 2px solid var(--brand); margin: 4px 0;
+    line-height: 1.6;
+  }
+  .actions-view-all {
+    padding: 10px 16px; background: var(--cream);
+    border-top: 1px solid var(--rule);
+    font-family: 'DM Mono', monospace; font-size: 9px;
+    letter-spacing: 0.1em; text-transform: uppercase;
+  }
+  .actions-view-all a { color: var(--brand); text-decoration: none; }
+
+  /* Legacy card styles kept for email builder */
   .action-card {
     background: #fff; border: 1px solid var(--rule);
     border-top: 2px solid var(--brand);
@@ -411,10 +471,6 @@
     color: rgba(139,0,0,0.2); line-height: 1;
     flex-shrink: 0; width: 48px;
   }
-  .action-content-header {
-    display: flex; align-items: flex-start;
-    gap: 12px; margin-bottom: 10px; flex-wrap: wrap;
-  }
   .action-headline {
     font-family: 'Cormorant Garamond', serif;
     font-size: 18px; font-weight: 600; font-style: italic;
@@ -424,22 +480,6 @@
     font-size: 13px; color: var(--ink-mid);
     line-height: 1.75; margin-bottom: 12px;
   }
-  .action-steps {
-    list-style: none; border-top: 1px solid var(--rule);
-    padding-top: 12px;
-  }
-  .action-steps li {
-    font-size: 12px; color: var(--ink-mid);
-    padding: 7px 0; border-bottom: 1px solid var(--rule);
-    line-height: 1.6; padding-left: 16px; position: relative;
-  }
-  .action-steps li::before {
-    content: '→'; position: absolute; left: 0;
-    color: var(--brand); font-family: 'DM Mono', monospace;
-    font-size: 10px;
-  }
-  .action-steps li:last-child { border-bottom: none; }
-  .action-steps li strong { color: var(--ink); }
 
   /* ── PATHWAY CARDS ── */
   .pathways-grid {
@@ -596,17 +636,22 @@
   @media (max-width: 768px) {
     .sticky-nav { padding: 0 16px; }
     .masthead { padding: 32px 16px 28px; }
-    .report-nav { padding: 0 16px; }
+    .report-nav { padding: 0 16px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+    .report-nav::-webkit-scrollbar { display: none; }
+    .report-nav-inner { flex-wrap: nowrap; gap: 0; min-width: max-content; }
     .report-body { padding: 28px 16px 60px; }
     .exec-summary { grid-template-columns: 1fr; }
     .pathways-grid { grid-template-columns: 1fr; }
-    .watch-grid { grid-template-columns: 1fr 1fr; }
+    .watch-grid { grid-template-columns: 1fr; }
     .spotlight-grid { grid-template-columns: 1fr; }
     .report-footer { padding: 28px 16px; }
     .report-footer-inner { flex-direction: column; gap: 20px; }
     .report-footer-links { text-align: left; }
     .action-card { flex-direction: column; gap: 8px; }
     .action-number { font-size: 32px; width: auto; }
+    .compliance-desk { overflow-x: auto; }
+    .signals-grid { grid-template-columns: 1fr; }
+    .market-entry-grid { grid-template-columns: 1fr; }
   }
 
   /* ── PDF BUTTONS ── */
@@ -630,52 +675,97 @@
 
   /* ── PRINT STYLESHEET ── */
   @media print {
-    @page { margin: 20mm; }
+    @page { margin: 2.5cm; size: A4; }
 
-    /* Hide nav chrome and subscription CTAs */
+    /* Hide nav chrome, CTAs, interactive elements */
     .sticky-nav, .report-nav, .report-footer,
-    .pdf-nav-btn, .pdf-float-btn { display: none !important; }
+    .pdf-nav-btn, .pdf-float-btn, .briefing-panel,
+    #briefing-toggle-btn, .analyst-detail summary,
+    .actions-view-all, button { display: none !important; }
 
-    /* White background, black text throughout */
-    body { font-size: 11px !important; background: #ffffff !important; color: #000000 !important; }
+    /* Expand all analyst detail drawers */
+    .analyst-detail { display: block !important; }
+    .analyst-detail-body { display: block !important; }
+
+    /* White background, dark text throughout */
+    html, body {
+      font-size: 11pt !important;
+      background: #ffffff !important;
+      color: #1a1a1a !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
     * { box-shadow: none !important; text-shadow: none !important; }
 
-    /* Masthead: white bg, black text, red border only */
+    /* Masthead */
     .masthead {
       background: #ffffff !important;
-      border-bottom: 3px solid #8b0000 !important;
-      padding: 20px 0 16px !important;
+      border-bottom: 2px solid #8B1A1A !important;
+      padding: 16px 0 14px !important;
+      break-after: avoid;
     }
-    .masthead-eyebrow { color: #8b0000 !important; }
-    .masthead-issue { color: #8b0000 !important; }
-    .report-title { color: #000000 !important; font-size: 28px !important; }
+    .masthead-eyebrow, .masthead-issue { color: #8B1A1A !important; }
+    .report-title { color: #1a1a1a !important; font-size: 22pt !important; }
     .masthead-hook { color: #333333 !important; }
-    .masthead-stat { background: #f4f4f4 !important; border-color: #dddddd !important; }
-    .masthead-stat-label { color: #666666 !important; }
-    .masthead-stat-value { color: #000000 !important; }
+    .masthead-stat { background: #f5f5f5 !important; border-color: #dddddd !important; }
+    .masthead-stat-label { color: #555 !important; }
+    .masthead-stat-value { color: #1a1a1a !important; }
 
-    /* Body sections */
-    h2, h3 { color: #000000 !important; }
-    h2 { font-size: 24px !important; }
-    .section-label { color: #8b0000 !important; }
+    /* Sections */
+    h2, h3 { color: #1a1a1a !important; break-after: avoid; }
+    .section-label { color: #8B1A1A !important; font-size: 8pt !important; }
     .section-rule { background: #cccccc !important; }
     p, li { color: #1a1a1a !important; }
-    .exec-summary { background: #f8f8f8 !important; border-color: #dddddd !important; }
+    .exec-summary { background: #f9f9f9 !important; border-color: #dddddd !important; break-inside: avoid; }
 
-    /* Keep sector colour accents on signal card left borders */
-    .signal-card { border-left-color: var(--sector-color) !important; background: #ffffff !important; }
-    .action-card { background: #ffffff !important; border-color: #cccccc !important; }
-    .compliance-desk { background: #f8f8f8 !important; }
+    /* Signal cards — keep together on one page */
+    .signal-card {
+      break-inside: avoid;
+      background: #ffffff !important;
+      border: 1px solid #dddddd !important;
+      border-left: 3px solid #8B1A1A !important;
+      margin-bottom: 12pt !important;
+    }
 
-    /* Page breaks before major sections */
-    #signals  { page-break-before: always; }
-    #actions  { page-break-before: always; }
-    #pathways { page-break-before: always; }
-    #summary, #compliance, #procurement, #watch, #spotlight { page-break-before: auto; }
+    /* Actions */
+    .action-row { break-inside: avoid; background: #f9f9f9 !important; }
+    .action-expand { display: block !important; break-inside: avoid; }
 
-    /* Show full URLs after links, skip internal anchors */
-    a[href]::after { content: " (" attr(href) ")"; font-size: 9px; color: #666666; }
+    /* Editorial block — italic serif */
+    .editorial-block {
+      font-style: italic !important;
+      color: #1a1a1a !important;
+      border-left: 2px solid #8B1A1A !important;
+      background: #f9f9f9 !important;
+      break-inside: avoid;
+    }
+
+    /* Procurement rows */
+    .proc-row { break-inside: avoid; }
+    .proc-watch { break-inside: avoid; }
+
+    /* Compliance table */
+    .compliance-desk { background: #f9f9f9 !important; break-inside: avoid; }
+
+    /* Market entry pathways */
+    .pathway-card { break-inside: avoid; }
+
+    /* Watch items */
+    .watch-card { break-inside: avoid; }
+
+    /* Page breaks */
+    #signals  { break-before: page; }
+    #actions  { break-before: page; }
+    #pathways { break-before: page; }
+    #summary, #compliance, #procurement, #watch,
+    #spotlight, #what-we-think { break-before: auto; }
+
+    /* Show full URLs after links (skip anchors) */
+    a[href]::after { content: " (" attr(href) ")"; font-size: 8pt; color: #666666; }
     a[href^="#"]::after { content: ""; }
+
+    /* Remove link underlines */
+    a { text-decoration: none !important; color: inherit !important; }
   }
 
 
@@ -722,6 +812,7 @@
   <div class="sticky-nav-inner">
     <a href="https://canadiantradeintel.ca" class="sticky-nav-brand">🇨🇦 Canadian Trade Intel</a>
     <div class="sticky-nav-links">
+      
       <a href="#signals">Signals</a>
       <a href="#actions">Actions</a>
       <a href="#pathways">Market Entry</a>
@@ -737,13 +828,24 @@
   <div class="masthead-inner">
     <div class="masthead-eyebrow">
       <span class="sector-badge">⚡ Energy & Cleantech</span>
-      <span class="issue-meta">ISSUE #004 &nbsp;·&nbsp; April 21, 2026 &nbsp;·&nbsp; ~12 MIN READ</span>
+      <span class="issue-meta">ISSUE #004 &nbsp;·&nbsp; May 16, 2026 &nbsp;·&nbsp; ~12 MIN READ</span>
     </div>
-    <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:10px;">Energy & Cleantech &nbsp;·&nbsp; Week of April 21, 2026</div>
+    <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:10px;">Energy & Cleantech &nbsp;·&nbsp; Week of May 16, 2026</div>
     <h1>Energy & Cleantech — Intelligence Brief · Issue #004</h1>
     <p class="masthead-summary">
       Canadian exporters should activate South Korean government and utility contacts now to position battery storage, transmission infrastructure, and solar components for accelerated tenders launching within weeks. Monitor South Korea's detailed tender schedules in May—early mover advantage goes to companies filing applications before competing suppliers establish local partnerships.
     </p>
+    <div class="doc-frame-bar"
+         style="display:flex;justify-content:space-between;align-items:center;
+         border-top:2px solid var(--crimson,#8B1A1A);
+         border-bottom:1px solid rgba(255,255,255,0.12);
+         padding:7px 0;margin:14px 0 20px 0;
+         font-family:'DM Mono',monospace;font-size:8px;
+         letter-spacing:0.14em;text-transform:uppercase;
+         color:rgba(255,255,255,0.4);">
+      <span>Canadian Trade Intelligence Inc.</span>
+      <span>Issue #004 &nbsp;·&nbsp; Energy & Cleantech &nbsp;·&nbsp; May 16, 2026</span>
+    </div>
     <div class="masthead-stats">
       <div class="masthead-stat">
         <div class="masthead-stat-label">Signals</div>
@@ -751,15 +853,15 @@
       </div>
       <div class="masthead-stat">
         <div class="masthead-stat-label">Opportunities</div>
-        <div class="masthead-stat-value">7</div>
+        <div class="masthead-stat-value">15</div>
       </div>
       <div class="masthead-stat">
         <div class="masthead-stat-label">Risks</div>
-        <div class="masthead-stat-value">5</div>
+        <div class="masthead-stat-value">3</div>
       </div>
       <div class="masthead-stat">
         <div class="masthead-stat-label">Immediate</div>
-        <div class="masthead-stat-value">4</div>
+        <div class="masthead-stat-value">7</div>
       </div>
       <div class="masthead-stat">
         <div class="masthead-stat-label">Markets Scored</div>
@@ -774,13 +876,14 @@
   <div class="report-nav-inner">
     <a href="#summary">Overview</a>
     <a href="#signals">Signals (6)</a>
+    <a href="#what-we-think">What We Think</a>
     <a href="#actions">Actions (4)</a>
     <a href="#procurement">Procurement (5)</a>
-    <a href="#supply-chain">Supply Chain</a>
-    <a href="#compliance">Reg &amp; Compliance</a>
+    
+
     <a href="#pathways">Market Entry</a>
     <a href="#watch">Watch For These</a>
-    <a href="#risk-register">Risk Register</a>
+
     <a href="#spotlight">Canadian Spotlight</a>
     <button onclick="toggleBriefing()" class="briefing-btn" id="briefing-toggle-btn">📋 Briefing View</button>
     <button onclick="window.print()" class="pdf-nav-btn">⬇ Save as PDF</button>
@@ -790,6 +893,9 @@
 <!-- REPORT BODY -->
 <div id="report-content">
 <main class="report-body">
+
+  <!-- WHAT HAPPENED THIS WEEK -->
+  
 
   <!-- EXECUTIVE SUMMARY -->
   <section id="summary" class="mb-56">
@@ -803,12 +909,13 @@
       </div>
       <div>
         <div class="commodity-panel">
-          <div class="commodity-panel-title">Top Markets · April 21, 2026</div>
+          <div class="commodity-panel-title">Top Markets · May 16, 2026</div>
           
           <div class="commodity-row">
             <div>
               <div class="commodity-name">🇮🇳 India</div>
               <div class="commodity-note">Opportunity score: 9/10</div>
+              <div style="font-size:9px;color:var(--ink-light);margin-top:2px;line-height:1.5;">↑ Strong demand &middot; Low risk</div>
             </div>
             <div style="text-align:right;min-width:60px;">
               <div style="background:var(--sector);height:4px;width:90%;border-radius:2px;margin-bottom:4px;"></div>
@@ -819,6 +926,7 @@
             <div>
               <div class="commodity-name">🇮🇩 Indonesia</div>
               <div class="commodity-note">Opportunity score: 8/10</div>
+              <div style="font-size:9px;color:var(--ink-light);margin-top:2px;line-height:1.5;">↑ Strong demand &middot; Low risk</div>
             </div>
             <div style="text-align:right;min-width:60px;">
               <div style="background:var(--sector);height:4px;width:80%;border-radius:2px;margin-bottom:4px;"></div>
@@ -829,6 +937,7 @@
             <div>
               <div class="commodity-name">🇯🇵 Japan</div>
               <div class="commodity-note">Opportunity score: 7/10</div>
+              <div style="font-size:9px;color:var(--ink-light);margin-top:2px;line-height:1.5;"> Strong demand &middot; Low risk</div>
             </div>
             <div style="text-align:right;min-width:60px;">
               <div style="background:var(--sector);height:4px;width:70%;border-radius:2px;margin-bottom:4px;"></div>
@@ -836,11 +945,7 @@
             </div>
           </div>
         </div>
-        <div style="margin-top:12px;padding:12px 14px;background:#fff;border:1px solid var(--rule);">
-          <div style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:8px;">CAD Exchange · April 21, 2026</div>
-          <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--ink);">
-            Prices shown are context only. For real-time prices see weekly digest.
-          </div>
+        
         </div>
       </div>
     </div>
@@ -856,131 +961,146 @@
       
       <div class="signal-card ">
         <div class="signal-flag">
-           · South Korea Clean Energy
-          <span class="urgency-tag urgency-now">Immediate</span>
+           · Lng Canada Exports
+          <span class="urgency-tag urgency-quarter">This Quarter</span>
         </div>
-        <div class="signal-headline">Iran war drives South Korea to accelerate renewable energy transition with accelerated budget and emergency measures</div>
-        <div class="signal-body">On April 16, 2026, South Korea announced a 26.2 trillion won ($17.6 billion) emergency budget to address rising energy costs amid Iran war disruptions. Seoul implemented rotating parking systems and fuel caps as immediate demand reduction measures. Energy Minister indicated potential for accelerated renewable deployment as alternative to vulnerable fossil fuel imports</div>
-        <div class="signal-what-means"><span class="signal-what-label">What This Means For You</span>South Korea's crisis-driven energy transition acceleration creates immediate opportunities for Canadian cleantech exporters, particularly hydrogen technology and renewable energy equipment, as Seoul seeks supply chain diversification from Middle East dependencies. Canadian LNG exports to South Korea already shipping to Indo-Pacific region could see increased demand</div>
+        <div class="signal-headline">Woodfibre LNG reaches critical construction phase with key modules delivered, while Cedar LNG construction continues on </div>
+        
+        <div class="signal-body">Woodfibre LNG is 60% complete with key liquefaction modules delivered in January and March 2026, targeting 2027 startup. Cedar LNG maintains 2028 operations timeline with ongoing construction. These BC projects combined with LNG Canada are expected to increase gas demand by 4 Bcf/d.</div>
+        <div class="signal-what-means"><span class="signal-what-label">What This Means For You</span>These developments strengthen Canada's position in Asian LNG markets, providing new export routes for Western Canadian gas producers. Pipeline projects will divert 5% of Canada's gas production from US exports to Pacific markets, tightening domestic supply and potentially improving prices for gas producers.</div>
         
         <details class="analyst-detail">
-          <summary>Analyst Detail ▾</summary>
+          <summary>Trade Context ▾</summary>
           <div class="analyst-detail-body">
           <b>Trade Agreement</b>No FTA in force
           <b>TCS Office</b>TCS — contact nearest Canadian mission
           <b>Relevant Programmes</b>EDC Clean Energy Financing · NRCan Clean Fuels Fund · SIF Strategic Innovation Fund · CanExport SME
           <b>HS Codes</b>HS 2711 (LNG/natural gas) · 8501 (generators/turbines) · 8541 (solar cells/PV) · 8412 (hydraulic engines) · 8504 (transformers/grid)
-          <b>Primary Source</b><a href="https://www.cnbc.com/2026/04/16/iran-war-energy-transition-south-korea-toward-renewable-energy-energy-minister.html" target="_blank">CNBC</a>
+          <b>Primary Source</b><a href="https://naturalgasintel.com/news/woodfibre-lng-update-highlights-growing-pull-on-western-canadian-gas-supply/" target="_blank">Natural Gas Intelligence</a>
           </div>
         </details>
-        <div class="signal-source">Source: <a href="https://www.cnbc.com/2026/04/16/iran-war-energy-transition-south-korea-toward-renewable-energy-energy-minister.html" target="_blank">CNBC, 2026-04-22 →</a></div>
-      </div>
-      <div class="signal-card ">
-        <div class="signal-flag">
-           · Canadian Battery Export
-          <span class="urgency-tag urgency-now">Immediate</span>
-        </div>
-        <div class="signal-headline">Mangrove Lithium opens North America's first electrochemical lithium refining facility in Delta, BC, with capacity for 2</div>
-        <div class="signal-body">Mangrove Lithium officially opened its Delta, BC electrochemical lithium refining facility on April 16, 2026, representing North America's first commercial facility using proprietary electrochemical technology to process lithium with 75% less waste than traditional Chinese chemical methods. The facility has capacity to produce battery-grade lithium for 25,000 electric vehicles annually, with plans for a larger Eastern Canada facility targeting 500,000 EVs annually. The company received $3 million in BC provincial support and secured international investment from Canada Growth Fund's US$85 mill</div>
-        <div class="signal-what-means"><span class="signal-what-label">What This Means For You</span>This development reduces Canadian dependence on Chinese lithium processing, creating domestic battery supply chain capacity and export opportunities for sustainable lithium refining technology. Canadian battery manufacturers and EV assembly plants gain access to domestically refined lithium, while the technology platform positions Canada as an alternative to Chinese processing for international cl</div>
-        
-        <details class="analyst-detail">
-          <summary>Analyst Detail ▾</summary>
-          <div class="analyst-detail-body">
-          <b>Trade Agreement</b>No FTA in force
-          <b>TCS Office</b>TCS — contact nearest Canadian mission
-          <b>Relevant Programmes</b>EDC Clean Energy Financing · NRCan Clean Fuels Fund · SIF Strategic Innovation Fund · CanExport SME
-          <b>HS Codes</b>HS 2711 (LNG/natural gas) · 8501 (generators/turbines) · 8541 (solar cells/PV) · 8412 (hydraulic engines) · 8504 (transformers/grid)
-          <b>Primary Source</b><a href="https://www.bnnbloomberg.ca/investing/commodities/2026/04/16/in-a-bc-industrial-zone-a-new-link-forged-in-canadas-crucial-lithium-supply-chain/" target="_blank">BNN Bloomberg</a>
-          </div>
-        </details>
-        <div class="signal-source">Source: <a href="https://www.bnnbloomberg.ca/investing/commodities/2026/04/16/in-a-bc-industrial-zone-a-new-link-forged-in-canadas-crucial-lithium-supply-chain/" target="_blank">BNN Bloomberg, 2026-04-22 →</a></div>
+        <div class="signal-source">Source: <a href="https://naturalgasintel.com/news/woodfibre-lng-update-highlights-growing-pull-on-western-canadian-gas-supply/" target="_blank">Natural Gas Intelligence, 2026-05-12 →</a></div>
       </div>
       <div class="signal-card ">
         <div class="signal-flag">
            · Canada Clean Energy Abroad
           <span class="urgency-tag urgency-quarter">This Quarter</span>
         </div>
-        <div class="signal-headline">Canadian Solar commissions first third-party EPC project in Vietnam as domestic renewable capacity set to double by 2035</div>
-        <div class="signal-body">Canadian Solar completed its first third-party EPC solar project in Vietnam on April 20, 2026 - the 15 MWp Chu Ngoc Solar Project, marking expansion into Southeast Asia. Domestically, CanREA projects Canada's wind, solar and energy storage capacity will grow by one-third over next four years and double by 2035.</div>
-        <div class="signal-what-means"><span class="signal-what-label">What This Means For You</span>Canadian Solar's Vietnam expansion demonstrates Canadian clean energy companies successfully competing internationally for EPC contracts, opening new revenue streams beyond domestic markets. Growing domestic renewable capacity creates supply chain opportunities for Canadian manufacturers and service providers while positioning Canada as a clean energy technology exporter to emerging markets.</div>
+        <div class="signal-headline">Canadian Energies announces 10 GW solar manufacturing facility with North American purchase orders secured.</div>
+        
+        <div class="signal-body">Toronto-based Canadian Energies unveiled plans for a 10 GW solar module manufacturing facility, positioning itself as one of the largest domestic cleantech manufacturing initiatives in Canada. The company has already secured purchase orders from US and Mexican customers.</div>
+        <div class="signal-what-means"><span class="signal-what-label">What This Means For You</span>This development positions Canada to reduce North American dependence on overseas solar supply chains while creating manufacturing jobs domestically. The secured international purchase orders demonstrate immediate export potential for Canadian clean energy manufacturing, strengthening Canada's role in continental cleantech supply chains.</div>
         
         <details class="analyst-detail">
-          <summary>Analyst Detail ▾</summary>
+          <summary>Trade Context ▾</summary>
           <div class="analyst-detail-body">
           <b>Trade Agreement</b>No FTA in force
           <b>TCS Office</b>TCS — contact nearest Canadian mission
           <b>Relevant Programmes</b>EDC Clean Energy Financing · NRCan Clean Fuels Fund · SIF Strategic Innovation Fund · CanExport SME
-          <b>HS Codes</b>HS 2711 (LNG/natural gas) · 8501 (generators/turbines) · 8541 (solar cells/PV) · 8412 (hydraulic engines) · 8504 (transformers/grid)
-          <b>Primary Source</b><a href="https://solarquarter.com/2026/04/20/canadian-solar-commissions-first-third-party-epc-solar-project-in-vietnam/" target="_blank">SolarQuarter</a>
+          <b>HS Codes</b>HS 8541 (solar cells/photovoltaic modules)
+          <b>Primary Source</b><a href="https://www.bignewsnetwork.com/news/279019584/canadian-energies-unveils-plans-for-10-gw-solar-module-manufacturing-facility-aiming-to-reshape-north-america-cleantech-supply-chain" target="_blank">Big News Network</a>
           </div>
         </details>
-        <div class="signal-source">Source: <a href="https://solarquarter.com/2026/04/20/canadian-solar-commissions-first-third-party-epc-solar-project-in-vietnam/" target="_blank">SolarQuarter, 2026-04-22 →</a></div>
+        <div class="signal-source">Source: <a href="https://www.bignewsnetwork.com/news/279019584/canadian-energies-unveils-plans-for-10-gw-solar-module-manufacturing-facility-aiming-to-reshape-north-america-cleantech-supply-chain" target="_blank">Big News Network, 2026-05-12 →</a></div>
       </div>
       <div class="signal-card ">
         <div class="signal-flag">
-           · Ontario Nuclear Refurbishment
+           · Germany Energiewende
           <span class="urgency-tag urgency-quarter">This Quarter</span>
         </div>
-        <div class="signal-headline">Ontario completed the Darlington nuclear refurbishment project on February 2, 2026, four months ahead of schedule and $1</div>
-        <div class="signal-body"><cite index="11-10,16-4">Energy Minister Stephen Lecce announced the completion of Unit 4 refurbishment at Darlington on February 2, 2026, bringing the project four months ahead of schedule and $150 million under budget.</cite> <cite index="16-7,16-8">Unit 4 entered testing phase with first power expected in Q1 2026, and all four refurbished units will provide over 3,500 MW of clean electricity for at least 30 more years.</cite> <cite index="12-4">Meanwhile, OPG applied to the Canadian Nuclear Safety Commission for a Licence to Operate the first SMR in March 2026.</cite></div>
-        <div class="signal-what-means"><span class="signal-what-label">What This Means For You</span>This represents a major milestone for Canada's nuclear supply chain and demonstrates successful project execution capabilities that can attract international nuclear projects and partnerships. The ahead-of-schedule, under-budget delivery enhances Canada's reputation in the global nuclear market and creates opportunities for Canadian companies like Aecon and SNC-Lavalin to secure similar refurbishm</div>
+        <div class="signal-headline">Germany prepares major renewable energy procurement overhaul with industrial power price subsidies and supply chain guar</div>
+        
+        <div class="signal-body">Germany finalizes €3.1 billion industrial electricity price subsidy scheme capping power at €0.05/kWh for 90 energy-intensive sectors starting 2026, requiring companies to sign long-term PPAs with renewable projects offering additionality. Government considers state guarantees for PPAs with industrial offtakers and reduced grid charges for assets located near PPA counterparts as part of new EEG scheme revision.</div>
+        <div class="signal-what-means"><span class="signal-what-label">What This Means For You</span>Major opportunity for Canadian renewable energy equipment suppliers and project developers. German industrial buyers seeking long-term renewable PPAs create demand for Canadian wind turbines, solar panels, energy storage, and electrolyzer components. State guarantees reduce counterparty risk for Canadian exporters entering German industrial supply contracts.</div>
         
         <details class="analyst-detail">
-          <summary>Analyst Detail ▾</summary>
+          <summary>Trade Context ▾</summary>
           <div class="analyst-detail-body">
           <b>Trade Agreement</b>No FTA in force
           <b>TCS Office</b>TCS — contact nearest Canadian mission
           <b>Relevant Programmes</b>EDC Clean Energy Financing · NRCan Clean Fuels Fund · SIF Strategic Innovation Fund · CanExport SME
           <b>HS Codes</b>HS 2711 (LNG/natural gas) · 8501 (generators/turbines) · 8541 (solar cells/PV) · 8412 (hydraulic engines) · 8504 (transformers/grid)
-          <b>Primary Source</b><a href="https://www.aecon.com/press-room/news/2026/02/02/darlington-refurbishment-complete" target="_blank">Aecon Group Inc.</a>
+          <b>Primary Source</b><a href="https://pexapark.com/blog/germany-seals-2026-industrial-power-price-subsidy-can-it-help-boost-the-ppa-market/" target="_blank">Pexapark</a>
           </div>
         </details>
-        <div class="signal-source">Source: <a href="https://www.aecon.com/press-room/news/2026/02/02/darlington-refurbishment-complete" target="_blank">Aecon Group Inc., 2026-04-22 →</a></div>
+        <div class="signal-source">Source: <a href="https://pexapark.com/blog/germany-seals-2026-industrial-power-price-subsidy-can-it-help-boost-the-ppa-market/" target="_blank">Pexapark, 2026-05-12 →</a></div>
       </div>
       <div class="signal-card ">
         <div class="signal-flag">
-           · Energy Storage Canada
-          <span class="urgency-tag urgency-quarter">This Quarter</span>
+           · Uk Offshore Wind
+          <span class="urgency-tag urgency-now">Immediate</span>
         </div>
-        <div class="signal-headline">Major Canadian battery storage projects advancing with Skyview 2 construction beginning February 2026 and Canadian Solar</div>
-        <div class="signal-body">Construction began in February 2026 on Canada's largest battery storage project, the 2.2 GWh Skyview 2 facility in Ontario, targeting Q2 2027 operations. Canadian Solar's e-STORAGE secured multiple international contracts and reached one million battery cells produced at Windsor facility in February 2026. Alberta's 1,000 MW frequency response procurement process positioning batteries to compete when bids open in 2026.</div>
-        <div class="signal-what-means"><span class="signal-what-label">What This Means For You</span>Canadian battery system integrators like e-STORAGE are capturing significant export opportunities globally while domestic grid storage deployment accelerates. This creates dual opportunities for Canadian companies - serving growing domestic demand and establishing export credentials in international markets through proven project delivery.</div>
+        <div class="signal-headline">UK launches £300 million Great British Energy Supply Chain Fund targeting offshore wind component manufacturing with fir</div>
+        
+        <div class="signal-body">GBE Supply Chain Fund opened December 11, 2025 with £300 million available for UK manufacturing of constrained offshore wind components including blades, turbines, transmission cables and converter stations. Fund targets critical supply chain bottlenecks and expects to mobilize over £1 billion in public-private investment through 2030. Canadian steel tariffs create potential advantage for domestic offshore wind manufacturing as lead times for steel components run 5-7 years.</div>
+        <div class="signal-what-means"><span class="signal-what-label">What This Means For You</span>Mixed implications for Canadian businesses. Opportunity for Canadian companies to establish UK manufacturing partnerships or joint ventures to access fund benefits. Risk for Canadian component exporters as fund aims to build domestic UK capacity. Canadian steel producers may benefit from 25% import tariffs creating competitive advantage over international suppliers in offshore wind supply chains.</div>
         
         <details class="analyst-detail">
-          <summary>Analyst Detail ▾</summary>
+          <summary>Trade Context ▾</summary>
           <div class="analyst-detail-body">
           <b>Trade Agreement</b>No FTA in force
           <b>TCS Office</b>TCS — contact nearest Canadian mission
           <b>Relevant Programmes</b>EDC Clean Energy Financing · NRCan Clean Fuels Fund · SIF Strategic Innovation Fund · CanExport SME
           <b>HS Codes</b>HS 2711 (LNG/natural gas) · 8501 (generators/turbines) · 8541 (solar cells/PV) · 8412 (hydraulic engines) · 8504 (transformers/grid)
-          <b>Primary Source</b><a href="https://www.canada.smart-grids-conference.com/news/canada-sets-battery-record-with-skyview-2-grid-storage-project" target="_blank">Smart Grids Canada 2026</a>
+          <b>Primary Source</b><a href="https://www.gbe.gov.uk/funding-opportunities/supply-chain-fund-offshore-wind-networks" target="_blank">Great British Energy</a>
           </div>
         </details>
-        <div class="signal-source">Source: <a href="https://www.canada.smart-grids-conference.com/news/canada-sets-battery-record-with-skyview-2-grid-storage-project" target="_blank">Smart Grids Canada 2026, 2026-04-22 →</a></div>
+        <div class="signal-source">Source: <a href="https://www.gbe.gov.uk/funding-opportunities/supply-chain-fund-offshore-wind-networks" target="_blank">Great British Energy, 2026-05-12 →</a></div>
       </div>
       <div class="signal-card ">
         <div class="signal-flag">
-           · Lng Canada Exports
+           · South Korea Clean Energy
           <span class="urgency-tag urgency-quarter">This Quarter</span>
         </div>
-        <div class="signal-headline">Cedar LNG's floating vessel construction passes midpoint while Woodfibre LNG reaches 65% completion with power module de</div>
-        <div class="signal-body">Cedar LNG project advances with FLNG vessel nearing completion midpoint as of April 15, targeting late 2028 commercial operations. Woodfibre LNG reached 65% completion milestone with arrival of its powerhouse module, with all 19 modules expected onsite by spring 2026 and construction completion scheduled for 2027.</div>
-        <div class="signal-what-means"><span class="signal-what-label">What This Means For You</span>Both projects represent critical expansion of Canada's LNG export capacity to Asian markets, offering Canadian natural gas producers new demand outlets beyond traditional North American markets. These terminals will compete directly with US Gulf Coast and global LNG suppliers for lucrative Asian contracts, positioning Canadian producers to capture premium pricing in high-demand markets like Japan,</div>
+        <div class="signal-headline">South Korea commits to $100 billion US energy purchases including LNG amid trade uncertainty</div>
+        
+        <div class="signal-body">As of February 2026, South Korea has committed to purchasing approximately $100 billion worth of energy from the US, including LNG, though uncertainty persists over whether the agreement will proceed given indications the US could increase reciprocal tariffs from 15% to 25%. The preliminary 12th Basic Plan for Electricity Supply and Demand, expected to include detailed energy transition plans and hydrogen/ammonia co-firing guidance, will likely be released in the first half of 2026.</div>
+        <div class="signal-what-means"><span class="signal-what-label">What This Means For You</span>This massive LNG commitment creates competitive pressure for Canadian LNG exporters and potential opportunities for Canadian cleantech companies in South Korea's energy transition. Canadian companies should prepare for increased competition in South Korean markets while exploring partnerships in hydrogen and co-firing technologies that will be detailed in the upcoming 12th BPLE.</div>
         
         <details class="analyst-detail">
-          <summary>Analyst Detail ▾</summary>
+          <summary>Trade Context ▾</summary>
           <div class="analyst-detail-body">
           <b>Trade Agreement</b>No FTA in force
           <b>TCS Office</b>TCS — contact nearest Canadian mission
           <b>Relevant Programmes</b>EDC Clean Energy Financing · NRCan Clean Fuels Fund · SIF Strategic Innovation Fund · CanExport SME
           <b>HS Codes</b>HS 2711 (LNG/natural gas) · 8501 (generators/turbines) · 8541 (solar cells/PV) · 8412 (hydraulic engines) · 8504 (transformers/grid)
-          <b>Primary Source</b><a href="https://naturalgasintel.com/news/cedar-lng-construction-advances-with-flng-vessel-nearing-completion-midpoint/" target="_blank">Natural Gas Intelligence</a>
+          <b>Primary Source</b><a href="https://ieefa.org/resources/south-koreas-coal-phaseout-should-not-balloon-lng-use-and-erode-energy-security" target="_blank">Institute for Energy Economics and Financial Analysis</a>
           </div>
         </details>
-        <div class="signal-source">Source: <a href="https://naturalgasintel.com/news/cedar-lng-construction-advances-with-flng-vessel-nearing-completion-midpoint/" target="_blank">Natural Gas Intelligence, 2026-04-22 →</a></div>
+        <div class="signal-source">Source: <a href="https://ieefa.org/resources/south-koreas-coal-phaseout-should-not-balloon-lng-use-and-erode-energy-security" target="_blank">Institute for Energy Economics and Financial Analysis, 2026-05-12 →</a></div>
+      </div>
+      <div class="signal-card ">
+        <div class="signal-flag">
+           · Woodfibre Cedar Lng
+          <span class="urgency-tag urgency-now">Immediate</span>
+        </div>
+        <div class="signal-headline">Canadian natural gas producers step up sustainability as LNG demand and output surge with new projects under constructio</div>
+        
+        <div class="signal-body">New LNG projects including Cedar LNG and Woodfibre LNG are under construction, with the Ksi Lisims LNG terminal expected to reach a final investment decision this year. The LNG Canada marine terminal in Kitimat, B.C. became operational in April 2026. BC Hydro anticipates construction on Phase 1 of the Woodfibre LNG interconnection project will start in spring 2026 for a targeted in-service of October 2026.</div>
+        <div class="signal-what-means"><span class="signal-what-label">What This Means For You</span>These developments represent significant opportunities for Canadian energy exporters and related supply chain operators to access growing Asian LNG markets. The operational LNG Canada facility and upcoming Cedar and Woodfibre projects position Canada as a major LNG exporter, creating supply chain opportunities for engineering, construction, and transportation firms while attracting foreign investment in energy infrastructure.</div>
+        
+        <details class="analyst-detail">
+          <summary>Trade Context ▾</summary>
+          <div class="analyst-detail-body">
+          <b>Trade Agreement</b>No FTA in force
+          <b>TCS Office</b>TCS — contact nearest Canadian mission
+          <b>Relevant Programmes</b>EDC Clean Energy Financing · NRCan Clean Fuels Fund · SIF Strategic Innovation Fund · CanExport SME
+          <b>HS Codes</b>HS 2711 (LNG/natural gas) · 8501 (generators/turbines) · 8541 (solar cells/PV) · 8412 (hydraulic engines) · 8504 (transformers/grid)
+          <b>Primary Source</b><a href="https://energynow.ca/2026/05/canadian-gas-producers-step-up-sustainability-as-demand-and-output-surge/" target="_blank">EnergyNow</a>
+          </div>
+        </details>
+        <div class="signal-source">Source: <a href="https://energynow.ca/2026/05/canadian-gas-producers-step-up-sustainability-as-demand-and-output-surge/" target="_blank">EnergyNow, 2026-05-12 →</a></div>
       </div>
     </div>
+  </section>
+
+  <!-- WHAT WE THINK -->
+  <section id="what-we-think" class="mb-56">
+    <div class="section-header">
+      <span class="section-label">What We Think</span>
+      <div class="section-rule"></div>
+    </div>
+    <div class="editorial-block">This week marks a watershed moment for Canadian critical minerals exports with India's CEPA launch and $2.6B uranium deal creating immediate high-value opportunities, while Indonesia's FIPA signing and $825M EDC commitment opens Southeast Asia's battery supply chains. The G7 Critical Minerals Alliance's $18.5B mobilization reinforces Western friend-shoring strategies, positioning Canada as the preferred alternative to Chinese-controlled supply chains across rare earths and battery materials.</div>
   </section>
 
   <!-- ACTIONS -->
@@ -989,53 +1109,53 @@
       <span class="section-label">✓ Actions This Week</span>
       <div class="section-rule"></div>
     </div>
-    <div class="actions-list">
-      
-      <div class="action-card">
-        <div class="action-number">01</div>
-        <div style="flex:1;">
-          <div class="action-content-header">
-            <div class="action-headline">Contact Trade Commissioner India Desk</div>
-            <span class="urgency-tag urgency-watch">Monitor</span>
-          </div>
-          <div class="action-body">Uranium exporters and mining firms—engage MCCI (Market Access, Competitiveness & Innovation) India team for CEPA tariff line verification and buyer introductions. Window closes as tariff codes finalize this week.</div>
-          <div style="margin-top:10px;"><a href="https://www.tradecommissioner.gc.ca/" style="font-family:DM Mono,monospace;font-size:9px;color:var(--brand);" target="_blank">↗ https://www.tradecommissioner.gc.ca/</a></div>
-        </div>
-      </div>
-      <div class="action-card">
-        <div class="action-number">02</div>
-        <div style="flex:1;">
-          <div class="action-content-header">
-            <div class="action-headline">Apply for EDC Critical Minerals Financing</div>
-            <span class="urgency-tag urgency-watch">Monitor</span>
-          </div>
-          <div class="action-body">Submit pre-qualification applications to Export Development Canada for Indonesia battery supply chain projects. $825M commitment deadline for partner vetting is imminent.</div>
-          <div style="margin-top:10px;"><a href="https://www.edc.ca/en/business-solutions/financing/critical-minerals.html" style="font-family:DM Mono,monospace;font-size:9px;color:var(--brand);" target="_blank">↗ https://www.edc.ca/en/business-solutions/financing/critical-minerals.html</a></div>
-        </div>
-      </div>
-      <div class="action-card">
-        <div class="action-number">03</div>
-        <div style="flex:1;">
-          <div class="action-content-header">
-            <div class="action-headline">Register for ISED G7 Critical Minerals Webinar</div>
-            <span class="urgency-tag urgency-watch">Monitor</span>
-          </div>
-          <div class="action-body">Attend upcoming Innovation, Science and Economic Development Canada briefing on G7 Alliance export quotas and compliance requirements for lithium and cobalt shipments.</div>
-          <div style="margin-top:10px;"><a href="https://www.canada.ca/en/innovation-science-economic-development.html" style="font-family:DM Mono,monospace;font-size:9px;color:var(--brand);" target="_blank">↗ https://www.canada.ca/en/innovation-science-economic-development.html</a></div>
-        </div>
-      </div>
-      <div class="action-card">
-        <div class="action-number">04</div>
-        <div style="flex:1;">
-          <div class="action-content-header">
-            <div class="action-headline">Review MCCI Market Entry Reports</div>
-            <span class="urgency-tag urgency-watch">Monitor</span>
-          </div>
-          <div class="action-body">Access Canada's Market Access Secretariat reports on Indonesia FIPA implementation and South Korea battery demand forecasts to validate supply chain positioning.</div>
-          <div style="margin-top:10px;"><a href="https://www.tradecommissioner.gc.ca/market-intelligence" style="font-family:DM Mono,monospace;font-size:9px;color:var(--brand);" target="_blank">↗ https://www.tradecommissioner.gc.ca/market-intelligence</a></div>
-        </div>
-      </div>
-    </div>
+    <p style="font-size:12px;font-family:'DM Mono',monospace;letter-spacing:0.06em;color:var(--ink-light);margin-bottom:20px;text-transform:uppercase;">Time-sensitive actions — week of May 16, 2026</p>
+    <div class="actions-compact">
+  <div class="action-row" onclick="toggleAction('act-1')" id="act-1-row">
+    <span class="urgency-tag urgency-watch">Monitor</span>
+    <span class="action-row-number" style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;color:var(--ink-light);margin-right:8px;">ACTION 01</span>
+    <span class="action-row-title">Contact Trade Commissioner India Desk</span>
+    <span class="action-row-chevron">▾</span>
+  </div>
+  
+  <div class="action-expand" id="act-1">
+    <div class="action-expand-body">Uranium exporters and mining firms—engage MCCI (Market Access, Competitiveness & Innovation) India team for CEPA tariff line verification and buyer introductions. Window closes as tariff codes finalize this week.</div>
+<div style="margin-top:8px;"><a href="https://www.tradecommissioner.gc.ca/" style="font-family:'DM Mono',monospace;font-size:9px;color:var(--brand);" target="_blank">↗ View resource</a></div>
+  </div>
+  <div class="action-row" onclick="toggleAction('act-2')" id="act-2-row">
+    <span class="urgency-tag urgency-watch">Monitor</span>
+    <span class="action-row-number" style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;color:var(--ink-light);margin-right:8px;">ACTION 02</span>
+    <span class="action-row-title">Apply for EDC Critical Minerals Financing</span>
+    <span class="action-row-chevron">▾</span>
+  </div>
+  
+  <div class="action-expand" id="act-2">
+    <div class="action-expand-body">Submit pre-qualification applications to Export Development Canada for Indonesia battery supply chain projects. $825M commitment deadline for partner vetting is imminent.</div>
+<div style="margin-top:8px;"><a href="https://www.edc.ca/en/business-solutions/financing/critical-minerals.html" style="font-family:'DM Mono',monospace;font-size:9px;color:var(--brand);" target="_blank">↗ View resource</a></div>
+  </div>
+  <div class="action-row" onclick="toggleAction('act-3')" id="act-3-row">
+    <span class="urgency-tag urgency-watch">Monitor</span>
+    <span class="action-row-number" style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;color:var(--ink-light);margin-right:8px;">ACTION 03</span>
+    <span class="action-row-title">Register for ISED G7 Critical Minerals Webinar</span>
+    <span class="action-row-chevron">▾</span>
+  </div>
+  
+  <div class="action-expand" id="act-3">
+    <div class="action-expand-body">Attend upcoming Innovation, Science and Economic Development Canada briefing on G7 Alliance export quotas and compliance requirements for lithium and cobalt shipments.</div>
+<div style="margin-top:8px;"><a href="https://www.canada.ca/en/innovation-science-economic-development.html" style="font-family:'DM Mono',monospace;font-size:9px;color:var(--brand);" target="_blank">↗ View resource</a></div>
+  </div>
+  <div class="action-row" onclick="toggleAction('act-4')" id="act-4-row">
+    <span class="urgency-tag urgency-watch">Monitor</span>
+    <span class="action-row-number" style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;color:var(--ink-light);margin-right:8px;">ACTION 04</span>
+    <span class="action-row-title">Review MCCI Market Entry Reports</span>
+    <span class="action-row-chevron">▾</span>
+  </div>
+  
+  <div class="action-expand" id="act-4">
+    <div class="action-expand-body">Access Canada's Market Access Secretariat reports on Indonesia FIPA implementation and South Korea battery demand forecasts to validate supply chain positioning.</div>
+<div style="margin-top:8px;"><a href="https://www.tradecommissioner.gc.ca/market-intelligence" style="font-family:'DM Mono',monospace;font-size:9px;color:var(--brand);" target="_blank">↗ View resource</a></div>
+  </div>
+</div>
   </section>
 
   <!-- PROCUREMENT SIGNALS -->
@@ -1044,6 +1164,9 @@
       <span class="section-label">📋 Procurement Signals — Federal &amp; International Tenders</span>
       <div class="section-rule"></div>
     </div>
+    <p class="procurement-intro" style="font-size:13px;color:var(--ink-mid);line-height:1.7;margin-bottom:18px;max-width:680px;">
+      The 5 highest-priority tenders for Energy & Cleantech exporters closing soonest this week — ranked by deadline and sector relevance.
+    </p>
     <div class="proc-watch">
       
       <div class="proc-row">
@@ -1055,7 +1178,7 @@
           
           <a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/qc20138291" target="_blank" rel="noopener" style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--brand);">View →</a>
         </div>
-        <div class="proc-why">→ This tender is relevant to Canadian businesses because it represents a municipal infrastructure contract in Quebec for water and sewage system upgrades that off</div>
+        <div class="proc-why">→ This tender is relevant to Canadian businesses because it represents a municipal infrastructure contract in Quebec for water and sewage system upgrades that offers opportunities for engineering firms, construction companies, and cleantech suppliers across Canada to bid on essential public works projects in a major Canadian market.</div>
       </div>
       <div class="proc-row">
         <div class="proc-title">Receiver General  - Print and deliver custom envelopes</div>
@@ -1066,7 +1189,7 @@
           
           <a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/ws5484746396-doc5649468388" target="_blank" rel="noopener" style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--brand);">View →</a>
         </div>
-        <div class="proc-why">→ This Government of Canada procurement represents direct business opportunity for Canadian printing and envelope manufacturers to supply federal services while t</div>
+        <div class="proc-why">→ This Government of Canada procurement represents direct business opportunity for Canadian printing and envelope manufacturers to supply federal services while the critical minerals sector context suggests potential connection to government supply chain resilience initiatives.</div>
       </div>
       <div class="proc-row">
         <div class="proc-title">2026 NATURAL GAS STEEL TRANSMISSION AND HIGH-PRESSURE PIPELINE INSTALLATIONS</div>
@@ -1077,7 +1200,7 @@
           
           <a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/mx-443974047907" target="_blank" rel="noopener" style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--brand);">View →</a>
         </div>
-        <div class="proc-why">→ This tender is relevant to Canadian businesses because Manitoba Hydro's natural gas infrastructure projects require specialized pipeline installation expertise </div>
+        <div class="proc-why">→ This tender is relevant to Canadian businesses because Manitoba Hydro's natural gas infrastructure projects require specialized pipeline installation expertise and materials that align with Canada's energy transition priorities and create significant opportunities for domestic engineering firms, manufacturers, and construction contractors across multiple provinces.</div>
       </div>
       <div class="proc-row">
         <div class="proc-title">P5929.00.2B - Coteau Creek GSU Fire Wall Ext and Windows Repl</div>
@@ -1099,48 +1222,38 @@
           
           <a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/mx-443977209676" target="_blank" rel="noopener" style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--brand);">View →</a>
         </div>
-        <div class="proc-why">→ This tender is relevant to Canadian businesses because Manitoba Hydro, a major provincial Crown utility, requires transportation support services that Canadian </div>
+        <div class="proc-why">→ This tender is relevant to Canadian businesses because Manitoba Hydro, a major provincial Crown utility, requires transportation support services that Canadian logistics and transportation firms can competitively bid on, particularly those with expertise in energy sector operations and cleantech initiatives.</div>
       </div>
-      <div class="proc-footer">
-        <a href="https://canadiantradeintel.ca/procurement" target="_blank" rel="noopener">
-          View all 200 federal &amp; international tenders tracked this week → canadiantradeintel.ca/procurement
-        </a>
-      </div>
+    </div>
+    <div class="proc-footer" style="margin-top:12px;">
+      <a href="https://canadiantradeintel.ca/procurement" target="_blank" rel="noopener"
+         style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--sector);">
+        View all tenders →
+      </a>
     </div>
   </section>
 
   <!-- SUPPLY CHAIN WATCH -->
-  <section id="supply-chain" class="mb-56">
-    <div class="section-header">
-      <span class="section-label">🔗 Supply Chain Watch</span>
-      <div class="section-rule"></div>
-    </div>
-    <p style="font-size:13px;color:var(--ink-mid);margin-bottom:20px;max-width:680px;line-height:1.7;">
-      Import dependencies, critical input signals, and inbound supply chain risks for Canadian businesses in this sector this week.
-    </p>
-    <div class="scw-grid">
-      <div class="scw-item"><div class="scw-left"><div class="scw-input">LNG tanker services and maintenance capacity (Russian supply chain exposure)</div><div class="scw-status">EU 20th sanctions package (February 2026) targeting Russian LNG tanker maintenance services will tighten global service availability and drive cost inflation. Canadian LNG exporters and downstream energy firms relying on Russian-serviced tanker fleets face indirect supply chain friction.</div><div class="scw-action">→ Audit LNG logistics contracts for Russian tanker service dependencies; secure long-term commitments with non-Russian maintenance providers (Singapore, South Korea yards) before sanctions take effect.</div></div><div class="scw-risk scw-risk-med">Med</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">Clean energy equipment and components (Chinese/Russian export exposure)</div><div class="scw-status">EU sanctions package includes export controls on clean energy equipment from Russia; parallel supply chain tightening in solar inverters, battery components, and critical minerals processing. Canadian cleantech manufacturers sourcing from affected regions face lead-time extension and cost pressure.</div><div class="scw-action">→ Map sourcing of solar inverters, power electronics, and battery components; prioritize CEPA-advantaged Indonesian supply chains and evaluate South Korea battery capacity (register for ISED G7 Critical Minerals Webinar this week for compliance clarity).</div></div><div class="scw-risk scw-risk-med">Med</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">Uranium (front-end fuel cycle inputs and Indian market access)</div><div class="scw-status">CEPA tariff reductions for uranium exports to India now in effect; Indian nuclear expansion accelerating, creating tight spot market conditions. Canadian uranium miners competing on pricing and delivery reliability.</div><div class="scw-action">→ Uranium exporters and mining firms: contact Trade Commissioner India Desk and MCCI team immediately to confirm tariff advantage documentation and lock in Indian offtake agreements before competitors saturate the market.</div></div><div class="scw-risk scw-risk-low">Low</div></div>
-    </div>
-    <div class="scw-footer">Inbound supply chain signals · Updated weekly · Pipeline data April 21, 2026</div>
-  </section>
-
-  <!-- REGULATORY & COMPLIANCE PULSE -->
-  <section id="compliance" class="mb-56">
-    <div class="section-header">
-      <span class="section-label">⚖ Regulatory &amp; Compliance Pulse</span>
-      <div class="section-rule"></div>
-    </div>
-    <div class="compliance-desk">
-      <div class="compliance-desk-header">⚖ Regulatory &amp; Compliance Pulse &nbsp;·&nbsp; Energy & Cleantech &nbsp;·&nbsp; April 21, 2026</div>
-      <div class="compliance-row"><span class="compliance-label">US OFAC Specially Designated Nationals</span><span class="compliance-value"><span class="compliance-added">+25 added</span><button class="comp-toggle" onclick="toggleCompliance('comp_ofac_sdn')" aria-expanded="false" style="background:none;border:none;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.08em;color:#7a6a3a;cursor:pointer;margin-left:6px;padding:0;text-transform:uppercase;">Details ▾</button></span></div><div id="comp_ofac_sdn" class="compliance-detail" style="display:none;"># OFAC SDN Update: Iran Shipping Network Designation
-
-This week's additions target a significant shipping network linked to Iranian official Mohammad Hossein Shamkhani, comprising 20 entities and vessels under the Iran sanctions program (EO13902). The designations focus on maritime transportation infrastructure, particularly tanker operations and shipping companies registered across jurisdictions including India, Panama, and the UAE—sectors that may affect Canadian exporters involved in commodity trade, logistics, or supply chain routing. Canadian manufacturers and traders should screen customers, freight forwarders, and logistics partners against these names to ensure compliance, particularly those engaged in indirect Iran trade or using intermediary shipping arrangements. The pattern suggests US enforcement efforts targeting sanctions evasion networks that obscure Iranian commercial activity, indicating potential exposure for exporters using third-party maritime services without full end-use visibility. Immediate action warranted: cross-reference shipping manifests, bills of lading, and freight providers against this list if your supply chains involve international maritime transport.</div><div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.04em;color:#7a6a3a;padding:2px 0 2px 2px;">✓ No changes · UN Security Council Consolidated List</div><div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.04em;color:#7a6a3a;padding:2px 0 2px 2px;">✓ No changes · Canada Gazette RSS</div><div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.04em;color:#7a6a3a;padding:2px 0 2px 2px;">✓ No changes · US BIS Entity List</div><div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.04em;color:#7a6a3a;padding:2px 0 2px 2px;">✓ No changes · Canada Autonomous Sanctions (GACC)</div><div class="compliance-row" style="margin-top:6px;padding-top:10px;border-top:1px solid #d8d0c0;"><span class="compliance-label">Net change</span><span class="compliance-value" style="color:#8b1a1a;font-weight:600;">+25 entities across all lists</span></div><div style="background:rgba(139,26,26,0.06);border:1px solid rgba(139,26,26,0.15);border-left:3px solid #8b1a1a;padding:10px 13px;margin-top:10px;"><div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:#8b1a1a;margin-bottom:5px;">⚠ Review Required This Week</div><div style="font-size:13px;color:var(--ink-soft);line-height:1.7;"># OFAC SDN Update: Iran Shipping Network Designation
-
-This week's additions target a significant shipping network linked to Iranian official Mohammad Hossein Shamkhani, comprising 20 entities and vessels under the Iran sanctions program (EO13902). The designations focus on maritime transportation in</div></div><p style="margin-top:8px;margin-bottom:0;font-size:12px;font-family:'DM Mono',monospace;letter-spacing:0.06em;"><a href="https://canadiantradeintel.ca/tools/sanctions-check/" style="color:#8B1A1A;text-decoration:none;">Screen a supplier or counterparty against all lists →</a></p><div style="margin-top:12px;padding-top:10px;border-top:1px solid #e0d8c8;"><div style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.12em;text-transform:uppercase;color:#9a8a5a;margin-bottom:6px;">Verify directly</div><div style="line-height:2.4;"><a href="https://ofac.treasury.gov/sanctions-list-service" target="_blank" rel="noopener" style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.06em;color:#7a6a3a;text-decoration:none;border-bottom:1px solid rgba(122,106,26,0.3);">OFAC SDN →</a> &nbsp;·&nbsp; <a href="https://www.un.org/securitycouncil/content/un-sc-consolidated-list" target="_blank" rel="noopener" style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.06em;color:#7a6a3a;text-decoration:none;border-bottom:1px solid rgba(122,106,26,0.3);">UN Consolidated →</a> &nbsp;·&nbsp; <a href="https://www.international.gc.ca/world-monde/international_relations-relations_internationales/sanctions/current-actuelles.aspx" target="_blank" rel="noopener" style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.06em;color:#7a6a3a;text-decoration:none;border-bottom:1px solid rgba(122,106,26,0.3);">Canada Sanctions →</a> &nbsp;·&nbsp; <a href="https://www.international.gc.ca/world-monde/international_relations-relations_internationales/sanctions/current-actuelles.aspx" target="_blank" rel="noopener" style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.06em;color:#7a6a3a;text-decoration:none;border-bottom:1px solid rgba(122,106,26,0.3);">Canada GACC →</a> &nbsp;·&nbsp; <a href="https://www.bis.doc.gov/index.php/policy-guidance/lists-of-parties-of-concern" target="_blank" rel="noopener" style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.06em;color:#7a6a3a;text-decoration:none;border-bottom:1px solid rgba(122,106,26,0.3);">BIS Entity List →</a></div></div><div style="margin-top:10px;padding-top:10px;border-top:1px solid #e0d8c8;"><div style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.12em;text-transform:uppercase;color:#9a8a5a;margin-bottom:5px;">Export permit reminder</div><div style="font-size:12px;color:var(--ink-soft);line-height:1.7;">LNG exports require NEB/CER export licence. Hydrogen equipment may be dual-use (fuel cell tech). Clean energy project finance to sanctioned jurisdictions requires OFAC/GAC clearance.</div></div>
-    </div>
-  </section>
+  
 
   
+  <!-- REGULATORY UPDATE -->
+  <section style="margin-bottom:40px;">
+    <div style="border-left:4px solid var(--amber);background:#fffbf0;padding:14px 18px 10px;">
+      <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.16em;text-transform:uppercase;color:var(--amber);margin-bottom:4px;">
+        ⚖ Regulatory Pulse — This Week
+      </div>
+      <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-bottom:8px;">
+        CITT decisions, Canada Gazette notices, and regulatory changes relevant to this sector. Updated weekly. Click any item for official source.
+      </div>
+      <ul style="margin:0;padding:0;"><li style="padding:6px 0;border-bottom:1px solid rgba(200,134,10,0.15);list-style:none;font-size:12px;color:var(--ink-mid);line-height:1.6;">🟡 <strong style="color:var(--ink);">Reasons for finding — May 19, 2026</strong><span style="color:var(--ink-light);font-size:11px;"> — The Canadian International Trade Tribunal ruled that imported steel pipes are being dumped at unfairly low prices, triggering new tariffs to protect Canadian pipe manufacturers from losing market share.</span> <a href="https://www.citt-tcce.gc.ca/en/anti-dumping-injury-inquiries/active-dumping-and-subsidizing-cases" style="color:var(--amber);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" target="_blank">Source →</a><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:8px;">CITT</span></li><li style="padding:6px 0;border-bottom:1px solid rgba(200,134,10,0.15);list-style:none;font-size:12px;color:var(--ink-mid);line-height:1.6;">🟡 <strong style="color:var(--ink);">Determination — May 15, 2026</strong><span style="color:var(--ink-light);font-size:11px;"> — Canadian manufacturers can now export steel pipes to the U.S. without facing additional tariffs after the Canadian International Trade Tribunal ruled the dumping investigation closed.</span> <a href="https://www.citt-tcce.gc.ca/en/anti-dumping-injury-inquiries/active-dumping-and-subsidizing-cases" style="color:var(--amber);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" target="_blank">Source →</a><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:8px;">CITT</span></li><li style="padding:6px 0;border-bottom:1px solid rgba(200,134,10,0.15);list-style:none;font-size:12px;color:var(--ink-mid);line-height:1.6;">🟡 <strong style="color:var(--ink);">Document — Date issued or updated</strong><span style="color:var(--ink-light);font-size:11px;"> — I cannot write a meaningful summary because the source document contains only placeholder text with no actual regulatory content or details about what changed.</span> <a href="https://www.citt-tcce.gc.ca/en/anti-dumping-injury-inquiries/active-dumping-and-subsidizing-cases" style="color:var(--amber);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" target="_blank">Source →</a><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:8px;">CITT</span></li></ul>
+      <div style="font-family:'DM Mono',monospace;font-size:8px;color:var(--ink-light);margin-top:8px;">
+        Sources: Canada Gazette Part II · CITT · CBSA · Parliament<br>
+        <a href="https://canadiantradeintel.ca/tools/sanctions-check/" style="color:var(--amber);margin-right:12px;">Screen a supplier or counterparty →</a>
+        <a href="https://canadiantradeintel.ca/tools/tariffs/" style="color:var(--amber);">Tariff &amp; trade agreement lookup →</a>
+      </div>
+    </div>
+  </section>
 
   <!-- MARKET ENTRY PATHWAYS -->
   <section id="pathways" class="mb-56">
@@ -1148,6 +1261,7 @@ This week's additions target a significant shipping network linked to Iranian of
       <span class="section-label">🗺 Market Entry Pathways</span>
       <div class="section-rule"></div>
     </div>
+    <p style="font-size:12px;font-family:'DM Mono',monospace;letter-spacing:0.06em;color:var(--ink-light);margin-bottom:16px;text-transform:uppercase;">Programmes and strategic entry routes for Canadian businesses</p>
     <p style="font-size:13px;color:var(--ink-mid);margin-bottom:24px;max-width:680px;line-height:1.7;">
       Step-by-step pathways for the highest-opportunity market combinations this week.
       Each pathway includes the relevant trade agreement, financing instruments, and TCS contacts.
@@ -1209,177 +1323,29 @@ This week's additions target a significant shipping network linked to Iranian of
   </section>
 
   <!-- RISK REGISTER -->
-  <section id="risk-register" class="mb-56">
-    <div class="section-header">
-      <span class="section-label">⚠ Risk Register</span>
-      <div class="section-rule"></div>
-    </div>
-    <p style="font-size:13px;color:var(--ink-mid);margin-bottom:20px;max-width:680px;line-height:1.7;">
-      Persistent risks and watch items tracked across issues. Active risks require near-term attention; Watch items are monitored for escalation.
-    </p>
-    
-    <div style="overflow-x:auto;">
-      <table style="width:100%;border-collapse:collapse;font-family:'DM Sans',sans-serif;">
-        <thead>
-          <tr style="border-bottom:1.5px solid var(--rule);">
-            <th style="padding:8px 12px;text-align:left;font-size:9px;font-family:'DM Mono',monospace;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-light);font-weight:500;">Risk</th>
-            <th style="padding:8px 12px;text-align:center;font-size:9px;font-family:'DM Mono',monospace;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-light);font-weight:500;">Status</th>
-            <th style="padding:8px 12px;text-align:left;font-size:9px;font-family:'DM Mono',monospace;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-light);font-weight:500;">First Seen</th>
-            <th style="padding:8px 12px;text-align:left;font-size:9px;font-family:'DM Mono',monospace;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-light);font-weight:500;">Description</th>
-          </tr>
-        </thead>
-        <tbody>
-      <tr>
-        <td style="padding:10px 12px;font-size:12px;font-weight:600;color:var(--ink);max-width:220px;line-height:1.45;">Alberta renewable energy investment collapsed in 2025 with no new wind projects </td>
-        <td style="padding:10px 12px;text-align:center;white-space:nowrap;">
-          <span style="display:inline-block;background:#b87c00;color:#fff;font-size:9px;font-family:'DM Mono',monospace;letter-spacing:0.08em;text-transform:uppercase;padding:2px 7px;border-radius:2px;">Watch</span>
-        </td>
-        <td style="padding:10px 12px;font-size:11px;font-family:'DM Mono',monospace;color:var(--ink-mid);white-space:nowrap;">#002</td>
-        <td style="padding:10px 12px;font-size:12px;color:var(--ink-mid);line-height:1.5;max-width:380px;"><cite index="28-12,28-14">Alberta saw no new wind power announced in 2025 for the first time in seven years, while solar power experienced its smallest annual growth in capacity since 2019.</cite> <cite index="28-18,28-19">Annual renewable additions dropped fr</td>
-      </tr>
-      <tr>
-        <td style="padding:10px 12px;font-size:12px;font-weight:600;color:var(--ink);max-width:220px;line-height:1.45;">Canada backing carbon capture buildout to secure oil sands future with April dea</td>
-        <td style="padding:10px 12px;text-align:center;white-space:nowrap;">
-          <span style="display:inline-block;background:#8b1a1a;color:#fff;font-size:9px;font-family:'DM Mono',monospace;letter-spacing:0.08em;text-transform:uppercase;padding:2px 7px;border-radius:2px;">Active</span>
-        </td>
-        <td style="padding:10px 12px;font-size:11px;font-family:'DM Mono',monospace;color:var(--ink-mid);white-space:nowrap;">#002</td>
-        <td style="padding:10px 12px;font-size:12px;color:var(--ink-mid);line-height:1.5;max-width:380px;">Energy Minister Tim Hodgson signaled this week that Canada-Alberta negotiations on Pathways Alliance carbon capture project may extend beyond April 1, 2026 deadline. The project involves six major oil sands producers planning 400-kilometre CO2 pipeline to redu</td>
-      </tr>
-      <tr>
-        <td style="padding:10px 12px;font-size:12px;font-weight:600;color:var(--ink);max-width:220px;line-height:1.45;">EU prepares 20th sanctions package targeting Russian energy including LNG tanker</td>
-        <td style="padding:10px 12px;text-align:center;white-space:nowrap;">
-          <span style="display:inline-block;background:#8b1a1a;color:#fff;font-size:9px;font-family:'DM Mono',monospace;letter-spacing:0.08em;text-transform:uppercase;padding:2px 7px;border-radius:2px;">Active</span>
-        </td>
-        <td style="padding:10px 12px;font-size:11px;font-family:'DM Mono',monospace;color:var(--ink-mid);white-space:nowrap;">#002</td>
-        <td style="padding:10px 12px;font-size:12px;color:var(--ink-mid);line-height:1.5;max-width:380px;">The European Commission presented a draft 20th sanctions package in February 2026 targeting Russian energy, including bans on LNG tanker maintenance services and listing 43 more shadow fleet vessels. Decision expected by end-February 2026. Package includes tig</td>
-      </tr>
-      <tr>
-        <td style="padding:10px 12px;font-size:12px;font-weight:600;color:var(--ink);max-width:220px;line-height:1.45;">Federal government launched engagement on strengthening industrial carbon pricin</td>
-        <td style="padding:10px 12px;text-align:center;white-space:nowrap;">
-          <span style="display:inline-block;background:#8b1a1a;color:#fff;font-size:9px;font-family:'DM Mono',monospace;letter-spacing:0.08em;text-transform:uppercase;padding:2px 7px;border-radius:2px;">Active</span>
-        </td>
-        <td style="padding:10px 12px;font-size:11px;font-family:'DM Mono',monospace;color:var(--ink-mid);white-space:nowrap;">#002</td>
-        <td style="padding:10px 12px;font-size:12px;color:var(--ink-mid);line-height:1.5;max-width:380px;">Environment and Climate Change Canada launched consultation December 19, 2025 on updating federal benchmark criteria, closing January 30, 2026. Minister's response to Net-Zero Advisory Body issued April 17, 2026 emphasized Climate Competitiveness Strategy from</td>
-      </tr>
-      <tr>
-        <td style="padding:10px 12px;font-size:12px;font-weight:600;color:var(--ink);max-width:220px;line-height:1.45;">New England Clean Energy Connect transmission line began commercial operation on</td>
-        <td style="padding:10px 12px;text-align:center;white-space:nowrap;">
-          <span style="display:inline-block;background:#8b1a1a;color:#fff;font-size:9px;font-family:'DM Mono',monospace;letter-spacing:0.08em;text-transform:uppercase;padding:2px 7px;border-radius:2px;">Active</span>
-        </td>
-        <td style="padding:10px 12px;font-size:11px;font-family:'DM Mono',monospace;color:var(--ink-mid);white-space:nowrap;">#002</td>
-        <td style="padding:10px 12px;font-size:12px;color:var(--ink-mid);line-height:1.5;max-width:380px;"><cite index="3-1,3-6">The New England Clean Energy Connect (NECEC), a 1,200 megawatt transmission line project, began commercial operation on January 16, 2026.</cite> However, <cite index="3-9,8-10">power flows on NECEC stopped on January 24 and remained large</td>
-      </tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
   <!-- CANADIAN SPOTLIGHT -->
   <section id="spotlight" class="mb-56">
     <div class="section-header">
       <span class="section-label">🇨🇦 Canadian Spotlight</span>
       <div class="section-rule"></div>
     </div>
-    <p style="font-size:13px;color:var(--ink-mid);margin-bottom:24px;max-width:680px;line-height:1.7;">
-      Canadian companies making moves in export markets this week.
-      <a href="https://canadiantradeintel.ca/spotlight" style="color:var(--sector);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.08em;">
-        See all Spotlight stories →
-      </a>
+    <p style="font-size:15px;color:var(--ink-mid);line-height:1.75;margin-top:12px;">
+      Every week CTI spotlights Canadian businesses making moves in this sector — international deals, market entries, contracts won, partnerships formed.
+      <a href="https://canadiantradeintel.ca/spotlight/" style="color:var(--sector);">Browse Canadian Spotlight →</a>
     </p>
-    <div class="spotlight-grid">
-      
-      <div class="spotlight-card">
-        <div class="spotlight-card-header">
-          <div class="spotlight-card-eyebrow">Energy & Cleantech · Canada</div>
-          <div class="spotlight-card-company">NorthStar Earth & Space</div>
-        </div>
-        <div class="spotlight-card-body">
-          <div class="spotlight-card-headline">Canadian satellite startup NorthStar on track to hit US$300-million valuation after SPAC merger</div>
-          <div class="spotlight-card-text">This signals Ottawa's growing confidence in Canadian space-tech capability for sovereign defence needs—a critical validation that de-risks NorthStar's technology and opens pathways to allied government contracts (U.S., UK, NATO members). The $300M valuation reflects investor confidence in space surveillance as a growth sector. For competitors and adjacent suppliers (ground stations, data analytics, integration firms), this demonstrates market appetite and potential as a prime contractor or partn</div>
-          
-        </div>
-      </div>
-      <div class="spotlight-card">
-        <div class="spotlight-card-header">
-          <div class="spotlight-card-eyebrow">Energy & Cleantech · Canada</div>
-          <div class="spotlight-card-company">AtkinsRéalis Group Inc.</div>
-        </div>
-        <div class="spotlight-card-body">
-          <div class="spotlight-card-headline">AtkinsRéalis to acquire Australia-based engineering consultancy WGA</div>
-          <div class="spotlight-card-text">This acquisition signals AtkinsRéalis' strategic pivot toward Indo-Pacific infrastructure markets as a growth vector, particularly in defence-related and critical infrastructure sectors where Australian demand is surging. The 800-person addition materially expands the firm's regional bench strength and local market access—critical for competing on government tenders and major capital projects in Australia and the region. For Canadian engineering and consulting competitors, this demonstrates that</div>
-          
-        </div>
-      </div>
-    </div>
   </section>
 
   <!-- SOURCE INDEX -->
-  
-<!-- ================================================================
-     SOURCES & REFERENCES — Canadian Trade Intelligence
-     Generated by government_sources_registry.render_sources_block()
-     ================================================================ -->
-<section class="report-sources" id="sources">
-  <h2>Sources &amp; References</h2>
-
-  <p class="sources-intro">
-    Canadian Trade Intelligence aggregates and synthesizes primary government data,
-    Crown corporation intelligence, and vetted news sources to produce this report.
-    We are the bridge between Canada's government data infrastructure and the
-    actionable weekly intelligence your business needs. All primary sources are
-    publicly accessible and linked below.
-  </p>
-
-  <div class="sources-tier">
-    <h3>Government Primary Sources</h3>
-    <ul>
-      <li><a href="https://www150.statcan.gc.ca/n1/en/catalogue/65F0013X" target="_blank" rel="noopener">Statistics Canada — Canadian International Merchandise Trade (CIMT)</a> <span class="source-vintage">(Monthly — current through ~2 months prior)</span> — Detailed monthly import and export data at the 6-digit HS commodity level. Selectable by country, province, year and month. Exportable to CSV. Best source for current bilateral goods trade flows by sector.</li>
-<li><a href="https://www150.statcan.gc.ca/n1/en/subjects/international_trade" target="_blank" rel="noopener">Statistics Canada — The Daily: International Merchandise Trade</a> <span class="source-vintage">(Monthly — published with ~5 week lag)</span> — Monthly press release covering Canada's merchandise trade with top 10 partners, NAPCS sector breakdown, and balance of payments data. Released approximately 5–6 weeks after reference month.</li>
-<li><a href="https://www.statcan.gc.ca/en/stathub" target="_blank" rel="noopener">Statistics Canada — Canada and the World Statistics Hub</a> <span class="source-vintage">(Varies by indicator; generally annual with some quarterly series)</span> — Interactive bilateral data hub covering trade, investment, employment and travel for 18 of Canada's major trading partners. Brings together multiple StatCan datasets in a single country-level analytical tool.</li>
-<li><a href="https://ised-isde.canada.ca/site/canadian-importers-database/en" target="_blank" rel="noopener">ISED Canadian Importers Database</a> <span class="source-vintage">(2023 (CBSA-sourced) — NOTE: typically lags ~2 years; 2024 not yet released as of April 2026)</span> — Company-level list of major Canadian importers by product (HS code), city, and country of origin. 'Major importers' = companies collectively accounting for up to 80% of imports of a given product. Includes customs brokers and non-resident importers.</li>
-<li><a href="https://ised-isde.canada.ca/site/trade-data-online/en" target="_blank" rel="noopener">ISED Trade Data Online</a> <span class="source-vintage">(Monthly — current through recent months)</span> — Monthly aggregate bilateral trade flows for Canadian imports and exports, by HS product and NAICS industry, for 200+ countries. Sourced from Statistics Canada and U.S. Census Bureau.</li>
-<li><a href="https://natural-resources.canada.ca/maps-tools-publications/publications/mineral-trade" target="_blank" rel="noopener">Natural Resources Canada — Mineral Trade Statistics</a> <span class="source-vintage">(Annual — data through April 2025, subject to revision)</span> — Bilateral mineral and metals trade data by country and commodity, classified by stage of processing (raw → refined → manufactured). Derived from CBSA/StatCan customs data, further annotated by NRCan by mineral type. Current through April 2025.</li>
-<li><a href="https://international.canada.ca/en/global-affairs/corporate/reports/chief-economist/state-trade/2025" target="_blank" rel="noopener">Global Affairs Canada — Canada's State of Trade</a> <span class="source-vintage">(2024 full-year (2025 report))</span> — Annual comprehensive report on Canada's international trade and economic performance. Covers merchandise exports/imports, services trade, FDI flows in and out, sector-by-sector performance, and the economic outlook. 2025 edition covers full-year 2024 data.</li>
-<li><a href="https://international.canada.ca/en/global-affairs/campaigns/canada-us-engagement" target="_blank" rel="noopener">Global Affairs Canada — Canada's Response to U.S. Tariffs</a> <span class="source-vintage">(Current — actively updated)</span> — Live policy page covering Canada's response to U.S. tariffs including relief measures, support programs, retaliatory measures, and sector impacts. Frequently updated — key cross-sector risk signal.</li>
-<li><a href="https://www.edc.ca/en/guide/cleantech-report-2025.html" target="_blank" rel="noopener">EDC — Canada's Cleantech Future: Scalable, Profitable, Essential (2025)</a> <span class="source-vintage">(October 2025)</span> <span class="source-note">Free EDC account registration required for full report. Executive summary accessible without login.</span> — EDC's flagship annual cleantech report identifying Canada's three core export advantages: renewable energy, EVs/electrified transport, and electrification technologies. Key finding: 77% of Canada's cleantech exports go to the U.S., creating concentration risk. Global clean energy investment: US$2 trillion in 2024.</li>
-<li><a href="https://canadabuys.canada.ca/en" target="_blank" rel="noopener">CanadaBuys — Government of Canada Procurement</a> <span class="source-vintage">(Real-time)</span> — Official Government of Canada procurement portal. Covers federal tender notices, awarded contracts, and standing offers. Key for Aerospace & Defence and Tech sectors.</li>
-    </ul>
-    
-        <p class="source-importer-note">
-          ⚠️ <strong>Importer data note:</strong> Company-level import intelligence sourced from
-          the <a href="https://ised-isde.canada.ca/site/canadian-importers-database/en" target="_blank">ISED Canadian Importers Database</a>.
-          Most recent available data is 2023 (CBSA-sourced). 2024 data not yet released as of
-          April 2026. For current aggregate trade flows by product and country, see
-          <a href="https://www150.statcan.gc.ca/n1/en/catalogue/65F0013X" target="_blank">StatCan CIMT</a>
-          (updated monthly).
-        </p>
-        
-  </div>
-
-  <div class="sources-tier">
-    <h3>Industry &amp; Crown Corporation Sources</h3>
-    <ul>
-      <li><a href="https://www.edc.ca/en/country-info.html" target="_blank" rel="noopener">EDC — Country Risk and Market Intelligence</a> <span class="source-vintage">(Continuously updated)</span> — Per-country risk ratings, market articles, and trade intelligence published by EDC. Covers 200+ markets. Useful for dossier risk scores and 'Further Reading' links.</li>
-<li><a href="https://www.iea.org/reports/global-critical-minerals-outlook-2025" target="_blank" rel="noopener">IEA — Global Critical Minerals Outlook 2025</a> <span class="source-vintage">(2025 edition)</span> — International benchmark for critical minerals supply/demand projections, investment trends, policy mechanisms for supply chain diversification, and emerging battery technology mineral requirements.</li>
-<li><a href="https://projects.worldbank.org/en/projects-operations/projects-home" target="_blank" rel="noopener">World Bank — Projects & Operations (Procurement)</a> <span class="source-vintage">(Continuously updated)</span> — Global development bank project database. Canadian companies in infrastructure, engineering, agri-food, and cleantech can bid on World Bank-financed contracts worldwide.</li>
-    </ul>
-  </div>
-
-  <div class="sources-tier">
-    <h3>News &amp; Media Sources</h3>
-    <p>See inline citations above.</p>
-    <p class="sources-disclaimer">
-      News sources are selected for relevance and credibility. CTI does not endorse
-      any specific media outlet. Inline citations appear throughout the report body.
+  <section id="source-index" class="mb-56">
+    <div class="section-header">
+      <span class="section-label">📎 Source Index</span>
+      <div class="section-rule"></div>
+    </div>
+    <p style="font-size:13px;color:var(--ink-mid);margin-bottom:16px;max-width:680px;line-height:1.7;">
+      Primary sources used to build this report.
     </p>
-  </div>
-
-  <p class="sources-methodology">
-    For our full source list, data methodology, and update schedule, visit
-    <a href="https://canadiantradeintel.ca/methodology">canadiantradeintel.ca/methodology</a>.
-  </p>
-</section>
-
+    <div style="font-family:'DM Mono',monospace;font-size:9px;color:#7a3a00;margin-bottom:6px;">Sources accessed this issue</div><div style="max-height:180px;overflow-y:auto;padding-right:8px;"><ul style="list-style:none;padding:0;margin:0;columns:3;column-gap:40px;"><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a3a00;margin-right:8px;">[1]</span><span style="font-size:10px;color:#444;">Alberta Energy, CER gas price data</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a3a00;margin-right:8px;">[2]</span><span style="font-size:10px;color:#444;">Platts LNG assessments</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a3a00;margin-right:8px;">[3]</span><span style="font-size:10px;color:#444;">Bloomberg NEF clean energy</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a3a00;margin-right:8px;">[4]</span><span style="font-size:10px;color:#444;">CER export licence notices</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a3a00;margin-right:8px;">[5]</span><span style="font-size:10px;color:#444;">Canada Gazette clean energy</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a3a00;margin-right:8px;">[6]</span><span style="font-size:10px;color:#444;">NRCan Clean Fuels Fund</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a3a00;margin-right:8px;">[7]</span><span style="font-size:10px;color:#444;">ISED SIF announcements</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a3a00;margin-right:8px;">[8]</span><span style="font-size:10px;color:#444;">Global Affairs Canada</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a3a00;margin-right:8px;">[9]</span><span style="font-size:10px;color:#444;">NRCan Energy Trade Division</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a3a00;margin-right:8px;">[10]</span><span style="font-size:10px;color:#444;">Japan METI hydrogen</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a3a00;margin-right:8px;">[11]</span><span style="font-size:10px;color:#444;">Germany BMWK</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a3a00;margin-right:8px;">[12]</span><span style="font-size:10px;color:#444;">Recharge News</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a3a00;margin-right:8px;">[13]</span><span style="font-size:10px;color:#444;">PV Tech</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a3a00;margin-right:8px;">[14]</span><span style="font-size:10px;color:#444;">Hydrogen Insight</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a3a00;margin-right:8px;">[15]</span><span style="font-size:10px;color:#444;">LNG Prime</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a3a00;margin-right:8px;">[16]</span><span style="font-size:10px;color:#444;">BloombergNEF</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a3a00;margin-right:8px;">[17]</span><span style="font-size:10px;color:#444;">Wood Mackenzie</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a3a00;margin-right:8px;">[18]</span><span style="font-size:10px;color:#444;">NRCan Clean Fuels Fund</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a3a00;margin-right:8px;">[19]</span><span style="font-size:10px;color:#444;">SIF Net Zero Accelerator</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a3a00;margin-right:8px;">[20]</span><span style="font-size:10px;color:#444;">EDC Clean Energy</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a3a00;margin-right:8px;">[21]</span><span style="font-size:10px;color:#444;">CanExport SME</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a3a00;margin-right:8px;">[22]</span><span style="font-size:10px;color:#444;">CER</span></li></ul></div>
+  </section>
 
 </main>
 </div><!-- /report-content -->
@@ -1396,7 +1362,7 @@ This week's additions target a significant shipping network linked to Iranian of
         Energy & Cleantech Intelligence Brief
       </h1>
       <div style="font-family:'DM Mono',monospace;font-size:10px;color:#888;line-height:2;">
-        Issue #004 &nbsp;·&nbsp; April 21, 2026<br>
+        Issue #004 &nbsp;·&nbsp; May 16, 2026<br>
         Prepared by Canadian Trade Intelligence Inc. &nbsp;·&nbsp; canadiantradeintel.ca
       </div>
     </div>
@@ -1404,25 +1370,42 @@ This week's additions target a significant shipping network linked to Iranian of
     <!-- 1. Situation Summary -->
     <div>
       <span style="font-size:8px;letter-spacing:0.14em;text-transform:uppercase;font-family:'DM Mono',monospace;color:#7a3a00;display:block;margin-bottom:8px;margin-top:24px;padding-top:20px;border-top:1px solid #e0dcd4;">1. Situation Summary</span>
-      <p style="font-size:14px;color:#1a1a1a;line-height:1.8;max-width:740px;">South Korea's $17.6 billion emergency renewable energy budget creates immediate procurement opportunities for Canadian battery storage, transmission, and solar suppliers, with tenders launching within weeks. Early positioning before competing suppliers establish local partnerships is critical to capture market share. Canada's India CEPA and Indonesia FIPA agreements simultaneously unlock tariff advantages and supply chain financing for critical minerals and battery components across Asia-Pacific.</p>
+      <p style="font-size:14px;color:#1a1a1a;line-height:1.8;max-width:740px;">This week marks a watershed moment for Canadian critical minerals exports with India's CEPA launch and $2.6B uranium deal creating immediate high-value opportunities, while Indonesia's FIPA signing and $825M EDC commitment opens Southeast Asia's battery supply chains. The G7 Critical Minerals Alliance's $18.5B mobilization reinforces Western friend-shoring strategies, positioning Canada as the preferred alternative to Chinese-controlled supply chains across rare earths and battery materials.</p>
     </div>
 
     <!-- 2. Top Signals -->
     <div>
       <span style="font-size:8px;letter-spacing:0.14em;text-transform:uppercase;font-family:'DM Mono',monospace;color:#7a3a00;display:block;margin-bottom:8px;margin-top:24px;padding-top:20px;border-top:1px solid #e0dcd4;">2. Top Signals</span>
-      <div style="padding:10px 0 10px 14px;border-left:3px solid #c8640a;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">South Korea announced $17.6 billion emergency renewable energy budget on April 16 following Iran war disruptions.</div><div style="font-size:12px;color:#444;line-height:1.65;">Accelerated tender schedules launching in May create compressed windows for Canadian equipment suppliers to submit applications before competitors establish local partnerships.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#1a6b42;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: HIGH</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #c8640a;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">Export Development Canada committed $825 million to Indonesia battery supply chain projects under FIPA implementation.</div><div style="font-size:12px;color:#444;line-height:1.65;">Co-financing unlocks tier-2 supplier opportunities for Canadian firms across downstream battery and critical minerals value chains in Southeast Asia.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#1a6b42;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: HIGH</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #c8640a;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">G7 Critical Minerals Alliance announced official export quota allocation framework for uranium and rare earth elements.</div><div style="font-size:12px;color:#444;line-height:1.65;">Canadian uranium exporters gain regulatory clarity on compliance requirements and volume commitments needed to access allied markets and secure government financing.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#b36b00;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: MED</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #c8640a;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">Canada-India CEPA tariff schedules for critical minerals enter implementation phase with rules-of-origin determination in May.</div><div style="font-size:12px;color:#444;line-height:1.65;">Tariff clarity enables Indian buyers to forecast landed costs for Canadian uranium and mining inputs, driving purchasing decisions before competing suppliers finalize pricing.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#b36b00;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: MED</div></div>
+      <div style="padding:10px 0 10px 14px;border-left:3px solid #c8640a;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">India CEPA Implementation Timeline</div><div style="font-size:12px;color:#444;line-height:1.65;">Monitor tariff schedules and rules of origin for critical minerals under the Canada-India Comprehensive Economic Partnership Agreement. Week 1-2 will reveal pre</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#b36b00;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: MED</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #c8640a;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">Indonesia Battery Supply Chain Tier-2 Suppliers</div><div style="font-size:12px;color:#444;line-height:1.65;">Track downstream opportunities from the $825M EDC commitment and FIPA signing. Identify Canadian processing firms eligible for Indonesian joint-venture partners</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#b36b00;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: MED</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #c8640a;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">G7 Critical Minerals Alliance Quota Allocation</div><div style="font-size:12px;color:#444;line-height:1.65;">Watch for official government announcements on Canadian uranium and rare earth export volumes under new G7 framework. Supply commitments to allied nations will </div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#b36b00;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: MED</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #c8640a;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">Contact Trade Commissioner India Desk</div><div style="font-size:12px;color:#444;line-height:1.65;">Uranium exporters and mining firms—engage MCCI (Market Access, Competitiveness & Innovation) India team for CEPA tariff line verification and buyer introduction</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#1a6b42;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: HIGH</div></div>
     </div>
 
     <!-- 3. Recommended Actions -->
     <div>
       <span style="font-size:8px;letter-spacing:0.14em;text-transform:uppercase;font-family:'DM Mono',monospace;color:#7a3a00;display:block;margin-bottom:8px;margin-top:24px;padding-top:20px;border-top:1px solid #e0dcd4;">3. Recommended Actions</span>
-      <div style="padding:12px 14px;background:#f8f8f6;border-left:3px solid #c8640a;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;color:#c8640a;margin-right:8px;font-size:9px;">01</span>Direct Canadian battery storage and transmission equipment suppliers to file South Korean government procurement applications before May 15.</div><div style="font-size:12px;color:#555;line-height:1.65;">Government tenders typically favor early applicants; delay risks exclusion from shortlists as competitors establish local representation.</div></div><div style="padding:12px 14px;background:#f8f8f6;border-left:3px solid #c8640a;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;color:#c8640a;margin-right:8px;font-size:9px;">02</span>Submit EDC Critical Minerals pre-qualification applications this week for Indonesia battery supply chain projects to lock co-financing allocations.</div><div style="font-size:12px;color:#555;line-height:1.65;">EDC funding windows close as projects move to detailed due diligence; early submission secures financing capacity before competing firms compete for limited capital.</div></div><div style="padding:12px 14px;background:#f8f8f6;border-left:3px solid #c8640a;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;color:#c8640a;margin-right:8px;font-size:9px;">03</span>Brief uranium exporters on G7 quota compliance requirements and schedule India desk engagement to clarify CEPA tariff schedules and rules of origin.</div><div style="font-size:12px;color:#555;line-height:1.65;">Indian buyers are finalizing FY 2026-27 procurement strategies now; Canadian exporters without tariff clarity will lose bids to competitors with confirmed landed costs.</div></div>
+      <div style="padding:12px 14px;background:#f8f8f6;border-left:3px solid #c8640a;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;color:#c8640a;margin-right:8px;font-size:9px;">01</span>Contact Trade Commissioner India Desk</div><div style="font-size:12px;color:#555;line-height:1.65;">Uranium exporters and mining firms—engage MCCI (Market Access, Competitiveness & Innovation) India team for CEPA tariff line verification and buyer introductions. Window closes as </div></div><div style="padding:12px 14px;background:#f8f8f6;border-left:3px solid #c8640a;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;color:#c8640a;margin-right:8px;font-size:9px;">02</span>Apply for EDC Critical Minerals Financing</div><div style="font-size:12px;color:#555;line-height:1.65;">Submit pre-qualification applications to Export Development Canada for Indonesia battery supply chain projects. $825M commitment deadline for partner vetting is imminent.</div></div><div style="padding:12px 14px;background:#f8f8f6;border-left:3px solid #c8640a;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;color:#c8640a;margin-right:8px;font-size:9px;">03</span>Register for ISED G7 Critical Minerals Webinar</div><div style="font-size:12px;color:#555;line-height:1.65;">Attend upcoming Innovation, Science and Economic Development Canada briefing on G7 Alliance export quotas and compliance requirements for lithium and cobalt shipments.</div></div>
     </div>
 
     <!-- 4. Market Opportunity Scores -->
     <div>
-      <span style="font-size:8px;letter-spacing:0.14em;text-transform:uppercase;font-family:'DM Mono',monospace;color:#7a3a00;display:block;margin-bottom:8px;margin-top:24px;padding-top:20px;border-top:1px solid #e0dcd4;">4. Market Opportunity Scores</span>
-      <table style="width:100%;border-collapse:collapse;font-family:'DM Sans',sans-serif;"><thead><tr style="background:#f8f6f2;"><th style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:#888;text-align:left;">Market</th><th style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:#888;text-align:left;">Score</th><th style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:#888;text-align:center;">Trend</th><th style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:#888;text-align:left;">Key Driver</th></tr></thead><tbody><tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:8px 10px;font-size:12px;font-weight:600;">🇮🇳 India</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#1a6b42;font-weight:700;">9/10</td><td style="padding:8px 10px;font-size:14px;text-align:center;">↑</td><td style="padding:8px 10px;font-size:11px;color:#555;">CEPA launched; $2.6B uranium deal</td></tr><tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:8px 10px;font-size:12px;font-weight:600;">🇮🇩 Indonesia</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#1a6b42;font-weight:700;">8/10</td><td style="padding:8px 10px;font-size:14px;text-align:center;">↑</td><td style="padding:8px 10px;font-size:11px;color:#555;">FIPA signed; EDC $825M commitment</td></tr><tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:8px 10px;font-size:12px;font-weight:600;">🇯🇵 Japan</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#1a6b42;font-weight:700;">7/10</td><td style="padding:8px 10px;font-size:14px;text-align:center;">→</td><td style="padding:8px 10px;font-size:11px;color:#555;">CPTPP preferential rates; G7 Critical Minerals Alliance</td></tr><tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:8px 10px;font-size:12px;font-weight:600;">🇰🇷 South Korea</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#1a6b42;font-weight:700;">7/10</td><td style="padding:8px 10px;font-size:14px;text-align:center;">→</td><td style="padding:8px 10px;font-size:11px;color:#555;">CPTPP access; Battery giants</td></tr><tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:8px 10px;font-size:12px;font-weight:600;">🇪🇺 European Union</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#b36b00;font-weight:700;">6/10</td><td style="padding:8px 10px;font-size:14px;text-align:center;">→</td><td style="padding:8px 10px;font-size:11px;color:#555;">CETA zero-tariff access; Critical Raw Materials Act</td></tr><tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:8px 10px;font-size:12px;font-weight:600;">🇺🇸 United States</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#1a6b42;font-weight:700;">8/10</td><td style="padding:8px 10px;font-size:14px;text-align:center;">→</td><td style="padding:8px 10px;font-size:11px;color:#555;">Defense procurement priority; IRA domestic content</td></tr><tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:8px 10px;font-size:12px;font-weight:600;">🇦🇺 Australia</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#b36b00;font-weight:700;">5/10</td><td style="padding:8px 10px;font-size:14px;text-align:center;">→</td><td style="padding:8px 10px;font-size:11px;color:#555;">CPTPP partnership; Joint critical minerals initiatives</td></tr></tbody></table>
+      <span style="font-size:8px;letter-spacing:0.14em;text-transform:uppercase;font-family:'DM Mono',monospace;color:#7a3a00;display:block;margin-bottom:8px;margin-top:24px;padding-top:20px;border-top:1px solid #e0dcd4;">4. Market Risk &amp; Opportunity Scores</span>
+      <table style="width:100%;border-collapse:collapse;font-family:'DM Sans',sans-serif;"><thead><tr style="background:#f8f6f2;"><th style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:#888;text-align:left;">Market</th><th style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:#888;text-align:left;">Risk</th><th style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:#888;text-align:left;">Opportunity</th><th style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:#888;text-align:center;">Trend</th><th style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:#888;text-align:left;">Key Driver</th></tr></thead><tbody><tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:8px 10px;font-size:12px;font-weight:600;">🇮🇳 India</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#1a6b42;font-weight:700;">2/10</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#1a6b42;font-weight:700;">9/10</td><td style="padding:8px 10px;font-size:14px;text-align:center;">↑</td><td style="padding:8px 10px;font-size:11px;color:#555;">CEPA launched; $2.6B uranium deal</td></tr><tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:8px 10px;font-size:12px;font-weight:600;">🇮🇩 Indonesia</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#1a6b42;font-weight:700;">3/10</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#1a6b42;font-weight:700;">8/10</td><td style="padding:8px 10px;font-size:14px;text-align:center;">↑</td><td style="padding:8px 10px;font-size:11px;color:#555;">FIPA signed; EDC $825M commitment</td></tr><tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:8px 10px;font-size:12px;font-weight:600;">🇯🇵 Japan</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#1a6b42;font-weight:700;">1/10</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#1a6b42;font-weight:700;">7/10</td><td style="padding:8px 10px;font-size:14px;text-align:center;">→</td><td style="padding:8px 10px;font-size:11px;color:#555;">CPTPP preferential rates; G7 Critical Minerals Alliance</td></tr><tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:8px 10px;font-size:12px;font-weight:600;">🇰🇷 South Korea</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#1a6b42;font-weight:700;">2/10</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#1a6b42;font-weight:700;">7/10</td><td style="padding:8px 10px;font-size:14px;text-align:center;">→</td><td style="padding:8px 10px;font-size:11px;color:#555;">CPTPP access; Battery giants</td></tr><tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:8px 10px;font-size:12px;font-weight:600;">🇪🇺 European Union</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#1a6b42;font-weight:700;">2/10</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#b36b00;font-weight:700;">6/10</td><td style="padding:8px 10px;font-size:14px;text-align:center;">→</td><td style="padding:8px 10px;font-size:11px;color:#555;">CETA zero-tariff access; Critical Raw Materials Act</td></tr><tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:8px 10px;font-size:12px;font-weight:600;">🇺🇸 United States</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#1a6b42;font-weight:700;">3/10</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#1a6b42;font-weight:700;">8/10</td><td style="padding:8px 10px;font-size:14px;text-align:center;">→</td><td style="padding:8px 10px;font-size:11px;color:#555;">Defense procurement priority; IRA domestic content</td></tr><tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:8px 10px;font-size:12px;font-weight:600;">🇦🇺 Australia</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#1a6b42;font-weight:700;">1/10</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#b36b00;font-weight:700;">5/10</td><td style="padding:8px 10px;font-size:14px;text-align:center;">→</td><td style="padding:8px 10px;font-size:11px;color:#555;">CPTPP partnership; Joint critical minerals initiatives</td></tr></tbody></table>
+      <details style="margin-top:14px;border:1px solid #e0dcd4;background:#f8f6f2;">
+        <summary style="padding:10px 14px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#555;cursor:pointer;list-style:none;">&#9658; How to read these scores</summary>
+        <div style="padding:14px 16px;font-size:12px;color:#2a2a2a;line-height:1.8;border-top:1px solid #e0dcd4;">
+          <div style="margin-bottom:12px;">
+            <strong style="font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:#333;">Risk Score — How safe is it to do business here right now?</strong><br>
+            <span style="color:#2e7d32;">1&#8211;3 = Low risk.</span> Stable market, no sanctions, Canada has a trade agreement.<br>
+            <span style="color:#e65100;">4&#8211;6 = Moderate risk.</span> Some regulatory complexity or political uncertainty.<br>
+            <span style="color:#c62828;">7&#8211;10 = High risk.</span> Active sanctions, conflict, or rapidly changing rules. Approach with caution and consult a trade lawyer before committing.
+          </div>
+          <div>
+            <strong style="font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:#333;">Opportunity Score — How strong is the demand signal for Canadian goods?</strong><br>
+            <span style="color:#c62828;">1&#8211;3 = Weak.</span> Market not actively buying what Canada sells right now.<br>
+            <span style="color:#e65100;">4&#8211;6 = Moderate.</span> Some demand but competitive or access-limited.<br>
+            <span style="color:#2e7d32;">7&#8211;10 = Strong.</span> Active buying signals, Canada has a competitive advantage, and timing favours action this week.
+          </div>
+        </div>
+      </details>
     </div>
 
     <!-- 5. Procurement Highlights -->
@@ -1434,7 +1417,7 @@ This week's additions target a significant shipping network linked to Iranian of
     <!-- 6. Supply Chain Watch -->
     <div>
       <span style="font-size:8px;letter-spacing:0.14em;text-transform:uppercase;font-family:'DM Mono',monospace;color:#7a3a00;display:block;margin-bottom:8px;margin-top:24px;padding-top:20px;border-top:1px solid #e0dcd4;">6. Supply Chain Watch</span>
-      <div style="border:1px solid #e0dcd4;background:#fff;"><div class="scw-item"><div class="scw-left"><div class="scw-input">LNG tanker services and maintenance capacity (Russian supply chain exposure)</div><div class="scw-status">EU 20th sanctions package (February 2026) targeting Russian LNG tanker maintenance services will tighten global service availability and drive cost inflation. Canadian LNG exporters and downstream energy firms relying on Russian-serviced tanker fleets face indirect supply chain friction.</div><div class="scw-action">→ Audit LNG logistics contracts for Russian tanker service dependencies; secure long-term commitments with non-Russian maintenance providers (Singapore, South Korea yards) before sanctions take effect.</div></div><div class="scw-risk scw-risk-med">Med</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">Clean energy equipment and components (Chinese/Russian export exposure)</div><div class="scw-status">EU sanctions package includes export controls on clean energy equipment from Russia; parallel supply chain tightening in solar inverters, battery components, and critical minerals processing. Canadian cleantech manufacturers sourcing from affected regions face lead-time extension and cost pressure.</div><div class="scw-action">→ Map sourcing of solar inverters, power electronics, and battery components; prioritize CEPA-advantaged Indonesian supply chains and evaluate South Korea battery capacity (register for ISED G7 Critical Minerals Webinar this week for compliance clarity).</div></div><div class="scw-risk scw-risk-med">Med</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">Uranium (front-end fuel cycle inputs and Indian market access)</div><div class="scw-status">CEPA tariff reductions for uranium exports to India now in effect; Indian nuclear expansion accelerating, creating tight spot market conditions. Canadian uranium miners competing on pricing and delivery reliability.</div><div class="scw-action">→ Uranium exporters and mining firms: contact Trade Commissioner India Desk and MCCI team immediately to confirm tariff advantage documentation and lock in Indian offtake agreements before competitors saturate the market.</div></div><div class="scw-risk scw-risk-low">Low</div></div></div>
+      <p style="font-size:12px;color:#888;">No inbound supply chain signals this week.</p>
     </div>
 
     <!-- 7. Source Index -->
@@ -1487,6 +1470,16 @@ window.addEventListener('scroll', () => {
     a.classList.toggle('active', a.getAttribute('href') === '#' + current);
   });
 });
+
+// Action row expand/collapse
+function toggleAction(id) {
+  const expand = document.getElementById(id);
+  const row    = document.getElementById(id + '-row');
+  if (!expand) return;
+  const isOpen = expand.style.display !== 'none';
+  expand.style.display = isOpen ? 'none' : 'block';
+  if (row) row.classList.toggle('open', !isOpen);
+}
 
 // Compliance row detail toggle
 function toggleCompliance(id) {

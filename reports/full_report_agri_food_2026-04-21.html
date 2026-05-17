@@ -244,6 +244,23 @@
     font-size: 13px; color: var(--ink-mid);
     line-height: 1.8; margin-bottom: 12px;
   }
+  .signal-body-text {
+    font-size: 13px; color: var(--ink);
+    line-height: 1.8; margin-bottom: 12px;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+  }
+  .editorial-block {
+    background: #faf8f5;
+    border-left: 3px solid var(--sector, #8B1A1A);
+    padding: 20px 24px;
+    margin: 0;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    font-style: italic;
+    line-height: 1.75;
+    color: var(--ink);
+  }
   .signal-what-means {
     background: var(--sector-light);
     border: 1px solid var(--sector-mid);
@@ -398,8 +415,51 @@
   .scw-risk-low  { background: #e8f4ee; color: #2e7d32; }
   .scw-footer { padding: 10px 18px; background: var(--cream); border-top: 1px solid var(--rule); font-family: 'DM Mono', monospace; font-size: 9px; color: var(--ink-light); }
 
-  /* ── ACTION CARDS ── */
-  .actions-list { display: flex; flex-direction: column; gap: 20px; }
+  /* ── ACTIONS — compact expandable list ── */
+  .actions-compact {
+    border: 1px solid var(--rule); background: #fff;
+  }
+  .action-row {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 16px; cursor: pointer;
+    border-bottom: 1px solid var(--rule);
+    transition: background 0.15s; user-select: none;
+  }
+  .action-row:hover { background: var(--cream); }
+  .action-row:last-of-type { border-bottom: none; }
+  .action-row-title {
+    flex: 1; font-size: 13px; font-weight: 500;
+    color: var(--ink); line-height: 1.4;
+  }
+  .action-row-chevron {
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    color: var(--ink-light); transition: transform 0.18s; flex-shrink: 0;
+  }
+  .action-row.open .action-row-chevron { transform: rotate(180deg); }
+  .action-expand {
+    display: none; padding: 14px 18px 16px 18px;
+    border-bottom: 1px solid var(--rule); background: var(--cream);
+  }
+  .action-expand:last-child { border-bottom: none; }
+  .action-expand-body {
+    font-size: 13px; color: var(--ink-mid);
+    line-height: 1.75; max-width: 760px; margin-bottom: 8px;
+  }
+  .action-expand-step {
+    font-size: 12px; color: var(--ink-mid);
+    padding: 5px 0 5px 14px;
+    border-left: 2px solid var(--brand); margin: 4px 0;
+    line-height: 1.6;
+  }
+  .actions-view-all {
+    padding: 10px 16px; background: var(--cream);
+    border-top: 1px solid var(--rule);
+    font-family: 'DM Mono', monospace; font-size: 9px;
+    letter-spacing: 0.1em; text-transform: uppercase;
+  }
+  .actions-view-all a { color: var(--brand); text-decoration: none; }
+
+  /* Legacy card styles kept for email builder */
   .action-card {
     background: #fff; border: 1px solid var(--rule);
     border-top: 2px solid var(--brand);
@@ -411,10 +471,6 @@
     color: rgba(139,0,0,0.2); line-height: 1;
     flex-shrink: 0; width: 48px;
   }
-  .action-content-header {
-    display: flex; align-items: flex-start;
-    gap: 12px; margin-bottom: 10px; flex-wrap: wrap;
-  }
   .action-headline {
     font-family: 'Cormorant Garamond', serif;
     font-size: 18px; font-weight: 600; font-style: italic;
@@ -424,22 +480,6 @@
     font-size: 13px; color: var(--ink-mid);
     line-height: 1.75; margin-bottom: 12px;
   }
-  .action-steps {
-    list-style: none; border-top: 1px solid var(--rule);
-    padding-top: 12px;
-  }
-  .action-steps li {
-    font-size: 12px; color: var(--ink-mid);
-    padding: 7px 0; border-bottom: 1px solid var(--rule);
-    line-height: 1.6; padding-left: 16px; position: relative;
-  }
-  .action-steps li::before {
-    content: '→'; position: absolute; left: 0;
-    color: var(--brand); font-family: 'DM Mono', monospace;
-    font-size: 10px;
-  }
-  .action-steps li:last-child { border-bottom: none; }
-  .action-steps li strong { color: var(--ink); }
 
   /* ── PATHWAY CARDS ── */
   .pathways-grid {
@@ -596,17 +636,22 @@
   @media (max-width: 768px) {
     .sticky-nav { padding: 0 16px; }
     .masthead { padding: 32px 16px 28px; }
-    .report-nav { padding: 0 16px; }
+    .report-nav { padding: 0 16px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+    .report-nav::-webkit-scrollbar { display: none; }
+    .report-nav-inner { flex-wrap: nowrap; gap: 0; min-width: max-content; }
     .report-body { padding: 28px 16px 60px; }
     .exec-summary { grid-template-columns: 1fr; }
     .pathways-grid { grid-template-columns: 1fr; }
-    .watch-grid { grid-template-columns: 1fr 1fr; }
+    .watch-grid { grid-template-columns: 1fr; }
     .spotlight-grid { grid-template-columns: 1fr; }
     .report-footer { padding: 28px 16px; }
     .report-footer-inner { flex-direction: column; gap: 20px; }
     .report-footer-links { text-align: left; }
     .action-card { flex-direction: column; gap: 8px; }
     .action-number { font-size: 32px; width: auto; }
+    .compliance-desk { overflow-x: auto; }
+    .signals-grid { grid-template-columns: 1fr; }
+    .market-entry-grid { grid-template-columns: 1fr; }
   }
 
   /* ── PDF BUTTONS ── */
@@ -630,52 +675,97 @@
 
   /* ── PRINT STYLESHEET ── */
   @media print {
-    @page { margin: 20mm; }
+    @page { margin: 2.5cm; size: A4; }
 
-    /* Hide nav chrome and subscription CTAs */
+    /* Hide nav chrome, CTAs, interactive elements */
     .sticky-nav, .report-nav, .report-footer,
-    .pdf-nav-btn, .pdf-float-btn { display: none !important; }
+    .pdf-nav-btn, .pdf-float-btn, .briefing-panel,
+    #briefing-toggle-btn, .analyst-detail summary,
+    .actions-view-all, button { display: none !important; }
 
-    /* White background, black text throughout */
-    body { font-size: 11px !important; background: #ffffff !important; color: #000000 !important; }
+    /* Expand all analyst detail drawers */
+    .analyst-detail { display: block !important; }
+    .analyst-detail-body { display: block !important; }
+
+    /* White background, dark text throughout */
+    html, body {
+      font-size: 11pt !important;
+      background: #ffffff !important;
+      color: #1a1a1a !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
     * { box-shadow: none !important; text-shadow: none !important; }
 
-    /* Masthead: white bg, black text, red border only */
+    /* Masthead */
     .masthead {
       background: #ffffff !important;
-      border-bottom: 3px solid #8b0000 !important;
-      padding: 20px 0 16px !important;
+      border-bottom: 2px solid #8B1A1A !important;
+      padding: 16px 0 14px !important;
+      break-after: avoid;
     }
-    .masthead-eyebrow { color: #8b0000 !important; }
-    .masthead-issue { color: #8b0000 !important; }
-    .report-title { color: #000000 !important; font-size: 28px !important; }
+    .masthead-eyebrow, .masthead-issue { color: #8B1A1A !important; }
+    .report-title { color: #1a1a1a !important; font-size: 22pt !important; }
     .masthead-hook { color: #333333 !important; }
-    .masthead-stat { background: #f4f4f4 !important; border-color: #dddddd !important; }
-    .masthead-stat-label { color: #666666 !important; }
-    .masthead-stat-value { color: #000000 !important; }
+    .masthead-stat { background: #f5f5f5 !important; border-color: #dddddd !important; }
+    .masthead-stat-label { color: #555 !important; }
+    .masthead-stat-value { color: #1a1a1a !important; }
 
-    /* Body sections */
-    h2, h3 { color: #000000 !important; }
-    h2 { font-size: 24px !important; }
-    .section-label { color: #8b0000 !important; }
+    /* Sections */
+    h2, h3 { color: #1a1a1a !important; break-after: avoid; }
+    .section-label { color: #8B1A1A !important; font-size: 8pt !important; }
     .section-rule { background: #cccccc !important; }
     p, li { color: #1a1a1a !important; }
-    .exec-summary { background: #f8f8f8 !important; border-color: #dddddd !important; }
+    .exec-summary { background: #f9f9f9 !important; border-color: #dddddd !important; break-inside: avoid; }
 
-    /* Keep sector colour accents on signal card left borders */
-    .signal-card { border-left-color: var(--sector-color) !important; background: #ffffff !important; }
-    .action-card { background: #ffffff !important; border-color: #cccccc !important; }
-    .compliance-desk { background: #f8f8f8 !important; }
+    /* Signal cards — keep together on one page */
+    .signal-card {
+      break-inside: avoid;
+      background: #ffffff !important;
+      border: 1px solid #dddddd !important;
+      border-left: 3px solid #8B1A1A !important;
+      margin-bottom: 12pt !important;
+    }
 
-    /* Page breaks before major sections */
-    #signals  { page-break-before: always; }
-    #actions  { page-break-before: always; }
-    #pathways { page-break-before: always; }
-    #summary, #compliance, #procurement, #watch, #spotlight { page-break-before: auto; }
+    /* Actions */
+    .action-row { break-inside: avoid; background: #f9f9f9 !important; }
+    .action-expand { display: block !important; break-inside: avoid; }
 
-    /* Show full URLs after links, skip internal anchors */
-    a[href]::after { content: " (" attr(href) ")"; font-size: 9px; color: #666666; }
+    /* Editorial block — italic serif */
+    .editorial-block {
+      font-style: italic !important;
+      color: #1a1a1a !important;
+      border-left: 2px solid #8B1A1A !important;
+      background: #f9f9f9 !important;
+      break-inside: avoid;
+    }
+
+    /* Procurement rows */
+    .proc-row { break-inside: avoid; }
+    .proc-watch { break-inside: avoid; }
+
+    /* Compliance table */
+    .compliance-desk { background: #f9f9f9 !important; break-inside: avoid; }
+
+    /* Market entry pathways */
+    .pathway-card { break-inside: avoid; }
+
+    /* Watch items */
+    .watch-card { break-inside: avoid; }
+
+    /* Page breaks */
+    #signals  { break-before: page; }
+    #actions  { break-before: page; }
+    #pathways { break-before: page; }
+    #summary, #compliance, #procurement, #watch,
+    #spotlight, #what-we-think { break-before: auto; }
+
+    /* Show full URLs after links (skip anchors) */
+    a[href]::after { content: " (" attr(href) ")"; font-size: 8pt; color: #666666; }
     a[href^="#"]::after { content: ""; }
+
+    /* Remove link underlines */
+    a { text-decoration: none !important; color: inherit !important; }
   }
 
 
@@ -722,6 +812,7 @@
   <div class="sticky-nav-inner">
     <a href="https://canadiantradeintel.ca" class="sticky-nav-brand">🇨🇦 Canadian Trade Intel</a>
     <div class="sticky-nav-links">
+      
       <a href="#signals">Signals</a>
       <a href="#actions">Actions</a>
       <a href="#pathways">Market Entry</a>
@@ -737,13 +828,24 @@
   <div class="masthead-inner">
     <div class="masthead-eyebrow">
       <span class="sector-badge">🌾 Agri-food & Agriculture</span>
-      <span class="issue-meta">ISSUE #004 &nbsp;·&nbsp; April 21, 2026 &nbsp;·&nbsp; ~12 MIN READ</span>
+      <span class="issue-meta">ISSUE #004 &nbsp;·&nbsp; May 16, 2026 &nbsp;·&nbsp; ~12 MIN READ</span>
     </div>
-    <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:10px;">Agri-food & Agriculture &nbsp;·&nbsp; Week of April 21, 2026</div>
+    <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:10px;">Agri-food & Agriculture &nbsp;·&nbsp; Week of May 16, 2026</div>
     <h1>Agri-food & Agriculture — Intelligence Brief · Issue #004</h1>
     <p class="masthead-summary">
       China's tariff reduction on Canadian canola from 84% to 15% effective March 1, 2026, unlocks immediate market access for exporters facing a five-year 5.9% anti-dumping duty. Canadian canola producers should accelerate shipments to capitalize on the tariff window while monitoring China's import pace, as the combined duty structure remains competitive against U.S.
     </p>
+    <div class="doc-frame-bar"
+         style="display:flex;justify-content:space-between;align-items:center;
+         border-top:2px solid var(--crimson,#8B1A1A);
+         border-bottom:1px solid rgba(255,255,255,0.12);
+         padding:7px 0;margin:14px 0 20px 0;
+         font-family:'DM Mono',monospace;font-size:8px;
+         letter-spacing:0.14em;text-transform:uppercase;
+         color:rgba(255,255,255,0.4);">
+      <span>Canadian Trade Intelligence Inc.</span>
+      <span>Issue #004 &nbsp;·&nbsp; Agri-food & Agriculture &nbsp;·&nbsp; May 16, 2026</span>
+    </div>
     <div class="masthead-stats">
       <div class="masthead-stat">
         <div class="masthead-stat-label">Signals</div>
@@ -751,11 +853,11 @@
       </div>
       <div class="masthead-stat">
         <div class="masthead-stat-label">Opportunities</div>
-        <div class="masthead-stat-value">9</div>
+        <div class="masthead-stat-value">15</div>
       </div>
       <div class="masthead-stat">
         <div class="masthead-stat-label">Risks</div>
-        <div class="masthead-stat-value">2</div>
+        <div class="masthead-stat-value">1</div>
       </div>
       <div class="masthead-stat">
         <div class="masthead-stat-label">Immediate</div>
@@ -774,13 +876,14 @@
   <div class="report-nav-inner">
     <a href="#summary">Overview</a>
     <a href="#signals">Signals (6)</a>
+    <a href="#what-we-think">What We Think</a>
     <a href="#actions">Actions (4)</a>
     <a href="#procurement">Procurement (5)</a>
-    <a href="#supply-chain">Supply Chain</a>
-    <a href="#compliance">Reg &amp; Compliance</a>
+    
+
     <a href="#pathways">Market Entry</a>
     <a href="#watch">Watch For These</a>
-    <a href="#risk-register">Risk Register</a>
+
     <a href="#spotlight">Canadian Spotlight</a>
     <button onclick="toggleBriefing()" class="briefing-btn" id="briefing-toggle-btn">📋 Briefing View</button>
     <button onclick="window.print()" class="pdf-nav-btn">⬇ Save as PDF</button>
@@ -790,6 +893,9 @@
 <!-- REPORT BODY -->
 <div id="report-content">
 <main class="report-body">
+
+  <!-- WHAT HAPPENED THIS WEEK -->
+  
 
   <!-- EXECUTIVE SUMMARY -->
   <section id="summary" class="mb-56">
@@ -803,12 +909,13 @@
       </div>
       <div>
         <div class="commodity-panel">
-          <div class="commodity-panel-title">Top Markets · April 21, 2026</div>
+          <div class="commodity-panel-title">Top Markets · May 16, 2026</div>
           
           <div class="commodity-row">
             <div>
               <div class="commodity-name">🇮🇳 India</div>
               <div class="commodity-note">Opportunity score: 9/10</div>
+              <div style="font-size:9px;color:var(--ink-light);margin-top:2px;line-height:1.5;">↑ Strong demand &middot; Low risk</div>
             </div>
             <div style="text-align:right;min-width:60px;">
               <div style="background:var(--sector);height:4px;width:90%;border-radius:2px;margin-bottom:4px;"></div>
@@ -819,6 +926,7 @@
             <div>
               <div class="commodity-name">🇪🇺 European Union</div>
               <div class="commodity-note">Opportunity score: 8/10</div>
+              <div style="font-size:9px;color:var(--ink-light);margin-top:2px;line-height:1.5;">↑ Strong demand &middot; Low risk</div>
             </div>
             <div style="text-align:right;min-width:60px;">
               <div style="background:var(--sector);height:4px;width:80%;border-radius:2px;margin-bottom:4px;"></div>
@@ -829,6 +937,7 @@
             <div>
               <div class="commodity-name">🇨🇳 China</div>
               <div class="commodity-note">Opportunity score: 7/10</div>
+              <div style="font-size:9px;color:var(--ink-light);margin-top:2px;line-height:1.5;"> Strong demand &middot; Moderate risk</div>
             </div>
             <div style="text-align:right;min-width:60px;">
               <div style="background:var(--sector);height:4px;width:70%;border-radius:2px;margin-bottom:4px;"></div>
@@ -836,11 +945,7 @@
             </div>
           </div>
         </div>
-        <div style="margin-top:12px;padding:12px 14px;background:#fff;border:1px solid var(--rule);">
-          <div style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:8px;">CAD Exchange · April 21, 2026</div>
-          <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--ink);">
-            Prices shown are context only. For real-time prices see weekly digest.
-          </div>
+        
         </div>
       </div>
     </div>
@@ -856,57 +961,82 @@
       
       <div class="signal-card ">
         <div class="signal-flag">
-           · Canada Agri Trade
-          <span class="urgency-tag urgency-now">Immediate</span>
+           · Wasde Wheat
+          <span class="urgency-tag urgency-quarter">This Quarter</span>
         </div>
-        <div class="signal-headline">Canada secured major canola tariff reduction from China with tariffs dropping from 84% to 15% effective March 1, 2026.</div>
-        <div class="signal-body"><cite index="2-1,2-4">By March 1, 2026, China lowered combined tariffs on Canadian canola seed to approximately 15%, down from current levels near 85%</cite>. <cite index="2-7">Canola meal, lobsters, crabs, and peas became exempt from relevant anti-discrimination tariffs beginning March 1, 2026, until at least the end of the year</cite>. <cite index="3-5">Canada also announced an ambitious target to increase overall exports to China by 50 percent by 2030</cite>.</div>
-        <div class="signal-what-means"><span class="signal-what-label">What This Means For You</span><cite index="2-5">China represents a $4-billion market for Canadian canola producers, making this one of the most consequential agricultural trade developments for Canada in recent years</cite>. <cite index="2-6">The move is expected to restore competitiveness for Canadian farmers and exporters while stabilizing a sector that has faced prolonged trade barriers</cite>. <cite index="8-18">This will </div>
+        <div class="signal-headline">USDA released May 12 WASDE report projecting significantly lower US wheat production for 2026/27 at 1.561 billion bushel</div>
+        
+        <div class="signal-body"><cite index='7-20,7-21,7-22'>USDA's May 12, 2026 WASDE report projects all-wheat production at 1.561 billion bushels, down 424 million from last year with yield at 47.5 bushels per acre (5.8 bushels lower than record 2025 yield). Winter wheat production is forecast down 25% to 1.048 billion bushels, primarily due to sharply reduced Hard Red Winter production.</cite> <cite index='10-2,10-3,10-4'>Global wheat carryout was estimated at 275.04 million tonnes versus 279.21 million for 2025-26, with world production projected at 819.06 million tonnes, down 24.78 million from previous year. Canadian wheat production estimated at 35 million tonnes with ending stocks at 4.63 million.</cite></div>
+        <div class="signal-what-means"><span class="signal-what-label">What This Means For You</span>Lower US wheat production and tighter global supplies create export opportunities for Canadian wheat producers. With US yields down significantly and global stocks contracting, Canadian wheat becomes more competitive in export markets, potentially boosting prices and demand for Prairie grain. Import-dependent countries may shift sourcing to Canada.</div>
         
         <details class="analyst-detail">
-          <summary>Analyst Detail ▾</summary>
+          <summary>Trade Context ▾</summary>
           <div class="analyst-detail-body">
           <b>Trade Agreement</b>No FTA in force
           <b>TCS Office</b>TCS — contact nearest Canadian mission
           <b>Relevant Programmes</b>EDC Agri Financing · AAFC AgriMarketing · Pulse Canada · CanExport SME
-          <b>HS Codes</b>HS 1001–1008 (grain) · 1201 (soybeans) · 1205 (canola) · 0713 (pulses)
-          <b>Primary Source</b><a href="https://www.seedworld.com/canada/2026/01/16/canada-secures-major-canola-and-agriculture-trade-breakthrough-in-new-china-partnership/" target="_blank">Seed World</a>
+          <b>HS Codes</b>HS 1001 (wheat and meslin)
+          <b>Primary Source</b><a href="https://www.americanagnetwork.com/2026/05/12/usda-calls-for-higher-soybean-lower-corn-and-wheat-supplies-in-may-wasde-report/" target="_blank">American Ag Network</a>
           </div>
         </details>
-        <div class="signal-source">Source: <a href="https://www.seedworld.com/canada/2026/01/16/canada-secures-major-canola-and-agriculture-trade-breakthrough-in-new-china-partnership/" target="_blank">Seed World, 2026-04-22 →</a></div>
+        <div class="signal-source">Source: <a href="https://www.americanagnetwork.com/2026/05/12/usda-calls-for-higher-soybean-lower-corn-and-wheat-supplies-in-may-wasde-report/" target="_blank">American Ag Network, 2026-05-12 →</a></div>
       </div>
       <div class="signal-card ">
         <div class="signal-flag">
-           · China Canola
+           · Canola Oil Price
           <span class="urgency-tag urgency-now">Immediate</span>
         </div>
-        <div class="signal-headline">China finalized 5.9% anti-dumping duty on Canadian canola seed imports effective February 28, 2026, for five years.</div>
-        <div class="signal-body"><cite index="22-10,22-11">On February 28, 2026, China's Ministry of Commerce announced a final determination in the anti-dumping investigation establishing a 5.9% anti-dumping duty on canola seed imports for five years</cite>. <cite index="22-12">This 5.9% duty will be added to the pre-existing 9% most favoured nation duty, resulting in total duties of 14.9% on imports of Canadian canola seed into China</cite>. <cite index="22-13">On February 27, 2026, China announced an adjustment to the 100% tariff on canola meal to 0% for March 1, 2026 to December 31, 2026</cite>.</div>
-        <div class="signal-what-means"><span class="signal-what-label">What This Means For You</span>This provides long-term certainty for Canada's $3.2B annual canola seed trade with China, with the final 14.9% total tariff rate closely aligning with the 15% rate negotiated in January's preliminary agreement. The five-year timeframe offers predictability for Canadian canola exporters and farmers planning production decisions.</div>
+        <div class="signal-headline">Canola futures rose to 746.13 CAD/T on May 12, 2026, up 4% over the past month amid Middle East tensions affecting energ</div>
+        
+        <div class="signal-body"><cite index='21-1,21-2'>Canola rose to 746.13 CAD/T on May 12, 2026, up 0.37% from previous day and 4% over the past month.</cite> <cite index='21-3,21-4,21-5'>Canola futures rose past $720 per tonne as renewed skepticism regarding Middle East ceasefire re-established risk premium across energy and oilseed complex, following crude oil surge that strengthened biofuel-driven demand and pulled Chicago soyoil and canola higher.</cite> <cite index='22-11,22-12'>All vegetable oil prices made gains over the past month, with US soybean oil hitting summer 2023 highs sustained by petroleum prices and EPA Renewable Volume Obligation standards.</cite></div>
+        <div class="signal-what-means"><span class="signal-what-label">What This Means For You</span>Rising canola prices boost revenue for Canadian canola farmers and processors, enhancing export values for Canada's largest oilseed crop. Higher vegetable oil prices benefit Canadian canola oil exporters competing globally. Energy-driven demand from biofuel mandates supports sustained price levels, benefiting Prairie agriculture and related agribusiness supply chains.</div>
         
         <details class="analyst-detail">
-          <summary>Analyst Detail ▾</summary>
+          <summary>Trade Context ▾</summary>
           <div class="analyst-detail-body">
           <b>Trade Agreement</b>No FTA in force
           <b>TCS Office</b>TCS — contact nearest Canadian mission
           <b>Relevant Programmes</b>EDC Agri Financing · AAFC AgriMarketing · Pulse Canada · CanExport SME
-          <b>HS Codes</b>HS 1001–1008 (grain) · 1201 (soybeans) · 1205 (canola) · 0713 (pulses)
-          <b>Primary Source</b><a href="https://www.canolacouncil.org/china-update/" target="_blank">Canola Council of Canada</a>
+          <b>HS Codes</b>HS 1205 (canola/rapeseed)
+          <b>Primary Source</b><a href="https://tradingeconomics.com/commodity/canola" target="_blank">Trading Economics</a>
           </div>
         </details>
-        <div class="signal-source">Source: <a href="https://www.canolacouncil.org/china-update/" target="_blank">Canola Council of Canada, 2026-04-22 →</a></div>
+        <div class="signal-source">Source: <a href="https://tradingeconomics.com/commodity/canola" target="_blank">Trading Economics, 2026-05-12 →</a></div>
+      </div>
+      <div class="signal-card ">
+        <div class="signal-flag">
+           · Middle East Grain
+          <span class="urgency-tag urgency-quarter">This Quarter</span>
+        </div>
+        <div class="signal-headline">Global wheat seaborne deliveries reached five-month high in March 2026 with increased flows to Middle East regions inclu</div>
+        
+        <div class="signal-body">According to WTO Data Lab, global wheat seaborne deliveries rose 17% month-over-month to 13.9 million tonnes in March 2026, marking a five-month high. Arrivals to Western Asia increased by one-third to 1.6 million tonnes, with wheat cargo arrivals to Saudi Arabia and Iraq specifically rising compared to the prior month.</div>
+        <div class="signal-what-means"><span class="signal-what-label">What This Means For You</span>Strong global wheat demand and higher delivery volumes signal potential opportunities for Canadian wheat exporters to capture market share in the Middle East. Rising imports by traditional buyers like Saudi Arabia and Iraq suggest sustained demand that could benefit Canada's position as the fourth-largest global wheat exporter.</div>
+        
+        <details class="analyst-detail">
+          <summary>Trade Context ▾</summary>
+          <div class="analyst-detail-body">
+          <b>Trade Agreement</b>No FTA in force
+          <b>TCS Office</b>TCS — contact nearest Canadian mission
+          <b>Relevant Programmes</b>EDC Agri Financing · AAFC AgriMarketing · Pulse Canada · CanExport SME
+          <b>HS Codes</b>HS 1001 (wheat and meslin)
+          <b>Primary Source</b><a href="https://datalab.wto.org/real-time-data-based-on-non-wto-data-sources" target="_blank">WTO Data Lab</a>
+          </div>
+        </details>
+        <div class="signal-source">Source: <a href="https://datalab.wto.org/real-time-data-based-on-non-wto-data-sources" target="_blank">WTO Data Lab, 2026-05-12 →</a></div>
       </div>
       <div class="signal-card ">
         <div class="signal-flag">
            · Canada Agrifood Abroad
           <span class="urgency-tag urgency-now">Immediate</span>
         </div>
-        <div class="signal-headline">Government launches new $75 million AgriMarketing Market Diversification program to support agri-food export expansion</div>
-        <div class="signal-body">On February 13, 2026, Agriculture and Agri-Food Canada launched new Market Diversification streams under the AgriMarketing Program, providing $75 million over five years (2026-31) to help organizations access emerging markets and strengthen interprovincial trade. The program encourages expansion into high-growth potential and non-traditional markets.</div>
-        <div class="signal-what-means"><span class="signal-what-label">What This Means For You</span>Canadian agri-food companies can immediately apply for funding to expand internationally, with EDC reporting strong demand growth in Asia-Pacific and Latin America driven by urbanization and changing food habits. This complements existing $129.97 million AgriMarketing funding, directly supporting export diversification strategies.</div>
+        <div class="signal-headline">Canada launches $75M AgriMarketing Market Diversification program for agri-food exporters</div>
+        
+        <div class="signal-body">February 10, 2026: Government announced new Market Diversification streams for National Industry Associations and SMEs, with applications opening February 13, 2026. Program targets high-growth potential and non-traditional markets beyond US. Canadian Food Exporters Association generated $36M in international sales in 2024 from 90 companies through trade shows and missions.</div>
+        <div class="signal-what-means"><span class="signal-what-label">What This Means For You</span>Major opportunity for Canadian agri-food companies to access government funding for international expansion. SMEs now eligible for AgriMarketing support for first time, addressing previous gap. Focus on market diversification reduces US dependency amid ongoing trade uncertainties and tariff risks.</div>
         
         <details class="analyst-detail">
-          <summary>Analyst Detail ▾</summary>
+          <summary>Trade Context ▾</summary>
           <div class="analyst-detail-body">
           <b>Trade Agreement</b>No FTA in force
           <b>TCS Office</b>TCS — contact nearest Canadian mission
@@ -915,72 +1045,62 @@
           <b>Primary Source</b><a href="https://www.canada.ca/en/agriculture-agri-food/news/2026/02/the-government-of-canada-strengthens-support-for-agricultural-exports-with-a-new-market-diversification-program.html" target="_blank">Government of Canada</a>
           </div>
         </details>
-        <div class="signal-source">Source: <a href="https://www.canada.ca/en/agriculture-agri-food/news/2026/02/the-government-of-canada-strengthens-support-for-agricultural-exports-with-a-new-market-diversification-program.html" target="_blank">Government of Canada, 2026-04-22 →</a></div>
+        <div class="signal-source">Source: <a href="https://www.canada.ca/en/agriculture-agri-food/news/2026/02/the-government-of-canada-strengthens-support-for-agricultural-exports-with-a-new-market-diversification-program.html" target="_blank">Government of Canada, 2026-05-12 →</a></div>
       </div>
       <div class="signal-card ">
         <div class="signal-flag">
            · Harvest Shortfall
           <span class="urgency-tag urgency-now">Immediate</span>
         </div>
-        <div class="signal-headline">Global wheat harvest forecast plummets 18% amid historic droughts and fertilizer supply disruptions</div>
-        <div class="signal-body">A March 27, 2026 report shows global wheat harvest forecasts are 18% below annual average due to extreme weather, with the UK experiencing its driest spring in 100 years. The Strait of Hormuz closure in February 2026 halted one-third of global fertilizer trade, causing urea prices to spike 28% and creating compound supply shocks.</div>
-        <div class="signal-what-means"><span class="signal-what-label">What This Means For You</span>This creates premium pricing opportunities for Canadian wheat exporters as global supplies tighten and food nationalism emerges with Eastern European export quotas being considered. Canadian grain companies like Richardson International can capitalize on supply-cost divergence and regional price spreads, while importers may face higher input costs.</div>
+        <div class="signal-headline">US experiencing worst spring drought on record, threatens 18% global wheat harvest decline</div>
+        
+        <div class="signal-body">May 10, 2026: US recorded worst spring drought on record with 60%+ of lower 48 states in moderate drought or worse. USDA forecasts lowest wheat acreage since 1919. Global wheat harvest forecast down 18% amid historic droughts and fertilizer supply disruptions from Strait of Hormuz closure. March 27, 2026 report shows urea prices spiked 28% in one month.</div>
+        <div class="signal-what-means"><span class="signal-what-label">What This Means For You</span>Major opportunity for Canadian grain exporters as US drought creates global supply shortfall. Canadian wheat and canola positioned to benefit from premium pricing as global stocks tighten. Fertilizer cost increases may impact Canadian farm input costs but export price premiums should offset. Monitor for potential export restrictions from competing nations.</div>
         
         <details class="analyst-detail">
-          <summary>Analyst Detail ▾</summary>
+          <summary>Trade Context ▾</summary>
           <div class="analyst-detail-body">
           <b>Trade Agreement</b>No FTA in force
           <b>TCS Office</b>TCS — contact nearest Canadian mission
           <b>Relevant Programmes</b>EDC Agri Financing · AAFC AgriMarketing · Pulse Canada · CanExport SME
-          <b>HS Codes</b>HS 1001–1008 (grain) · 1201 (soybeans) · 1205 (canola) · 0713 (pulses)
-          <b>Primary Source</b><a href="https://markets.financialcontent.com/stocks/article/marketminute-2026-3-27-global-breadbasket-under-siege-wheat-harvest-forecast-plummets-18-amid-historic-droughts" target="_blank">Financial Content Markets</a>
+          <b>HS Codes</b>HS 1001 (wheat and meslin)
+          <b>Primary Source</b><a href="https://time.com/article/2026/05/10/drought-US-farmers-crops-climate-change/" target="_blank">TIME</a>
           </div>
         </details>
-        <div class="signal-source">Source: <a href="https://markets.financialcontent.com/stocks/article/marketminute-2026-3-27-global-breadbasket-under-siege-wheat-harvest-forecast-plummets-18-amid-historic-droughts" target="_blank">Financial Content Markets, 2026-04-22 →</a></div>
+        <div class="signal-source">Source: <a href="https://time.com/article/2026/05/10/drought-US-farmers-crops-climate-change/" target="_blank">TIME, 2026-05-12 →</a></div>
       </div>
       <div class="signal-card ">
         <div class="signal-flag">
-           · Seafood International Expansion
-          <span class="urgency-tag urgency-now">Immediate</span>
-        </div>
-        <div class="signal-headline">Minister Thompson attended Seafood Expo Global 2026 in Barcelona on April 21-23, securing 80% growth in Spanish retailer</div>
-        <div class="signal-body">Canada's Fisheries Minister attended Seafood Expo Global April 21-23, 2026, meeting with La Sirena (Spain's leading frozen-food retailer) where Canadian seafood purchases grew 80% over two years to $2.77 million CAD in 2025-2026. Minister also met with Marks & Spencer leadership regarding Canadian Atlantic cod sourcing and European buyers showing strong demand for Canadian frozen and value-added products.</div>
-        <div class="signal-what-means"><span class="signal-what-label">What This Means For You</span>Strong European demand validates Canadian seafood quality and sustainability credentials, creating expansion opportunities for Canadian processors and exporters. The 80% growth demonstrates successful market penetration strategies that other Canadian seafood companies can replicate across European markets.</div>
-        
-        <details class="analyst-detail">
-          <summary>Analyst Detail ▾</summary>
-          <div class="analyst-detail-body">
-          <b>Trade Agreement</b>No FTA in force
-          <b>TCS Office</b>TCS — contact nearest Canadian mission
-          <b>Relevant Programmes</b>EDC Agri Financing · AAFC AgriMarketing · Pulse Canada · CanExport SME
-          <b>HS Codes</b>HS 1001–1008 (grain) · 1201 (soybeans) · 1205 (canola) · 0713 (pulses)
-          <b>Primary Source</b><a href="https://www.newswire.ca/news-releases/canada-diversifies-seafood-exports-with-strong-showing-at-seafood-expo-global-2026-878822345.html" target="_blank">CNW</a>
-          </div>
-        </details>
-        <div class="signal-source">Source: <a href="https://www.newswire.ca/news-releases/canada-diversifies-seafood-exports-with-strong-showing-at-seafood-expo-global-2026-878822345.html" target="_blank">CNW, 2026-04-22 →</a></div>
-      </div>
-      <div class="signal-card ">
-        <div class="signal-flag">
-           · Indonesia Food
+           · Roberts Bank Terminal
           <span class="urgency-tag urgency-quarter">This Quarter</span>
         </div>
-        <div class="signal-headline">Indonesia's wheat imports have surged 30.4% year-over-year, elevating it to the world's largest wheat importer at 13.2 m</div>
-        <div class="signal-body">In the seven months to January 2026, Indonesia imported 7.8 million tons of wheat, a 30.4% increase from 6.0 million tons in the same period last year. The USDA raised Indonesia's import forecast to 13.2 million metric tons, overtaking Egypt as the world's top wheat importer. The growth is driven by rising flour demand from food service expansion, economic recovery in small-to-medium enterprises, and increased wheat use in animal feed due to higher corn prices.</div>
-        <div class="signal-what-means"><span class="signal-what-label">What This Means For You</span>Canada currently holds 16.1% market share in Indonesian wheat imports, ranking third behind Australia (37.8%) and Ukraine (18.3%). This surge represents significant opportunity for Canadian wheat exporters to expand their position in the world's fastest-growing wheat import market. Feed mills and grain traders should consider Indonesia for medium-term supply agreements as domestic food demand cont</div>
+        <div class="signal-headline">Vancouver Fraser Port Authority signed MOU with GCT Global Container Terminals on April 29, 2026 to explore partnership </div>
+        
+        <div class="signal-body">VFPA and GCT executed a Memorandum of Understanding with Major Projects Office support to work toward a Joint Development Agreement for RBT2. The MOU reflects shared commitment to strengthen trade infrastructure by exploring partnerships to deliver the $100 billion annual trade capacity terminal in a coordinated and commercially viable manner. Construction teams shortlisted in January 2026 have May 2026 proposal deadline, with preferred team selection in summer 2026.</div>
+        <div class="signal-what-means"><span class="signal-what-label">What This Means For You</span>This partnership development advances Canada's largest container terminal expansion project, which will add 2.4 million TEU capacity and create tens of thousands of jobs. For Canadian agri-food exporters, RBT2 represents critical infrastructure to support Prime Minister Carney's goal to double exports to non-US markets by 2036, particularly accessing Indo-Pacific customers.</div>
         
         <details class="analyst-detail">
-          <summary>Analyst Detail ▾</summary>
+          <summary>Trade Context ▾</summary>
           <div class="analyst-detail-body">
           <b>Trade Agreement</b>No FTA in force
           <b>TCS Office</b>TCS — contact nearest Canadian mission
           <b>Relevant Programmes</b>EDC Agri Financing · AAFC AgriMarketing · Pulse Canada · CanExport SME
           <b>HS Codes</b>HS 1001–1008 (grain) · 1201 (soybeans) · 1205 (canola) · 0713 (pulses)
-          <b>Primary Source</b><a href="https://www.grainbrokers.com.au/weekly-commentary/indonesian-wheat-imports-on-the-rise/" target="_blank">Grain Brokers Australia</a>
+          <b>Primary Source</b><a href="https://canada.constructconnect.com/joc/news/infrastructure/2026/04/vancouver-fraser-port-authority-gct-sign-roberts-bank-terminal-2-mou" target="_blank">Daily Commercial News</a>
           </div>
         </details>
-        <div class="signal-source">Source: <a href="https://www.grainbrokers.com.au/weekly-commentary/indonesian-wheat-imports-on-the-rise/" target="_blank">Grain Brokers Australia, 2026-04-22 →</a></div>
+        <div class="signal-source">Source: <a href="https://canada.constructconnect.com/joc/news/infrastructure/2026/04/vancouver-fraser-port-authority-gct-sign-roberts-bank-terminal-2-mou" target="_blank">Daily Commercial News, 2026-05-12 →</a></div>
       </div>
     </div>
+  </section>
+
+  <!-- WHAT WE THINK -->
+  <section id="what-we-think" class="mb-56">
+    <div class="section-header">
+      <span class="section-label">What We Think</span>
+      <div class="section-rule"></div>
+    </div>
+    <div class="editorial-block">This week's landscape shows strong opportunities emerging in Asia-Pacific markets, with India's Q2 2026 DGFT pulse quota opening creating immediate high-value demand for Canadian lentils and chickpeas, while Indonesia's new FIPA framework signals long-term growth potential. The ongoing Russia-Ukraine conflict continues to support Canadian grain competitiveness globally, though China's persistent SAMR canola restrictions remain a $3.2B headwind requiring careful navigation.</div>
   </section>
 
   <!-- ACTIONS -->
@@ -989,53 +1109,53 @@
       <span class="section-label">✓ Actions This Week</span>
       <div class="section-rule"></div>
     </div>
-    <div class="actions-list">
-      
-      <div class="action-card">
-        <div class="action-number">01</div>
-        <div style="flex:1;">
-          <div class="action-content-header">
-            <div class="action-headline">Contact Trade Commissioner Service for India Pulse Market Entry</div>
-            <span class="urgency-tag urgency-watch">Monitor</span>
-          </div>
-          <div class="action-body">Trade Commissioner Service India desk + immediate DGFT quota liaison. Q2 2026 window requires real-time market intelligence and customs documentation support this week.</div>
-          <div style="margin-top:10px;"><a href="https://www.tradecommissioner.gc.ca" style="font-family:DM Mono,monospace;font-size:9px;color:var(--brand);" target="_blank">↗ https://www.tradecommissioner.gc.ca</a></div>
-        </div>
-      </div>
-      <div class="action-card">
-        <div class="action-number">02</div>
-        <div style="flex:1;">
-          <div class="action-content-header">
-            <div class="action-headline">Screen Indonesia Market via Export Development Canada</div>
-            <span class="urgency-tag urgency-watch">Monitor</span>
-          </div>
-          <div class="action-body">EDC emerging markets screening tool for FIPA-eligible sectors (agri-tech, infrastructure). New framework creates 18-month entry window; assess risk-adjusted ROI this week.</div>
-          <div style="margin-top:10px;"><a href="https://www.edc.ca/en" style="font-family:DM Mono,monospace;font-size:9px;color:var(--brand);" target="_blank">↗ https://www.edc.ca/en</a></div>
-        </div>
-      </div>
-      <div class="action-card">
-        <div class="action-number">03</div>
-        <div style="flex:1;">
-          <div class="action-content-header">
-            <div class="action-headline">Review Global Affairs Canada China Trade Alert Registry</div>
-            <span class="urgency-tag urgency-watch">Monitor</span>
-          </div>
-          <div class="action-body">Subscribe to GAC sectoral risk updates on retaliatory tariffs affecting your commodity basket. Weekly digest prevents supply chain disruptions.</div>
-          <div style="margin-top:10px;"><a href="https://www.international.gc.ca/trade-commerce" style="font-family:DM Mono,monospace;font-size:9px;color:var(--brand);" target="_blank">↗ https://www.international.gc.ca/trade-commerce</a></div>
-        </div>
-      </div>
-      <div class="action-card">
-        <div class="action-number">04</div>
-        <div style="flex:1;">
-          <div class="action-content-header">
-            <div class="action-headline">Register for CanExport SME Program—Indonesia Cohort</div>
-            <span class="urgency-tag urgency-watch">Monitor</span>
-          </div>
-          <div class="action-body">International Trade and Investment Strategy funding for market development in high-opportunity ASEAN jurisdictions. Application deadlines rotate monthly; enroll for next cohort.</div>
-          <div style="margin-top:10px;"><a href="https://www.canada.ca/en/services/business/grants-funding/canexport.html" style="font-family:DM Mono,monospace;font-size:9px;color:var(--brand);" target="_blank">↗ https://www.canada.ca/en/services/business/grants-funding/canexport.html</a></div>
-        </div>
-      </div>
-    </div>
+    <p style="font-size:12px;font-family:'DM Mono',monospace;letter-spacing:0.06em;color:var(--ink-light);margin-bottom:20px;text-transform:uppercase;">Time-sensitive actions — week of May 16, 2026</p>
+    <div class="actions-compact">
+  <div class="action-row" onclick="toggleAction('act-1')" id="act-1-row">
+    <span class="urgency-tag urgency-watch">Monitor</span>
+    <span class="action-row-number" style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;color:var(--ink-light);margin-right:8px;">ACTION 01</span>
+    <span class="action-row-title">Contact Trade Commissioner Service for India Pulse Market Entry</span>
+    <span class="action-row-chevron">▾</span>
+  </div>
+  
+  <div class="action-expand" id="act-1">
+    <div class="action-expand-body">Trade Commissioner Service India desk + immediate DGFT quota liaison. Q2 2026 window requires real-time market intelligence and customs documentation support this week.</div>
+<div style="margin-top:8px;"><a href="https://www.tradecommissioner.gc.ca" style="font-family:'DM Mono',monospace;font-size:9px;color:var(--brand);" target="_blank">↗ View resource</a></div>
+  </div>
+  <div class="action-row" onclick="toggleAction('act-2')" id="act-2-row">
+    <span class="urgency-tag urgency-watch">Monitor</span>
+    <span class="action-row-number" style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;color:var(--ink-light);margin-right:8px;">ACTION 02</span>
+    <span class="action-row-title">Screen Indonesia Market via Export Development Canada</span>
+    <span class="action-row-chevron">▾</span>
+  </div>
+  
+  <div class="action-expand" id="act-2">
+    <div class="action-expand-body">EDC emerging markets screening tool for FIPA-eligible sectors (agri-tech, infrastructure). New framework creates 18-month entry window; assess risk-adjusted ROI this week.</div>
+<div style="margin-top:8px;"><a href="https://www.edc.ca/en" style="font-family:'DM Mono',monospace;font-size:9px;color:var(--brand);" target="_blank">↗ View resource</a></div>
+  </div>
+  <div class="action-row" onclick="toggleAction('act-3')" id="act-3-row">
+    <span class="urgency-tag urgency-watch">Monitor</span>
+    <span class="action-row-number" style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;color:var(--ink-light);margin-right:8px;">ACTION 03</span>
+    <span class="action-row-title">Review Global Affairs Canada China Trade Alert Registry</span>
+    <span class="action-row-chevron">▾</span>
+  </div>
+  
+  <div class="action-expand" id="act-3">
+    <div class="action-expand-body">Subscribe to GAC sectoral risk updates on retaliatory tariffs affecting your commodity basket. Weekly digest prevents supply chain disruptions.</div>
+<div style="margin-top:8px;"><a href="https://www.international.gc.ca/trade-commerce" style="font-family:'DM Mono',monospace;font-size:9px;color:var(--brand);" target="_blank">↗ View resource</a></div>
+  </div>
+  <div class="action-row" onclick="toggleAction('act-4')" id="act-4-row">
+    <span class="urgency-tag urgency-watch">Monitor</span>
+    <span class="action-row-number" style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;color:var(--ink-light);margin-right:8px;">ACTION 04</span>
+    <span class="action-row-title">Register for CanExport SME Program—Indonesia Cohort</span>
+    <span class="action-row-chevron">▾</span>
+  </div>
+  
+  <div class="action-expand" id="act-4">
+    <div class="action-expand-body">International Trade and Investment Strategy funding for market development in high-opportunity ASEAN jurisdictions. Application deadlines rotate monthly; enroll for next cohort.</div>
+<div style="margin-top:8px;"><a href="https://www.canada.ca/en/services/business/grants-funding/canexport.html" style="font-family:'DM Mono',monospace;font-size:9px;color:var(--brand);" target="_blank">↗ View resource</a></div>
+  </div>
+</div>
   </section>
 
   <!-- PROCUREMENT SIGNALS -->
@@ -1044,6 +1164,9 @@
       <span class="section-label">📋 Procurement Signals — Federal &amp; International Tenders</span>
       <div class="section-rule"></div>
     </div>
+    <p class="procurement-intro" style="font-size:13px;color:var(--ink-mid);line-height:1.7;margin-bottom:18px;max-width:680px;">
+      The 5 highest-priority tenders for Agri-food & Agriculture exporters closing soonest this week — ranked by deadline and sector relevance.
+    </p>
     <div class="proc-watch">
       
       <div class="proc-row">
@@ -1055,7 +1178,7 @@
           
           <a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/ws5587722806-doc5652672654" target="_blank" rel="noopener" style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--brand);">View →</a>
         </div>
-        <div class="proc-why">→ This tender is relevant to Canadian businesses because the Department of Fisheries and Oceans, a major federal agency, is procuring specialized water sampling e</div>
+        <div class="proc-why">→ This tender is relevant to Canadian businesses because the Department of Fisheries and Oceans, a major federal agency, is procuring specialized water sampling equipment, creating a domestic supply opportunity for manufacturers and distributors in the marine science and environmental monitoring sectors that serve Canada's aquaculture, fish research, and food safety industries.</div>
       </div>
       <div class="proc-row">
         <div class="proc-title">Notice of Planned Procurement (NPP) for The Provision of Multi-Tier IM/IT Research and Advisory Services for F</div>
@@ -1066,7 +1189,7 @@
           
           <a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/cb-312-41301896" target="_blank" rel="noopener" style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--brand);">View →</a>
         </div>
-        <div class="proc-why">→ This DFO tender represents a significant opportunity for Canadian IT consulting and research firms to secure a multi-year supply arrangement contract for delive</div>
+        <div class="proc-why">→ This DFO tender represents a significant opportunity for Canadian IT consulting and research firms to secure a multi-year supply arrangement contract for delivering information management and technology advisory services to a major federal department with substantial maritime and fisheries portfolios.</div>
       </div>
       <div class="proc-row">
         <div class="proc-title">Red Head Harbour, Dredge Spoils Removal</div>
@@ -1077,7 +1200,7 @@
           
           <a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/cb-948-19203980" target="_blank" rel="noopener" style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--brand);">View →</a>
         </div>
-        <div class="proc-why">→ This tender is relevant to Canadian businesses because it represents a federal infrastructure contract from DFO for marine dredging services that could create o</div>
+        <div class="proc-why">→ This tender is relevant to Canadian businesses because it represents a federal infrastructure contract from DFO for marine dredging services that could create opportunities for Canadian construction, engineering, and environmental remediation firms to bid on harbor maintenance work critical to fish habitat protection and marine industry operations.</div>
       </div>
       <div class="proc-row">
         <div class="proc-title">2026 Paving Program, Phase 1</div>
@@ -1088,7 +1211,7 @@
           
           <a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/bc26-113delta" target="_blank" rel="noopener" style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--brand);">View →</a>
         </div>
-        <div class="proc-why">→ This tender is relevant to Canadian businesses because infrastructure development projects like municipal paving programs create direct procurement opportunitie</div>
+        <div class="proc-why">→ This tender is relevant to Canadian businesses because infrastructure development projects like municipal paving programs create direct procurement opportunities for construction, materials supply, and engineering services companies across Canada, while also potentially connecting to broader critical minerals supply chains if specialized aggregates or mineral-based materials are specified in the p</div>
       </div>
       <div class="proc-row">
         <div class="proc-title">FE27DSE001 - Aerial Fertilizer Application</div>
@@ -1099,48 +1222,38 @@
           
           <a href="https://canadabuys.canada.ca/tender-opportunities/tender-notice/bcfe27dse001" target="_blank" rel="noopener" style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--brand);">View →</a>
         </div>
-        <div class="proc-why">→ This tender is relevant to Canadian businesses because it represents a procurement opportunity in the agricultural sector for aerial application services, which</div>
+        <div class="proc-why">→ This tender is relevant to Canadian businesses because it represents a procurement opportunity in the agricultural sector for aerial application services, which could benefit fertilizer suppliers, aviation companies, and agribusinesses looking to expand their service offerings in forest management and agricultural applications.</div>
       </div>
-      <div class="proc-footer">
-        <a href="https://canadiantradeintel.ca/procurement" target="_blank" rel="noopener">
-          View all 200 federal &amp; international tenders tracked this week → canadiantradeintel.ca/procurement
-        </a>
-      </div>
+    </div>
+    <div class="proc-footer" style="margin-top:12px;">
+      <a href="https://canadiantradeintel.ca/procurement" target="_blank" rel="noopener"
+         style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--sector);">
+        View all tenders →
+      </a>
     </div>
   </section>
 
   <!-- SUPPLY CHAIN WATCH -->
-  <section id="supply-chain" class="mb-56">
-    <div class="section-header">
-      <span class="section-label">🔗 Supply Chain Watch</span>
-      <div class="section-rule"></div>
-    </div>
-    <p style="font-size:13px;color:var(--ink-mid);margin-bottom:20px;max-width:680px;line-height:1.7;">
-      Import dependencies, critical input signals, and inbound supply chain risks for Canadian businesses in this sector this week.
-    </p>
-    <div class="scw-grid">
-      <div class="scw-item"><div class="scw-left"><div class="scw-input">Crude oil & energy inputs (feedstock for fertilizer, transport costs)</div><div class="scw-status">Crude oil price decline is easing pressure on input costs; geopolitical tensions cooling. Canola futures down 1.82% April 17 reflecting this softening. Window for cost recovery in downstream production is narrowing—volatility likely to resume.</div><div class="scw-action">→ Lock in fertilizer and fuel hedges now while crude-linked input costs are soft; establish 6-month forward contracts before geopolitical risk re-prices upward.</div></div><div class="scw-risk scw-risk-med">Med</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">U.S. wheat supplies (upstream feed & milling input for Canadian livestock & food processors)</div><div class="scw-status">USDA April WASDE shows U.S. wheat ending stocks increased to 938M bu (vs 931M in March). Supply tightness easing, but price adjustments ongoing. Canadian importers depend on U.S. wheat access; softer U.S. stocks = tighter North American feed market.</div><div class="scw-action">→ Monitor weekly USDA crop progress reports; negotiate multi-month wheat purchase agreements with U.S. suppliers before Q3 demand spike to lock in current pricing advantage.</div></div><div class="scw-risk scw-risk-med">Med</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">India pulse market access (lentil/pulse imports critical to Canadian seed & milling operations)</div><div class="scw-status">Trade Commissioner Service India desk flagged Q2 2026 market entry window with real-time quota intelligence needed. DGFT quota dynamics in flux; timing-sensitive opportunity closing within 8 weeks.</div><div class="scw-action">→ Contact Trade Commissioner Service India desk immediately for DGFT quota status and tariff schedule updates; initiate Q2 2026 pulse import contracts by end of April to secure allocation before window closes.</div></div><div class="scw-risk scw-risk-high">High</div></div>
-    </div>
-    <div class="scw-footer">Inbound supply chain signals · Updated weekly · Pipeline data April 21, 2026</div>
-  </section>
-
-  <!-- REGULATORY & COMPLIANCE PULSE -->
-  <section id="compliance" class="mb-56">
-    <div class="section-header">
-      <span class="section-label">⚖ Regulatory &amp; Compliance Pulse</span>
-      <div class="section-rule"></div>
-    </div>
-    <div class="compliance-desk">
-      <div class="compliance-desk-header">⚖ Regulatory &amp; Compliance Pulse &nbsp;·&nbsp; Agri-food & Agriculture &nbsp;·&nbsp; April 21, 2026</div>
-      <div class="compliance-row"><span class="compliance-label">US OFAC Specially Designated Nationals</span><span class="compliance-value"><span class="compliance-added">+25 added</span><button class="comp-toggle" onclick="toggleCompliance('comp_ofac_sdn')" aria-expanded="false" style="background:none;border:none;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.08em;color:#7a6a3a;cursor:pointer;margin-left:6px;padding:0;text-transform:uppercase;">Details ▾</button></span></div><div id="comp_ofac_sdn" class="compliance-detail" style="display:none;"># OFAC SDN Update: Iran Shipping Networks Designated
-
-This week's additions focus exclusively on Iran sanctions (IRAN-EO13902), with 20 entities and vessels linked to a coordinated shipping network centered on Mohammad Hossein Shamkhani. The designations target maritime transport operations, including five tanker vessels and multiple shell shipping companies registered in jurisdictions including India, Panama, and the UAE—suggesting potential exposure in trade finance, logistics, and commodity transport sectors. Canadian exporters and manufacturers should screen suppliers, customers, and freight forwarders against this list, particularly those involved in energy, petrochemicals, metals, or other bulk commodities that may transit Iranian-connected shipping routes. The breadth of entities (holding companies, consultancies, and shipping lines) indicates an effort to disrupt financial and operational networks rather than single actors, which may affect due diligence protocols for counterparties in Middle Eastern trade hubs. No removals were recorded this week.</div><div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.04em;color:#7a6a3a;padding:2px 0 2px 2px;">✓ No changes · UN Security Council Consolidated List</div><div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.04em;color:#7a6a3a;padding:2px 0 2px 2px;">✓ No changes · Canada Gazette RSS</div><div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.04em;color:#7a6a3a;padding:2px 0 2px 2px;">✓ No changes · US BIS Entity List</div><div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.04em;color:#7a6a3a;padding:2px 0 2px 2px;">✓ No changes · Canada Autonomous Sanctions (GACC)</div><div class="compliance-row" style="margin-top:6px;padding-top:10px;border-top:1px solid #d8d0c0;"><span class="compliance-label">Net change</span><span class="compliance-value" style="color:#8b1a1a;font-weight:600;">+25 entities across all lists</span></div><div style="background:rgba(139,26,26,0.06);border:1px solid rgba(139,26,26,0.15);border-left:3px solid #8b1a1a;padding:10px 13px;margin-top:10px;"><div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:#8b1a1a;margin-bottom:5px;">⚠ Review Required This Week</div><div style="font-size:13px;color:var(--ink-soft);line-height:1.7;"># OFAC SDN Update: Iran Shipping Networks Designated
-
-This week's additions focus exclusively on Iran sanctions (IRAN-EO13902), with 20 entities and vessels linked to a coordinated shipping network centered on Mohammad Hossein Shamkhani. The designations target maritime transport operations, includi</div></div><p style="margin-top:8px;margin-bottom:0;font-size:12px;font-family:'DM Mono',monospace;letter-spacing:0.06em;"><a href="https://canadiantradeintel.ca/tools/sanctions-check/" style="color:#8B1A1A;text-decoration:none;">Screen a supplier or counterparty against all lists →</a></p><div style="margin-top:12px;padding-top:10px;border-top:1px solid #e0d8c8;"><div style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.12em;text-transform:uppercase;color:#9a8a5a;margin-bottom:6px;">Verify directly</div><div style="line-height:2.4;"><a href="https://ofac.treasury.gov/sanctions-list-service" target="_blank" rel="noopener" style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.06em;color:#7a6a3a;text-decoration:none;border-bottom:1px solid rgba(122,106,26,0.3);">OFAC SDN →</a> &nbsp;·&nbsp; <a href="https://www.un.org/securitycouncil/content/un-sc-consolidated-list" target="_blank" rel="noopener" style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.06em;color:#7a6a3a;text-decoration:none;border-bottom:1px solid rgba(122,106,26,0.3);">UN Consolidated →</a> &nbsp;·&nbsp; <a href="https://www.international.gc.ca/world-monde/international_relations-relations_internationales/sanctions/current-actuelles.aspx" target="_blank" rel="noopener" style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.06em;color:#7a6a3a;text-decoration:none;border-bottom:1px solid rgba(122,106,26,0.3);">Canada Sanctions →</a> &nbsp;·&nbsp; <a href="https://www.international.gc.ca/world-monde/international_relations-relations_internationales/sanctions/current-actuelles.aspx" target="_blank" rel="noopener" style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.06em;color:#7a6a3a;text-decoration:none;border-bottom:1px solid rgba(122,106,26,0.3);">Canada GACC →</a> &nbsp;·&nbsp; <a href="https://www.bis.doc.gov/index.php/policy-guidance/lists-of-parties-of-concern" target="_blank" rel="noopener" style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.06em;color:#7a6a3a;text-decoration:none;border-bottom:1px solid rgba(122,106,26,0.3);">BIS Entity List →</a></div></div><div style="margin-top:10px;padding-top:10px;border-top:1px solid #e0d8c8;"><div style="font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.12em;text-transform:uppercase;color:#9a8a5a;margin-bottom:5px;">Export permit reminder</div><div style="font-size:12px;color:var(--ink-soft);line-height:1.7;">CFIA export certificates required for meat, dairy, and certain grains. AAFC CPTPP rules-of-origin apply for pulse exports to Japan/Vietnam.</div></div>
-    </div>
-  </section>
+  
 
   
+  <!-- REGULATORY UPDATE -->
+  <section style="margin-bottom:40px;">
+    <div style="border-left:4px solid var(--amber);background:#fffbf0;padding:14px 18px 10px;">
+      <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.16em;text-transform:uppercase;color:var(--amber);margin-bottom:4px;">
+        ⚖ Regulatory Pulse — This Week
+      </div>
+      <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-bottom:8px;">
+        CITT decisions, Canada Gazette notices, and regulatory changes relevant to this sector. Updated weekly. Click any item for official source.
+      </div>
+      <ul style="margin:0;padding:0;"><li style="padding:6px 0;border-bottom:1px solid rgba(200,134,10,0.15);list-style:none;font-size:12px;color:var(--ink-mid);line-height:1.6;">🟡 <strong style="color:var(--ink);">Reasons for finding — May 19, 2026</strong><span style="color:var(--ink-light);font-size:11px;"> — The Canadian International Trade Tribunal ruled that imported steel pipes are being dumped at unfairly low prices, triggering new tariffs to protect Canadian pipe manufacturers from losing market share.</span> <a href="https://www.citt-tcce.gc.ca/en/anti-dumping-injury-inquiries/active-dumping-and-subsidizing-cases" style="color:var(--amber);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" target="_blank">Source →</a><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:8px;">CITT</span></li><li style="padding:6px 0;border-bottom:1px solid rgba(200,134,10,0.15);list-style:none;font-size:12px;color:var(--ink-mid);line-height:1.6;">🟡 <strong style="color:var(--ink);">Determination — May 15, 2026</strong><span style="color:var(--ink-light);font-size:11px;"> — Canadian manufacturers can now export steel pipes to the U.S. without facing additional tariffs after the Canadian International Trade Tribunal ruled the dumping investigation closed.</span> <a href="https://www.citt-tcce.gc.ca/en/anti-dumping-injury-inquiries/active-dumping-and-subsidizing-cases" style="color:var(--amber);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" target="_blank">Source →</a><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:8px;">CITT</span></li><li style="padding:6px 0;border-bottom:1px solid rgba(200,134,10,0.15);list-style:none;font-size:12px;color:var(--ink-mid);line-height:1.6;">🟡 <strong style="color:var(--ink);">Document — Date issued or updated</strong><span style="color:var(--ink-light);font-size:11px;"> — I cannot write a meaningful summary because the source document contains only placeholder text with no actual regulatory content or details about what changed.</span> <a href="https://www.citt-tcce.gc.ca/en/anti-dumping-injury-inquiries/active-dumping-and-subsidizing-cases" style="color:var(--amber);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" target="_blank">Source →</a><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:8px;">CITT</span></li></ul>
+      <div style="font-family:'DM Mono',monospace;font-size:8px;color:var(--ink-light);margin-top:8px;">
+        Sources: Canada Gazette Part II · CITT · CBSA · Parliament<br>
+        <a href="https://canadiantradeintel.ca/tools/sanctions-check/" style="color:var(--amber);margin-right:12px;">Screen a supplier or counterparty →</a>
+        <a href="https://canadiantradeintel.ca/tools/tariffs/" style="color:var(--amber);">Tariff &amp; trade agreement lookup →</a>
+      </div>
+    </div>
+  </section>
 
   <!-- MARKET ENTRY PATHWAYS -->
   <section id="pathways" class="mb-56">
@@ -1148,6 +1261,7 @@ This week's additions focus exclusively on Iran sanctions (IRAN-EO13902), with 2
       <span class="section-label">🗺 Market Entry Pathways</span>
       <div class="section-rule"></div>
     </div>
+    <p style="font-size:12px;font-family:'DM Mono',monospace;letter-spacing:0.06em;color:var(--ink-light);margin-bottom:16px;text-transform:uppercase;">Programmes and strategic entry routes for Canadian businesses</p>
     <p style="font-size:13px;color:var(--ink-mid);margin-bottom:24px;max-width:680px;line-height:1.7;">
       Step-by-step pathways for the highest-opportunity market combinations this week.
       Each pathway includes the relevant trade agreement, financing instruments, and TCS contacts.
@@ -1231,175 +1345,29 @@ This week's additions focus exclusively on Iran sanctions (IRAN-EO13902), with 2
   </section>
 
   <!-- RISK REGISTER -->
-  <section id="risk-register" class="mb-56">
-    <div class="section-header">
-      <span class="section-label">⚠ Risk Register</span>
-      <div class="section-rule"></div>
-    </div>
-    <p style="font-size:13px;color:var(--ink-mid);margin-bottom:20px;max-width:680px;line-height:1.7;">
-      Persistent risks and watch items tracked across issues. Active risks require near-term attention; Watch items are monitored for escalation.
-    </p>
-    
-    <div style="overflow-x:auto;">
-      <table style="width:100%;border-collapse:collapse;font-family:'DM Sans',sans-serif;">
-        <thead>
-          <tr style="border-bottom:1.5px solid var(--rule);">
-            <th style="padding:8px 12px;text-align:left;font-size:9px;font-family:'DM Mono',monospace;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-light);font-weight:500;">Risk</th>
-            <th style="padding:8px 12px;text-align:center;font-size:9px;font-family:'DM Mono',monospace;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-light);font-weight:500;">Status</th>
-            <th style="padding:8px 12px;text-align:left;font-size:9px;font-family:'DM Mono',monospace;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-light);font-weight:500;">First Seen</th>
-            <th style="padding:8px 12px;text-align:left;font-size:9px;font-family:'DM Mono',monospace;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-light);font-weight:500;">Description</th>
-          </tr>
-        </thead>
-        <tbody>
-      <tr>
-        <td style="padding:10px 12px;font-size:12px;font-weight:600;color:var(--ink);max-width:220px;line-height:1.45;">USDA released April 2026 WASDE report on April 9 showing slight increase in U.S.</td>
-        <td style="padding:10px 12px;text-align:center;white-space:nowrap;">
-          <span style="display:inline-block;background:#8b1a1a;color:#fff;font-size:9px;font-family:'DM Mono',monospace;letter-spacing:0.08em;text-transform:uppercase;padding:2px 7px;border-radius:2px;">Active</span>
-        </td>
-        <td style="padding:10px 12px;font-size:11px;font-family:'DM Mono',monospace;color:var(--ink-mid);white-space:nowrap;">#002</td>
-        <td style="padding:10px 12px;font-size:12px;color:var(--ink-mid);line-height:1.5;max-width:380px;">USDA released its April 2026 WASDE report on April 9, increasing U.S. wheat ending stocks to 938 million bushels from March's 931 million bushels. The season-average farm price for wheat was raised $0.05 to $5.00 per bushel. Global wheat ending stocks rose to </td>
-      </tr>
-      <tr>
-        <td style="padding:10px 12px;font-size:12px;font-weight:600;color:var(--ink);max-width:220px;line-height:1.45;">Canola oil prices fell to CAD 711.14/tonne on April 17, down 1.82% from previous</td>
-        <td style="padding:10px 12px;text-align:center;white-space:nowrap;">
-          <span style="display:inline-block;background:#8b1a1a;color:#fff;font-size:9px;font-family:'DM Mono',monospace;letter-spacing:0.08em;text-transform:uppercase;padding:2px 7px;border-radius:2px;">Active</span>
-        </td>
-        <td style="padding:10px 12px;font-size:11px;font-family:'DM Mono',monospace;color:var(--ink-mid);white-space:nowrap;">#002</td>
-        <td style="padding:10px 12px;font-size:12px;color:var(--ink-mid);line-height:1.5;max-width:380px;">Canola futures fell to CAD 711.14/tonne on April 17, 2026, declining 1.82% from the previous day and down 2.07% over the past month. The decline was driven by crude oil price drops following U.S.-Iran negotiation hopes, which weakened biofuel-driven demand. Ea</td>
-      </tr>
-      <tr>
-        <td style="padding:10px 12px;font-size:12px;font-weight:600;color:var(--ink);max-width:220px;line-height:1.45;">Middle East crisis has created dual chokepoint disruption affecting Canadian foo</td>
-        <td style="padding:10px 12px;text-align:center;white-space:nowrap;">
-          <span style="display:inline-block;background:#8b1a1a;color:#fff;font-size:9px;font-family:'DM Mono',monospace;letter-spacing:0.08em;text-transform:uppercase;padding:2px 7px;border-radius:2px;">Active</span>
-        </td>
-        <td style="padding:10px 12px;font-size:11px;font-family:'DM Mono',monospace;color:var(--ink-mid);white-space:nowrap;">#002</td>
-        <td style="padding:10px 12px;font-size:12px;color:var(--ink-mid);line-height:1.5;max-width:380px;"><cite index="13-7">In early 2026, escalating conflict in the Middle East created a "dual chokepoint crisis" affecting both the Strait of Hormuz and the Red Sea, forcing container carriers to divert vessels and suspend routes across parts of the region.</cite> </td>
-      </tr>
-      <tr>
-        <td style="padding:10px 12px;font-size:12px;font-weight:600;color:var(--ink);max-width:220px;line-height:1.45;">Trump administration launched DOJ price-fixing probe into Canadian fertilizer co</td>
-        <td style="padding:10px 12px;text-align:center;white-space:nowrap;">
-          <span style="display:inline-block;background:#8b1a1a;color:#fff;font-size:9px;font-family:'DM Mono',monospace;letter-spacing:0.08em;text-transform:uppercase;padding:2px 7px;border-radius:2px;">Active</span>
-        </td>
-        <td style="padding:10px 12px;font-size:11px;font-family:'DM Mono',monospace;color:var(--ink-mid);white-space:nowrap;">#002</td>
-        <td style="padding:10px 12px;font-size:12px;color:var(--ink-mid);line-height:1.5;max-width:380px;">President Trump announced a Department of Justice investigation into alleged price-fixing by foreign fertilizer companies on Monday, specifically targeting Canadian potash despite US dependence on Canada for over 80% of its potash demand. Nutrien reported stro</td>
-      </tr>
-      <tr>
-        <td style="padding:10px 12px;font-size:12px;font-weight:600;color:var(--ink);max-width:220px;line-height:1.45;">China finalized 5.9% anti-dumping duty on Canadian canola seed imports for five </td>
-        <td style="padding:10px 12px;text-align:center;white-space:nowrap;">
-          <span style="display:inline-block;background:#8b1a1a;color:#fff;font-size:9px;font-family:'DM Mono',monospace;letter-spacing:0.08em;text-transform:uppercase;padding:2px 7px;border-radius:2px;">Active</span>
-        </td>
-        <td style="padding:10px 12px;font-size:11px;font-family:'DM Mono',monospace;color:var(--ink-mid);white-space:nowrap;">#002</td>
-        <td style="padding:10px 12px;font-size:12px;color:var(--ink-mid);line-height:1.5;max-width:380px;">China's Ministry of Commerce announced final determination on February 28, 2026, establishing a 5.9% anti-dumping duty on Canadian canola seed imports for five years, adding to the 9% most-favoured-nation duty for total duties of 14.9%. This is separate from a</td>
-      </tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
   <!-- CANADIAN SPOTLIGHT -->
   <section id="spotlight" class="mb-56">
     <div class="section-header">
       <span class="section-label">🇨🇦 Canadian Spotlight</span>
       <div class="section-rule"></div>
     </div>
-    <p style="font-size:13px;color:var(--ink-mid);margin-bottom:24px;max-width:680px;line-height:1.7;">
-      Canadian companies making moves in export markets this week.
-      <a href="https://canadiantradeintel.ca/spotlight" style="color:var(--sector);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.08em;">
-        See all Spotlight stories →
-      </a>
+    <p style="font-size:15px;color:var(--ink-mid);line-height:1.75;margin-top:12px;">
+      Every week CTI spotlights Canadian businesses making moves in this sector — international deals, market entries, contracts won, partnerships formed.
+      <a href="https://canadiantradeintel.ca/spotlight/" style="color:var(--sector);">Browse Canadian Spotlight →</a>
     </p>
-    <div class="spotlight-grid">
-      
-      <div class="spotlight-card">
-        <div class="spotlight-card-header">
-          <div class="spotlight-card-eyebrow">Agri-food & Agriculture · Canada</div>
-          <div class="spotlight-card-company">NorthStar Earth & Space</div>
-        </div>
-        <div class="spotlight-card-body">
-          <div class="spotlight-card-headline">Canadian satellite startup NorthStar on track to hit US$300-million valuation after SPAC merger</div>
-          <div class="spotlight-card-text">This signals Ottawa's growing confidence in Canadian space-tech capability for sovereign defence needs—a critical validation that de-risks NorthStar's technology and opens pathways to allied government contracts (U.S., UK, NATO members). The $300M valuation reflects investor confidence in space surveillance as a growth sector. For competitors and adjacent suppliers (ground stations, data analytics, integration firms), this demonstrates market appetite and potential as a prime contractor or partn</div>
-          
-        </div>
-      </div>
-      <div class="spotlight-card">
-        <div class="spotlight-card-header">
-          <div class="spotlight-card-eyebrow">Agri-food & Agriculture · Canada</div>
-          <div class="spotlight-card-company">AtkinsRéalis Group Inc.</div>
-        </div>
-        <div class="spotlight-card-body">
-          <div class="spotlight-card-headline">AtkinsRéalis to acquire Australia-based engineering consultancy WGA</div>
-          <div class="spotlight-card-text">This acquisition signals AtkinsRéalis' strategic pivot toward Indo-Pacific infrastructure markets as a growth vector, particularly in defence-related and critical infrastructure sectors where Australian demand is surging. The 800-person addition materially expands the firm's regional bench strength and local market access—critical for competing on government tenders and major capital projects in Australia and the region. For Canadian engineering and consulting competitors, this demonstrates that</div>
-          
-        </div>
-      </div>
-    </div>
   </section>
 
   <!-- SOURCE INDEX -->
-  
-<!-- ================================================================
-     SOURCES & REFERENCES — Canadian Trade Intelligence
-     Generated by government_sources_registry.render_sources_block()
-     ================================================================ -->
-<section class="report-sources" id="sources">
-  <h2>Sources &amp; References</h2>
-
-  <p class="sources-intro">
-    Canadian Trade Intelligence aggregates and synthesizes primary government data,
-    Crown corporation intelligence, and vetted news sources to produce this report.
-    We are the bridge between Canada's government data infrastructure and the
-    actionable weekly intelligence your business needs. All primary sources are
-    publicly accessible and linked below.
-  </p>
-
-  <div class="sources-tier">
-    <h3>Government Primary Sources</h3>
-    <ul>
-      <li><a href="https://www150.statcan.gc.ca/n1/en/catalogue/65F0013X" target="_blank" rel="noopener">Statistics Canada — Canadian International Merchandise Trade (CIMT)</a> <span class="source-vintage">(Monthly — current through ~2 months prior)</span> — Detailed monthly import and export data at the 6-digit HS commodity level. Selectable by country, province, year and month. Exportable to CSV. Best source for current bilateral goods trade flows by sector.</li>
-<li><a href="https://www150.statcan.gc.ca/n1/en/subjects/international_trade" target="_blank" rel="noopener">Statistics Canada — The Daily: International Merchandise Trade</a> <span class="source-vintage">(Monthly — published with ~5 week lag)</span> — Monthly press release covering Canada's merchandise trade with top 10 partners, NAPCS sector breakdown, and balance of payments data. Released approximately 5–6 weeks after reference month.</li>
-<li><a href="https://www.statcan.gc.ca/en/stathub" target="_blank" rel="noopener">Statistics Canada — Canada and the World Statistics Hub</a> <span class="source-vintage">(Varies by indicator; generally annual with some quarterly series)</span> — Interactive bilateral data hub covering trade, investment, employment and travel for 18 of Canada's major trading partners. Brings together multiple StatCan datasets in a single country-level analytical tool.</li>
-<li><a href="https://ised-isde.canada.ca/site/canadian-importers-database/en" target="_blank" rel="noopener">ISED Canadian Importers Database</a> <span class="source-vintage">(2023 (CBSA-sourced) — NOTE: typically lags ~2 years; 2024 not yet released as of April 2026)</span> — Company-level list of major Canadian importers by product (HS code), city, and country of origin. 'Major importers' = companies collectively accounting for up to 80% of imports of a given product. Includes customs brokers and non-resident importers.</li>
-<li><a href="https://ised-isde.canada.ca/site/trade-data-online/en" target="_blank" rel="noopener">ISED Trade Data Online</a> <span class="source-vintage">(Monthly — current through recent months)</span> — Monthly aggregate bilateral trade flows for Canadian imports and exports, by HS product and NAICS industry, for 200+ countries. Sourced from Statistics Canada and U.S. Census Bureau.</li>
-<li><a href="https://international.canada.ca/en/global-affairs/corporate/reports/chief-economist/state-trade/2025" target="_blank" rel="noopener">Global Affairs Canada — Canada's State of Trade</a> <span class="source-vintage">(2024 full-year (2025 report))</span> — Annual comprehensive report on Canada's international trade and economic performance. Covers merchandise exports/imports, services trade, FDI flows in and out, sector-by-sector performance, and the economic outlook. 2025 edition covers full-year 2024 data.</li>
-<li><a href="https://international.canada.ca/en/global-affairs/campaigns/canada-us-engagement" target="_blank" rel="noopener">Global Affairs Canada — Canada's Response to U.S. Tariffs</a> <span class="source-vintage">(Current — actively updated)</span> — Live policy page covering Canada's response to U.S. tariffs including relief measures, support programs, retaliatory measures, and sector impacts. Frequently updated — key cross-sector risk signal.</li>
-    </ul>
-    
-        <p class="source-importer-note">
-          ⚠️ <strong>Importer data note:</strong> Company-level import intelligence sourced from
-          the <a href="https://ised-isde.canada.ca/site/canadian-importers-database/en" target="_blank">ISED Canadian Importers Database</a>.
-          Most recent available data is 2023 (CBSA-sourced). 2024 data not yet released as of
-          April 2026. For current aggregate trade flows by product and country, see
-          <a href="https://www150.statcan.gc.ca/n1/en/catalogue/65F0013X" target="_blank">StatCan CIMT</a>
-          (updated monthly).
-        </p>
-        
-  </div>
-
-  <div class="sources-tier">
-    <h3>Industry &amp; Crown Corporation Sources</h3>
-    <ul>
-      <li><a href="https://www.edc.ca/en/trade-matters/india-export-opportunities-canadian-businesses.html" target="_blank" rel="noopener">EDC — India Export Opportunities for Canadian Businesses</a> <span class="source-vintage">(November 2025)</span> — EDC's market intelligence on India: GDP growth projections, priority sectors (agri-food, advanced manufacturing, clean tech, digital, critical minerals), EDC's 20-year in-market presence, and access to EDC's Market Leader Partnership Program with Tata Group, Aditya Birla, and Reliance Industries.</li>
-<li><a href="https://www.edc.ca/en/country-info.html" target="_blank" rel="noopener">EDC — Country Risk and Market Intelligence</a> <span class="source-vintage">(Continuously updated)</span> — Per-country risk ratings, market articles, and trade intelligence published by EDC. Covers 200+ markets. Useful for dossier risk scores and 'Further Reading' links.</li>
-<li><a href="https://projects.worldbank.org/en/projects-operations/projects-home" target="_blank" rel="noopener">World Bank — Projects & Operations (Procurement)</a> <span class="source-vintage">(Continuously updated)</span> — Global development bank project database. Canadian companies in infrastructure, engineering, agri-food, and cleantech can bid on World Bank-financed contracts worldwide.</li>
-<li><a href="https://www.bdc.ca/en/articles-tools/market-research-strategy" target="_blank" rel="noopener">BDC — Market Research and Business Intelligence</a> <span class="source-vintage">(Quarterly / periodic)</span> — BDC publishes sector outlooks, SME survey results, and market intelligence targeted at Canadian small and medium businesses. Quarterly SME surveys are particularly useful for cross-sector sentiment signals.</li>
-    </ul>
-  </div>
-
-  <div class="sources-tier">
-    <h3>News &amp; Media Sources</h3>
-    <p>See inline citations above.</p>
-    <p class="sources-disclaimer">
-      News sources are selected for relevance and credibility. CTI does not endorse
-      any specific media outlet. Inline citations appear throughout the report body.
+  <section id="source-index" class="mb-56">
+    <div class="section-header">
+      <span class="section-label">📎 Source Index</span>
+      <div class="section-rule"></div>
+    </div>
+    <p style="font-size:13px;color:var(--ink-mid);margin-bottom:16px;max-width:680px;line-height:1.7;">
+      Primary sources used to build this report.
     </p>
-  </div>
-
-  <p class="sources-methodology">
-    For our full source list, data methodology, and update schedule, visit
-    <a href="https://canadiantradeintel.ca/methodology">canadiantradeintel.ca/methodology</a>.
-  </p>
-</section>
-
+    <div style="font-family:'DM Mono',monospace;font-size:9px;color:#7a5000;margin-bottom:6px;">Sources accessed this issue</div><div style="max-height:180px;overflow-y:auto;padding-right:8px;"><ul style="list-style:none;padding:0;margin:0;columns:3;column-gap:40px;"><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a5000;margin-right:8px;">[1]</span><span style="font-size:10px;color:#444;">USDA WASDE</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a5000;margin-right:8px;">[2]</span><span style="font-size:10px;color:#444;">Canola Council of Canada</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a5000;margin-right:8px;">[3]</span><span style="font-size:10px;color:#444;">Nutrien investor relations</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a5000;margin-right:8px;">[4]</span><span style="font-size:10px;color:#444;">CME Group grain futures</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a5000;margin-right:8px;">[5]</span><span style="font-size:10px;color:#444;">Trading Economics</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a5000;margin-right:8px;">[6]</span><span style="font-size:10px;color:#444;">Canada Gazette</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a5000;margin-right:8px;">[7]</span><span style="font-size:10px;color:#444;">CFIA trade notices</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a5000;margin-right:8px;">[8]</span><span style="font-size:10px;color:#444;">India DGFT notifications</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a5000;margin-right:8px;">[9]</span><span style="font-size:10px;color:#444;">China SAMR announcements</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a5000;margin-right:8px;">[10]</span><span style="font-size:10px;color:#444;">Global Affairs Canada</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a5000;margin-right:8px;">[11]</span><span style="font-size:10px;color:#444;">AAFC Market Access Secretariat</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a5000;margin-right:8px;">[12]</span><span style="font-size:10px;color:#444;">Pulse Canada</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a5000;margin-right:8px;">[13]</span><span style="font-size:10px;color:#444;">Canola Council</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a5000;margin-right:8px;">[14]</span><span style="font-size:10px;color:#444;">Western Producer</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a5000;margin-right:8px;">[15]</span><span style="font-size:10px;color:#444;">Reuters Agriculture</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a5000;margin-right:8px;">[16]</span><span style="font-size:10px;color:#444;">AgriNews</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a5000;margin-right:8px;">[17]</span><span style="font-size:10px;color:#444;">AAFC Agri-food Trade Data</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a5000;margin-right:8px;">[18]</span><span style="font-size:10px;color:#444;">FAO Food Price Index</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a5000;margin-right:8px;">[19]</span><span style="font-size:10px;color:#444;">CanExport SME</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a5000;margin-right:8px;">[20]</span><span style="font-size:10px;color:#444;">AAFC Market Access</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a5000;margin-right:8px;">[21]</span><span style="font-size:10px;color:#444;">EDC Agri-food</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a5000;margin-right:8px;">[22]</span><span style="font-size:10px;color:#444;">CFIA Export Certification</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a5000;margin-right:8px;">[23]</span><span style="font-size:10px;color:#444;">Trade Commissioner Service</span></li></ul></div>
+  </section>
 
 </main>
 </div><!-- /report-content -->
@@ -1416,7 +1384,7 @@ This week's additions focus exclusively on Iran sanctions (IRAN-EO13902), with 2
         Agri-food & Agriculture Intelligence Brief
       </h1>
       <div style="font-family:'DM Mono',monospace;font-size:10px;color:#888;line-height:2;">
-        Issue #004 &nbsp;·&nbsp; April 21, 2026<br>
+        Issue #004 &nbsp;·&nbsp; May 16, 2026<br>
         Prepared by Canadian Trade Intelligence Inc. &nbsp;·&nbsp; canadiantradeintel.ca
       </div>
     </div>
@@ -1424,25 +1392,42 @@ This week's additions focus exclusively on Iran sanctions (IRAN-EO13902), with 2
     <!-- 1. Situation Summary -->
     <div>
       <span style="font-size:8px;letter-spacing:0.14em;text-transform:uppercase;font-family:'DM Mono',monospace;color:#7a5000;display:block;margin-bottom:8px;margin-top:24px;padding-top:20px;border-top:1px solid #e0dcd4;">1. Situation Summary</span>
-      <p style="font-size:14px;color:#1a1a1a;line-height:1.8;max-width:740px;">China's tariff reduction on Canadian canola to 15% creates a six-week market window before anti-dumping duties resume, requiring immediate export acceleration. Indonesia's wheat imports surged 30.4% year-over-year, signaling a high-value diversification opportunity for Canadian grain exporters seeking alternatives to volatile canola markets.</p>
+      <p style="font-size:14px;color:#1a1a1a;line-height:1.8;max-width:740px;">This week's landscape shows strong opportunities emerging in Asia-Pacific markets, with India's Q2 2026 DGFT pulse quota opening creating immediate high-value demand for Canadian lentils and chickpeas, while Indonesia's new FIPA framework signals long-term growth potential. The ongoing Russia-Ukraine conflict continues to support Canadian grain competitiveness globally, though China's persistent SAMR canola restrictions remain a $3.2B headwind requiring careful navigation.</p>
     </div>
 
     <!-- 2. Top Signals -->
     <div>
       <span style="font-size:8px;letter-spacing:0.14em;text-transform:uppercase;font-family:'DM Mono',monospace;color:#7a5000;display:block;margin-bottom:8px;margin-top:24px;padding-top:20px;border-top:1px solid #e0dcd4;">2. Top Signals</span>
-      <div style="padding:10px 0 10px 14px;border-left:3px solid #c8860a;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">China cut canola tariffs from 84% to 15% effective March 1, 2026, creating near-term pricing advantage against U.S. competitors.</div><div style="font-size:12px;color:#444;line-height:1.65;">Exporters must ship within the tariff window before anti-dumping duties reassert, with combined duty structure remaining competitive only through mid-May.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#1a6b42;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: HIGH</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #c8860a;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">Indonesia wheat imports reached 13.2 million metric tons, up 30.4% year-over-year, outpacing regional demand growth.</div><div style="font-size:12px;color:#444;line-height:1.65;">This represents the highest-opportunity market for Canadian grain diversification outside canola, supported by the new FIPA framework.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#1a6b42;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: HIGH</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #c8860a;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">India's Directorate General of Foreign Trade opens Q2 2026 pulse quota with immediate demand for Canadian lentils and chickpeas.</div><div style="font-size:12px;color:#444;line-height:1.65;">The three-month window closes in June 2026; delayed applications forfeit allocation to competitors.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#b36b00;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: MED</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #c8860a;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">China's tariff risk level remains at 6/10, reflecting ongoing trade friction and potential retaliatory measures on secondary commodities.</div><div style="font-size:12px;color:#444;line-height:1.65;">Multi-commodity exporters must hedge against tariff escalation on barley, wheat, and other grains beyond canola.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#b36b00;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: MED</div></div>
+      <div style="padding:10px 0 10px 14px;border-left:3px solid #c8860a;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">India DGFT Q2 2026 Pulse Quota Window</div><div style="font-size:12px;color:#444;line-height:1.65;">India's Directorate General of Foreign Trade opens immediate demand for Canadian lentils and chickpeas under new quota allocation. Window closes mid-week; monit</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#b36b00;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: MED</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #c8860a;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">Indonesia FIPA Framework Implementation</div><div style="font-size:12px;color:#444;line-height:1.65;">New Foreign Investment Protection Agreement signals sustained growth trajectory for Canadian agri-tech and resource exporters. Watch for bilateral tariff schedu</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#b36b00;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: MED</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #c8860a;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">China Tariff Retaliation Monitoring</div><div style="font-size:12px;color:#444;line-height:1.65;">Risk level 6 reflects ongoing trade friction; EU-Canada alignment on countermeasures may create defensive coalitions. Track weekly commodity price volatility in</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#b36b00;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: MED</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #c8860a;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">Contact Trade Commissioner Service for India Pulse Market Entry</div><div style="font-size:12px;color:#444;line-height:1.65;">Trade Commissioner Service India desk + immediate DGFT quota liaison. Q2 2026 window requires real-time market intelligence and customs documentation support th</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#1a6b42;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: HIGH</div></div>
     </div>
 
     <!-- 3. Recommended Actions -->
     <div>
       <span style="font-size:8px;letter-spacing:0.14em;text-transform:uppercase;font-family:'DM Mono',monospace;color:#7a5000;display:block;margin-bottom:8px;margin-top:24px;padding-top:20px;border-top:1px solid #e0dcd4;">3. Recommended Actions</span>
-      <div style="padding:12px 14px;background:#f8f8f6;border-left:3px solid #c8860a;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;color:#c8860a;margin-right:8px;font-size:9px;">01</span>Contact Trade Commissioner Service India desk immediately to secure pulse quota allocation before June 30, 2026 deadline.</div><div style="font-size:12px;color:#555;line-height:1.65;">Real-time DGFT liaison is required; delayed outreach forfeits allocation to Australian and U.S. competitors.</div></div><div style="padding:12px 14px;background:#f8f8f6;border-left:3px solid #c8860a;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;color:#c8860a;margin-right:8px;font-size:9px;">02</span>Engage Export Development Canada's emerging markets tool to assess wheat export pathways into Indonesia under the new FIPA framework.</div><div style="font-size:12px;color:#555;line-height:1.65;">CanExport SME Program funding for Indonesia cohort closes within 60 days; early screening enables competitive application.</div></div><div style="padding:12px 14px;background:#f8f8f6;border-left:3px solid #c8860a;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;color:#c8860a;margin-right:8px;font-size:9px;">03</span>Accelerate canola shipments to China through May 15, 2026, while subscribing to Global Affairs Canada China Trade Alert Registry for retaliatory tariff updates.</div><div style="font-size:12px;color:#555;line-height:1.65;">Weekly digest updates prevent supply chain disruptions and enable real-time hedging on secondary grain commodities.</div></div>
+      <div style="padding:12px 14px;background:#f8f8f6;border-left:3px solid #c8860a;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;color:#c8860a;margin-right:8px;font-size:9px;">01</span>Contact Trade Commissioner Service for India Pulse Market Entry</div><div style="font-size:12px;color:#555;line-height:1.65;">Trade Commissioner Service India desk + immediate DGFT quota liaison. Q2 2026 window requires real-time market intelligence and customs documentation support this week.</div></div><div style="padding:12px 14px;background:#f8f8f6;border-left:3px solid #c8860a;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;color:#c8860a;margin-right:8px;font-size:9px;">02</span>Screen Indonesia Market via Export Development Canada</div><div style="font-size:12px;color:#555;line-height:1.65;">EDC emerging markets screening tool for FIPA-eligible sectors (agri-tech, infrastructure). New framework creates 18-month entry window; assess risk-adjusted ROI this week.</div></div><div style="padding:12px 14px;background:#f8f8f6;border-left:3px solid #c8860a;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;color:#c8860a;margin-right:8px;font-size:9px;">03</span>Review Global Affairs Canada China Trade Alert Registry</div><div style="font-size:12px;color:#555;line-height:1.65;">Subscribe to GAC sectoral risk updates on retaliatory tariffs affecting your commodity basket. Weekly digest prevents supply chain disruptions.</div></div>
     </div>
 
     <!-- 4. Market Opportunity Scores -->
     <div>
-      <span style="font-size:8px;letter-spacing:0.14em;text-transform:uppercase;font-family:'DM Mono',monospace;color:#7a5000;display:block;margin-bottom:8px;margin-top:24px;padding-top:20px;border-top:1px solid #e0dcd4;">4. Market Opportunity Scores</span>
-      <table style="width:100%;border-collapse:collapse;font-family:'DM Sans',sans-serif;"><thead><tr style="background:#f8f6f2;"><th style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:#888;text-align:left;">Market</th><th style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:#888;text-align:left;">Score</th><th style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:#888;text-align:center;">Trend</th><th style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:#888;text-align:left;">Key Driver</th></tr></thead><tbody><tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:8px 10px;font-size:12px;font-weight:600;">🇮🇳 India</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#1a6b42;font-weight:700;">9/10</td><td style="padding:8px 10px;font-size:14px;text-align:center;">↑</td><td style="padding:8px 10px;font-size:11px;color:#555;">DGFT Q2 2026 pulse quota open; 65% lentil market share</td></tr><tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:8px 10px;font-size:12px;font-weight:600;">🇪🇺 European Union</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#1a6b42;font-weight:700;">8/10</td><td style="padding:8px 10px;font-size:14px;text-align:center;">↑</td><td style="padding:8px 10px;font-size:11px;color:#555;">CETA zero tariffs active; Canola oil demand</td></tr><tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:8px 10px;font-size:12px;font-weight:600;">🇨🇳 China</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#1a6b42;font-weight:700;">7/10</td><td style="padding:8px 10px;font-size:14px;text-align:center;">→</td><td style="padding:8px 10px;font-size:11px;color:#555;">$3.2B annual market size; Food security needs</td></tr><tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:8px 10px;font-size:12px;font-weight:600;">🇯🇵 Japan</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#1a6b42;font-weight:700;">7/10</td><td style="padding:8px 10px;font-size:14px;text-align:center;">↑</td><td style="padding:8px 10px;font-size:11px;color:#555;">CPTPP preferential rates; Grain import needs</td></tr><tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:8px 10px;font-size:12px;font-weight:600;">🇮🇩 Indonesia</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#1a6b42;font-weight:700;">8/10</td><td style="padding:8px 10px;font-size:14px;text-align:center;">↑</td><td style="padding:8px 10px;font-size:11px;color:#555;">New FIPA signed 2026; Growing food import market</td></tr><tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:8px 10px;font-size:12px;font-weight:600;">🇲🇽 Mexico</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#1a6b42;font-weight:700;">7/10</td><td style="padding:8px 10px;font-size:14px;text-align:center;">→</td><td style="padding:8px 10px;font-size:11px;color:#555;">CPTPP access; USMCA framework</td></tr><tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:8px 10px;font-size:12px;font-weight:600;">🇻🇳 Vietnam</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#1a6b42;font-weight:700;">7/10</td><td style="padding:8px 10px;font-size:14px;text-align:center;">↑</td><td style="padding:8px 10px;font-size:11px;color:#555;">CPTPP preferential rates; Growing middle class</td></tr><tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:8px 10px;font-size:12px;font-weight:600;">🇪🇬 Egypt</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#b36b00;font-weight:700;">6/10</td><td style="padding:8px 10px;font-size:14px;text-align:center;">↑</td><td style="padding:8px 10px;font-size:11px;color:#555;">GASC tender activity; Food subsidy program</td></tr></tbody></table>
+      <span style="font-size:8px;letter-spacing:0.14em;text-transform:uppercase;font-family:'DM Mono',monospace;color:#7a5000;display:block;margin-bottom:8px;margin-top:24px;padding-top:20px;border-top:1px solid #e0dcd4;">4. Market Risk &amp; Opportunity Scores</span>
+      <table style="width:100%;border-collapse:collapse;font-family:'DM Sans',sans-serif;"><thead><tr style="background:#f8f6f2;"><th style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:#888;text-align:left;">Market</th><th style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:#888;text-align:left;">Risk</th><th style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:#888;text-align:left;">Opportunity</th><th style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:#888;text-align:center;">Trend</th><th style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:#888;text-align:left;">Key Driver</th></tr></thead><tbody><tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:8px 10px;font-size:12px;font-weight:600;">🇮🇳 India</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#1a6b42;font-weight:700;">3/10</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#1a6b42;font-weight:700;">9/10</td><td style="padding:8px 10px;font-size:14px;text-align:center;">↑</td><td style="padding:8px 10px;font-size:11px;color:#555;">DGFT Q2 2026 pulse quota open; 65% lentil market share</td></tr><tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:8px 10px;font-size:12px;font-weight:600;">🇪🇺 European Union</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#1a6b42;font-weight:700;">2/10</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#1a6b42;font-weight:700;">8/10</td><td style="padding:8px 10px;font-size:14px;text-align:center;">↑</td><td style="padding:8px 10px;font-size:11px;color:#555;">CETA zero tariffs active; Canola oil demand</td></tr><tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:8px 10px;font-size:12px;font-weight:600;">🇨🇳 China</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#b36b00;font-weight:700;">6/10</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#1a6b42;font-weight:700;">7/10</td><td style="padding:8px 10px;font-size:14px;text-align:center;">→</td><td style="padding:8px 10px;font-size:11px;color:#555;">$3.2B annual market size; Food security needs</td></tr><tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:8px 10px;font-size:12px;font-weight:600;">🇯🇵 Japan</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#1a6b42;font-weight:700;">1/10</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#1a6b42;font-weight:700;">7/10</td><td style="padding:8px 10px;font-size:14px;text-align:center;">↑</td><td style="padding:8px 10px;font-size:11px;color:#555;">CPTPP preferential rates; Grain import needs</td></tr><tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:8px 10px;font-size:12px;font-weight:600;">🇮🇩 Indonesia</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#1a6b42;font-weight:700;">3/10</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#1a6b42;font-weight:700;">8/10</td><td style="padding:8px 10px;font-size:14px;text-align:center;">↑</td><td style="padding:8px 10px;font-size:11px;color:#555;">New FIPA signed 2026; Growing food import market</td></tr><tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:8px 10px;font-size:12px;font-weight:600;">🇲🇽 Mexico</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#1a6b42;font-weight:700;">2/10</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#1a6b42;font-weight:700;">7/10</td><td style="padding:8px 10px;font-size:14px;text-align:center;">→</td><td style="padding:8px 10px;font-size:11px;color:#555;">CPTPP access; USMCA framework</td></tr><tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:8px 10px;font-size:12px;font-weight:600;">🇻🇳 Vietnam</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#1a6b42;font-weight:700;">3/10</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#1a6b42;font-weight:700;">7/10</td><td style="padding:8px 10px;font-size:14px;text-align:center;">↑</td><td style="padding:8px 10px;font-size:11px;color:#555;">CPTPP preferential rates; Growing middle class</td></tr><tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:8px 10px;font-size:12px;font-weight:600;">🇪🇬 Egypt</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#b36b00;font-weight:700;">4/10</td><td style="padding:8px 10px;font-family:'DM Mono',monospace;font-size:11px;color:#b36b00;font-weight:700;">6/10</td><td style="padding:8px 10px;font-size:14px;text-align:center;">↑</td><td style="padding:8px 10px;font-size:11px;color:#555;">GASC tender activity; Food subsidy program</td></tr></tbody></table>
+      <details style="margin-top:14px;border:1px solid #e0dcd4;background:#f8f6f2;">
+        <summary style="padding:10px 14px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#555;cursor:pointer;list-style:none;">&#9658; How to read these scores</summary>
+        <div style="padding:14px 16px;font-size:12px;color:#2a2a2a;line-height:1.8;border-top:1px solid #e0dcd4;">
+          <div style="margin-bottom:12px;">
+            <strong style="font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:#333;">Risk Score — How safe is it to do business here right now?</strong><br>
+            <span style="color:#2e7d32;">1&#8211;3 = Low risk.</span> Stable market, no sanctions, Canada has a trade agreement.<br>
+            <span style="color:#e65100;">4&#8211;6 = Moderate risk.</span> Some regulatory complexity or political uncertainty.<br>
+            <span style="color:#c62828;">7&#8211;10 = High risk.</span> Active sanctions, conflict, or rapidly changing rules. Approach with caution and consult a trade lawyer before committing.
+          </div>
+          <div>
+            <strong style="font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:#333;">Opportunity Score — How strong is the demand signal for Canadian goods?</strong><br>
+            <span style="color:#c62828;">1&#8211;3 = Weak.</span> Market not actively buying what Canada sells right now.<br>
+            <span style="color:#e65100;">4&#8211;6 = Moderate.</span> Some demand but competitive or access-limited.<br>
+            <span style="color:#2e7d32;">7&#8211;10 = Strong.</span> Active buying signals, Canada has a competitive advantage, and timing favours action this week.
+          </div>
+        </div>
+      </details>
     </div>
 
     <!-- 5. Procurement Highlights -->
@@ -1454,7 +1439,7 @@ This week's additions focus exclusively on Iran sanctions (IRAN-EO13902), with 2
     <!-- 6. Supply Chain Watch -->
     <div>
       <span style="font-size:8px;letter-spacing:0.14em;text-transform:uppercase;font-family:'DM Mono',monospace;color:#7a5000;display:block;margin-bottom:8px;margin-top:24px;padding-top:20px;border-top:1px solid #e0dcd4;">6. Supply Chain Watch</span>
-      <div style="border:1px solid #e0dcd4;background:#fff;"><div class="scw-item"><div class="scw-left"><div class="scw-input">Crude oil & energy inputs (feedstock for fertilizer, transport costs)</div><div class="scw-status">Crude oil price decline is easing pressure on input costs; geopolitical tensions cooling. Canola futures down 1.82% April 17 reflecting this softening. Window for cost recovery in downstream production is narrowing—volatility likely to resume.</div><div class="scw-action">→ Lock in fertilizer and fuel hedges now while crude-linked input costs are soft; establish 6-month forward contracts before geopolitical risk re-prices upward.</div></div><div class="scw-risk scw-risk-med">Med</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">U.S. wheat supplies (upstream feed & milling input for Canadian livestock & food processors)</div><div class="scw-status">USDA April WASDE shows U.S. wheat ending stocks increased to 938M bu (vs 931M in March). Supply tightness easing, but price adjustments ongoing. Canadian importers depend on U.S. wheat access; softer U.S. stocks = tighter North American feed market.</div><div class="scw-action">→ Monitor weekly USDA crop progress reports; negotiate multi-month wheat purchase agreements with U.S. suppliers before Q3 demand spike to lock in current pricing advantage.</div></div><div class="scw-risk scw-risk-med">Med</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">India pulse market access (lentil/pulse imports critical to Canadian seed & milling operations)</div><div class="scw-status">Trade Commissioner Service India desk flagged Q2 2026 market entry window with real-time quota intelligence needed. DGFT quota dynamics in flux; timing-sensitive opportunity closing within 8 weeks.</div><div class="scw-action">→ Contact Trade Commissioner Service India desk immediately for DGFT quota status and tariff schedule updates; initiate Q2 2026 pulse import contracts by end of April to secure allocation before window closes.</div></div><div class="scw-risk scw-risk-high">High</div></div></div>
+      <p style="font-size:12px;color:#888;">No inbound supply chain signals this week.</p>
     </div>
 
     <!-- 7. Source Index -->
@@ -1507,6 +1492,16 @@ window.addEventListener('scroll', () => {
     a.classList.toggle('active', a.getAttribute('href') === '#' + current);
   });
 });
+
+// Action row expand/collapse
+function toggleAction(id) {
+  const expand = document.getElementById(id);
+  const row    = document.getElementById(id + '-row');
+  if (!expand) return;
+  const isOpen = expand.style.display !== 'none';
+  expand.style.display = isOpen ? 'none' : 'block';
+  if (row) row.classList.toggle('open', !isOpen);
+}
 
 // Compliance row detail toggle
 function toggleCompliance(id) {
