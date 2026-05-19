@@ -272,6 +272,11 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
   <div class="finder-inner">
     <div class="finder-label">Search by HS Code or Description</div>
     <div class="finder-form">
+      <div style="display:flex;gap:0;margin-bottom:12px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;">
+  <button id="toggle-import" onclick="setDirection('import',this)" style="padding:6px 16px;border:1.5px solid var(--brand);background:var(--brand);color:#fff;cursor:pointer;text-transform:uppercase;">Importing to Canada</button>
+  <button id="toggle-export" onclick="setDirection('export',this)" style="padding:6px 16px;border:1.5px solid var(--rule);background:var(--cream);color:var(--ink-light);cursor:pointer;text-transform:uppercase;">Exporting from Canada</button>
+</div>
+<div id="direction-note" style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-bottom:14px;letter-spacing:0.06em;">Rates shown are Canadian import duties — what a Canadian importer pays.</div>
       <input type="text" class="finder-input" id="finder-input"
         placeholder="Search by product name or HS code (e.g. 'running shoes' or '6404' or 'canola')"
         onkeydown="if(event.key==='Enter')findRate()"
@@ -315,6 +320,22 @@ font-family:'DM Mono',monospace;letter-spacing:0.06em;">
   Not legal advice — verify with CBSA before acting.
 </div>
     <div class="finder-results" id="finder-results"></div>
+    <div id="rvc-calc" style="display:none;background:var(--cream);border:1px solid var(--rule);border-top:3px solid var(--amber,#c8860a);padding:20px 22px;margin-top:12px;">
+  <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-light);margin-bottom:12px;">Regional Value Content Calculator</div>
+  <div style="font-size:13px;color:var(--ink-light);margin-bottom:16px;line-height:1.65;">Many FTA preferential rates require a minimum percentage of regional content. Enter your costs to check whether your product qualifies.</div>
+  <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:12px;">
+    <div style="flex:1;min-width:180px;">
+      <label style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-light);display:block;margin-bottom:6px;">Non-originating input costs ($)</label>
+      <input id="rvc-nonoriginating" type="number" min="0" placeholder="e.g. 4000" oninput="calcRVC()" style="width:100%;padding:9px 12px;border:1.5px solid var(--rule);background:#fff;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--ink);outline:none;box-sizing:border-box;">
+    </div>
+    <div style="flex:1;min-width:180px;">
+      <label style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-light);display:block;margin-bottom:6px;">Total transaction value ($)</label>
+      <input id="rvc-total" type="number" min="1" placeholder="e.g. 10000" oninput="calcRVC()" style="width:100%;padding:9px 12px;border:1.5px solid var(--rule);background:#fff;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--ink);outline:none;box-sizing:border-box;">
+    </div>
+  </div>
+  <div id="rvc-result" style="font-family:'DM Mono',monospace;font-size:12px;line-height:1.7;color:var(--ink-light);min-height:48px;"></div>
+  <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-top:10px;line-height:1.65;">CUSMA typically requires 50% RVC under the net cost method for manufactured goods. CETA and CPTPP thresholds vary by product. Verify the specific rule for your HS code with the Trade Commissioner Service. Not legal advice.</div>
+</div>
   </div>
 </div>
 
@@ -1310,6 +1331,20 @@ async function initTariffFinder() {
 }
 initTariffFinder();
 
+let _direction = 'import';
+function setDirection(dir, btn) {
+  _direction = dir;
+  document.getElementById('toggle-import').style.background = dir === 'import' ? 'var(--brand)' : 'var(--cream)';
+  document.getElementById('toggle-import').style.color = dir === 'import' ? '#fff' : 'var(--ink-light)';
+  document.getElementById('toggle-import').style.borderColor = dir === 'import' ? 'var(--brand)' : 'var(--rule)';
+  document.getElementById('toggle-export').style.background = dir === 'export' ? 'var(--brand)' : 'var(--cream)';
+  document.getElementById('toggle-export').style.color = dir === 'export' ? '#fff' : 'var(--ink-light)';
+  document.getElementById('toggle-export').style.borderColor = dir === 'export' ? 'var(--brand)' : 'var(--rule)';
+  document.getElementById('direction-note').textContent = dir === 'import'
+    ? 'Rates shown are Canadian import duties — what a Canadian importer pays.'
+    : 'Rates shown are the destination country\'s duties on Canadian exports. Use the country selector to see FTA preferential rates.';
+}
+
 function findRate() {
   const raw    = (document.getElementById('finder-input')?.value || '').trim();
   const selVal = (document.getElementById('country-select')?.value || '').toLowerCase();
@@ -1373,6 +1408,23 @@ function findRate() {
     return;
   }
   out.innerHTML = noteHtml+countryNote+scored.slice(0,3).map(x=>renderFinderCard(x.entry,ftaKey,noFTA,capCountry)).join('');
+  const rvcEl = document.getElementById('rvc-calc');
+  if (rvcEl) rvcEl.style.display = 'block';
+}
+
+function calcRVC() {
+  const nonOrig = parseFloat(document.getElementById('rvc-nonoriginating')?.value) || 0;
+  const total   = parseFloat(document.getElementById('rvc-total')?.value) || 0;
+  const res     = document.getElementById('rvc-result');
+  if (!res) return;
+  if (!total || total <= 0) { res.textContent = ''; return; }
+  const rvc = ((total - nonOrig) / total) * 100;
+  const pass50 = rvc >= 50;
+  const pass35 = rvc >= 35;
+  res.innerHTML = `<span style="font-size:16px;font-weight:600;color:${pass50 ? 'var(--green)' : pass35 ? 'var(--amber,#c8860a)' : 'var(--risk)'};">${rvc.toFixed(1)}% RVC</span>&nbsp;&nbsp;`
+    + (pass50 ? '<span style="color:var(--green);">Likely qualifies under most FTA thresholds (50%+)</span>'
+              : pass35 ? '<span style="color:var(--amber,#c8860a);">May qualify under some agreements (35-49%) -- verify your specific rule</span>'
+              : '<span style="color:var(--risk);">Below common thresholds -- review sourcing or check specific rule for your HS code</span>');
 }
 
 function escHtml(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
@@ -1433,6 +1485,7 @@ function renderFinderCard(e,ftaKey,noFTA,capCountry) {
     <div class="finder-meta">
       <span class="finder-meta-item">Certificate of Origin Required: <strong>${e.coo?'Yes':'No'}</strong></span>
       <a class="finder-source-link" href="https://www.cbsa-asfc.gc.ca/trade-commerce/tariff-tarif/2026/html/tblmod-eng.html" target="_blank" rel="noopener">Verify in Canada Customs Tariff 2026 →</a>
+      ${(()=>{const rooText=e.coo?`<div class="finder-meta-item" style="flex-basis:100%;margin-top:6px;padding-top:8px;border-top:1px solid var(--rule);line-height:1.65;"><strong>Rules of origin:</strong> To claim a preferential FTA rate at the border, your goods must originate in the exporting country -- typically meaning they contain sufficient regional content or undergo a qualifying change in tariff classification. A Certificate of Origin is required. <a href="https://www.tradecommissioner.gc.ca/trade-agreement-compliance.aspx" target="_blank" rel="noopener" style="color:var(--brand);">TCS origin advice (free)</a></div>`:'';const verifyLink=`<div class="finder-meta-item" style="margin-left:auto;"><a href="https://www.tariffinder.ca/en/getResults?hsCode=${encodeURIComponent(e.hs)}" target="_blank" rel="noopener" style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);text-decoration:underline;">Verify on Canada Tariff Finder &#8594;</a></div>`;return rooText+verifyLink;})()}
     </div>
   </div>`;
 }
