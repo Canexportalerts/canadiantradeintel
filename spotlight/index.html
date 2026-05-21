@@ -3642,6 +3642,8 @@ function filterSector(sector, btn) {
             var entries = _extractEntries(data).slice(0, 8);
             if (!entries.length) return;
             _renderSpotlightEntries(entries, 'This Week\u2019s Stories');
+            var fb = document.getElementById('filter-bars');
+            if (fb) fb.style.display = '';
           })
           .catch(function() {});
       }
@@ -3666,6 +3668,9 @@ function filterSector(sector, btn) {
           var d = new Date(_weekParam + 'T12:00:00');
           var label = isNaN(d) ? 'Stories' : 'Stories \u2014 Week of ' + d.toLocaleDateString('en-CA', {month:'long', day:'numeric', year:'numeric'});
           _renderSpotlightEntries(entries, label);
+          if (_section) _section.style.display = '';
+          var fb = document.getElementById('filter-bars');
+          if (fb) fb.style.display = '';
         })
         .catch(function() { _tryNext(i + 1); });
     })(0);
