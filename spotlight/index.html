@@ -594,7 +594,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
 @media (max-width: 900px) { .ed-container { padding: 24px 16px 40px; } }
 
 /* Section container */
-.ed-section { margin-bottom: 56px; }
+.ed-section { margin-bottom: 32px; }
 
 .ed-section-header {
   display: flex;
@@ -3723,7 +3723,17 @@ function renderMosaicFromJSON(entries, container) {
 
       var tileId = 'json-' + slug;
       card.dataset.tile = tileId;
-      card.setAttribute('onclick', "toggleTile('" + tileId + "')");
+      if (slug) {
+        card.setAttribute('onclick', "window.location.href='/spotlight/" + slug + "/'");
+        card.style.cursor = 'pointer';
+      } else {
+        if (slug) {
+        card.setAttribute('onclick', "window.location.href='/spotlight/" + slug + "/'");
+        card.style.cursor = 'pointer';
+      } else {
+        card.setAttribute('onclick', "toggleTile('" + tileId + "')");
+      }
+      }
 
       card.innerHTML = [
         '<div class="article-sector" style="color:' + color + '"><span class="sector-pip" style="background:' + color + '"></span>',
