@@ -196,36 +196,34 @@ body{font-family:'DM Sans',sans-serif;background:var(--warm-bg);color:var(--ink)
     </div>
   </div>
   <div class="proc-filters">
-    <span class="filter-label">Source</span>
+    <span class="filter-label">Jurisdiction</span>
     <button class="filter-btn active" onclick="setFilter('source','all',this)">All</button>
-    <button class="filter-btn" onclick="setFilter('source','federal',this)">Federal</button>
-    <button class="filter-btn" onclick="setFilter('source','us',this)">US Federal</button>
-    <button class="filter-btn" onclick="setFilter('source','eu',this)">EU / International</button>
+    <button class="filter-btn" onclick="setFilter('source','federal',this)">🇨🇦 Federal</button>
     <button class="filter-btn" onclick="setFilter('source','provincial',this)">Provincial</button>
-    <button class="filter-btn" onclick="setFilter('source','nato',this)" title="Defence, aerospace, logistics and engineering opportunities from the NATO Support and Procurement Agency. Open to Canadian suppliers registered in the NSPA Source File.">NATO / NSPA</button>
-    <span style="width:1px;height:18px;background:var(--warm-border);margin:0 4px"></span>
+    <button class="filter-btn" onclick="setFilter('source','municipal',this)">Municipal</button>
+    <button class="filter-btn" onclick="setFilter('source','nato',this)">NATO / NSPA</button>
+    <button class="filter-btn" onclick="setFilter('source','eu',this)">🌍 EU / Int'l</button>
+    <button class="filter-btn" onclick="setFilter('source','us',this)">🇺🇸 US Federal</button>
+
     <span class="filter-label">Closing</span>
     <button class="filter-btn" onclick="setFilter('closing','week',this)">This week</button>
     <button class="filter-btn" onclick="setFilter('closing','month',this)">This month</button>
     <button class="filter-btn" onclick="setFilter('closing','none',this)">No deadline</button>
-    <div style="width:100%;height:1px;background:var(--rule);margin:4px 0;"></div>
-    <span class="filter-label">Sector</span>
-    <button class="filter-btn active" id="sector-all"
-            onclick="setFilter('sector','all',this)">All Sectors</button>
-    <button class="filter-btn"
-            onclick="setFilter('sector','critical_minerals',this)">⚗ Minerals</button>
-    <button class="filter-btn"
-            onclick="setFilter('sector','energy_cleantech',this)">⚡ Energy</button>
-    <button class="filter-btn"
-            onclick="setFilter('sector','advanced_manufacturing',this)">🏭 Manufacturing</button>
-    <button class="filter-btn"
-            onclick="setFilter('sector','aerospace_defence',this)">✈ Aerospace</button>
-    <button class="filter-btn"
-            onclick="setFilter('sector','agri_food',this)">🌾 Agri-food</button>
-    <button class="filter-btn"
-            onclick="setFilter('sector','technology_digital',this)">💻 Technology</button>
-    <button class="filter-btn"
-            onclick="setFilter('sector','general',this)">📋 General</button>
+
+    <span class="filter-label">Category</span>
+    <button class="filter-btn active" onclick="setFilter('category','all',this)">All Categories</button>
+    <button class="filter-btn" onclick="setFilter('category','construction',this)">🏗 Construction</button>
+    <button class="filter-btn" onclick="setFilter('category','it_digital',this)">💻 IT &amp; Digital</button>
+    <button class="filter-btn" onclick="setFilter('category','defence_security',this)">🛡 Defence</button>
+    <button class="filter-btn" onclick="setFilter('category','professional_services',this)">📋 Professional</button>
+    <button class="filter-btn" onclick="setFilter('category','office_facilities',this)">🏢 Office &amp; Facilities</button>
+    <button class="filter-btn" onclick="setFilter('category','energy_environment',this)">⚡ Energy</button>
+    <button class="filter-btn" onclick="setFilter('category','health_medical',this)">🏥 Health</button>
+    <button class="filter-btn" onclick="setFilter('category','industrial_manufacturing',this)">🏭 Industrial</button>
+    <button class="filter-btn" onclick="setFilter('category','agriculture_food',this)">🌾 Agri-food</button>
+    <button class="filter-btn" onclick="setFilter('category','scientific_research',this)">🔬 Research</button>
+    <button class="filter-btn" onclick="setFilter('category','transport_logistics',this)">🚚 Transport</button>
+    <button class="filter-btn" onclick="setFilter('category','financial_insurance',this)">💼 Financial</button>
     <span class="proc-result-count" id="result-count">Loading…</span>
   </div>
 </div>
@@ -309,7 +307,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--warm-bg);color:var(--ink)
 // ── DATA LOADING ──────────────────────────────────────────────────────────────
 let allTenders = [];
 let currentView = 'list';
-let activeFilters = { source: 'all', closing: 'all', sector: 'all' };
+let activeFilters = { source: 'all', closing: 'all', category: 'all' };
 let searchQuery = '';
 let currentPage = 1;
 const PAGE_SIZE = 20;
@@ -356,6 +354,7 @@ async function loadTenders() {
         sectors:  Array.isArray(t.sectors) ? t.sectors : (t.sector ? [t.sector] : []),
         source:   (t.source || t.platform || '').toLowerCase(),
         why:      t.why_this_matters || '',
+        category: t.category || 'general',
         status:   t.status || '',
       }))
       .filter(t => {
@@ -412,6 +411,9 @@ function sourceLabel(src) {
   if (s.includes('eu') || s.includes('ted') || s.includes('europe')) return 'EU TED';
   if (s.includes('sam') || s.includes('us federal')) return 'SAM.gov';
   if (s.includes('alberta') || s.includes('apc')) return 'Alberta';
+  if (s.includes('nova') || s.includes('novascotia')) return 'Nova Scotia';
+  if (s.includes('manitoba')) return 'Manitoba';
+  if (s.includes('calgary')) return 'Calgary';
   if (s.includes('bc') || s.includes('bcbid')) return 'BC Bid';
   if (s.includes('seao') || s.includes('quebec')) return 'SEAO';
   return src.substring(0, 14);
@@ -425,7 +427,8 @@ function sourceKey(src) {
   if (s.includes('canada') || s.includes('buy')) return 'federal';
   if (s.includes('eu') || s.includes('ted') || s.includes('europe')) return 'eu';
   if (s.includes('sam') || s.includes('us federal')) return 'us';
-  if (s.includes('alberta') || s.includes('sask')) return 'provincial';
+  if (s.includes('alberta') || s.includes('sask') || s.includes('nova') || s.includes('manitoba') || s.includes('new brunswick') || s.includes('nbon')) return 'provincial';
+  if (s.includes('calgary') || s.includes('toronto') || s.includes('ottawa') || s.includes('edmonton') || s.includes('winnipeg') || s.includes('halifax')) return 'municipal';
   return 'other';
 }
 
@@ -672,10 +675,10 @@ function tenderMatchesFilters(t) {
   } else if (activeFilters.closing === 'none') {
     if (t.deadline) return false;
   }
-  // Sector filter — use feed's own sector classification (trust the pipeline, don't re-classify client-side)
-  if (activeFilters.sector !== 'all') {
-    const tSectors = t.sectors || (t.sector ? [t.sector] : []);
-    if (!tSectors.includes(activeFilters.sector)) return false;
+  // Category filter
+  if (activeFilters.category !== 'all') {
+    const tCat = t.category || 'general';
+    if (tCat !== activeFilters.category) return false;
   }
   return true;
 }
