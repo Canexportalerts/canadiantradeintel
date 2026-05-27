@@ -75,6 +75,13 @@ body{font-family:'DM Sans',sans-serif;background:var(--warm-bg);color:var(--ink)
 .proc-item-buyer{font-size:12px;color:var(--slate)}
 .proc-item-source{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.08em;color:#aaa;text-transform:uppercase;padding:2px 6px;border:1px solid var(--warm-border)}
 .proc-item-sector{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.08em;text-transform:uppercase;padding:2px 7px;border:1px solid;white-space:nowrap}
+.proc-badge{display:inline-flex;align-items:center;gap:3px;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.07em;text-transform:uppercase;padding:2px 8px;border-radius:2px;white-space:nowrap;font-weight:500}
+.proc-badge-source{background:rgba(0,0,0,0.05);color:var(--slate);border:1px solid var(--warm-border)}
+.proc-badge-category{background:rgba(139,26,26,0.08);color:var(--crimson);border:1px solid rgba(139,26,26,0.2)}
+.proc-badge-urgent{background:#fef2f2;color:#dc2626;border:1px solid #fecaca}
+.proc-badge-soon{background:#fffbeb;color:#d97706;border:1px solid #fde68a}
+.proc-badge-ok{background:#f0fdf4;color:#16a34a;border:1px solid #bbf7d0}
+.proc-badge-closed{background:#f9fafb;color:#9ca3af;border:1px solid #e5e7eb}
 .proc-item-value{font-family:'DM Mono',monospace;font-size:11px;color:#2e7d32;font-weight:600}
 .proc-item-date-col{text-align:right;flex-shrink:0}
 .proc-item-date{font-family:'DM Mono',monospace;font-size:11px;font-weight:600;white-space:nowrap}
@@ -149,12 +156,12 @@ body{font-family:'DM Sans',sans-serif;background:var(--warm-bg);color:var(--ink)
 }
 </style>
 <meta property="og:title" content="Procurement Hub — Canadian Trade Intelligence">
-<meta property="og:description" content="2700+ active government procurement opportunities for Canadian businesses. Federal, provincial, municipal, EU, NATO, and US sources — updated weekly.">
+<meta property="og:description" content="Government procurement intelligence for Canadian businesses. Federal, provincial, municipal, EU, NATO, and US sources — thousands of active tenders, updated every Tuesday.">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Canadian Trade Intelligence">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Procurement Hub — Canadian Trade Intelligence">
-<meta name="twitter:description" content="2700+ active government procurement opportunities for Canadian businesses. Federal, provincial, municipal, EU, NATO, and US sources — updated weekly.">
+<meta name="twitter:description" content="Government procurement intelligence for Canadian businesses. Federal, provincial, municipal, EU, NATO, and US sources — thousands of active tenders, updated every Tuesday.">
 </head>
 <body>
 <nav id="main-nav"></nav>
@@ -206,9 +213,11 @@ body{font-family:'DM Sans',sans-serif;background:var(--warm-bg);color:var(--ink)
     <button class="filter-btn" onclick="setFilter('source','us',this)">🇺🇸 US Federal</button>
 
     <span class="filter-label">Closing</span>
+    <button class="filter-btn active" onclick="setFilter('closing','open',this)">Open</button>
     <button class="filter-btn" onclick="setFilter('closing','week',this)">This week</button>
     <button class="filter-btn" onclick="setFilter('closing','month',this)">This month</button>
     <button class="filter-btn" onclick="setFilter('closing','none',this)">No deadline</button>
+    <button class="filter-btn" onclick="setFilter('closing','closed',this)">Recently closed</button>
 
     <span class="filter-label">Category</span>
     <button class="filter-btn active" onclick="setFilter('category','all',this)">All Categories</button>
@@ -307,10 +316,26 @@ body{font-family:'DM Sans',sans-serif;background:var(--warm-bg);color:var(--ink)
 // ── DATA LOADING ──────────────────────────────────────────────────────────────
 let allTenders = [];
 let currentView = 'list';
-let activeFilters = { source: 'all', closing: 'all', category: 'all' };
+let activeFilters = { source: 'all', closing: 'open', category: 'all' };
 let searchQuery = '';
 let currentPage = 1;
 const PAGE_SIZE = 20;
+
+const CATEGORY_LABELS = {
+  defence_security:        'Defence',
+  it_digital:              'IT & Digital',
+  scientific_research:     'Research',
+  construction:            'Construction',
+  energy_environment:      'Energy',
+  health_medical:          'Health',
+  agriculture_food:        'Agri-food',
+  industrial_manufacturing:'Industrial',
+  transport_logistics:     'Transport',
+  professional_services:   'Professional',
+  office_facilities:       'Office & Facilities',
+  financial_insurance:     'Financial',
+  general:                 null,
+};
 
 const SECTOR_MAP = {
   critical_minerals:      { label: 'Critical Minerals', cls: 's-cm' },
@@ -366,9 +391,24 @@ async function loadTenders() {
         return d >= today || (t.status === 'recently_closed' && daysAgo <= 14);
       })
       .sort((a, b) => {
-        if (!a.deadline) return 1;
-        if (!b.deadline) return -1;
-        return new Date(a.deadline) - new Date(b.deadline);
+        const today = new Date(); today.setHours(0,0,0,0);
+        const aDate = a.deadline ? new Date(a.deadline.substring(0,10)) : null;
+        const bDate = b.deadline ? new Date(b.deadline.substring(0,10)) : null;
+        const aOpen = aDate && aDate >= today;
+        const bOpen = bDate && bDate >= today;
+        const aNoDate = !aDate;
+        const bNoDate = !bDate;
+        const aClosed = aDate && aDate < today;
+        const bClosed = bDate && bDate < today;
+        // Priority: open (soonest first) → no deadline → recently closed (most recent first)
+        if (aOpen && bOpen) return aDate - bDate;
+        if (aOpen) return -1;
+        if (bOpen) return 1;
+        if (aNoDate && bNoDate) return 0;
+        if (aNoDate) return -1;
+        if (bNoDate) return 1;
+        // Both recently closed — most recently closed first
+        return bDate - aDate;
       });
 
     updateStats();
@@ -508,10 +548,23 @@ function render() {
     technology_digital: 'Technology', general: 'General',
   };
 
-  function makeSectorBadges(t) {
-    return (t.sectors || [t.sector]).filter(Boolean)
-      .map(s => `<span style="display:inline-block;font-size:9px;padding:2px 6px;border-radius:2px;margin-right:4px;background:${sectorColors[s]||'#888'}18;color:${sectorColors[s]||'#888'};font-family:'DM Mono',monospace;letter-spacing:0.08em;">${sectorLabels[s]||s}</span>`)
-      .join('');
+  function makeTenderBadges(t, days) {
+    const parts = [];
+    // Source badge
+    const src = sourceLabel(t.source);
+    if (src) parts.push(`<span class="proc-badge proc-badge-source">${escHtml(src)}</span>`);
+    // Category badge — skip 'general'
+    const catLabel = CATEGORY_LABELS[t.category];
+    if (catLabel) parts.push(`<span class="proc-badge proc-badge-category">${catLabel}</span>`);
+    // Urgency/status badge
+    if (t.status === 'recently_closed' || (days !== null && days < 0)) {
+      parts.push(`<span class="proc-badge proc-badge-closed">Closed</span>`);
+    } else if (days !== null && days <= 3) {
+      parts.push(`<span class="proc-badge proc-badge-urgent">Closes in ${days}d</span>`);
+    } else if (days !== null && days <= 14) {
+      parts.push(`<span class="proc-badge proc-badge-soon">Closes in ${days}d</span>`);
+    }
+    return parts.join(' ');
   }
 
   // List view
@@ -520,7 +573,7 @@ function render() {
     const days = getDaysLeft(t.deadline);
     const dClass = urgencyClass(days);
     const daysStr = days !== null ? `(${days}d)` : '';
-    const sectorBadges = makeSectorBadges(t);
+    const tenderBadges = makeTenderBadges(t, days);
     const isClosed = t.status === 'recently_closed' || (days !== null && days < 0);
     const closedBadge = isClosed ? `<span style="display:inline-block;font-size:9px;padding:2px 6px;border-radius:2px;margin-right:4px;background:#88888818;color:#888;font-family:'DM Mono',monospace;letter-spacing:0.08em;text-transform:uppercase;">Recently Closed</span>` : '';
     const titleEl = t.url
@@ -533,11 +586,8 @@ function render() {
           <div class="proc-item-meta">
             <span class="proc-item-buyer">${escHtml(t.buyer)}</span>
             ${formatValue(t.value) ? `<span class="proc-item-value">${escHtml(formatValue(t.value))}</span>` : ''}
-            <span class="proc-item-source">${sourceLabel(t.source)}</span>
-            ${sectorTags(t.sectors)}
-            ${closedBadge}
           </div>
-          ${sectorBadges ? `<div style="margin-top:4px;">${sectorBadges}</div>` : ''}
+          <div style="margin-top:5px;">${tenderBadges}</div>
         </div>
         <div class="proc-item-date-col">
           <div class="proc-item-date ${dClass}">${formatDate(t.deadline)}</div>
@@ -552,7 +602,7 @@ function render() {
   cardEl.innerHTML = paged.map(t => {
     const days = getDaysLeft(t.deadline);
     const dClass = urgencyClass(days);
-    const sectorBadges = makeSectorBadges(t);
+    const tenderBadges = makeTenderBadges(t, days);
     const titleEl = t.url
       ? `<a href="${t.url}" target="_blank" rel="noopener" class="proc-card-title">${escHtml(t.title)}</a>`
       : `<span class="proc-card-title" style="color:var(--ink);cursor:default">${escHtml(t.title)}</span>`;
@@ -560,13 +610,9 @@ function render() {
       ${titleEl}
       <div class="proc-card-buyer">${escHtml(t.buyer)}</div>
       ${formatValue(t.value) ? `<div style="font-family:'DM Mono',monospace;font-size:11px;color:#2e7d32;font-weight:600;">${escHtml(formatValue(t.value))}</div>` : ''}
-      ${sectorBadges ? `<div>${sectorBadges}</div>` : ''}
+      <div style="margin-top:4px;">${tenderBadges}</div>
       <div class="proc-card-footer">
-        <div class="proc-card-date ${dClass}">${formatDate(t.deadline)}${days !== null ? ` (${days}d)` : ''}</div>
-        <div class="proc-card-meta">
-          <span class="proc-item-source">${sourceLabel(t.source)}</span>
-          ${sectorTags(t.sectors)}
-        </div>
+        <div class="proc-card-date ${dClass}">${formatDate(t.deadline)}</div>
       </div>
     </div>`;
   }).join('');
@@ -666,14 +712,21 @@ function tenderMatchesFilters(t) {
     if (sk !== activeFilters.source) return false;
   }
   // Closing filter
-  if (activeFilters.closing === 'week') {
+  if (activeFilters.closing === 'open') {
+    if (!t.deadline) return true; // include undated
     const d = getDaysLeft(t.deadline);
-    if (d === null || d > 7) return false;
+    if (d !== null && d < 0) return false; // exclude past deadline
+  } else if (activeFilters.closing === 'week') {
+    const d = getDaysLeft(t.deadline);
+    if (d === null || d < 0 || d > 7) return false;
   } else if (activeFilters.closing === 'month') {
     const d = getDaysLeft(t.deadline);
-    if (d === null || d > 30) return false;
+    if (d === null || d < 0 || d > 30) return false;
   } else if (activeFilters.closing === 'none') {
     if (t.deadline) return false;
+  } else if (activeFilters.closing === 'closed') {
+    const d = getDaysLeft(t.deadline);
+    if (d === null || d >= 0) return false; // only past deadline
   }
   // Category filter
   if (activeFilters.category !== 'all') {
