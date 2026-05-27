@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="color-scheme" content="light">
 <title>Procurement Intelligence — Canadian Trade Intelligence Inc.</title>
-<meta name="description" content="Government and institutional procurement opportunities for Canadian businesses — federal, provincial, EU, NATO, and international sources, filtered by sector and updated weekly. Each opportunity includes context on why it matters for Canadian businesses.">
+<meta name="description" content="Government and institutional procurement opportunities for Canadian businesses — federal, provincial, EU, NATO, and international sources, filtered by category and updated weekly. 2700+ active tenders from CanadaBuys, EU TED, SAM.gov, NSPA, and provincial portals.">
 <link rel="canonical" href="https://canadiantradeintel.ca/procurement/">
 
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -41,7 +41,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--warm-bg);color:var(--ink)
 .proc-value-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,210,120,0.5);flex-shrink:0}
 
 /* SEARCH + FILTER BAR */
-.proc-controls{background:var(--white);border-bottom:2px solid var(--warm-border);padding:20px 48px;position:sticky;top:56px;z-index:100}
+.proc-controls{background:var(--white);border-bottom:2px solid var(--warm-border);padding:16px 48px 12px;position:sticky;top:56px;z-index:100}
 .proc-search-row{display:flex;gap:12px;margin-bottom:14px}
 .proc-search-wrap{flex:1;position:relative}
 .proc-search-wrap::before{content:'';position:absolute;left:14px;top:50%;transform:translateY(-50%);width:16px;height:16px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E") no-repeat center/contain;opacity:0.5}
@@ -59,9 +59,9 @@ body{font-family:'DM Sans',sans-serif;background:var(--warm-bg);color:var(--ink)
 .proc-result-count{font-family:'DM Mono',monospace;font-size:9px;color:var(--slate);letter-spacing:0.08em;margin-left:auto;padding-top:2px}
 
 /* MAIN LAYOUT */
-.proc-layout{max-width:1200px;margin:0 auto;padding:28px 48px 80px;display:grid;grid-template-columns:1fr 320px;gap:32px;align-items:start}
+.proc-layout{max-width:1200px;margin:0 auto;padding:28px 32px 80px;display:grid;grid-template-columns:1fr 300px;gap:24px;align-items:start;box-sizing:border-box}
 .proc-main{}
-.proc-aside{position:sticky;top:160px}
+.proc-aside{position:sticky;top:220px;max-height:calc(100vh - 240px);overflow-y:auto}
 
 /* LIST VIEW */
 .proc-list{display:flex;flex-direction:column;gap:0}
@@ -149,12 +149,12 @@ body{font-family:'DM Sans',sans-serif;background:var(--warm-bg);color:var(--ink)
 }
 </style>
 <meta property="og:title" content="Procurement Hub — Canadian Trade Intelligence">
-<meta property="og:description" content="Government procurement opportunities for Canadian businesses. Federal, provincial, EU, and international sources filtered by sector and updated weekly.">
+<meta property="og:description" content="2700+ active government procurement opportunities for Canadian businesses. Federal, provincial, municipal, EU, NATO, and US sources — updated weekly.">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Canadian Trade Intelligence">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Procurement Hub — Canadian Trade Intelligence">
-<meta name="twitter:description" content="Government procurement opportunities for Canadian businesses. Federal, provincial, EU, and international sources filtered by sector and updated weekly.">
+<meta name="twitter:description" content="2700+ active government procurement opportunities for Canadian businesses. Federal, provincial, municipal, EU, NATO, and US sources — updated weekly.">
 </head>
 <body>
 <nav id="main-nav"></nav>
@@ -167,7 +167,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--warm-bg);color:var(--ink)
   <div class="proc-hero">
     <div class="proc-label">Procurement Intelligence</div>
     <h1 class="proc-title">Active Tender Watch</h1>
-    <p class="proc-subtitle">Government and institutional procurement opportunities for Canadian businesses — federal, provincial, EU, NATO, and international sources, filtered by sector and updated weekly. Each opportunity includes context on why it matters for Canadian businesses.</p>
+    <p class="proc-subtitle">Government and institutional procurement opportunities for Canadian businesses — federal, provincial, municipal, EU, NATO, and US sources. 2,700+ active tenders updated every Tuesday.</p>
     <div class="proc-stats">
       <div class="proc-stat"><div class="proc-stat-val" id="stat-total">—</div><div class="proc-stat-label">Active tenders</div></div>
       <div class="proc-stat"><div class="proc-stat-val" id="stat-urgent">—</div><div class="proc-stat-label">Close within 7 days</div></div>
@@ -188,7 +188,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--warm-bg);color:var(--ink)
 <div class="proc-controls">
   <div class="proc-search-row">
     <div class="proc-search-wrap">
-      <input type="text" id="proc-search" placeholder="Search tenders by keyword, buyer, or sector…" autocomplete="off">
+      <input type="text" id="proc-search" placeholder="Search tenders by keyword, buyer, or category…" autocomplete="off">
     </div>
     <div class="proc-view-toggle">
       <button class="view-btn active" id="btn-list" onclick="setView('list')">List</button>
@@ -253,7 +253,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--warm-bg);color:var(--ink)
     <a class="aside-cta" href="/subscribe/">
       <div class="aside-cta-label">Weekly Intelligence</div>
       <div class="aside-cta-title">Subscribe for weekly procurement alerts →</div>
-      <div class="aside-cta-text">Every Tuesday — <span id="tender-count">active tenders</span> filtered and ranked by sector, urgency, and Canadian relevance. Plus six sector reports and the multi-sector digest.</div>
+      <div class="aside-cta-text">Every Tuesday — <span id="tender-count">active tenders</span> across federal, provincial, municipal, EU, NATO, and US sources. Plus sector reports and the weekly digest.</div>
       <div class="aside-cta-btn">See plans →</div>
     </a>
 
@@ -276,14 +276,14 @@ body{font-family:'DM Sans',sans-serif;background:var(--warm-bg);color:var(--ink)
     </div>
     <div class="aside-card" style="border-left:3px solid var(--gold);">
       <div class="aside-card-title">Looking for more?</div>
-      <p style="font-size:12px;color:var(--slate);line-height:1.65;"><strong style="color:var(--ink);">Need more sources?</strong> CTI surfaces the major public procurement portals listed above. For private-sector, construction, utility, and municipal tenders beyond our scope, MERX is Canada's largest private tender database.</p>
+      <p style="font-size:12px;color:var(--slate);line-height:1.65;"><strong style="color:var(--ink);">Growing coverage.</strong> CTI currently surfaces 9 public procurement sources. Municipal, utility, and additional provincial portals are being added through data partnerships. For private-sector tenders, see <a href="https://merx.com" target="_blank" rel="noopener" style="color:var(--slate);text-decoration:underline;">MERX</a>.</p>
       <a href="https://merx.com" target="_blank" rel="noopener" class="aside-link">MERX (external) &#8594;</a>
     </div>
   </aside>
 </div>
 
 <div style="max-width:1200px;margin:0 auto;padding:0 48px 8px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.06em;color:var(--slate);line-height:1.7;">
-  CTI surfaces federal Canadian (CanadaBuys), provincial (Alberta, Saskatchewan), US federal (SAM.gov), EU (TED), and NATO (NSPA) tenders. BC and Quebec provincial portals are being added. For private-sector and municipal tenders beyond our scope, see <a href="https://merx.com" target="_blank" rel="noopener" style="color:var(--slate);text-decoration:underline;">MERX (merx.com)</a>.
+  CTI surfaces federal Canadian (CanadaBuys), provincial (Alberta, Saskatchewan, New Brunswick, Nova Scotia, Manitoba), municipal (Calgary), US federal (SAM.gov), EU (TED), and NATO (NSPA) tenders. BC, Quebec, and additional provincial portals coming via data partnerships.
 </div>
 <div style="max-width:1200px;margin:0 auto;padding:0 48px 24px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.06em;color:var(--slate);line-height:1.8;border-left:3px solid var(--gold);padding-left:16px;margin-left:48px;margin-right:48px;">
   <strong style="color:var(--ink-soft);letter-spacing:0.1em;">NATO / NSPA ELIGIBILITY</strong> &mdash;
