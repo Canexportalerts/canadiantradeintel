@@ -3898,6 +3898,46 @@ function loadCurrentWeek() {
 
       // Wire theme + sector filters to Zone 1 cards
       wireFiltersToZone1();
+
+      // Set Previous Week nav link from card pool week keys
+      // Card pool contains all archived issues — find their week keys
+      var pool = document.getElementById('card-pool');
+      if (pool) {
+        var allPoolCards = Array.prototype.slice.call(pool.querySelectorAll('.article-card'));
+        var weekKeys = {};
+        allPoolCards.forEach(function(card) {
+          var dateEl = card.querySelector('.article-date');
+          if (!dateEl) return;
+          var txt = dateEl.textContent.trim();
+          // Parse "May 26, 2026" or "2026-05-26"
+          var d;
+          if (txt.indexOf(',') > -1) {
+            d = new Date(txt);
+          } else {
+            d = new Date(txt + 'T12:00:00');
+          }
+          if (isNaN(d.getTime())) return;
+          var day = d.getDay(); // 0=Sun
+          var monday = new Date(d);
+          monday.setDate(d.getDate() - ((day + 6) % 7));
+          var key = monday.toISOString().slice(0, 10);
+          weekKeys[key] = true;
+        });
+        var sortedKeys = Object.keys(weekKeys).sort().reverse();
+        var prevEl = document.getElementById('page-nav-prev');
+        if (prevEl && sortedKeys.length > 0) {
+          prevEl.href = '?week=' + sortedKeys[0];
+          prevEl.textContent = '← Previous Week';
+          prevEl.style.display = '';
+        }
+        // Update current label
+        var labelEl = document.getElementById('page-nav-current');
+        if (labelEl && data.issue) {
+          labelEl.textContent = 'Issue #' + String(data.issue).padStart(3,'0')
+            + (data.generated ? ' · ' + new Date(data.generated + 'T12:00:00')
+              .toLocaleDateString('en-CA', {month:'long',day:'numeric',year:'numeric'}) : '');
+        }
+      }
     })
     .catch(function(e) {
       console.warn('spotlight_latest.json load failed:', e);
