@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="color-scheme" content="light">
 <title>Procurement Intelligence — Canadian Trade Intelligence Inc.</title>
-<meta name="description" content="Government and institutional procurement opportunities for Canadian businesses — federal, provincial, EU, NATO, and international sources, filtered by category and updated weekly. 2700+ active tenders from CanadaBuys, EU TED, SAM.gov, NSPA, and provincial portals.">
+<meta name="description" content="Government and institutional procurement opportunities for Canadian businesses — federal, provincial, EU, NATO, and international sources, filtered by category and updated weekly. Thousands of active tenders from CanadaBuys, EU TED, SAM.gov, NSPA, and provincial portals.">
 <link rel="canonical" href="https://canadiantradeintel.ca/procurement/">
 
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -174,7 +174,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--warm-bg);color:var(--ink)
   <div class="proc-hero">
     <div class="proc-label">Procurement Intelligence</div>
     <h1 class="proc-title">Active Tender Watch</h1>
-    <p class="proc-subtitle">Government and institutional procurement opportunities for Canadian businesses — federal, provincial, municipal, EU, NATO, and US sources. 2,700+ active tenders updated every Tuesday.</p>
+    <p class="proc-subtitle">Government and institutional procurement opportunities for Canadian businesses — federal, provincial, municipal, EU, NATO, and US sources. Thousands of active tenders, refreshed every Tuesday.</p>
     <div class="proc-stats">
       <div class="proc-stat"><div class="proc-stat-val" id="stat-total">—</div><div class="proc-stat-label">Active tenders</div></div>
       <div class="proc-stat"><div class="proc-stat-val" id="stat-urgent">—</div><div class="proc-stat-label">Close within 7 days</div></div>
@@ -262,7 +262,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--warm-bg);color:var(--ink)
     <a class="aside-cta" href="/subscribe/">
       <div class="aside-cta-label">Weekly Intelligence</div>
       <div class="aside-cta-title">Subscribe for weekly procurement alerts →</div>
-      <div class="aside-cta-text">Every Tuesday — <span id="tender-count">active tenders</span> across federal, provincial, municipal, EU, NATO, and US sources. Plus sector reports and the weekly digest.</div>
+      <div class="aside-cta-text">Every Tuesday — thousands of active tenders across federal, provincial, municipal, EU, NATO, and US sources. Plus sector reports and the weekly digest.</div>
       <div class="aside-cta-btn">See plans →</div>
     </a>
 
@@ -337,6 +337,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--warm-bg);color:var(--ink)
 let allTenders = [];
 let currentView = 'list';
 let activeFilters = { source: 'all', closing: 'open', category: 'all' };
+let feedGeneratedAt = null;
 let searchQuery = '';
 let currentPage = 1;
 const PAGE_SIZE = 20;
@@ -387,6 +388,7 @@ async function loadTenders() {
       return;
     }
     const tenders = Array.isArray(data) ? data : (data.tenders || data.items || []);
+    feedGeneratedAt = data.generated_at || null;
     // Normalize and filter to future deadlines only
     const today = new Date(); today.setHours(0,0,0,0);
     allTenders = tenders
@@ -516,13 +518,16 @@ function updateStats() {
   if (asideProv) asideProv.textContent = provincialCount || prov;
   document.getElementById('aside-intl').textContent   = intl;
 
-  const tenderCountEl = document.getElementById('tender-count');
-  if (tenderCountEl) tenderCountEl.textContent = allTenders.length + '+ active tenders';
+  // tender-count span removed — count shown in static CTA text as "thousands"
 
   const natoEl = document.getElementById('aside-nato');
   if (natoEl) natoEl.textContent = natoCount;
   const upd = document.getElementById('proc-updated');
-  if (upd) upd.textContent = `${total} tenders · Sources: CanadaBuys · Alberta · SaskTenders · SAM.gov · EU TED · NATO/NSPA`;
+  if (upd) {
+    const genAt = feedGeneratedAt ? new Date(feedGeneratedAt) : null;
+    const dateStr = genAt ? genAt.toLocaleDateString('en-CA', { month: 'short', day: 'numeric', year: 'numeric' }) : '';
+    upd.textContent = dateStr ? `Last updated ${dateStr} · Refreshed every Tuesday` : 'Refreshed every Tuesday';
+  }
 }
 
 function getFiltered() {
