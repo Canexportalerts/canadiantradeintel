@@ -3972,8 +3972,9 @@ function loadCurrentWeek() {
         }
       }
 
-      // Render themed mosaic into Zone 1
-      renderMosaicFromJSON(entries, section);
+      // Render editorial grid into Zone 1 main column
+      var gridEl = document.getElementById('this-week-grid');
+      renderMosaicFromJSON(entries, gridEl || section);
 
       if (section)    section.style.display    = '';
       if (filterBars) filterBars.style.display = '';
@@ -4031,7 +4032,12 @@ function loadCurrentWeek() {
 // ── Render editorial grid from JSON entries ──────────────────────────────────
 function renderMosaicFromJSON(entries, container) {
   if (!container) return;
-  var grid = document.getElementById('this-week-grid') || container;
+  // Robust grid lookup — works whether container is the section or the grid div itself
+  var grid = document.getElementById('this-week-grid')
+    || (container && container.querySelector('#this-week-grid'))
+    || (container && container.id === 'this-week-grid' ? container : null)
+    || container;
+  if (!grid) { console.warn('renderMosaicFromJSON: grid element not found'); return; }
 
   var THEME_LABELS = {
     canada_in_the_world: 'Canada in the World',
