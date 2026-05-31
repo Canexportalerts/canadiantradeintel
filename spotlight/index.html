@@ -4080,10 +4080,22 @@ function renderMosaicFromJSON(entries, container) {
   var featured = mainEntries.slice().sort(function(a,b){ return (b.score||0)-(a.score||0); })[0];
 
   function getExcerpt(e, maxLen) {
-    var s = e.summary || '';
-    var m = s.match(/WHAT HAPPENED[\s\S]+?(?=WHY IT MATTERS|$)/);
-    var text = m ? m[1].trim() : s.slice(0, 300);
-    return text.slice(0, maxLen||200) + (text.length > (maxLen||200) ? '…' : '');
+    try {
+      var s = String(e.summary || e.headline || '');
+      var start = s.indexOf('WHAT HAPPENED');
+      var text = '';
+      if (start >= 0) {
+        var after = s.slice(start + 13).replace(/^[\r\n]+/, '');
+        var stop = after.indexOf('WHY IT MATTERS');
+        text = (stop >= 0 ? after.slice(0, stop) : after.slice(0, 500)).trim();
+      } else {
+        text = s.slice(0, 300).trim();
+      }
+      var limit = maxLen || 200;
+      return text.slice(0, limit) + (text.length > limit ? '…' : '');
+    } catch(err) {
+      return String(e.headline || '').slice(0, maxLen || 200);
+    }
   }
 
   grid.innerHTML = '';
