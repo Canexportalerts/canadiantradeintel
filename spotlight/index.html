@@ -4074,10 +4074,7 @@ function renderMosaicFromJSON(entries, container) {
 
   function getExcerpt(e, maxLen) {
     var s = e.summary || '';
-    var m = s.match(/WHAT HAPPENED
-([\s\S]+?)(?:
-
-WHY IT MATTERS|$)/);
+    var m = s.match(/WHAT HAPPENED[\s\S]+?(?=WHY IT MATTERS|$)/);
     var text = m ? m[1].trim() : s.slice(0, 300);
     return text.slice(0, maxLen||200) + (text.length > (maxLen||200) ? '…' : '');
   }
