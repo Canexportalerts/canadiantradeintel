@@ -4008,16 +4008,23 @@ function loadCurrentWeek() {
         });
         var sortedKeys = Object.keys(weekKeys).sort().reverse();
         var prevEl = document.getElementById('page-nav-prev');
-        if (prevEl && sortedKeys.length > 0) {
+        if (prevEl && data.generated) {
+          var cur = new Date(data.generated + 'T12:00:00');
+          var jsDay = cur.getDay();
+          var prevMon = new Date(cur);
+          prevMon.setDate(cur.getDate() - ((jsDay + 6) % 7) - 7);
+          prevEl.href = '?week=' + prevMon.toISOString().slice(0, 10);
+          prevEl.textContent = '← Previous Week';
+          prevEl.style.display = '';
+        } else if (prevEl && sortedKeys.length > 0) {
           prevEl.href = '?week=' + sortedKeys[0];
           prevEl.textContent = '← Previous Week';
           prevEl.style.display = '';
         }
-        // Update current label
+        // Update current label — date only, no issue number
         var labelEl = document.getElementById('page-nav-current');
-        if (labelEl && data.issue) {
-          labelEl.textContent = 'Issue #' + String(data.issue).padStart(3,'0')
-            + (data.generated ? ' · ' + new Date(data.generated + 'T12:00:00')
+        if (labelEl && data.generated) {
+          labelEl.textContent = new Date(data.generated + 'T12:00:00')
               .toLocaleDateString('en-CA', {month:'long',day:'numeric',year:'numeric'}) : '');
         }
       }
