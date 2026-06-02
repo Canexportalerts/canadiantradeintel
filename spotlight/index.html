@@ -3977,6 +3977,19 @@ function loadCurrentWeek() {
       var gridEl = document.getElementById('this-week-grid');
       renderMosaicFromJSON(entries, gridEl || section);
 
+      // Also fetch and render news stories if available
+      fetch('/api/news_latest.json')
+        .then(function(r) { return r.json(); })
+        .then(function(newsData) {
+          var newsEntries = newsData.entries || [];
+          if (newsEntries.length > 0) {
+            renderNewsStories(newsEntries, gridEl || section);
+          }
+        })
+        .catch(function(e) {
+          // news_latest.json missing or failed — silent, spotlight still works
+        });
+
       if (section)    section.style.display    = '';
       // filter bars removed from main page layout — kept for ?week= archive pages only
 
@@ -4035,6 +4048,142 @@ function loadCurrentWeek() {
       // Show placeholder — pipeline may still be running
       if (section) section.style.display = '';
     });
+}
+
+// ── Render news stories above business spotlight ─────────────────────────────
+function renderNewsStories(entries, container) {
+  if (!container || !entries || !entries.length) return;
+
+  var NEWS_SECTION_LABELS = {
+    policy_signal:      'Policy & Government',
+    community_culture:  'Communities & Culture',
+    provincial_regional:'Provinces & Regions',
+    canadian_economy:   'The Canadian Economy',
+    situation_brief:    'This Week in Canada',
+  };
+
+  var SECTOR_CLASS = {
+    critical_minerals:'s-minerals', energy_cleantech:'s-energy',
+    advanced_manufacturing:'s-mfg', aerospace_defence:'s-aerospace',
+    agri_food:'s-agri', technology_digital:'s-tech',
+    cross_sector:'s-economy', canadian_economy:'s-economy',
+  };
+
+  // Group by story_type
+  var typeGroups = {}, typeOrder = [];
+  entries.forEach(function(e) {
+    var t = e.story_type || 'policy_signal';
+    if (!typeGroups[t]) { typeGroups[t] = []; typeOrder.push(t); }
+    typeGroups[t].push(e);
+  });
+
+  // Build a wrapper div to prepend before the business section header
+  var newsWrap = document.createElement('div');
+  newsWrap.id = 'news-sections';
+
+  typeOrder.forEach(function(stype) {
+    var group = typeGroups[stype];
+    var label = NEWS_SECTION_LABELS[stype] || stype.replace(/_/g,' ');
+
+    // Section row label
+    var rowEl = document.createElement('div');
+    rowEl.className = 'sp-row';
+
+    var lblEl = document.createElement('div');
+    lblEl.className = 'sp-row-label';
+    lblEl.innerHTML = _esc(label)
+      + ' <span class="sp-row-label-count">'
+      + group.length + (group.length === 1 ? ' story' : ' stories') + '</span>';
+    rowEl.appendChild(lblEl);
+
+    // Cards grid
+    var cardsEl = document.createElement('div');
+    var gcls = group.length === 1 ? 'g1' : group.length === 2 ? 'g2e' : 'g3';
+    cardsEl.className = 'sp-cards ' + gcls;
+
+    group.forEach(function(e, idx) {
+      var slug = (e.slug || '').trim();
+      var sc   = SECTOR_CLASS[e.sector] || 's-economy';
+      var isLarge = (group.length <= 2 && idx === 0);
+
+      var cardEl = document.createElement('div');
+      cardEl.className = 'sp-card ' + sc + (isLarge ? ' sp-large' : '');
+      cardEl.dataset.theme    = e.theme || stype;
+      cardEl.dataset.storyType = stype;
+
+      // News cards navigate to story pages when slugs exist
+      if (slug) {
+        cardEl.setAttribute('onclick', "window.location.href='/spotlight/"+slug+"/'");
+        cardEl.style.cursor = 'pointer';
+      }
+
+      // Policy signals and short news: title + one-line deck only
+      var showDeck = isLarge || stype === 'community_culture' || stype === 'canadian_economy';
+      var deck = showDeck ? (e.summary || '').slice(0, 160) : '';
+
+      // For policy signals: just headline, no excerpt
+      if (stype === 'policy_signal') deck = '';
+
+      cardEl.innerHTML =
+        '<div class="sp-kicker s-economy" style="color:var(--ink-mid)">'
+          + '<span class="sp-pip2"></span>'
+          + _esc(e.sector_display || label)
+        + '</div>'
+        + (e.market ? '<div class="sp-geo">'+_esc(e.market)+'</div>' : '')
+        + '<div class="sp-hed">'+_esc(e.headline||'')+'</div>'
+        + (deck ? '<div class="sp-deck">'+_esc(deck)+'</div>' : '')
+        + '<div class="sp-card-foot">'
+          + '<span class="sp-co">'+_esc(e.source_name||'')+'</span>'
+          + (slug ? '<a href="/spotlight/'+slug+'/" class="sp-rd" onclick="event.stopPropagation()">Full Story →</a>' : '')
+        + '</div>';
+
+      cardsEl.appendChild(cardEl);
+    });
+
+    rowEl.appendChild(cardsEl);
+    newsWrap.appendChild(rowEl);
+
+    // Divider after each section
+    var divEl = document.createElement('div');
+    divEl.className = 'sp-rule';
+    newsWrap.appendChild(divEl);
+  });
+
+  // Find the Canadian Business Spotlight header and insert news before it
+  var children = Array.from(container.children);
+  var bizHeader = null;
+  for (var i = 0; i < children.length; i++) {
+    if (children[i].textContent.indexOf('Canadian Business Spotlight') >= 0) {
+      bizHeader = children[i];
+      break;
+    }
+  }
+
+  if (bizHeader) {
+    container.insertBefore(newsWrap, bizHeader);
+  } else {
+    // Fallback: prepend before everything
+    container.insertBefore(newsWrap, container.firstChild);
+  }
+
+  // Update rail index to include news headlines
+  var railIndex = document.getElementById('rail-index');
+  if (railIndex) {
+    entries.forEach(function(e) {
+      var slug = (e.slug||'').trim();
+      var item = document.createElement('a');
+      item.className = 'sp-rail-item';
+      item.href = slug ? '/spotlight/'+slug+'/' : '#';
+      var railHed = (e.headline||'');
+      if (railHed.length > 55) railHed = railHed.slice(0,52)+'…';
+      item.innerHTML = _esc(railHed)
+        + '<div class="sp-rail-meta">'
+        + _esc(NEWS_SECTION_LABELS[e.story_type]||'')
+        + (e.market ? ' · '+_esc(e.market) : '')
+        + '</div>';
+      railIndex.appendChild(item);
+    });
+  }
 }
 
 // ── Render editorial grid from JSON entries ──────────────────────────────────
