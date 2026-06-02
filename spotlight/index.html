@@ -850,12 +850,12 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
 <div class="spotlight-header">
   <div class="spotlight-header-inner">
     <div class="sh-eyebrow">Canadian Trade Intelligence</div>
-    <h1 class="sh-title">Business Spotlight</h1>
+    <h1 class="sh-title">This Week in Canada</h1>
     <p class="sh-tagline">
       Canadian companies making moves — updated every Tuesday
     </p>
     <p class="sh-description">
-      Each week CTI identifies Canadian businesses closing deals, entering new markets, winning contracts, and building partnerships across the global economy. Behind every trade number is a company making a decision. These are their stories.
+      The weekly read on Canada’s economy, communities, and place in the world. Each week CTI surfaces stories across business, policy, and localities of Canada. We work to ensure that all voices are heard and those stories are shared.
     </p>
   </div>
 </div>
@@ -875,6 +875,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
     <div class="this-week-eyebrow" id="this-week-eyebrow">This Week&#x2019;s Stories</div>
     <div class="sp-page-layout">
       <div class="sp-page-main" id="this-week-grid">
+        <!-- Canadian Business Spotlight section header injected by JS -->
         <p class="tw-placeholder" id="tw-placeholder">
           This week&#x2019;s spotlight stories are being compiled &#8212; check back Tuesday evening.
         </p>
@@ -943,7 +944,7 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
 </div>
 
 <!-- TARIFF CALLOUT -->
-<div class="tariff-callout">
+<div class="tariff-callout" style="display:none">
   <div class="tariff-callout-inner">
     <div class="tariff-callout-label">Tariff Reference</div>
     <p class="tariff-callout-desc">See how tariffs affect the goods and deals in these stories. Look up any product by name — no HS codes needed.</p>
@@ -4100,6 +4101,13 @@ function renderMosaicFromJSON(entries, container) {
 
   grid.innerHTML = '';
 
+  // ── CANADIAN BUSINESS SPOTLIGHT section header ───────────────────────────
+  var bizHeader = document.createElement('div');
+  bizHeader.style.cssText = 'font-family:\'DM Mono\',monospace;font-size:8px;letter-spacing:0.24em;text-transform:uppercase;color:var(--ink);margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid var(--rule);position:relative;';
+  bizHeader.innerHTML = '<span style="position:absolute;left:0;bottom:-2px;width:40px;height:2px;background:var(--brand);display:block;"></span>'
+    + 'Canadian Business Spotlight';
+  grid.appendChild(bizHeader);
+
   // FEATURED
   if (featured) {
     var featSlug  = (featured.slug || '').trim();
@@ -4217,7 +4225,9 @@ function renderMosaicFromJSON(entries, container) {
       var item = document.createElement('a');
       item.className='sp-rail-item';
       item.href = slug ? '/spotlight/'+slug+'/' : '#';
-      item.innerHTML = _esc(e.headline||e.company||'')
+      var railHed = (e.headline||e.company||'');
+      if (railHed.length > 55) railHed = railHed.slice(0, 52) + '…';
+      item.innerHTML = _esc(railHed)
         + '<div class="sp-rail-meta">'+_esc(e.sector_display||'')+(e.market?' · '+_esc(e.market):'')+'</div>';
       railIndex.appendChild(item);
     });
