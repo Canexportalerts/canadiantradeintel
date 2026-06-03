@@ -4222,10 +4222,9 @@ function loadCurrentWeek() {
         var prevEl = document.getElementById('page-nav-prev');
         if (prevEl && data.generated) {
           var cur = new Date(data.generated + 'T12:00:00');
-          var jsDay = cur.getDay();
-          var prevMon = new Date(cur);
-          prevMon.setDate(cur.getDate() - ((jsDay + 6) % 7) - 7);
-          prevEl.href = '?week=' + prevMon.toISOString().slice(0, 10);
+          var prevTue = new Date(cur);
+          prevTue.setDate(cur.getDate() - 7);
+          prevEl.href = '?week=' + prevTue.toISOString().slice(0, 10);
           prevEl.textContent = '← Previous Week';
           prevEl.style.display = '';
         } else if (prevEl && sortedKeys.length > 0) {
@@ -4630,16 +4629,16 @@ function buildEditorialGrid() {
 
     // Check group id — issue-009 etc — and match via card dates
     var allText = group.innerHTML;
-    var dateMatches = allText.match(/20\d\d-\d\d-\d\d/g);
+    var dateMatches = allText.match(/20[0-9][0-9]-[0-9][0-9]-[0-9][0-9]/g);
     if (dateMatches && dateMatches.length > 0) {
-      // Get the Monday of the first card date in this group
-      var firstDate = new Date(dateMatches[0] + 'T12:00:00');
-      var day = firstDate.getDay();
-      var monday = new Date(firstDate);
-      monday.setDate(firstDate.getDate() - ((day + 6) % 7));
-      var groupMonday = monday.toISOString().slice(0, 10);
-      if (groupMonday === weekParam) {
-        matchedGroup = group;
+      var reqTime = reqDate.getTime();
+      for (var di = 0; di < dateMatches.length; di++) {
+        var cardDate = new Date(dateMatches[di] + 'T12:00:00');
+        var diff = Math.abs(cardDate.getTime() - reqTime);
+        if (diff < 7 * 24 * 60 * 60 * 1000) {
+          matchedGroup = group;
+          break;
+        }
       }
     }
   });
