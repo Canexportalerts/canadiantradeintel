@@ -4628,17 +4628,13 @@ function buildEditorialGrid() {
     var groupDateStr = null;
 
     // Check group id — issue-009 etc — and match via card dates
-    var allText = group.innerHTML;
-    var dateMatches = allText.match(/20[0-9][0-9]-[0-9][0-9]-[0-9][0-9]/g);
-    if (dateMatches && dateMatches.length > 0) {
-      var reqTime = reqDate.getTime();
-      for (var di = 0; di < dateMatches.length; di++) {
-        var cardDate = new Date(dateMatches[di] + 'T12:00:00');
-        var diff = Math.abs(cardDate.getTime() - reqTime);
-        if (diff < 7 * 24 * 60 * 60 * 1000) {
-          matchedGroup = group;
-          break;
-        }
+    // Match using the issue-group-date span (e.g. "May 26, 2026")
+    var dateSpan = group.querySelector('.issue-group-date');
+    if (dateSpan) {
+      var groupDate = new Date(dateSpan.textContent.trim());
+      var diff = Math.abs(groupDate.getTime() - reqDate.getTime());
+      if (diff < 7 * 24 * 60 * 60 * 1000) {
+        matchedGroup = group;
       }
     }
   });
