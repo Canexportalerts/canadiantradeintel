@@ -4425,7 +4425,7 @@ function renderMosaicFromJSON(entries, container) {
 
   // Featured = highest score or first non-sme entry
   var mainEntries = entries.filter(function(e) { return !e.is_sme; });
-  var featured = mainEntries.slice().sort(function(a,b){ return (b.score||0)-(a.score||0); })[0];
+  var featured = mainEntries.slice().sort(function(a,b){ return (parseFloat(b.score)||0)-(parseFloat(a.score)||0); })[0];
 
   function getExcerpt(e, maxLen) {
     try {
@@ -4602,6 +4602,121 @@ function wireFiltersToZone1() {
       sec.style.display = hasVisible ? '' : 'none';
     });
   };
+}
+
+// ── Build archive grid for ?week= pages ──────────────────────────────────────
+function buildEditorialGrid() {
+  var weekParam = _weekParam; // e.g. '2026-05-19'
+  if (!weekParam) return;
+
+  // Parse the requested Monday date
+  var reqDate = new Date(weekParam + 'T12:00:00');
+
+  // Find matching issue-group by scanning card dates
+  var pool = document.getElementById('card-pool');
+  if (!pool) return;
+
+  var groups = pool.querySelectorAll('.issue-group');
+  var matchedGroup = null;
+
+  groups.forEach(function(group) {
+    // Each card in the group has a date — find the group whose cards
+    // fall in the same Monday week as weekParam
+    var cards = group.querySelectorAll('.article-card, .article-date');
+    var dates = group.querySelectorAll('.article-date, [class*="date"]');
+
+    // Try to get date from data attribute or text content
+    var groupDateStr = null;
+
+    // Check group id — issue-009 etc — and match via card dates
+    var allText = group.innerHTML;
+    var dateMatches = allText.match(/20\d\d-\d\d-\d\d/g);
+    if (dateMatches && dateMatches.length > 0) {
+      // Get the Monday of the first card date in this group
+      var firstDate = new Date(dateMatches[0] + 'T12:00:00');
+      var day = firstDate.getDay();
+      var monday = new Date(firstDate);
+      monday.setDate(firstDate.getDate() - ((day + 6) % 7));
+      var groupMonday = monday.toISOString().slice(0, 10);
+      if (groupMonday === weekParam) {
+        matchedGroup = group;
+      }
+    }
+  });
+
+  // Show card pool, hide current week section
+  var thisWeek = document.getElementById('this-week');
+  if (thisWeek) thisWeek.style.display = 'none';
+
+  var filterBars = document.getElementById('filter-bars');
+  if (filterBars) filterBars.style.display = '';
+
+  var editGrid = document.getElementById('editorial-grid');
+  if (editGrid) editGrid.style.display = 'none';
+
+  if (matchedGroup) {
+    // Show only the matched group, hide others
+    groups.forEach(function(g) {
+      g.style.display = g === matchedGroup ? '' : 'none';
+    });
+    pool.style.display = '';
+
+    // Update eyebrow with the week label
+    var eyebrow = document.getElementById('this-week-eyebrow');
+    if (!eyebrow) {
+      eyebrow = document.querySelector('.this-week-eyebrow');
+    }
+    // Show week date in header area
+    var headerDesc = document.querySelector('.sh-description');
+    if (headerDesc) {
+      var niceDate = reqDate.toLocaleDateString('en-CA', {
+        month: 'long', day: 'numeric', year: 'numeric'
+      });
+      // Don't overwrite description — add week label above stories instead
+    }
+
+    // Update Previous Week nav for this archive page
+    var prevEl = document.getElementById('page-nav-prev');
+    if (prevEl) {
+      var prevMon = new Date(reqDate);
+      prevMon.setDate(reqDate.getDate() - 7);
+      prevEl.href = '?week=' + prevMon.toISOString().slice(0, 10);
+      prevEl.textContent = '\u2190 Previous Week';
+      prevEl.style.display = '';
+    }
+
+    // Next week nav
+    var nextEl = document.getElementById('page-nav-next');
+    if (nextEl) {
+      var nextMon = new Date(reqDate);
+      nextMon.setDate(reqDate.getDate() + 7);
+      var nextKey = nextMon.toISOString().slice(0, 10);
+      // Only show next if it's not in the future
+      var today = new Date();
+      if (nextMon < today) {
+        nextEl.href = '?week=' + nextKey;
+        nextEl.textContent = 'Next Week \u2192';
+        nextEl.style.display = '';
+      }
+    }
+
+    // Show the week label in page nav
+    var curLabel = document.getElementById('page-nav-current');
+    if (curLabel) {
+      curLabel.textContent = reqDate.toLocaleDateString('en-CA', {
+        month: 'long', day: 'numeric', year: 'numeric'
+      });
+    }
+
+  } else {
+    // No matching group found — show placeholder
+    pool.style.display = '';
+    pool.innerHTML = '<p style="font-family:\'DM Mono\',monospace;font-size:11px;'
+      + 'color:var(--ink-light);padding:40px 24px;text-align:center;letter-spacing:0.06em;">'
+      + 'No stories found for the week of ' + weekParam + '.'
+      + '<br><br><a href="/spotlight/" style="color:var(--brand);">\u2190 Back to current week</a>'
+      + '</p>';
+  }
 }
 
 // ── INIT ─────────────────────────────────────────────────────────────────────
