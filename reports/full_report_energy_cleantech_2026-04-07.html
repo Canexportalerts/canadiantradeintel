@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Energy & Cleantech — Issue #001 — Canadian Trade Intel</title>
+<title>Energy & Cleantech — Issue #002 — Canadian Trade Intel</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600;1,700&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -30,7 +30,7 @@
 
   body {
     font-family: 'DM Sans', sans-serif;
-    background: var(--cream);
+    background: #eceae5;
     color: var(--ink);
     line-height: 1.6;
   }
@@ -40,29 +40,44 @@
 
   /* ── STICKY NAV ── */
   .sticky-nav {
-    position: sticky; top: 0; z-index: 100;
-    background: var(--masthead-bg);
-    border-bottom: 1px solid rgba(168,213,188,0.15);
-    padding: 0 40px;
+    position: fixed;
+    top: 160px;
+    left: calc(50% - 430px - 160px);
+    width: 150px;
+    z-index: 100;
+    background: transparent;
+    border: none;
+    padding: 0;
   }
   .sticky-nav-inner {
-    max-width: 1100px; margin: 0 auto;
-    display: flex; align-items: center;
-    justify-content: space-between; height: 46px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    max-width: 120px;
   }
-  .sticky-nav-brand {
-    font-family: 'DM Mono', monospace; font-size: 9px;
-    letter-spacing: 0.18em; text-transform: uppercase;
-    color: var(--sector-mid); text-decoration: none;
+  .sticky-nav-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
   }
-  .sticky-nav-links { display: flex; gap: 24px; }
   .sticky-nav-links a {
-    font-family: 'DM Mono', monospace; font-size: 8px;
-    letter-spacing: 0.12em; text-transform: uppercase;
-    color: rgba(255,255,255,0.35); text-decoration: none;
-    transition: color 0.18s;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #6b6560;
+    text-decoration: none;
+    padding: 6px 0;
+    border-left: 2px solid #d4cfc8;
+    padding-left: 10px;
+    display: block;
+    line-height: 1.3;
   }
-  .sticky-nav-links a:hover { color: var(--sector-mid); }
+  .sticky-nav-links a:hover {
+    color: #8B1A1A;
+    border-left-color: #8B1A1A;
+  }
+  .sticky-nav-brand { display: none; }
 
   /* ── MASTHEAD ── */
   .masthead {
@@ -121,9 +136,7 @@
 
   /* ── REPORT NAV ── */
   .report-nav {
-    background: #fff;
-    border-bottom: 1px solid var(--rule);
-    padding: 0 40px; position: sticky; top: 46px; z-index: 90;
+    display: none;
   }
   .report-nav-inner {
     max-width: 1100px; margin: 0 auto;
@@ -145,8 +158,14 @@
 
   /* ── REPORT BODY ── */
   .report-body {
-    max-width: 1100px; margin: 0 auto;
-    padding: 48px 40px 80px;
+    max-width: 860px;
+    margin: 0 auto 80px;
+    background: #ffffff;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.10), 0 0 0 1px rgba(0,0,0,0.04);
+    border-radius: 0 0 2px 2px;
+    padding: 40px 56px 60px;
+    box-sizing: border-box;
+    overflow: hidden;
   }
 
   /* ── SECTION HEADERS ── */
@@ -154,6 +173,8 @@
     display: flex; align-items: baseline; gap: 14px;
     margin-bottom: 24px; padding-bottom: 10px;
     border-bottom: 2px solid var(--brand);
+    max-width: 100%;
+    box-sizing: border-box;
   }
   .section-label {
     font-family: 'DM Mono', monospace; font-size: 8px;
@@ -162,10 +183,21 @@
   }
   .section-rule { flex: 1; height: 1px; background: var(--rule); }
   .mb-56 { margin-bottom: 56px; }
+  @media screen {
+    section.mb-56 + section.mb-56 {
+      border-top: 1px solid var(--rule);
+      padding-top: 48px;
+    }
+  }
 
   /* ── EXEC SUMMARY ── */
   .exec-summary {
-    display: grid; grid-template-columns: 1fr 280px; gap: 32px;
+    display: block;
+  }
+  .exec-summary-text {
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--ink);
   }
   .exec-summary-text h2 {
     font-family: 'Cormorant Garamond', serif;
@@ -218,6 +250,7 @@
   .signal-card {
     background: #fff; border: 1px solid var(--rule);
     border-left: 4px solid var(--sector); padding: 22px 24px;
+    min-width: 0; overflow-wrap: break-word; word-break: break-word;
   }
   .signal-card.risk { border-left-color: var(--risk); }
   .signal-card.watch { border-left-color: var(--amber); }
@@ -243,12 +276,14 @@
   .signal-body {
     font-size: 13px; color: var(--ink-mid);
     line-height: 1.8; margin-bottom: 12px;
+    overflow-wrap: break-word; word-break: break-word;
   }
   .signal-body-text {
     font-size: 13px; color: var(--ink);
     line-height: 1.8; margin-bottom: 12px;
     font-family: 'Cormorant Garamond', serif;
     font-style: italic;
+    overflow-wrap: break-word; word-break: break-word;
   }
   .editorial-block {
     background: #faf8f5;
@@ -265,7 +300,7 @@
     background: var(--sector-light);
     border: 1px solid var(--sector-mid);
     padding: 12px 14px; margin-bottom: 10px;
-    font-size: 12px; color: var(--sector-dark); line-height: 1.65;
+    font-size: 13px; color: var(--sector-dark); line-height: 1.65;
   }
   .signal-what-means.risk-means {
     background: #fff5f5; border-color: #f0c0c0; color: #5a2020;
@@ -555,7 +590,7 @@
     color: var(--ink); line-height: 1.3; margin-bottom: 8px;
   }
   .watch-body {
-    font-size: 12px; color: var(--ink-mid); line-height: 1.65;
+    font-size: 13px; color: var(--ink-mid); line-height: 1.65;
   }
 
   /* ── SPOTLIGHT ── */
@@ -593,7 +628,7 @@
     background: var(--sector-light);
     border-left: 3px solid var(--sector);
     padding: 12px 14px;
-    font-size: 12px; color: var(--sector-dark); line-height: 1.65;
+    font-size: 13px; color: var(--sector-dark); line-height: 1.65;
   }
   .spotlight-card-lesson strong {
     display: block;
@@ -634,7 +669,7 @@
   .report-footer-links a:hover { color: var(--sector-mid); }
 
   @media (max-width: 768px) {
-    .sticky-nav { padding: 0 16px; }
+    .sticky-nav { display: none; }
     .masthead { padding: 32px 16px 28px; }
     .report-nav { padding: 0 16px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
     .report-nav::-webkit-scrollbar { display: none; }
@@ -675,7 +710,11 @@
 
   /* ── PRINT STYLESHEET ── */
   @media print {
-    @page { margin: 2.5cm; size: A4; }
+    @page { margin: 2cm 2.5cm; size: A4; }
+
+    body { background: transparent !important; }
+    .report-body { box-shadow: none !important; margin: 0 auto !important; }
+    .sticky-nav { display: none !important; }
 
     /* Hide nav chrome, CTAs, interactive elements */
     .sticky-nav, .report-nav, .report-footer,
@@ -798,6 +837,81 @@
     body.briefing-active #briefing-panel button { display: none !important; }
     @page { margin: 1in; }
   }
+
+  .doc-header {
+    max-width: 860px;
+    margin: 40px auto 0;
+    padding: 28px 56px 0;
+    background: #fff;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.10), 0 0 0 1px rgba(0,0,0,0.04);
+    border-radius: 2px 2px 0 0;
+  }
+  .doc-header-top {
+    height: 3px;
+    background: #8B1A1A;
+    margin-bottom: 20px;
+  }
+  .doc-header-body {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #d4cfc8;
+  }
+  .doc-header-left {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .doc-org {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #1a0505;
+    font-weight: 500;
+  }
+  .doc-series {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #8B1A1A;
+  }
+  .doc-header-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+  }
+  .doc-issue {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #1a0505;
+  }
+  .doc-date {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: #6b6560;
+    letter-spacing: 0.08em;
+  }
+  .doc-stats {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    color: #8B1A1A;
+    letter-spacing: 0.08em;
+    margin-top: 2px;
+    text-align: right;
+  }
+  .doc-header-bottom {
+    height: 0;
+  }
+  @media print {
+    .doc-header { padding: 0 0 16px; }
+    .doc-header-top { margin-bottom: 12px; }
+  }
 </style>
 </head>
 <body>
@@ -807,94 +921,30 @@
 <div style="background:#f0f8f4;border-bottom:2px solid #c8640a;padding:10px 40px;text-align:center;position:sticky;top:0;z-index:300;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#7a3a00;">For informational purposes only · Not legal or financial advice</span></div>
 -->
 
-<!-- STICKY NAV -->
-<nav class="sticky-nav">
-  <div class="sticky-nav-inner">
-    <a href="https://canadiantradeintel.ca" class="sticky-nav-brand">🇨🇦 Canadian Trade Intel</a>
-    <div class="sticky-nav-links">
-      
-      <a href="#signals">Signals</a>
-      <a href="#actions">Actions</a>
-      <a href="#pathways">Market Entry</a>
-      <a href="#watch">Watch For</a>
-      <a href="#spotlight">Spotlight</a>
-      <a href="https://canadiantradeintel.ca/reports">All Reports</a>
+<header class="doc-header">
+  <div class="doc-header-top"></div>
+  <div class="doc-header-body">
+    <div class="doc-header-left">
+      <span class="doc-org">Canadian Trade Intelligence Inc.</span>
+      <span class="doc-series">Energy & Cleantech · Intelligence Brief</span>
+    </div>
+    <div class="doc-header-right">
+      <span class="doc-issue">Issue #002</span>
+      <span class="doc-date">Mar 31 – Apr 7, 2026</span>
+      <span class="doc-stats">24 opportunities · 8 risks · 7 immediate</span>
     </div>
   </div>
-</nav>
-
-<!-- MASTHEAD -->
-<header class="masthead">
-  <div class="masthead-inner">
-    <div class="masthead-eyebrow">
-      <span class="sector-badge">⚡ Energy & Cleantech</span>
-      <span class="issue-meta">ISSUE #001 &nbsp;·&nbsp; May 17, 2026 &nbsp;·&nbsp; ~12 MIN READ</span>
-    </div>
-    <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:10px;">Energy & Cleantech &nbsp;·&nbsp; Week of May 17, 2026</div>
-    <h1>Energy & Cleantech — Intelligence Brief · Issue #001</h1>
-    <p class="masthead-summary">
-      Canadian hydrogen producers must immediately secure Letters of Intent from European offtakers and position themselves for the matching fund window closing this quarter. Watch Germany's Renewable Energy Act reform negotiations through June—successful EU approval determines whether hydrogen demand forecasts hold or shift toward competing technologies.
-    </p>
-    <div class="doc-frame-bar"
-         style="display:flex;justify-content:space-between;align-items:center;
-         border-top:2px solid var(--crimson,#8B1A1A);
-         border-bottom:1px solid rgba(255,255,255,0.12);
-         padding:7px 0;margin:14px 0 20px 0;
-         font-family:'DM Mono',monospace;font-size:8px;
-         letter-spacing:0.14em;text-transform:uppercase;
-         color:rgba(255,255,255,0.4);">
-      <span>Canadian Trade Intelligence Inc.</span>
-      <span>Issue #001 &nbsp;·&nbsp; Energy & Cleantech &nbsp;·&nbsp; May 17, 2026</span>
-    </div>
-    <div class="masthead-stats">
-      <div class="masthead-stat">
-        <div class="masthead-stat-label">Signals</div>
-        <div class="masthead-stat-value">6</div>
-      </div>
-      <div class="masthead-stat">
-        <div class="masthead-stat-label">Opportunities</div>
-        <div class="masthead-stat-value">15</div>
-      </div>
-      <div class="masthead-stat">
-        <div class="masthead-stat-label">Risks</div>
-        <div class="masthead-stat-value">3</div>
-      </div>
-      <div class="masthead-stat">
-        <div class="masthead-stat-label">Immediate</div>
-        <div class="masthead-stat-value">7</div>
-      </div>
-      <div class="masthead-stat">
-        <div class="masthead-stat-label">Markets Scored</div>
-        <div class="masthead-stat-value">7</div>
-      </div>
-    </div>
-  </div>
+  <div class="doc-header-bottom"></div>
 </header>
 
-<!-- REPORT SECTION NAV -->
-<nav class="report-nav">
-  <div class="report-nav-inner">
-    <a href="#summary">Overview</a>
-    <a href="#signals">Signals (6)</a>
-    <a href="#what-we-think">What We Think</a>
-    <a href="#actions">Actions (4)</a>
-    <a href="#procurement">Procurement (5)</a>
-    
-
-    <a href="#pathways">Market Entry</a>
-    <a href="#watch">Watch For These</a>
-
-    <a href="#spotlight">Canadian Spotlight</a>
-    <button onclick="toggleBriefing()" class="briefing-btn" id="briefing-toggle-btn">📋 Briefing View</button>
-    <button onclick="window.print()" class="pdf-nav-btn">⬇ Save as PDF</button>
-  </div>
-</nav>
 
 <!-- REPORT BODY -->
 <div id="report-content">
 <main class="report-body">
 
   <!-- WHAT HAPPENED THIS WEEK -->
+  
+
   
 
   <!-- EXECUTIVE SUMMARY -->
@@ -905,16 +955,19 @@
     </div>
     <div class="exec-summary">
       <div class="exec-summary-text">
-        <p>The EU's €200 million German hydrogen funding approval unlocks matching Canadian government capital and opens 2027 supply auctions, making this the quarter's highest-impact development for Canadian exporters. Canadian hydrogen producers must immediately secure Letters of Intent from European offtakers and position themselves for the matching fund window closing this quarter. Watch Germany's Renewable Energy Act reform negotiations through June—successful EU approval determines whether hydrogen demand forecasts hold or shift toward competing technologies.</p>
+        <p>The EU's €200 million German hydrogen funding approval unlocks matching Canadian government capital and opens 2027 supply auctions, making this the quarter's highest-impact development for Canadian exporters. Canadian hydrogen producers must immediately secure Letters of Intent from European offtakers and position themselves for the matching fund window closing this quarter. Watch Germany's Renewable Energy Act reform negotiations through June - successful EU approval determines whether hydrogen demand forecasts hold or shift toward competing technologies.</p>
       </div>
-      <div>
+      <div style="float:right;width:280px;margin:0 0 24px 32px;clear:right;">
         <div class="commodity-panel">
-          <div class="commodity-panel-title">Top Markets · May 17, 2026</div>
+          <div class="commodity-panel-title">Top Markets · April 7, 2026</div>
           
           <div class="commodity-row">
             <div>
               <div class="commodity-name">🇮🇳 India</div>
-              <div class="commodity-note">Opportunity score: 9/10</div>
+              <div class="commodity-note" style="display:flex;gap:10px;">
+                <span>Opportunity: 9/10</span>
+                <span style="color:#1a6b42;">Risk: 2/10</span>
+              </div>
               <div style="font-size:9px;color:var(--ink-light);margin-top:2px;line-height:1.5;">↑ Strong demand &middot; Low risk</div>
             </div>
             <div style="text-align:right;min-width:60px;">
@@ -925,7 +978,10 @@
           <div class="commodity-row">
             <div>
               <div class="commodity-name">🇮🇩 Indonesia</div>
-              <div class="commodity-note">Opportunity score: 8/10</div>
+              <div class="commodity-note" style="display:flex;gap:10px;">
+                <span>Opportunity: 8/10</span>
+                <span style="color:#1a6b42;">Risk: 3/10</span>
+              </div>
               <div style="font-size:9px;color:var(--ink-light);margin-top:2px;line-height:1.5;">↑ Strong demand &middot; Low risk</div>
             </div>
             <div style="text-align:right;min-width:60px;">
@@ -936,7 +992,10 @@
           <div class="commodity-row">
             <div>
               <div class="commodity-name">🇺🇸 United States</div>
-              <div class="commodity-note">Opportunity score: 8/10</div>
+              <div class="commodity-note" style="display:flex;gap:10px;">
+                <span>Opportunity: 8/10</span>
+                <span style="color:#1a6b42;">Risk: 1/10</span>
+              </div>
               <div style="font-size:9px;color:var(--ink-light);margin-top:2px;line-height:1.5;"> Strong demand &middot; Low risk</div>
             </div>
             <div style="text-align:right;min-width:60px;">
@@ -945,11 +1004,18 @@
             </div>
           </div>
         </div>
-        
+        <div style="margin-top:8px;font-size:11px;color:var(--ink-light);line-height:1.5;">
+          <strong style="font-size:10px;">How markets are scored:</strong> Opportunity and risk scores (1 to 10)
+          reflect import demand signals, active Canadian supplier relationships, trade agreement access,
+          and buyer activity from this week's intelligence.
+          <a href="/resources/how-markets-are-scored/" style="color:var(--brand,#8b0000);font-size:10px;">How we score markets</a>
         </div>
+        
       </div>
     </div>
   </section>
+
+  <div style="clear:both;"></div>
 
   <!-- SIGNALS -->
   <section id="signals" class="mb-56">
@@ -964,10 +1030,10 @@
            · Lng Canada Exports
           <span class="urgency-tag urgency-quarter">This Quarter</span>
         </div>
-        <div class="signal-headline">Woodfibre LNG reaches critical construction phase with key modules delivered, while Cedar LNG construction continues on </div>
+        <div class="signal-headline">Canada seals first European LNG deal with German firm SEFE for 20-year supply from Ksi Lisims project.</div>
         
-        <div class="signal-body">Woodfibre LNG is 60% complete with key liquefaction modules delivered in January and March 2026, targeting 2027 startup. Cedar LNG maintains 2028 operations timeline with ongoing construction. These BC projects combined with LNG Canada are expected to increase gas demand by 4 Bcf/d.</div>
-        <div class="signal-what-means"><span class="signal-what-label">What This Could Mean For You</span>These developments strengthen Canada's position in Asian LNG markets, providing new export routes for Western Canadian gas producers. Pipeline projects will divert 5% of Canada's gas production from US exports to Pacific markets, tightening domestic supply and potentially improving prices for gas producers.</div>
+        <div class="signal-body">Germany's SEFE signed a 20-year agreement to purchase 1 million tonnes per year of LNG from BC's planned Ksi Lisims project, marking Canada's first long-term LNG deal with a European buyer. The agreement is expected to generate over $30 billion in investment and $15 billion in GDP contribution once the project comes online in the early 2030s. Meanwhile, LNG Canada continues to face operational challenges with production ramping issues at the Kitimat terminal.</div>
+        <div class="signal-what-means"><span class="signal-what-label">What This Could Mean For You</span>This marks a strategic breakthrough for Canadian LNG exports into European markets, diversifying from Asia-focused sales. The deal validates Canada's position as a stable energy supplier amid global supply disruptions, while creating significant economic opportunities for Alberta gas producers and BC infrastructure. However, operational struggles at LNG Canada highlight execution risks for the sector.</div>
         
         <details class="analyst-detail">
           <summary>Trade Context ▾</summary>
@@ -976,20 +1042,42 @@
           <b>TCS Office</b>TCS — contact nearest Canadian mission
           <b>Relevant Programmes</b>EDC Clean Energy Financing · NRCan Clean Fuels Fund · SIF Strategic Innovation Fund · CanExport SME
           <b>HS Codes</b>HS 2711 (LNG/natural gas) · 8501 (generators/turbines) · 8541 (solar cells/PV) · 8412 (hydraulic engines) · 8504 (transformers/grid)
-          <b>Primary Source</b><a href="https://naturalgasintel.com/news/woodfibre-lng-update-highlights-growing-pull-on-western-canadian-gas-supply/" target="_blank">Natural Gas Intelligence</a>
+          <b>Primary Source</b><a href="https://www.nationalobserver.com/2026/05/27/news/canada-seals-first-european-lng-deal-economic-climate-hazards-loom" target="_blank">Canada's National Observer</a>
           </div>
         </details>
-        <div class="signal-source">Source: <a href="https://naturalgasintel.com/news/woodfibre-lng-update-highlights-growing-pull-on-western-canadian-gas-supply/" target="_blank">Natural Gas Intelligence, 2026-05-12 →</a></div>
+        <div class="signal-source">Source: <a href="https://www.nationalobserver.com/2026/05/27/news/canada-seals-first-european-lng-deal-economic-climate-hazards-loom" target="_blank">Canada's National Observer, 2026-06-02 →</a></div>
+      </div>
+      <div class="signal-card ">
+        <div class="signal-flag">
+           · Canada Hydrogen Export
+          <span class="urgency-tag urgency-quarter">This Quarter</span>
+        </div>
+        <div class="signal-headline">Edmonton Region Hydrogen Hub signs MOU with Kawasaki Heavy Industries to explore Canada-Japan liquefied hydrogen supply </div>
+        
+        <div class="signal-body">A new collaboration launched April 21, 2026 between Edmonton Region Hydrogen Hub, Alberta's Industrial Heartland Association, Edmonton Global, and Kawasaki Heavy Industries to investigate both international and domestic liquefied hydrogen supply chains. The partnership focuses on technologies for liquid hydrogen transport by rail and ship from Canada to Japan and other hydrogen-importing countries. Additionally, the EU approved €200 million in German funding for Canadian hydrogen production, unlocking matching Canadian funds for exports to Germany.</div>
+        <div class="signal-what-means"><span class="signal-what-label">What This Could Mean For You</span>This positions Alberta as a key hydrogen export hub leveraging existing natural gas infrastructure and CO2 capture capabilities. The Japan partnership opens Asian markets for Canadian hydrogen, while the German funding approval accelerates Atlantic Canada hydrogen projects. Canadian exporters gain access to two major hydrogen-importing markets, though projects still face commercial viability challenges.</div>
+        
+        <details class="analyst-detail">
+          <summary>Trade Context ▾</summary>
+          <div class="analyst-detail-body">
+          <b>Trade Agreement</b>No FTA in force
+          <b>TCS Office</b>TCS — contact nearest Canadian mission
+          <b>Relevant Programmes</b>EDC Clean Energy Financing · NRCan Clean Fuels Fund · SIF Strategic Innovation Fund · CanExport SME
+          <b>HS Codes</b>HS 2804 (hydrogen)
+          <b>Primary Source</b><a href="https://industrialheartland.com/canada-japan-collaboration-launched-to-explore-liquefied-hydrogen-supply-chain/" target="_blank">Alberta's Industrial Heartland Association</a>
+          </div>
+        </details>
+        <div class="signal-source">Source: <a href="https://industrialheartland.com/canada-japan-collaboration-launched-to-explore-liquefied-hydrogen-supply-chain/" target="_blank">Alberta's Industrial Heartland Association, 2026-06-02 →</a></div>
       </div>
       <div class="signal-card ">
         <div class="signal-flag">
            · Canada Clean Energy Abroad
           <span class="urgency-tag urgency-quarter">This Quarter</span>
         </div>
-        <div class="signal-headline">Canadian Energies announces 10 GW solar manufacturing facility with North American purchase orders secured.</div>
+        <div class="signal-headline">Canadian Energies announces plans for 10 GW solar module manufacturing facility to reshape North American cleantech supp</div>
         
-        <div class="signal-body">Toronto-based Canadian Energies unveiled plans for a 10 GW solar module manufacturing facility, positioning itself as one of the largest domestic cleantech manufacturing initiatives in Canada. The company has already secured purchase orders from US and Mexican customers.</div>
-        <div class="signal-what-means"><span class="signal-what-label">What This Could Mean For You</span>This development positions Canada to reduce North American dependence on overseas solar supply chains while creating manufacturing jobs domestically. The secured international purchase orders demonstrate immediate export potential for Canadian clean energy manufacturing, strengthening Canada's role in continental cleantech supply chains.</div>
+        <div class="signal-body">Toronto-based Canadian Energies unveiled plans for a 10 GW solar module manufacturing facility in Canada, positioning it as one of the largest domestic cleantech manufacturing initiatives in the country. The company has already secured purchase orders from customers in the United States and Mexico. The vertically integrated platform combines solar module manufacturing, EPC delivery, and battery energy storage under one roof, targeting utilities and developers across North America.</div>
+        <div class="signal-what-means"><span class="signal-what-label">What This Could Mean For You</span>This represents a major onshoring opportunity for Canadian cleantech manufacturing, reducing dependence on overseas module supply while creating domestic jobs and export opportunities. The facility could supply both Canadian renewable energy projects and export markets in the US and Mexico. For Canadian utilities and developers, this offers supply chain security and potential cost advantages in solar deployments.</div>
         
         <details class="analyst-detail">
           <summary>Trade Context ▾</summary>
@@ -1001,17 +1089,39 @@
           <b>Primary Source</b><a href="https://www.bignewsnetwork.com/news/279019584/canadian-energies-unveils-plans-for-10-gw-solar-module-manufacturing-facility-aiming-to-reshape-north-america-cleantech-supply-chain" target="_blank">Big News Network</a>
           </div>
         </details>
-        <div class="signal-source">Source: <a href="https://www.bignewsnetwork.com/news/279019584/canadian-energies-unveils-plans-for-10-gw-solar-module-manufacturing-facility-aiming-to-reshape-north-america-cleantech-supply-chain" target="_blank">Big News Network, 2026-05-12 →</a></div>
+        <div class="signal-source">Source: <a href="https://www.bignewsnetwork.com/news/279019584/canadian-energies-unveils-plans-for-10-gw-solar-module-manufacturing-facility-aiming-to-reshape-north-america-cleantech-supply-chain" target="_blank">Big News Network, 2026-06-02 →</a></div>
+      </div>
+      <div class="signal-card ">
+        <div class="signal-flag">
+           · Cptpp Ceta Renewables
+          <span class="urgency-tag urgency-quarter">This Quarter</span>
+        </div>
+        <div class="signal-headline">EU Trade Policy Review criticized Japan's offshore wind restrictions and procurement barriers, signaling potential new m</div>
+        
+        <div class="signal-body"><cite index="1-1,1-6,1-11">EU statement on May 27, 2026 requested Japan enhance access to government procurement under the WTO Government Procurement Agreement by addressing administrative fragmentation and burdensome certification requirements, specifically noting restrictions on specialized maritime transport operations in offshore renewable energy construction</cite>. <cite index="2-4,2-17">Japan's new Tokyo Green Energy Initiative carries ¥200 billion budget for renewable energy transition by 2030</cite>.</div>
+        <div class="signal-what-means"><span class="signal-what-label">What This Could Mean For You</span>Opens procurement opportunities for Canadian clean energy companies in Japan's offshore wind sector, particularly for specialized maritime services and renewable energy equipment. Canadian suppliers could benefit from reduced administrative barriers and improved access to major infrastructure projects. This creates potential for both direct exports and joint ventures in Japan's growing clean energy market.</div>
+        
+        <details class="analyst-detail">
+          <summary>Trade Context ▾</summary>
+          <div class="analyst-detail-body">
+          <b>Trade Agreement</b>No FTA in force
+          <b>TCS Office</b>TCS — contact nearest Canadian mission
+          <b>Relevant Programmes</b>EDC Clean Energy Financing · NRCan Clean Fuels Fund · SIF Strategic Innovation Fund · CanExport SME
+          <b>HS Codes</b>HS 2711 (LNG/natural gas) · 8501 (generators/turbines) · 8541 (solar cells/PV) · 8412 (hydraulic engines) · 8504 (transformers/grid)
+          <b>Primary Source</b><a href="https://www.eeas.europa.eu/delegations/world-trade-organization-wto/eu-statement-trade-policy-review-japan-27-may-2026_en" target="_blank">European External Action Service</a>
+          </div>
+        </details>
+        <div class="signal-source">Source: <a href="https://www.eeas.europa.eu/delegations/world-trade-organization-wto/eu-statement-trade-policy-review-japan-27-may-2026_en" target="_blank">European External Action Service, 2026-06-02 →</a></div>
       </div>
       <div class="signal-card ">
         <div class="signal-flag">
            · Germany Energiewende
-          <span class="urgency-tag urgency-quarter">This Quarter</span>
+          <span class="urgency-tag urgency-now">Immediate</span>
         </div>
-        <div class="signal-headline">Germany prepares major renewable energy procurement overhaul with industrial power price subsidies and supply chain guar</div>
+        <div class="signal-headline">German EEG renewable energy reform must be completed by end of 2026, creating urgent procurement opportunities as offsho</div>
         
-        <div class="signal-body">Germany finalizes €3.1 billion industrial electricity price subsidy scheme capping power at €0.05/kWh for 90 energy-intensive sectors starting 2026, requiring companies to sign long-term PPAs with renewable projects offering additionality. Government considers state guarantees for PPAs with industrial offtakers and reduced grid charges for assets located near PPA counterparts as part of new EEG scheme revision.</div>
-        <div class="signal-what-means"><span class="signal-what-label">What This Could Mean For You</span>Major opportunity for Canadian renewable energy equipment suppliers and project developers. German industrial buyers seeking long-term renewable PPAs create demand for Canadian wind turbines, solar panels, energy storage, and electrolyzer components. State guarantees reduce counterparty risk for Canadian exporters entering German industrial supply contracts.</div>
+        <div class="signal-body"><cite index="17-1,17-21">BDEW energy association states 2026 will be a 'key year' for Germany's energy policy with upcoming EEG reform that must be completed before year-end</cite>. <cite index="17-4,17-24">Offshore wind operators called for postponement of the next tender to end of 2026 to improve framework conditions</cite>. <cite index="14-2,14-16">Government may align plans with existing funding schemes for large-scale technology procurement</cite>.</div>
+        <div class="signal-what-means"><span class="signal-what-label">What This Could Mean For You</span>Canadian clean energy equipment suppliers should prepare for enhanced market access as Germany reforms its renewable energy support framework. The postponed offshore wind tenders indicate improved procurement conditions, creating opportunities for Canadian turbine components, grid infrastructure, and energy storage systems. Timeline pressure for 2026 completion favors established suppliers ready to deliver.</div>
         
         <details class="analyst-detail">
           <summary>Trade Context ▾</summary>
@@ -1020,64 +1130,20 @@
           <b>TCS Office</b>TCS — contact nearest Canadian mission
           <b>Relevant Programmes</b>EDC Clean Energy Financing · NRCan Clean Fuels Fund · SIF Strategic Innovation Fund · CanExport SME
           <b>HS Codes</b>HS 2711 (LNG/natural gas) · 8501 (generators/turbines) · 8541 (solar cells/PV) · 8412 (hydraulic engines) · 8504 (transformers/grid)
-          <b>Primary Source</b><a href="https://pexapark.com/blog/germany-seals-2026-industrial-power-price-subsidy-can-it-help-boost-the-ppa-market/" target="_blank">Pexapark</a>
+          <b>Primary Source</b><a href="https://www.cleanenergywire.org/news/preview-2026-merz-government-must-deliver-key-energy-projects-patience-wears-thin" target="_blank">Clean Energy Wire</a>
           </div>
         </details>
-        <div class="signal-source">Source: <a href="https://pexapark.com/blog/germany-seals-2026-industrial-power-price-subsidy-can-it-help-boost-the-ppa-market/" target="_blank">Pexapark, 2026-05-12 →</a></div>
+        <div class="signal-source">Source: <a href="https://www.cleanenergywire.org/news/preview-2026-merz-government-must-deliver-key-energy-projects-patience-wears-thin" target="_blank">Clean Energy Wire, 2026-06-02 →</a></div>
       </div>
       <div class="signal-card ">
         <div class="signal-flag">
            · Uk Offshore Wind
-          <span class="urgency-tag urgency-now">Immediate</span>
-        </div>
-        <div class="signal-headline">UK launches £300 million Great British Energy Supply Chain Fund targeting offshore wind component manufacturing with fir</div>
-        
-        <div class="signal-body">GBE Supply Chain Fund opened December 11, 2025 with £300 million available for UK manufacturing of constrained offshore wind components including blades, turbines, transmission cables and converter stations. Fund targets critical supply chain bottlenecks and expects to mobilize over £1 billion in public-private investment through 2030. Canadian steel tariffs create potential advantage for domestic offshore wind manufacturing as lead times for steel components run 5-7 years.</div>
-        <div class="signal-what-means"><span class="signal-what-label">What This Could Mean For You</span>Mixed implications for Canadian businesses. Opportunity for Canadian companies to establish UK manufacturing partnerships or joint ventures to access fund benefits. Risk for Canadian component exporters as fund aims to build domestic UK capacity. Canadian steel producers may benefit from 25% import tariffs creating competitive advantage over international suppliers in offshore wind supply chains.</div>
-        
-        <details class="analyst-detail">
-          <summary>Trade Context ▾</summary>
-          <div class="analyst-detail-body">
-          <b>Trade Agreement</b>No FTA in force
-          <b>TCS Office</b>TCS — contact nearest Canadian mission
-          <b>Relevant Programmes</b>EDC Clean Energy Financing · NRCan Clean Fuels Fund · SIF Strategic Innovation Fund · CanExport SME
-          <b>HS Codes</b>HS 2711 (LNG/natural gas) · 8501 (generators/turbines) · 8541 (solar cells/PV) · 8412 (hydraulic engines) · 8504 (transformers/grid)
-          <b>Primary Source</b><a href="https://www.gbe.gov.uk/funding-opportunities/supply-chain-fund-offshore-wind-networks" target="_blank">Great British Energy</a>
-          </div>
-        </details>
-        <div class="signal-source">Source: <a href="https://www.gbe.gov.uk/funding-opportunities/supply-chain-fund-offshore-wind-networks" target="_blank">Great British Energy, 2026-05-12 →</a></div>
-      </div>
-      <div class="signal-card ">
-        <div class="signal-flag">
-           · South Korea Clean Energy
           <span class="urgency-tag urgency-quarter">This Quarter</span>
         </div>
-        <div class="signal-headline">South Korea commits to $100 billion US energy purchases including LNG amid trade uncertainty</div>
+        <div class="signal-headline">UK launches £400 million offshore wind supply chain investment program with applications closing December 2026, while Ør</div>
         
-        <div class="signal-body">As of February 2026, South Korea has committed to purchasing approximately $100 billion worth of energy from the US, including LNG, though uncertainty persists over whether the agreement will proceed given indications the US could increase reciprocal tariffs from 15% to 25%. The preliminary 12th Basic Plan for Electricity Supply and Demand, expected to include detailed energy transition plans and hydrogen/ammonia co-firing guidance, will likely be released in the first half of 2026.</div>
-        <div class="signal-what-means"><span class="signal-what-label">What This Could Mean For You</span>This massive LNG commitment creates competitive pressure for Canadian LNG exporters and potential opportunities for Canadian cleantech companies in South Korea's energy transition. Canadian companies should prepare for increased competition in South Korean markets while exploring partnerships in hydrogen and co-firing technologies that will be detailed in the upcoming 12th BPLE.</div>
-        
-        <details class="analyst-detail">
-          <summary>Trade Context ▾</summary>
-          <div class="analyst-detail-body">
-          <b>Trade Agreement</b>No FTA in force
-          <b>TCS Office</b>TCS — contact nearest Canadian mission
-          <b>Relevant Programmes</b>EDC Clean Energy Financing · NRCan Clean Fuels Fund · SIF Strategic Innovation Fund · CanExport SME
-          <b>HS Codes</b>HS 2711 (LNG/natural gas) · 8501 (generators/turbines) · 8541 (solar cells/PV) · 8412 (hydraulic engines) · 8504 (transformers/grid)
-          <b>Primary Source</b><a href="https://ieefa.org/resources/south-koreas-coal-phaseout-should-not-balloon-lng-use-and-erode-energy-security" target="_blank">Institute for Energy Economics and Financial Analysis</a>
-          </div>
-        </details>
-        <div class="signal-source">Source: <a href="https://ieefa.org/resources/south-koreas-coal-phaseout-should-not-balloon-lng-use-and-erode-energy-security" target="_blank">Institute for Energy Economics and Financial Analysis, 2026-05-12 →</a></div>
-      </div>
-      <div class="signal-card ">
-        <div class="signal-flag">
-           · Woodfibre Cedar Lng
-          <span class="urgency-tag urgency-now">Immediate</span>
-        </div>
-        <div class="signal-headline">Canadian natural gas producers step up sustainability as LNG demand and output surge with new projects under constructio</div>
-        
-        <div class="signal-body">New LNG projects including Cedar LNG and Woodfibre LNG are under construction, with the Ksi Lisims LNG terminal expected to reach a final investment decision this year. The LNG Canada marine terminal in Kitimat, B.C. became operational in April 2026. BC Hydro anticipates construction on Phase 1 of the Woodfibre LNG interconnection project will start in spring 2026 for a targeted in-service of October 2026.</div>
-        <div class="signal-what-means"><span class="signal-what-label">What This Could Mean For You</span>These developments represent significant opportunities for Canadian energy exporters and related supply chain operators to access growing Asian LNG markets. The operational LNG Canada facility and upcoming Cedar and Woodfibre projects position Canada as a major LNG exporter, creating supply chain opportunities for engineering, construction, and transportation firms while attracting foreign investment in energy infrastructure.</div>
+        <div class="signal-body"><cite index="21-8,29-8,29-9">Great British Energy Supply Chain Fund targets constrained offshore wind components to enhance UK supply chain security, with Crown Estate investing up to £400 million total in offshore wind supply chain</cite>. <cite index="24-3,24-4">Ørsted's UK Supply Chain Map 2026 shows 73 companies (30% of UK supply chain) have worked on international projects</cite>. <cite index="29-1,29-3">Crown Estate launched new £15 million funding round with applications due July 3, 2026</cite>.</div>
+        <div class="signal-what-means"><span class="signal-what-label">What This Could Mean For You</span>Major opportunity for Canadian offshore wind component manufacturers to establish UK operations or partnerships to access this supply chain funding and serve the expanding UK market. Canadian companies could leverage their expertise in turbine foundations, subsea cables, and specialized components to win funding and contracts. The international export success of UK suppliers suggests strong potential for Canadian firms to build global market presence from a UK base.</div>
         
         <details class="analyst-detail">
           <summary>Trade Context ▾</summary>
@@ -1086,12 +1152,21 @@
           <b>TCS Office</b>TCS — contact nearest Canadian mission
           <b>Relevant Programmes</b>EDC Clean Energy Financing · NRCan Clean Fuels Fund · SIF Strategic Innovation Fund · CanExport SME
           <b>HS Codes</b>HS 2711 (LNG/natural gas) · 8501 (generators/turbines) · 8541 (solar cells/PV) · 8412 (hydraulic engines) · 8504 (transformers/grid)
-          <b>Primary Source</b><a href="https://energynow.ca/2026/05/canadian-gas-producers-step-up-sustainability-as-demand-and-output-surge/" target="_blank">EnergyNow</a>
+          <b>Primary Source</b><a href="https://www.offshorewind.biz/2026/05/12/crown-estate-launches-new-funding-round-gbp-15-million-available-for-offshore-wind-supply-chain/" target="_blank">Offshore Wind</a>
           </div>
         </details>
-        <div class="signal-source">Source: <a href="https://energynow.ca/2026/05/canadian-gas-producers-step-up-sustainability-as-demand-and-output-surge/" target="_blank">EnergyNow, 2026-05-12 →</a></div>
+        <div class="signal-source">Source: <a href="https://www.offshorewind.biz/2026/05/12/crown-estate-launches-new-funding-round-gbp-15-million-available-for-offshore-wind-supply-chain/" target="_blank">Offshore Wind, 2026-06-02 →</a></div>
       </div>
     </div>
+  </section>
+
+  <!-- WHAT THIS MEANS FOR YOU -->
+  <section id="so-what" class="mb-56">
+    <div class="section-header">
+      <span class="section-label">Workers &amp; Communities This Week</span>
+      <div class="section-rule"></div>
+    </div>
+    <div class="so-what-section" style="margin-top:8px;max-width:100%;overflow:hidden;box-sizing:border-box;"><div class="so-what-item" style="margin-bottom:16px;padding:14px 16px;background:var(--surface);border-left:3px solid var(--sector);"><div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;">Clean energy developer</div><div style="font-size:14px;color:var(--ink-mid);line-height:1.7;">Atlantic Canada hydrogen developers should immediately engage NRCan Clean Fuels Fund to access the newly unlocked German-Canadian funding pathway. Position for 2027 supply auctions by securing offtake agreements with German buyers before competitors mobilize.</div></div><div class="so-what-item" style="margin-bottom:16px;padding:14px 16px;background:var(--surface);border-left:3px solid var(--sector);"><div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;">Equipment or technology supplier</div><div style="font-size:14px;color:var(--ink-mid);line-height:1.7;">Target Great British Energy's £300 million Supply Chain Fund for offshore wind components with applications closing December 2026. German 12 GW power capacity tenders provide tariff-free access through <a href="/resources/trade-agreements/#ceta" style="color:var(--brand,#8b0000);text-decoration:none;border-bottom:1px solid rgba(139,26,26,0.3);" title="CETA — trade agreement details">CETA</a> for Canadian transformers, grid equipment, and power generation technology.</div></div><div class="so-what-item" style="margin-bottom:16px;padding:14px 16px;background:var(--surface);border-left:3px solid var(--sector);"><div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;">Project finance or investment</div><div style="font-size:14px;color:var(--ink-mid);line-height:1.7;">The €200 million German funding unlock creates the first bankable Canadian hydrogen export revenue stream with government backing on both sides. South Korea's 98.6% renewable energy budget increase to ₩648 billion opens structured financing opportunities for Canadian developers in the 10.5 GW offshore wind pipeline.</div></div></div>
   </section>
 
   <!-- WHAT WE THINK -->
@@ -1100,7 +1175,8 @@
       <span class="section-label">What We Think</span>
       <div class="section-rule"></div>
     </div>
-    <div class="editorial-block">This week marks a pivotal moment for Canadian critical minerals exporters with India's CEPA launch and Indonesia's FIPA creating immediate high-value opportunities worth over $3.4B in committed deals. The G7 Critical Minerals Production Alliance mobilizing $18.5B provides additional momentum across traditional allies, while China's expanded rare earth export controls on 7 elements create supply gap opportunities for Canadian producers. Gold's surge to $2,910/oz signals broader commodity strength supporting sector fundamentals.</div>
+    <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-light);margin-bottom:20px;">— CTI Editorial Desk &nbsp;·&nbsp; April 7, 2026</div>
+    <div class="editorial-block"><p style="margin-bottom:1.2em;">This week marks a pivotal moment for Canadian critical minerals exporters with India's <a href="/resources/trade-agreements/#cepa" style="color:var(--brand,#8b0000);text-decoration:none;border-bottom:1px solid rgba(139,26,26,0.3);" title="CEPA — trade agreement details">CEPA</a> launch and Indonesia's FIPA creating immediate high-value opportunities worth over $3.4B in committed deals. The G7 Critical Minerals Production Alliance mobilizing $18.5B provides additional momentum across traditional allies, while China's expanded rare earth export controls on 7 elements create supply gap opportunities for Canadian producers. Gold's surge to $2,910/oz signals broader commodity strength supporting sector fundamentals.</p></div>
   </section>
 
   <!-- ACTIONS -->
@@ -1109,7 +1185,7 @@
       <span class="section-label">✓ Actions This Week</span>
       <div class="section-rule"></div>
     </div>
-    <p style="font-size:12px;font-family:'DM Mono',monospace;letter-spacing:0.06em;color:var(--ink-light);margin-bottom:20px;text-transform:uppercase;">Time-sensitive actions — week of May 17, 2026</p>
+    <p style="font-size:12px;font-family:'DM Mono',monospace;letter-spacing:0.06em;color:var(--ink-light);margin-bottom:20px;text-transform:uppercase;">Time-sensitive actions — week of April 7, 2026</p>
     <div class="actions-compact">
   <div class="action-row" onclick="toggleAction('act-1')" id="act-1-row">
     <span class="urgency-tag urgency-watch">Monitor</span>
@@ -1225,16 +1301,31 @@
         <div class="proc-why">→ Social housing window/siding upgrade creates demand for energy-efficient building envelope products.</div>
       </div>
     </div>
-    <div class="proc-footer" style="margin-top:12px;">
-      <a href="https://canadiantradeintel.ca/procurement" target="_blank" rel="noopener"
-         style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--sector);">
-        View all tenders →
+    <div style="margin-top:16px;padding-top:12px;border-top:1px solid var(--rule);">
+      <a href="/procurement/?sector=energy_cleantech"
+         style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;
+         text-transform:uppercase;color:var(--brand,#8b0000);text-decoration:none;
+         border-bottom:1px solid rgba(139,26,26,0.3);">
+         View all Energy & Cleantech tenders on the Procurement Hub
       </a>
     </div>
   </section>
 
   <!-- SUPPLY CHAIN WATCH -->
-  
+  <section id="supply-chain" class="mb-56">
+    <div class="section-header">
+      <span class="section-label">🔗 Supply Chain Watch</span>
+      <div class="section-rule"></div>
+    </div>
+    <p style="font-size:13px;color:var(--ink-mid);margin-bottom:20px;max-width:680px;line-height:1.7;">
+      Import dependencies, critical input signals, and inbound supply chain risks for Canadian businesses in this sector this week.
+    </p>
+    <div class="scw-grid">
+      <div class="scw-item"><div class="scw-left"><div class="scw-input">Offshore wind components and subsystems (turbines, foundations, electrical infrastructure)</div><div class="scw-status">EU pressure on Japan's procurement barriers signals Japan's offshore wind supply chain is opening. Japanese suppliers currently dominate Asia-Pacific component sourcing; trade liberalization will increase competition and potentially lower input costs for Canadian clean energy projects.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Audit current Japanese component suppliers and pricing; contact Trade Commissioner Service to identify alternative or competitive Japanese suppliers newly entering North American markets post-EU trade review.</span></div></div><div class="scw-risk scw-risk-med">Med</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">Steel, aluminum, cement, and hydrogen feedstocks (inputs for cleantech manufacturing and energy projects)</div><div class="scw-status">EU CBAM definitive regime (effective January 1, 2026) now requires verified emissions data on Canadian exports; this creates inbound sourcing pressure as Canadian producers must document supply chain emissions to maintain EU market access, increasing input traceability costs.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Immediately map Scope 3 emissions for all steel, aluminum, cement, and hydrogen inputs from domestic and international suppliers; begin collecting verified emissions declarations from suppliers to ensure CBAM compliance and avoid trade delays.</span></div></div><div class="scw-risk scw-risk-high">High</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">Critical minerals and rare earth elements (for batteries, magnets, cleantech manufacturing)</div><div class="scw-status">IRA domestic content rules (effective January 1, 2026) and G7 $18.5B co-financing mechanism incentivize nearshoring and domestic sourcing; Venezuelan supply chain uncertainty post-Operation Absolute Resolve eliminates a regional sourcing option for energy and mining inputs.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Register critical minerals projects in Invest in Canada's G7 Alliance Tracker immediately; identify domestic or allied suppliers to replace Venezuelan inputs and validate CEPA/domestic content eligibility before Q1 2026 public sector tender deadlines.</span></div></div><div class="scw-risk scw-risk-high">High</div></div>
+    </div>
+  </section>
+
+        
 
   
   <!-- REGULATORY UPDATE -->
@@ -1246,11 +1337,16 @@
       <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-bottom:8px;">
         CITT decisions, Canada Gazette notices, and regulatory changes relevant to this sector. Updated weekly. Click any item for official source.
       </div>
-      <ul style="margin:0;padding:0;"><li style="padding:6px 0;border-bottom:1px solid rgba(200,134,10,0.15);list-style:none;font-size:12px;color:var(--ink-mid);line-height:1.6;">🟡 <strong style="color:var(--ink);">Reasons for finding — May 19, 2026</strong><span style="color:var(--ink-light);font-size:11px;"> — The Canadian International Trade Tribunal ruled that imported steel pipes are being dumped at unfairly low prices, triggering new tariffs to protect Canadian pipe manufacturers from losing market share.</span> <a href="https://www.citt-tcce.gc.ca/en/anti-dumping-injury-inquiries/active-dumping-and-subsidizing-cases" style="color:var(--amber);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" target="_blank">Source →</a><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:8px;">CITT</span></li><li style="padding:6px 0;border-bottom:1px solid rgba(200,134,10,0.15);list-style:none;font-size:12px;color:var(--ink-mid);line-height:1.6;">🟡 <strong style="color:var(--ink);">Determination — May 15, 2026</strong><span style="color:var(--ink-light);font-size:11px;"> — Canadian manufacturers can now export steel pipes to the U.S. without facing additional tariffs after the Canadian International Trade Tribunal ruled the dumping investigation closed.</span> <a href="https://www.citt-tcce.gc.ca/en/anti-dumping-injury-inquiries/active-dumping-and-subsidizing-cases" style="color:var(--amber);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" target="_blank">Source →</a><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:8px;">CITT</span></li><li style="padding:6px 0;border-bottom:1px solid rgba(200,134,10,0.15);list-style:none;font-size:12px;color:var(--ink-mid);line-height:1.6;">🟡 <strong style="color:var(--ink);">Document — Date issued or updated</strong><span style="color:var(--ink-light);font-size:11px;"> — I cannot write a meaningful summary because the source document contains only placeholder text with no actual regulatory content or details about what changed.</span> <a href="https://www.citt-tcce.gc.ca/en/anti-dumping-injury-inquiries/active-dumping-and-subsidizing-cases" style="color:var(--amber);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" target="_blank">Source →</a><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:8px;">CITT</span></li></ul>
+      <ul style="margin:0;padding:0;"><li style="padding:6px 0;border-bottom:1px solid rgba(200,134,10,0.15);list-style:none;font-size:13px;color:var(--ink-mid);line-height:1.6;">🟡 <strong style="color:var(--ink);">Determination — June 18, 2026</strong><span style="color:var(--ink-light);font-size:11px;"> — Please provide the actual determination content (such as whether this involves tariffs, dumping duties, safeguards, or other trade remedies) so I can deliver a meaningful one-sentence analysis.</span> <a href="https://www.citt-tcce.gc.ca/en/anti-dumping-injury-inquiries/active-dumping-and-subsidizing-cases" style="color:var(--amber);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" target="_blank">Source →</a><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:8px;">CITT</span></li><li style="padding:6px 0;border-bottom:1px solid rgba(200,134,10,0.15);list-style:none;font-size:13px;color:var(--ink-mid);line-height:1.6;">🟡 <strong style="color:var(--ink);">Determination — June 9, 2026</strong><span style="color:var(--ink-light);font-size:11px;"> — Canadian importers of forged steel pipe fittings now face new anti-dumping duties after the Canadian International Trade Tribunal found Chinese suppliers were selling below cost to unfairly undercut domestic producers.</span> <a href="https://www.citt-tcce.gc.ca/en/anti-dumping-injury-inquiries/active-dumping-and-subsidizing-cases" style="color:var(--amber);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" target="_blank">Source →</a><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:8px;">CITT</span></li><li style="padding:6px 0;border-bottom:1px solid rgba(200,134,10,0.15);list-style:none;font-size:13px;color:var(--ink-mid);line-height:1.6;">🟡 <strong style="color:var(--ink);">Reasons for determination — June 1, 2026</strong><span style="color:var(--ink-light);font-size:11px;"> — Canadian importers of certain steel products now face higher duties after the Canadian International Trade Tribunal found domestic producers were injured by unfairly priced imports.</span> <a href="https://www.citt-tcce.gc.ca/en/anti-dumping-injury-inquiries/active-dumping-and-subsidizing-cases" style="color:var(--amber);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" target="_blank">Source →</a><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:8px;">CITT</span></li><li style="padding:6px 0;border-bottom:1px solid rgba(200,134,10,0.15);list-style:none;font-size:13px;color:var(--ink-mid);line-height:1.6;">🟡 <strong style="color:var(--ink);">Public hearing — May 25, 2026</strong><span style="color:var(--ink-light);font-size:11px;"> — The Canadian International Trade Tribunal is holding a public hearing on May 25, 2026, where Canadian businesses can present evidence and arguments in a trade dispute case.</span> <a href="https://www.citt-tcce.gc.ca/en/anti-dumping-injury-inquiries/public-hearings-anti-dumping-injury-inquiries#toc-id-1" style="color:var(--amber);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" target="_blank">Source →</a><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:8px;">CITT</span></li></ul>
       <div style="font-family:'DM Mono',monospace;font-size:8px;color:var(--ink-light);margin-top:8px;">
         Sources: Canada Gazette Part II · CITT · CBSA · Parliament<br>
         <a href="https://canadiantradeintel.ca/tools/sanctions-check/" style="color:var(--amber);margin-right:12px;">Screen a supplier or counterparty →</a>
         <a href="https://canadiantradeintel.ca/tools/tariffs/" style="color:var(--amber);">Tariff &amp; trade agreement lookup →</a>
+      </div>
+      <div style="margin-top:8px;padding-top:8px;border-top:0.5px solid rgba(200,134,10,0.2);font-size:13px;color:var(--ink-mid);line-height:1.6;">
+        Canadian businesses in this sector may also want to verify counterparties and suppliers against active sanctions lists.
+        <a href="/resources/sanctions-screener/" style="color:var(--amber);">Search the CTI sanctions screener</a>
+        for OFAC, UN and Canadian Autonomous sanctions coverage.
       </div>
     </div>
   </section>
@@ -1276,7 +1372,7 @@
                   transition:box-shadow 0.18s;">
           <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--sector);margin-bottom:6px;">Free Service</div>
           <div style="font-size:14px;font-weight:600;color:var(--ink);margin-bottom:6px;">Talk to a Trade Commissioner</div>
-          <div style="font-size:12px;color:var(--ink-mid);line-height:1.6;">Canada has trade commissioners in 160 countries. They provide free market intelligence, buyer introductions, and on-the-ground advice. This is always the right first call.</div>
+          <div style="font-size:13px;color:var(--ink-mid);line-height:1.6;">Canada has trade commissioners in 160 countries. They provide free market intelligence, buyer introductions, and on-the-ground advice. This is always the right first call.</div>
         </a>
         <a href="https://www.tradecommissioner.gc.ca/funding-financement/canexport/sme-pme/index.aspx?lang=eng" target="_blank" rel="noopener"
            style="display:block;flex:1;min-width:200px;background:#fff;border:1px solid var(--rule);
@@ -1284,7 +1380,7 @@
                   transition:box-shadow 0.18s;">
           <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--sector);margin-bottom:6px;">Up to $50,000</div>
           <div style="font-size:14px;font-weight:600;color:var(--ink);margin-bottom:6px;">Apply for CanExport SME Funding</div>
-          <div style="font-size:12px;color:var(--ink-mid);line-height:1.6;">The federal government covers 50% of eligible market entry costs — trade shows, buyer meetings, certifications, market research. Open to Canadian SMEs with under 500 employees.</div>
+          <div style="font-size:13px;color:var(--ink-mid);line-height:1.6;">The federal government covers 50% of eligible market entry costs — trade shows, buyer meetings, certifications, market research. Open to Canadian SMEs with under 500 employees.</div>
         </a>
         <a href="mailto:hello@canadiantradeintel.ca?subject=Custom%20Intelligence%20Brief%20Request" target="_blank" rel="noopener"
            style="display:block;flex:1;min-width:200px;background:#fff;border:1px solid var(--rule);
@@ -1292,7 +1388,7 @@
                   transition:box-shadow 0.18s;">
           <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--brand);margin-bottom:6px;">Custom Report</div>
           <div style="font-size:14px;font-weight:600;color:var(--ink);margin-bottom:6px;">Request a Custom Intelligence Brief</div>
-          <div style="font-size:12px;color:var(--ink-mid);line-height:1.6;">Need intelligence tailored to your specific market, product, or situation? CTI builds custom sector and country briefs for Canadian businesses. Contact us to discuss.</div>
+          <div style="font-size:13px;color:var(--ink-mid);line-height:1.6;">Need intelligence tailored to your specific market, product, or situation? CTI builds custom sector and country briefs for Canadian businesses. Contact us to discuss.</div>
         </a>
       </div>
     </div>
@@ -1311,7 +1407,7 @@
           </div>
           
         </div>
-        <ol class='pathway-steps'><li><strong>Contact TCS Tokyo — Clean Energy desk this week</strong> — Japan's Green Transformation (GX) programme is targeting 3Mt of hydrogen imports by 2030. METI has designated Canadian hydrogen as a preferred origin. <a href="https://www.tradecommissioner.gc.ca/contact.aspx?lang=eng" style="color:var(--sector);font-size:10px;" target="_blank">↗ Trade Commissioner Service</a></li><li><strong>Apply for CanExport SME funding for Japan market development</strong> — Cover costs of Japan business development — buyer meetings in Tokyo, certification/standards work (ISO 19880 hydrogen), trade show travel to Gastech o <a href="https://www.tradecommissioner.gc.ca/funding-financement/canexport/sme-pme/index.aspx?lang=eng" style="color:var(--sector);font-size:10px;" target="_blank">↗ CanExport SME</a></li><li><strong>Engage NRCan Clean Fuels Fund for production scale-up</strong> — NRCan Clean Fuels Fund supports hydrogen production facility scale-up. Qualifying exports to Japan under the Canada-Japan Clean Energy MoU may attract <a href="https://natural-resources.canada.ca/clean-fuels-fund" style="color:var(--sector);font-size:10px;" target="_blank">↗ Clean Fuels Fund</a></li><li><strong>Structure offtake with EDC political risk cover</strong> — EDC can finance Japanese utility purchases of Canadian hydrogen and clean ammonia, and provide political risk insurance for long-duration offtake agre <a href="https://www.edc.ca/en/solutions/financing" style="color:var(--sector);font-size:10px;" target="_blank">↗ EDC Export Financing</a></li></ol>
+        <ol class='pathway-steps'><li><strong>Contact TCS Tokyo  -  Clean Energy desk this week</strong> — Japan's Green Transformation (GX) programme is targeting 3Mt of hydrogen imports by 2030. METI has designated Canadian hydrogen as a preferred origin. <a href="https://www.tradecommissioner.gc.ca/contact.aspx?lang=eng" style="color:var(--sector);font-size:10px;" target="_blank">↗ Trade Commissioner Service</a></li><li><strong>Apply for CanExport SME funding for Japan market development</strong> — Cover costs of Japan business development  -  buyer meetings in Tokyo, certification/standards work (ISO 19880 hydrogen), trade show travel to Gastech <a href="https://www.tradecommissioner.gc.ca/funding-financement/canexport/sme-pme/index.aspx?lang=eng" style="color:var(--sector);font-size:10px;" target="_blank">↗ CanExport SME</a></li><li><strong>Engage NRCan Clean Fuels Fund for production scale-up</strong> — NRCan Clean Fuels Fund supports hydrogen production facility scale-up. Qualifying exports to Japan under the Canada-Japan Clean Energy MoU may attract <a href="https://natural-resources.canada.ca/clean-fuels-fund" style="color:var(--sector);font-size:10px;" target="_blank">↗ Clean Fuels Fund</a></li><li><strong>Structure offtake with EDC political risk cover</strong> — EDC can finance Japanese utility purchases of Canadian hydrogen and clean ammonia, and provide political risk insurance for long-duration offtake agre <a href="https://www.edc.ca/en/solutions/financing" style="color:var(--sector);font-size:10px;" target="_blank">↗ EDC Export Financing</a></li></ol>
         <div class="pathway-tcs">Contact <a href="https://www.tradecommissioner.gc.ca/japan-japon/index.aspx?lang=eng" target="_blank" rel="noopener">TCS Japan</a></div>
       </div>
     </div>
@@ -1353,23 +1449,88 @@
       <span class="section-label">🇨🇦 Canadian Spotlight</span>
       <div class="section-rule"></div>
     </div>
-    <p style="font-size:15px;color:var(--ink-mid);line-height:1.75;margin-top:12px;">
-      Every week CTI spotlights Canadian businesses making moves in this sector — international deals, market entries, contracts won, partnerships formed.
-      <a href="https://canadiantradeintel.ca/spotlight/" style="color:var(--sector);">Browse Canadian Spotlight →</a>
-    </p>
+    <div style="padding:14px 0;">
+      <p style="font-size:14px;color:var(--ink-mid);line-height:1.7;margin-bottom:10px;">
+        Every week CTI spotlights Canadian businesses making moves in this sector —
+        international deals, market entries, contracts won, and partnerships formed.
+        These are the companies putting this week's intelligence into action.
+      </p>
+      <a href="/spotlight/?sector=energy_cleantech"
+         style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;
+         text-transform:uppercase;color:var(--brand,#8b0000);text-decoration:none;
+         border-bottom:1px solid rgba(139,26,26,0.3);">
+         Browse Energy & Cleantech spotlight stories
+      </a>
+    </div>
   </section>
 
   <!-- SOURCE INDEX -->
-  <section id="source-index" class="mb-56">
-    <div class="section-header">
-      <span class="section-label">📎 Source Index</span>
-      <div class="section-rule"></div>
-    </div>
-    <p style="font-size:13px;color:var(--ink-mid);margin-bottom:16px;max-width:680px;line-height:1.7;">
-      Primary sources used to build this report.
+  
+<!-- ================================================================
+     SOURCES & REFERENCES — Canadian Trade Intelligence
+     Generated by government_sources_registry.render_sources_block()
+     ================================================================ -->
+<section class="report-sources" id="sources">
+  <h2>Sources &amp; References</h2>
+
+  <p class="sources-intro">
+    Canadian Trade Intelligence aggregates and synthesizes primary government data,
+    Crown corporation intelligence, and vetted news sources to produce this report.
+    We are the bridge between Canada's government data infrastructure and the
+    actionable weekly intelligence your business needs. All primary sources are
+    publicly accessible and linked below.
+  </p>
+
+  <div class="sources-tier">
+    <h3>Government Primary Sources</h3>
+    <ul>
+      <li><a href="https://www150.statcan.gc.ca/n1/en/catalogue/65F0013X" target="_blank" rel="noopener">Statistics Canada — Canadian International Merchandise Trade (CIMT)</a> <span class="source-vintage">(Monthly — current through ~2 months prior)</span> — Detailed monthly import and export data at the 6-digit HS commodity level. Selectable by country, province, year and month. Exportable to CSV. Best source for current bilateral goods trade flows by sector.</li>
+<li><a href="https://www150.statcan.gc.ca/n1/en/subjects/international_trade" target="_blank" rel="noopener">Statistics Canada — The Daily: International Merchandise Trade</a> <span class="source-vintage">(Monthly — published with ~5 week lag)</span> — Monthly press release covering Canada's merchandise trade with top 10 partners, NAPCS sector breakdown, and balance of payments data. Released approximately 5–6 weeks after reference month.</li>
+<li><a href="https://www.statcan.gc.ca/en/stathub" target="_blank" rel="noopener">Statistics Canada — Canada and the World Statistics Hub</a> <span class="source-vintage">(Varies by indicator; generally annual with some quarterly series)</span> — Interactive bilateral data hub covering trade, investment, employment and travel for 18 of Canada's major trading partners. Brings together multiple StatCan datasets in a single country-level analytical tool.</li>
+<li><a href="https://ised-isde.canada.ca/site/canadian-importers-database/en" target="_blank" rel="noopener">ISED Canadian Importers Database</a> <span class="source-vintage">(2023 (CBSA-sourced) — NOTE: typically lags ~2 years; 2024 not yet released as of April 2026)</span> — Company-level list of major Canadian importers by product (HS code), city, and country of origin. 'Major importers' = companies collectively accounting for up to 80% of imports of a given product. Includes customs brokers and non-resident importers.</li>
+<li><a href="https://ised-isde.canada.ca/site/trade-data-online/en" target="_blank" rel="noopener">ISED Trade Data Online</a> <span class="source-vintage">(Monthly — current through recent months)</span> — Monthly aggregate bilateral trade flows for Canadian imports and exports, by HS product and NAICS industry, for 200+ countries. Sourced from Statistics Canada and U.S. Census Bureau.</li>
+<li><a href="https://natural-resources.canada.ca/maps-tools-publications/publications/mineral-trade" target="_blank" rel="noopener">Natural Resources Canada — Mineral Trade Statistics</a> <span class="source-vintage">(Annual — data through April 2025, subject to revision)</span> — Bilateral mineral and metals trade data by country and commodity, classified by stage of processing (raw → refined → manufactured). Derived from CBSA/StatCan customs data, further annotated by NRCan by mineral type. Current through April 2025.</li>
+<li><a href="https://international.canada.ca/en/global-affairs/corporate/reports/chief-economist/state-trade/2025" target="_blank" rel="noopener">Global Affairs Canada — Canada's State of Trade</a> <span class="source-vintage">(2024 full-year (2025 report))</span> — Annual comprehensive report on Canada's international trade and economic performance. Covers merchandise exports/imports, services trade, FDI flows in and out, sector-by-sector performance, and the economic outlook. 2025 edition covers full-year 2024 data.</li>
+<li><a href="https://international.canada.ca/en/global-affairs/campaigns/canada-us-engagement" target="_blank" rel="noopener">Global Affairs Canada — Canada's Response to U.S. Tariffs</a> <span class="source-vintage">(Current — actively updated)</span> — Live policy page covering Canada's response to U.S. tariffs including relief measures, support programs, retaliatory measures, and sector impacts. Frequently updated — key cross-sector risk signal.</li>
+<li><a href="https://www.edc.ca/en/guide/cleantech-report-2025.html" target="_blank" rel="noopener">EDC — Canada's Cleantech Future: Scalable, Profitable, Essential (2025)</a> <span class="source-vintage">(October 2025)</span> <span class="source-note">Free EDC account registration required for full report. Executive summary accessible without login.</span> — EDC's flagship annual cleantech report identifying Canada's three core export advantages: renewable energy, EVs/electrified transport, and electrification technologies. Key finding: 77% of Canada's cleantech exports go to the U.S., creating concentration risk. Global clean energy investment: US$2 trillion in 2024.</li>
+<li><a href="https://canadabuys.canada.ca/en" target="_blank" rel="noopener">CanadaBuys — Government of Canada Procurement</a> <span class="source-vintage">(Real-time)</span> — Official Government of Canada procurement portal. Covers federal tender notices, awarded contracts, and standing offers. Key for Aerospace & Defence and Tech sectors.</li>
+    </ul>
+    
+        <p class="source-importer-note">
+          ⚠️ <strong>Importer data note:</strong> Company-level import intelligence sourced from
+          the <a href="https://ised-isde.canada.ca/site/canadian-importers-database/en" target="_blank">ISED Canadian Importers Database</a>.
+          Most recent available data is 2023 (CBSA-sourced). 2024 data not yet released as of
+          April 2026. For current aggregate trade flows by product and country, see
+          <a href="https://www150.statcan.gc.ca/n1/en/catalogue/65F0013X" target="_blank">StatCan CIMT</a>
+          (updated monthly).
+        </p>
+        
+  </div>
+
+  <div class="sources-tier">
+    <h3>Industry &amp; Crown Corporation Sources</h3>
+    <ul>
+      <li><a href="https://www.edc.ca/en/country-info.html" target="_blank" rel="noopener">EDC — Country Risk and Market Intelligence</a> <span class="source-vintage">(Continuously updated)</span> — Per-country risk ratings, market articles, and trade intelligence published by EDC. Covers 200+ markets. Useful for dossier risk scores and 'Further Reading' links.</li>
+<li><a href="https://www.iea.org/reports/global-critical-minerals-outlook-2025" target="_blank" rel="noopener">IEA — Global Critical Minerals Outlook 2025</a> <span class="source-vintage">(2025 edition)</span> — International benchmark for critical minerals supply/demand projections, investment trends, policy mechanisms for supply chain diversification, and emerging battery technology mineral requirements.</li>
+<li><a href="https://projects.worldbank.org/en/projects-operations/projects-home" target="_blank" rel="noopener">World Bank — Projects & Operations (Procurement)</a> <span class="source-vintage">(Continuously updated)</span> — Global development bank project database. Canadian companies in infrastructure, engineering, agri-food, and cleantech can bid on World Bank-financed contracts worldwide.</li>
+    </ul>
+  </div>
+
+  <div class="sources-tier">
+    <h3>News &amp; Media Sources</h3>
+    <p>See inline citations above.</p>
+    <p class="sources-disclaimer">
+      News sources are selected for relevance and credibility. CTI does not endorse
+      any specific media outlet. Inline citations appear throughout the report body.
     </p>
-    <div style="font-family:'DM Mono',monospace;font-size:9px;color:#7a3a00;margin-bottom:6px;">Sources accessed this issue</div><div style="max-height:180px;overflow-y:auto;padding-right:8px;"><ul style="list-style:none;padding:0;margin:0;columns:3;column-gap:40px;"><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a3a00;margin-right:8px;">[1]</span><span style="font-size:10px;color:#444;">Alberta Energy, CER gas price data</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a3a00;margin-right:8px;">[2]</span><span style="font-size:10px;color:#444;">Platts LNG assessments</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a3a00;margin-right:8px;">[3]</span><span style="font-size:10px;color:#444;">Bloomberg NEF clean energy</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a3a00;margin-right:8px;">[4]</span><span style="font-size:10px;color:#444;">CER export licence notices</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a3a00;margin-right:8px;">[5]</span><span style="font-size:10px;color:#444;">Canada Gazette clean energy</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a3a00;margin-right:8px;">[6]</span><span style="font-size:10px;color:#444;">NRCan Clean Fuels Fund</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a3a00;margin-right:8px;">[7]</span><span style="font-size:10px;color:#444;">ISED SIF announcements</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a3a00;margin-right:8px;">[8]</span><span style="font-size:10px;color:#444;">Global Affairs Canada</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a3a00;margin-right:8px;">[9]</span><span style="font-size:10px;color:#444;">NRCan Energy Trade Division</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a3a00;margin-right:8px;">[10]</span><span style="font-size:10px;color:#444;">Japan METI hydrogen</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a3a00;margin-right:8px;">[11]</span><span style="font-size:10px;color:#444;">Germany BMWK</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a3a00;margin-right:8px;">[12]</span><span style="font-size:10px;color:#444;">Recharge News</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a3a00;margin-right:8px;">[13]</span><span style="font-size:10px;color:#444;">PV Tech</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a3a00;margin-right:8px;">[14]</span><span style="font-size:10px;color:#444;">Hydrogen Insight</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a3a00;margin-right:8px;">[15]</span><span style="font-size:10px;color:#444;">LNG Prime</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a3a00;margin-right:8px;">[16]</span><span style="font-size:10px;color:#444;">BloombergNEF</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a3a00;margin-right:8px;">[17]</span><span style="font-size:10px;color:#444;">Wood Mackenzie</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a3a00;margin-right:8px;">[18]</span><span style="font-size:10px;color:#444;">NRCan Clean Fuels Fund</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a3a00;margin-right:8px;">[19]</span><span style="font-size:10px;color:#444;">SIF Net Zero Accelerator</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a3a00;margin-right:8px;">[20]</span><span style="font-size:10px;color:#444;">EDC Clean Energy</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a3a00;margin-right:8px;">[21]</span><span style="font-size:10px;color:#444;">CanExport SME</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#7a3a00;margin-right:8px;">[22]</span><span style="font-size:10px;color:#444;">CER</span></li></ul></div>
-  </section>
+  </div>
+
+  <p class="sources-methodology">
+    For our full source list, data methodology, and update schedule, visit
+    <a href="https://canadiantradeintel.ca/methodology">canadiantradeintel.ca/methodology</a>.
+  </p>
+</section>
+
 
 </main>
 </div><!-- /report-content -->
@@ -1386,7 +1547,7 @@
         Energy & Cleantech Intelligence Brief
       </h1>
       <div style="font-family:'DM Mono',monospace;font-size:10px;color:#888;line-height:2;">
-        Issue #001 &nbsp;·&nbsp; May 17, 2026<br>
+        Issue #002 &nbsp;·&nbsp; June 04, 2026<br>
         Prepared by Canadian Trade Intelligence Inc. &nbsp;·&nbsp; canadiantradeintel.ca
       </div>
     </div>
@@ -1394,19 +1555,19 @@
     <!-- 1. Situation Summary -->
     <div>
       <span style="font-size:8px;letter-spacing:0.14em;text-transform:uppercase;font-family:'DM Mono',monospace;color:#7a3a00;display:block;margin-bottom:8px;margin-top:24px;padding-top:20px;border-top:1px solid #e0dcd4;">1. Situation Summary</span>
-      <p style="font-size:14px;color:#1a1a1a;line-height:1.8;max-width:740px;">This week marks a pivotal moment for Canadian critical minerals exporters with India's CEPA launch and Indonesia's FIPA creating immediate high-value opportunities worth over $3.4B in committed deals. The G7 Critical Minerals Production Alliance mobilizing $18.5B provides additional momentum across traditional allies, while China's expanded rare earth export controls on 7 elements create supply gap opportunities for Canadian producers. Gold's surge to $2,910/oz signals broader commodity strength supporting sector fundamentals.</p>
+      <p style="font-size:14px;color:#1a1a1a;line-height:1.8;max-width:740px;">Germany's €200 million hydrogen funding approval and matching Canadian government capital create a 2027 supply auction window that closes this quarter—Canadian hydrogen producers must act immediately to secure European offtaker commitments. India's CEPA implementation and Indonesia's FIPA launch unlock tariff reductions and $3.4 billion in committed critical minerals deals, while the G7's $18.5 billion co-financing mechanism now accepts project registrations. Success hinges on positioning before the matching fund deadline and German Renewable Energy Act approval in June.</p>
     </div>
 
     <!-- 2. Top Signals -->
     <div>
       <span style="font-size:8px;letter-spacing:0.14em;text-transform:uppercase;font-family:'DM Mono',monospace;color:#7a3a00;display:block;margin-bottom:8px;margin-top:24px;padding-top:20px;border-top:1px solid #e0dcd4;">2. Top Signals</span>
-      <div style="padding:10px 0 10px 14px;border-left:3px solid #c8640a;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">India CEPA Implementation Begins</div><div style="font-size:12px;color:#444;line-height:1.65;">Canada-India Comprehensive Economic Partnership Agreement launches with tariff reductions on critical minerals and processed metals. Watch for India's customs c</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#b36b00;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: MED</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #c8640a;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">Indonesia FIPA Opportunity Window</div><div style="font-size:12px;color:#444;line-height:1.65;">Free Trade Agreement with Indonesia unlocks $3.4B in committed deals across nickel, copper, and mineral processing sectors. Verify local content rules and inves</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#b36b00;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: MED</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #c8640a;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">G7 Critical Minerals Alliance Capital Deployment</div><div style="font-size:12px;color:#444;line-height:1.65;">G7 mobilizes $18.5B to secure supply chains; Canadian firms eligible for co-investment and technology partnerships. Track announcement schedules from Global Cri</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#b36b00;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: MED</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #c8640a;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">Screen Canada's Critical Minerals Strategy Portal</div><div style="font-size:12px;color:#444;line-height:1.65;">Review Natural Resources Canada Critical Minerals Roadmap to align export compliance with federal procurement priorities. This week's CEPA/FIPA activation requi</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#1a6b42;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: HIGH</div></div>
+      <div style="padding:10px 0 10px 14px;border-left:3px solid #c8640a;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">EU approves €200 million German hydrogen funding with matching Canadian capital triggering 2027 supply auctions.</div><div style="font-size:12px;color:#444;line-height:1.65;">Matching fund window closes this quarter; delay forfeits access to the highest-value North American hydrogen offtake opportunity in 2026.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#1a6b42;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: HIGH</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #c8640a;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">Canada-India CEPA tariff reductions on critical minerals enter force and unlock CEPA-eligible export financing.</div><div style="font-size:12px;color:#444;line-height:1.65;">India scores 9/10 opportunity but only 2/10 regulatory maturity; CEPA removes tariff barriers and qualifies exporters for EDC political risk insurance.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#1a6b42;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: HIGH</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #c8640a;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">Indonesia FIPA deployment confirms $3.4 billion in committed nickel and copper deals with Canadian firm co-investment eligibility.</div><div style="font-size:12px;color:#444;line-height:1.65;">Indonesia's 8/10 opportunity score and active FTA implementation signal near-term contract awards; Canadian exporters must register with Invest in Canada G7 Alliance Tracker to access co-financing.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#1a6b42;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: HIGH</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #c8640a;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">German Renewable Energy Act reform negotiations continue through June with EU approval pending.</div><div style="font-size:12px;color:#444;line-height:1.65;">Act outcome determines whether hydrogen demand forecasts hold or shift toward competing green technologies, directly affecting 2027 auction volumes and pricing.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#b36b00;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: MED</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #c8640a;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">G7 Critical Minerals Alliance deploys $18.5 billion co-investment capital with Canadian firm registration now open.</div><div style="font-size:12px;color:#444;line-height:1.65;">Registration deadline is implicit in quarterly closing; firms not registered by end-June risk losing co-financing eligibility for 2026–2027 projects.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#b36b00;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: MED</div></div>
     </div>
 
     <!-- 3. Recommended Actions -->
     <div>
       <span style="font-size:8px;letter-spacing:0.14em;text-transform:uppercase;font-family:'DM Mono',monospace;color:#7a3a00;display:block;margin-bottom:8px;margin-top:24px;padding-top:20px;border-top:1px solid #e0dcd4;">3. Recommended Actions</span>
-      <div style="padding:12px 14px;background:#f8f8f6;border-left:3px solid #c8640a;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;color:#c8640a;margin-right:8px;font-size:9px;">01</span>Screen Canada's Critical Minerals Strategy Portal</div><div style="font-size:12px;color:#555;line-height:1.65;">Review Natural Resources Canada Critical Minerals Roadmap to align export compliance with federal procurement priorities. This week's CEPA/FIPA activation requires verification of </div></div><div style="padding:12px 14px;background:#f8f8f6;border-left:3px solid #c8640a;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;color:#c8640a;margin-right:8px;font-size:9px;">02</span>Contact Trade Commissioner Service for India Market Entry</div><div style="font-size:12px;color:#555;line-height:1.65;">Engage regional TCS office covering South Asia to confirm CEPA eligibility, customs procedures, and preferred buyer networks in New Delhi/Mumbai. Advisories on certificate-of-origi</div></div><div style="padding:12px 14px;background:#f8f8f6;border-left:3px solid #c8640a;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;color:#c8640a;margin-right:8px;font-size:9px;">03</span>Apply for Export Development Canada Financing</div><div style="font-size:12px;color:#555;line-height:1.65;">Submit working capital and political risk insurance applications to EDC for India and Indonesia operations. EDC trade credit insurance covers CEPA/FIPA transaction delays and curre</div></div>
+      <div style="padding:12px 14px;background:#f8f8f6;border-left:3px solid #c8640a;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;color:#c8640a;margin-right:8px;font-size:9px;">01</span>Instruct all Canadian hydrogen producers to submit Letters of Intent to European offtakers by end of June 2026 to meet matching fund window closure.</div><div style="font-size:12px;color:#555;line-height:1.65;">The EU-Germany fund matching mechanism closes this quarter; LOI submission is the gating requirement for 2027 supply auction eligibility.</div></div><div style="padding:12px 14px;background:#f8f8f6;border-left:3px solid #c8640a;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;color:#c8640a;margin-right:8px;font-size:9px;">02</span>Direct critical minerals exporters to apply for EDC working capital and political risk insurance for India and Indonesia operations within 10 business days.</div><div style="font-size:12px;color:#555;line-height:1.65;">CEPA and FIPA tariff reductions are now live; EDC financing applications process 4–6 weeks and must complete before H2 2026 contract award cycles.</div></div><div style="padding:12px 14px;background:#f8f8f6;border-left:3px solid #c8640a;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;color:#c8640a;margin-right:8px;font-size:9px;">03</span>Register all eligible critical minerals and hydrogen projects with Invest in Canada's G7 Alliance Tracker immediately to lock co-financing access.</div><div style="font-size:12px;color:#555;line-height:1.65;">G7 co-investment capital deployment requires federal registry documentation; firms not registered by quarter-end forfeit eligibility for the $18.5 billion co-financing pool.</div></div>
     </div>
 
     <!-- 4. Market Opportunity Scores -->
@@ -1441,7 +1602,7 @@
     <!-- 6. Supply Chain Watch -->
     <div>
       <span style="font-size:8px;letter-spacing:0.14em;text-transform:uppercase;font-family:'DM Mono',monospace;color:#7a3a00;display:block;margin-bottom:8px;margin-top:24px;padding-top:20px;border-top:1px solid #e0dcd4;">6. Supply Chain Watch</span>
-      <p style="font-size:12px;color:#888;">No inbound supply chain signals this week.</p>
+      <div style="border:1px solid #e0dcd4;background:#fff;"><div class="scw-item"><div class="scw-left"><div class="scw-input">Offshore wind components and subsystems (turbines, foundations, electrical infrastructure)</div><div class="scw-status">EU pressure on Japan's procurement barriers signals Japan's offshore wind supply chain is opening. Japanese suppliers currently dominate Asia-Pacific component sourcing; trade liberalization will increase competition and potentially lower input costs for Canadian clean energy projects.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Audit current Japanese component suppliers and pricing; contact Trade Commissioner Service to identify alternative or competitive Japanese suppliers newly entering North American markets post-EU trade review.</span></div></div><div class="scw-risk scw-risk-med">Med</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">Steel, aluminum, cement, and hydrogen feedstocks (inputs for cleantech manufacturing and energy projects)</div><div class="scw-status">EU CBAM definitive regime (effective January 1, 2026) now requires verified emissions data on Canadian exports; this creates inbound sourcing pressure as Canadian producers must document supply chain emissions to maintain EU market access, increasing input traceability costs.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Immediately map Scope 3 emissions for all steel, aluminum, cement, and hydrogen inputs from domestic and international suppliers; begin collecting verified emissions declarations from suppliers to ensure CBAM compliance and avoid trade delays.</span></div></div><div class="scw-risk scw-risk-high">High</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">Critical minerals and rare earth elements (for batteries, magnets, cleantech manufacturing)</div><div class="scw-status">IRA domestic content rules (effective January 1, 2026) and G7 $18.5B co-financing mechanism incentivize nearshoring and domestic sourcing; Venezuelan supply chain uncertainty post-Operation Absolute Resolve eliminates a regional sourcing option for energy and mining inputs.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Register critical minerals projects in Invest in Canada's G7 Alliance Tracker immediately; identify domestic or allied suppliers to replace Venezuelan inputs and validate CEPA/domestic content eligibility before Q1 2026 public sector tender deadlines.</span></div></div><div class="scw-risk scw-risk-high">High</div></div></div>
     </div>
 
     <!-- 7. Source Index -->
@@ -1465,7 +1626,7 @@
     <div>
       <div class="report-footer-brand">Canadian Trade Intel</div>
       <div class="report-footer-meta">
-        ENERGY & CLEANTECH &nbsp;·&nbsp; ISSUE #001<br>
+        ENERGY & CLEANTECH &nbsp;·&nbsp; ISSUE #002<br>
         CANADIANTRADEINTEL.CA &nbsp;·&nbsp; FOR INFORMATIONAL PURPOSES ONLY<br>
         NOT LEGAL OR FINANCIAL ADVICE &nbsp;·&nbsp; AI-ASSISTED RESEARCH WITH EDITORIAL REVIEW
       </div>

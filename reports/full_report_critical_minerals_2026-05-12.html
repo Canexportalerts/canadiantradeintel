@@ -30,7 +30,7 @@
 
   body {
     font-family: 'DM Sans', sans-serif;
-    background: var(--cream);
+    background: #eceae5;
     color: var(--ink);
     line-height: 1.6;
   }
@@ -40,29 +40,44 @@
 
   /* ── STICKY NAV ── */
   .sticky-nav {
-    position: sticky; top: 0; z-index: 100;
-    background: var(--masthead-bg);
-    border-bottom: 1px solid rgba(168,213,188,0.15);
-    padding: 0 40px;
+    position: fixed;
+    top: 160px;
+    left: calc(50% - 430px - 160px);
+    width: 150px;
+    z-index: 100;
+    background: transparent;
+    border: none;
+    padding: 0;
   }
   .sticky-nav-inner {
-    max-width: 1100px; margin: 0 auto;
-    display: flex; align-items: center;
-    justify-content: space-between; height: 46px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    max-width: 120px;
   }
-  .sticky-nav-brand {
-    font-family: 'DM Mono', monospace; font-size: 9px;
-    letter-spacing: 0.18em; text-transform: uppercase;
-    color: var(--sector-mid); text-decoration: none;
+  .sticky-nav-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
   }
-  .sticky-nav-links { display: flex; gap: 24px; }
   .sticky-nav-links a {
-    font-family: 'DM Mono', monospace; font-size: 8px;
-    letter-spacing: 0.12em; text-transform: uppercase;
-    color: rgba(255,255,255,0.35); text-decoration: none;
-    transition: color 0.18s;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #6b6560;
+    text-decoration: none;
+    padding: 6px 0;
+    border-left: 2px solid #d4cfc8;
+    padding-left: 10px;
+    display: block;
+    line-height: 1.3;
   }
-  .sticky-nav-links a:hover { color: var(--sector-mid); }
+  .sticky-nav-links a:hover {
+    color: #8B1A1A;
+    border-left-color: #8B1A1A;
+  }
+  .sticky-nav-brand { display: none; }
 
   /* ── MASTHEAD ── */
   .masthead {
@@ -121,9 +136,7 @@
 
   /* ── REPORT NAV ── */
   .report-nav {
-    background: #fff;
-    border-bottom: 1px solid var(--rule);
-    padding: 0 40px; position: sticky; top: 46px; z-index: 90;
+    display: none;
   }
   .report-nav-inner {
     max-width: 1100px; margin: 0 auto;
@@ -145,8 +158,14 @@
 
   /* ── REPORT BODY ── */
   .report-body {
-    max-width: 1100px; margin: 0 auto;
-    padding: 48px 40px 80px;
+    max-width: 860px;
+    margin: 0 auto 80px;
+    background: #ffffff;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.10), 0 0 0 1px rgba(0,0,0,0.04);
+    border-radius: 0 0 2px 2px;
+    padding: 40px 56px 60px;
+    box-sizing: border-box;
+    overflow: hidden;
   }
 
   /* ── SECTION HEADERS ── */
@@ -154,6 +173,8 @@
     display: flex; align-items: baseline; gap: 14px;
     margin-bottom: 24px; padding-bottom: 10px;
     border-bottom: 2px solid var(--brand);
+    max-width: 100%;
+    box-sizing: border-box;
   }
   .section-label {
     font-family: 'DM Mono', monospace; font-size: 8px;
@@ -162,10 +183,21 @@
   }
   .section-rule { flex: 1; height: 1px; background: var(--rule); }
   .mb-56 { margin-bottom: 56px; }
+  @media screen {
+    section.mb-56 + section.mb-56 {
+      border-top: 1px solid var(--rule);
+      padding-top: 48px;
+    }
+  }
 
   /* ── EXEC SUMMARY ── */
   .exec-summary {
-    display: grid; grid-template-columns: 1fr 280px; gap: 32px;
+    display: block;
+  }
+  .exec-summary-text {
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--ink);
   }
   .exec-summary-text h2 {
     font-family: 'Cormorant Garamond', serif;
@@ -218,6 +250,7 @@
   .signal-card {
     background: #fff; border: 1px solid var(--rule);
     border-left: 4px solid var(--sector); padding: 22px 24px;
+    min-width: 0; overflow-wrap: break-word; word-break: break-word;
   }
   .signal-card.risk { border-left-color: var(--risk); }
   .signal-card.watch { border-left-color: var(--amber); }
@@ -243,12 +276,14 @@
   .signal-body {
     font-size: 13px; color: var(--ink-mid);
     line-height: 1.8; margin-bottom: 12px;
+    overflow-wrap: break-word; word-break: break-word;
   }
   .signal-body-text {
     font-size: 13px; color: var(--ink);
     line-height: 1.8; margin-bottom: 12px;
     font-family: 'Cormorant Garamond', serif;
     font-style: italic;
+    overflow-wrap: break-word; word-break: break-word;
   }
   .editorial-block {
     background: #faf8f5;
@@ -265,7 +300,7 @@
     background: var(--sector-light);
     border: 1px solid var(--sector-mid);
     padding: 12px 14px; margin-bottom: 10px;
-    font-size: 12px; color: var(--sector-dark); line-height: 1.65;
+    font-size: 13px; color: var(--sector-dark); line-height: 1.65;
   }
   .signal-what-means.risk-means {
     background: #fff5f5; border-color: #f0c0c0; color: #5a2020;
@@ -555,7 +590,7 @@
     color: var(--ink); line-height: 1.3; margin-bottom: 8px;
   }
   .watch-body {
-    font-size: 12px; color: var(--ink-mid); line-height: 1.65;
+    font-size: 13px; color: var(--ink-mid); line-height: 1.65;
   }
 
   /* ── SPOTLIGHT ── */
@@ -593,7 +628,7 @@
     background: var(--sector-light);
     border-left: 3px solid var(--sector);
     padding: 12px 14px;
-    font-size: 12px; color: var(--sector-dark); line-height: 1.65;
+    font-size: 13px; color: var(--sector-dark); line-height: 1.65;
   }
   .spotlight-card-lesson strong {
     display: block;
@@ -634,7 +669,7 @@
   .report-footer-links a:hover { color: var(--sector-mid); }
 
   @media (max-width: 768px) {
-    .sticky-nav { padding: 0 16px; }
+    .sticky-nav { display: none; }
     .masthead { padding: 32px 16px 28px; }
     .report-nav { padding: 0 16px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
     .report-nav::-webkit-scrollbar { display: none; }
@@ -675,7 +710,11 @@
 
   /* ── PRINT STYLESHEET ── */
   @media print {
-    @page { margin: 2.5cm; size: A4; }
+    @page { margin: 2cm 2.5cm; size: A4; }
+
+    body { background: transparent !important; }
+    .report-body { box-shadow: none !important; margin: 0 auto !important; }
+    .sticky-nav { display: none !important; }
 
     /* Hide nav chrome, CTAs, interactive elements */
     .sticky-nav, .report-nav, .report-footer,
@@ -798,6 +837,81 @@
     body.briefing-active #briefing-panel button { display: none !important; }
     @page { margin: 1in; }
   }
+
+  .doc-header {
+    max-width: 860px;
+    margin: 40px auto 0;
+    padding: 28px 56px 0;
+    background: #fff;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.10), 0 0 0 1px rgba(0,0,0,0.04);
+    border-radius: 2px 2px 0 0;
+  }
+  .doc-header-top {
+    height: 3px;
+    background: #8B1A1A;
+    margin-bottom: 20px;
+  }
+  .doc-header-body {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #d4cfc8;
+  }
+  .doc-header-left {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .doc-org {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #1a0505;
+    font-weight: 500;
+  }
+  .doc-series {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #8B1A1A;
+  }
+  .doc-header-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+  }
+  .doc-issue {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #1a0505;
+  }
+  .doc-date {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: #6b6560;
+    letter-spacing: 0.08em;
+  }
+  .doc-stats {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    color: #8B1A1A;
+    letter-spacing: 0.08em;
+    margin-top: 2px;
+    text-align: right;
+  }
+  .doc-header-bottom {
+    height: 0;
+  }
+  @media print {
+    .doc-header { padding: 0 0 16px; }
+    .doc-header-top { margin-bottom: 12px; }
+  }
 </style>
 </head>
 <body>
@@ -807,94 +921,30 @@
 <div style="background:#f0f8f4;border-bottom:2px solid #1a6b42;padding:10px 40px;text-align:center;position:sticky;top:0;z-index:300;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#0d3d22;">For informational purposes only · Not legal or financial advice</span></div>
 -->
 
-<!-- STICKY NAV -->
-<nav class="sticky-nav">
-  <div class="sticky-nav-inner">
-    <a href="https://canadiantradeintel.ca" class="sticky-nav-brand">🇨🇦 Canadian Trade Intel</a>
-    <div class="sticky-nav-links">
-      
-      <a href="#signals">Signals</a>
-      <a href="#actions">Actions</a>
-      <a href="#pathways">Market Entry</a>
-      <a href="#watch">Watch For</a>
-      <a href="#spotlight">Spotlight</a>
-      <a href="https://canadiantradeintel.ca/reports">All Reports</a>
+<header class="doc-header">
+  <div class="doc-header-top"></div>
+  <div class="doc-header-body">
+    <div class="doc-header-left">
+      <span class="doc-org">Canadian Trade Intelligence Inc.</span>
+      <span class="doc-series">Critical Minerals & Mining · Intelligence Brief</span>
+    </div>
+    <div class="doc-header-right">
+      <span class="doc-issue">Issue #007</span>
+      <span class="doc-date">May 5 – 12, 2026</span>
+      <span class="doc-stats">13 opportunities · 6 risks · 5 immediate</span>
     </div>
   </div>
-</nav>
-
-<!-- MASTHEAD -->
-<header class="masthead">
-  <div class="masthead-inner">
-    <div class="masthead-eyebrow">
-      <span class="sector-badge">⚗ Critical Minerals & Mining</span>
-      <span class="issue-meta">ISSUE #007 &nbsp;·&nbsp; May 17, 2026 &nbsp;·&nbsp; ~12 MIN READ</span>
-    </div>
-    <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:10px;">Critical Minerals & Mining &nbsp;·&nbsp; Week of May 17, 2026</div>
-    <h1>Critical Minerals & Mining — Intelligence Brief · Issue #007</h1>
-    <p class="masthead-summary">
-      Canadian miners and equipment suppliers should accelerate partnerships with the expanded operation to capture downstream cleantech manufacturing opportunities before U.S. and Asian competitors establish market dominance.
-    </p>
-    <div class="doc-frame-bar"
-         style="display:flex;justify-content:space-between;align-items:center;
-         border-top:2px solid var(--crimson,#8B1A1A);
-         border-bottom:1px solid rgba(255,255,255,0.12);
-         padding:7px 0;margin:14px 0 20px 0;
-         font-family:'DM Mono',monospace;font-size:8px;
-         letter-spacing:0.14em;text-transform:uppercase;
-         color:rgba(255,255,255,0.4);">
-      <span>Canadian Trade Intelligence Inc.</span>
-      <span>Issue #007 &nbsp;·&nbsp; Critical Minerals & Mining &nbsp;·&nbsp; May 17, 2026</span>
-    </div>
-    <div class="masthead-stats">
-      <div class="masthead-stat">
-        <div class="masthead-stat-label">Signals</div>
-        <div class="masthead-stat-value">6</div>
-      </div>
-      <div class="masthead-stat">
-        <div class="masthead-stat-label">Opportunities</div>
-        <div class="masthead-stat-value">17</div>
-      </div>
-      <div class="masthead-stat">
-        <div class="masthead-stat-label">Risks</div>
-        <div class="masthead-stat-value">6</div>
-      </div>
-      <div class="masthead-stat">
-        <div class="masthead-stat-label">Immediate</div>
-        <div class="masthead-stat-value">6</div>
-      </div>
-      <div class="masthead-stat">
-        <div class="masthead-stat-label">Markets Scored</div>
-        <div class="masthead-stat-value">18</div>
-      </div>
-    </div>
-  </div>
+  <div class="doc-header-bottom"></div>
 </header>
 
-<!-- REPORT SECTION NAV -->
-<nav class="report-nav">
-  <div class="report-nav-inner">
-    <a href="#summary">Overview</a>
-    <a href="#signals">Signals (6)</a>
-    <a href="#what-we-think">What We Think</a>
-    <a href="#actions">Actions (4)</a>
-    <a href="#procurement">Procurement (1)</a>
-    
-
-    <a href="#pathways">Market Entry</a>
-    <a href="#watch">Watch For These</a>
-
-    <a href="#spotlight">Canadian Spotlight</a>
-    <button onclick="toggleBriefing()" class="briefing-btn" id="briefing-toggle-btn">📋 Briefing View</button>
-    <button onclick="window.print()" class="pdf-nav-btn">⬇ Save as PDF</button>
-  </div>
-</nav>
 
 <!-- REPORT BODY -->
 <div id="report-content">
 <main class="report-body">
 
   <!-- WHAT HAPPENED THIS WEEK -->
+  
+
   
 
   <!-- EXECUTIVE SUMMARY -->
@@ -905,11 +955,11 @@
     </div>
     <div class="exec-summary">
       <div class="exec-summary-text">
-        <p>Canada Growth Fund's C$145 million lithium mine expansion investment signals federal commitment to domestic battery supply chains amid Indo-Pacific competition. Canadian miners and equipment suppliers should accelerate partnerships with the expanded operation to capture downstream cleantech manufacturing opportunities before U.S. and Asian competitors establish market dominance. Monitor India-Canada CEPA completion by year-end—successful tariff reductions would unlock Cameco's $2.6 billion uranium deal and create market access for junior miners across critical minerals.</p>
+        <p>Canada Growth Fund's C$145 million lithium mine expansion investment signals federal commitment to domestic battery supply chains amid Indo-Pacific competition. Canadian miners and equipment suppliers should accelerate partnerships with the expanded operation to capture downstream cleantech manufacturing opportunities before U.S. and Asian competitors establish market dominance. Monitor India-Canada <a href="/resources/trade-agreements/#cepa" style="color:var(--brand,#8b0000);text-decoration:none;border-bottom:1px solid rgba(139,26,26,0.3);" title="CEPA — trade agreement details">CEPA</a> completion by year-end - successful tariff reductions would unlock Cameco's $2.6 billion uranium deal and create market access for junior miners across critical minerals.</p>
       </div>
-      <div>
+      <div style="float:right;width:280px;margin:0 0 24px 32px;clear:right;">
         <div class="commodity-panel">
-          <div class="commodity-panel-title">Commodity Prices · May 17, 2026</div>
+          <div class="commodity-panel-title">Commodity Prices · May 12, 2026</div>
           
           <div class="commodity-row">
             <div>
@@ -948,11 +998,18 @@
             </div>
           </div>
         </div>
-        
+        <div style="margin-top:8px;font-size:11px;color:var(--ink-light);line-height:1.5;">
+          <strong style="font-size:10px;">How markets are scored:</strong> Opportunity and risk scores (1 to 10)
+          reflect import demand signals, active Canadian supplier relationships, trade agreement access,
+          and buyer activity from this week's intelligence.
+          <a href="/resources/how-markets-are-scored/" style="color:var(--brand,#8b0000);font-size:10px;">How we score markets</a>
         </div>
+        
       </div>
     </div>
   </section>
+
+  <div style="clear:both;"></div>
 
   <!-- SIGNALS -->
   <section id="signals" class="mb-56">
@@ -964,57 +1021,13 @@
       
       <div class="signal-card ">
         <div class="signal-flag">
-           · Canada Domestic
-          <span class="urgency-tag urgency-now">Immediate</span>
-        </div>
-        <div class="signal-headline">Canada Growth Fund invests C$145 million in North American Lithium mine expansion</div>
-        
-        <div class="signal-body">On May 12, 2026, Minister Champagne announced Canada Growth Fund investment of up to C$145 million to support expansion of Canada's largest operating lithium mine in Quebec's Abitibi region. The brownfield expansion will increase production capacity and strengthen North American lithium supply chain, supporting 252 existing jobs. Additionally, on May 11, NRCan highlighted over $100 million for five BC critical minerals projects.</div>
-        <div class="signal-what-means"><span class="signal-what-label">What This Could Mean For You</span>Provides major growth opportunities for Canadian lithium exporters and battery supply chain companies, while strengthening domestic critical minerals processing capacity. The Quebec investment directly supports Canadian mining operations competing globally, while BC infrastructure investments position Canadian miners to access new export markets.</div>
-        
-        <details class="analyst-detail">
-          <summary>Trade Context ▾</summary>
-          <div class="analyst-detail-body">
-          <b>Trade Agreement</b>No FTA in force
-          <b>TCS Office</b>TCS — contact nearest Canadian mission
-          <b>Relevant Programmes</b>EDC Critical Minerals Financing · NRCan CMP · CanExport SME
-          <b>HS Codes</b>HS 2825 (lithium compounds) · 2801 (battery-grade lithium)
-          <b>Primary Source</b><a href="https://www.canada.ca/en/department-finance/news/2026/05/government-welcomes-canada-growth-fund-investment-to-support-the-expansion-of-canadas-largest-operating-lithium-mine.html" target="_blank">Department of Finance Canada</a>
-          </div>
-        </details>
-        <div class="signal-source">Source: <a href="https://www.canada.ca/en/department-finance/news/2026/05/government-welcomes-canada-growth-fund-investment-to-support-the-expansion-of-canadas-largest-operating-lithium-mine.html" target="_blank">Department of Finance Canada, 2026-05-12 →</a></div>
-      </div>
-      <div class="signal-card ">
-        <div class="signal-flag">
-           · India Canada
-          <span class="urgency-tag urgency-quarter">This Quarter</span>
-        </div>
-        <div class="signal-headline">India-Canada commence second round of CEPA trade talks targeting 2026 completion</div>
-        
-        <div class="signal-body">India and Canada kicked off second round of CEPA negotiations on May 5, 2026, following March 2 signing of Terms of Reference during PM Carney's India visit. The comprehensive agreement targets USD 50 billion bilateral trade by 2030 and includes critical minerals cooperation, uranium supply arrangements, and clean energy partnerships. Bilateral trade currently stands at $8.66 billion (FY25).</div>
-        <div class="signal-what-means"><span class="signal-what-label">What This Could Mean For You</span>Major opportunity for Canadian critical minerals exporters to access India's rapidly growing market through preferential trade terms. CEPA would provide structured framework for Canadian uranium, lithium, and potash exports while attracting Indian investment in Canadian mining projects. Success critical as Canada competes with other suppliers for India's $770 billion critical minerals demand by 2040.</div>
-        
-        <details class="analyst-detail">
-          <summary>Trade Context ▾</summary>
-          <div class="analyst-detail-body">
-          <b>Trade Agreement</b>No FTA in force
-          <b>TCS Office</b>TCS — contact nearest Canadian mission
-          <b>Relevant Programmes</b>EDC Critical Minerals Financing · NRCan CMP · CanExport SME
-          <b>HS Codes</b>HS 2601–2617 (mineral ores) · 2844 (radioactive) · 8549 (battery materials) · 7108 (gold)
-          <b>Primary Source</b><a href="https://www.sarkaritel.com/india-canada-kick-off-second-round-of-cepa-trade-talks/" target="_blank">Sarkaritel.com</a>
-          </div>
-        </details>
-        <div class="signal-source">Source: <a href="https://www.sarkaritel.com/india-canada-kick-off-second-round-of-cepa-trade-talks/" target="_blank">Sarkaritel.com, 2026-05-12 →</a></div>
-      </div>
-      <div class="signal-card ">
-        <div class="signal-flag">
            · Uranium Market
           <span class="urgency-tag urgency-quarter">This Quarter</span>
         </div>
-        <div class="signal-headline">Cameco signed $2.6B uranium supply deal with India on March 2, 2026</div>
+        <div class="signal-headline">Cameco signed a $2.6B CAD uranium supply deal with India, announced March 2, 2026</div>
         
-        <div class="signal-body">Cameco secured a nine-year agreement to supply 22 million pounds of uranium concentrate to India's Department of Atomic Energy from 2027-2035. The deal was signed during Canadian PM Mark Carney's visit to India and witnessed by PM Modi and Saskatchewan Premier Scott Moe.</div>
-        <div class="signal-what-means"><span class="signal-what-label">What This Could Mean For You</span>Major boost for Canada's uranium sector, particularly Saskatchewan which employs over 2,300 in uranium mining contributing $2.5B to provincial GDP. Strengthens Canada's position as global uranium supplier and enhances bilateral trade with India's expanding nuclear program targeting 100 GW by 2047.</div>
+        <div class="signal-body">Cameco will supply nearly 22 million pounds of uranium ore concentrate to India's Department of Atomic Energy from 2027-2035. The agreement was signed with Prime Ministers Modi and Carney present, marking Canada's largest uranium export contract.</div>
+        <div class="signal-what-means"><span class="signal-what-label">What This Could Mean For You</span>This represents a massive export opportunity for Saskatchewan-based Cameco and solidifies Canada as India's preferred nuclear fuel supplier. The deal employs 2,300+ people in Saskatchewan and contributes $2.5B+ to provincial GDP, with uranium mining being a cornerstone Canadian export industry.</div>
         
         <details class="analyst-detail">
           <summary>Trade Context ▾</summary>
@@ -1023,20 +1036,20 @@
           <b>TCS Office</b>TCS — contact nearest Canadian mission
           <b>Relevant Programmes</b>EDC Critical Minerals Financing · NRCan CMP · CanExport SME
           <b>HS Codes</b>HS 2844 (radioactive elements/uranium compounds)
-          <b>Primary Source</b><a href="https://www.cameco.com/media/news/cameco-signs-long-term-uranium-supply-agreement-with-india" target="_blank">Cameco</a>
+          <b>Primary Source</b><a href="https://www.cameco.com/media/news/cameco-signs-long-term-uranium-supply-agreement-with-india" target="_blank">Cameco Corporation</a>
           </div>
         </details>
-        <div class="signal-source">Source: <a href="https://www.cameco.com/media/news/cameco-signs-long-term-uranium-supply-agreement-with-india" target="_blank">Cameco, 2026-05-12 →</a></div>
+        <div class="signal-source">Source: <a href="https://www.cameco.com/media/news/cameco-signs-long-term-uranium-supply-agreement-with-india" target="_blank">Cameco Corporation, 2026-06-02 →</a></div>
       </div>
-      <div class="signal-card risk">
+      <div class="signal-card ">
         <div class="signal-flag">
            · Indonesia Battery
           <span class="urgency-tag urgency-quarter">This Quarter</span>
         </div>
-        <div class="signal-headline">Indonesia announced $7-8B 'Titan' EV battery partnership with Chinese consortium in February 2026</div>
+        <div class="signal-headline">Palu SEZ secured $1.75B investment for BESS gigafactory, announced May 18, 2026</div>
         
-        <div class="signal-body">Indonesia partnered with Zhejiang Huayou Cobalt-led consortium for integrated battery supply chain from raw materials to finished batteries. Project includes facilities in West Java for battery assembly and East Halmahera for upstream processing, with groundbreaking expected in H1 2026.</div>
-        <div class="signal-what-means risk-means"><span class="signal-what-label">Risk Assessment</span>Creates new competitive pressure for Canadian battery material suppliers as Indonesia builds integrated supply chain using domestic nickel reserves. May reduce Indonesian demand for Canadian processed battery materials, but could create opportunities for Canadian technology and equipment providers for new facilities.</div>
+        <div class="signal-body">Central Sulawesi's Palu Special Economic Zone attracted major investment for 8-15 GWh battery energy storage systems production. CATL's $6B Indonesia Battery Integration Project continues with late 2026 production start planned in Karawang.</div>
+        <div class="signal-what-means"><span class="signal-what-label">What This Could Mean For You</span>Indonesia's rapid battery supply chain development creates both competition and partnership opportunities for Canadian companies. Canadian nickel, cobalt, and lithium producers could benefit from offtake agreements, while Canadian technology and equipment suppliers may find opportunities in Indonesia's expanding gigafactory ecosystem.</div>
         
         <details class="analyst-detail">
           <summary>Trade Context ▾</summary>
@@ -1045,42 +1058,20 @@
           <b>TCS Office</b>TCS — contact nearest Canadian mission
           <b>Relevant Programmes</b>EDC Critical Minerals Financing · NRCan CMP · CanExport SME
           <b>HS Codes</b>HS 8507 (electric accumulators/batteries)
-          <b>Primary Source</b><a href="https://asiatimes.com/2026/02/will-china-power-or-pollute-indonesias-ev-battery-dream/" target="_blank">Asia Times</a>
+          <b>Primary Source</b><a href="https://indonesiabusinesspost.com/6658/business-and-investment/palu-sez-secures-us-1-75-billion-investment-for-battery-and-lng-projects" target="_blank">Indonesia Business Post</a>
           </div>
         </details>
-        <div class="signal-source">Source: <a href="https://asiatimes.com/2026/02/will-china-power-or-pollute-indonesias-ev-battery-dream/" target="_blank">Asia Times, 2026-05-12 →</a></div>
+        <div class="signal-source">Source: <a href="https://indonesiabusinesspost.com/6658/business-and-investment/palu-sez-secures-us-1-75-billion-investment-for-battery-and-lng-projects" target="_blank">Indonesia Business Post, 2026-06-02 →</a></div>
       </div>
       <div class="signal-card ">
         <div class="signal-flag">
-           · Nickel Mining Canada
+           · Mining Indigenous Partnership
           <span class="urgency-tag urgency-quarter">This Quarter</span>
         </div>
-        <div class="signal-headline">Vale Base Metals announces 195,000 metres of drilling planned for 2026 in Sudbury basin to extend mine life</div>
+        <div class="signal-headline">Indigenous communities increasingly shift from traditional Impact Benefit Agreements toward direct equity ownership in m</div>
         
-        <div class="signal-body">Vale Base Metals unveiled plans for an aggressive 195,000 metres of drilling in 2026 to boost mineral reserves and resources in the Sudbury basin, with exploration in 2025 delivering significant results and increasing total mineral resources to 1.7 million tonnes of copper and 1.4 million tonnes of nickel. The company expressed confidence in increasing total mineral reserves and resources in Canada and Brazil by more than 20% by late 2027.</div>
-        <div class="signal-what-means"><span class="signal-what-label">What This Could Mean For You</span>This represents a major commitment to expanding Canada's nickel and copper resource base in the world's largest single nickel district. Successful results could significantly extend mine life and production capacity for Canadian nickel exports, supporting domestic supply chain security for EV battery materials.</div>
-        
-        <details class="analyst-detail">
-          <summary>Trade Context ▾</summary>
-          <div class="analyst-detail-body">
-          <b>Trade Agreement</b>No FTA in force
-          <b>TCS Office</b>TCS — contact nearest Canadian mission
-          <b>Relevant Programmes</b>EDC Critical Minerals Financing · NRCan CMP · CanExport SME
-          <b>HS Codes</b>HS 7502 (nickel, unwrought)
-          <b>Primary Source</b><a href="https://www.northernontariobusiness.com/industry-news/mining/vale-plans-195000-metres-of-drilling-in-2026-to-extend-mine-life-in-sudbury-12079343" target="_blank">Northern Ontario Business</a>
-          </div>
-        </details>
-        <div class="signal-source">Source: <a href="https://www.northernontariobusiness.com/industry-news/mining/vale-plans-195000-metres-of-drilling-in-2026-to-extend-mine-life-in-sudbury-12079343" target="_blank">Northern Ontario Business, 2026-05-12 →</a></div>
-      </div>
-      <div class="signal-card ">
-        <div class="signal-flag">
-           · Tsx Junior Miners
-          <span class="urgency-tag urgency-quarter">This Quarter</span>
-        </div>
-        <div class="signal-headline">Multiple Canadian junior miners report significant financing rounds and drill results in past week</div>
-        
-        <div class="signal-body">Recent activity includes Wesdome Gold providing exploration updates at Eagle River mine near Wawa, Ontario with continued high-grade results, IsoEnergy confirming high-grade uranium mineralization up to 11.6% U3O8, and Roxmore Resources reporting significant gold intercepts of 138.1m grading 0.65 g/t Au at Converse Gold Project. Several companies including Kutcho Copper outlined fully funded 2026 exploration programs.</div>
-        <div class="signal-what-means"><span class="signal-what-label">What This Could Mean For You</span>Strong drill results and successful financings indicate healthy capital markets for Canadian exploration companies. High-grade discoveries, particularly in uranium and gold, support Canada's position in critical minerals supply chains and could attract international investment to Canadian exploration sectors.</div>
+        <div class="signal-body"><cite index="28-1,28-2">Indigenous communities across Canada are increasingly moving away from traditional impact benefit agreements (IBAs) toward direct equity ownership in mining and energy projects, with a strategic report released last month by Thunder Bay-based Waawoono Consultancy challenging the mining industry's reliance on fixed-payment structures</cite>. <cite index="28-5,28-6">The report argues that emerging Indigenous financing tools, including the Canada Indigenous Loan Guarantee Corporation, are accelerating this transformation from consultation to ownership, with Nations shifting from being stakeholders who receive payments to partners who exercise boardroom-level influence over project decisions</cite>.</div>
+        <div class="signal-what-means"><span class="signal-what-label">What This Could Mean For You</span>This shift toward Indigenous equity ownership could accelerate project approvals and reduce regulatory uncertainty for Canadian mining companies, while creating new partnership structures that may require different financing and operational approaches for businesses seeking to develop resources on Indigenous territories.</div>
         
         <details class="analyst-detail">
           <summary>Trade Context ▾</summary>
@@ -1089,13 +1080,82 @@
           <b>TCS Office</b>TCS — contact nearest Canadian mission
           <b>Relevant Programmes</b>EDC Critical Minerals Financing · NRCan CMP · CanExport SME
           <b>HS Codes</b>HS 2601–2617 (mineral ores) · 2844 (radioactive) · 8549 (battery materials) · 7108 (gold)
-          <b>Primary Source</b><a href="https://www.juniorminingnetwork.com/junior-miner-news.html" target="_blank">Junior Mining Network</a>
+          <b>Primary Source</b><a href="https://www.canadianminingjournal.com/news/indigenous-groups-push-for-mine-ownership-not-just-benefits/" target="_blank">Canadian Mining Journal</a>
           </div>
         </details>
-        <div class="signal-source">Source: <a href="https://www.juniorminingnetwork.com/junior-miner-news.html" target="_blank">Junior Mining Network, 2026-05-12 →</a></div>
+        <div class="signal-source">Source: <a href="https://www.canadianminingjournal.com/news/indigenous-groups-push-for-mine-ownership-not-just-benefits/" target="_blank">Canadian Mining Journal, 2026-06-02 →</a></div>
+      </div>
+      <div class="signal-card ">
+        <div class="signal-flag">
+           · Mining Processing Refining
+          <span class="urgency-tag urgency-now">Immediate</span>
+        </div>
+        <div class="signal-headline">Mangrove Lithium opened North America's first commercial electrochemical lithium refinery in Delta, BC in April 2026, pr</div>
+        
+        <div class="signal-body"><cite index="40-1,40-4">Canadian startup Mangrove Lithium opened its first commercial lithium refinery in Delta, British Columbia, converting spodumene concentrate into high-purity, battery-grade lithium hydroxide at the site</cite>. <cite index="40-11,40-12">The plant will initially produce 1,000 tonnes of battery-grade lithium hydroxide per year, enough for 25,000 electric vehicles, with plans for a second facility with 20,000 tonnes capacity annually sufficient for 500,000 electric vehicles</cite>. <cite index="37-20,37-22">Canadian Minister of Energy and Natural Resources Tim Hodgson has publicly framed the facility as representative of sovereign industrial projects Canada needs, with critical minerals strategy becoming a central pillar of Canadian industrial policy under Prime Minister Mark Carney's government</cite>.</div>
+        <div class="signal-what-means"><span class="signal-what-label">What This Could Mean For You</span>This represents a breakthrough in Canadian midstream processing capacity, reducing dependence on Chinese lithium refining and creating domestic supply chain security for battery manufacturers. Canadian exporters gain access to value-added lithium products while importers of battery materials have new domestic sourcing options.</div>
+        
+        <details class="analyst-detail">
+          <summary>Trade Context ▾</summary>
+          <div class="analyst-detail-body">
+          <b>Trade Agreement</b>No FTA in force
+          <b>TCS Office</b>TCS — contact nearest Canadian mission
+          <b>Relevant Programmes</b>EDC Critical Minerals Financing · NRCan CMP · CanExport SME
+          <b>HS Codes</b>HS 2825 (lithium compounds) · 2801 (battery-grade lithium)
+          <b>Primary Source</b><a href="https://www.electrive.com/2026/04/20/mangrove-lithium-opens-lithium-refinery-in-canada/" target="_blank">electrive.com</a>
+          </div>
+        </details>
+        <div class="signal-source">Source: <a href="https://www.electrive.com/2026/04/20/mangrove-lithium-opens-lithium-refinery-in-canada/" target="_blank">electrive.com, 2026-06-02 →</a></div>
+      </div>
+      <div class="signal-card ">
+        <div class="signal-flag">
+           · Trade Remedy Canada
+          <span class="urgency-tag urgency-quarter">This Quarter</span>
+        </div>
+        <div class="signal-headline">CBSA has launched 9 dumping and subsidy investigations covering 5 products so far in 2026, including recent cases agains</div>
+        
+        <div class="signal-body">CBSA initiated investigations into Chinese plywood (April 10) and steel racks (April 20), with preliminary determinations due June 9 and July 20, 2026 respectively. Year-to-date activity shows heightened trade remedy enforcement with combined investigations spanning multiple sectors. SIMA protections currently cover $3.3 billion in imports across 185 measures.</div>
+        <div class="signal-what-means"><span class="signal-what-label">What This Could Mean For You</span>Elevated CBSA investigation activity signals stronger protection for Canadian manufacturers against unfair import competition. Industries including construction materials, storage systems, and building components benefit from increased trade remedy enforcement, while importers face higher provisional duty risks and compliance costs.</div>
+        
+        <details class="analyst-detail">
+          <summary>Trade Context ▾</summary>
+          <div class="analyst-detail-body">
+          <b>Trade Agreement</b>No FTA in force
+          <b>TCS Office</b>TCS — contact nearest Canadian mission
+          <b>Relevant Programmes</b>EDC Critical Minerals Financing · NRCan CMP · CanExport SME
+          <b>HS Codes</b>HS 7206–7229 (iron and steel products)
+          <b>Primary Source</b><a href="https://www.canada.ca/en/border-services-agency/news/2026/04/the-cbsa-launches-investigations-into-the-alleged-dumping-and-subsidizing-of-steel-racks-from-china.html" target="_blank">Government of Canada</a>
+          </div>
+        </details>
+        <div class="signal-source">Source: <a href="https://www.canada.ca/en/border-services-agency/news/2026/04/the-cbsa-launches-investigations-into-the-alleged-dumping-and-subsidizing-of-steel-racks-from-china.html" target="_blank">Government of Canada, 2026-06-02 →</a></div>
+      </div>
+      <div class="signal-card ">
+        <div class="signal-flag">
+           · Chile Drc Competitor
+          <span class="urgency-tag urgency-quarter">This Quarter</span>
+        </div>
+        <div class="signal-headline">Chile's Q1 2026 copper exports reached $14.4 billion while lithium sector faces production delays pushing 2027-28 target</div>
+        
+        <div class="signal-body">Chile maintained deep China dependency with copper exports hitting $14.4 billion in Q1 2026, while regulatory comptroller rejections delayed lithium projects. Current delays push Chilean lithium production expansion from 2027-28 into 2029-30, increasing global market dependence on Australian spodumene.</div>
+        <div class="signal-what-means"><span class="signal-what-label">What This Could Mean For You</span>Delays in Chilean lithium production create opportunities for Canadian lithium companies to capture market share during the 2027-30 EV adoption peak. However, Chile's continued China copper dependency demonstrates the challenge of diversifying supply chains away from Chinese processing.</div>
+        
+        <details class="analyst-detail">
+          <summary>Trade Context ▾</summary>
+          <div class="analyst-detail-body">
+          <b>Trade Agreement</b>No FTA in force
+          <b>TCS Office</b>TCS — contact nearest Canadian mission
+          <b>Relevant Programmes</b>EDC Critical Minerals Financing · NRCan CMP · CanExport SME
+          <b>HS Codes</b>HS 2825 (lithium compounds) · 2801 (battery-grade lithium)
+          <b>Primary Source</b><a href="https://econosur.org/insights/chile/chile-china-connection-copper-lithium/" target="_blank">Econosur</a>
+          </div>
+        </details>
+        <div class="signal-source">Source: <a href="https://econosur.org/insights/chile/chile-china-connection-copper-lithium/" target="_blank">Econosur, 2026-06-02 →</a></div>
       </div>
     </div>
   </section>
+
+  <!-- WHAT THIS MEANS FOR YOU -->
+  
 
   <!-- WHAT WE THINK -->
   <section id="what-we-think" class="mb-56">
@@ -1103,7 +1163,8 @@
       <span class="section-label">What We Think</span>
       <div class="section-rule"></div>
     </div>
-    <div class="editorial-block">This week marked a watershed moment for Canadian critical minerals exports with India's CEPA launch and $2.6B uranium deal fundamentally reshaping global market dynamics. The G7 Critical Minerals Production Alliance's $18.5B mobilization, combined with Indonesia's FIPA signing, positions Canadian producers at the center of Western supply chain diversification away from Chinese and Russian sources. While commodity prices remained stable, the institutional infrastructure for long-term Canadian mineral exports expanded dramatically, particularly in uranium and battery materials where geopolitical premiums are driving procurement decisions over pure price competition.</div>
+    <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-light);margin-bottom:20px;">— CTI Editorial Desk &nbsp;·&nbsp; May 12, 2026</div>
+    <div class="editorial-block"><p style="margin-bottom:1.2em;">This week marked a watershed moment for Canadian critical minerals exports with India's <a href="/resources/trade-agreements/#cepa" style="color:var(--brand,#8b0000);text-decoration:none;border-bottom:1px solid rgba(139,26,26,0.3);" title="CEPA — trade agreement details">CEPA</a> launch and $2.6B uranium deal fundamentally reshaping global market dynamics. The G7 Critical Minerals Production Alliance's $18.5B mobilization, combined with Indonesia's FIPA signing, positions Canadian producers at the center of Western supply chain diversification away from Chinese and Russian sources. While commodity prices remained stable, the institutional infrastructure for long-term Canadian mineral exports expanded dramatically, particularly in uranium and battery materials where geopolitical premiums are driving procurement decisions over pure price competition.</p></div>
   </section>
 
   <!-- ACTIONS -->
@@ -1112,7 +1173,7 @@
       <span class="section-label">✓ Actions This Week</span>
       <div class="section-rule"></div>
     </div>
-    <p style="font-size:12px;font-family:'DM Mono',monospace;letter-spacing:0.06em;color:var(--ink-light);margin-bottom:20px;text-transform:uppercase;">Time-sensitive actions — week of May 17, 2026</p>
+    <p style="font-size:12px;font-family:'DM Mono',monospace;letter-spacing:0.06em;color:var(--ink-light);margin-bottom:20px;text-transform:uppercase;">Time-sensitive actions — week of May 12, 2026</p>
     <div class="actions-compact">
   <div class="action-row" onclick="toggleAction('act-1')" id="act-1-row">
     <span class="urgency-tag urgency-watch">Monitor</span>
@@ -1184,16 +1245,31 @@
         <div class="proc-why">→ This Saskatchewan Housing Corporation tender is relevant to Canadian businesses because it represents direct procurement opportunities for domestic suppliers and contractors in the province's public housing sector, while the critical minerals context suggests potential integration of advanced heating systems that may incorporate Canadian-sourced materials or technologies aligned with national supp</div>
       </div>
     </div>
-    <div class="proc-footer" style="margin-top:12px;">
-      <a href="https://canadiantradeintel.ca/procurement" target="_blank" rel="noopener"
-         style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--sector);">
-        View all tenders →
+    <div style="margin-top:16px;padding-top:12px;border-top:1px solid var(--rule);">
+      <a href="/procurement/?sector=critical_minerals"
+         style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;
+         text-transform:uppercase;color:var(--brand,#8b0000);text-decoration:none;
+         border-bottom:1px solid rgba(139,26,26,0.3);">
+         View all Critical Minerals & Mining tenders on the Procurement Hub
       </a>
     </div>
   </section>
 
   <!-- SUPPLY CHAIN WATCH -->
-  
+  <section id="supply-chain" class="mb-56">
+    <div class="section-header">
+      <span class="section-label">🔗 Supply Chain Watch</span>
+      <div class="section-rule"></div>
+    </div>
+    <p style="font-size:13px;color:var(--ink-mid);margin-bottom:20px;max-width:680px;line-height:1.7;">
+      Import dependencies, critical input signals, and inbound supply chain risks for Canadian businesses in this sector this week.
+    </p>
+    <div class="scw-grid">
+      <div class="scw-item"><div class="scw-left"><div class="scw-input">Rare earth elements (yttrium, dysprosium, and related REE)</div><div class="scw-status">Chinese export controls have cut US yttrium imports by 95% and driven prices up 69x since November 2025. Canadian processors and manufacturers dependent on Chinese REE face acute supply tightening and cost escalation.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Audit current REE supplier concentration and inventory levels immediately. Evaluate participation in the India-US rare earth corridors framework (signed May 26) or explore alternative sourcing through US Quad initiative partners to diversify away from Chinese supply.</span></div></div><div class="scw-risk scw-risk-high">High</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">Sulfur (elemental sulfur for mineral processing and acid production)</div><div class="scw-status">Global sulfur supply shortages are intensifying and directly constraining downstream mineral processing capacity. This is a critical input for metallurgical operations across the sector.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Contact existing sulfur suppliers to confirm allocation and lead times. Identify secondary sources (phosphate industry co-product routes, petroleum refineries) and negotiate forward contracts to secure processing continuity.</span></div></div><div class="scw-risk scw-risk-high">High</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">Financing and capital for mine development and infrastructure (Nunavut / remote projects)</div><div class="scw-status">ATCO's $10M investment in Grays Bay Road and Port signals capital availability for Arctic logistics, but Diavik's closure shows project longevity risk. Government funding mechanisms (NRCan's $2B Critical Minerals Sovereign Fund) remain open but competitive.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Apply now to NRCan's Critical Minerals Sovereign Fund (rolling applications, fiscal year ends March 31) if you operate or depend on critical mineral extraction or processing. Assess exposure to Nunavut-dependent supply chains given infrastructure lag.</span></div></div><div class="scw-risk scw-risk-med">Med</div></div>
+    </div>
+  </section>
+
+        
 
   
   <!-- REGULATORY UPDATE -->
@@ -1205,11 +1281,16 @@
       <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-bottom:8px;">
         CITT decisions, Canada Gazette notices, and regulatory changes relevant to this sector. Updated weekly. Click any item for official source.
       </div>
-      <ul style="margin:0;padding:0;"><li style="padding:6px 0;border-bottom:1px solid rgba(200,134,10,0.15);list-style:none;font-size:12px;color:var(--ink-mid);line-height:1.6;">🟡 <strong style="color:var(--ink);">Reasons for finding — May 19, 2026</strong><span style="color:var(--ink-light);font-size:11px;"> — The Canadian International Trade Tribunal ruled that imported steel pipes are being dumped at unfairly low prices, triggering new tariffs to protect Canadian pipe manufacturers from losing market share.</span> <a href="https://www.citt-tcce.gc.ca/en/anti-dumping-injury-inquiries/active-dumping-and-subsidizing-cases" style="color:var(--amber);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" target="_blank">Source →</a><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:8px;">CITT</span></li><li style="padding:6px 0;border-bottom:1px solid rgba(200,134,10,0.15);list-style:none;font-size:12px;color:var(--ink-mid);line-height:1.6;">🟡 <strong style="color:var(--ink);">Determination — May 15, 2026</strong><span style="color:var(--ink-light);font-size:11px;"> — Canadian manufacturers can now export steel pipes to the U.S. without facing additional tariffs after the Canadian International Trade Tribunal ruled the dumping investigation closed.</span> <a href="https://www.citt-tcce.gc.ca/en/anti-dumping-injury-inquiries/active-dumping-and-subsidizing-cases" style="color:var(--amber);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" target="_blank">Source →</a><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:8px;">CITT</span></li><li style="padding:6px 0;border-bottom:1px solid rgba(200,134,10,0.15);list-style:none;font-size:12px;color:var(--ink-mid);line-height:1.6;">🟡 <strong style="color:var(--ink);">Document — Date issued or updated</strong><span style="color:var(--ink-light);font-size:11px;"> — I cannot write a meaningful summary because the source document contains only placeholder text with no actual regulatory content or details about what changed.</span> <a href="https://www.citt-tcce.gc.ca/en/anti-dumping-injury-inquiries/active-dumping-and-subsidizing-cases" style="color:var(--amber);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" target="_blank">Source →</a><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:8px;">CITT</span></li></ul>
+      <ul style="margin:0;padding:0;"><li style="padding:6px 0;border-bottom:1px solid rgba(200,134,10,0.15);list-style:none;font-size:13px;color:var(--ink-mid);line-height:1.6;">🟡 <strong style="color:var(--ink);">Determination — June 18, 2026</strong><span style="color:var(--ink-light);font-size:11px;"> — Please provide the actual determination content (such as whether this involves tariffs, dumping duties, safeguards, or other trade remedies) so I can deliver a meaningful one-sentence analysis.</span> <a href="https://www.citt-tcce.gc.ca/en/anti-dumping-injury-inquiries/active-dumping-and-subsidizing-cases" style="color:var(--amber);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" target="_blank">Source →</a><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:8px;">CITT</span></li><li style="padding:6px 0;border-bottom:1px solid rgba(200,134,10,0.15);list-style:none;font-size:13px;color:var(--ink-mid);line-height:1.6;">🟡 <strong style="color:var(--ink);">Determination — June 9, 2026</strong><span style="color:var(--ink-light);font-size:11px;"> — Canadian importers of forged steel pipe fittings now face new anti-dumping duties after the Canadian International Trade Tribunal found Chinese suppliers were selling below cost to unfairly undercut domestic producers.</span> <a href="https://www.citt-tcce.gc.ca/en/anti-dumping-injury-inquiries/active-dumping-and-subsidizing-cases" style="color:var(--amber);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" target="_blank">Source →</a><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:8px;">CITT</span></li><li style="padding:6px 0;border-bottom:1px solid rgba(200,134,10,0.15);list-style:none;font-size:13px;color:var(--ink-mid);line-height:1.6;">🟡 <strong style="color:var(--ink);">Reasons for determination — June 1, 2026</strong><span style="color:var(--ink-light);font-size:11px;"> — Canadian importers of certain steel products now face higher duties after the Canadian International Trade Tribunal found domestic producers were injured by unfairly priced imports.</span> <a href="https://www.citt-tcce.gc.ca/en/anti-dumping-injury-inquiries/active-dumping-and-subsidizing-cases" style="color:var(--amber);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" target="_blank">Source →</a><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:8px;">CITT</span></li><li style="padding:6px 0;border-bottom:1px solid rgba(200,134,10,0.15);list-style:none;font-size:13px;color:var(--ink-mid);line-height:1.6;">🟡 <strong style="color:var(--ink);">Public hearing — May 25, 2026</strong><span style="color:var(--ink-light);font-size:11px;"> — The Canadian International Trade Tribunal is holding a public hearing on May 25, 2026, where Canadian businesses can present evidence and arguments in a trade dispute case.</span> <a href="https://www.citt-tcce.gc.ca/en/anti-dumping-injury-inquiries/public-hearings-anti-dumping-injury-inquiries#toc-id-1" style="color:var(--amber);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" target="_blank">Source →</a><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:8px;">CITT</span></li></ul>
       <div style="font-family:'DM Mono',monospace;font-size:8px;color:var(--ink-light);margin-top:8px;">
         Sources: Canada Gazette Part II · CITT · CBSA · Parliament<br>
         <a href="https://canadiantradeintel.ca/tools/sanctions-check/" style="color:var(--amber);margin-right:12px;">Screen a supplier or counterparty →</a>
         <a href="https://canadiantradeintel.ca/tools/tariffs/" style="color:var(--amber);">Tariff &amp; trade agreement lookup →</a>
+      </div>
+      <div style="margin-top:8px;padding-top:8px;border-top:0.5px solid rgba(200,134,10,0.2);font-size:13px;color:var(--ink-mid);line-height:1.6;">
+        Canadian businesses in this sector may also want to verify counterparties and suppliers against active sanctions lists.
+        <a href="/resources/sanctions-screener/" style="color:var(--amber);">Search the CTI sanctions screener</a>
+        for OFAC, UN and Canadian Autonomous sanctions coverage.
       </div>
     </div>
   </section>
@@ -1235,7 +1316,7 @@
                   transition:box-shadow 0.18s;">
           <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--sector);margin-bottom:6px;">Free Service</div>
           <div style="font-size:14px;font-weight:600;color:var(--ink);margin-bottom:6px;">Talk to a Trade Commissioner</div>
-          <div style="font-size:12px;color:var(--ink-mid);line-height:1.6;">Canada has trade commissioners in 160 countries. They provide free market intelligence, buyer introductions, and on-the-ground advice. This is always the right first call.</div>
+          <div style="font-size:13px;color:var(--ink-mid);line-height:1.6;">Canada has trade commissioners in 160 countries. They provide free market intelligence, buyer introductions, and on-the-ground advice. This is always the right first call.</div>
         </a>
         <a href="https://www.tradecommissioner.gc.ca/funding-financement/canexport/sme-pme/index.aspx?lang=eng" target="_blank" rel="noopener"
            style="display:block;flex:1;min-width:200px;background:#fff;border:1px solid var(--rule);
@@ -1243,7 +1324,7 @@
                   transition:box-shadow 0.18s;">
           <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--sector);margin-bottom:6px;">Up to $50,000</div>
           <div style="font-size:14px;font-weight:600;color:var(--ink);margin-bottom:6px;">Apply for CanExport SME Funding</div>
-          <div style="font-size:12px;color:var(--ink-mid);line-height:1.6;">The federal government covers 50% of eligible market entry costs — trade shows, buyer meetings, certifications, market research. Open to Canadian SMEs with under 500 employees.</div>
+          <div style="font-size:13px;color:var(--ink-mid);line-height:1.6;">The federal government covers 50% of eligible market entry costs — trade shows, buyer meetings, certifications, market research. Open to Canadian SMEs with under 500 employees.</div>
         </a>
         <a href="mailto:hello@canadiantradeintel.ca?subject=Custom%20Intelligence%20Brief%20Request" target="_blank" rel="noopener"
            style="display:block;flex:1;min-width:200px;background:#fff;border:1px solid var(--rule);
@@ -1251,7 +1332,7 @@
                   transition:box-shadow 0.18s;">
           <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--brand);margin-bottom:6px;">Custom Report</div>
           <div style="font-size:14px;font-weight:600;color:var(--ink);margin-bottom:6px;">Request a Custom Intelligence Brief</div>
-          <div style="font-size:12px;color:var(--ink-mid);line-height:1.6;">Need intelligence tailored to your specific market, product, or situation? CTI builds custom sector and country briefs for Canadian businesses. Contact us to discuss.</div>
+          <div style="font-size:13px;color:var(--ink-mid);line-height:1.6;">Need intelligence tailored to your specific market, product, or situation? CTI builds custom sector and country briefs for Canadian businesses. Contact us to discuss.</div>
         </a>
       </div>
     </div>
@@ -1270,7 +1351,7 @@
           </div>
           
         </div>
-        <ol class='pathway-steps'><li><strong>Contact TCS India desk this week</strong> — Register interest in the inaugural Canada-India Critical Minerals Dialogue (Toronto, March 2026). TCS India can provide buyer introductions with NPCIL <a href="https://www.tradecommissioner.gc.ca/contact.aspx?lang=eng" style="color:var(--sector);font-size:10px;" target="_blank">↗ Trade Commissioner Service</a></li><li><strong>Apply for CanExport SME funding</strong> — Cover costs of India market development — buyer meetings, trade show travel, legal/certification costs. 50% match up to $50K. <a href="https://www.tradecommissioner.gc.ca/funding-financement/canexport/sme-pme/index.aspx?lang=eng" style="color:var(--sector);font-size:10px;" target="_blank">↗ CanExport SME</a></li><li><strong>Register for World Nuclear Symposium (London, September)</strong> — NPCIL, BHAVINI and Indian nuclear utilities all send procurement teams. Best venue for initial commercial conversations.</li><li><strong>Engage EDC India office for buyer financing</strong> — EDC can finance Indian utility purchases of Canadian uranium equipment and services — removing financing risk for both sides. <a href="https://www.edc.ca/en/solutions/financing" style="color:var(--sector);font-size:10px;" target="_blank">↗ EDC Buyer Financing</a></li></ol>
+        <ol class='pathway-steps'><li><strong>Contact TCS India desk this week</strong> — Register interest in the inaugural Canada-India Critical Minerals Dialogue (Toronto, March 2026). TCS India can provide buyer introductions with NPCIL <a href="https://www.tradecommissioner.gc.ca/contact.aspx?lang=eng" style="color:var(--sector);font-size:10px;" target="_blank">↗ Trade Commissioner Service</a></li><li><strong>Apply for CanExport SME funding</strong> — Cover costs of India market development  -  buyer meetings, trade show travel, legal/certification costs. 50% match up to $50K. <a href="https://www.tradecommissioner.gc.ca/funding-financement/canexport/sme-pme/index.aspx?lang=eng" style="color:var(--sector);font-size:10px;" target="_blank">↗ CanExport SME</a></li><li><strong>Register for World Nuclear Symposium (London, September)</strong> — NPCIL, BHAVINI and Indian nuclear utilities all send procurement teams. Best venue for initial commercial conversations.</li><li><strong>Engage EDC India office for buyer financing</strong> — EDC can finance Indian utility purchases of Canadian uranium equipment and services  -  removing financing risk for both sides. <a href="https://www.edc.ca/en/solutions/financing" style="color:var(--sector);font-size:10px;" target="_blank">↗ EDC Buyer Financing</a></li></ol>
         <div class="pathway-tcs">Contact <a href="https://www.tradecommissioner.gc.ca/india-inde/index.aspx?lang=eng" target="_blank" rel="noopener">TCS India</a></div>
       </div>
       <div class="pathway-card">
@@ -1281,7 +1362,7 @@
           </div>
           
         </div>
-        <ol class='pathway-steps'><li><strong>Register for Canada-India Critical Minerals Dialogue</strong> — Inaugural session Toronto March 2026. The Critical Minerals MoU signed today specifically covers lithium. This is the fastest path to Indian battery m <a href="https://www.tradecommissioner.gc.ca/contact.aspx?lang=eng" style="color:var(--sector);font-size:10px;" target="_blank">↗ Trade Commissioner Service</a></li><li><strong>Contact NRCan Critical Minerals Sovereign Fund</strong> — Fund can provide offtake guarantees that de-risk long-term supply agreements with Indian buyers. Fiscal year ends March 31 — apply now. <a href="https://www.canada.ca/en/campaign/critical-minerals-in-canada/federal-support-for-critical-mineral-projects-and-value-chains.html" style="color:var(--sector);font-size:10px;" target="_blank">↗ Critical Minerals Sovereign Fund</a></li><li><strong>Attend India Battery Show, Pune — May 2026</strong> — Ola Electric, Tata Motors, Mahindra, and international gigafactory operators all attending. EDC has Canadian pavilion — register through TCS. <a href="https://www.tradecommissioner.gc.ca/funding-financement/canexport/sme-pme/index.aspx?lang=eng" style="color:var(--sector);font-size:10px;" target="_blank">↗ CanExport SME</a></li><li><strong>Structure supply agreement with EDC political risk cover</strong> — EDC political risk insurance protects against payment default, expropriation, and currency inconvertibility for Indian contracts. <a href="https://www.edc.ca/en/solutions/financing" style="color:var(--sector);font-size:10px;" target="_blank">↗ EDC Export Financing</a></li></ol>
+        <ol class='pathway-steps'><li><strong>Register for Canada-India Critical Minerals Dialogue</strong> — Inaugural session Toronto March 2026. The Critical Minerals MoU signed today specifically covers lithium. This is the fastest path to Indian battery m <a href="https://www.tradecommissioner.gc.ca/contact.aspx?lang=eng" style="color:var(--sector);font-size:10px;" target="_blank">↗ Trade Commissioner Service</a></li><li><strong>Contact NRCan Critical Minerals Sovereign Fund</strong> — Fund can provide offtake guarantees that de-risk long-term supply agreements with Indian buyers. Fiscal year ends March 31  -  apply now. <a href="https://www.canada.ca/en/campaign/critical-minerals-in-canada/federal-support-for-critical-mineral-projects-and-value-chains.html" style="color:var(--sector);font-size:10px;" target="_blank">↗ Critical Minerals Sovereign Fund</a></li><li><strong>Attend India Battery Show, Pune  -  May 2026</strong> — Ola Electric, Tata Motors, Mahindra, and international gigafactory operators all attending. EDC has Canadian pavilion  -  register through TCS. <a href="https://www.tradecommissioner.gc.ca/funding-financement/canexport/sme-pme/index.aspx?lang=eng" style="color:var(--sector);font-size:10px;" target="_blank">↗ CanExport SME</a></li><li><strong>Structure supply agreement with EDC political risk cover</strong> — EDC political risk insurance protects against payment default, expropriation, and currency inconvertibility for Indian contracts. <a href="https://www.edc.ca/en/solutions/financing" style="color:var(--sector);font-size:10px;" target="_blank">↗ EDC Export Financing</a></li></ol>
         <div class="pathway-tcs">Contact <a href="https://www.tradecommissioner.gc.ca/india-inde/index.aspx?lang=eng" target="_blank" rel="noopener">TCS India</a></div>
       </div>
       <div class="pathway-card">
@@ -1292,7 +1373,7 @@
           </div>
           
         </div>
-        <ol class='pathway-steps'><li><strong>Contact TCS Jakarta desk immediately</strong> — Canada-Indonesia FIPA just signed. EDC committed $825M in Indonesia financing. TCS Jakarta has existing relationships with CATL Indonesia, LG Energy S <a href="https://www.tradecommissioner.gc.ca/contact.aspx?lang=eng" style="color:var(--sector);font-size:10px;" target="_blank">↗ Trade Commissioner Service</a></li><li><strong>Apply for CanExport SME funding for Indonesia market entry</strong> — Covers travel, market research, buyer meetings, and legal costs. Indonesia is a new FIPA partner — applications covering Indonesia have high approval  <a href="https://www.tradecommissioner.gc.ca/funding-financement/canexport/sme-pme/index.aspx?lang=eng" style="color:var(--sector);font-size:10px;" target="_blank">↗ CanExport SME</a></li><li><strong>Leverage EDC Indonesia financing</strong> — EDC has $825M committed to Indonesia. They can finance Indonesian buyer purchases of Canadian lithium — removing the single biggest barrier to closing <a href="https://www.edc.ca/en/solutions/financing" style="color:var(--sector);font-size:10px;" target="_blank">↗ EDC Buyer Financing</a></li><li><strong>Attend Indonesia International EV Summit, Jakarta — June 2026</strong> — Government and industry event. CATL, LG, and Volkswagen battery plant operators all present. Best venue to meet procurement decision-makers.</li></ol>
+        <ol class='pathway-steps'><li><strong>Contact TCS Jakarta desk immediately</strong> — Canada-Indonesia FIPA just signed. EDC committed $825M in Indonesia financing. TCS Jakarta has existing relationships with CATL Indonesia, LG Energy S <a href="https://www.tradecommissioner.gc.ca/contact.aspx?lang=eng" style="color:var(--sector);font-size:10px;" target="_blank">↗ Trade Commissioner Service</a></li><li><strong>Apply for CanExport SME funding for Indonesia market entry</strong> — Covers travel, market research, buyer meetings, and legal costs. Indonesia is a new FIPA partner  -  applications covering Indonesia have high approva <a href="https://www.tradecommissioner.gc.ca/funding-financement/canexport/sme-pme/index.aspx?lang=eng" style="color:var(--sector);font-size:10px;" target="_blank">↗ CanExport SME</a></li><li><strong>Leverage EDC Indonesia financing</strong> — EDC has $825M committed to Indonesia. They can finance Indonesian buyer purchases of Canadian lithium  -  removing the single biggest barrier to closi <a href="https://www.edc.ca/en/solutions/financing" style="color:var(--sector);font-size:10px;" target="_blank">↗ EDC Buyer Financing</a></li><li><strong>Attend Indonesia International EV Summit, Jakarta  -  June 2026</strong> — Government and industry event. CATL, LG, and Volkswagen battery plant operators all present. Best venue to meet procurement decision-makers.</li></ol>
         <div class="pathway-tcs">Contact <a href="https://www.tradecommissioner.gc.ca/indonesia-indonesie/index.aspx?lang=eng" target="_blank" rel="noopener">TCS Indonesia</a></div>
       </div>
       <div class="pathway-card">
@@ -1303,7 +1384,7 @@
           </div>
           
         </div>
-        <ol class='pathway-steps'><li><strong>Contact US DoD Office of Industrial Base Policy</strong> — DoD is actively funding non-Chinese rare earth supply chains under the Defense Production Act. Canadian producers are eligible. Contact through TCS Wa <a href="https://www.tradecommissioner.gc.ca/contact.aspx?lang=eng" style="color:var(--sector);font-size:10px;" target="_blank">↗ Trade Commissioner Service</a></li><li><strong>Register under Canada-US Critical Minerals Action Plan</strong> — Canadian rare earths qualify as domestic content under IRA and US defense procurement. Registration is required to access this designation. <a href="https://www.tradecommissioner.gc.ca/contact.aspx?lang=eng" style="color:var(--sector);font-size:10px;" target="_blank">↗ Trade Commissioner Service</a></li><li><strong>Apply to G7 Critical Minerals Production Alliance</strong> — 26 partnerships connecting Canadian producers to US buyers with government backing. Contact GAC to register your project. <a href="https://www.canada.ca/en/natural-resources-canada/news/2026/03/canada-secures-30-new-critical-minerals-partnerships-and-unlocks-121-billion-in-mining-project-capital.html" style="color:var(--sector);font-size:10px;" target="_blank">↗ Critical Minerals Production Alliance</a></li><li><strong>Apply for NRCan Sovereign Fund co-investment</strong> — Fund can provide offtake guarantees for US defense procurement contracts — the single biggest derisker for US buyers. <a href="https://www.canada.ca/en/campaign/critical-minerals-in-canada/federal-support-for-critical-mineral-projects-and-value-chains.html" style="color:var(--sector);font-size:10px;" target="_blank">↗ Critical Minerals Sovereign Fund</a></li></ol>
+        <ol class='pathway-steps'><li><strong>Contact US DoD Office of Industrial Base Policy</strong> — DoD is actively funding non-Chinese rare earth supply chains under the Defense Production Act. Canadian producers are eligible. Contact through TCS Wa <a href="https://www.tradecommissioner.gc.ca/contact.aspx?lang=eng" style="color:var(--sector);font-size:10px;" target="_blank">↗ Trade Commissioner Service</a></li><li><strong>Register under Canada-US Critical Minerals Action Plan</strong> — Canadian rare earths qualify as domestic content under IRA and US defense procurement. Registration is required to access this designation. <a href="https://www.tradecommissioner.gc.ca/contact.aspx?lang=eng" style="color:var(--sector);font-size:10px;" target="_blank">↗ Trade Commissioner Service</a></li><li><strong>Apply to G7 Critical Minerals Production Alliance</strong> — 26 partnerships connecting Canadian producers to US buyers with government backing. Contact GAC to register your project. <a href="https://www.canada.ca/en/natural-resources-canada/news/2026/03/canada-secures-30-new-critical-minerals-partnerships-and-unlocks-121-billion-in-mining-project-capital.html" style="color:var(--sector);font-size:10px;" target="_blank">↗ Critical Minerals Production Alliance</a></li><li><strong>Apply for NRCan Sovereign Fund co-investment</strong> — Fund can provide offtake guarantees for US defense procurement contracts  -  the single biggest derisker for US buyers. <a href="https://www.canada.ca/en/campaign/critical-minerals-in-canada/federal-support-for-critical-mineral-projects-and-value-chains.html" style="color:var(--sector);font-size:10px;" target="_blank">↗ Critical Minerals Sovereign Fund</a></li></ol>
         <div class="pathway-tcs">Contact your regional TCS office: <a href="https://tradecommissioner.gc.ca/contact" target="_blank">tradecommissioner.gc.ca/contact</a></div>
       </div>
     </div>
@@ -1333,7 +1414,7 @@
       <div class="watch-card">
         <div class="watch-date">⚡</div>
         <div class="watch-headline">China Rare Earth Export Control Review</div>
-        <div class="watch-body">Next Beijing review expected April 2026 — additional elements may restrict Canadian buyers.</div>
+        <div class="watch-body">Next Beijing review expected April 2026  -  additional elements may restrict Canadian buyers.</div>
       </div>
     </div>
   </section>
@@ -1345,23 +1426,89 @@
       <span class="section-label">🇨🇦 Canadian Spotlight</span>
       <div class="section-rule"></div>
     </div>
-    <p style="font-size:15px;color:var(--ink-mid);line-height:1.75;margin-top:12px;">
-      Every week CTI spotlights Canadian businesses making moves in this sector — international deals, market entries, contracts won, partnerships formed.
-      <a href="https://canadiantradeintel.ca/spotlight/" style="color:var(--sector);">Browse Canadian Spotlight →</a>
-    </p>
+    <div style="padding:14px 0;">
+      <p style="font-size:14px;color:var(--ink-mid);line-height:1.7;margin-bottom:10px;">
+        Every week CTI spotlights Canadian businesses making moves in this sector —
+        international deals, market entries, contracts won, and partnerships formed.
+        These are the companies putting this week's intelligence into action.
+      </p>
+      <a href="/spotlight/?sector=critical_minerals"
+         style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;
+         text-transform:uppercase;color:var(--brand,#8b0000);text-decoration:none;
+         border-bottom:1px solid rgba(139,26,26,0.3);">
+         Browse Critical Minerals & Mining spotlight stories
+      </a>
+    </div>
   </section>
 
   <!-- SOURCE INDEX -->
-  <section id="source-index" class="mb-56">
-    <div class="section-header">
-      <span class="section-label">📎 Source Index</span>
-      <div class="section-rule"></div>
-    </div>
-    <p style="font-size:13px;color:var(--ink-mid);margin-bottom:16px;max-width:680px;line-height:1.7;">
-      Primary sources used to build this report.
+  
+<!-- ================================================================
+     SOURCES & REFERENCES — Canadian Trade Intelligence
+     Generated by government_sources_registry.render_sources_block()
+     ================================================================ -->
+<section class="report-sources" id="sources">
+  <h2>Sources &amp; References</h2>
+
+  <p class="sources-intro">
+    Canadian Trade Intelligence aggregates and synthesizes primary government data,
+    Crown corporation intelligence, and vetted news sources to produce this report.
+    We are the bridge between Canada's government data infrastructure and the
+    actionable weekly intelligence your business needs. All primary sources are
+    publicly accessible and linked below.
+  </p>
+
+  <div class="sources-tier">
+    <h3>Government Primary Sources</h3>
+    <ul>
+      <li><a href="https://www150.statcan.gc.ca/n1/en/catalogue/65F0013X" target="_blank" rel="noopener">Statistics Canada — Canadian International Merchandise Trade (CIMT)</a> <span class="source-vintage">(Monthly — current through ~2 months prior)</span> — Detailed monthly import and export data at the 6-digit HS commodity level. Selectable by country, province, year and month. Exportable to CSV. Best source for current bilateral goods trade flows by sector.</li>
+<li><a href="https://www150.statcan.gc.ca/n1/en/subjects/international_trade" target="_blank" rel="noopener">Statistics Canada — The Daily: International Merchandise Trade</a> <span class="source-vintage">(Monthly — published with ~5 week lag)</span> — Monthly press release covering Canada's merchandise trade with top 10 partners, NAPCS sector breakdown, and balance of payments data. Released approximately 5–6 weeks after reference month.</li>
+<li><a href="https://www.statcan.gc.ca/en/stathub" target="_blank" rel="noopener">Statistics Canada — Canada and the World Statistics Hub</a> <span class="source-vintage">(Varies by indicator; generally annual with some quarterly series)</span> — Interactive bilateral data hub covering trade, investment, employment and travel for 18 of Canada's major trading partners. Brings together multiple StatCan datasets in a single country-level analytical tool.</li>
+<li><a href="https://ised-isde.canada.ca/site/canadian-importers-database/en" target="_blank" rel="noopener">ISED Canadian Importers Database</a> <span class="source-vintage">(2023 (CBSA-sourced) — NOTE: typically lags ~2 years; 2024 not yet released as of April 2026)</span> — Company-level list of major Canadian importers by product (HS code), city, and country of origin. 'Major importers' = companies collectively accounting for up to 80% of imports of a given product. Includes customs brokers and non-resident importers.</li>
+<li><a href="https://ised-isde.canada.ca/site/trade-data-online/en" target="_blank" rel="noopener">ISED Trade Data Online</a> <span class="source-vintage">(Monthly — current through recent months)</span> — Monthly aggregate bilateral trade flows for Canadian imports and exports, by HS product and NAICS industry, for 200+ countries. Sourced from Statistics Canada and U.S. Census Bureau.</li>
+<li><a href="https://natural-resources.canada.ca/maps-tools-publications/publications/mineral-trade" target="_blank" rel="noopener">Natural Resources Canada — Mineral Trade Statistics</a> <span class="source-vintage">(Annual — data through April 2025, subject to revision)</span> — Bilateral mineral and metals trade data by country and commodity, classified by stage of processing (raw → refined → manufactured). Derived from CBSA/StatCan customs data, further annotated by NRCan by mineral type. Current through April 2025.</li>
+<li><a href="https://www.canada.ca/en/campaign/critical-minerals-in-canada/canadas-critical-minerals-strategy/canadas-critical-minerals-strategy-progress-update.html" target="_blank" rel="noopener">NRCan — Canadian Critical Minerals Strategy Progress Update</a> <span class="source-vintage">(Current — last updated February 2026)</span> — Live government progress page covering G7 Critical Minerals Action Plan outcomes, bilateral agreements (US, UK, EU, France, Germany, Japan, Australia, Chile, South Korea), Investment Canada Act amendments, stockpiling initiatives, and the Global Partnerships Initiative. Updated February 2026.</li>
+<li><a href="https://international.canada.ca/en/global-affairs/corporate/reports/chief-economist/state-trade/2025" target="_blank" rel="noopener">Global Affairs Canada — Canada's State of Trade</a> <span class="source-vintage">(2024 full-year (2025 report))</span> — Annual comprehensive report on Canada's international trade and economic performance. Covers merchandise exports/imports, services trade, FDI flows in and out, sector-by-sector performance, and the economic outlook. 2025 edition covers full-year 2024 data.</li>
+<li><a href="https://international.canada.ca/en/global-affairs/campaigns/canada-us-engagement" target="_blank" rel="noopener">Global Affairs Canada — Canada's Response to U.S. Tariffs</a> <span class="source-vintage">(Current — actively updated)</span> — Live policy page covering Canada's response to U.S. tariffs including relief measures, support programs, retaliatory measures, and sector impacts. Frequently updated — key cross-sector risk signal.</li>
+<li><a href="https://www.edc.ca/en/guide/cleantech-report-2025.html" target="_blank" rel="noopener">EDC — Canada's Cleantech Future: Scalable, Profitable, Essential (2025)</a> <span class="source-vintage">(October 2025)</span> <span class="source-note">Free EDC account registration required for full report. Executive summary accessible without login.</span> — EDC's flagship annual cleantech report identifying Canada's three core export advantages: renewable energy, EVs/electrified transport, and electrification technologies. Key finding: 77% of Canada's cleantech exports go to the U.S., creating concentration risk. Global clean energy investment: US$2 trillion in 2024.</li>
+    </ul>
+    
+        <p class="source-importer-note">
+          ⚠️ <strong>Importer data note:</strong> Company-level import intelligence sourced from
+          the <a href="https://ised-isde.canada.ca/site/canadian-importers-database/en" target="_blank">ISED Canadian Importers Database</a>.
+          Most recent available data is 2023 (CBSA-sourced). 2024 data not yet released as of
+          April 2026. For current aggregate trade flows by product and country, see
+          <a href="https://www150.statcan.gc.ca/n1/en/catalogue/65F0013X" target="_blank">StatCan CIMT</a>
+          (updated monthly).
+        </p>
+        
+  </div>
+
+  <div class="sources-tier">
+    <h3>Industry &amp; Crown Corporation Sources</h3>
+    <ul>
+      <li><a href="https://www.canada.ca/en/campaign/critical-minerals-in-canada/canadas-critical-minerals-strategy/canadian-critical-minerals-strategy-annual-report-2024.html" target="_blank" rel="noopener">NRCan — Critical Minerals Strategy Annual Report 2024</a> <span class="source-vintage">(2024 annual)</span> — Covers supply chain diversification progress, bilateral critical minerals agreements, G7 cooperation frameworks, and the $70M Global Partnerships Initiative. Key data: refined material production concentration by mineral.</li>
+<li><a href="https://www.edc.ca/en/country-info.html" target="_blank" rel="noopener">EDC — Country Risk and Market Intelligence</a> <span class="source-vintage">(Continuously updated)</span> — Per-country risk ratings, market articles, and trade intelligence published by EDC. Covers 200+ markets. Useful for dossier risk scores and 'Further Reading' links.</li>
+<li><a href="https://www.iea.org/reports/global-critical-minerals-outlook-2025" target="_blank" rel="noopener">IEA — Global Critical Minerals Outlook 2025</a> <span class="source-vintage">(2025 edition)</span> — International benchmark for critical minerals supply/demand projections, investment trends, policy mechanisms for supply chain diversification, and emerging battery technology mineral requirements.</li>
+<li><a href="https://projects.worldbank.org/en/projects-operations/projects-home" target="_blank" rel="noopener">World Bank — Projects & Operations (Procurement)</a> <span class="source-vintage">(Continuously updated)</span> — Global development bank project database. Canadian companies in infrastructure, engineering, agri-food, and cleantech can bid on World Bank-financed contracts worldwide.</li>
+    </ul>
+  </div>
+
+  <div class="sources-tier">
+    <h3>News &amp; Media Sources</h3>
+    <p>See inline citations above.</p>
+    <p class="sources-disclaimer">
+      News sources are selected for relevance and credibility. CTI does not endorse
+      any specific media outlet. Inline citations appear throughout the report body.
     </p>
-    <div style="font-family:'DM Mono',monospace;font-size:9px;color:#0d3d22;margin-bottom:6px;">Sources accessed this issue</div><div style="max-height:180px;overflow-y:auto;padding-right:8px;"><ul style="list-style:none;padding:0;margin:0;columns:3;column-gap:40px;"><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#0d3d22;margin-right:8px;">[1]</span><span style="font-size:10px;color:#444;">US OFAC SDN</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#0d3d22;margin-right:8px;">[2]</span><span style="font-size:10px;color:#444;">UN Consolidated Sanctions</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#0d3d22;margin-right:8px;">[3]</span><span style="font-size:10px;color:#444;">US BIS Entity List</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#0d3d22;margin-right:8px;">[4]</span><span style="font-size:10px;color:#444;">Canada Gazette Part II</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#0d3d22;margin-right:8px;">[5]</span><span style="font-size:10px;color:#444;">Global Affairs Canada SEMA</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#0d3d22;margin-right:8px;">[6]</span><span style="font-size:10px;color:#444;">Global Affairs Canada Press Releases</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#0d3d22;margin-right:8px;">[7]</span><span style="font-size:10px;color:#444;">EDC Country Intelligence</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#0d3d22;margin-right:8px;">[8]</span><span style="font-size:10px;color:#444;">Trading Economics</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#0d3d22;margin-right:8px;">[9]</span><span style="font-size:10px;color:#444;">London Metal Exchange</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#0d3d22;margin-right:8px;">[10]</span><span style="font-size:10px;color:#444;">World Bank Commodity Markets</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#0d3d22;margin-right:8px;">[11]</span><span style="font-size:10px;color:#444;">Reuters</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#0d3d22;margin-right:8px;">[12]</span><span style="font-size:10px;color:#444;">Mining.com</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#0d3d22;margin-right:8px;">[13]</span><span style="font-size:10px;color:#444;">NS Energy</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#0d3d22;margin-right:8px;">[14]</span><span style="font-size:10px;color:#444;">Trade Commissioner Service</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#0d3d22;margin-right:8px;">[15]</span><span style="font-size:10px;color:#444;">Export Development Canada</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#0d3d22;margin-right:8px;">[16]</span><span style="font-size:10px;color:#444;">Natural Resources Canada</span></li><li style="padding:2px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;color:#0d3d22;margin-right:8px;">[17]</span><span style="font-size:10px;color:#444;">NRC IRAP</span></li></ul></div>
-  </section>
+  </div>
+
+  <p class="sources-methodology">
+    For our full source list, data methodology, and update schedule, visit
+    <a href="https://canadiantradeintel.ca/methodology">canadiantradeintel.ca/methodology</a>.
+  </p>
+</section>
+
 
 </main>
 </div><!-- /report-content -->
@@ -1378,7 +1525,7 @@
         Critical Minerals & Mining Intelligence Brief
       </h1>
       <div style="font-family:'DM Mono',monospace;font-size:10px;color:#888;line-height:2;">
-        Issue #007 &nbsp;·&nbsp; May 17, 2026<br>
+        Issue #007 &nbsp;·&nbsp; June 04, 2026<br>
         Prepared by Canadian Trade Intelligence Inc. &nbsp;·&nbsp; canadiantradeintel.ca
       </div>
     </div>
@@ -1386,19 +1533,19 @@
     <!-- 1. Situation Summary -->
     <div>
       <span style="font-size:8px;letter-spacing:0.14em;text-transform:uppercase;font-family:'DM Mono',monospace;color:#0d3d22;display:block;margin-bottom:8px;margin-top:24px;padding-top:20px;border-top:1px solid #e0dcd4;">1. Situation Summary</span>
-      <p style="font-size:14px;color:#1a1a1a;line-height:1.8;max-width:740px;">This week marked a watershed moment for Canadian critical minerals exports with India's CEPA launch and $2.6B uranium deal fundamentally reshaping global market dynamics. The G7 Critical Minerals Production Alliance's $18.5B mobilization, combined with Indonesia's FIPA signing, positions Canadian producers at the center of Western supply chain diversification away from Chinese and Russian sources. While commodity prices remained stable, the institutional infrastructure for long-term Canadian mineral exports expanded dramatically, particularly in uranium and battery materials where geopolitical premiums are driving procurement decisions over pure price competition.</p>
+      <p style="font-size:14px;color:#1a1a1a;line-height:1.8;max-width:740px;">Canada's C$145 million lithium investment and India-Canada CEPA negotiations create a narrow window to capture critical minerals supply chain value before U.S. and Asian competitors dominate. Canadian exporters must act now on India market access, supply chain compliance, and sovereign fund applications to secure positioning in the Indo-Pacific battery supply ecosystem.</p>
     </div>
 
     <!-- 2. Top Signals -->
     <div>
       <span style="font-size:8px;letter-spacing:0.14em;text-transform:uppercase;font-family:'DM Mono',monospace;color:#0d3d22;display:block;margin-bottom:8px;margin-top:24px;padding-top:20px;border-top:1px solid #e0dcd4;">2. Top Signals</span>
-      <div style="padding:10px 0 10px 14px;border-left:3px solid #1a6b42;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">Canada-India Critical Minerals Dialogue</div><div style="font-size:12px;color:#444;line-height:1.65;">Inaugural session scheduled Toronto, March 2026. Register with TCS India desk before March 10.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#b36b00;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: MED</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #1a6b42;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">CUSMA Joint Review Preparation</div><div style="font-size:12px;color:#444;line-height:1.65;">July 2026 review approaching. Watch for US positioning on critical minerals rules of origin.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#b36b00;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: MED</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #1a6b42;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">China Rare Earth Export Control Review</div><div style="font-size:12px;color:#444;line-height:1.65;">Next Beijing review expected April 2026 — additional elements may restrict Canadian buyers.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#b36b00;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: MED</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #1a6b42;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">Register for Canada-India Critical Minerals Dialogue</div><div style="font-size:12px;color:#444;line-height:1.65;">Contact TCS India desk to register interest in the Toronto inaugural session.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#1a6b42;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: HIGH</div></div>
+      <div style="padding:10px 0 10px 14px;border-left:3px solid #1a6b42;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">Canada Growth Fund committed C$145 million to domestic lithium mine expansion, signaling federal prioritization of battery supply chain resilience.</div><div style="font-size:12px;color:#444;line-height:1.65;">This capital deployment telegraphs Ottawa's intent to compete in cleantech manufacturing and creates immediate partnership opportunities for equipment suppliers and downstream processors.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#1a6b42;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: HIGH</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #1a6b42;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">India-Canada CEPA completion by year-end would unlock Cameco's C$2.6 billion uranium deal and reduce tariffs on critical minerals exports.</div><div style="font-size:12px;color:#444;line-height:1.65;">A secured CEPA eliminates negotiating risk for major transactions and opens junior miner market access across India's growing battery and defense supply chains.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#1a6b42;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: HIGH</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #1a6b42;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">OFAC sectoral sanctions on Russia's metals and mining sector now apply to any Canadian entity transacting with Russian suppliers.</div><div style="font-size:12px;color:#444;line-height:1.65;">Non-compliance triggers U.S. secondary sanctions and export license revocation; vendors must audit supply chains immediately or face operational shutdown.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#1a6b42;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: HIGH</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #1a6b42;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">Q1 2025 Export Control List revisions changed HS code classifications for critical minerals shipments.</div><div style="font-size:12px;color:#444;line-height:1.65;">Misclassified exports risk seizure and legal liability; shippers must reverify permit requirements before next transaction.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#b36b00;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: MED</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #1a6b42;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">China is expected to expand rare earth export controls in April 2026, potentially restricting Canadian access to elements outside domestic supply.</div><div style="font-size:12px;color:#444;line-height:1.65;">Supply constraints could force Canadian producers into higher-cost sourcing and weaken price negotiation with U.S. and EU buyers competing for the same minerals.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#b36b00;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: MED</div></div>
     </div>
 
     <!-- 3. Recommended Actions -->
     <div>
       <span style="font-size:8px;letter-spacing:0.14em;text-transform:uppercase;font-family:'DM Mono',monospace;color:#0d3d22;display:block;margin-bottom:8px;margin-top:24px;padding-top:20px;border-top:1px solid #e0dcd4;">3. Recommended Actions</span>
-      <div style="padding:12px 14px;background:#f8f8f6;border-left:3px solid #1a6b42;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;color:#1a6b42;margin-right:8px;font-size:9px;">01</span>Register for Canada-India Critical Minerals Dialogue</div><div style="font-size:12px;color:#555;line-height:1.65;">Contact TCS India desk to register interest in the Toronto inaugural session.</div></div><div style="padding:12px 14px;background:#f8f8f6;border-left:3px solid #1a6b42;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;color:#1a6b42;margin-right:8px;font-size:9px;">02</span>Screen supply chain for Russian metals exposure</div><div style="font-size:12px;color:#555;line-height:1.65;">OFAC EO-14024 sectoral designation covers any entity in Russia's metals and mining sector.</div></div><div style="padding:12px 14px;background:#f8f8f6;border-left:3px solid #1a6b42;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;color:#1a6b42;margin-right:8px;font-size:9px;">03</span>Apply to Critical Minerals Sovereign Fund</div><div style="font-size:12px;color:#555;line-height:1.65;">NRCan's $2B fund accepts rolling applications. Fiscal year ends March 31.</div></div>
+      <div style="padding:12px 14px;background:#f8f8f6;border-left:3px solid #1a6b42;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;color:#1a6b42;margin-right:8px;font-size:9px;">01</span>Register with TCS India desk before March 10 for the Toronto Canada-India Critical Minerals Dialogue inaugural session.</div><div style="font-size:12px;color:#555;line-height:1.65;">Early participation positions your firm to shape bilateral supply chain rules and secure preferential access to Indian battery and defense procurement once CEPA tariffs take effect.</div></div><div style="padding:12px 14px;background:#f8f8f6;border-left:3px solid #1a6b42;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;color:#1a6b42;margin-right:8px;font-size:9px;">02</span>Conduct immediate supply chain audit for Russian metals exposure and document remediation to demonstrate OFAC compliance.</div><div style="font-size:12px;color:#555;line-height:1.65;">Secondary U.S. sanctions apply retroactively; documented compliance posture protects export licenses and eligibility for future government contracts.</div></div><div style="padding:12px 14px;background:#f8f8f6;border-left:3px solid #1a6b42;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;color:#1a6b42;margin-right:8px;font-size:9px;">03</span>Submit applications to NRCan's C$2 billion Critical Minerals Sovereign Fund before March 31 fiscal year deadline.</div><div style="font-size:12px;color:#555;line-height:1.65;">Rolling applications mean late submissions face longer review cycles; early filing increases approval probability and allows capital deployment by Q1 2027.</div></div>
     </div>
 
     <!-- 4. Market Opportunity Scores -->
@@ -1433,7 +1580,7 @@
     <!-- 6. Supply Chain Watch -->
     <div>
       <span style="font-size:8px;letter-spacing:0.14em;text-transform:uppercase;font-family:'DM Mono',monospace;color:#0d3d22;display:block;margin-bottom:8px;margin-top:24px;padding-top:20px;border-top:1px solid #e0dcd4;">6. Supply Chain Watch</span>
-      <p style="font-size:12px;color:#888;">No inbound supply chain signals this week.</p>
+      <div style="border:1px solid #e0dcd4;background:#fff;"><div class="scw-item"><div class="scw-left"><div class="scw-input">Rare earth elements (yttrium, dysprosium, and related REE)</div><div class="scw-status">Chinese export controls have cut US yttrium imports by 95% and driven prices up 69x since November 2025. Canadian processors and manufacturers dependent on Chinese REE face acute supply tightening and cost escalation.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Audit current REE supplier concentration and inventory levels immediately. Evaluate participation in the India-US rare earth corridors framework (signed May 26) or explore alternative sourcing through US Quad initiative partners to diversify away from Chinese supply.</span></div></div><div class="scw-risk scw-risk-high">High</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">Sulfur (elemental sulfur for mineral processing and acid production)</div><div class="scw-status">Global sulfur supply shortages are intensifying and directly constraining downstream mineral processing capacity. This is a critical input for metallurgical operations across the sector.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Contact existing sulfur suppliers to confirm allocation and lead times. Identify secondary sources (phosphate industry co-product routes, petroleum refineries) and negotiate forward contracts to secure processing continuity.</span></div></div><div class="scw-risk scw-risk-high">High</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">Financing and capital for mine development and infrastructure (Nunavut / remote projects)</div><div class="scw-status">ATCO's $10M investment in Grays Bay Road and Port signals capital availability for Arctic logistics, but Diavik's closure shows project longevity risk. Government funding mechanisms (NRCan's $2B Critical Minerals Sovereign Fund) remain open but competitive.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Apply now to NRCan's Critical Minerals Sovereign Fund (rolling applications, fiscal year ends March 31) if you operate or depend on critical mineral extraction or processing. Assess exposure to Nunavut-dependent supply chains given infrastructure lag.</span></div></div><div class="scw-risk scw-risk-med">Med</div></div></div>
     </div>
 
     <!-- 7. Source Index -->
