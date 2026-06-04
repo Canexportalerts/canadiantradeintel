@@ -957,6 +957,8 @@ footer{background:#1a0505;border-top:3px solid #cc0000;padding:48px 40px 0;}
   <span id="page-nav-current" class="page-nav-label"></span>
   <div style="display:flex;gap:20px;">
     <a id="page-nav-earlier" href="#" class="page-nav-link" style="display:none;"></a>
+    <a id="page-nav-current-link" href="/spotlight/" class="page-nav-link" style="display:none">Current Week</a>
+    <a id="page-nav-next" href="#" class="page-nav-link" style="display:none">Next Week →</a>
     <a id="page-nav-prev" href="#" class="page-nav-link">← Previous Week</a>
   </div>
 </div>
@@ -4120,7 +4122,8 @@ function filterSector(sector, btn) {
 //   Recent archive (?week=)        → card pool → themed mosaic  (week >= MOSAIC_CUTOFF)
 //   Older archive (?week=)         → card pool → article-grid tiles (week < MOSAIC_CUTOFF)
 //
-// MOSAIC_CUTOFF: first issue written in new expanded-taxonomy style
+// MOSAIC_CUTOFF: weeks >= this date use new editorial grid layout
+// Weeks before this date use the original article-grid tile format
 var MOSAIC_CUTOFF = '2026-05-19';
 
 var _urlParams = new URLSearchParams(window.location.search);
@@ -4687,6 +4690,20 @@ function buildEditorialGrid() {
       prevEl.textContent = '\u2190 Previous Week';
       prevEl.style.display = '';
     }
+    // Next week link
+    var nextEl = document.getElementById('page-nav-next');
+    if (nextEl) {
+      var nextDate = new Date(reqDate);
+      nextDate.setDate(reqDate.getDate() + 7);
+      if (nextDate <= new Date()) {
+        nextEl.href = '?week=' + nextDate.toISOString().slice(0, 10);
+        nextEl.textContent = 'Next Week \u2192';
+        nextEl.style.display = '';
+      }
+    }
+    // Back to current week
+    var curLinkEl = document.getElementById('page-nav-current-link');
+    if (curLinkEl) curLinkEl.style.display = '';
 
     // Next week nav
     var nextEl = document.getElementById('page-nav-next');
