@@ -40,30 +40,44 @@
 
   /* ── STICKY NAV ── */
   .sticky-nav {
-    position: sticky; top: 0; z-index: 100;
-    background: #faf8f5;
-    border-top: 1px solid #d4cfc8;
-    border-bottom: 1px solid #d4cfc8;
+    position: fixed;
+    top: 160px;
+    left: calc(50% - 430px - 160px);
+    width: 150px;
+    z-index: 100;
+    background: transparent;
+    border: none;
     padding: 0;
   }
   .sticky-nav-inner {
-    max-width: 860px; margin: 0 auto;
-    display: flex; align-items: center;
-    justify-content: space-between; height: 46px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    max-width: 120px;
   }
-  .sticky-nav-brand {
-    font-family: 'DM Mono', monospace; font-size: 9px;
-    letter-spacing: 0.14em; text-transform: uppercase;
-    color: var(--ink-light); text-decoration: none;
+  .sticky-nav-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
   }
-  .sticky-nav-links { display: flex; gap: 24px; }
   .sticky-nav-links a {
-    font-family: 'DM Mono', monospace; font-size: 8px;
-    letter-spacing: 0.12em; text-transform: uppercase;
-    color: var(--ink-light); text-decoration: none;
-    transition: color 0.18s;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #6b6560;
+    text-decoration: none;
+    padding: 6px 0;
+    border-left: 2px solid #d4cfc8;
+    padding-left: 10px;
+    display: block;
+    line-height: 1.3;
   }
-  .sticky-nav-links a:hover { color: var(--sector); }
+  .sticky-nav-links a:hover {
+    color: #8B1A1A;
+    border-left-color: #8B1A1A;
+  }
+  .sticky-nav-brand { display: none; }
 
   /* ── MASTHEAD ── */
   .masthead {
@@ -122,9 +136,7 @@
 
   /* ── REPORT NAV ── */
   .report-nav {
-    background: #fff;
-    border-bottom: 1px solid var(--rule);
-    padding: 0 40px; position: sticky; top: 46px; z-index: 90;
+    display: none;
   }
   .report-nav-inner {
     max-width: 1100px; margin: 0 auto;
@@ -147,10 +159,13 @@
   /* ── REPORT BODY ── */
   .report-body {
     max-width: 860px;
-    margin: 40px auto 80px;
+    margin: 0 auto 80px;
     background: #ffffff;
     box-shadow: 0 1px 4px rgba(0,0,0,0.10), 0 0 0 1px rgba(0,0,0,0.04);
-    padding-bottom: 60px;
+    border-radius: 0 0 2px 2px;
+    padding: 40px 56px 60px;
+    box-sizing: border-box;
+    overflow: hidden;
   }
 
   /* ── SECTION HEADERS ── */
@@ -158,6 +173,8 @@
     display: flex; align-items: baseline; gap: 14px;
     margin-bottom: 24px; padding-bottom: 10px;
     border-bottom: 2px solid var(--brand);
+    max-width: 100%;
+    box-sizing: border-box;
   }
   .section-label {
     font-family: 'DM Mono', monospace; font-size: 8px;
@@ -166,10 +183,21 @@
   }
   .section-rule { flex: 1; height: 1px; background: var(--rule); }
   .mb-56 { margin-bottom: 56px; }
+  @media screen {
+    section.mb-56 + section.mb-56 {
+      border-top: 1px solid var(--rule);
+      padding-top: 48px;
+    }
+  }
 
   /* ── EXEC SUMMARY ── */
   .exec-summary {
-    display: grid; grid-template-columns: 1fr 280px; gap: 32px;
+    display: block;
+  }
+  .exec-summary-text {
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--ink);
   }
   .exec-summary-text h2 {
     font-family: 'Cormorant Garamond', serif;
@@ -641,7 +669,7 @@
   .report-footer-links a:hover { color: var(--sector-mid); }
 
   @media (max-width: 768px) {
-    .sticky-nav { padding: 0 16px; }
+    .sticky-nav { display: none; }
     .masthead { padding: 32px 16px 28px; }
     .report-nav { padding: 0 16px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
     .report-nav::-webkit-scrollbar { display: none; }
@@ -686,6 +714,7 @@
 
     body { background: transparent !important; }
     .report-body { box-shadow: none !important; margin: 0 auto !important; }
+    .sticky-nav { display: none !important; }
 
     /* Hide nav chrome, CTAs, interactive elements */
     .sticky-nav, .report-nav, .report-footer,
@@ -811,9 +840,11 @@
 
   .doc-header {
     max-width: 860px;
-    margin: 0 auto;
-    padding: 28px 40px 0;
+    margin: 40px auto 0;
+    padding: 28px 56px 0;
     background: #fff;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.10), 0 0 0 1px rgba(0,0,0,0.04);
+    border-radius: 2px 2px 0 0;
   }
   .doc-header-top {
     height: 3px;
@@ -866,6 +897,14 @@
     color: #6b6560;
     letter-spacing: 0.08em;
   }
+  .doc-stats {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    color: #8B1A1A;
+    letter-spacing: 0.08em;
+    margin-top: 2px;
+    text-align: right;
+  }
   .doc-header-bottom {
     height: 0;
   }
@@ -891,30 +930,13 @@
     </div>
     <div class="doc-header-right">
       <span class="doc-issue">Issue #010</span>
-      <span class="doc-date">June 02, 2026</span>
+      <span class="doc-date">May 28 – Jun 4, 2026</span>
+      <span class="doc-stats">16 opportunities · 10 risks · 15 immediate</span>
     </div>
   </div>
   <div class="doc-header-bottom"></div>
 </header>
 
-<!-- REPORT SECTION NAV -->
-<nav class="report-nav">
-  <div class="report-nav-inner">
-    <a href="#summary">Overview</a>
-    <a href="#signals">Signals (6)</a>
-    <a href="#what-we-think">What We Think</a>
-    <a href="#actions">Actions (4)</a>
-    <a href="#procurement">Procurement (5)</a>
-    <a href="#supply-chain">Supply Chain</a>
-
-    <a href="#pathways">Market Entry</a>
-    <a href="#watch">Watch For These</a>
-
-    <a href="#spotlight">Canadian Spotlight</a>
-    <button onclick="toggleBriefing()" class="briefing-btn" id="briefing-toggle-btn">📋 Briefing View</button>
-    <button onclick="window.print()" class="pdf-nav-btn">⬇ Save as PDF</button>
-  </div>
-</nav>
 
 <!-- REPORT BODY -->
 <div id="report-content">
@@ -927,7 +949,7 @@
       <div class="section-rule"></div>
     </div>
     <div class="exec-summary">
-      <div class="exec-summary-text" style="font-size:17px;line-height:1.65;">
+      <div class="exec-summary-text" style="font-size:15px;line-height:1.75;color:var(--ink);max-width:680px;">
         <p>The United States is demanding that cars built in North America contain at least 50% American-made parts — a rule that could cost Canadian auto workers their jobs in Windsor, Oshawa, and Cambridge if Canada is locked out of the renegotiation of the Canada-US-Mexico trade deal this summer. At the same time, US tariffs on Canadian steel and aluminum have jumped to 50%, the highest level in decades, squeezing the mills in Hamilton and Sault Ste. Marie that employ tens of thousands of Canadians. The one piece of genuinely good news: Canada has secured rare access to a $244 billion European Union defence spending program, opening real opportunities for Canadian factories to win contracts building military equipment — something that could create thousands of skilled jobs if manufacturers act now.</p>
       </div>
     </div>
@@ -953,6 +975,8 @@
     </div>
   </section>
 
+  <div style="clear:both;"></div>
+
   <!-- SIGNALS -->
   <section id="signals" class="mb-56">
     <div class="section-header">
@@ -961,6 +985,28 @@
     </div>
     <div class="signals-grid">
       
+      <div class="signal-card ">
+        <div class="signal-flag">
+           · Us Manufacturing Demand
+          <span class="urgency-tag urgency-quarter">This Quarter</span>
+        </div>
+        <div class="signal-headline">Nine quantum computing firms secured $2 billion in CHIPS Act grants from the Trump administration in May 2026, with IBM </div>
+        
+        <div class="signal-body"><cite index="1-5,1-6,1-7,1-8">In May 2026, nine major quantum computing firms are splitting $2 billion in grants from the Trump administration, with the government taking varying equity stakes in each company. IBM will receive half the award, putting it toward a new IBM company called Anderon, while venture capital backed startups such as Quantinuum, PsiQuantum, and Atom Computing each received $100 million.</cite> <cite index="6-2,6-9,6-10">Manufacturing construction spending has declined 21% since June 2024, largely attributed to a sharp decline in construction spending in the computer, electronic, and electrical sector, down 44% since its peak in July 2024, as semiconductor fab construction spending has come down despite being propelled by the 2022 CHIPS Act.</cite></div>
+        <div class="signal-what-means"><span class="signal-what-label">What This Could Mean For You</span><cite index="1-5,1-8">Canadian quantum computing companies and semiconductor suppliers could benefit from potential partnerships with grant recipients like IBM's Anderon subsidiary and smaller quantum firms that received $38-100 million in funding, creating opportunities for cross-border collaboration and supply chain integration.</cite> However, the decline in semiconductor construction spending indicates a potentially more challenging environment for Canadian manufacturing suppliers seeking U.S. infrastructure contracts.</div>
+        
+        <details class="analyst-detail">
+          <summary>Trade Context ▾</summary>
+          <div class="analyst-detail-body">
+          <b>Trade Agreement</b>No FTA in force
+          <b>TCS Office</b>TCS — contact nearest Canadian mission
+          <b>Relevant Programmes</b>EDC Manufacturing Finance · CME Export Development · CanExport SME
+          <b>HS Codes</b>HS 8400–8499 (machinery) · 7200–7229 (steel) · 7600–7699 (aluminium)
+          <b>Primary Source</b><a href="https://en.wikipedia.org/wiki/CHIPS_and_Science_Act" target="_blank">Wikipedia</a>
+          </div>
+        </details>
+        <div class="signal-source">Source: <a href="https://en.wikipedia.org/wiki/CHIPS_and_Science_Act" target="_blank">Wikipedia, 2026-06-02 →</a></div>
+      </div>
       <div class="signal-card ">
         <div class="signal-flag">
            · Europe Manufacturing
@@ -1007,6 +1053,50 @@
       </div>
       <div class="signal-card ">
         <div class="signal-flag">
+           · Import Demand Signals
+          <span class="urgency-tag urgency-quarter">This Quarter</span>
+        </div>
+        <div class="signal-headline">India and Canada reaffirmed commitment to US$50 billion trade target and early CEPA conclusion on May 29, 2026, while In</div>
+        
+        <div class="signal-body"><cite index="36-21,36-22">On May 29, 2026, India and Canada reaffirmed commitment to US$50 billion trade target and early <a href="/resources/trade-agreements/#cepa" style="color:var(--brand,#8b0000);text-decoration:none;border-bottom:1px solid rgba(139,26,26,0.3);" title="CEPA — trade agreement details">CEPA</a> conclusion. India strengthened bilateral cooperation with Vietnam in the silk, textiles, and technical textiles sectors through a five-day official visit led by the Central Silk Board and leading silk entrepreneurs, focusing on enhancing collaboration across sericulture, handlooms, handicrafts, and textile value chains.</cite> <cite index="36-23,36-24,36-25">India and the European Union have concluded negotiations for a comprehensive Free Trade Agreement (FTA), marking a major milestone covering a combined market of Rs. 2,091.6 lakh crore (US$24 trillion) and providing preferential access for over 99% of India's exports by trade value.</cite> <cite index="32-16,32-17,32-18">India is one of the world's largest defence importers and is simultaneously pursuing an am</div>
+        <div class="signal-what-means"><span class="signal-what-label">What This Could Mean For You</span>The India-Canada <a href="/resources/trade-agreements/#cepa" style="color:var(--brand,#8b0000);text-decoration:none;border-bottom:1px solid rgba(139,26,26,0.3);" title="CEPA — trade agreement details">CEPA</a> acceleration creates immediate export opportunities for Canadian goods and services in a market pursuing hundreds of billions in defence procurement over the next decade. The India-EU FTA conclusion opens massive indirect opportunities for Canadian companies with EU operations to access the Indian market through preferential terms. Canadian aerospace, advanced manufacturing, critical minerals, and technology firms should prioritize India market development given the confirmed bilateral trade target of $50 billion and India's massive defence modernization spending.</div>
+        
+        <details class="analyst-detail">
+          <summary>Trade Context ▾</summary>
+          <div class="analyst-detail-body">
+          <b>Trade Agreement</b>No FTA in force
+          <b>TCS Office</b>TCS — contact nearest Canadian mission
+          <b>Relevant Programmes</b>EDC Manufacturing Finance · CME Export Development · CanExport SME
+          <b>HS Codes</b>HS 8400–8499 (machinery) · 7200–7229 (steel) · 7600–7699 (aluminium)
+          <b>Primary Source</b><a href="https://www.ibef.org/economy/trade-and-external-sector" target="_blank">India Brand Equity Foundation</a>
+          </div>
+        </details>
+        <div class="signal-source">Source: <a href="https://www.ibef.org/economy/trade-and-external-sector" target="_blank">India Brand Equity Foundation, 2026-06-02 →</a></div>
+      </div>
+      <div class="signal-card ">
+        <div class="signal-flag">
+           · Industrial Policy
+          <span class="urgency-tag urgency-quarter">This Quarter</span>
+        </div>
+        <div class="signal-headline">Canadian Manufacturers & Exporters launched CME Defence initiative in February 2026 to capitalize on Canada's new Defenc</div>
+        
+        <div class="signal-body"><cite index="12-2,12-3">Canadian Manufacturers & Exporters announced the launch of CME Defence on February 19, 2026, following the Government of Canada's new Defence Industrial Strategy, which aims to strengthen sovereign capability and align defence procurement with economic growth.</cite> <cite index="12-4,12-5">Under its "Build-Partner-Buy" framework, the strategy prioritizes domestic production in areas of sovereign capability while deepening partnerships with trusted allies, with CME Defence helping manufacturers translate policy ambition into industrial results.</cite> <cite index="18-11,18-12">The strategy includes $180 billion in defence procurement opportunities and $290 billion in defence-related capital investment opportunities over the next 10 years, with the government anticipating a $125 billion downstream economic benefit by 2035.</cite></div>
+        <div class="signal-what-means"><span class="signal-what-label">What This Could Mean For You</span>This represents a major shift toward domestic manufacturing priority for Canadian businesses, particularly SMEs which comprise 85% of CME membership. The initiative provides clear pathways for manufacturers to access defence supply chains and procurement opportunities, while supporting technology adoption and productivity improvements that benefit both defence and civilian markets.</div>
+        
+        <details class="analyst-detail">
+          <summary>Trade Context ▾</summary>
+          <div class="analyst-detail-body">
+          <b>Trade Agreement</b>No FTA in force
+          <b>TCS Office</b>TCS — contact nearest Canadian mission
+          <b>Relevant Programmes</b>EDC Manufacturing Finance · CME Export Development · CanExport SME
+          <b>HS Codes</b>HS 9301–9307 (arms and munitions)
+          <b>Primary Source</b><a href="https://www.newswire.ca/news-releases/cme-launches-cme-defence-to-help-power-canada-s-next-generation-of-defence-manufacturing-801377130.html" target="_blank">Newswire.ca</a>
+          </div>
+        </details>
+        <div class="signal-source">Source: <a href="https://www.newswire.ca/news-releases/cme-launches-cme-defence-to-help-power-canada-s-next-generation-of-defence-manufacturing-801377130.html" target="_blank">Newswire.ca, 2026-06-02 →</a></div>
+      </div>
+      <div class="signal-card ">
+        <div class="signal-flag">
            · Nato Industrial Procurement
           <span class="urgency-tag urgency-now">Immediate</span>
         </div>
@@ -1027,72 +1117,6 @@
         </details>
         <div class="signal-source">Source: <a href="https://www.pm.gc.ca/en/news/news-releases/2026/05/27/prime-minister-carney-announces-major-new-defence-partnership-part" target="_blank">Prime Minister of Canada, 2026-06-02 →</a></div>
       </div>
-      <div class="signal-card ">
-        <div class="signal-flag">
-           · Ev Transition Ontario
-          <span class="urgency-tag urgency-now">Immediate</span>
-        </div>
-        <div class="signal-headline">Canada launches $3 billion automotive restructuring strategy amid widespread industry transformation.</div>
-        
-        <div class="signal-body"><cite index="14-16,14-17,14-18">Prime Minister Carney announced Canada's automotive strategy on February 5, 2026, allocating $3 billion from the Strategic Response Fund and $100 million from the Regional Tariff Response Initiative to accelerate automotive manufacturing investments.</cite> <cite index="13-19,13-20,13-21">A KPMG survey shows 17% of OEMs and parts suppliers expect to be 'completely transformed' over the next three years, 12% expect acquisition or consolidation, while only 9% are at risk of failure.</cite> <cite index="14-9,14-10">The strategy repeals the Electric Vehicle Availability Standard, removing the mandate for 100% zero-emission sales by 2035.</cite></div>
-        <div class="signal-what-means"><span class="signal-what-label">What This Could Mean For You</span>Ontario auto suppliers face a critical restructuring period with significant government funding available for facility modernization and EV transition investments. Export-oriented suppliers can access Strategic Response Fund grants for projects over $20 million, while smaller firms can tap Regional Tariff Response Initiative support to offset trade disruption impacts.</div>
-        
-        <details class="analyst-detail">
-          <summary>Trade Context ▾</summary>
-          <div class="analyst-detail-body">
-          <b>Trade Agreement</b>No FTA in force
-          <b>TCS Office</b>TCS — contact nearest Canadian mission
-          <b>Relevant Programmes</b>EDC Manufacturing Finance · CME Export Development · CanExport SME
-          <b>HS Codes</b>HS 8400–8499 (machinery) · 7200–7229 (steel) · 7600–7699 (aluminium)
-          <b>Primary Source</b><a href="https://www.osler.com/en/insights/updates/canada-shifts-gears-2026-auto-strategy-manufacturers-evs-trade/" target="_blank">Osler, Hoskin & Harcourt LLP</a>
-          </div>
-        </details>
-        <div class="signal-source">Source: <a href="https://www.osler.com/en/insights/updates/canada-shifts-gears-2026-auto-strategy-manufacturers-evs-trade/" target="_blank">Osler, Hoskin & Harcourt LLP, 2026-06-02 →</a></div>
-      </div>
-      <div class="signal-card ">
-        <div class="signal-flag">
-           · Stellantis Windsor
-          <span class="urgency-tag urgency-now">Immediate</span>
-        </div>
-        <div class="signal-headline">Stellantis Windsor plant restores third shift in February 2026, adding 1,700 jobs for Charger and Pacifica production.</div>
-        
-        <div class="signal-body"><cite index="24-3,24-4,24-1">Stellantis restored a third production shift at Windsor Assembly Plant on February 17, 2026, adding over 1,700 jobs and employing around 6,000 workers - the highest staffing since mid-2020.</cite> <cite index="24-9,24-10">The facility serves as exclusive global production home for the 2026 Dodge Charger lineup, including the Charger SIXPACK and Charger Daytona Scat Pack.</cite> <cite index="21-2,21-5">In February, Stellantis transferred its NextStar EV battery plant stake to LG Energy Solution for $100 but remains a committed customer for battery products.</cite></div>
-        <div class="signal-what-means"><span class="signal-what-label">What This Could Mean For You</span>The Windsor plant expansion signals strong production recovery for Canadian automotive manufacturing and creates significant opportunities for Ontario-based auto parts suppliers to secure new contracts for Charger and Pacifica components. However, Stellantis's exit from NextStar ownership indicates potential reshuffling of EV supply chain relationships that could affect battery-related component suppliers.</div>
-        
-        <details class="analyst-detail">
-          <summary>Trade Context ▾</summary>
-          <div class="analyst-detail-body">
-          <b>Trade Agreement</b>No FTA in force
-          <b>TCS Office</b>TCS — contact nearest Canadian mission
-          <b>Relevant Programmes</b>EDC Manufacturing Finance · CME Export Development · CanExport SME
-          <b>HS Codes</b>HS 8400–8499 (machinery) · 7200–7229 (steel) · 7600–7699 (aluminium)
-          <b>Primary Source</b><a href="https://www.auto123.com/en/news/stellantis-third-shift-windsor-plant/73671/" target="_blank">Auto123.com</a>
-          </div>
-        </details>
-        <div class="signal-source">Source: <a href="https://www.auto123.com/en/news/stellantis-third-shift-windsor-plant/73671/" target="_blank">Auto123.com, 2026-06-02 →</a></div>
-      </div>
-      <div class="signal-card ">
-        <div class="signal-flag">
-           · Provincial Trade Missions
-          <span class="urgency-tag urgency-now">Immediate</span>
-        </div>
-        <div class="signal-headline">Team Canada Trade Mission to Mexico yielded 23 commercial agreements involving companies from Alberta, BC, Quebec, Saska</div>
-        
-        <div class="signal-body">The February 2026 Team Canada Trade Mission to Mexico resulted in 23 announcements, partnerships and agreements spanning key export sectors. Notable deals include Fresnillo plc's $770 million acquisition of Quebec-based Probe Gold Inc., and new partnerships in healthcare compliance software, aerospace manufacturing, and entertainment co-production between Canadian companies and Mexican counterparts.</div>
-        <div class="signal-what-means"><span class="signal-what-label">What This Could Mean For You</span>These agreements open new market access for Canadian exporters across multiple sectors and provinces, particularly in mining, healthcare technology, and aerospace. The $770 million mining acquisition brings Mexican investment into Canadian gold projects, while other agreements create export opportunities for Canadian manufacturing and services in the Mexican market.</div>
-        
-        <details class="analyst-detail">
-          <summary>Trade Context ▾</summary>
-          <div class="analyst-detail-body">
-          <b>Trade Agreement</b>No FTA in force
-          <b>TCS Office</b>TCS — contact nearest Canadian mission
-          <b>Relevant Programmes</b>EDC Manufacturing Finance · CME Export Development · CanExport SME
-          <b>HS Codes</b>HS 8400–8499 (machinery) · 7200–7229 (steel) · 7600–7699 (aluminium)
-          <b>Primary Source</b><a href="https://www.international.gc.ca/country_news-pays_nouvelles/2026-02-27-mexico-mexique.aspx?lang=eng" target="_blank">Global Affairs Canada</a>
-          </div>
-        </details>
-        <div class="signal-source">Source: <a href="https://www.international.gc.ca/country_news-pays_nouvelles/2026-02-27-mexico-mexique.aspx?lang=eng" target="_blank">Global Affairs Canada, 2026-06-02 →</a></div>
-      </div>
     </div>
   </section>
 
@@ -1102,7 +1126,7 @@
       <span class="section-label">Workers &amp; Communities This Week</span>
       <div class="section-rule"></div>
     </div>
-    <div class="so-what-section" style="margin-top:8px;"><div class="so-what-item" style="margin-bottom:16px;padding:14px 16px;background:var(--surface);border-left:3px solid var(--sector);"><div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;">OEM or Tier-1 supplier</div><div style="font-size:14px;color:var(--ink-mid);line-height:1.7;">Magna, Martinrea, and Linamar face a six-week window before the July <a href="/resources/trade-agreements/#cusma" style="color:var(--brand,#8b0000);text-decoration:none;border-bottom:1px solid rgba(139,26,26,0.3);" title="CUSMA — trade agreement details">CUSMA</a> review potentially reshapes North American content rules against Canadian suppliers. This week: quantify your US content percentage within current assemblies and submit it to the federal Automotive Task Force at ISED (ised.gc.ca). Simultaneously, assess your EU SAFE programme eligibility through CME Defence (cme-mec.ca/cme-defence)  -  the Defence Advisory Forum opened June 1, and the $244 billion EU defence spending wave is a genuine revenue diversification opportunity that does not depend on <a href="/resources/trade-agreements/#cusma" style="color:var(--brand,#8b0000);text-decoration:none;border-bottom:1px solid rgba(139,26,26,0.3);" title="CUSMA — trade agreement details">CUSMA</a> outcomes.</div></div><div class="so-what-item" style="margin-bottom:16px;padding:14px 16px;background:var(--surface);border-left:3px solid var(--sector);"><div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;">Precision manufacturer or SME</div><div style="font-size:14px;color:var(--ink-mid);line-height:1.7;">The Hannover Messe 2026 results ($350 million 2025 sales) and EU SAFE programme access together constitute the strongest export signal for Canadian precision SMEs in years  -  but most firms have not acted on it. Apply to CanExport SME (up to $75,000 at tradecommissioner.gc.ca/canexport) this month to fund European market development. Audit your product lines against the updated Export Control List (effective May 1, 2026) at international.gc.ca/controls-controles before your next shipment  -  new permit requirements for additive manufacturing powders and precision lasers apply now, not at your next compliance review.</div></div><div class="so-what-item" style="margin-bottom:16px;padding:14px 16px;background:var(--surface);border-left:3px solid var(--sector);"><div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;">Manufacturing worker or community</div><div style="font-size:14px;color:var(--ink-mid);line-height:1.7;">In Windsor-Essex  -  Canada's auto capital with 100,000 jobs tied to automotive manufacturing  -  the US demand for 50% American vehicle content is not a distant policy debate; it is a direct threat to the supply contracts that keep plants running. If <a href="/resources/trade-agreements/#cusma" style="color:var(--brand,#8b0000);text-decoration:none;border-bottom:1px solid rgba(139,26,26,0.3);" title="CUSMA — trade agreement details">CUSMA</a> content rules shift against Canadian suppliers in July, the pressure will first show up as reduced orders and deferred hiring, not immediate layoffs  -  but the adjustment will be swift. Workers and union locals at Windsor auto parts plants should contact the federal Automotive Task Force through their employers and ensure community economic impact data is part of Canada's negotiating position. The Canada Job Grant (jobbank.gc.ca/employer) and the Sectoral Workforce Solutions Program can fund retraining if the transition accelerates  -  but the time to register is before the layoff notices, not after.</div></div></div>
+    <div class="so-what-section" style="margin-top:8px;max-width:100%;overflow:hidden;box-sizing:border-box;"><div class="so-what-item" style="margin-bottom:16px;padding:14px 16px;background:var(--surface);border-left:3px solid var(--sector);"><div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;">OEM or Tier-1 supplier</div><div style="font-size:14px;color:var(--ink-mid);line-height:1.7;">Magna, Martinrea, and Linamar face a six-week window before the July <a href="/resources/trade-agreements/#cusma" style="color:var(--brand,#8b0000);text-decoration:none;border-bottom:1px solid rgba(139,26,26,0.3);" title="CUSMA — trade agreement details">CUSMA</a> review potentially reshapes North American content rules against Canadian suppliers. This week: quantify your US content percentage within current assemblies and submit it to the federal Automotive Task Force at ISED (ised.gc.ca). Simultaneously, assess your EU SAFE programme eligibility through CME Defence (cme-mec.ca/cme-defence)  -  the Defence Advisory Forum opened June 1, and the $244 billion EU defence spending wave is a genuine revenue diversification opportunity that does not depend on <a href="/resources/trade-agreements/#cusma" style="color:var(--brand,#8b0000);text-decoration:none;border-bottom:1px solid rgba(139,26,26,0.3);" title="CUSMA — trade agreement details">CUSMA</a> outcomes.</div></div><div class="so-what-item" style="margin-bottom:16px;padding:14px 16px;background:var(--surface);border-left:3px solid var(--sector);"><div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;">Precision manufacturer or SME</div><div style="font-size:14px;color:var(--ink-mid);line-height:1.7;">The Hannover Messe 2026 results ($350 million 2025 sales) and EU SAFE programme access together constitute the strongest export signal for Canadian precision SMEs in years  -  but most firms have not acted on it. Apply to CanExport SME (up to $75,000 at tradecommissioner.gc.ca/canexport) this month to fund European market development. Audit your product lines against the updated Export Control List (effective May 1, 2026) at international.gc.ca/controls-controles before your next shipment  -  new permit requirements for additive manufacturing powders and precision lasers apply now, not at your next compliance review.</div></div><div class="so-what-item" style="margin-bottom:16px;padding:14px 16px;background:var(--surface);border-left:3px solid var(--sector);"><div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;">Manufacturing worker or community</div><div style="font-size:14px;color:var(--ink-mid);line-height:1.7;">In Windsor-Essex  -  Canada's auto capital with 100,000 jobs tied to automotive manufacturing  -  the US demand for 50% American vehicle content is not a distant policy debate; it is a direct threat to the supply contracts that keep plants running. If <a href="/resources/trade-agreements/#cusma" style="color:var(--brand,#8b0000);text-decoration:none;border-bottom:1px solid rgba(139,26,26,0.3);" title="CUSMA — trade agreement details">CUSMA</a> content rules shift against Canadian suppliers in July, the pressure will first show up as reduced orders and deferred hiring, not immediate layoffs  -  but the adjustment will be swift. Workers and union locals at Windsor auto parts plants should contact the federal Automotive Task Force through their employers and ensure community economic impact data is part of Canada's negotiating position. The Canada Job Grant (jobbank.gc.ca/employer) and the Sectoral Workforce Solutions Program can fund retraining if the transition accelerates  -  but the time to register is before the layoff notices, not after.</div></div></div>
   </section>
 
   <!-- WHAT WE THINK -->
@@ -1111,7 +1135,7 @@
       <span class="section-label">What We Think</span>
       <div class="section-rule"></div>
     </div>
-    <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-light);margin-bottom:20px;">— CTI Editorial Desk &nbsp;·&nbsp; June 02, 2026</div>
+    <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-light);margin-bottom:20px;">— CTI Editorial Desk &nbsp;·&nbsp; June 04, 2026</div>
     <div class="editorial-block"><p style="margin-bottom:1.2em;">The single most dangerous misconception in Canadian manufacturing circles this week is that the July 2026 <a href="/resources/trade-agreements/#cusma" style="color:var(--brand,#8b0000);text-decoration:none;border-bottom:1px solid rgba(139,26,26,0.3);" title="CUSMA — trade agreement details">CUSMA</a> review is a negotiation Canada will participate in on equal terms. It is not. The US opened auto content talks with Mexico bilaterally on May 30  -  Canada was not in the room. The Trump administration's 50% US content demand, if it becomes the baseline for the review, eliminates the competitive logic of Canadian auto parts supply into US-bound vehicles assembled in Mexico. Martinrea, Magna, and Linamar all have significant exposure to this scenario. The window to influence the outcome is not at the negotiating table  -  it is in the next four weeks, through direct engagement with US OEM customers who have their own interest in keeping Canadian content in the supply chain, and through the federal Automotive Task Force which needs industry input now rather than after positions harden.</p><p style="margin-bottom:1.2em;">What Canadian businesses are underweighting is the EU SAFE programme. The access Canada secured in December 2025  -  the only non-member state with up to 80% Canadian content in EU defence contracts  -  is a structural market access breakthrough worth more than any single procurement contract. The $244 billion in EU member state defence loans will generate equipment procurement across armoured vehicles, surveillance systems, communications hardware, and logistics infrastructure. Canadian precision manufacturers and steel producers with defence-grade certifications are positioned to compete for this work under <a href="/resources/trade-agreements/#ceta" style="color:var(--brand,#8b0000);text-decoration:none;border-bottom:1px solid rgba(139,26,26,0.3);" title="CETA — trade agreement details">CETA</a> zero-tariff access, but almost no Canadian SME has a Brussels procurement strategy. The CME Defence initiative is the fastest path to building one; the Defence Advisory Forum opened applications June 1.</p><p style="margin-bottom:1.2em;">The evidence points toward a bifurcation: Canadian manufacturers who move aggressively toward defence and EU diversification in the next 60 days will be structurally better positioned regardless of how the <a href="/resources/trade-agreements/#cusma" style="color:var(--brand,#8b0000);text-decoration:none;border-bottom:1px solid rgba(139,26,26,0.3);" title="CUSMA — trade agreement details">CUSMA</a> review resolves. Those who wait for the July outcome before adjusting strategy will face either a worse tariff environment in the US or a compressed timeline to pivot. The Algoma-Hanwha deal is the proof of concept  -  Canadian industrial capacity has defence credibility, and that credibility has a growing buyer base. Act on it now.</p></div>
   </section>
 
@@ -1121,7 +1145,7 @@
       <span class="section-label">✓ Actions This Week</span>
       <div class="section-rule"></div>
     </div>
-    <p style="font-size:12px;font-family:'DM Mono',monospace;letter-spacing:0.06em;color:var(--ink-light);margin-bottom:20px;text-transform:uppercase;">Time-sensitive actions — week of June 02, 2026</p>
+    <p style="font-size:12px;font-family:'DM Mono',monospace;letter-spacing:0.06em;color:var(--ink-light);margin-bottom:20px;text-transform:uppercase;">Time-sensitive actions — week of June 04, 2026</p>
     <div class="actions-compact">
   <div class="action-row" onclick="toggleAction('act-1')" id="act-1-row">
     <span class="urgency-tag urgency-now">Immediate</span>
@@ -1257,7 +1281,7 @@
       Import dependencies, critical input signals, and inbound supply chain risks for Canadian businesses in this sector this week.
     </p>
     <div class="scw-grid">
-      <div class="scw-item"><div class="scw-left"><div class="scw-input">US-origin steel and aluminum (core articles and derivatives)</div><div class="scw-status">Section 232 tariffs expanded to copper with 50% rates on steel/aluminum core articles and 25% on derivatives, effective April 6, 2026, calculated on full customs value. This dramatically increases landed costs for Canadian manufacturers importing US metals for advanced manufacturing and industrial applications.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Immediately audit steel/aluminum supply contracts and HS code classifications; model total cost of ownership including 25–50% tariff impact; evaluate alternative sourcing from non-US suppliers (e.g., Japan, South Korea, EU) or domestic reshoring for high-volume inputs before contracts renew.</span></div></div><div class="scw-risk scw-risk-high">High</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">Semiconductors, lithium-ion battery components, and additive manufacturing powders (China-origin processing)</div><div class="scw-status">Canada's May 1, 2026 Export Control List update restricts advanced semiconductors and lithography equipment; Deloitte data shows energy transition mineral processing is China-concentrated, creating single-region chokepoints. Parallel US export controls and Canada's consultation on unilateral expanded controls signal tightening availability and rising geopolitical sourcing risk.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Map current China-origin dependencies in semiconductors and additive powders; engage Trade Commissioner Service market intelligence for alternative qualified suppliers in Japan, South Korea, and Germany; assess feasibility of strategic inventory buildup before controls tighten further.</span></div></div><div class="scw-risk scw-risk-high">High</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">Logistics capacity and transportation (rail and trucking to US border)</div><div class="scw-status">CPKC rail strike began May 31, 2026 with 300 signaling workers; concurrent USMCA review (July 2026) and 50% US content automotive demands create bottleneck risk for time-sensitive cross-border shipments. Mexico's record $72B April exports signal competitive pressure for freight capacity.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Diversify cross-border logistics routing away from CPKC (evaluate CN, trucking, intermodal); confirm supplier delivery schedules and build 2–3 week buffer stock for US-bound inputs; monitor USMCA July review outcomes to anticipate further supply chain restructuring needs.</span></div></div><div class="scw-risk scw-risk-med">Med</div></div>
+      <div class="scw-item"><div class="scw-left"><div class="scw-input">Copper and steel/aluminum raw materials and mill products</div><div class="scw-status">US Section 232 tariffs expanded to copper and raised to 50% for steel/aluminum effective April 6, 2026, now calculated on full customs value. This dramatically increases landed costs for Canadian manufacturers sourcing these core inputs from the US, historically the primary supply source.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Immediately audit US steel/aluminum/copper sourcing contracts and pricing; evaluate qualified suppliers in non-tariff jurisdictions (Japan, South Korea, EU) and model reshoring feasibility for high-volume applications before July USMCA review.</span></div></div><div class="scw-risk scw-risk-high">High</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">Semiconductors, lithography equipment, and specialized additive manufacturing powders</div><div class="scw-status">Canada's updated Export Control List (effective May 1, 2026) now restricts these inputs with public consultation underway on expanded unilateral controls. Supply availability and regulatory compliance pathways remain uncertain for downstream manufacturers dependent on these materials.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Verify current inventory of controlled semiconductor and AM powder inputs; request advance guidance from Global Affairs Canada on compliance timelines; establish alternative qualified supplier relationships outside restricted jurisdictions.</span></div></div><div class="scw-risk scw-risk-med">Med</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">Energy transition minerals (rare earths, lithium, cobalt) and processed mineral derivatives</div><div class="scw-status">Deloitte analysis confirms 36% of Canadian capital goods depend on foreign supply with processing concentrated in China, creating single-region chokepoint. No diversification signal evident; supply disruption risk is acute for electrification and battery supply chains.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Map end-to-end mineral processing dependencies (especially China-sourced); explore Canadian domestic processing capacity or alternative processing jurisdictions (Australia, Canada); prioritize EDC trade financing for secured supply contracts.</span></div></div><div class="scw-risk scw-risk-high">High</div></div>
     </div>
   </section>
 
@@ -1273,9 +1297,7 @@
       <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-bottom:8px;">
         CITT decisions, Canada Gazette notices, and regulatory changes relevant to this sector. Updated weekly. Click any item for official source.
       </div>
-      <ul style="margin:0;padding:0;"><li style="padding:6px 0;border-bottom:1px solid rgba(200,134,10,0.15);list-style:none;font-size:13px;color:var(--ink-mid);line-height:1.6;">🟡 <strong style="color:var(--ink);">Determination — June 9, 2026</strong><span style="color:var(--ink-light);font-size:11px;"> — Canada's import tariff on steel fasteners from certain countries will increase by 15% effective immediately, raising costs for manufacturers who rely on these components.</span> <a href="https://www.citt-tcce.gc.ca/en/anti-dumping-injury-inquiries/active-dumping-and-subsidizing-cases" style="color:var(--amber);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" target="_blank">Source →</a><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:8px;">CITT</span></li><li style="padding:6px 0;border-bottom:1px solid rgba(200,134,10,0.15);list-style:none;font-size:13px;color:var(--ink-mid);line-height:1.6;">🟡 <strong style="color:var(--ink);">Reasons for determination — June 1, 2026</strong><span style="color:var(--ink-light);font-size:11px;"> — Canadian importers of aluminum products must now pay higher tariffs after the tribunal found domestic producers were injured by cheap imports.</span> <a href="https://www.citt-tcce.gc.ca/en/anti-dumping-injury-inquiries/active-dumping-and-subsidizing-cases" style="color:var(--amber);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" target="_blank">Source →</a><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:8px;">CITT</span></li><li style="padding:6px 0;border-bottom:1px solid rgba(200,134,10,0.15);list-style:none;font-size:13px;color:var(--ink-mid);line-height:1.6;">🟡 <strong style="color:var(--ink);">Public hearing — May 25, 2026</strong><span style="color:var(--ink-light);font-size:11px;"> — Canadian businesses importing steel products should monitor this May 2026 CITT hearing outcome, as it may result in new tariff rules or trade remedies affecting their supply costs.</span> <a href="https://www.citt-tcce.gc.ca/en/anti-dumping-injury-inquiries/public-hearings-anti-dumping-injury-inquiries#toc-id-1" style="color:var(--amber);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" target="_blank">Source →</a><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:8px;">CITT</span></li><li style="padding:6px 0;border-bottom:1px solid rgba(200,134,10,0.15);list-style:none;font-size:13px;color:var(--ink-mid);line-height:1.6;">🟡 <strong style="color:var(--ink);">Determination — May 15, 2026</strong><span style="color:var(--ink-light);font-size:11px;"> — # Trade Intelligence Summary
-
-Canadian manufacturers can now import steel wire rod from eight additional countries without facing anti-dumping duties, expanding sourcing options and potentially reducing input costs.</span> <a href="https://decisions.citt-tcce.gc.ca/citt-tcce/a/en/item/521531/index.do" style="color:var(--amber);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" target="_blank">Source →</a><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:8px;">CITT</span></li></ul>
+      <ul style="margin:0;padding:0;"><li style="padding:6px 0;border-bottom:1px solid rgba(200,134,10,0.15);list-style:none;font-size:13px;color:var(--ink-mid);line-height:1.6;">🟡 <strong style="color:var(--ink);">Determination — June 18, 2026</strong><span style="color:var(--ink-light);font-size:11px;"> — Please provide the actual determination content (such as whether this involves tariffs, dumping duties, safeguards, or other trade remedies) so I can deliver a meaningful one-sentence analysis.</span> <a href="https://www.citt-tcce.gc.ca/en/anti-dumping-injury-inquiries/active-dumping-and-subsidizing-cases" style="color:var(--amber);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" target="_blank">Source →</a><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:8px;">CITT</span></li><li style="padding:6px 0;border-bottom:1px solid rgba(200,134,10,0.15);list-style:none;font-size:13px;color:var(--ink-mid);line-height:1.6;">🟡 <strong style="color:var(--ink);">Determination — June 9, 2026</strong><span style="color:var(--ink-light);font-size:11px;"> — Canadian importers of forged steel pipe fittings now face new anti-dumping duties after the Canadian International Trade Tribunal found Chinese suppliers were selling below cost to unfairly undercut domestic producers.</span> <a href="https://www.citt-tcce.gc.ca/en/anti-dumping-injury-inquiries/active-dumping-and-subsidizing-cases" style="color:var(--amber);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" target="_blank">Source →</a><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:8px;">CITT</span></li><li style="padding:6px 0;border-bottom:1px solid rgba(200,134,10,0.15);list-style:none;font-size:13px;color:var(--ink-mid);line-height:1.6;">🟡 <strong style="color:var(--ink);">Reasons for determination — June 1, 2026</strong><span style="color:var(--ink-light);font-size:11px;"> — Canadian importers of certain steel products now face higher duties after the Canadian International Trade Tribunal found domestic producers were injured by unfairly priced imports.</span> <a href="https://www.citt-tcce.gc.ca/en/anti-dumping-injury-inquiries/active-dumping-and-subsidizing-cases" style="color:var(--amber);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" target="_blank">Source →</a><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:8px;">CITT</span></li><li style="padding:6px 0;border-bottom:1px solid rgba(200,134,10,0.15);list-style:none;font-size:13px;color:var(--ink-mid);line-height:1.6;">🟡 <strong style="color:var(--ink);">Public hearing — May 25, 2026</strong><span style="color:var(--ink-light);font-size:11px;"> — The Canadian International Trade Tribunal is holding a public hearing on May 25, 2026, where Canadian businesses can present evidence and arguments in a trade dispute case.</span> <a href="https://www.citt-tcce.gc.ca/en/anti-dumping-injury-inquiries/public-hearings-anti-dumping-injury-inquiries#toc-id-1" style="color:var(--amber);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" target="_blank">Source →</a><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:8px;">CITT</span></li></ul>
       <div style="font-family:'DM Mono',monospace;font-size:8px;color:var(--ink-light);margin-top:8px;">
         Sources: Canada Gazette Part II · CITT · CBSA · Parliament<br>
         <a href="https://canadiantradeintel.ca/tools/sanctions-check/" style="color:var(--amber);margin-right:12px;">Screen a supplier or counterparty →</a>
@@ -1517,7 +1539,7 @@ Canadian manufacturers can now import steel wire rod from eight additional count
         Advanced Manufacturing & Industrial Intelligence Brief
       </h1>
       <div style="font-family:'DM Mono',monospace;font-size:10px;color:#888;line-height:2;">
-        Issue #010 &nbsp;·&nbsp; June 02, 2026<br>
+        Issue #010 &nbsp;·&nbsp; June 04, 2026<br>
         Prepared by Canadian Trade Intelligence Inc. &nbsp;·&nbsp; canadiantradeintel.ca
       </div>
     </div>
@@ -1525,19 +1547,19 @@ Canadian manufacturers can now import steel wire rod from eight additional count
     <!-- 1. Situation Summary -->
     <div>
       <span style="font-size:8px;letter-spacing:0.14em;text-transform:uppercase;font-family:'DM Mono',monospace;color:#1a3060;display:block;margin-bottom:8px;margin-top:24px;padding-top:20px;border-top:1px solid #e0dcd4;">1. Situation Summary</span>
-      <p style="font-size:14px;color:#1a1a1a;line-height:1.8;max-width:740px;">The US has deployed concurrent tariff and content rule pressures (50% steel tariffs, 50% auto content requirements) while Canada was absent from the opening round of the July 2026 CUSMA review, creating an acute structural risk to $924.4 billion in annual bilateral trade. Canadian manufacturers face a 90-day window to reposition supply chains and secure alternative financing before the review crystallizes new rules.</p>
+      <p style="font-size:14px;color:#1a1a1a;line-height:1.8;max-width:740px;">The US administration has deployed simultaneous tariff and content rules targeting Canadian manufacturing, with a 50% US auto content mandate and steel tariffs creating immediate compliance risk ahead of the July 2026 CUSMA review. Canada's $924.4 billion annual trade relationship faces structural pressure that cannot be resolved through standard diplomatic channels.</p>
     </div>
 
     <!-- 2. Top Signals -->
     <div>
       <span style="font-size:8px;letter-spacing:0.14em;text-transform:uppercase;font-family:'DM Mono',monospace;color:#1a3060;display:block;margin-bottom:8px;margin-top:24px;padding-top:20px;border-top:1px solid #e0dcd4;">2. Top Signals</span>
-      <div style="padding:10px 0 10px 14px;border-left:3px solid #2a5090;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">Trump administration raised explicit 50% US content demand for CUSMA vehicles alongside concurrent 50% steel tariff announcement.</div><div style="font-size:12px;color:#444;line-height:1.65;">This signals coordinated use of multiple trade mechanisms to redirect North American manufacturing investment to US facilities; compliance will require supply chain restructuring for most Canadian OEMs and Tier 1 suppliers.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#1a6b42;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: HIGH</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #2a5090;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">Canada was absent from the opening round of the July 2026 CUSMA review negotiation.</div><div style="font-size:12px;color:#444;line-height:1.65;">This procedural gap means Canadian interests were not represented in initial rule-setting discussions; late entry reduces negotiating leverage and increases likelihood that unfavorable terms will be locked in.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#1a6b42;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: HIGH</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #2a5090;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">German manufacturing PMI and EU demand signals (due late January) will indicate whether industrial recovery is underway or stalling in Canada's second-largest goods export market.</div><div style="font-size:12px;color:#444;line-height:1.65;">Weak EU demand would eliminate a critical alternative destination for Canadian manufacturers seeking to diversify away from US exposure.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#b36b00;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: MED</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #2a5090;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">EDC's Q1 2025 account manager intake window for new exporters and expanded credit lines is closing on rolling basis.</div><div style="font-size:12px;color:#444;line-height:1.65;">Manufacturers seeking to finance supply chain repositioning or market diversification must secure financing commitments before processing delays compound in Q2.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#1a6b42;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: HIGH</div></div>
+      <div style="padding:10px 0 10px 14px;border-left:3px solid #2a5090;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">US auto content rule now explicitly demands 50% US-origin input for CUSMA tariff preference eligibility.</div><div style="font-size:12px;color:#444;line-height:1.65;">This directly redirects North American supply chain investment away from Canadian suppliers and manufacturers within existing duty-free trade arrangements.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#1a6b42;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: HIGH</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #2a5090;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">Canada was absent from the opening round of the July 2026 CUSMA review process.</div><div style="font-size:12px;color:#444;line-height:1.65;">Exclusion from early negotiating rounds signals a negotiating disadvantage and indicates the review may proceed with pre-set US positions rather than genuine trilateral revision.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#1a6b42;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: HIGH</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #2a5090;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">Section 232 steel tariff review remains active with no resolution timeline announced.</div><div style="font-size:12px;color:#444;line-height:1.65;">Sustained 50% tariffs on steel inputs raise production costs across advanced manufacturing and create long-term supply chain uncertainty that competitors in Germany and Japan do not face.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#1a6b42;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: HIGH</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #2a5090;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">Mexico and South Korea are scoring higher on regulatory resilience (R:4/10 and implied strategic stability) than US markets.</div><div style="font-size:12px;color:#444;line-height:1.65;">Manufacturers should prioritize supply chain diversification and buyer cultivation in non-US corridors to de-risk dependence on a single market with accelerating trade friction.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#b36b00;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: MED</div></div>
     </div>
 
     <!-- 3. Recommended Actions -->
     <div>
       <span style="font-size:8px;letter-spacing:0.14em;text-transform:uppercase;font-family:'DM Mono',monospace;color:#1a3060;display:block;margin-bottom:8px;margin-top:24px;padding-top:20px;border-top:1px solid #e0dcd4;">3. Recommended Actions</span>
-      <div style="padding:12px 14px;background:#f8f8f6;border-left:3px solid #2a5090;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;color:#2a5090;margin-right:8px;font-size:9px;">01</span>Audit CUSMA tariff preference claims and US content compliance across your product portfolio against Global Affairs Canada's Tariff Classification Tool within 14 days.</div><div style="font-size:12px;color:#555;line-height:1.65;">The 50% content rule will apply retroactively to pending shipments; companies that identify gaps now can negotiate supply adjustments before tariff exposure crystallizes.</div></div><div style="padding:12px 14px;background:#f8f8f6;border-left:3px solid #2a5090;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;color:#2a5090;margin-right:8px;font-size:9px;">02</span>Apply to EDC Trade Financing for expanded credit lines or new account management before end of rolling Q1 2025 intake window.</div><div style="font-size:12px;color:#555;line-height:1.65;">EDC processing for new exporters is fastest in Q1; delays will push approvals into Q2 when demand for emergency repositioning financing will be highest.</div></div><div style="padding:12px 14px;background:#f8f8f6;border-left:3px solid #2a5090;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;color:#2a5090;margin-right:8px;font-size:9px;">03</span>Register immediately for Trade Commissioner Service weekly sectoral briefs on Germany, Japan, South Korea, and Mexico; activate diaspora networks in Mexico and South Korea business chambers to identify landing pad markets.</div><div style="font-size:12px;color:#555;line-height:1.65;">These markets scored 7–8/10 opportunity but only 2–4/10 risk; diaspora networks in Mexico and South Korea can accelerate market entry timelines by 4–6 months versus cold-call approaches.</div></div>
+      <div style="padding:12px 14px;background:#f8f8f6;border-left:3px solid #2a5090;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;color:#2a5090;margin-right:8px;font-size:9px;">01</span>Audit CUSMA tariff classification and content compliance for all current US buyer relationships within 10 business days and model cost impact of 50% US content rule on your product margin.</div><div style="font-size:12px;color:#555;line-height:1.65;">Non-compliance will result in tariff exposure; early modeling prevents downstream contract disputes with US customers.</div></div><div style="padding:12px 14px;background:#f8f8f6;border-left:3px solid #2a5090;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;color:#2a5090;margin-right:8px;font-size:9px;">02</span>Apply immediately to EDC Trade Financing for expanded credit lines and activate Trade Commissioner Service market intelligence alerts for Mexico, Germany, and South Korea.</div><div style="font-size:12px;color:#555;line-height:1.65;">Q1 processing windows close on rolling basis; early application secures financing capacity and provides real-time market signaling outside US exposure.</div></div><div style="padding:12px 14px;background:#f8f8f6;border-left:3px solid #2a5090;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;color:#2a5090;margin-right:8px;font-size:9px;">03</span>Engage Canadian-Mexican Business Council and Korean-Canadian business association networks to identify qualified end-buyers and distribution partners in Mexico and South Korea within 30 days.</div><div style="font-size:12px;color:#555;line-height:1.65;">Diaspora networks provide accelerated market entry and reduce transaction costs in markets where regulatory resilience is higher than the current US environment.</div></div>
     </div>
 
     <!-- 4. Market Opportunity Scores -->
@@ -1572,7 +1594,7 @@ Canadian manufacturers can now import steel wire rod from eight additional count
     <!-- 6. Supply Chain Watch -->
     <div>
       <span style="font-size:8px;letter-spacing:0.14em;text-transform:uppercase;font-family:'DM Mono',monospace;color:#1a3060;display:block;margin-bottom:8px;margin-top:24px;padding-top:20px;border-top:1px solid #e0dcd4;">6. Supply Chain Watch</span>
-      <div style="border:1px solid #e0dcd4;background:#fff;"><div class="scw-item"><div class="scw-left"><div class="scw-input">US-origin steel and aluminum (core articles and derivatives)</div><div class="scw-status">Section 232 tariffs expanded to copper with 50% rates on steel/aluminum core articles and 25% on derivatives, effective April 6, 2026, calculated on full customs value. This dramatically increases landed costs for Canadian manufacturers importing US metals for advanced manufacturing and industrial applications.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Immediately audit steel/aluminum supply contracts and HS code classifications; model total cost of ownership including 25–50% tariff impact; evaluate alternative sourcing from non-US suppliers (e.g., Japan, South Korea, EU) or domestic reshoring for high-volume inputs before contracts renew.</span></div></div><div class="scw-risk scw-risk-high">High</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">Semiconductors, lithium-ion battery components, and additive manufacturing powders (China-origin processing)</div><div class="scw-status">Canada's May 1, 2026 Export Control List update restricts advanced semiconductors and lithography equipment; Deloitte data shows energy transition mineral processing is China-concentrated, creating single-region chokepoints. Parallel US export controls and Canada's consultation on unilateral expanded controls signal tightening availability and rising geopolitical sourcing risk.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Map current China-origin dependencies in semiconductors and additive powders; engage Trade Commissioner Service market intelligence for alternative qualified suppliers in Japan, South Korea, and Germany; assess feasibility of strategic inventory buildup before controls tighten further.</span></div></div><div class="scw-risk scw-risk-high">High</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">Logistics capacity and transportation (rail and trucking to US border)</div><div class="scw-status">CPKC rail strike began May 31, 2026 with 300 signaling workers; concurrent USMCA review (July 2026) and 50% US content automotive demands create bottleneck risk for time-sensitive cross-border shipments. Mexico's record $72B April exports signal competitive pressure for freight capacity.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Diversify cross-border logistics routing away from CPKC (evaluate CN, trucking, intermodal); confirm supplier delivery schedules and build 2–3 week buffer stock for US-bound inputs; monitor USMCA July review outcomes to anticipate further supply chain restructuring needs.</span></div></div><div class="scw-risk scw-risk-med">Med</div></div></div>
+      <div style="border:1px solid #e0dcd4;background:#fff;"><div class="scw-item"><div class="scw-left"><div class="scw-input">Copper and steel/aluminum raw materials and mill products</div><div class="scw-status">US Section 232 tariffs expanded to copper and raised to 50% for steel/aluminum effective April 6, 2026, now calculated on full customs value. This dramatically increases landed costs for Canadian manufacturers sourcing these core inputs from the US, historically the primary supply source.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Immediately audit US steel/aluminum/copper sourcing contracts and pricing; evaluate qualified suppliers in non-tariff jurisdictions (Japan, South Korea, EU) and model reshoring feasibility for high-volume applications before July USMCA review.</span></div></div><div class="scw-risk scw-risk-high">High</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">Semiconductors, lithography equipment, and specialized additive manufacturing powders</div><div class="scw-status">Canada's updated Export Control List (effective May 1, 2026) now restricts these inputs with public consultation underway on expanded unilateral controls. Supply availability and regulatory compliance pathways remain uncertain for downstream manufacturers dependent on these materials.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Verify current inventory of controlled semiconductor and AM powder inputs; request advance guidance from Global Affairs Canada on compliance timelines; establish alternative qualified supplier relationships outside restricted jurisdictions.</span></div></div><div class="scw-risk scw-risk-med">Med</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">Energy transition minerals (rare earths, lithium, cobalt) and processed mineral derivatives</div><div class="scw-status">Deloitte analysis confirms 36% of Canadian capital goods depend on foreign supply with processing concentrated in China, creating single-region chokepoint. No diversification signal evident; supply disruption risk is acute for electrification and battery supply chains.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Map end-to-end mineral processing dependencies (especially China-sourced); explore Canadian domestic processing capacity or alternative processing jurisdictions (Australia, Canada); prioritize EDC trade financing for secured supply contracts.</span></div></div><div class="scw-risk scw-risk-high">High</div></div></div>
     </div>
 
     <!-- 7. Source Index -->
