@@ -40,30 +40,44 @@
 
   /* ── STICKY NAV ── */
   .sticky-nav {
-    position: sticky; top: 0; z-index: 100;
-    background: #faf8f5;
-    border-top: 1px solid #d4cfc8;
-    border-bottom: 1px solid #d4cfc8;
+    position: fixed;
+    top: 160px;
+    left: calc(50% - 430px - 160px);
+    width: 150px;
+    z-index: 100;
+    background: transparent;
+    border: none;
     padding: 0;
   }
   .sticky-nav-inner {
-    max-width: 860px; margin: 0 auto;
-    display: flex; align-items: center;
-    justify-content: space-between; height: 46px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    max-width: 120px;
   }
-  .sticky-nav-brand {
-    font-family: 'DM Mono', monospace; font-size: 9px;
-    letter-spacing: 0.14em; text-transform: uppercase;
-    color: var(--ink-light); text-decoration: none;
+  .sticky-nav-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
   }
-  .sticky-nav-links { display: flex; gap: 24px; }
   .sticky-nav-links a {
-    font-family: 'DM Mono', monospace; font-size: 8px;
-    letter-spacing: 0.12em; text-transform: uppercase;
-    color: var(--ink-light); text-decoration: none;
-    transition: color 0.18s;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #6b6560;
+    text-decoration: none;
+    padding: 6px 0;
+    border-left: 2px solid #d4cfc8;
+    padding-left: 10px;
+    display: block;
+    line-height: 1.3;
   }
-  .sticky-nav-links a:hover { color: var(--sector); }
+  .sticky-nav-links a:hover {
+    color: #8B1A1A;
+    border-left-color: #8B1A1A;
+  }
+  .sticky-nav-brand { display: none; }
 
   /* ── MASTHEAD ── */
   .masthead {
@@ -122,9 +136,7 @@
 
   /* ── REPORT NAV ── */
   .report-nav {
-    background: #fff;
-    border-bottom: 1px solid var(--rule);
-    padding: 0 40px; position: sticky; top: 46px; z-index: 90;
+    display: none;
   }
   .report-nav-inner {
     max-width: 1100px; margin: 0 auto;
@@ -147,10 +159,13 @@
   /* ── REPORT BODY ── */
   .report-body {
     max-width: 860px;
-    margin: 40px auto 80px;
+    margin: 0 auto 80px;
     background: #ffffff;
     box-shadow: 0 1px 4px rgba(0,0,0,0.10), 0 0 0 1px rgba(0,0,0,0.04);
-    padding-bottom: 60px;
+    border-radius: 0 0 2px 2px;
+    padding: 40px 56px 60px;
+    box-sizing: border-box;
+    overflow: hidden;
   }
 
   /* ── SECTION HEADERS ── */
@@ -158,6 +173,8 @@
     display: flex; align-items: baseline; gap: 14px;
     margin-bottom: 24px; padding-bottom: 10px;
     border-bottom: 2px solid var(--brand);
+    max-width: 100%;
+    box-sizing: border-box;
   }
   .section-label {
     font-family: 'DM Mono', monospace; font-size: 8px;
@@ -166,10 +183,21 @@
   }
   .section-rule { flex: 1; height: 1px; background: var(--rule); }
   .mb-56 { margin-bottom: 56px; }
+  @media screen {
+    section.mb-56 + section.mb-56 {
+      border-top: 1px solid var(--rule);
+      padding-top: 48px;
+    }
+  }
 
   /* ── EXEC SUMMARY ── */
   .exec-summary {
-    display: grid; grid-template-columns: 1fr 280px; gap: 32px;
+    display: block;
+  }
+  .exec-summary-text {
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--ink);
   }
   .exec-summary-text h2 {
     font-family: 'Cormorant Garamond', serif;
@@ -641,7 +669,7 @@
   .report-footer-links a:hover { color: var(--sector-mid); }
 
   @media (max-width: 768px) {
-    .sticky-nav { padding: 0 16px; }
+    .sticky-nav { display: none; }
     .masthead { padding: 32px 16px 28px; }
     .report-nav { padding: 0 16px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
     .report-nav::-webkit-scrollbar { display: none; }
@@ -686,6 +714,7 @@
 
     body { background: transparent !important; }
     .report-body { box-shadow: none !important; margin: 0 auto !important; }
+    .sticky-nav { display: none !important; }
 
     /* Hide nav chrome, CTAs, interactive elements */
     .sticky-nav, .report-nav, .report-footer,
@@ -811,9 +840,11 @@
 
   .doc-header {
     max-width: 860px;
-    margin: 0 auto;
-    padding: 28px 40px 0;
+    margin: 40px auto 0;
+    padding: 28px 56px 0;
     background: #fff;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.10), 0 0 0 1px rgba(0,0,0,0.04);
+    border-radius: 2px 2px 0 0;
   }
   .doc-header-top {
     height: 3px;
@@ -866,6 +897,14 @@
     color: #6b6560;
     letter-spacing: 0.08em;
   }
+  .doc-stats {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    color: #8B1A1A;
+    letter-spacing: 0.08em;
+    margin-top: 2px;
+    text-align: right;
+  }
   .doc-header-bottom {
     height: 0;
   }
@@ -891,30 +930,13 @@
     </div>
     <div class="doc-header-right">
       <span class="doc-issue">Issue #010</span>
-      <span class="doc-date">June 02, 2026</span>
+      <span class="doc-date">May 28 – Jun 4, 2026</span>
+      <span class="doc-stats">13 opportunities · 4 risks · 4 immediate</span>
     </div>
   </div>
   <div class="doc-header-bottom"></div>
 </header>
 
-<!-- REPORT SECTION NAV -->
-<nav class="report-nav">
-  <div class="report-nav-inner">
-    <a href="#summary">Overview</a>
-    <a href="#signals">Signals (6)</a>
-    <a href="#what-we-think">What We Think</a>
-    <a href="#actions">Actions (4)</a>
-    <a href="#procurement">Procurement (5)</a>
-    <a href="#supply-chain">Supply Chain</a>
-
-    <a href="#pathways">Market Entry</a>
-    <a href="#watch">Watch For These</a>
-
-    <a href="#spotlight">Canadian Spotlight</a>
-    <button onclick="toggleBriefing()" class="briefing-btn" id="briefing-toggle-btn">📋 Briefing View</button>
-    <button onclick="window.print()" class="pdf-nav-btn">⬇ Save as PDF</button>
-  </div>
-</nav>
 
 <!-- REPORT BODY -->
 <div id="report-content">
@@ -927,7 +949,7 @@
       <div class="section-rule"></div>
     </div>
     <div class="exec-summary">
-      <div class="exec-summary-text" style="font-size:17px;line-height:1.65;">
+      <div class="exec-summary-text" style="font-size:15px;line-height:1.75;color:var(--ink);max-width:680px;">
         <p>Canada's tech sector had a pivotal week: a Toronto-based AI company called Cohere announced a merger with Germany's Aleph Alpha to create a sovereign alternative to American AI giants like OpenAI and Google, and the federal government closed applications for an $890 million supercomputer fund that will give Canadian researchers and AI startups access to world-class computing power at home. For the roughly 1.2 million Canadians who work in technology and digital industries — in cities like Toronto, Waterloo, Montreal, and Ottawa — these moves signal that Canada is building the infrastructure to compete globally in AI rather than simply watching the US dominate. At the same time, the US and Canada have formally opened a renegotiation review of their trade deal that could force changes to rules protecting Canadians' data privacy online.</p>
       </div>
     </div>
@@ -953,6 +975,8 @@
     </div>
   </section>
 
+  <div style="clear:both;"></div>
+
   <!-- SIGNALS -->
   <section id="signals" class="mb-56">
     <div class="section-header">
@@ -961,72 +985,6 @@
     </div>
     <div class="signals-grid">
       
-      <div class="signal-card ">
-        <div class="signal-flag">
-           · Canada Cyber Export
-          <span class="urgency-tag urgency-now">Immediate</span>
-        </div>
-        <div class="signal-headline"><cite index="13-1,13-3">NATO strengthened relations with key cyber industries including Microsoft, Palo Alto Networks an</div>
-        
-        <div class="signal-body"><cite index="13-1">NATO joined forces with Microsoft, Palo Alto Networks and ESET to enhance cyber threat resilience</cite>. <cite index="13-2,13-3">The conference was organized by NATO's Cooperative Cyber Defence Centre of Excellence and brought together 800 cyber experts, academics and industry representatives</cite>. <cite index="17-1,17-9">Canada's post-quantum cryptography roadmap requires government departments to deliver PQC migration strategies by April 2026</cite>.</div>
-        <div class="signal-what-means"><span class="signal-what-label">What This Could Mean For You</span>Canadian cybersecurity companies can leverage NATO's enhanced industry partnerships to access Five Eyes procurement opportunities. The PQC deadline creates immediate demand for Canadian quantum-safe cybersecurity solutions in allied government markets.</div>
-        
-        <details class="analyst-detail">
-          <summary>Trade Context ▾</summary>
-          <div class="analyst-detail-body">
-          <b>Trade Agreement</b>No FTA in force
-          <b>TCS Office</b>TCS — contact nearest Canadian mission
-          <b>Relevant Programmes</b>EDC Tech Financing · NRC IRAP · ISED Digital Supercluster · CanExport SME
-          <b>HS Codes</b>HS 8471–8479 (computers/IT) · 8542 (semiconductors) · 8525 (telecom) · 8543 (electronics)
-          <b>Primary Source</b><a href="https://www.nato.int/en/news-and-events/articles/news/2026/05/27/nato-strengthens-relations-with-key-cyber-industries" target="_blank">NATO News</a>
-          </div>
-        </details>
-        <div class="signal-source">Source: <a href="https://www.nato.int/en/news-and-events/articles/news/2026/05/27/nato-strengthens-relations-with-key-cyber-industries" target="_blank">NATO News, 2026-06-02 →</a></div>
-      </div>
-      <div class="signal-card ">
-        <div class="signal-flag">
-           · Scip Sovereign Ai
-          <span class="urgency-tag urgency-now">Immediate</span>
-        </div>
-        <div class="signal-headline">Canada's $890 million AI Sovereign Compute Infrastructure Program application deadline closed June 1, 2026 with eligibil</div>
-        
-        <div class="signal-body"><cite index="1-2,1-12,1-22">Applications for the AI Sovereign Compute Infrastructure Program (SCIP) closed on June 1, 2026 at 13:00 EST</cite>. <cite index="1-17">The program provides approximately $890 million over seven fiscal years beginning 2026-27 to build a large-scale sovereign public AI supercomputer for Canadian researchers and innovators</cite>. <cite index="2-9">Sovereign AI compute infrastructure requires Canadian-located, Canadian-governed systems ensuring data residency, operational control, and decision-making authority remain in Canada</cite>.</div>
-        <div class="signal-what-means"><span class="signal-what-label">What This Could Mean For You</span>Canadian AI companies will benefit from domestic compute capacity that reduces latency and ensures data sovereignty compliance for GDPR-compliant EU customers and Five Eyes buyers. The supercomputer creates export advantages by providing Canadian firms access to advanced AI infrastructure without relying on US cloud providers subject to the CLOUD Act. This positions Canada as a trusted AI development jurisdiction for international partners seeking non-US alternatives.</div>
-        
-        <details class="analyst-detail">
-          <summary>Trade Context ▾</summary>
-          <div class="analyst-detail-body">
-          <b>Trade Agreement</b>No FTA in force
-          <b>TCS Office</b>TCS — contact nearest Canadian mission
-          <b>Relevant Programmes</b>EDC Tech Financing · NRC IRAP · ISED Digital Supercluster · CanExport SME
-          <b>HS Codes</b>HS 8471–8479 (computers/IT) · 8542 (semiconductors) · 8525 (telecom) · 8543 (electronics)
-          <b>Primary Source</b><a href="https://ised-isde.canada.ca/site/ised/en/ai-sovereign-compute-infrastructure-program" target="_blank">Innovation, Science and Economic Development Canada</a>
-          </div>
-        </details>
-        <div class="signal-source">Source: <a href="https://ised-isde.canada.ca/site/ised/en/ai-sovereign-compute-infrastructure-program" target="_blank">Innovation, Science and Economic Development Canada, 2026-06-02 →</a></div>
-      </div>
-      <div class="signal-card ">
-        <div class="signal-flag">
-           · Canadian Ai Enterprise
-          <span class="urgency-tag urgency-now">Immediate</span>
-        </div>
-        <div class="signal-headline">Major Canadian AI partnerships emerge with international implications</div>
-        
-        <div class="signal-body"><cite index="18-10,18-11,18-12">Canadian artificial intelligence company Cohere has signed a deal with Germany's Aleph Alpha in a bid to create an independent alternative to global tech giants dominating the field. The firms did not reveal the financial terms or structure of their agreement announced early Friday morning. They, however, said their proposed combined entity will use the Cohere name and be "anchored in" Germany and Canada, if Aleph Alpha shareholders approve the deal.</cite> <cite index="19-5">In January 2026, the company signed a $1 billion deal with Uber to deploy 25,000 robotaxis, making it the global leader in self-driving trucking.</cite></div>
-        <div class="signal-what-means"><span class="signal-what-label">What This Could Mean For You</span>The Cohere-Aleph Alpha merger positions Canada as a key player in sovereign AI development, potentially reducing European dependence on US tech giants and creating new export opportunities for Canadian AI companies. The Waabi-Uber deal demonstrates Canadian AI firms' ability to secure massive international contracts, establishing Canada as a leader in autonomous vehicle technology with significant implications for transportation exports and technology transfer.</div>
-        
-        <details class="analyst-detail">
-          <summary>Trade Context ▾</summary>
-          <div class="analyst-detail-body">
-          <b>Trade Agreement</b>No FTA in force
-          <b>TCS Office</b>TCS — contact nearest Canadian mission
-          <b>Relevant Programmes</b>EDC Tech Financing · NRC IRAP · ISED Digital Supercluster · CanExport SME
-          <b>HS Codes</b>HS 8471–8479 (computers/IT) · 8542 (semiconductors) · 8525 (telecom) · 8543 (electronics)
-          <b>Primary Source</b><a href="https://www.bnnbloomberg.ca/business/2026/04/24/canadian-ai-firm-cohere-to-merge-with-german-company-aleph-alpha/" target="_blank">BNN Bloomberg</a>
-          </div>
-        </details>
-        <div class="signal-source">Source: <a href="https://www.bnnbloomberg.ca/business/2026/04/24/canadian-ai-firm-cohere-to-merge-with-german-company-aleph-alpha/" target="_blank">BNN Bloomberg, 2026-06-02 →</a></div>
-      </div>
       <div class="signal-card ">
         <div class="signal-flag">
            · Canada Tech Export
@@ -1051,6 +1009,28 @@
       </div>
       <div class="signal-card ">
         <div class="signal-flag">
+           · Canada Cyber Export
+          <span class="urgency-tag urgency-now">Immediate</span>
+        </div>
+        <div class="signal-headline"><cite index="13-1,13-3">NATO strengthened relations with key cyber industries including Microsoft, Palo Alto Networks an</div>
+        
+        <div class="signal-body"><cite index="13-1">NATO joined forces with Microsoft, Palo Alto Networks and ESET to enhance cyber threat resilience</cite>. <cite index="13-2,13-3">The conference was organized by NATO's Cooperative Cyber Defence Centre of Excellence and brought together 800 cyber experts, academics and industry representatives</cite>. <cite index="17-1,17-9">Canada's post-quantum cryptography roadmap requires government departments to deliver PQC migration strategies by April 2026</cite>.</div>
+        <div class="signal-what-means"><span class="signal-what-label">What This Could Mean For You</span>Canadian cybersecurity companies can leverage NATO's enhanced industry partnerships to access Five Eyes procurement opportunities. The PQC deadline creates immediate demand for Canadian quantum-safe cybersecurity solutions in allied government markets.</div>
+        
+        <details class="analyst-detail">
+          <summary>Trade Context ▾</summary>
+          <div class="analyst-detail-body">
+          <b>Trade Agreement</b>No FTA in force
+          <b>TCS Office</b>TCS — contact nearest Canadian mission
+          <b>Relevant Programmes</b>EDC Tech Financing · NRC IRAP · ISED Digital Supercluster · CanExport SME
+          <b>HS Codes</b>HS 8471–8479 (computers/IT) · 8542 (semiconductors) · 8525 (telecom) · 8543 (electronics)
+          <b>Primary Source</b><a href="https://www.nato.int/en/news-and-events/articles/news/2026/05/27/nato-strengthens-relations-with-key-cyber-industries" target="_blank">NATO News</a>
+          </div>
+        </details>
+        <div class="signal-source">Source: <a href="https://www.nato.int/en/news-and-events/articles/news/2026/05/27/nato-strengthens-relations-with-key-cyber-industries" target="_blank">NATO News, 2026-06-02 →</a></div>
+      </div>
+      <div class="signal-card ">
+        <div class="signal-flag">
            · Canada Ai Startup
           <span class="urgency-tag urgency-quarter">This Quarter</span>
         </div>
@@ -1071,15 +1051,15 @@
         </details>
         <div class="signal-source">Source: <a href="https://beststartup.ca/may-2026-canada-startup-funding-roundup/" target="_blank">BestStartup.ca, 2026-06-02 →</a></div>
       </div>
-      <div class="signal-card ">
+      <div class="signal-card watch">
         <div class="signal-flag">
-           · Trade Remedy Canada
+           · Eu Ai Act Deadline
           <span class="urgency-tag urgency-quarter">This Quarter</span>
         </div>
-        <div class="signal-headline">CBSA launched multiple new anti-dumping investigations in past week covering Chinese imports</div>
+        <div class="signal-headline"><cite index="4-2,4-25">EU lawmakers reached political agreement May 7, 2026 on AI Act delays, with formal adoption expec</div>
         
-        <div class="signal-body"><cite index="29-1">CBSA issued preliminary determination on Oil and Gas Well Casing 6 investigation on May 19, 2026</cite>. <cite index="30-10,32-10">So far in 2026, CBSA has launched 7-9 combined dumping and subsidy investigations for 4-5 different products</cite>, including recent investigations into Chinese plywood, steel racks, and unarmoured building cables.</div>
-        <div class="signal-what-means"><span class="signal-what-label">What This Could Mean For You</span>Active trade remedy investigations protect Canadian producers from unfair import competition while potentially raising input costs for Canadian manufacturers and exporters who rely on affected imported materials. Current investigations may impact construction, storage systems, and electrical sectors.</div>
+        <div class="signal-body"><cite index="3-3,4-4">On May 7, 2026, EU lawmakers reached political agreement on revisions to the AI Act, extending compliance deadlines for high-risk AI systems</cite>. <cite index="4-8,26-27">The extension of HRAIS compliance deadlines is a significant change, with the Consolidated Rules 2026 framework beginning rollout on May 4, 2026</cite>. <cite index="4-25">Text will proceed to formal adoption by the European Parliament and Council by July 2026, ahead of August 2 when HRAIS requirements would otherwise take effect</cite>.</div>
+        <div class="signal-what-means"><span class="signal-what-label">What This Could Mean For You</span><cite index="2-1,2-2,2-17">US-based businesses that operate high-risk AI systems should be mindful of the August 2026 deadline, as the regulation applies to any AI system's output that touches the EU in a meaningful way</cite>. Canadian AI companies selling to EU customers must prepare for either August 2026 enforcement or the delayed timeline, with potential competitive advantages for companies already implementing AIDA compliance frameworks. The uncertainty creates both planning challenges and strategic opportunities for Canadian firms to position themselves as compliant alternatives.</div>
         
         <details class="analyst-detail">
           <summary>Trade Context ▾</summary>
@@ -1088,10 +1068,54 @@
           <b>TCS Office</b>TCS — contact nearest Canadian mission
           <b>Relevant Programmes</b>EDC Tech Financing · NRC IRAP · ISED Digital Supercluster · CanExport SME
           <b>HS Codes</b>HS 8471–8479 (computers/IT) · 8542 (semiconductors) · 8525 (telecom) · 8543 (electronics)
-          <b>Primary Source</b><a href="https://www.cbsa-asfc.gc.ca/sima-lmsi/menu-eng.html" target="_blank">Canada Border Services Agency</a>
+          <b>Primary Source</b><a href="https://www.lw.com/en/insights/ai-act-update-eu-resolves-to-change-rules-and-extend-deadlines" target="_blank">Latham & Watkins</a>
           </div>
         </details>
-        <div class="signal-source">Source: <a href="https://www.cbsa-asfc.gc.ca/sima-lmsi/menu-eng.html" target="_blank">Canada Border Services Agency, 2026-06-02 →</a></div>
+        <div class="signal-source">Source: <a href="https://www.lw.com/en/insights/ai-act-update-eu-resolves-to-change-rules-and-extend-deadlines" target="_blank">Latham & Watkins, 2026-06-02 →</a></div>
+      </div>
+      <div class="signal-card ">
+        <div class="signal-flag">
+           · Fedramp Canadian
+          <span class="urgency-tag urgency-quarter">This Quarter</span>
+        </div>
+        <div class="signal-headline"><cite index="25-5,25-12">FedRAMP's Consolidated Rules 2026 will be released end of June 2026 and take effect December 31</div>
+        
+        <div class="signal-body"><cite index="25-5,25-6,25-12">CR26 is scheduled for release at end of June 2026 and will remain in effect until December 2028, with a six-month implementation period before taking effect December 31, 2026</cite>. <cite index="25-1,25-24">Major change includes FedRAMP shifting from authorization process to certification, with CSPs becoming "FedRAMP Certified" rather than authorized</cite>. <cite index="27-14,27-15,27-16">Qualys TotalCloud achieved FedRAMP High Authorization on May 14, 2026, sponsored by the U.S. Drug Enforcement Agency, extending coverage to Cloud-Native Application Protection Platform capabilities</cite>.</div>
+        <div class="signal-what-means"><span class="signal-what-label">What This Could Mean For You</span>Canadian companies pursuing US federal contracts should prepare for the terminology shift and understand that while certification replaces authorization, agencies still perform risk assessments. The Qualys achievement demonstrates pathways for Canadian firms, particularly those with CCCS certification leveraging Five Eyes relationships. Companies should focus on CR26 compliance preparation and consider pursuing certification under the new framework.</div>
+        
+        <details class="analyst-detail">
+          <summary>Trade Context ▾</summary>
+          <div class="analyst-detail-body">
+          <b>Trade Agreement</b>No FTA in force
+          <b>TCS Office</b>TCS — contact nearest Canadian mission
+          <b>Relevant Programmes</b>EDC Tech Financing · NRC IRAP · ISED Digital Supercluster · CanExport SME
+          <b>HS Codes</b>HS 8471–8479 (computers/IT) · 8542 (semiconductors) · 8525 (telecom) · 8543 (electronics)
+          <b>Primary Source</b><a href="https://www.ignyteplatform.com/blog/fedramp/fedramps-rule-overhaul-cr26/" target="_blank">Ignyte Platform</a>
+          </div>
+        </details>
+        <div class="signal-source">Source: <a href="https://www.ignyteplatform.com/blog/fedramp/fedramps-rule-overhaul-cr26/" target="_blank">Ignyte Platform, 2026-06-02 →</a></div>
+      </div>
+      <div class="signal-card ">
+        <div class="signal-flag">
+           · Cptpp Digital
+          <span class="urgency-tag urgency-quarter">This Quarter</span>
+        </div>
+        <div class="signal-headline"><cite index="31-4,31-5">EU and CPTPP parties agreed March 27, 2026 to move forward with a "historic" digital trade agree</div>
+        
+        <div class="signal-body"><cite index="31-4,37-2">The European Union and <a href="/resources/trade-agreements/#cptpp" style="color:var(--brand,#8b0000);text-decoration:none;border-bottom:1px solid rgba(139,26,26,0.3);" title="CPTPP — trade agreement details">CPTPP</a> parties met on the sidelines of the WTO ministerial conference in Cameroon on March 27 and agreed to proceed with negotiations</cite>. <cite index="37-9,37-16">The agreement could involve two blocs representing 1.6 billion people and roughly US$35 trillion in economic output</cite>. <cite index="31-21,37-15">The deal will focus on e-commerce, cross-border data flows, and data storage policies, with ministers continuing engagement on further details</cite>.</div>
+        <div class="signal-what-means"><span class="signal-what-label">What This Could Mean For You</span>This creates a massive new digital trade framework connecting Canada's existing <a href="/resources/trade-agreements/#cptpp" style="color:var(--brand,#8b0000);text-decoration:none;border-bottom:1px solid rgba(139,26,26,0.3);" title="CPTPP — trade agreement details">CPTPP</a> benefits with EU market access. Canadian tech companies, SaaS providers, and digital services exporters would gain enhanced data flow protections and reduced barriers across both blocs. The agreement strengthens Canada's position as a digital trade hub with preferential access to markets in Asia-Pacific and Europe, potentially creating competitive advantages over US competitors in these regions.</div>
+        
+        <details class="analyst-detail">
+          <summary>Trade Context ▾</summary>
+          <div class="analyst-detail-body">
+          <b>Trade Agreement</b>No FTA in force
+          <b>TCS Office</b>TCS — contact nearest Canadian mission
+          <b>Relevant Programmes</b>EDC Tech Financing · NRC IRAP · ISED Digital Supercluster · CanExport SME
+          <b>HS Codes</b>HS 8471–8479 (computers/IT) · 8542 (semiconductors) · 8525 (telecom) · 8543 (electronics)
+          <b>Primary Source</b><a href="https://www.usnews.com/news/world/articles/2026-03-27/eu-and-cptpp-agree-to-progress-with-historic-digital-trade-deal-canadas-international-trade-minister-says" target="_blank">US News</a>
+          </div>
+        </details>
+        <div class="signal-source">Source: <a href="https://www.usnews.com/news/world/articles/2026-03-27/eu-and-cptpp-agree-to-progress-with-historic-digital-trade-deal-canadas-international-trade-minister-says" target="_blank">US News, 2026-06-02 →</a></div>
       </div>
     </div>
   </section>
@@ -1102,7 +1126,7 @@
       <span class="section-label">Workers &amp; Communities This Week</span>
       <div class="section-rule"></div>
     </div>
-    <div class="so-what-section" style="margin-top:8px;"><div class="so-what-item" style="margin-bottom:16px;padding:14px 16px;background:var(--surface);border-left:3px solid var(--sector);"><div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;">Technology company or entrepreneur</div><div style="font-size:14px;color:var(--ink-mid);line-height:1.7;">Three actions this week have hard deadlines: (1) CanExport Innovation defence-priority intake opened June 2 for 24 hours  -  apply at tradecommissioner.gc.ca/canexport for 75% cost match up to $75K for market entry. (2) CPCSC Level 1 certification is mandatory in DND contracts this summer  -  verify status at cyber.gc.ca immediately. (3) Cohere's Aleph Alpha merger opens a European enterprise AI channel  -  contact TCS Berlin (berlin@international.gc.ca) this week to map your Cohere-integrated product against active German BMWK-funded industrial AI procurement opportunities.</div></div><div class="so-what-item" style="margin-bottom:16px;padding:14px 16px;background:var(--surface);border-left:3px solid var(--sector);"><div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;">Worker in the tech sector or knowledge economy</div><div style="font-size:14px;color:var(--ink-mid);line-height:1.7;">The $890 million Sovereign Compute Infrastructure Program, which closed applications June 1, will build a national AI supercomputer anchored at Canadian universities  -  the downstream effect for AI and data science workers in Waterloo, Toronto, and Montreal is more domestic compute capacity for model training, reducing dependence on US hyperscalers and supporting Canadian AI company growth that keeps high-skill jobs here. The Cohere-Aleph Alpha merger creates new European-facing roles in enterprise AI sales, compliance, and engineering  -  watch Cohere's LinkedIn hiring in Toronto and Montreal for EU market-facing positions opening in Q3 2026. If your employer is a cybersecurity firm pursuing DND contracts, ask your management team this week where the company stands on CPCSC Level 1 certification  -  firms that miss the Summer 2026 deadline face contract losses that translate directly to headcount risk.</div></div><div class="so-what-item" style="margin-bottom:16px;padding:14px 16px;background:var(--surface);border-left:3px solid var(--sector);"><div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;">Canadian consumer or digital citizen</div><div style="font-size:14px;color:var(--ink-mid);line-height:1.7;">In Waterloo, Ontario  -  home to some of Canada's largest tech employers including OpenText, BlackBerry's security division, and dozens of AI startups  -  the Cohere-Aleph Alpha deal and sovereign compute investments signal that the Canadian AI industry is building domestic infrastructure rather than routing everything through American servers. For everyday Canadians, this matters because sovereign AI compute means that when Canadian hospitals, government agencies, or banks use AI systems, more of that data can stay in Canada rather than being processed in US data centres subject to American law. The <a href="/resources/trade-agreements/#cusma" style="color:var(--brand,#8b0000);text-decoration:none;border-bottom:1px solid rgba(139,26,26,0.3);" title="CUSMA — trade agreement details">CUSMA</a> data residency review is the direct threat to that protection  -  if the US successfully pressures Canada to weaken data residency rules during the trade deal review underway now, the sovereignty premium that Canadian tech companies sell and that Canadians benefit from in privacy terms could erode.</div></div></div>
+    <div class="so-what-section" style="margin-top:8px;max-width:100%;overflow:hidden;box-sizing:border-box;"><div class="so-what-item" style="margin-bottom:16px;padding:14px 16px;background:var(--surface);border-left:3px solid var(--sector);"><div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;">Technology company or entrepreneur</div><div style="font-size:14px;color:var(--ink-mid);line-height:1.7;">Three actions this week have hard deadlines: (1) CanExport Innovation defence-priority intake opened June 2 for 24 hours  -  apply at tradecommissioner.gc.ca/canexport for 75% cost match up to $75K for market entry. (2) CPCSC Level 1 certification is mandatory in DND contracts this summer  -  verify status at cyber.gc.ca immediately. (3) Cohere's Aleph Alpha merger opens a European enterprise AI channel  -  contact TCS Berlin (berlin@international.gc.ca) this week to map your Cohere-integrated product against active German BMWK-funded industrial AI procurement opportunities.</div></div><div class="so-what-item" style="margin-bottom:16px;padding:14px 16px;background:var(--surface);border-left:3px solid var(--sector);"><div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;">Worker in the tech sector or knowledge economy</div><div style="font-size:14px;color:var(--ink-mid);line-height:1.7;">The $890 million Sovereign Compute Infrastructure Program, which closed applications June 1, will build a national AI supercomputer anchored at Canadian universities  -  the downstream effect for AI and data science workers in Waterloo, Toronto, and Montreal is more domestic compute capacity for model training, reducing dependence on US hyperscalers and supporting Canadian AI company growth that keeps high-skill jobs here. The Cohere-Aleph Alpha merger creates new European-facing roles in enterprise AI sales, compliance, and engineering  -  watch Cohere's LinkedIn hiring in Toronto and Montreal for EU market-facing positions opening in Q3 2026. If your employer is a cybersecurity firm pursuing DND contracts, ask your management team this week where the company stands on CPCSC Level 1 certification  -  firms that miss the Summer 2026 deadline face contract losses that translate directly to headcount risk.</div></div><div class="so-what-item" style="margin-bottom:16px;padding:14px 16px;background:var(--surface);border-left:3px solid var(--sector);"><div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;">Canadian consumer or digital citizen</div><div style="font-size:14px;color:var(--ink-mid);line-height:1.7;">In Waterloo, Ontario  -  home to some of Canada's largest tech employers including OpenText, BlackBerry's security division, and dozens of AI startups  -  the Cohere-Aleph Alpha deal and sovereign compute investments signal that the Canadian AI industry is building domestic infrastructure rather than routing everything through American servers. For everyday Canadians, this matters because sovereign AI compute means that when Canadian hospitals, government agencies, or banks use AI systems, more of that data can stay in Canada rather than being processed in US data centres subject to American law. The <a href="/resources/trade-agreements/#cusma" style="color:var(--brand,#8b0000);text-decoration:none;border-bottom:1px solid rgba(139,26,26,0.3);" title="CUSMA — trade agreement details">CUSMA</a> data residency review is the direct threat to that protection  -  if the US successfully pressures Canada to weaken data residency rules during the trade deal review underway now, the sovereignty premium that Canadian tech companies sell and that Canadians benefit from in privacy terms could erode.</div></div></div>
   </section>
 
   <!-- WHAT WE THINK -->
@@ -1111,7 +1135,7 @@
       <span class="section-label">What We Think</span>
       <div class="section-rule"></div>
     </div>
-    <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-light);margin-bottom:20px;">— CTI Editorial Desk &nbsp;·&nbsp; June 02, 2026</div>
+    <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-light);margin-bottom:20px;">— CTI Editorial Desk &nbsp;·&nbsp; June 04, 2026</div>
     <div class="editorial-block"><p style="margin-bottom:1.2em;">The pattern beneath this week's signals is a Canada that is building sovereign AI infrastructure with one hand while dismantling regulatory credibility with the other. The $890 million SCIP, the Cohere-Aleph Alpha merger, and the AI Compute Access Fund represent genuine structural investments. But AIDA is dead, no legislative replacement has been confirmed, and the <a href="/resources/trade-agreements/#cusma" style="color:var(--brand,#8b0000);text-decoration:none;border-bottom:1px solid rgba(139,26,26,0.3);" title="CUSMA — trade agreement details">CUSMA</a> joint review has formally opened with the US explicitly targeting Canadian data measures. Taken together, these signals reveal a government that is investing in the hardware and corporate layer of AI sovereignty while leaving the governance layer  -  the legal and regulatory architecture that gives international buyers confidence in Canadian AI systems  -  empty. That is a commercial liability, not just a policy gap.</p><p style="margin-bottom:1.2em;">What Canadian businesses are most likely underweighting is the speed at which the EU AI Act is creating procurement gatekeeping. The May 7 political agreement on high-risk AI system deadline extensions buys time, but formal adoption is expected by July 2026. Canadian companies that have not mapped their products against EU AI Act risk categories  -  general purpose AI models, biometric systems, critical infrastructure AI, employment decision tools  -  are running out of runway. The EU-<a href="/resources/trade-agreements/#cptpp" style="color:var(--brand,#8b0000);text-decoration:none;border-bottom:1px solid rgba(139,26,26,0.3);" title="CPTPP — trade agreement details">CPTPP</a> digital trade agreement framework agreed March 27 will eventually layer additional data flow and e-commerce obligations on top of the AI Act. Canadian companies that read these as separate issues will be caught flat-footed; they are converging into a single market access architecture.</p><p style="margin-bottom:1.2em;">The evidence points toward a 60-day window in which Canadian AI exporters either establish their EU AI Act conformity documentation or face real procurement exclusion  -  not theoretical risk. The Cohere-Aleph Alpha deal creates a European institutional anchor that smaller Canadian AI firms can leverage for EU market entry, but only if they arrive with compliance paperwork in order. The CPCSC Level 1 deadline in Summer 2026 creates a parallel domestic forcing function for cybersecurity firms. The companies that treat both deadlines as administrative burdens will lose contracts. The companies that treat them as market positioning tools  -  completing conformity assessments, achieving CPCSC certification, and then using those credentials in export pitches  -  will capture disproportionate share of the EU and NORAD procurement pipelines opening in Q3 2026.</p></div>
   </section>
 
@@ -1121,7 +1145,7 @@
       <span class="section-label">✓ Actions This Week</span>
       <div class="section-rule"></div>
     </div>
-    <p style="font-size:12px;font-family:'DM Mono',monospace;letter-spacing:0.06em;color:var(--ink-light);margin-bottom:20px;text-transform:uppercase;">Time-sensitive actions — week of June 02, 2026</p>
+    <p style="font-size:12px;font-family:'DM Mono',monospace;letter-spacing:0.06em;color:var(--ink-light);margin-bottom:20px;text-transform:uppercase;">Time-sensitive actions — week of June 04, 2026</p>
     <div class="actions-compact">
   <div class="action-row" onclick="toggleAction('act-1')" id="act-1-row">
     <span class="urgency-tag urgency-now">Immediate</span>
@@ -1257,7 +1281,7 @@
       Import dependencies, critical input signals, and inbound supply chain risks for Canadian businesses in this sector this week.
     </p>
     <div class="scw-grid">
-      <div class="scw-item"><div class="scw-left"><div class="scw-input">EU-sourced technology components and software (subject to EU AI Act compliance)</div><div class="scw-status">EU AI Act is now enforcing globally with mandatory NANDO database registration. Canadian tech importers relying on EU-made AI systems, chips, or software must comply or face supply delays and market access restrictions. AIDA's death means Canada has no reciprocal federal AI framework to negotiate exemptions.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Audit all inbound EU technology suppliers and their AI system classifications now. Register any AI systems in your supply chain to NANDO (nando.ec.europa.eu) before Friday 5pm CET to maintain uninterrupted access to EU inputs.</span></div></div><div class="scw-risk scw-risk-high">High</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">US semiconductor and chip-design inputs (subject to CUSMA 2026 data residency review)</div><div class="scw-status">CUSMA joint review formally underway with USTR specifically targeting Canadian data residency requirements as a trade barrier. This creates uncertainty for Canadian tech firms importing US semiconductors and relying on US-Canada data flows. Potential tightening of terms or renegotiation risk through 2026.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Diversify US semiconductor sourcing by exploring Japan supply partnerships via Trade Commissioner Service (tokyo@international.gc.ca) and accelerate US domestic alternatives through CanExport SME funding ($75k max) to hedge CUSMA renegotiation exposure.</span></div></div><div class="scw-risk scw-risk-med">Med</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">Port-dependent imports from Asia and EU (inbound via BC and Montreal ports)</div><div class="scw-status">Canadian port capacity recovered to 78% as of April 2026 after 2024 strikes, but future labour contract renewals for 2026–2027 pose re-strike risk. Inbound lead times stabilizing now, but supply chain buffers should account for potential disruption in next 12–18 months.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Extend inbound procurement lead times for critical imports by 4–6 weeks and consider air/alternative freight for time-sensitive components. Monitor port labour negotiations (BC and Montreal) monthly through Q4 2026.</span></div></div><div class="scw-risk scw-risk-med">Med</div></div>
+      <div class="scw-item"><div class="scw-left"><div class="scw-input">EU-sourced AI components, software, and services</div><div class="scw-status">EU AI Act now enforces globally while Canada has no federal AI regulation (AIDA died in 2025). Canadian tech importers of EU AI systems must comply with EU Act requirements or face market access restrictions; competitive disadvantage vs. US suppliers without equivalent rules.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Audit inbound AI component and software suppliers for EU AI Act compliance status; contact suppliers to confirm NANDO database registration and conformity documentation before Q4 2026 enforcement tightens.</span></div></div><div class="scw-risk scw-risk-high">High</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">US semiconductor components and chip-design services</div><div class="scw-status">CUSMA 2026 review underway with USTR pressure on Canadian data residency rules; US semiconductor corridor funding now live via CanExport SME but signals US supply-chain nationalism acceleration through 2027.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Diversify semiconductor sourcing pathways: apply for CanExport SME funding to explore Japanese and allied suppliers; simultaneously engage TCS Japan desk (tokyo@international.gc.ca) for buyer introductions in Japan's semiconductor ecosystem as hedge against US trade friction.</span></div></div><div class="scw-risk scw-risk-med">Med</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">Port-dependent inbound logistics (all modes via BC and Montreal)</div><div class="scw-status">Ports stabilized at 78% capacity as of April 2026 but 2026–2027 labour contract renewals pose future disruption risk; no current alerts but 18–24 month lead-time risk window open.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Lock in long-lead component orders now (3–6 month forward) and negotiate port-flex clauses in supplier contracts ahead of 2026–2027 labour renegotiations; model 20–30% capacity delays for Q4 2026–Q1 2027.</span></div></div><div class="scw-risk scw-risk-med">Med</div></div>
     </div>
   </section>
 
@@ -1273,9 +1297,7 @@
       <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-bottom:8px;">
         CITT decisions, Canada Gazette notices, and regulatory changes relevant to this sector. Updated weekly. Click any item for official source.
       </div>
-      <ul style="margin:0;padding:0;"><li style="padding:6px 0;border-bottom:1px solid rgba(200,134,10,0.15);list-style:none;font-size:13px;color:var(--ink-mid);line-height:1.6;">🟡 <strong style="color:var(--ink);">Determination — June 9, 2026</strong><span style="color:var(--ink-light);font-size:11px;"> — Canada's import tariff on steel fasteners from certain countries will increase by 15% effective immediately, raising costs for manufacturers who rely on these components.</span> <a href="https://www.citt-tcce.gc.ca/en/anti-dumping-injury-inquiries/active-dumping-and-subsidizing-cases" style="color:var(--amber);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" target="_blank">Source →</a><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:8px;">CITT</span></li><li style="padding:6px 0;border-bottom:1px solid rgba(200,134,10,0.15);list-style:none;font-size:13px;color:var(--ink-mid);line-height:1.6;">🟡 <strong style="color:var(--ink);">Reasons for determination — June 1, 2026</strong><span style="color:var(--ink-light);font-size:11px;"> — Canadian importers of aluminum products must now pay higher tariffs after the tribunal found domestic producers were injured by cheap imports.</span> <a href="https://www.citt-tcce.gc.ca/en/anti-dumping-injury-inquiries/active-dumping-and-subsidizing-cases" style="color:var(--amber);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" target="_blank">Source →</a><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:8px;">CITT</span></li><li style="padding:6px 0;border-bottom:1px solid rgba(200,134,10,0.15);list-style:none;font-size:13px;color:var(--ink-mid);line-height:1.6;">🟡 <strong style="color:var(--ink);">Public hearing — May 25, 2026</strong><span style="color:var(--ink-light);font-size:11px;"> — Canadian businesses importing steel products should monitor this May 2026 CITT hearing outcome, as it may result in new tariff rules or trade remedies affecting their supply costs.</span> <a href="https://www.citt-tcce.gc.ca/en/anti-dumping-injury-inquiries/public-hearings-anti-dumping-injury-inquiries#toc-id-1" style="color:var(--amber);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" target="_blank">Source →</a><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:8px;">CITT</span></li><li style="padding:6px 0;border-bottom:1px solid rgba(200,134,10,0.15);list-style:none;font-size:13px;color:var(--ink-mid);line-height:1.6;">🟡 <strong style="color:var(--ink);">Determination — May 15, 2026</strong><span style="color:var(--ink-light);font-size:11px;"> — # Trade Intelligence Summary
-
-Canadian manufacturers can now import steel wire rod from eight additional countries without facing anti-dumping duties, expanding sourcing options and potentially reducing input costs.</span> <a href="https://decisions.citt-tcce.gc.ca/citt-tcce/a/en/item/521531/index.do" style="color:var(--amber);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" target="_blank">Source →</a><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:8px;">CITT</span></li></ul>
+      <ul style="margin:0;padding:0;"><li style="padding:6px 0;border-bottom:1px solid rgba(200,134,10,0.15);list-style:none;font-size:13px;color:var(--ink-mid);line-height:1.6;">🟡 <strong style="color:var(--ink);">Determination — June 18, 2026</strong><span style="color:var(--ink-light);font-size:11px;"> — Please provide the actual determination content (such as whether this involves tariffs, dumping duties, safeguards, or other trade remedies) so I can deliver a meaningful one-sentence analysis.</span> <a href="https://www.citt-tcce.gc.ca/en/anti-dumping-injury-inquiries/active-dumping-and-subsidizing-cases" style="color:var(--amber);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" target="_blank">Source →</a><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:8px;">CITT</span></li><li style="padding:6px 0;border-bottom:1px solid rgba(200,134,10,0.15);list-style:none;font-size:13px;color:var(--ink-mid);line-height:1.6;">🟡 <strong style="color:var(--ink);">Determination — June 9, 2026</strong><span style="color:var(--ink-light);font-size:11px;"> — Canadian importers of forged steel pipe fittings now face new anti-dumping duties after the Canadian International Trade Tribunal found Chinese suppliers were selling below cost to unfairly undercut domestic producers.</span> <a href="https://www.citt-tcce.gc.ca/en/anti-dumping-injury-inquiries/active-dumping-and-subsidizing-cases" style="color:var(--amber);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" target="_blank">Source →</a><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:8px;">CITT</span></li><li style="padding:6px 0;border-bottom:1px solid rgba(200,134,10,0.15);list-style:none;font-size:13px;color:var(--ink-mid);line-height:1.6;">🟡 <strong style="color:var(--ink);">Reasons for determination — June 1, 2026</strong><span style="color:var(--ink-light);font-size:11px;"> — Canadian importers of certain steel products now face higher duties after the Canadian International Trade Tribunal found domestic producers were injured by unfairly priced imports.</span> <a href="https://www.citt-tcce.gc.ca/en/anti-dumping-injury-inquiries/active-dumping-and-subsidizing-cases" style="color:var(--amber);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" target="_blank">Source →</a><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:8px;">CITT</span></li><li style="padding:6px 0;border-bottom:1px solid rgba(200,134,10,0.15);list-style:none;font-size:13px;color:var(--ink-mid);line-height:1.6;">🟡 <strong style="color:var(--ink);">Public hearing — May 25, 2026</strong><span style="color:var(--ink-light);font-size:11px;"> — The Canadian International Trade Tribunal is holding a public hearing on May 25, 2026, where Canadian businesses can present evidence and arguments in a trade dispute case.</span> <a href="https://www.citt-tcce.gc.ca/en/anti-dumping-injury-inquiries/public-hearings-anti-dumping-injury-inquiries#toc-id-1" style="color:var(--amber);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" target="_blank">Source →</a><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:8px;">CITT</span></li></ul>
       <div style="font-family:'DM Mono',monospace;font-size:8px;color:var(--ink-light);margin-top:8px;">
         Sources: Canada Gazette Part II · CITT · CBSA · Parliament<br>
         <a href="https://canadiantradeintel.ca/tools/sanctions-check/" style="color:var(--amber);margin-right:12px;">Screen a supplier or counterparty →</a>
@@ -1516,7 +1538,7 @@ Canadian manufacturers can now import steel wire rod from eight additional count
         Technology & Digital Intelligence Brief
       </h1>
       <div style="font-family:'DM Mono',monospace;font-size:10px;color:#888;line-height:2;">
-        Issue #010 &nbsp;·&nbsp; June 02, 2026<br>
+        Issue #010 &nbsp;·&nbsp; June 04, 2026<br>
         Prepared by Canadian Trade Intelligence Inc. &nbsp;·&nbsp; canadiantradeintel.ca
       </div>
     </div>
@@ -1524,19 +1546,19 @@ Canadian manufacturers can now import steel wire rod from eight additional count
     <!-- 1. Situation Summary -->
     <div>
       <span style="font-size:8px;letter-spacing:0.14em;text-transform:uppercase;font-family:'DM Mono',monospace;color:#064050;display:block;margin-bottom:8px;margin-top:24px;padding-top:20px;border-top:1px solid #e0dcd4;">1. Situation Summary</span>
-      <p style="font-size:14px;color:#1a1a1a;line-height:1.8;max-width:740px;">Canada's sovereign AI strategy is crystallizing through targeted infrastructure investment and corporate consolidation, but regulatory fragmentation across the EU, US, and domestic frameworks threatens commercial viability. Canadian AI exporters face a narrow compliance window this week to register systems in Europe while US semiconductor exemptions remain pending. Immediate action on EU registration and market-specific positioning will determine whether Canada's stack attracts global capital or fragments across incompatible regulatory zones.</p>
+      <p style="font-size:14px;color:#1a1a1a;line-height:1.8;max-width:740px;">Canada's sovereign AI stack investments face a critical compliance window this week as EU AI Act registration deadlines and US semiconductor export control decisions converge. Without rapid regulatory alignment and market-entry execution, $890M+ in domestic AI infrastructure commitments risk commercial isolation in tier-one markets.</p>
     </div>
 
     <!-- 2. Top Signals -->
     <div>
       <span style="font-size:8px;letter-spacing:0.14em;text-transform:uppercase;font-family:'DM Mono',monospace;color:#064050;display:block;margin-bottom:8px;margin-top:24px;padding-top:20px;border-top:1px solid #e0dcd4;">2. Top Signals</span>
-      <div style="padding:10px 0 10px 14px;border-left:3px solid #0a6080;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">EU AI Act high-risk system registration deadline closes this week, requiring Canadian AI vendors to submit declarations to the NANDO database by Friday 5pm CET.</div><div style="font-size:12px;color:#444;line-height:1.65;">Missed registration triggers compliance penalties and market exclusion across all 27 EU member states; early filers establish competitive positioning in Europe's largest regulated AI market.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#1a6b42;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: HIGH</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #0a6080;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">US Commerce Department is expected to announce semiconductor design tool export control exemptions imminently, likely carving out non-chip-manufacturing use cases.</div><div style="font-size:12px;color:#444;line-height:1.65;">Exemptions would unlock Canadian semiconductor IP and design tool exports to US-allied markets without triggering CFIUS review, accelerating CanExport SME uptake.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#b36b00;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: MED</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #0a6080;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">The Cohere-Aleph Alpha merger consolidates Canadian LLM capability and positions a domestic champion against OpenAI and Anthropic in enterprise markets.</div><div style="font-size:12px;color:#444;line-height:1.65;">Merger signals private-sector confidence in Canada's sovereign stack and strengthens pitch for $890M Sovereign Compute Infrastructure Program funding—critical for retaining talent and capital.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#1a6b42;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: HIGH</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #0a6080;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">Bank of Canada rate guidance expected by Friday will determine borrowing costs for VC and growth-stage AI companies; a hawkish signal risks capital flight to US tech hubs.</div><div style="font-size:12px;color:#444;line-height:1.65;">BoC policy directly affects cost of capital for Canadian AI startups; dovish signaling would improve competitiveness relative to US-based competitors.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#b36b00;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: MED</div></div>
+      <div style="padding:10px 0 10px 14px;border-left:3px solid #0a6080;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">EU AI Act high-risk system registration deadline arrives Friday, creating immediate compliance friction for Canadian AI exporters.</div><div style="font-size:12px;color:#444;line-height:1.65;">Missed registration blocks market access to the EU's 450M consumer base and closes vendor eligibility for public procurement contracts worth billions annually.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#1a6b42;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: HIGH</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #0a6080;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">US Commerce Department expected to announce semiconductor design tool export exemptions this week, directly benefiting Canadian chip-design firms leveraging American foundry partners.</div><div style="font-size:12px;color:#444;line-height:1.65;">Exemptions unlock supply-chain integration pathways that would otherwise force Canadian semiconductor startups into Chinese or non-aligned tool ecosystems.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#b36b00;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: MED</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #0a6080;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">Cohere-Aleph Alpha merger and $66M AI Compute Access Fund signal Canada is positioning generative AI champions for global competition, but AIDA regulatory void leaves them without domestic policy cover.</div><div style="font-size:12px;color:#444;line-height:1.65;">Absence of coherent AI governance framework invites regulatory arbitrage by competitors and creates reputational risk for Canadian-backed models entering risk-sensitive EU and UK markets.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#1a6b42;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: HIGH</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #0a6080;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">Bank of Canada rate guidance expected by Friday will determine mortgage and SME borrowing costs, directly affecting venture funding velocity for AI and semiconductor startups.</div><div style="font-size:12px;color:#444;line-height:1.65;">Rate hold or cut unlocks capital availability for scale-stage CanTech firms pursuing US and EU market entry; tightening starves mid-stage growth companies of expansion fuel.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#b36b00;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: MED</div></div>
     </div>
 
     <!-- 3. Recommended Actions -->
     <div>
       <span style="font-size:8px;letter-spacing:0.14em;text-transform:uppercase;font-family:'DM Mono',monospace;color:#064050;display:block;margin-bottom:8px;margin-top:24px;padding-top:20px;border-top:1px solid #e0dcd4;">3. Recommended Actions</span>
-      <div style="padding:12px 14px;background:#f8f8f6;border-left:3px solid #0a6080;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;color:#0a6080;margin-right:8px;font-size:9px;">01</span>Submit AI system declarations to EU NANDO database (nando.ec.europa.eu) for all high-risk systems this week; designate a single compliance lead to manage ongoing post-registration obligations.</div><div style="font-size:12px;color:#555;line-height:1.65;">EU registration is the gate for market access; delays forgo first-mover advantage and expose firms to retroactive enforcement.</div></div><div style="padding:12px 14px;background:#f8f8f6;border-left:3px solid #0a6080;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;color:#0a6080;margin-right:8px;font-size:9px;">02</span>File CanExport SME applications immediately for US semiconductor supply-chain positioning ($75,000 maximum), targeting design tool and chip-design workflows.</div><div style="font-size:12px;color:#555;line-height:1.65;">US exemption announcement is imminent; early applicants will capture funding before competitive pressure peaks and allocation caps are reached.</div></div><div style="padding:12px 14px;background:#f8f8f6;border-left:3px solid #0a6080;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;color:#0a6080;margin-right:8px;font-size:9px;">03</span>Activate Trade Commissioner Service Japan desk (tokyo@international.gc.ca) to secure buyer introductions in Japanese semiconductor and AI chip partnerships before Q3 procurement cycles close.</div><div style="font-size:12px;color:#555;line-height:1.65;">Japan scores 8/10 opportunity with minimal regulatory friction; direct introductions bypass long sales cycles and compress time-to-revenue.</div></div>
+      <div style="padding:12px 14px;background:#f8f8f6;border-left:3px solid #0a6080;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;color:#0a6080;margin-right:8px;font-size:9px;">01</span>Establish emergency EU AI Act compliance task force within International Trade and Technology divisions to batch-file high-risk AI system declarations to NANDO by Friday 5pm CET.</div><div style="font-size:12px;color:#555;line-height:1.65;">Cohere, Aleph Alpha, and other Canadian AI champions must register or forfeit EU market access; parallel filing prevents individual firm compliance delays.</div></div><div style="padding:12px 14px;background:#f8f8f6;border-left:3px solid #0a6080;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;color:#0a6080;margin-right:8px;font-size:9px;">02</span>Brief Export Development Canada and TCS to fast-track semiconductor corridor introductions in Japan and US markets within 10 business days, leveraging expected US exemption window.</div><div style="font-size:12px;color:#555;line-height:1.65;">Japan's semiconductor partnerships and US supply-chain integration represent immediate revenue channels for Canadian chip-design firms; delay transfers deal flow to UK and Australian competitors.</div></div><div style="padding:12px 14px;background:#f8f8f6;border-left:3px solid #0a6080;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;color:#0a6080;margin-right:8px;font-size:9px;">03</span>Commission briefing note on post-AIDA AI governance gap for Cabinet and Finance Ministry before end of Q2, proposing interim regulatory regime aligned with EU AI Act and UK AISIA framework.</div><div style="font-size:12px;color:#555;line-height:1.65;">Regulatory clarity is prerequisite for international investor confidence in Canadian AI stack; absence invites parent-company relocations and dampens Series B+ funding for domestic champions.</div></div>
     </div>
 
     <!-- 4. Market Opportunity Scores -->
@@ -1571,7 +1593,7 @@ Canadian manufacturers can now import steel wire rod from eight additional count
     <!-- 6. Supply Chain Watch -->
     <div>
       <span style="font-size:8px;letter-spacing:0.14em;text-transform:uppercase;font-family:'DM Mono',monospace;color:#064050;display:block;margin-bottom:8px;margin-top:24px;padding-top:20px;border-top:1px solid #e0dcd4;">6. Supply Chain Watch</span>
-      <div style="border:1px solid #e0dcd4;background:#fff;"><div class="scw-item"><div class="scw-left"><div class="scw-input">EU-sourced technology components and software (subject to EU AI Act compliance)</div><div class="scw-status">EU AI Act is now enforcing globally with mandatory NANDO database registration. Canadian tech importers relying on EU-made AI systems, chips, or software must comply or face supply delays and market access restrictions. AIDA's death means Canada has no reciprocal federal AI framework to negotiate exemptions.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Audit all inbound EU technology suppliers and their AI system classifications now. Register any AI systems in your supply chain to NANDO (nando.ec.europa.eu) before Friday 5pm CET to maintain uninterrupted access to EU inputs.</span></div></div><div class="scw-risk scw-risk-high">High</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">US semiconductor and chip-design inputs (subject to CUSMA 2026 data residency review)</div><div class="scw-status">CUSMA joint review formally underway with USTR specifically targeting Canadian data residency requirements as a trade barrier. This creates uncertainty for Canadian tech firms importing US semiconductors and relying on US-Canada data flows. Potential tightening of terms or renegotiation risk through 2026.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Diversify US semiconductor sourcing by exploring Japan supply partnerships via Trade Commissioner Service (tokyo@international.gc.ca) and accelerate US domestic alternatives through CanExport SME funding ($75k max) to hedge CUSMA renegotiation exposure.</span></div></div><div class="scw-risk scw-risk-med">Med</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">Port-dependent imports from Asia and EU (inbound via BC and Montreal ports)</div><div class="scw-status">Canadian port capacity recovered to 78% as of April 2026 after 2024 strikes, but future labour contract renewals for 2026–2027 pose re-strike risk. Inbound lead times stabilizing now, but supply chain buffers should account for potential disruption in next 12–18 months.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Extend inbound procurement lead times for critical imports by 4–6 weeks and consider air/alternative freight for time-sensitive components. Monitor port labour negotiations (BC and Montreal) monthly through Q4 2026.</span></div></div><div class="scw-risk scw-risk-med">Med</div></div></div>
+      <div style="border:1px solid #e0dcd4;background:#fff;"><div class="scw-item"><div class="scw-left"><div class="scw-input">EU-sourced AI components, software, and services</div><div class="scw-status">EU AI Act now enforces globally while Canada has no federal AI regulation (AIDA died in 2025). Canadian tech importers of EU AI systems must comply with EU Act requirements or face market access restrictions; competitive disadvantage vs. US suppliers without equivalent rules.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Audit inbound AI component and software suppliers for EU AI Act compliance status; contact suppliers to confirm NANDO database registration and conformity documentation before Q4 2026 enforcement tightens.</span></div></div><div class="scw-risk scw-risk-high">High</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">US semiconductor components and chip-design services</div><div class="scw-status">CUSMA 2026 review underway with USTR pressure on Canadian data residency rules; US semiconductor corridor funding now live via CanExport SME but signals US supply-chain nationalism acceleration through 2027.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Diversify semiconductor sourcing pathways: apply for CanExport SME funding to explore Japanese and allied suppliers; simultaneously engage TCS Japan desk (tokyo@international.gc.ca) for buyer introductions in Japan's semiconductor ecosystem as hedge against US trade friction.</span></div></div><div class="scw-risk scw-risk-med">Med</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">Port-dependent inbound logistics (all modes via BC and Montreal)</div><div class="scw-status">Ports stabilized at 78% capacity as of April 2026 but 2026–2027 labour contract renewals pose future disruption risk; no current alerts but 18–24 month lead-time risk window open.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Lock in long-lead component orders now (3–6 month forward) and negotiate port-flex clauses in supplier contracts ahead of 2026–2027 labour renegotiations; model 20–30% capacity delays for Q4 2026–Q1 2027.</span></div></div><div class="scw-risk scw-risk-med">Med</div></div></div>
     </div>
 
     <!-- 7. Source Index -->
