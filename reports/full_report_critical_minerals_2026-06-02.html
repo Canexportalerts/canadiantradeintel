@@ -40,30 +40,44 @@
 
   /* ── STICKY NAV ── */
   .sticky-nav {
-    position: sticky; top: 0; z-index: 100;
-    background: #faf8f5;
-    border-top: 1px solid #d4cfc8;
-    border-bottom: 1px solid #d4cfc8;
+    position: fixed;
+    top: 160px;
+    left: calc(50% - 430px - 160px);
+    width: 150px;
+    z-index: 100;
+    background: transparent;
+    border: none;
     padding: 0;
   }
   .sticky-nav-inner {
-    max-width: 860px; margin: 0 auto;
-    display: flex; align-items: center;
-    justify-content: space-between; height: 46px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    max-width: 120px;
   }
-  .sticky-nav-brand {
-    font-family: 'DM Mono', monospace; font-size: 9px;
-    letter-spacing: 0.14em; text-transform: uppercase;
-    color: var(--ink-light); text-decoration: none;
+  .sticky-nav-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
   }
-  .sticky-nav-links { display: flex; gap: 24px; }
   .sticky-nav-links a {
-    font-family: 'DM Mono', monospace; font-size: 8px;
-    letter-spacing: 0.12em; text-transform: uppercase;
-    color: var(--ink-light); text-decoration: none;
-    transition: color 0.18s;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #6b6560;
+    text-decoration: none;
+    padding: 6px 0;
+    border-left: 2px solid #d4cfc8;
+    padding-left: 10px;
+    display: block;
+    line-height: 1.3;
   }
-  .sticky-nav-links a:hover { color: var(--sector); }
+  .sticky-nav-links a:hover {
+    color: #8B1A1A;
+    border-left-color: #8B1A1A;
+  }
+  .sticky-nav-brand { display: none; }
 
   /* ── MASTHEAD ── */
   .masthead {
@@ -122,9 +136,7 @@
 
   /* ── REPORT NAV ── */
   .report-nav {
-    background: #fff;
-    border-bottom: 1px solid var(--rule);
-    padding: 0 40px; position: sticky; top: 46px; z-index: 90;
+    display: none;
   }
   .report-nav-inner {
     max-width: 1100px; margin: 0 auto;
@@ -147,10 +159,13 @@
   /* ── REPORT BODY ── */
   .report-body {
     max-width: 860px;
-    margin: 40px auto 80px;
+    margin: 0 auto 80px;
     background: #ffffff;
     box-shadow: 0 1px 4px rgba(0,0,0,0.10), 0 0 0 1px rgba(0,0,0,0.04);
-    padding-bottom: 60px;
+    border-radius: 0 0 2px 2px;
+    padding: 40px 56px 60px;
+    box-sizing: border-box;
+    overflow: hidden;
   }
 
   /* ── SECTION HEADERS ── */
@@ -158,6 +173,8 @@
     display: flex; align-items: baseline; gap: 14px;
     margin-bottom: 24px; padding-bottom: 10px;
     border-bottom: 2px solid var(--brand);
+    max-width: 100%;
+    box-sizing: border-box;
   }
   .section-label {
     font-family: 'DM Mono', monospace; font-size: 8px;
@@ -166,10 +183,21 @@
   }
   .section-rule { flex: 1; height: 1px; background: var(--rule); }
   .mb-56 { margin-bottom: 56px; }
+  @media screen {
+    section.mb-56 + section.mb-56 {
+      border-top: 1px solid var(--rule);
+      padding-top: 48px;
+    }
+  }
 
   /* ── EXEC SUMMARY ── */
   .exec-summary {
-    display: grid; grid-template-columns: 1fr 280px; gap: 32px;
+    display: block;
+  }
+  .exec-summary-text {
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--ink);
   }
   .exec-summary-text h2 {
     font-family: 'Cormorant Garamond', serif;
@@ -641,7 +669,7 @@
   .report-footer-links a:hover { color: var(--sector-mid); }
 
   @media (max-width: 768px) {
-    .sticky-nav { padding: 0 16px; }
+    .sticky-nav { display: none; }
     .masthead { padding: 32px 16px 28px; }
     .report-nav { padding: 0 16px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
     .report-nav::-webkit-scrollbar { display: none; }
@@ -686,6 +714,7 @@
 
     body { background: transparent !important; }
     .report-body { box-shadow: none !important; margin: 0 auto !important; }
+    .sticky-nav { display: none !important; }
 
     /* Hide nav chrome, CTAs, interactive elements */
     .sticky-nav, .report-nav, .report-footer,
@@ -811,9 +840,11 @@
 
   .doc-header {
     max-width: 860px;
-    margin: 0 auto;
-    padding: 28px 40px 0;
+    margin: 40px auto 0;
+    padding: 28px 56px 0;
     background: #fff;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.10), 0 0 0 1px rgba(0,0,0,0.04);
+    border-radius: 2px 2px 0 0;
   }
   .doc-header-top {
     height: 3px;
@@ -866,6 +897,14 @@
     color: #6b6560;
     letter-spacing: 0.08em;
   }
+  .doc-stats {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    color: #8B1A1A;
+    letter-spacing: 0.08em;
+    margin-top: 2px;
+    text-align: right;
+  }
   .doc-header-bottom {
     height: 0;
   }
@@ -891,30 +930,13 @@
     </div>
     <div class="doc-header-right">
       <span class="doc-issue">Issue #010</span>
-      <span class="doc-date">June 02, 2026</span>
+      <span class="doc-date">May 28 – Jun 4, 2026</span>
+      <span class="doc-stats">13 opportunities · 6 risks · 5 immediate</span>
     </div>
   </div>
   <div class="doc-header-bottom"></div>
 </header>
 
-<!-- REPORT SECTION NAV -->
-<nav class="report-nav">
-  <div class="report-nav-inner">
-    <a href="#summary">Overview</a>
-    <a href="#signals">Signals (6)</a>
-    <a href="#what-we-think">What We Think</a>
-    <a href="#actions">Actions (4)</a>
-    <a href="#procurement">Procurement (5)</a>
-    <a href="#supply-chain">Supply Chain</a>
-
-    <a href="#pathways">Market Entry</a>
-    <a href="#watch">Watch For These</a>
-
-    <a href="#spotlight">Canadian Spotlight</a>
-    <button onclick="toggleBriefing()" class="briefing-btn" id="briefing-toggle-btn">📋 Briefing View</button>
-    <button onclick="window.print()" class="pdf-nav-btn">⬇ Save as PDF</button>
-  </div>
-</nav>
 
 <!-- REPORT BODY -->
 <div id="report-content">
@@ -929,7 +951,7 @@
       <span class="section-label">What Happened This Week</span>
       <div class="section-rule"></div>
     </div>
-    <div style="font-size:15px;line-height:1.75;color:var(--ink);max-width:780px;">
+    <div style="font-size:15px;line-height:1.75;color:var(--ink);max-width:680px;">
       <p style="margin-bottom:1em;">Ramaco Resources and REalloys signed a memorandum of understanding this week for REalloys to offtake rare earth carbonate from Ramaco's Brook mine in Wyoming  -  believed to hold the largest unconventional rare earth deposit in the United States, sourced from coal and carbonaceous ore. The deal is a concrete step in the US effort to establish domestic rare earth supply, directly competing with and complementing Canada's own nascent rare earth supply chain.</p>
     </div>
   </section>
@@ -944,9 +966,9 @@
       <div class="exec-summary-text">
         <p>Mangrove Lithium opened North America's first commercial electrochemical lithium refinery in Delta, BC this April, processing spodumene concentrate into battery-grade lithium hydroxide. This facility directly competes with Chinese refineries that currently dominate North American supply chains, creating domestic processing capacity for Canadian miners like Linakor and Nemaska Lithium while supporting the region's cleantech manufacturing sector. The CBSA's preliminary determination on Chinese steel racks is due June 9, which will signal whether Canadian battery and cleantech manufacturers face tariff relief on imported components.</p>
       </div>
-      <div>
+      <div style="float:right;width:280px;margin:0 0 24px 32px;clear:right;">
         <div class="commodity-panel">
-          <div class="commodity-panel-title">Commodity Prices · June 02, 2026</div>
+          <div class="commodity-panel-title">Commodity Prices · June 04, 2026</div>
           
           <div class="commodity-row">
             <div>
@@ -991,10 +1013,12 @@
           and buyer activity from this week's intelligence.
           <a href="/resources/how-markets-are-scored/" style="color:var(--brand,#8b0000);font-size:10px;">How we score markets</a>
         </div>
-        </div>
+        
       </div>
     </div>
   </section>
+
+  <div style="clear:both;"></div>
 
   <!-- SIGNALS -->
   <section id="signals" class="mb-56">
@@ -1004,72 +1028,6 @@
     </div>
     <div class="signals-grid">
       
-      <div class="signal-card ">
-        <div class="signal-flag">
-           · Mining Processing Refining
-          <span class="urgency-tag urgency-now">Immediate</span>
-        </div>
-        <div class="signal-headline">Mangrove Lithium opened North America's first commercial electrochemical lithium refinery in Delta, BC in April 2026, pr</div>
-        
-        <div class="signal-body"><cite index="40-1,40-4">Canadian startup Mangrove Lithium opened its first commercial lithium refinery in Delta, British Columbia, converting spodumene concentrate into high-purity, battery-grade lithium hydroxide at the site</cite>. <cite index="40-11,40-12">The plant will initially produce 1,000 tonnes of battery-grade lithium hydroxide per year, enough for 25,000 electric vehicles, with plans for a second facility with 20,000 tonnes capacity annually sufficient for 500,000 electric vehicles</cite>. <cite index="37-20,37-22">Canadian Minister of Energy and Natural Resources Tim Hodgson has publicly framed the facility as representative of sovereign industrial projects Canada needs, with critical minerals strategy becoming a central pillar of Canadian industrial policy under Prime Minister Mark Carney's government</cite>.</div>
-        <div class="signal-what-means"><span class="signal-what-label">What This Could Mean For You</span>This represents a breakthrough in Canadian midstream processing capacity, reducing dependence on Chinese lithium refining and creating domestic supply chain security for battery manufacturers. Canadian exporters gain access to value-added lithium products while importers of battery materials have new domestic sourcing options.</div>
-        
-        <details class="analyst-detail">
-          <summary>Trade Context ▾</summary>
-          <div class="analyst-detail-body">
-          <b>Trade Agreement</b>No FTA in force
-          <b>TCS Office</b>TCS — contact nearest Canadian mission
-          <b>Relevant Programmes</b>EDC Critical Minerals Financing · NRCan CMP · CanExport SME
-          <b>HS Codes</b>HS 2825 (lithium compounds) · 2801 (battery-grade lithium)
-          <b>Primary Source</b><a href="https://www.electrive.com/2026/04/20/mangrove-lithium-opens-lithium-refinery-in-canada/" target="_blank">electrive.com</a>
-          </div>
-        </details>
-        <div class="signal-source">Source: <a href="https://www.electrive.com/2026/04/20/mangrove-lithium-opens-lithium-refinery-in-canada/" target="_blank">electrive.com, 2026-06-02 →</a></div>
-      </div>
-      <div class="signal-card ">
-        <div class="signal-flag">
-           · Trade Remedy Canada
-          <span class="urgency-tag urgency-quarter">This Quarter</span>
-        </div>
-        <div class="signal-headline">CBSA has launched 9 dumping and subsidy investigations covering 5 products so far in 2026, including recent cases agains</div>
-        
-        <div class="signal-body">CBSA initiated investigations into Chinese plywood (April 10) and steel racks (April 20), with preliminary determinations due June 9 and July 20, 2026 respectively. Year-to-date activity shows heightened trade remedy enforcement with combined investigations spanning multiple sectors. SIMA protections currently cover $3.3 billion in imports across 185 measures.</div>
-        <div class="signal-what-means"><span class="signal-what-label">What This Could Mean For You</span>Elevated CBSA investigation activity signals stronger protection for Canadian manufacturers against unfair import competition. Industries including construction materials, storage systems, and building components benefit from increased trade remedy enforcement, while importers face higher provisional duty risks and compliance costs.</div>
-        
-        <details class="analyst-detail">
-          <summary>Trade Context ▾</summary>
-          <div class="analyst-detail-body">
-          <b>Trade Agreement</b>No FTA in force
-          <b>TCS Office</b>TCS — contact nearest Canadian mission
-          <b>Relevant Programmes</b>EDC Critical Minerals Financing · NRCan CMP · CanExport SME
-          <b>HS Codes</b>HS 7206–7229 (iron and steel products)
-          <b>Primary Source</b><a href="https://www.canada.ca/en/border-services-agency/news/2026/04/the-cbsa-launches-investigations-into-the-alleged-dumping-and-subsidizing-of-steel-racks-from-china.html" target="_blank">Government of Canada</a>
-          </div>
-        </details>
-        <div class="signal-source">Source: <a href="https://www.canada.ca/en/border-services-agency/news/2026/04/the-cbsa-launches-investigations-into-the-alleged-dumping-and-subsidizing-of-steel-racks-from-china.html" target="_blank">Government of Canada, 2026-06-02 →</a></div>
-      </div>
-      <div class="signal-card ">
-        <div class="signal-flag">
-           · Canadian Mining Asia
-          <span class="urgency-tag urgency-quarter">This Quarter</span>
-        </div>
-        <div class="signal-headline">Indonesian tin miner PT Arsari Tambang targeting $422.71M acquisition of Canadian mining asset by June 2026</div>
-        
-        <div class="signal-body">PT Arsari Tambang, controlled by President Prabowo Subianto's family, is pursuing a $422.71 million acquisition of a Canadian mining asset expected to close in June 2026. The deal reflects increased Indonesian mining expansion into Canada following the September 2025 Indonesia-Canada Economic Partnership Agreement and Canada's goal to double trade with Southeast Asia's biggest economy in six years.</div>
-        <div class="signal-what-means"><span class="signal-what-label">What This Could Mean For You</span>This signals growing foreign investment interest in Canadian mining assets from Southeast Asian buyers, creating opportunities for Canadian mining companies seeking capital or exit strategies. The acquisition also demonstrates Canada's attractiveness as an investment destination for international mining firms looking to diversify geographically.</div>
-        
-        <details class="analyst-detail">
-          <summary>Trade Context ▾</summary>
-          <div class="analyst-detail-body">
-          <b>Trade Agreement</b>No FTA in force
-          <b>TCS Office</b>TCS — contact nearest Canadian mission
-          <b>Relevant Programmes</b>EDC Critical Minerals Financing · NRCan CMP · CanExport SME
-          <b>HS Codes</b>HS 2601–2617 (mineral ores) · 2844 (radioactive) · 8549 (battery materials) · 7108 (gold)
-          <b>Primary Source</b><a href="https://www.mining.com/web/indonesian-tin-miner-eyes-mining-asset-in-canada/" target="_blank">MINING.COM</a>
-          </div>
-        </details>
-        <div class="signal-source">Source: <a href="https://www.mining.com/web/indonesian-tin-miner-eyes-mining-asset-in-canada/" target="_blank">MINING.COM, 2026-06-02 →</a></div>
-      </div>
       <div class="signal-card ">
         <div class="signal-flag">
            · Uranium Market
@@ -1136,6 +1094,72 @@
         </details>
         <div class="signal-source">Source: <a href="https://www.canadianminingjournal.com/news/indigenous-groups-push-for-mine-ownership-not-just-benefits/" target="_blank">Canadian Mining Journal, 2026-06-02 →</a></div>
       </div>
+      <div class="signal-card ">
+        <div class="signal-flag">
+           · Mining Processing Refining
+          <span class="urgency-tag urgency-now">Immediate</span>
+        </div>
+        <div class="signal-headline">Mangrove Lithium opened North America's first commercial electrochemical lithium refinery in Delta, BC in April 2026, pr</div>
+        
+        <div class="signal-body"><cite index="40-1,40-4">Canadian startup Mangrove Lithium opened its first commercial lithium refinery in Delta, British Columbia, converting spodumene concentrate into high-purity, battery-grade lithium hydroxide at the site</cite>. <cite index="40-11,40-12">The plant will initially produce 1,000 tonnes of battery-grade lithium hydroxide per year, enough for 25,000 electric vehicles, with plans for a second facility with 20,000 tonnes capacity annually sufficient for 500,000 electric vehicles</cite>. <cite index="37-20,37-22">Canadian Minister of Energy and Natural Resources Tim Hodgson has publicly framed the facility as representative of sovereign industrial projects Canada needs, with critical minerals strategy becoming a central pillar of Canadian industrial policy under Prime Minister Mark Carney's government</cite>.</div>
+        <div class="signal-what-means"><span class="signal-what-label">What This Could Mean For You</span>This represents a breakthrough in Canadian midstream processing capacity, reducing dependence on Chinese lithium refining and creating domestic supply chain security for battery manufacturers. Canadian exporters gain access to value-added lithium products while importers of battery materials have new domestic sourcing options.</div>
+        
+        <details class="analyst-detail">
+          <summary>Trade Context ▾</summary>
+          <div class="analyst-detail-body">
+          <b>Trade Agreement</b>No FTA in force
+          <b>TCS Office</b>TCS — contact nearest Canadian mission
+          <b>Relevant Programmes</b>EDC Critical Minerals Financing · NRCan CMP · CanExport SME
+          <b>HS Codes</b>HS 2825 (lithium compounds) · 2801 (battery-grade lithium)
+          <b>Primary Source</b><a href="https://www.electrive.com/2026/04/20/mangrove-lithium-opens-lithium-refinery-in-canada/" target="_blank">electrive.com</a>
+          </div>
+        </details>
+        <div class="signal-source">Source: <a href="https://www.electrive.com/2026/04/20/mangrove-lithium-opens-lithium-refinery-in-canada/" target="_blank">electrive.com, 2026-06-02 →</a></div>
+      </div>
+      <div class="signal-card ">
+        <div class="signal-flag">
+           · Trade Remedy Canada
+          <span class="urgency-tag urgency-quarter">This Quarter</span>
+        </div>
+        <div class="signal-headline">CBSA has launched 9 dumping and subsidy investigations covering 5 products so far in 2026, including recent cases agains</div>
+        
+        <div class="signal-body">CBSA initiated investigations into Chinese plywood (April 10) and steel racks (April 20), with preliminary determinations due June 9 and July 20, 2026 respectively. Year-to-date activity shows heightened trade remedy enforcement with combined investigations spanning multiple sectors. SIMA protections currently cover $3.3 billion in imports across 185 measures.</div>
+        <div class="signal-what-means"><span class="signal-what-label">What This Could Mean For You</span>Elevated CBSA investigation activity signals stronger protection for Canadian manufacturers against unfair import competition. Industries including construction materials, storage systems, and building components benefit from increased trade remedy enforcement, while importers face higher provisional duty risks and compliance costs.</div>
+        
+        <details class="analyst-detail">
+          <summary>Trade Context ▾</summary>
+          <div class="analyst-detail-body">
+          <b>Trade Agreement</b>No FTA in force
+          <b>TCS Office</b>TCS — contact nearest Canadian mission
+          <b>Relevant Programmes</b>EDC Critical Minerals Financing · NRCan CMP · CanExport SME
+          <b>HS Codes</b>HS 7206–7229 (iron and steel products)
+          <b>Primary Source</b><a href="https://www.canada.ca/en/border-services-agency/news/2026/04/the-cbsa-launches-investigations-into-the-alleged-dumping-and-subsidizing-of-steel-racks-from-china.html" target="_blank">Government of Canada</a>
+          </div>
+        </details>
+        <div class="signal-source">Source: <a href="https://www.canada.ca/en/border-services-agency/news/2026/04/the-cbsa-launches-investigations-into-the-alleged-dumping-and-subsidizing-of-steel-racks-from-china.html" target="_blank">Government of Canada, 2026-06-02 →</a></div>
+      </div>
+      <div class="signal-card ">
+        <div class="signal-flag">
+           · Chile Drc Competitor
+          <span class="urgency-tag urgency-quarter">This Quarter</span>
+        </div>
+        <div class="signal-headline">Chile's Q1 2026 copper exports reached $14.4 billion while lithium sector faces production delays pushing 2027-28 target</div>
+        
+        <div class="signal-body">Chile maintained deep China dependency with copper exports hitting $14.4 billion in Q1 2026, while regulatory comptroller rejections delayed lithium projects. Current delays push Chilean lithium production expansion from 2027-28 into 2029-30, increasing global market dependence on Australian spodumene.</div>
+        <div class="signal-what-means"><span class="signal-what-label">What This Could Mean For You</span>Delays in Chilean lithium production create opportunities for Canadian lithium companies to capture market share during the 2027-30 EV adoption peak. However, Chile's continued China copper dependency demonstrates the challenge of diversifying supply chains away from Chinese processing.</div>
+        
+        <details class="analyst-detail">
+          <summary>Trade Context ▾</summary>
+          <div class="analyst-detail-body">
+          <b>Trade Agreement</b>No FTA in force
+          <b>TCS Office</b>TCS — contact nearest Canadian mission
+          <b>Relevant Programmes</b>EDC Critical Minerals Financing · NRCan CMP · CanExport SME
+          <b>HS Codes</b>HS 2825 (lithium compounds) · 2801 (battery-grade lithium)
+          <b>Primary Source</b><a href="https://econosur.org/insights/chile/chile-china-connection-copper-lithium/" target="_blank">Econosur</a>
+          </div>
+        </details>
+        <div class="signal-source">Source: <a href="https://econosur.org/insights/chile/chile-china-connection-copper-lithium/" target="_blank">Econosur, 2026-06-02 →</a></div>
+      </div>
     </div>
   </section>
 
@@ -1145,7 +1169,7 @@
       <span class="section-label">Workers &amp; Communities This Week</span>
       <div class="section-rule"></div>
     </div>
-    <div class="so-what-section" style="margin-top:8px;"><div style="margin-bottom:24px;"><div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-light);margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--rule);">Uranium</div><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(0,1fr));gap:10px;"><div style="min-width:0;padding:12px 14px;background:var(--surface);border-left:3px solid var(--sector);overflow-wrap:break-word;"><div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;">Junior explorer or producer</div><div style="font-size:13px;color:var(--ink-mid);line-height:1.7;">A quiet week is not a signal to pause — Western utilities are actively tendering long-term supply contracts right now, and junior explorers with Athabasca Basin assets should be positioning for strategic partnerships or streaming deals before the next price leg upward tightens financing terms. Use this window to advance NI 43-101 resource estimates and initiate Indigenous partnership discussions, both of which are prerequisites for any serious offtake conversation.</div></div><div style="min-width:0;padding:12px 14px;background:var(--surface);border-left:3px solid var(--sector);overflow-wrap:break-word;"><div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;">Mining services or equipment company</div><div style="font-size:13px;color:var(--ink-mid);line-height:1.7;">Canadian mining services firms with uranium-sector experience — shaft sinking, radiation safety systems, in-situ recovery technology, tailings management — should be building relationships with NexGen and Denison now, as both projects are advancing toward construction-readiness and will generate significant domestic procurement demand within the next two to four years. The September World Nuclear Symposium in London is also a direct entry point to international uranium project developers who need Canadian expertise.</div></div><div style="min-width:0;padding:12px 14px;background:var(--surface);border-left:3px solid var(--sector);overflow-wrap:break-word;"><div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;">Policy, community, or worker</div><div style="font-size:13px;color:var(--ink-mid);line-height:1.7;">For workers and communities in northern Saskatchewan — including Uranium City, La Ronge, and the Athabasca Basin region — the flat price this week changes nothing about the medium-term employment outlook, which remains strongly positive as Cameco's McArthur River ramp-up continues and new projects advance toward development decisions. Municipal and band councils should be engaging now with both provincial and federal critical minerals programs to ensure local infrastructure — roads, housing, training capacity — is ready to absorb the next wave of project activity.</div></div></div></div><div style="margin-bottom:24px;"><div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-light);margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--rule);">Lithium</div><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(0,1fr));gap:10px;"><div style="min-width:0;padding:12px 14px;background:var(--surface);border-left:3px solid var(--sector);overflow-wrap:break-word;"><div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;">Junior explorer</div><div style="font-size:13px;color:var(--ink-mid);line-height:1.7;">A flat, trough-price week with no new catalysts reinforces the importance of extending your cash runway now rather than waiting for a market recovery to raise equity. Projects with NI 43-101 compliant resources, strong metallurgy, and proximity to Quebec or Ontario processing infrastructure remain the most financeable assets when the cycle turns.</div></div><div style="min-width:0;padding:12px 14px;background:var(--surface);border-left:3px solid var(--sector);overflow-wrap:break-word;"><div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;">Mining services company</div><div style="font-size:13px;color:var(--ink-mid);line-height:1.7;">No new project announcements this week means near-term contract flow from Canadian lithium projects remains limited — focus business development on existing producing clients and on positioning for the wave of feasibility and construction work that will follow when prices recover toward $18,000 per tonne. Building relationships with Patriot Battery Metals, Frontier Lithium, and Rock Tech Lithium now, before they are in active construction procurement, is the right move.</div></div><div style="min-width:0;padding:12px 14px;background:var(--surface);border-left:3px solid var(--sector);overflow-wrap:break-word;"><div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;">Processing or downstream company</div><div style="font-size:13px;color:var(--ink-mid);line-height:1.7;">The continued price trough is creating a window to negotiate favourable long-term feedstock supply agreements with upstream producers who need offtake commitments to support project financing — a quiet week like this is the right time to be in those conversations, not after the recovery begins. Canadian processors with access to Quebec hydropower should be actively structuring supply deals now at trough-era terms.</div></div></div></div><div style="margin-bottom:24px;"><div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-light);margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--rule);">Cobalt</div><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(0,1fr));gap:10px;"><div style="min-width:0;padding:12px 14px;background:var(--surface);border-left:3px solid var(--sector);overflow-wrap:break-word;"><div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;">Junior explorer</div><div style="font-size:13px;color:var(--ink-mid);line-height:1.7;">This is not a week to launch a financing round on cobalt alone — the price signal is flat and there are no catalysts to point investors toward. Use the quiet period to advance EU Battery Regulation compliance documentation and ESG supply chain credentials, which will be the differentiator when the market turns.</div></div><div style="min-width:0;padding:12px 14px;background:var(--surface);border-left:3px solid var(--sector);overflow-wrap:break-word;"><div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;">Mining services company</div><div style="font-size:13px;color:var(--ink-mid);line-height:1.7;">No new project announcements or mine decisions this week means no immediate equipment or services procurement signals from Canadian cobalt operations. Maintain existing Sudbury relationships with Vale and Glencore and watch for any DRC supply disruption news, which is the most likely trigger for a rapid ramp-up in Canadian cobalt project activity.</div></div><div style="min-width:0;padding:12px 14px;background:var(--surface);border-left:3px solid var(--sector);overflow-wrap:break-word;"><div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;">Processing or downstream company</div><div style="font-size:13px;color:var(--ink-mid);line-height:1.7;">The EU Battery Regulation compliance clock continues to run regardless of weekly news volume — processors and refiners should be actively documenting Canadian cobalt's chain of custody now, before European customers make it a contract requirement. First Cobalt's Ontario refinery infrastructure remains the key Canadian midstream asset to watch for any processing capacity announcements.</div></div></div></div><div style="margin-bottom:24px;"><div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-light);margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--rule);">Rare Earths</div><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(0,1fr));gap:10px;"><div style="min-width:0;padding:12px 14px;background:var(--surface);border-left:3px solid var(--sector);overflow-wrap:break-word;"><div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;">Junior explorer</div><div style="font-size:13px;color:var(--ink-mid);line-height:1.7;">The Ramaco-REalloys deal proves that unconventional and non-traditional rare earth sources are now commercially viable in Western supply chains — if you hold an ionic clay or carbonaceous rare earth project in Canada, the offtake market is real and forming now. Appia Rare Earths at Alces Lake in Saskatchewan, which holds the highest-grade ionic clay rare earth deposit in North America, should treat this week as a signal to accelerate resource definition drilling and initiate conversations with US and Japanese offtake buyers before the market firms around existing producers.</div></div><div style="min-width:0;padding:12px 14px;background:var(--surface);border-left:3px solid var(--sector);overflow-wrap:break-word;"><div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;">Mining services company</div><div style="font-size:13px;color:var(--ink-mid);line-height:1.7;">The acceleration of North American rare earth projects — Brook mine in Wyoming, Nechalacho in the NWT, Alces Lake in Saskatchewan — is generating real near-term demand for extraction engineering, processing plant design, and materials handling expertise tailored to unconventional rare earth sources. Canadian mining services firms with hydrometallurgy, solvent extraction, or rare earth processing experience should be positioning proposals toward both Ramaco-REalloys and Canadian producers this quarter, as processing plant development timelines mean engineering contracts will be awarded before year-end.</div></div><div style="min-width:0;padding:12px 14px;background:var(--surface);border-left:3px solid var(--sector);overflow-wrap:break-word;"><div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;">Processing or downstream company</div><div style="font-size:13px;color:var(--ink-mid);line-height:1.7;">SRC Saskatoon is currently the only rare earth separation facility in Canada and one of two outside China at commercial scale — the Ramaco-REalloys deal confirms that separated oxide supply (not just carbonate) is the value-add step that Western magnet manufacturers actually need, and Canada's separation capability is the scarcest asset in the allied supply chain. Downstream Canadian companies using NdFeB magnets in motors, generators, or industrial equipment should investigate whether SRC-separated Canadian oxide supply qualifies them for preferential procurement under Canadian and US defense programs — the answer is likely yes, and that qualification is a competitive advantage worth formalizing now.</div></div></div></div></div>
+    <div class="so-what-section" style="margin-top:8px;max-width:100%;overflow:hidden;box-sizing:border-box;"><div style="margin-bottom:24px;"><div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-light);margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--rule);">Uranium</div><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(0,1fr));gap:10px;"><div style="min-width:0;padding:12px 14px;background:var(--surface);border-left:3px solid var(--sector);overflow-wrap:break-word;"><div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;">Junior explorer or producer</div><div style="font-size:13px;color:var(--ink-mid);line-height:1.7;">A quiet week is not a signal to pause — Western utilities are actively tendering long-term supply contracts right now, and junior explorers with Athabasca Basin assets should be positioning for strategic partnerships or streaming deals before the next price leg upward tightens financing terms. Use this window to advance NI 43-101 resource estimates and initiate Indigenous partnership discussions, both of which are prerequisites for any serious offtake conversation.</div></div><div style="min-width:0;padding:12px 14px;background:var(--surface);border-left:3px solid var(--sector);overflow-wrap:break-word;"><div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;">Mining services or equipment company</div><div style="font-size:13px;color:var(--ink-mid);line-height:1.7;">Canadian mining services firms with uranium-sector experience — shaft sinking, radiation safety systems, in-situ recovery technology, tailings management — should be building relationships with NexGen and Denison now, as both projects are advancing toward construction-readiness and will generate significant domestic procurement demand within the next two to four years. The September World Nuclear Symposium in London is also a direct entry point to international uranium project developers who need Canadian expertise.</div></div><div style="min-width:0;padding:12px 14px;background:var(--surface);border-left:3px solid var(--sector);overflow-wrap:break-word;"><div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;">Policy, community, or worker</div><div style="font-size:13px;color:var(--ink-mid);line-height:1.7;">For workers and communities in northern Saskatchewan — including Uranium City, La Ronge, and the Athabasca Basin region — the flat price this week changes nothing about the medium-term employment outlook, which remains strongly positive as Cameco's McArthur River ramp-up continues and new projects advance toward development decisions. Municipal and band councils should be engaging now with both provincial and federal critical minerals programs to ensure local infrastructure — roads, housing, training capacity — is ready to absorb the next wave of project activity.</div></div></div></div><div style="margin-bottom:24px;"><div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-light);margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--rule);">Lithium</div><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(0,1fr));gap:10px;"><div style="min-width:0;padding:12px 14px;background:var(--surface);border-left:3px solid var(--sector);overflow-wrap:break-word;"><div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;">Junior explorer</div><div style="font-size:13px;color:var(--ink-mid);line-height:1.7;">A flat, trough-price week with no new catalysts reinforces the importance of extending your cash runway now rather than waiting for a market recovery to raise equity. Projects with NI 43-101 compliant resources, strong metallurgy, and proximity to Quebec or Ontario processing infrastructure remain the most financeable assets when the cycle turns.</div></div><div style="min-width:0;padding:12px 14px;background:var(--surface);border-left:3px solid var(--sector);overflow-wrap:break-word;"><div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;">Mining services company</div><div style="font-size:13px;color:var(--ink-mid);line-height:1.7;">No new project announcements this week means near-term contract flow from Canadian lithium projects remains limited — focus business development on existing producing clients and on positioning for the wave of feasibility and construction work that will follow when prices recover toward $18,000 per tonne. Building relationships with Patriot Battery Metals, Frontier Lithium, and Rock Tech Lithium now, before they are in active construction procurement, is the right move.</div></div><div style="min-width:0;padding:12px 14px;background:var(--surface);border-left:3px solid var(--sector);overflow-wrap:break-word;"><div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;">Processing or downstream company</div><div style="font-size:13px;color:var(--ink-mid);line-height:1.7;">The continued price trough is creating a window to negotiate favourable long-term feedstock supply agreements with upstream producers who need offtake commitments to support project financing — a quiet week like this is the right time to be in those conversations, not after the recovery begins. Canadian processors with access to Quebec hydropower should be actively structuring supply deals now at trough-era terms.</div></div></div></div><div style="margin-bottom:24px;"><div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-light);margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--rule);">Cobalt</div><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(0,1fr));gap:10px;"><div style="min-width:0;padding:12px 14px;background:var(--surface);border-left:3px solid var(--sector);overflow-wrap:break-word;"><div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;">Junior explorer</div><div style="font-size:13px;color:var(--ink-mid);line-height:1.7;">This is not a week to launch a financing round on cobalt alone — the price signal is flat and there are no catalysts to point investors toward. Use the quiet period to advance EU Battery Regulation compliance documentation and ESG supply chain credentials, which will be the differentiator when the market turns.</div></div><div style="min-width:0;padding:12px 14px;background:var(--surface);border-left:3px solid var(--sector);overflow-wrap:break-word;"><div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;">Mining services company</div><div style="font-size:13px;color:var(--ink-mid);line-height:1.7;">No new project announcements or mine decisions this week means no immediate equipment or services procurement signals from Canadian cobalt operations. Maintain existing Sudbury relationships with Vale and Glencore and watch for any DRC supply disruption news, which is the most likely trigger for a rapid ramp-up in Canadian cobalt project activity.</div></div><div style="min-width:0;padding:12px 14px;background:var(--surface);border-left:3px solid var(--sector);overflow-wrap:break-word;"><div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;">Processing or downstream company</div><div style="font-size:13px;color:var(--ink-mid);line-height:1.7;">The EU Battery Regulation compliance clock continues to run regardless of weekly news volume — processors and refiners should be actively documenting Canadian cobalt's chain of custody now, before European customers make it a contract requirement. First Cobalt's Ontario refinery infrastructure remains the key Canadian midstream asset to watch for any processing capacity announcements.</div></div></div></div><div style="margin-bottom:24px;"><div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-light);margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--rule);">Rare Earths</div><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(0,1fr));gap:10px;"><div style="min-width:0;padding:12px 14px;background:var(--surface);border-left:3px solid var(--sector);overflow-wrap:break-word;"><div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;">Junior explorer</div><div style="font-size:13px;color:var(--ink-mid);line-height:1.7;">The Ramaco-REalloys deal proves that unconventional and non-traditional rare earth sources are now commercially viable in Western supply chains — if you hold an ionic clay or carbonaceous rare earth project in Canada, the offtake market is real and forming now. Appia Rare Earths at Alces Lake in Saskatchewan, which holds the highest-grade ionic clay rare earth deposit in North America, should treat this week as a signal to accelerate resource definition drilling and initiate conversations with US and Japanese offtake buyers before the market firms around existing producers.</div></div><div style="min-width:0;padding:12px 14px;background:var(--surface);border-left:3px solid var(--sector);overflow-wrap:break-word;"><div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;">Mining services company</div><div style="font-size:13px;color:var(--ink-mid);line-height:1.7;">The acceleration of North American rare earth projects — Brook mine in Wyoming, Nechalacho in the NWT, Alces Lake in Saskatchewan — is generating real near-term demand for extraction engineering, processing plant design, and materials handling expertise tailored to unconventional rare earth sources. Canadian mining services firms with hydrometallurgy, solvent extraction, or rare earth processing experience should be positioning proposals toward both Ramaco-REalloys and Canadian producers this quarter, as processing plant development timelines mean engineering contracts will be awarded before year-end.</div></div><div style="min-width:0;padding:12px 14px;background:var(--surface);border-left:3px solid var(--sector);overflow-wrap:break-word;"><div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;">Processing or downstream company</div><div style="font-size:13px;color:var(--ink-mid);line-height:1.7;">SRC Saskatoon is currently the only rare earth separation facility in Canada and one of two outside China at commercial scale — the Ramaco-REalloys deal confirms that separated oxide supply (not just carbonate) is the value-add step that Western magnet manufacturers actually need, and Canada's separation capability is the scarcest asset in the allied supply chain. Downstream Canadian companies using NdFeB magnets in motors, generators, or industrial equipment should investigate whether SRC-separated Canadian oxide supply qualifies them for preferential procurement under Canadian and US defense programs — the answer is likely yes, and that qualification is a competitive advantage worth formalizing now.</div></div></div></div></div>
   </section>
 
   <!-- WHAT WE THINK -->
@@ -1154,7 +1178,7 @@
       <span class="section-label">What We Think</span>
       <div class="section-rule"></div>
     </div>
-    <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-light);margin-bottom:20px;">— CTI Editorial Desk &nbsp;·&nbsp; June 02, 2026</div>
+    <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-light);margin-bottom:20px;">— CTI Editorial Desk &nbsp;·&nbsp; June 04, 2026</div>
     <div class="editorial-block"><p style="margin-bottom:1.2em;">This week marked a pivotal shift in Canada's critical minerals export landscape, with the India <a href="/resources/trade-agreements/#cepa" style="color:var(--brand,#8b0000);text-decoration:none;border-bottom:1px solid rgba(139,26,26,0.3);" title="CEPA — trade agreement details">CEPA</a> launch and Indonesia FIPA creating unprecedented opportunities in Asia's fastest-growing battery markets. While established markets like the US and EU remain stable and secure, the new sanctions on DRC mining officials reinforce Canada's competitive advantage as a conflict-free supplier. The G7 Critical Minerals Production Alliance's $18.5 billion mobilization demonstrates sustained Western commitment to supply chain diversification, positioning Canadian producers to capture premium pricing for reliable, ethical sourcing. Smart Canadian exporters should prioritize India and Indonesia this week while maintaining steady relationships in traditional markets.</p></div>
   </section>
 
@@ -1164,7 +1188,7 @@
       <span class="section-label">✓ Actions This Week</span>
       <div class="section-rule"></div>
     </div>
-    <p style="font-size:12px;font-family:'DM Mono',monospace;letter-spacing:0.06em;color:var(--ink-light);margin-bottom:20px;text-transform:uppercase;">Time-sensitive actions — week of June 02, 2026</p>
+    <p style="font-size:12px;font-family:'DM Mono',monospace;letter-spacing:0.06em;color:var(--ink-light);margin-bottom:20px;text-transform:uppercase;">Time-sensitive actions — week of June 04, 2026</p>
     <div class="actions-compact">
   <div class="action-row" onclick="toggleAction('act-1')" id="act-1-row">
     <span class="urgency-tag urgency-now">Immediate</span>
@@ -1300,7 +1324,7 @@
       Import dependencies, critical input signals, and inbound supply chain risks for Canadian businesses in this sector this week.
     </p>
     <div class="scw-grid">
-      <div class="scw-item"><div class="scw-left"><div class="scw-input">Rare Earth Elements (REE) – Yttrium and related heavy rare earths</div><div class="scw-status">Chinese export controls cut US yttrium imports by 95% (333t to 17t) since November 2025, driving prices up 69x. Canadian processors and downstream manufacturers face acute supply scarcity and cost volatility.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Immediately map yttrium consumption across your supply chain and explore India-US rare earth corridor access via the May 26 CEPA framework; assess substitution pathways for near-term production.</span></div></div><div class="scw-risk scw-risk-high">High</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">Sulfur for mineral processing and refining</div><div class="scw-status">Global sulfur shortages are intensifying and directly constraining critical mineral processing capacity. Canadian mining operations dependent on imported sulfur face processing delays and cost escalation.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Secure long-term sulfur supply contracts now and evaluate domestic or North American alternative sources; coordinate with processors on inventory buffers to hedge supply gaps.</span></div></div><div class="scw-risk scw-risk-high">High</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">Diamond and precious mineral inputs (rough and semi-processed)</div><div class="scw-status">Rio Tinto's Diavik mine closure (March 2026 after 23 years) removes a major Canadian production source; supply must now shift to African and other offshore sources facing rising resource nationalism and royalty regimes.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Diversify sourcing away from single-jurisdiction reliance; monitor Ecuador, Brazil, and Mexico royalty changes and assess impact on landed cost and supply reliability for downstream operations.</span></div></div><div class="scw-risk scw-risk-med">Med</div></div>
+      <div class="scw-item"><div class="scw-left"><div class="scw-input">Rare earth elements (yttrium, other REEs)</div><div class="scw-status">Chinese export controls have cut US yttrium imports by 95% since November 2025, driving prices up 69x. Canadian processors and manufacturers dependent on Chinese REE supply face severe availability and cost shock.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Audit your REE supply contracts immediately; lock in long-term pricing before further escalation. Evaluate the India-US rare earth corridor (announced May 26) as alternative source; contact TCS Market Intelligence for India CEPA rule-of-origin compliance on REE inputs.</span></div></div><div class="scw-risk scw-risk-high">High</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">Sulfur (industrial processing input)</div><div class="scw-status">Global sulfur shortages are now affecting critical mineral processing capacity. Supply tightness is intensifying across the sector.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Confirm sulfur supplier reliability and inventory buffers with your processors now. Explore secondary or recycled sulfur sources and negotiate forward contracts to secure 6–12 month supply cover.</span></div></div><div class="scw-risk scw-risk-high">High</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">Upstream diamond and gemstone inputs</div><div class="scw-status">Rio Tinto's Diavik mine closure (March 26, 2026) removes 23 years of Canadian domestic supply. While not a critical mineral per se, this signals accelerating domestic production losses in extractive sectors and tightens upstream availability.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">If you depend on Canadian diamond or gemstone inputs, begin diversification to African or Australian sources now. Monitor ATCO's Grays Bay infrastructure investment as a potential alternative logistics corridor for future northern mining projects.</span></div></div><div class="scw-risk scw-risk-med">Med</div></div>
     </div>
   </section>
 
@@ -1316,9 +1340,7 @@
       <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-bottom:8px;">
         CITT decisions, Canada Gazette notices, and regulatory changes relevant to this sector. Updated weekly. Click any item for official source.
       </div>
-      <ul style="margin:0;padding:0;"><li style="padding:6px 0;border-bottom:1px solid rgba(200,134,10,0.15);list-style:none;font-size:13px;color:var(--ink-mid);line-height:1.6;">🟡 <strong style="color:var(--ink);">Determination — June 9, 2026</strong><span style="color:var(--ink-light);font-size:11px;"> — Canada's import tariff on steel fasteners from certain countries will increase by 15% effective immediately, raising costs for manufacturers who rely on these components.</span> <a href="https://www.citt-tcce.gc.ca/en/anti-dumping-injury-inquiries/active-dumping-and-subsidizing-cases" style="color:var(--amber);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" target="_blank">Source →</a><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:8px;">CITT</span></li><li style="padding:6px 0;border-bottom:1px solid rgba(200,134,10,0.15);list-style:none;font-size:13px;color:var(--ink-mid);line-height:1.6;">🟡 <strong style="color:var(--ink);">Reasons for determination — June 1, 2026</strong><span style="color:var(--ink-light);font-size:11px;"> — Canadian importers of aluminum products must now pay higher tariffs after the tribunal found domestic producers were injured by cheap imports.</span> <a href="https://www.citt-tcce.gc.ca/en/anti-dumping-injury-inquiries/active-dumping-and-subsidizing-cases" style="color:var(--amber);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" target="_blank">Source →</a><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:8px;">CITT</span></li><li style="padding:6px 0;border-bottom:1px solid rgba(200,134,10,0.15);list-style:none;font-size:13px;color:var(--ink-mid);line-height:1.6;">🟡 <strong style="color:var(--ink);">Public hearing — May 25, 2026</strong><span style="color:var(--ink-light);font-size:11px;"> — Canadian businesses importing steel products should monitor this May 2026 CITT hearing outcome, as it may result in new tariff rules or trade remedies affecting their supply costs.</span> <a href="https://www.citt-tcce.gc.ca/en/anti-dumping-injury-inquiries/public-hearings-anti-dumping-injury-inquiries#toc-id-1" style="color:var(--amber);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" target="_blank">Source →</a><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:8px;">CITT</span></li><li style="padding:6px 0;border-bottom:1px solid rgba(200,134,10,0.15);list-style:none;font-size:13px;color:var(--ink-mid);line-height:1.6;">🟡 <strong style="color:var(--ink);">Determination — May 15, 2026</strong><span style="color:var(--ink-light);font-size:11px;"> — # Trade Intelligence Summary
-
-Canadian manufacturers can now import steel wire rod from eight additional countries without facing anti-dumping duties, expanding sourcing options and potentially reducing input costs.</span> <a href="https://decisions.citt-tcce.gc.ca/citt-tcce/a/en/item/521531/index.do" style="color:var(--amber);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" target="_blank">Source →</a><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:8px;">CITT</span></li></ul>
+      <ul style="margin:0;padding:0;"><li style="padding:6px 0;border-bottom:1px solid rgba(200,134,10,0.15);list-style:none;font-size:13px;color:var(--ink-mid);line-height:1.6;">🟡 <strong style="color:var(--ink);">Determination — June 18, 2026</strong><span style="color:var(--ink-light);font-size:11px;"> — Please provide the actual determination content (such as whether this involves tariffs, dumping duties, safeguards, or other trade remedies) so I can deliver a meaningful one-sentence analysis.</span> <a href="https://www.citt-tcce.gc.ca/en/anti-dumping-injury-inquiries/active-dumping-and-subsidizing-cases" style="color:var(--amber);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" target="_blank">Source →</a><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:8px;">CITT</span></li><li style="padding:6px 0;border-bottom:1px solid rgba(200,134,10,0.15);list-style:none;font-size:13px;color:var(--ink-mid);line-height:1.6;">🟡 <strong style="color:var(--ink);">Determination — June 9, 2026</strong><span style="color:var(--ink-light);font-size:11px;"> — Canadian importers of forged steel pipe fittings now face new anti-dumping duties after the Canadian International Trade Tribunal found Chinese suppliers were selling below cost to unfairly undercut domestic producers.</span> <a href="https://www.citt-tcce.gc.ca/en/anti-dumping-injury-inquiries/active-dumping-and-subsidizing-cases" style="color:var(--amber);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" target="_blank">Source →</a><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:8px;">CITT</span></li><li style="padding:6px 0;border-bottom:1px solid rgba(200,134,10,0.15);list-style:none;font-size:13px;color:var(--ink-mid);line-height:1.6;">🟡 <strong style="color:var(--ink);">Reasons for determination — June 1, 2026</strong><span style="color:var(--ink-light);font-size:11px;"> — Canadian importers of certain steel products now face higher duties after the Canadian International Trade Tribunal found domestic producers were injured by unfairly priced imports.</span> <a href="https://www.citt-tcce.gc.ca/en/anti-dumping-injury-inquiries/active-dumping-and-subsidizing-cases" style="color:var(--amber);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" target="_blank">Source →</a><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:8px;">CITT</span></li><li style="padding:6px 0;border-bottom:1px solid rgba(200,134,10,0.15);list-style:none;font-size:13px;color:var(--ink-mid);line-height:1.6;">🟡 <strong style="color:var(--ink);">Public hearing — May 25, 2026</strong><span style="color:var(--ink-light);font-size:11px;"> — The Canadian International Trade Tribunal is holding a public hearing on May 25, 2026, where Canadian businesses can present evidence and arguments in a trade dispute case.</span> <a href="https://www.citt-tcce.gc.ca/en/anti-dumping-injury-inquiries/public-hearings-anti-dumping-injury-inquiries#toc-id-1" style="color:var(--amber);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" target="_blank">Source →</a><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:8px;">CITT</span></li></ul>
       <div style="font-family:'DM Mono',monospace;font-size:8px;color:var(--ink-light);margin-top:8px;">
         Sources: Canada Gazette Part II · CITT · CBSA · Parliament<br>
         <a href="https://canadiantradeintel.ca/tools/sanctions-check/" style="color:var(--amber);margin-right:12px;">Screen a supplier or counterparty →</a>
@@ -1562,7 +1584,7 @@ Canadian manufacturers can now import steel wire rod from eight additional count
         Critical Minerals & Mining Intelligence Brief
       </h1>
       <div style="font-family:'DM Mono',monospace;font-size:10px;color:#888;line-height:2;">
-        Issue #010 &nbsp;·&nbsp; June 02, 2026<br>
+        Issue #010 &nbsp;·&nbsp; June 04, 2026<br>
         Prepared by Canadian Trade Intelligence Inc. &nbsp;·&nbsp; canadiantradeintel.ca
       </div>
     </div>
@@ -1570,19 +1592,19 @@ Canadian manufacturers can now import steel wire rod from eight additional count
     <!-- 1. Situation Summary -->
     <div>
       <span style="font-size:8px;letter-spacing:0.14em;text-transform:uppercase;font-family:'DM Mono',monospace;color:#0d3d22;display:block;margin-bottom:8px;margin-top:24px;padding-top:20px;border-top:1px solid #e0dcd4;">1. Situation Summary</span>
-      <p style="font-size:14px;color:#1a1a1a;line-height:1.8;max-width:740px;">Mangrove Lithium's Delta, BC refinery has established North America's first commercial electrochemical lithium processing facility, breaking Chinese dominance and creating direct supply chain integration for Canadian miners. Three trade agreements activate this week—India CEPA, Indonesia FIPA, and CBSA steel tariff determination—creating immediate market-access and risk-mitigation windows for critical minerals exporters. Domestic processing capacity now enables competitive battery-grade hydroxide supply to North American cleantech manufacturers.</p>
+      <p style="font-size:14px;color:#1a1a1a;line-height:1.8;max-width:740px;">Mangrove Lithium's BC refinery establishes Canada's first commercial electrochemical processing capacity, directly competing with Chinese dominance and enabling domestic supply chain integration for battery manufacturers. Three major trade agreements (India CEPA, Indonesia FIPA, CBSA steel tariff ruling) move to implementation this week, creating market access and tariff clarity for Canadian critical minerals exporters. Political risk insurance and sanctions screening are now operational prerequisites for Indonesia and India market entry.</p>
     </div>
 
     <!-- 2. Top Signals -->
     <div>
       <span style="font-size:8px;letter-spacing:0.14em;text-transform:uppercase;font-family:'DM Mono',monospace;color:#0d3d22;display:block;margin-bottom:8px;margin-top:24px;padding-top:20px;border-top:1px solid #e0dcd4;">2. Top Signals</span>
-      <div style="padding:10px 0 10px 14px;border-left:3px solid #1a6b42;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">Mangrove Lithium commissioned North America's first commercial electrochemical lithium refinery in Delta, BC in April, processing spodumene concentrate into battery-grade lithium hydroxide.</div><div style="font-size:12px;color:#444;line-height:1.65;">This establishes domestic processing capacity that eliminates Canadian miners' dependence on Chinese refineries and reduces supply-chain fragility for regional battery and EV manufacturers.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#1a6b42;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: HIGH</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #1a6b42;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">India's Comprehensive Economic Partnership Agreement with Canada launches this week with formal tariff schedule implementation and critical minerals duty phase-out windows.</div><div style="font-size:12px;color:#444;line-height:1.65;">Indian tariff reductions on lithium, cobalt, and nickel create first-mover advantages for Canadian exporters and require immediate rule-of-origin verification under CEPA terms.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#1a6b42;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: HIGH</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #1a6b42;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">Canada's Foreign Investment Promotion and Protection Agreement with Indonesia is expected to be formally signed this week, confirming foreign investment protection terms.</div><div style="font-size:12px;color:#444;line-height:1.65;">FIPA signature enables Canadian miners and processors to access Indonesian nickel and cobalt supply chains with political risk insurance backing under new EDC PRII terms.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#b36b00;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: MED</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #1a6b42;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">CBSA preliminary determination on Chinese steel racks is due June 9, signaling tariff treatment for imported battery and cleantech manufacturing components.</div><div style="font-size:12px;color:#444;line-height:1.65;">Tariff relief on imported steel components will reduce input costs for battery manufacturers, improving competitiveness of domestic lithium hydroxide sourcing.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#b36b00;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: MED</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #1a6b42;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">Bank of Canada interest rate decision occurs this week, with potential signals on consumer credit tightening and employment impact forecast.</div><div style="font-size:12px;color:#444;line-height:1.65;">Interest rate trajectory affects mining investment financing and capex decisions for lithium, cobalt, and nickel extraction projects over the next 12–24 months.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#b36b00;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: MED</div></div>
+      <div style="padding:10px 0 10px 14px;border-left:3px solid #1a6b42;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">Mangrove Lithium's Delta refinery began commercial spodumene-to-lithium-hydroxide production in April, capturing processing margin currently held by Chinese competitors.</div><div style="font-size:12px;color:#444;line-height:1.65;">Canadian miners (Linakor, Nemaska) can now secure premium pricing and supply reliability by routing through domestic capacity, while regional cleantech manufacturers reduce supply chain risk and import costs.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#1a6b42;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: HIGH</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #1a6b42;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">India CEPA formally launches this week with critical minerals duty phase-out, removing tariff barriers on lithium, cobalt, and nickel shipments.</div><div style="font-size:12px;color:#444;line-height:1.65;">Indian battery and EV manufacturers gain tariff-free access to Canadian processed minerals, creating immediate export demand and justifying supply chain integration investments.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#1a6b42;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: HIGH</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #1a6b42;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">CBSA preliminary determination on Chinese steel racks due June 9 will clarify tariff treatment for imported battery assembly components.</div><div style="font-size:12px;color:#444;line-height:1.65;">Tariff relief would reduce input costs for domestic battery and cleantech manufacturers; tariff imposition protects Canadian steel suppliers but raises manufacturing costs.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#b36b00;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: MED</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #1a6b42;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">Indonesia FIPA signing ceremony scheduled this week formalizes foreign investment protection for Canadian mining and processing projects.</div><div style="font-size:12px;color:#444;line-height:1.65;">Confirmed FIPA terms unlock EDC political risk insurance pricing and create legal recourse for equity investments, lowering capital-deployment barriers for mineral extraction projects.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#b36b00;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: MED</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #1a6b42;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">Bank of Canada interest rate decision this week signals consumer credit tightening and employment impact, directly affecting cleantech capital deployment and project financing availability.</div><div style="font-size:12px;color:#444;line-height:1.65;">Rate guidance shapes financing costs for downstream battery manufacturers and EV producers, influencing critical minerals demand forecasts for H2 2026.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#1a6b42;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: HIGH</div></div>
     </div>
 
     <!-- 3. Recommended Actions -->
     <div>
       <span style="font-size:8px;letter-spacing:0.14em;text-transform:uppercase;font-family:'DM Mono',monospace;color:#0d3d22;display:block;margin-bottom:8px;margin-top:24px;padding-top:20px;border-top:1px solid #e0dcd4;">3. Recommended Actions</span>
-      <div style="padding:12px 14px;background:#f8f8f6;border-left:3px solid #1a6b42;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;color:#1a6b42;margin-right:8px;font-size:9px;">01</span>File CanExport SME program application immediately to fund rule-of-origin compliance assessments and market-entry research for India and Indonesia critical minerals shipments.</div><div style="font-size:12px;color:#555;line-height:1.65;">Global Affairs Canada's rolling intake supports up to $75K in contributions, and CEPA/FIPA activation creates time-sensitive tariff and supply-chain advantages this quarter.</div></div><div style="padding:12px 14px;background:#f8f8f6;border-left:3px solid #1a6b42;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;color:#1a6b42;margin-right:8px;font-size:9px;">02</span>Request TCS Market Intelligence rule-of-origin verification for all critical minerals shipments destined for India under CEPA, prioritizing lithium, cobalt, and nickel classifications.</div><div style="font-size:12px;color:#555;line-height:1.65;">India CEPA duty phase-outs begin this week; compliance errors or miscalculation now will lock exporters out of tariff benefits retroactively.</div></div><div style="padding:12px 14px;background:#f8f8f6;border-left:3px solid #1a6b42;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;color:#1a6b42;margin-right:8px;font-size:9px;">03</span>Screen Global Affairs Canada's List of Ineligible Suppliers and cross-check all downstream battery and cleantech end-buyers for sanctions compliance before June 15.</div><div style="font-size:12px;color:#555;line-height:1.65;">Referenced sanctions developments remain partially unclear in brief; preemptive supply-chain audit prevents export delays and regulatory exposure in Q2–Q3.</div></div>
+      <div style="padding:12px 14px;background:#f8f8f6;border-left:3px solid #1a6b42;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;color:#1a6b42;margin-right:8px;font-size:9px;">01</span>File rule-of-origin verification request with Trade Commission Service for all lithium, cobalt, and nickel shipments destined for India under India CEPA before tariff schedules lock June 15.</div><div style="font-size:12px;color:#555;line-height:1.65;">India CEPA duty phase-out begins immediately; early filing ensures your products qualify for preferred tariff treatment and avoids retroactive duty assessment.</div></div><div style="padding:12px 14px;background:#f8f8f6;border-left:3px solid #1a6b42;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;color:#1a6b42;margin-right:8px;font-size:9px;">02</span>Cross-reference your supply chain, end-buyers, and investment partners against Global Affairs Canada's ineligible suppliers list and active sanctions registers before Indonesia and India shipments.</div><div style="font-size:12px;color:#555;line-height:1.65;">Sanctions scope remains unclear in the brief; screening compliance prevents trade delays and regulatory penalties in high-opportunity markets.</div></div><div style="padding:12px 14px;background:#f8f8f6;border-left:3px solid #1a6b42;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;color:#1a6b42;margin-right:8px;font-size:9px;">03</span>Request EDC political risk insurance quote for Indonesia mineral extraction or processing investments within 48 hours, keyed to formal FIPA signing date.</div><div style="font-size:12px;color:#555;line-height:1.65;">Insurance terms are finalized upon FIPA execution; early quoting locks pricing and accelerates project approval timelines for 2026 capex deployment.</div></div>
     </div>
 
     <!-- 4. Market Opportunity Scores -->
@@ -1617,7 +1639,7 @@ Canadian manufacturers can now import steel wire rod from eight additional count
     <!-- 6. Supply Chain Watch -->
     <div>
       <span style="font-size:8px;letter-spacing:0.14em;text-transform:uppercase;font-family:'DM Mono',monospace;color:#0d3d22;display:block;margin-bottom:8px;margin-top:24px;padding-top:20px;border-top:1px solid #e0dcd4;">6. Supply Chain Watch</span>
-      <div style="border:1px solid #e0dcd4;background:#fff;"><div class="scw-item"><div class="scw-left"><div class="scw-input">Rare Earth Elements (REE) – Yttrium and related heavy rare earths</div><div class="scw-status">Chinese export controls cut US yttrium imports by 95% (333t to 17t) since November 2025, driving prices up 69x. Canadian processors and downstream manufacturers face acute supply scarcity and cost volatility.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Immediately map yttrium consumption across your supply chain and explore India-US rare earth corridor access via the May 26 CEPA framework; assess substitution pathways for near-term production.</span></div></div><div class="scw-risk scw-risk-high">High</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">Sulfur for mineral processing and refining</div><div class="scw-status">Global sulfur shortages are intensifying and directly constraining critical mineral processing capacity. Canadian mining operations dependent on imported sulfur face processing delays and cost escalation.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Secure long-term sulfur supply contracts now and evaluate domestic or North American alternative sources; coordinate with processors on inventory buffers to hedge supply gaps.</span></div></div><div class="scw-risk scw-risk-high">High</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">Diamond and precious mineral inputs (rough and semi-processed)</div><div class="scw-status">Rio Tinto's Diavik mine closure (March 2026 after 23 years) removes a major Canadian production source; supply must now shift to African and other offshore sources facing rising resource nationalism and royalty regimes.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Diversify sourcing away from single-jurisdiction reliance; monitor Ecuador, Brazil, and Mexico royalty changes and assess impact on landed cost and supply reliability for downstream operations.</span></div></div><div class="scw-risk scw-risk-med">Med</div></div></div>
+      <div style="border:1px solid #e0dcd4;background:#fff;"><div class="scw-item"><div class="scw-left"><div class="scw-input">Rare earth elements (yttrium, other REEs)</div><div class="scw-status">Chinese export controls have cut US yttrium imports by 95% since November 2025, driving prices up 69x. Canadian processors and manufacturers dependent on Chinese REE supply face severe availability and cost shock.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Audit your REE supply contracts immediately; lock in long-term pricing before further escalation. Evaluate the India-US rare earth corridor (announced May 26) as alternative source; contact TCS Market Intelligence for India CEPA rule-of-origin compliance on REE inputs.</span></div></div><div class="scw-risk scw-risk-high">High</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">Sulfur (industrial processing input)</div><div class="scw-status">Global sulfur shortages are now affecting critical mineral processing capacity. Supply tightness is intensifying across the sector.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Confirm sulfur supplier reliability and inventory buffers with your processors now. Explore secondary or recycled sulfur sources and negotiate forward contracts to secure 6–12 month supply cover.</span></div></div><div class="scw-risk scw-risk-high">High</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">Upstream diamond and gemstone inputs</div><div class="scw-status">Rio Tinto's Diavik mine closure (March 26, 2026) removes 23 years of Canadian domestic supply. While not a critical mineral per se, this signals accelerating domestic production losses in extractive sectors and tightens upstream availability.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">If you depend on Canadian diamond or gemstone inputs, begin diversification to African or Australian sources now. Monitor ATCO's Grays Bay infrastructure investment as a potential alternative logistics corridor for future northern mining projects.</span></div></div><div class="scw-risk scw-risk-med">Med</div></div></div>
     </div>
 
     <!-- 7. Source Index -->
