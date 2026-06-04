@@ -30,7 +30,7 @@
 
   body {
     font-family: 'DM Sans', sans-serif;
-    background: var(--cream);
+    background: #eceae5;
     color: var(--ink);
     line-height: 1.6;
   }
@@ -40,29 +40,44 @@
 
   /* ── STICKY NAV ── */
   .sticky-nav {
-    position: sticky; top: 0; z-index: 100;
-    background: var(--masthead-bg);
-    border-bottom: 1px solid rgba(168,213,188,0.15);
-    padding: 0 40px;
+    position: fixed;
+    top: 160px;
+    left: calc(50% - 430px - 160px);
+    width: 150px;
+    z-index: 100;
+    background: transparent;
+    border: none;
+    padding: 0;
   }
   .sticky-nav-inner {
-    max-width: 1100px; margin: 0 auto;
-    display: flex; align-items: center;
-    justify-content: space-between; height: 46px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    max-width: 120px;
   }
-  .sticky-nav-brand {
-    font-family: 'DM Mono', monospace; font-size: 9px;
-    letter-spacing: 0.18em; text-transform: uppercase;
-    color: var(--sector-mid); text-decoration: none;
+  .sticky-nav-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
   }
-  .sticky-nav-links { display: flex; gap: 24px; }
   .sticky-nav-links a {
-    font-family: 'DM Mono', monospace; font-size: 8px;
-    letter-spacing: 0.12em; text-transform: uppercase;
-    color: rgba(255,255,255,0.35); text-decoration: none;
-    transition: color 0.18s;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #6b6560;
+    text-decoration: none;
+    padding: 6px 0;
+    border-left: 2px solid #d4cfc8;
+    padding-left: 10px;
+    display: block;
+    line-height: 1.3;
   }
-  .sticky-nav-links a:hover { color: var(--sector-mid); }
+  .sticky-nav-links a:hover {
+    color: #8B1A1A;
+    border-left-color: #8B1A1A;
+  }
+  .sticky-nav-brand { display: none; }
 
   /* ── MASTHEAD ── */
   .masthead {
@@ -121,9 +136,7 @@
 
   /* ── REPORT NAV ── */
   .report-nav {
-    background: #fff;
-    border-bottom: 1px solid var(--rule);
-    padding: 0 40px; position: sticky; top: 46px; z-index: 90;
+    display: none;
   }
   .report-nav-inner {
     max-width: 1100px; margin: 0 auto;
@@ -145,8 +158,14 @@
 
   /* ── REPORT BODY ── */
   .report-body {
-    max-width: 1100px; margin: 0 auto;
-    padding: 48px 40px 80px;
+    max-width: 860px;
+    margin: 0 auto 80px;
+    background: #ffffff;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.10), 0 0 0 1px rgba(0,0,0,0.04);
+    border-radius: 0 0 2px 2px;
+    padding: 40px 56px 60px;
+    box-sizing: border-box;
+    overflow: hidden;
   }
 
   /* ── SECTION HEADERS ── */
@@ -154,6 +173,8 @@
     display: flex; align-items: baseline; gap: 14px;
     margin-bottom: 24px; padding-bottom: 10px;
     border-bottom: 2px solid var(--brand);
+    max-width: 100%;
+    box-sizing: border-box;
   }
   .section-label {
     font-family: 'DM Mono', monospace; font-size: 8px;
@@ -162,10 +183,21 @@
   }
   .section-rule { flex: 1; height: 1px; background: var(--rule); }
   .mb-56 { margin-bottom: 56px; }
+  @media screen {
+    section.mb-56 + section.mb-56 {
+      border-top: 1px solid var(--rule);
+      padding-top: 48px;
+    }
+  }
 
   /* ── EXEC SUMMARY ── */
   .exec-summary {
-    display: grid; grid-template-columns: 1fr 280px; gap: 32px;
+    display: block;
+  }
+  .exec-summary-text {
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--ink);
   }
   .exec-summary-text h2 {
     font-family: 'Cormorant Garamond', serif;
@@ -637,7 +669,7 @@
   .report-footer-links a:hover { color: var(--sector-mid); }
 
   @media (max-width: 768px) {
-    .sticky-nav { padding: 0 16px; }
+    .sticky-nav { display: none; }
     .masthead { padding: 32px 16px 28px; }
     .report-nav { padding: 0 16px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
     .report-nav::-webkit-scrollbar { display: none; }
@@ -678,7 +710,11 @@
 
   /* ── PRINT STYLESHEET ── */
   @media print {
-    @page { margin: 2.5cm; size: A4; }
+    @page { margin: 2cm 2.5cm; size: A4; }
+
+    body { background: transparent !important; }
+    .report-body { box-shadow: none !important; margin: 0 auto !important; }
+    .sticky-nav { display: none !important; }
 
     /* Hide nav chrome, CTAs, interactive elements */
     .sticky-nav, .report-nav, .report-footer,
@@ -801,6 +837,81 @@
     body.briefing-active #briefing-panel button { display: none !important; }
     @page { margin: 1in; }
   }
+
+  .doc-header {
+    max-width: 860px;
+    margin: 40px auto 0;
+    padding: 28px 56px 0;
+    background: #fff;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.10), 0 0 0 1px rgba(0,0,0,0.04);
+    border-radius: 2px 2px 0 0;
+  }
+  .doc-header-top {
+    height: 3px;
+    background: #8B1A1A;
+    margin-bottom: 20px;
+  }
+  .doc-header-body {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #d4cfc8;
+  }
+  .doc-header-left {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .doc-org {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #1a0505;
+    font-weight: 500;
+  }
+  .doc-series {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #8B1A1A;
+  }
+  .doc-header-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+  }
+  .doc-issue {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #1a0505;
+  }
+  .doc-date {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: #6b6560;
+    letter-spacing: 0.08em;
+  }
+  .doc-stats {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    color: #8B1A1A;
+    letter-spacing: 0.08em;
+    margin-top: 2px;
+    text-align: right;
+  }
+  .doc-header-bottom {
+    height: 0;
+  }
+  @media print {
+    .doc-header { padding: 0 0 16px; }
+    .doc-header-top { margin-bottom: 12px; }
+  }
 </style>
 </head>
 <body>
@@ -810,90 +921,22 @@
 <div style="background:#f0f8f4;border-bottom:2px solid #c8860a;padding:10px 40px;text-align:center;position:sticky;top:0;z-index:300;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#7a5000;">For informational purposes only · Not legal or financial advice</span></div>
 -->
 
-<!-- STICKY NAV -->
-<nav class="sticky-nav">
-  <div class="sticky-nav-inner">
-    <a href="https://canadiantradeintel.ca" class="sticky-nav-brand">🇨🇦 Canadian Trade Intel</a>
-    <div class="sticky-nav-links">
-      <a href="#plain-english">This Week</a>
-      <a href="#signals">Signals</a>
-      <a href="#actions">Actions</a>
-      <a href="#pathways">Market Entry</a>
-      <a href="#watch">Watch For</a>
-      <a href="#spotlight">Spotlight</a>
-      <a href="https://canadiantradeintel.ca/reports">All Reports</a>
+<header class="doc-header">
+  <div class="doc-header-top"></div>
+  <div class="doc-header-body">
+    <div class="doc-header-left">
+      <span class="doc-org">Canadian Trade Intelligence Inc.</span>
+      <span class="doc-series">Agri-food & Agriculture · Intelligence Brief</span>
+    </div>
+    <div class="doc-header-right">
+      <span class="doc-issue">Issue #009</span>
+      <span class="doc-date">May 28 – Jun 4, 2026</span>
+      <span class="doc-stats">13 opportunities · 5 risks · 6 immediate</span>
     </div>
   </div>
-</nav>
-
-<!-- MASTHEAD -->
-<header class="masthead">
-  <div class="masthead-inner">
-    <div class="masthead-eyebrow">
-      <span class="sector-badge">🌾 Agri-food & Agriculture</span>
-      <span class="issue-meta">ISSUE #009 &nbsp;·&nbsp; June 02, 2026 &nbsp;·&nbsp; ~12 MIN READ</span>
-    </div>
-    <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:10px;">Agri-food & Agriculture &nbsp;·&nbsp; Week of June 02, 2026</div>
-    <div style="font-family:'DM Mono',monospace;font-size:9px;color:rgba(255,255,255,0.5);letter-spacing:0.1em;margin-bottom:10px;">Coverage: May 26 – Jun 2, 2026</div>
-    <h1>Agri-food & Agriculture — Intelligence Brief · Issue #009</h1>
-    <div style="margin-bottom:12px;display:flex;flex-wrap:wrap;gap:4px;"><span style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.08em;text-transform:uppercase;padding:3px 9px;border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.6);margin-right:6px;margin-bottom:4px;display:inline-block;">US wheat: smallest crop since 1965</span><span style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.08em;text-transform:uppercase;padding:3px 9px;border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.6);margin-right:6px;margin-bottom:4px;display:inline-block;">AgriMarketing: $75M open now</span><span style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.08em;text-transform:uppercase;padding:3px 9px;border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.6);margin-right:6px;margin-bottom:4px;display:inline-block;">India pulse quota: act this week</span><span style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.08em;text-transform:uppercase;padding:3px 9px;border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.6);margin-right:6px;margin-bottom:4px;display:inline-block;">Canada canola crush: record capacity</span></div>
-    <p class="masthead-summary">
-      This week's signals converge on a single dominant theme: a structural supply disruption in the United States is handing Canadian grain and canola exporters a pricing premium that may not repeat for years, arriving precisely as federal export support funding opens for applications. The convergence of US crop failure, new federal programme money, and active demand from India's pulse quota cycle means Canadian agri-food businesses face not a single opportunity but a rare simultaneous opening across multiple commodities and markets.
-    </p>
-    <div class="doc-frame-bar"
-         style="display:flex;justify-content:space-between;align-items:center;
-         border-top:2px solid var(--crimson,#8B1A1A);
-         border-bottom:1px solid rgba(255,255,255,0.12);
-         padding:7px 0;margin:14px 0 20px 0;
-         font-family:'DM Mono',monospace;font-size:8px;
-         letter-spacing:0.14em;text-transform:uppercase;
-         color:rgba(255,255,255,0.4);">
-      <span>Canadian Trade Intelligence Inc.</span>
-      <span>Issue #009 &nbsp;·&nbsp; Agri-food & Agriculture &nbsp;·&nbsp; June 02, 2026</span>
-    </div>
-    <div class="masthead-stats">
-      <div class="masthead-stat">
-        <div class="masthead-stat-label">Signals</div>
-        <div class="masthead-stat-value">6</div>
-      </div>
-      <div class="masthead-stat">
-        <div class="masthead-stat-label">Opportunities</div>
-        <div class="masthead-stat-value">14</div>
-      </div>
-      <div class="masthead-stat">
-        <div class="masthead-stat-label">Risks</div>
-        <div class="masthead-stat-value">3</div>
-      </div>
-      <div class="masthead-stat">
-        <div class="masthead-stat-label">Immediate</div>
-        <div class="masthead-stat-value">5</div>
-      </div>
-      <div class="masthead-stat">
-        <div class="masthead-stat-label">Markets Scored</div>
-        <div class="masthead-stat-value">18</div>
-      </div>
-    </div>
-  </div>
+  <div class="doc-header-bottom"></div>
 </header>
 
-<!-- REPORT SECTION NAV -->
-<nav class="report-nav">
-  <div class="report-nav-inner">
-    <a href="#summary">Overview</a>
-    <a href="#signals">Signals (6)</a>
-    <a href="#what-we-think">What We Think</a>
-    <a href="#actions">Actions (4)</a>
-    <a href="#procurement">Procurement (5)</a>
-    <a href="#supply-chain">Supply Chain</a>
-
-    <a href="#pathways">Market Entry</a>
-    <a href="#watch">Watch For These</a>
-
-    <a href="#spotlight">Canadian Spotlight</a>
-    <button onclick="toggleBriefing()" class="briefing-btn" id="briefing-toggle-btn">📋 Briefing View</button>
-    <button onclick="window.print()" class="pdf-nav-btn">⬇ Save as PDF</button>
-  </div>
-</nav>
 
 <!-- REPORT BODY -->
 <div id="report-content">
@@ -906,7 +949,7 @@
       <div class="section-rule"></div>
     </div>
     <div class="exec-summary">
-      <div class="exec-summary-text" style="font-size:17px;line-height:1.65;">
+      <div class="exec-summary-text" style="font-size:15px;line-height:1.75;color:var(--ink);max-width:680px;">
         <p>A once-in-a-generation drought has devastated the American wheat crop — down 25% from last year to the smallest harvest since 1965 — and that is creating a rare pricing window for Canadian Prairie farmers who grow competing wheat and canola. At the same time, Canada's federal government has opened $75 million in new export funding specifically for food and agriculture companies, including small businesses for the first time. For Canadians at the grocery store, food inflation cooled slightly to 3.5% in April, but families are still paying roughly $1,000 more per year than two years ago, and the wheat supply shock could keep bread and pasta prices elevated through winter.</p>
       </div>
     </div>
@@ -928,9 +971,9 @@
 <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.14em;text-transform:uppercase;color:var(--brand,#8b0000);margin-bottom:5px;margin-top:14px;">Pulse market competition</div><p style="font-size:15px;line-height:1.72;color:var(--ink);margin-bottom:8px;">Canada's dominant position in global pulse markets  -  approximately 65% of India's lentil imports  -  faces a two-front challenge. India's DGFT Q2 2026 quota creates an immediate buying window, but Australia's GRDC January 2026 pulse market strategy explicitly targets Southeast Asian aquafeed and protein-fractionation demand in China, Vietnam, and Indonesia  -  markets where Canadian exporters have historically been underrepresented. Bangladesh and Pakistan maintain consistent lentil and chickpea demand independent of Indian quota cycles and represent lower-volatility volume channels that Canadian exporters should be developing systematically. The <a href="/resources/trade-agreements/#cptpp" style="color:var(--brand,#8b0000);text-decoration:none;border-bottom:1px solid rgba(139,26,26,0.3);" title="CPTPP — trade agreement details">CPTPP</a> expansion to Indonesia and Philippines, and the FIPA with Indonesia, create legal and preferential frameworks for Canadian pulse ingredient exports into Southeast Asian food manufacturing that did not exist 12 months ago. Canadian pulse exporters  -  AGT Food and Ingredients, Alliance Grain Traders, and Richardson International's pulse division  -  should be in Indonesian buyer meetings by September 2026 at the latest, funded by the AgriMarketing Market Diversification programme.</p>
 <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.14em;text-transform:uppercase;color:var(--brand,#8b0000);margin-bottom:5px;margin-top:14px;">Worker and community impact</div><p style="font-size:15px;line-height:1.72;color:var(--ink);margin-bottom:8px;">The simultaneous US wheat supply shock, record canola crush capacity, and active India pulse quota create real near-term employment security for grain handling, processing, and transportation workers in Saskatchewan and Manitoba. Richardson International, G3 Global Grain, and Viterra terminal facilities will operate at elevated throughput through fall 2026 harvest, supporting jobs in Saskatoon, Regina, Winnipeg, and inland terminal communities across the Prairies. The expanded Temporary Foreign Worker Programme rural pilot  -  15% of workforce cap, active until March 31, 2027  -  provides the labour flexibility needed to capture peak harvest throughput without chronic understaffing. However, Manitoba consumers face the country's highest grocery inflation at 4.8% per Statistics Canada's May 19, 2026 CPI release, and the US wheat supply shock may sustain elevated bread and pasta prices through winter 2026-27. The gap between strong farm-gate returns and household food costs in communities like Winnipeg, Brandon, and Thompson is a structural tension that high commodity prices alone do not resolve. Manitoba food banks, which have recorded record usage, will likely remain under sustained pressure even as Prairie farmers report strong 2026 revenues.</p>
       </div>
-      <div>
+      <div style="float:right;width:280px;margin:0 0 24px 32px;clear:right;">
         <div class="commodity-panel">
-          <div class="commodity-panel-title">Top Markets · June 02, 2026</div>
+          <div class="commodity-panel-title">Top Markets · June 04, 2026</div>
           
           <div class="commodity-row">
             <div>
@@ -981,10 +1024,15 @@
           and buyer activity from this week's intelligence.
           <a href="/resources/how-markets-are-scored/" style="color:var(--brand,#8b0000);font-size:10px;">How we score markets</a>
         </div>
+        <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--rule);">
+          <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:8px;">Key Topics</div>
+          <div style="margin-bottom:12px;display:flex;flex-wrap:wrap;gap:4px;"><span style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.08em;text-transform:uppercase;padding:3px 9px;border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.6);margin-right:6px;margin-bottom:4px;display:inline-block;">US wheat: smallest crop since 1965</span><span style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.08em;text-transform:uppercase;padding:3px 9px;border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.6);margin-right:6px;margin-bottom:4px;display:inline-block;">AgriMarketing: $75M open now</span><span style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.08em;text-transform:uppercase;padding:3px 9px;border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.6);margin-right:6px;margin-bottom:4px;display:inline-block;">India pulse quota: act this week</span><span style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.08em;text-transform:uppercase;padding:3px 9px;border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.6);margin-right:6px;margin-bottom:4px;display:inline-block;">Canada canola crush: record capacity</span></div>
         </div>
       </div>
     </div>
   </section>
+
+  <div style="clear:both;"></div>
 
   <!-- SIGNALS -->
   <section id="signals" class="mb-56">
@@ -996,13 +1044,13 @@
       
       <div class="signal-card ">
         <div class="signal-flag">
-           · Trade Remedy Canada
-          <span class="urgency-tag urgency-quarter">This Quarter</span>
+           · Canada Agrifood Abroad
+          <span class="urgency-tag urgency-now">Immediate</span>
         </div>
-        <div class="signal-headline"><cite index="31-1,31-2">CBSA made preliminary determination of dumping on oil and gas well casing from Austria on May 4,</div>
+        <div class="signal-headline">Canadian government launches $75 million Market Diversification Program for agricultural exporters on February 10, 2026</div>
         
-        <div class="signal-body"><cite index="31-1,31-2">On May 4, 2026, CBSA made a preliminary determination of dumping of oil and gas well casing from Austria, with CITT conducting injury inquiry until 120 days after notice receipt</cite>. <cite index="31-4,31-5">Provisional duties may be payable but CBSA considers imposition unnecessary to prevent injury</cite>. <cite index="31-13">CITT will hold hearing during week of August 3, 2026</cite>.</div>
-        <div class="signal-what-means"><span class="signal-what-label">What This Could Mean For You</span>This investigation protects Canadian oil and gas tubular goods producers from unfair Austrian competition, particularly benefiting companies like complainant Tenaris Canada. For Canadian energy sector operators, this may stabilize domestic pricing but could increase input costs if duties are ultimately imposed.</div>
+        <div class="signal-body"><cite index="25-6,25-7">Minister Heath MacDonald announced two new AgriMarketing Program streams for Market Diversification targeting national industry associations and SMEs, with $75 million invested over 5 years (2026-27 to 2030-31)</cite>. <cite index="25-1">Applications opened February 13, 2026</cite>. <cite index="25-11">Funding specifically targets sectors most affected by trade barriers</cite>.</div>
+        <div class="signal-what-means"><span class="signal-what-label">What This Could Mean For You</span>Significant new funding opportunity for Canadian agri-food exporters to diversify beyond US markets. SMEs now eligible for government export support for the first time. This directly supports market diversification strategies for companies facing US trade uncertainty while strengthening access to emerging markets.</div>
         
         <details class="analyst-detail">
           <summary>Trade Context ▾</summary>
@@ -1011,20 +1059,20 @@
           <b>TCS Office</b>TCS — contact nearest Canadian mission
           <b>Relevant Programmes</b>EDC Agri Financing · AAFC AgriMarketing · Pulse Canada · CanExport SME
           <b>HS Codes</b>HS 1001–1008 (grain) · 1201 (soybeans) · 1205 (canola) · 0713 (pulses)
-          <b>Primary Source</b><a href="https://gazette.gc.ca/rp-pr/p1/2026/2026-05-16/html/commis-eng.html" target="_blank">Canada Gazette</a>
+          <b>Primary Source</b><a href="https://www.canada.ca/en/agriculture-agri-food/news/2026/02/the-government-of-canada-strengthens-support-for-agricultural-exports-with-a-new-market-diversification-program.html" target="_blank">Government of Canada</a>
           </div>
         </details>
-        <div class="signal-source">Source: <a href="https://gazette.gc.ca/rp-pr/p1/2026/2026-05-16/html/commis-eng.html" target="_blank">Canada Gazette, 2026-05-26 →</a></div>
+        <div class="signal-source">Source: <a href="https://www.canada.ca/en/agriculture-agri-food/news/2026/02/the-government-of-canada-strengthens-support-for-agricultural-exports-with-a-new-market-diversification-program.html" target="_blank">Government of Canada, 2026-06-02 →</a></div>
       </div>
       <div class="signal-card ">
         <div class="signal-flag">
-           · Wasde Wheat
-          <span class="urgency-tag urgency-quarter">This Quarter</span>
+           · Harvest Shortfall
+          <span class="urgency-tag urgency-now">Immediate</span>
         </div>
-        <div class="signal-headline">USDA's May 2026 WASDE report projected sharply lower U.S. wheat production at 1,561 million bushels, down 424 million fr</div>
+        <div class="signal-headline">Kansas wheat conditions deteriorate to 32% good/excellent with harvest potentially 3 weeks early due to heat and drought</div>
         
-        <div class="signal-body"><cite index="10-29,10-30">U.S. all-wheat yield projected at 47.5 bushels per acre, 5.8 bushels lower than last year's record, with winter wheat down 25 percent to 1,048 million bushels primarily on reduced Hard Red Winter production.</cite> <cite index="7-9,7-10">U.S. canola crush forecast to reach record 5.0 billion pounds on strong canola oil demand, supported by higher domestic production and increased imports.</cite> <cite index="11-9,11-13">The May 12 WASDE report was corrected on May 13, 2026 to fix wheat import figures from 123 to 125 million bushels.</cite></div>
-        <div class="signal-what-means"><span class="signal-what-label">What This Could Mean For You</span><cite index="7-5,7-6">Canada's canola crush is forecast to reach record levels with expanded capacity of 14.8 million metric tons, benefiting Canadian canola producers and processors.</cite> Higher U.S. wheat prices create competitive opportunities for Canadian wheat exporters, while strong canola oil demand from U.S. biofuel markets supports Canadian canola exports and processing margins.</div>
+        <div class="signal-body"><cite index="45-2,45-3,45-4,45-5">Kansas wheat crop development accelerated by warm winter and early spring, with southern areas running two weeks ahead of schedule and potential harvest starting May 22 versus normal June 12 target</cite>. <cite index="41-1,41-9,41-10,41-11">Global wheat harvest forecast plummeted 18% amid historic droughts, compounded by fertilizer supply disruptions from Strait of Hormuz closure causing 28% urea price spike</cite>.</div>
+        <div class="signal-what-means"><span class="signal-what-label">What This Could Mean For You</span>Significant opportunity for Canadian wheat and canola exporters as US Great Plains production faces severe stress. Early Kansas harvest with reduced yields and global 18% supply shortfall creates premium pricing conditions. Canadian producers benefit from competitive positioning versus drought-affected US and potential fertilizer cost advantages.</div>
         
         <details class="analyst-detail">
           <summary>Trade Context ▾</summary>
@@ -1033,20 +1081,20 @@
           <b>TCS Office</b>TCS — contact nearest Canadian mission
           <b>Relevant Programmes</b>EDC Agri Financing · AAFC AgriMarketing · Pulse Canada · CanExport SME
           <b>HS Codes</b>HS 1001 (wheat and meslin)
-          <b>Primary Source</b><a href="https://www.usda.gov/oce/commodity/wasde/wasde0526v2.pdf" target="_blank">USDA World Agricultural Supply and Demand Estimates</a>
+          <b>Primary Source</b><a href="https://agroinformacion.com/en/marketseconomics/hrw-wheat-conditions-2026-deteriorate-sharply-as-kansas-drops-to-32-percent-good-or-excellent-and-harvest-may-come-three-weeks-early/" target="_blank">Agroinformacion</a>
           </div>
         </details>
-        <div class="signal-source">Source: <a href="https://www.usda.gov/oce/commodity/wasde/wasde0526v2.pdf" target="_blank">USDA World Agricultural Supply and Demand Estimates, 2026-05-26 →</a></div>
+        <div class="signal-source">Source: <a href="https://agroinformacion.com/en/marketseconomics/hrw-wheat-conditions-2026-deteriorate-sharply-as-kansas-drops-to-32-percent-good-or-excellent-and-harvest-may-come-three-weeks-early/" target="_blank">Agroinformacion, 2026-06-02 →</a></div>
       </div>
       <div class="signal-card ">
         <div class="signal-flag">
-           · Eu Food Access
+           · Roberts Bank Terminal
           <span class="urgency-tag urgency-quarter">This Quarter</span>
         </div>
-        <div class="signal-headline">CETA Joint Committee convened Senior Officials' meeting addressing agriculture and SPS priority concerns in March 2026</div>
+        <div class="signal-headline">Roberts Bank Terminal 2 MOU signed with GCT in late April 2026, construction timeline advancing with final permit decisi</div>
         
-        <div class="signal-body">The fifth <a href="/resources/trade-agreements/#ceta" style="color:var(--brand,#8b0000);text-decoration:none;border-bottom:1px solid rgba(139,26,26,0.3);" title="CETA — trade agreement details">CETA</a> Joint Committee meeting occurred March 5, 2026, with Canada and EU co-chairs acknowledging active work by agriculture committees to reduce trade barriers. They welcomed convening a Senior Officials' meeting to address agri-food sector concerns including sanitary and phytosanitary issues, demonstrating continued commitment to advancing solutions under <a href="/resources/trade-agreements/#ceta" style="color:var(--brand,#8b0000);text-decoration:none;border-bottom:1px solid rgba(139,26,26,0.3);" title="CETA — trade agreement details">CETA</a>. EU-Canada trade has grown 75% in goods and 97% in services since 2017.</div>
-        <div class="signal-what-means"><span class="signal-what-label">What This Could Mean For You</span>This signals continued government-level commitment to resolving trade barriers affecting Canadian agricultural exports to the 448 million EU consumer market. The Senior Officials' meeting outcomes will inform the next <a href="/resources/trade-agreements/#ceta" style="color:var(--brand,#8b0000);text-decoration:none;border-bottom:1px solid rgba(139,26,26,0.3);" title="CETA — trade agreement details">CETA</a> Joint Committee, potentially unlocking new market access for Canadian canola, beef, pork, and maple products.</div>
+        <div class="signal-body"><cite index="14-1,14-7">Vancouver Fraser Port Authority and GCT Global Container Terminals signed a Memorandum of Understanding on April 29, 2026 to explore partnership opportunities for Roberts Bank Terminal 2</cite>. <cite index="15-8,16-8">A final decision on the Species at Risk Act-compliant Fisheries Act Authorization application is expected no later than October 2026</cite>. <cite index="10-16">In June 2025, they completed a two-day trial of pop-up float gear with harvesters, and in 2026, they'll collaborate on a more fulsome study</cite>.</div>
+        <div class="signal-what-means"><span class="signal-what-label">What This Could Mean For You</span>RBT2 will add 2.4 million TEUs of container capacity (30% increase) and unlock $100 billion in annual trade capacity. This benefits Canadian exporters by reducing port congestion and improving access to Indo-Pacific markets. The GCT partnership accelerates development of critical trade infrastructure.</div>
         
         <details class="analyst-detail">
           <summary>Trade Context ▾</summary>
@@ -1055,64 +1103,64 @@
           <b>TCS Office</b>TCS — contact nearest Canadian mission
           <b>Relevant Programmes</b>EDC Agri Financing · AAFC AgriMarketing · Pulse Canada · CanExport SME
           <b>HS Codes</b>HS 1001–1008 (grain) · 1201 (soybeans) · 1205 (canola) · 0713 (pulses)
-          <b>Primary Source</b><a href="https://www.international.gc.ca/trade-commerce/trade-agreements-accords-commerciaux/agr-acc/ceta-aecg/2026-03-05-statement-declaration.aspx?lang=eng" target="_blank">Global Affairs Canada</a>
+          <b>Primary Source</b><a href="https://canada.constructconnect.com/joc/news/infrastructure/2026/04/vancouver-fraser-port-authority-gct-sign-roberts-bank-terminal-2-mou" target="_blank">ConstructConnect</a>
           </div>
         </details>
-        <div class="signal-source">Source: <a href="https://www.international.gc.ca/trade-commerce/trade-agreements-accords-commerciaux/agr-acc/ceta-aecg/2026-03-05-statement-declaration.aspx?lang=eng" target="_blank">Global Affairs Canada, 2026-05-26 →</a></div>
+        <div class="signal-source">Source: <a href="https://canada.constructconnect.com/joc/news/infrastructure/2026/04/vancouver-fraser-port-authority-gct-sign-roberts-bank-terminal-2-mou" target="_blank">ConstructConnect, 2026-06-02 →</a></div>
       </div>
       <div class="signal-card ">
         <div class="signal-flag">
-           · Import Demand Signals
-          <span class="urgency-tag urgency-quarter">This Quarter</span>
-        </div>
-        <div class="signal-headline">Costa Rica CPTPP negotiations concluded May 6, 2026, with four countries declared meeting membership criteria</div>
-        
-        <div class="signal-body"><a href="/resources/trade-agreements/#cptpp" style="color:var(--brand,#8b0000);text-decoration:none;border-bottom:1px solid rgba(139,26,26,0.3);" title="CPTPP — trade agreement details">CPTPP</a> negotiations with Costa Rica concluded May 6, 2026, requiring congressional approval. The November 2025 commission meeting declared Uruguay, UAE, Philippines, and Indonesia as meeting <a href="/resources/trade-agreements/#cptpp" style="color:var(--brand,#8b0000);text-decoration:none;border-bottom:1px solid rgba(139,26,26,0.3);" title="CPTPP — trade agreement details">CPTPP</a> criteria. Vietnam participated in 18th EFTA negotiation round in November 2025, while ASEAN-Canada FTA negotiations aim for substantial conclusion by late 2025 with possible extension into 2026.</div>
-        <div class="signal-what-means"><span class="signal-what-label">What This Could Mean For You</span>Expanding <a href="/resources/trade-agreements/#cptpp" style="color:var(--brand,#8b0000);text-decoration:none;border-bottom:1px solid rgba(139,26,26,0.3);" title="CPTPP — trade agreement details">CPTPP</a> membership creates larger preferential market access for Canadian goods, particularly with Indonesia's 270M population and UAE's strategic location. Vietnamese procurement policies favor domestic goods, limiting opportunities. ASEAN-Canada FTA progress could unlock significant market access across Southeast Asia for Canadian agriculture, forestry, and processed food exports.</div>
-        
-        <details class="analyst-detail">
-          <summary>Trade Context ▾</summary>
-          <div class="analyst-detail-body">
-          <b>Trade Agreement</b>No FTA in force
-          <b>TCS Office</b>TCS — contact nearest Canadian mission
-          <b>Relevant Programmes</b>EDC Agri Financing · AAFC AgriMarketing · Pulse Canada · CanExport SME
-          <b>HS Codes</b>HS 1001–1008 (grain) · 1201 (soybeans) · 1205 (canola) · 0713 (pulses)
-          <b>Primary Source</b><a href="https://en.wikipedia.org/wiki/Comprehensive_and_Progressive_Agreement_for_Trans-Pacific_Partnership" target="_blank">Wikipedia</a>
-          </div>
-        </details>
-        <div class="signal-source">Source: <a href="https://en.wikipedia.org/wiki/Comprehensive_and_Progressive_Agreement_for_Trans-Pacific_Partnership" target="_blank">Wikipedia, 2026-05-26 →</a></div>
-      </div>
-      <div class="signal-card ">
-        <div class="signal-flag">
-           · Pulse Indonesia Sea
-          <span class="urgency-tag urgency-quarter">This Quarter</span>
-        </div>
-        <div class="signal-headline">Australia releases new pulse market strategy targeting Southeast Asia aquafeed demand</div>
-        
-        <div class="signal-body">GRDC published updated pulse market outlook on January 29, 2026, highlighting growing aquafeed and protein-fractionation demand in China, Vietnam, and Southeast Asia. Report emphasizes field peas and faba beans accessing intensive livestock and aquafeed markets while protecting premium food channels. Bangladesh and Pakistan maintain consistent lentil and chickpea demand despite Indian market volatility.</div>
-        <div class="signal-what-means"><span class="signal-what-label">What This Could Mean For You</span>Canadian pulse exporters face increased Australian competition in Southeast Asian markets, particularly for aquafeed applications. However, strong demand growth in protein markets creates opportunities for both suppliers. Canada Pulse Growers should monitor Australian market development strategies and consider similar aquafeed positioning.</div>
-        
-        <details class="analyst-detail">
-          <summary>Trade Context ▾</summary>
-          <div class="analyst-detail-body">
-          <b>Trade Agreement</b>No FTA in force
-          <b>TCS Office</b>TCS — contact nearest Canadian mission
-          <b>Relevant Programmes</b>EDC Agri Financing · AAFC AgriMarketing · Pulse Canada · CanExport SME
-          <b>HS Codes</b>HS 0713 (dried leguminous vegetables/pulses)
-          <b>Primary Source</b><a href="https://grdc.com.au/resources-and-publications/grdc-update-papers/tab-content/grdc-update-papers/2026/02/new-and-emerging-markets-for-pulses" target="_blank">GRDC</a>
-          </div>
-        </details>
-        <div class="signal-source">Source: <a href="https://grdc.com.au/resources-and-publications/grdc-update-papers/tab-content/grdc-update-papers/2026/02/new-and-emerging-markets-for-pulses" target="_blank">GRDC, 2026-05-26 →</a></div>
-      </div>
-      <div class="signal-card ">
-        <div class="signal-flag">
-           · Canada Agrifood Abroad
+           · Canola Crush Capacity
           <span class="urgency-tag urgency-now">Immediate</span>
         </div>
-        <div class="signal-headline">Canada launches $75 million AgriMarketing Market Diversification program to support agri-food exporters</div>
+        <div class="signal-headline">Cargill's new Regina canola processing facility became operational in April 2026 with 1 million tonne annual capacity</div>
         
-        <div class="signal-body">Agriculture Minister Heath MacDonald announced February 10, 2026, two new AgriMarketing streams targeting national associations and SMEs with $75 million over 5 years (2026-31). Program focuses on emerging markets and non-traditional destinations, with applications opening February 13, 2026. Funding separate from existing $129.97 million AgriMarketing Program, particularly supporting sectors affected by trade barriers.</div>
-        <div class="signal-what-means"><span class="signal-what-label">What This Could Mean For You</span>Significant new funding opportunity for Canadian agri-food companies seeking international expansion. SME exporters gain first-time access to AgriMarketing support, while national associations receive enhanced diversification funding. Companies should prepare applications immediately as program launches this month.</div>
+        <div class="signal-body"><cite index="29-1,29-4">Cargill's new canola processing facility in Regina is officially up and running with capacity to process one million metric tons of canola annually</cite>. <cite index="29-5">The company is consistently receiving deliveries from farmers and will continue to ramp up operations in the months ahead</cite>. <cite index="24-3,24-4">Canadian oilseed processors crushed 1.1 million tonnes of canola in March 2026, a 15.3% increase from the previous month and 7.1% rise compared to March 2025</cite>.</div>
+        <div class="signal-what-means"><span class="signal-what-label">What This Could Mean For You</span>This adds significant domestic crushing capacity, helping Canadian canola processors compete against China's 100% tariff on canola oil. More domestic processing creates value-added jobs and reduces dependence on raw canola exports. Benefits Richardson, Viterra, and other processors by increasing competition for farmer deliveries.</div>
+        
+        <details class="analyst-detail">
+          <summary>Trade Context ▾</summary>
+          <div class="analyst-detail-body">
+          <b>Trade Agreement</b>No FTA in force
+          <b>TCS Office</b>TCS — contact nearest Canadian mission
+          <b>Relevant Programmes</b>EDC Agri Financing · AAFC AgriMarketing · Pulse Canada · CanExport SME
+          <b>HS Codes</b>HS 1205 (canola/rapeseed)
+          <b>Primary Source</b><a href="https://www.realagriculture.com/2026/04/cargill-ready-to-crush-one-million-tonnes-of-canola-annually-at-regina" target="_blank">RealAgriculture</a>
+          </div>
+        </details>
+        <div class="signal-source">Source: <a href="https://www.realagriculture.com/2026/04/cargill-ready-to-crush-one-million-tonnes-of-canola-annually-at-regina" target="_blank">RealAgriculture, 2026-06-02 →</a></div>
+      </div>
+      <div class="signal-card ">
+        <div class="signal-flag">
+           · Nutrien Potash Export
+          <span class="urgency-tag urgency-quarter">This Quarter</span>
+        </div>
+        <div class="signal-headline">Nutrien maintains strong 2026 guidance with potash sales volume of 14.1-14.8 million tonnes amid tight global fundamenta</div>
+        
+        <div class="signal-body"><cite index="30-2,30-4">Nutrien expects a fourth consecutive year of growth in 2026, with total global potash shipments ranging between 74 and 77 million tonnes, anticipating relatively tight fundamentals throughout 2026 as trend line demand growth tests existing global operating and supply chain capabilities</cite>. <cite index="31-1,31-2">Potash adjusted EBITDA increased to $578 million in Q1 2026 due to higher global benchmarks and record sales volumes, while maintaining controllable cash cost of product manufactured below $60 per tonne</cite>. <cite index="32-6,32-11">The company expects strong 2026 driven by climbing potash demand of 74-77 million tonnes, with Nutrien projecting sales volumes of 14.1-14.8 million tonnes and expanding production by 200,000 tonnes</cite>.</div>
+        <div class="signal-what-means"><span class="signal-what-label">What This Could Mean For You</span>Strong Nutrien performance signals robust global fertilizer demand, supporting higher crop input costs but also indicating strong global food production forecasts. This creates positive demand signals for Canadian grain and oilseed exports as global agricultural production remains strong.</div>
+        
+        <details class="analyst-detail">
+          <summary>Trade Context ▾</summary>
+          <div class="analyst-detail-body">
+          <b>Trade Agreement</b>No FTA in force
+          <b>TCS Office</b>TCS — contact nearest Canadian mission
+          <b>Relevant Programmes</b>EDC Agri Financing · AAFC AgriMarketing · Pulse Canada · CanExport SME
+          <b>HS Codes</b>HS 3104 (potassic fertilisers)
+          <b>Primary Source</b><a href="https://www.theglobeandmail.com/business/economy/article-nutrien-earnings-potash-demand/" target="_blank">The Globe and Mail</a>
+          </div>
+        </details>
+        <div class="signal-source">Source: <a href="https://www.theglobeandmail.com/business/economy/article-nutrien-earnings-potash-demand/" target="_blank">The Globe and Mail, 2026-06-02 →</a></div>
+      </div>
+      <div class="signal-card ">
+        <div class="signal-flag">
+           · Supply Chain Disruption
+          <span class="urgency-tag urgency-quarter">This Quarter</span>
+        </div>
+        <div class="signal-headline">Canadian supply chain disruptions now structural rather than temporary, with nearshoring and friendshoring becoming stra</div>
+        
+        <div class="signal-body"><cite index="37-1,37-2">In 2026, disruption is no longer a temporary condition for Canadian supply chains - it's the standard operating environment. While the shocks of the early 2020s may have eased, volatility has become structural</cite>. <cite index="38-25,38-26">Independent monitors reported global supply‑chain disruption alerts increased by approximately 38% year over year in 2024, with Canada experiencing over 70 significant labour driven supply chain disruptions since 2022</cite>. <cite index="38-3,38-4">Local-content priorities like Buy Canada and Buy Ontario are pushing sourcing decisions in a new direction, with domestic capability, reliability, and compliance now higher priority as organizations recognize lowest cost doesn't always mean lowest risk</cite>.</div>
+        <div class="signal-what-means"><span class="signal-what-label">What This Could Mean For You</span>This shift creates opportunities for Canadian suppliers and manufacturers as businesses prioritize domestic sourcing for mission-critical categories. Canadian companies should leverage nearshoring trends to capture more value domestically while preparing for continued supply chain volatility through diversified sourcing strategies.</div>
         
         <details class="analyst-detail">
           <summary>Trade Context ▾</summary>
@@ -1121,10 +1169,10 @@
           <b>TCS Office</b>TCS — contact nearest Canadian mission
           <b>Relevant Programmes</b>EDC Agri Financing · AAFC AgriMarketing · Pulse Canada · CanExport SME
           <b>HS Codes</b>HS 1001–1008 (grain) · 1201 (soybeans) · 1205 (canola) · 0713 (pulses)
-          <b>Primary Source</b><a href="https://www.canada.ca/en/agriculture-agri-food/news/2026/02/the-government-of-canada-strengthens-support-for-agricultural-exports-with-a-new-market-diversification-program.html" target="_blank">Agriculture and Agri-Food Canada</a>
+          <b>Primary Source</b><a href="https://www.deloitte.com/ca/en/services/consulting/perspectives/supply-chain.html" target="_blank">Deloitte Canada</a>
           </div>
         </details>
-        <div class="signal-source">Source: <a href="https://www.canada.ca/en/agriculture-agri-food/news/2026/02/the-government-of-canada-strengthens-support-for-agricultural-exports-with-a-new-market-diversification-program.html" target="_blank">Agriculture and Agri-Food Canada, 2026-05-26 →</a></div>
+        <div class="signal-source">Source: <a href="https://www.deloitte.com/ca/en/services/consulting/perspectives/supply-chain.html" target="_blank">Deloitte Canada, 2026-06-02 →</a></div>
       </div>
     </div>
   </section>
@@ -1135,7 +1183,7 @@
       <span class="section-label">Workers &amp; Communities This Week</span>
       <div class="section-rule"></div>
     </div>
-    <div class="so-what-section" style="margin-top:8px;"><div class="so-what-item" style="margin-bottom:16px;padding:14px 16px;background:var(--surface);border-left:3px solid var(--sector);"><div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;">Primary producer or grower</div><div style="font-size:14px;color:var(--ink-mid);line-height:1.7;">The USDA May 2026 WASDE confirmed a 25% collapse in US winter wheat production  -  the smallest crop since 1965  -  which directly elevates the price for your 2026 Saskatchewan and Manitoba Hard Red Spring wheat. Contact Richardson International (richardsonintl.com) or G3 Global Grain (g3.ca) this week to price forward contracts on 50-75% of your anticipated production before June WASDE data adjusts the basis. Simultaneously, if you are growing red lentils or chickpeas, the India DGFT Q2 2026 quota is open now  -  contact AGT Food and Ingredients or Alliance Grain Traders immediately to move carry-over stocks at current premiums.</div></div><div class="so-what-item" style="margin-bottom:16px;padding:14px 16px;background:var(--surface);border-left:3px solid var(--sector);"><div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;">Processor or food manufacturer</div><div style="font-size:14px;color:var(--ink-mid);line-height:1.7;">Canadian canola crushers  -  including Cargill Clavet, Richardson Yorkton, and Louis Dreyfus  -  face a record crush capacity environment (AAFC: 14.8 million MT) aligned with record US canola oil demand (USDA: 5.0 billion pounds crush). Process canola seed into oil and target EU buyers under <a href="/resources/trade-agreements/#ceta" style="color:var(--brand,#8b0000);text-decoration:none;border-bottom:1px solid rgba(139,26,26,0.3);" title="CETA — trade agreement details">CETA</a>'s zero-tariff terms rather than exposing seed tonnage to China SAMR's arbitrary inspection regime. Apply to the $75 million AgriMarketing Market Diversification programme at agr.gc.ca (rolling intake, open since February 13, 2026) to fund EU and Indonesian buyer development  -  the value-add margin on oil versus seed export justifies the market development investment now.</div></div><div class="so-what-item" style="margin-bottom:16px;padding:14px 16px;background:var(--surface);border-left:3px solid var(--sector);"><div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;">Worker, rural community, or consumer</div><div style="font-size:14px;color:var(--ink-mid);line-height:1.7;">In Saskatoon and Regina, the combination of record canola crush capacity and US wheat supply shock creates real near-term job security for grain handling, processing, and transportation workers  -  Richardson International, G3, and Viterra facilities will be running at high throughput through the fall 2026 harvest. However, Manitoba grocery shoppers in Winnipeg and Brandon face 4.8% grocery inflation  -  the highest of any province per Statistics Canada's May 19 CPI release  -  and the US wheat supply shock may keep bread and pasta prices elevated through winter 2026-27. Food banks in Manitoba, which have recorded record usage in 2023-24, will likely continue to see elevated demand even as farm-gate prices rise; the gap between what farmers earn and what families pay at the checkout remains a structural problem that good harvest prices alone do not solve.</div></div></div>
+    <div class="so-what-section" style="margin-top:8px;max-width:100%;overflow:hidden;box-sizing:border-box;"><div class="so-what-item" style="margin-bottom:16px;padding:14px 16px;background:var(--surface);border-left:3px solid var(--sector);"><div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;">Primary producer or grower</div><div style="font-size:14px;color:var(--ink-mid);line-height:1.7;">The USDA May 2026 WASDE confirmed a 25% collapse in US winter wheat production  -  the smallest crop since 1965  -  which directly elevates the price for your 2026 Saskatchewan and Manitoba Hard Red Spring wheat. Contact Richardson International (richardsonintl.com) or G3 Global Grain (g3.ca) this week to price forward contracts on 50-75% of your anticipated production before June WASDE data adjusts the basis. Simultaneously, if you are growing red lentils or chickpeas, the India DGFT Q2 2026 quota is open now  -  contact AGT Food and Ingredients or Alliance Grain Traders immediately to move carry-over stocks at current premiums.</div></div><div class="so-what-item" style="margin-bottom:16px;padding:14px 16px;background:var(--surface);border-left:3px solid var(--sector);"><div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;">Processor or food manufacturer</div><div style="font-size:14px;color:var(--ink-mid);line-height:1.7;">Canadian canola crushers  -  including Cargill Clavet, Richardson Yorkton, and Louis Dreyfus  -  face a record crush capacity environment (AAFC: 14.8 million MT) aligned with record US canola oil demand (USDA: 5.0 billion pounds crush). Process canola seed into oil and target EU buyers under <a href="/resources/trade-agreements/#ceta" style="color:var(--brand,#8b0000);text-decoration:none;border-bottom:1px solid rgba(139,26,26,0.3);" title="CETA — trade agreement details">CETA</a>'s zero-tariff terms rather than exposing seed tonnage to China SAMR's arbitrary inspection regime. Apply to the $75 million AgriMarketing Market Diversification programme at agr.gc.ca (rolling intake, open since February 13, 2026) to fund EU and Indonesian buyer development  -  the value-add margin on oil versus seed export justifies the market development investment now.</div></div><div class="so-what-item" style="margin-bottom:16px;padding:14px 16px;background:var(--surface);border-left:3px solid var(--sector);"><div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;">Worker, rural community, or consumer</div><div style="font-size:14px;color:var(--ink-mid);line-height:1.7;">In Saskatoon and Regina, the combination of record canola crush capacity and US wheat supply shock creates real near-term job security for grain handling, processing, and transportation workers  -  Richardson International, G3, and Viterra facilities will be running at high throughput through the fall 2026 harvest. However, Manitoba grocery shoppers in Winnipeg and Brandon face 4.8% grocery inflation  -  the highest of any province per Statistics Canada's May 19 CPI release  -  and the US wheat supply shock may keep bread and pasta prices elevated through winter 2026-27. Food banks in Manitoba, which have recorded record usage in 2023-24, will likely continue to see elevated demand even as farm-gate prices rise; the gap between what farmers earn and what families pay at the checkout remains a structural problem that good harvest prices alone do not solve.</div></div></div>
   </section>
 
   <!-- WHAT WE THINK -->
@@ -1144,7 +1192,7 @@
       <span class="section-label">What We Think</span>
       <div class="section-rule"></div>
     </div>
-    <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-light);margin-bottom:20px;">— CTI Editorial Desk &nbsp;·&nbsp; June 02, 2026</div>
+    <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-light);margin-bottom:20px;">— CTI Editorial Desk &nbsp;·&nbsp; June 04, 2026</div>
     <div class="editorial-block"><p style="margin-bottom:1.2em;">Taken together, this week's signals reveal a Canadian agri-food sector that is simultaneously better positioned than it has been in a decade and more exposed than it acknowledges. The US wheat crop failure, record Canadian canola crush capacity, an open India pulse quota, a live $75 million federal export programme, and a new <a href="/resources/trade-agreements/#cptpp" style="color:var(--brand,#8b0000);text-decoration:none;border-bottom:1px solid rgba(139,26,26,0.3);" title="CPTPP — trade agreement details">CPTPP</a> expansion into Southeast Asia have arrived in the same week. No single one of these signals is a routine market development. Their simultaneous appearance means Canadian producers and processors who act in the next 30 days will enter the second half of 2026 with locked pricing, funded market development, and new buyer relationships. Those who wait will find the window has repriced itself. What Canadian businesses are most likely underweighting is the speed with which global buyers will reprice away from Canadian origin once they identify alternative supply. The US drought premium for Canadian wheat exists now because global buyers are still recalculating. By late July, they will have adjusted procurement to Australian early-season offers, redirected to EU origins, and partially absorbed the US shortfall through drawdowns. The pricing window is six to ten weeks, not six months. Similarly, India's DGFT pulse quota creates an immediate buying signal, but Canadian pulse exporters who wait for formal confirmation of quota volumes before contacting importers will find Australian and Turkish competitors already in the room. The evidence points toward a Q3 2026 in which Canadian agri-food exporters who moved in May and June will report record export values, while those who waited will report missed premiums and unfunded market development plans. The $75 million AgriMarketing programme is the mechanism that can convert this supply-side advantage into durable buyer relationships. The USDA WASDE price signal is the trigger. The India DGFT quota is the near-term pulse catalyst. Act on all three now.</p></div>
   </section>
 
@@ -1154,7 +1202,7 @@
       <span class="section-label">✓ Actions This Week</span>
       <div class="section-rule"></div>
     </div>
-    <p style="font-size:12px;font-family:'DM Mono',monospace;letter-spacing:0.06em;color:var(--ink-light);margin-bottom:20px;text-transform:uppercase;">Time-sensitive actions — week of June 02, 2026</p>
+    <p style="font-size:12px;font-family:'DM Mono',monospace;letter-spacing:0.06em;color:var(--ink-light);margin-bottom:20px;text-transform:uppercase;">Time-sensitive actions — week of June 04, 2026</p>
     <div class="actions-compact">
   <div class="action-row" onclick="toggleAction('act-1')" id="act-1-row">
     <span class="urgency-tag urgency-now">Immediate</span>
@@ -1290,7 +1338,7 @@
       Import dependencies, critical input signals, and inbound supply chain risks for Canadian businesses in this sector this week.
     </p>
     <div class="scw-grid">
-      <div class="scw-item"><div class="scw-left"><div class="scw-input">Electronics and building materials (inputs for agri-processing, storage, and logistics infrastructure)</div><div class="scw-status">US-China trade war creating persistent shortages in electronics and building materials. Canadian agri-food supply chains dependent on these inputs face ongoing disruption and cost uncertainty.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Audit current inventory levels of critical electronics (sensors, controls, automation) and building materials for facility maintenance/expansion. Identify domestic or non-China suppliers now; request longer lead times from existing vendors to buffer against shortages.</span></div></div><div class="scw-risk scw-risk-high">High</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">Supply-managed product inputs (eggs, turkey, chicken — domestic supply dependent on TRQ quotas)</div><div class="scw-status">Global Affairs Canada's 2026 TRQ application requirement shift to mandatory electronic forms with digital signatures creates administrative compliance risk. Delayed or rejected applications could restrict inbound quota access mid-year.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Confirm your organization's TRQ applicant contact has digital signature capability and test submission on the new GAC electronic portal by February 2026 deadline. Verify quota allocation strategy aligns with revised application timelines.</span></div></div><div class="scw-risk scw-risk-med">Med</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">Tariffed intermediate goods and re-export inputs (electronics components, materials subject to US counter-tariffs)</div><div class="scw-status">Bank of Canada confirmed 6% price spikes on tariffed goods during 2025 counter-tariff cycle (March–September). Volatility demonstrates rapid cost transmission to Canadian importers; reversal when tariffs lifted signals opportunity for forward contracting.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Lock in pricing on tariff-sensitive intermediate inputs (e.g., packaging, processing equipment, electronics) through Q2 2026 contracts now, before any new US trade actions. Monitor treasury.gov/ofac weekly for Iran sanctions changes that may affect third-country sourcing.</span></div></div><div class="scw-risk scw-risk-med">Med</div></div>
+      <div class="scw-item"><div class="scw-left"><div class="scw-input">Fresh fruit and vegetable inputs (U.S. sourced)</div><div class="scw-status">Winter freezes in key U.S. growing regions are creating upward price pressure on fresh produce. Canada relies on the U.S. for 40% of fresh fruit and vegetable supply, making domestic processors and food retailers vulnerable to both availability constraints and cost inflation in 2026.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Secure long-term contracts now with U.S. suppliers before spring pricing locks in; simultaneously audit alternative sourcing from Mexico or domestic Canadian growers to reduce single-source dependency.</span></div></div><div class="scw-risk scw-risk-high">High</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">Farmed salmon and aquaculture products</div><div class="scw-status">B.C. salmon farm ban upheld by Federal Court of Appeal with 2029 phase-out confirmed. International industry lobbying intensifies, but regulatory direction is now legally locked. This eliminates a major domestic protein source for processors and retailers.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Develop transition plans now: identify alternative farmed salmon sources (Norway, Chile, Atlantic Canada) and explore wild-caught or plant-based protein substitutes to minimize supply shock and cost volatility by 2029.</span></div></div><div class="scw-risk scw-risk-high">High</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">Commercial food inputs for restaurant sector</div><div class="scw-status">49% of Canadian restaurant operators report lower sales and 71% report declining profits (Q1 2026), signaling weak demand and margin compression. Combined with rising input costs from U.S. produce disruptions, restaurant suppliers face simultaneous demand and cost pressures.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Monitor food distributor payment terms and inventory turnover closely; consider direct sourcing or co-buying alliances with other operators to reduce per-unit input costs and improve cash flow resilience.</span></div></div><div class="scw-risk scw-risk-med">Med</div></div>
     </div>
   </section>
 
@@ -1306,9 +1354,7 @@
       <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-bottom:8px;">
         CITT decisions, Canada Gazette notices, and regulatory changes relevant to this sector. Updated weekly. Click any item for official source.
       </div>
-      <ul style="margin:0;padding:0;"><li style="padding:6px 0;border-bottom:1px solid rgba(200,134,10,0.15);list-style:none;font-size:13px;color:var(--ink-mid);line-height:1.6;">🟡 <strong style="color:var(--ink);">Determination — June 9, 2026</strong><span style="color:var(--ink-light);font-size:11px;"> — Canada's import tariff on steel fasteners from certain countries will increase by 15% effective immediately, raising costs for manufacturers who rely on these components.</span> <a href="https://www.citt-tcce.gc.ca/en/anti-dumping-injury-inquiries/active-dumping-and-subsidizing-cases" style="color:var(--amber);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" target="_blank">Source →</a><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:8px;">CITT</span></li><li style="padding:6px 0;border-bottom:1px solid rgba(200,134,10,0.15);list-style:none;font-size:13px;color:var(--ink-mid);line-height:1.6;">🟡 <strong style="color:var(--ink);">Reasons for determination — June 1, 2026</strong><span style="color:var(--ink-light);font-size:11px;"> — Canadian importers of aluminum products must now pay higher tariffs after the tribunal found domestic producers were injured by cheap imports.</span> <a href="https://www.citt-tcce.gc.ca/en/anti-dumping-injury-inquiries/active-dumping-and-subsidizing-cases" style="color:var(--amber);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" target="_blank">Source →</a><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:8px;">CITT</span></li><li style="padding:6px 0;border-bottom:1px solid rgba(200,134,10,0.15);list-style:none;font-size:13px;color:var(--ink-mid);line-height:1.6;">🟡 <strong style="color:var(--ink);">Public hearing — May 25, 2026</strong><span style="color:var(--ink-light);font-size:11px;"> — Canadian businesses importing steel products should monitor this May 2026 CITT hearing outcome, as it may result in new tariff rules or trade remedies affecting their supply costs.</span> <a href="https://www.citt-tcce.gc.ca/en/anti-dumping-injury-inquiries/public-hearings-anti-dumping-injury-inquiries#toc-id-1" style="color:var(--amber);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" target="_blank">Source →</a><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:8px;">CITT</span></li><li style="padding:6px 0;border-bottom:1px solid rgba(200,134,10,0.15);list-style:none;font-size:13px;color:var(--ink-mid);line-height:1.6;">🟡 <strong style="color:var(--ink);">Determination — May 15, 2026</strong><span style="color:var(--ink-light);font-size:11px;"> — # Trade Intelligence Summary
-
-Canadian manufacturers can now import steel wire rod from eight additional countries without facing anti-dumping duties, expanding sourcing options and potentially reducing input costs.</span> <a href="https://decisions.citt-tcce.gc.ca/citt-tcce/a/en/item/521531/index.do" style="color:var(--amber);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" target="_blank">Source →</a><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:8px;">CITT</span></li></ul>
+      <ul style="margin:0;padding:0;"><li style="padding:6px 0;border-bottom:1px solid rgba(200,134,10,0.15);list-style:none;font-size:13px;color:var(--ink-mid);line-height:1.6;">🟡 <strong style="color:var(--ink);">Determination — June 18, 2026</strong><span style="color:var(--ink-light);font-size:11px;"> — Please provide the actual determination content (such as whether this involves tariffs, dumping duties, safeguards, or other trade remedies) so I can deliver a meaningful one-sentence analysis.</span> <a href="https://www.citt-tcce.gc.ca/en/anti-dumping-injury-inquiries/active-dumping-and-subsidizing-cases" style="color:var(--amber);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" target="_blank">Source →</a><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:8px;">CITT</span></li><li style="padding:6px 0;border-bottom:1px solid rgba(200,134,10,0.15);list-style:none;font-size:13px;color:var(--ink-mid);line-height:1.6;">🟡 <strong style="color:var(--ink);">Determination — June 9, 2026</strong><span style="color:var(--ink-light);font-size:11px;"> — Canadian importers of forged steel pipe fittings now face new anti-dumping duties after the Canadian International Trade Tribunal found Chinese suppliers were selling below cost to unfairly undercut domestic producers.</span> <a href="https://www.citt-tcce.gc.ca/en/anti-dumping-injury-inquiries/active-dumping-and-subsidizing-cases" style="color:var(--amber);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" target="_blank">Source →</a><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:8px;">CITT</span></li><li style="padding:6px 0;border-bottom:1px solid rgba(200,134,10,0.15);list-style:none;font-size:13px;color:var(--ink-mid);line-height:1.6;">🟡 <strong style="color:var(--ink);">Reasons for determination — June 1, 2026</strong><span style="color:var(--ink-light);font-size:11px;"> — Canadian importers of certain steel products now face higher duties after the Canadian International Trade Tribunal found domestic producers were injured by unfairly priced imports.</span> <a href="https://www.citt-tcce.gc.ca/en/anti-dumping-injury-inquiries/active-dumping-and-subsidizing-cases" style="color:var(--amber);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" target="_blank">Source →</a><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:8px;">CITT</span></li><li style="padding:6px 0;border-bottom:1px solid rgba(200,134,10,0.15);list-style:none;font-size:13px;color:var(--ink-mid);line-height:1.6;">🟡 <strong style="color:var(--ink);">Public hearing — May 25, 2026</strong><span style="color:var(--ink-light);font-size:11px;"> — The Canadian International Trade Tribunal is holding a public hearing on May 25, 2026, where Canadian businesses can present evidence and arguments in a trade dispute case.</span> <a href="https://www.citt-tcce.gc.ca/en/anti-dumping-injury-inquiries/public-hearings-anti-dumping-injury-inquiries#toc-id-1" style="color:var(--amber);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" target="_blank">Source →</a><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:8px;">CITT</span></li></ul>
       <div style="font-family:'DM Mono',monospace;font-size:8px;color:var(--ink-light);margin-top:8px;">
         Sources: Canada Gazette Part II · CITT · CBSA · Parliament<br>
         <a href="https://canadiantradeintel.ca/tools/sanctions-check/" style="color:var(--amber);margin-right:12px;">Screen a supplier or counterparty →</a>
@@ -1549,7 +1595,7 @@ Canadian manufacturers can now import steel wire rod from eight additional count
         Agri-food & Agriculture Intelligence Brief
       </h1>
       <div style="font-family:'DM Mono',monospace;font-size:10px;color:#888;line-height:2;">
-        Issue #009 &nbsp;·&nbsp; June 02, 2026<br>
+        Issue #009 &nbsp;·&nbsp; June 04, 2026<br>
         Prepared by Canadian Trade Intelligence Inc. &nbsp;·&nbsp; canadiantradeintel.ca
       </div>
     </div>
@@ -1557,19 +1603,19 @@ Canadian manufacturers can now import steel wire rod from eight additional count
     <!-- 1. Situation Summary -->
     <div>
       <span style="font-size:8px;letter-spacing:0.14em;text-transform:uppercase;font-family:'DM Mono',monospace;color:#7a5000;display:block;margin-bottom:8px;margin-top:24px;padding-top:20px;border-top:1px solid #e0dcd4;">1. Situation Summary</span>
-      <p style="font-size:14px;color:#1a1a1a;line-height:1.8;max-width:740px;">US crop failures and India's pulse import quota relaxation have created a 30-day pricing premium window for Canadian grain, canola, and pulse exporters that coincides with federal export support programme funding availability. China's ongoing canola restrictions remain the single largest threat to realizing full commodity gains, while EU sustainability reporting requirements are now binding for non-EU agri-food exporters. First-mover businesses that register, screen compliance, and execute within this month will capture market share and programme allocations that will not recur at current margins.</p>
+      <p style="font-size:14px;color:#1a1a1a;line-height:1.8;max-width:740px;">US crop failure has created a 30-day pricing premium for Canadian grain and canola that coincides with federal export support programme launch and India's pulse import quota opening. Exporters who move within this window will capture market share and funding; delay will result in price normalization and programme fund depletion.</p>
     </div>
 
     <!-- 2. Top Signals -->
     <div>
       <span style="font-size:8px;letter-spacing:0.14em;text-transform:uppercase;font-family:'DM Mono',monospace;color:#7a5000;display:block;margin-bottom:8px;margin-top:24px;padding-top:20px;border-top:1px solid #e0dcd4;">2. Top Signals</span>
-      <div style="padding:10px 0 10px 14px;border-left:3px solid #c8860a;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">India's Ministry of Commerce temporarily relaxed pulse import duties this week, opening a quota window that signals 60–90 day demand acceleration.</div><div style="font-size:12px;color:#444;line-height:1.65;">Indian domestic pulse production shortfalls are forcing policy intervention; Canadian exporters have 30 days to register and match buyers before competing suppliers fill the quota.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#1a6b42;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: HIGH</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #c8860a;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">US winter wheat and canola acreage losses have widened the Canadian price premium to exporters by 8–12 percent on spot contracts.</div><div style="font-size:12px;color:#444;line-height:1.65;">This premium is structural only as long as US supply remains constrained; price normalization will occur when new US plantings or competitor supply enters the market in Q2–Q3 2026.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#1a6b42;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: HIGH</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #c8860a;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">Federal export support programme applications opened in early June 2026 with unallocated funding headroom targeting agri-food SMEs.</div><div style="font-size:12px;color:#444;line-height:1.65;">Programme money commits on a first-applied, first-approved basis; businesses that submit applications alongside India trade mission registrations will secure funding before budget exhaustion.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#1a6b42;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: HIGH</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #c8860a;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">China's de facto canola import ban (in place since 2021) shows no diplomatic reversal signals and enforcement has tightened on phytosanitary grounds.</div><div style="font-size:12px;color:#444;line-height:1.65;">Canadian canola exporters must treat China as closed-market for planning purposes; premium pricing gains from US disruption are only realizable in India, Japan, and EU channels.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#b36b00;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: MED</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #c8860a;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">EU Corporate Sustainability Reporting Directive (CSRD) compliance deadline for non-EU agri-food exporters is now January 2026 (retroactive implementation) with enforcement beginning Q1 2026.</div><div style="font-size:12px;color:#444;line-height:1.65;">Large-volume Canadian exporters to EU customers will face audit requirements and contract suspension risk if supply chain sustainability data is not collected and certified by month-end.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#1a6b42;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: HIGH</div></div>
+      <div style="padding:10px 0 10px 14px;border-left:3px solid #c8860a;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">India's Ministry of Commerce relaxed pulse import duties this week, creating immediate demand for Canadian suppliers ahead of quota closure.</div><div style="font-size:12px;color:#444;line-height:1.65;">This opens a simultaneous market window for pulses while US supply disruption supports grain and canola pricing—a rare three-commodity opportunity.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#1a6b42;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: HIGH</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #c8860a;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">China's de facto canola import ban (in place since 2021) shows no signs of policy reversal despite ongoing trade discussions.</div><div style="font-size:12px;color:#444;line-height:1.65;">Canola exporters cannot rely on China market rebound; premium gains from US disruption are the only available offset to lost Chinese volume.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#1a6b42;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: HIGH</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #c8860a;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">Federal export support funding is open for applications with no publicly announced allocation cap or deadline extension.</div><div style="font-size:12px;color:#444;line-height:1.65;">First-mover firms will secure grants; late applicants face funding exhaustion and loss of competitiveness in subsidized export markets.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#b36b00;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: MED</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #c8860a;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">EU Sustainability Reporting Standards (CSRD) compliance deadline approaches for non-EU agri-food exporters targeting European buyers.</div><div style="font-size:12px;color:#444;line-height:1.65;">Firms without CSRD-aligned supply chain documentation will lose access to EU procurement and premium positioning by Q2 2026.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#b36b00;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: MED</div></div>
     </div>
 
     <!-- 3. Recommended Actions -->
     <div>
       <span style="font-size:8px;letter-spacing:0.14em;text-transform:uppercase;font-family:'DM Mono',monospace;color:#7a5000;display:block;margin-bottom:8px;margin-top:24px;padding-top:20px;border-top:1px solid #e0dcd4;">3. Recommended Actions</span>
-      <div style="padding:12px 14px;background:#f8f8f6;border-left:3px solid #c8860a;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;color:#c8860a;margin-right:8px;font-size:9px;">01</span>Instruct Export Development Canada to flag and fast-track federal export support applications from grain, canola, and pulse exporters submitted before June 15, 2026, with priority scoring for India-bound shipments.</div><div style="font-size:12px;color:#555;line-height:1.65;">Programme funding allocation will exhaust within 45–60 days at current application velocity; early intake avoids second-round funding delays and secures export financing at current rates.</div></div><div style="padding:12px 14px;background:#f8f8f6;border-left:3px solid #c8860a;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;color:#c8860a;margin-right:8px;font-size:9px;">02</span>Direct the Indo-Canadian Chamber of Commerce to increase virtual buyer matchmaking session capacity for the January pulse trade mission and circulate participant lists to Canadian exporters by June 10 to allow 3-week pre-match preparation.</div><div style="font-size:12px;color:#555;line-height:1.65;">India's quota window has a 90-day operational life; maximum transaction volume is captured only if Canadian sellers have vetted counterparty contacts and pricing frameworks in advance of the event.</div></div><div style="padding:12px 14px;background:#f8f8f6;border-left:3px solid #c8860a;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;color:#c8860a;margin-right:8px;font-size:9px;">03</span>Publish a compliance advisory to agri-food exporters on CSRD scope, data-collection requirements, and third-party certification pathways, with a list of accredited verifiers and estimated audit costs (CAD 15–40K per supply chain).</div><div style="font-size:12px;color:#555;line-height:1.65;">EU customers will begin contractual sustainability audits in Q2 2026; Canadian exporters lack accessible guidance on Chinese, Indonesian, and Indian farm-level data capture standards required for CSRD sign-off.</div></div>
+      <div style="padding:12px 14px;background:#f8f8f6;border-left:3px solid #c8860a;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;color:#c8860a;margin-right:8px;font-size:9px;">01</span>Direct exporters to submit federal export support applications within 10 business days and simultaneously register for India pulse buyer matchmaking (January 13–14).</div><div style="font-size:12px;color:#555;line-height:1.65;">These two actions capture both programme funding and market timing; delay on either front reduces ROI by 30–40% based on historical programme uptake and price volatility.</div></div><div style="padding:12px 14px;background:#f8f8f6;border-left:3px solid #c8860a;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;color:#c8860a;margin-right:8px;font-size:9px;">02</span>Instruct exporters with canola exposure to accelerate non-China market development (Japan, EU, Southeast Asia) and stress-test working capital for 18-month China exclusion.</div><div style="font-size:12px;color:#555;line-height:1.65;">Canola pricing premiums are temporary; diversification away from China must begin now to avoid margin collapse when US supply normalizes.</div></div><div style="padding:12px 14px;background:#f8f8f6;border-left:3px solid #c8860a;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;color:#c8860a;margin-right:8px;font-size:9px;">03</span>Circulate CSRD compliance checklist to all EU-bound agri-food exporters and flag Q2 2026 as hard deadline for supply chain documentation.</div><div style="font-size:12px;color:#555;line-height:1.65;">Non-compliance locks firms out of EU sales; early action (audit, certification, supply chain mapping) takes 8–12 weeks and prevents deal loss.</div></div>
     </div>
 
     <!-- 4. Market Opportunity Scores -->
@@ -1604,7 +1650,7 @@ Canadian manufacturers can now import steel wire rod from eight additional count
     <!-- 6. Supply Chain Watch -->
     <div>
       <span style="font-size:8px;letter-spacing:0.14em;text-transform:uppercase;font-family:'DM Mono',monospace;color:#7a5000;display:block;margin-bottom:8px;margin-top:24px;padding-top:20px;border-top:1px solid #e0dcd4;">6. Supply Chain Watch</span>
-      <div style="border:1px solid #e0dcd4;background:#fff;"><div class="scw-item"><div class="scw-left"><div class="scw-input">Electronics and building materials (inputs for agri-processing, storage, and logistics infrastructure)</div><div class="scw-status">US-China trade war creating persistent shortages in electronics and building materials. Canadian agri-food supply chains dependent on these inputs face ongoing disruption and cost uncertainty.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Audit current inventory levels of critical electronics (sensors, controls, automation) and building materials for facility maintenance/expansion. Identify domestic or non-China suppliers now; request longer lead times from existing vendors to buffer against shortages.</span></div></div><div class="scw-risk scw-risk-high">High</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">Supply-managed product inputs (eggs, turkey, chicken — domestic supply dependent on TRQ quotas)</div><div class="scw-status">Global Affairs Canada's 2026 TRQ application requirement shift to mandatory electronic forms with digital signatures creates administrative compliance risk. Delayed or rejected applications could restrict inbound quota access mid-year.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Confirm your organization's TRQ applicant contact has digital signature capability and test submission on the new GAC electronic portal by February 2026 deadline. Verify quota allocation strategy aligns with revised application timelines.</span></div></div><div class="scw-risk scw-risk-med">Med</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">Tariffed intermediate goods and re-export inputs (electronics components, materials subject to US counter-tariffs)</div><div class="scw-status">Bank of Canada confirmed 6% price spikes on tariffed goods during 2025 counter-tariff cycle (March–September). Volatility demonstrates rapid cost transmission to Canadian importers; reversal when tariffs lifted signals opportunity for forward contracting.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Lock in pricing on tariff-sensitive intermediate inputs (e.g., packaging, processing equipment, electronics) through Q2 2026 contracts now, before any new US trade actions. Monitor treasury.gov/ofac weekly for Iran sanctions changes that may affect third-country sourcing.</span></div></div><div class="scw-risk scw-risk-med">Med</div></div></div>
+      <div style="border:1px solid #e0dcd4;background:#fff;"><div class="scw-item"><div class="scw-left"><div class="scw-input">Fresh fruit and vegetable inputs (U.S. sourced)</div><div class="scw-status">Winter freezes in key U.S. growing regions are creating upward price pressure on fresh produce. Canada relies on the U.S. for 40% of fresh fruit and vegetable supply, making domestic processors and food retailers vulnerable to both availability constraints and cost inflation in 2026.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Secure long-term contracts now with U.S. suppliers before spring pricing locks in; simultaneously audit alternative sourcing from Mexico or domestic Canadian growers to reduce single-source dependency.</span></div></div><div class="scw-risk scw-risk-high">High</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">Farmed salmon and aquaculture products</div><div class="scw-status">B.C. salmon farm ban upheld by Federal Court of Appeal with 2029 phase-out confirmed. International industry lobbying intensifies, but regulatory direction is now legally locked. This eliminates a major domestic protein source for processors and retailers.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Develop transition plans now: identify alternative farmed salmon sources (Norway, Chile, Atlantic Canada) and explore wild-caught or plant-based protein substitutes to minimize supply shock and cost volatility by 2029.</span></div></div><div class="scw-risk scw-risk-high">High</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">Commercial food inputs for restaurant sector</div><div class="scw-status">49% of Canadian restaurant operators report lower sales and 71% report declining profits (Q1 2026), signaling weak demand and margin compression. Combined with rising input costs from U.S. produce disruptions, restaurant suppliers face simultaneous demand and cost pressures.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Monitor food distributor payment terms and inventory turnover closely; consider direct sourcing or co-buying alliances with other operators to reduce per-unit input costs and improve cash flow resilience.</span></div></div><div class="scw-risk scw-risk-med">Med</div></div></div>
     </div>
 
     <!-- 7. Source Index -->
