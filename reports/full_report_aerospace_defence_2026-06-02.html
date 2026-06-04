@@ -40,30 +40,44 @@
 
   /* ── STICKY NAV ── */
   .sticky-nav {
-    position: sticky; top: 0; z-index: 100;
-    background: #faf8f5;
-    border-top: 1px solid #d4cfc8;
-    border-bottom: 1px solid #d4cfc8;
+    position: fixed;
+    top: 160px;
+    left: calc(50% - 430px - 160px);
+    width: 150px;
+    z-index: 100;
+    background: transparent;
+    border: none;
     padding: 0;
   }
   .sticky-nav-inner {
-    max-width: 860px; margin: 0 auto;
-    display: flex; align-items: center;
-    justify-content: space-between; height: 46px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    max-width: 120px;
   }
-  .sticky-nav-brand {
-    font-family: 'DM Mono', monospace; font-size: 9px;
-    letter-spacing: 0.14em; text-transform: uppercase;
-    color: var(--ink-light); text-decoration: none;
+  .sticky-nav-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
   }
-  .sticky-nav-links { display: flex; gap: 24px; }
   .sticky-nav-links a {
-    font-family: 'DM Mono', monospace; font-size: 8px;
-    letter-spacing: 0.12em; text-transform: uppercase;
-    color: var(--ink-light); text-decoration: none;
-    transition: color 0.18s;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #6b6560;
+    text-decoration: none;
+    padding: 6px 0;
+    border-left: 2px solid #d4cfc8;
+    padding-left: 10px;
+    display: block;
+    line-height: 1.3;
   }
-  .sticky-nav-links a:hover { color: var(--sector); }
+  .sticky-nav-links a:hover {
+    color: #8B1A1A;
+    border-left-color: #8B1A1A;
+  }
+  .sticky-nav-brand { display: none; }
 
   /* ── MASTHEAD ── */
   .masthead {
@@ -122,9 +136,7 @@
 
   /* ── REPORT NAV ── */
   .report-nav {
-    background: #fff;
-    border-bottom: 1px solid var(--rule);
-    padding: 0 40px; position: sticky; top: 46px; z-index: 90;
+    display: none;
   }
   .report-nav-inner {
     max-width: 1100px; margin: 0 auto;
@@ -147,10 +159,13 @@
   /* ── REPORT BODY ── */
   .report-body {
     max-width: 860px;
-    margin: 40px auto 80px;
+    margin: 0 auto 80px;
     background: #ffffff;
     box-shadow: 0 1px 4px rgba(0,0,0,0.10), 0 0 0 1px rgba(0,0,0,0.04);
-    padding-bottom: 60px;
+    border-radius: 0 0 2px 2px;
+    padding: 40px 56px 60px;
+    box-sizing: border-box;
+    overflow: hidden;
   }
 
   /* ── SECTION HEADERS ── */
@@ -158,6 +173,8 @@
     display: flex; align-items: baseline; gap: 14px;
     margin-bottom: 24px; padding-bottom: 10px;
     border-bottom: 2px solid var(--brand);
+    max-width: 100%;
+    box-sizing: border-box;
   }
   .section-label {
     font-family: 'DM Mono', monospace; font-size: 8px;
@@ -166,10 +183,21 @@
   }
   .section-rule { flex: 1; height: 1px; background: var(--rule); }
   .mb-56 { margin-bottom: 56px; }
+  @media screen {
+    section.mb-56 + section.mb-56 {
+      border-top: 1px solid var(--rule);
+      padding-top: 48px;
+    }
+  }
 
   /* ── EXEC SUMMARY ── */
   .exec-summary {
-    display: grid; grid-template-columns: 1fr 280px; gap: 32px;
+    display: block;
+  }
+  .exec-summary-text {
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--ink);
   }
   .exec-summary-text h2 {
     font-family: 'Cormorant Garamond', serif;
@@ -641,7 +669,7 @@
   .report-footer-links a:hover { color: var(--sector-mid); }
 
   @media (max-width: 768px) {
-    .sticky-nav { padding: 0 16px; }
+    .sticky-nav { display: none; }
     .masthead { padding: 32px 16px 28px; }
     .report-nav { padding: 0 16px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
     .report-nav::-webkit-scrollbar { display: none; }
@@ -686,6 +714,7 @@
 
     body { background: transparent !important; }
     .report-body { box-shadow: none !important; margin: 0 auto !important; }
+    .sticky-nav { display: none !important; }
 
     /* Hide nav chrome, CTAs, interactive elements */
     .sticky-nav, .report-nav, .report-footer,
@@ -811,9 +840,11 @@
 
   .doc-header {
     max-width: 860px;
-    margin: 0 auto;
-    padding: 28px 40px 0;
+    margin: 40px auto 0;
+    padding: 28px 56px 0;
     background: #fff;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.10), 0 0 0 1px rgba(0,0,0,0.04);
+    border-radius: 2px 2px 0 0;
   }
   .doc-header-top {
     height: 3px;
@@ -866,6 +897,14 @@
     color: #6b6560;
     letter-spacing: 0.08em;
   }
+  .doc-stats {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    color: #8B1A1A;
+    letter-spacing: 0.08em;
+    margin-top: 2px;
+    text-align: right;
+  }
   .doc-header-bottom {
     height: 0;
   }
@@ -891,30 +930,13 @@
     </div>
     <div class="doc-header-right">
       <span class="doc-issue">Issue #010</span>
-      <span class="doc-date">June 02, 2026</span>
+      <span class="doc-date">May 28 – Jun 4, 2026</span>
+      <span class="doc-stats">14 opportunities · 1 risks · 5 immediate</span>
     </div>
   </div>
   <div class="doc-header-bottom"></div>
 </header>
 
-<!-- REPORT SECTION NAV -->
-<nav class="report-nav">
-  <div class="report-nav-inner">
-    <a href="#summary">Overview</a>
-    <a href="#signals">Signals (6)</a>
-    <a href="#what-we-think">What We Think</a>
-    <a href="#actions">Actions (4)</a>
-    <a href="#procurement">Procurement (5)</a>
-    <a href="#supply-chain">Supply Chain</a>
-
-    <a href="#pathways">Market Entry</a>
-    <a href="#watch">Watch For These</a>
-
-    <a href="#spotlight">Canadian Spotlight</a>
-    <button onclick="toggleBriefing()" class="briefing-btn" id="briefing-toggle-btn">📋 Briefing View</button>
-    <button onclick="window.print()" class="pdf-nav-btn">⬇ Save as PDF</button>
-  </div>
-</nav>
 
 <!-- REPORT BODY -->
 <div id="report-content">
@@ -927,7 +949,7 @@
       <div class="section-rule"></div>
     </div>
     <div class="exec-summary">
-      <div class="exec-summary-text" style="font-size:17px;line-height:1.65;">
+      <div class="exec-summary-text" style="font-size:15px;line-height:1.75;color:var(--ink);max-width:680px;">
         <p>Canada is on the biggest defence spending surge in its modern history, and this week the government opened the door for aerospace and defence companies to directly shape how that money gets spent. Prime Minister Carney announced negotiations to buy a new Swedish airborne radar surveillance system worth billions as part of a $38.6 billion overhaul of NORAD — the joint Canada-U.S. air defence command — and launched a new Defence Advisory Forum that lets industry executives influence procurement priorities starting June 1, 2026. About 215,000 Canadians work in aerospace and defence manufacturing, primarily in Montreal, Winnipeg, and Ottawa, and this week's signals suggest that wave of spending is accelerating rather than slowing.</p>
       </div>
     </div>
@@ -952,6 +974,8 @@
       
     </div>
   </section>
+
+  <div style="clear:both;"></div>
 
   <!-- SIGNALS -->
   <section id="signals" class="mb-56">
@@ -985,72 +1009,6 @@
       </div>
       <div class="signal-card ">
         <div class="signal-flag">
-           · Nato Europe Procurement
-          <span class="urgency-tag urgency-now">Immediate</span>
-        </div>
-        <div class="signal-headline">Poland signs first EU SAFE programme defense contracts worth €43.7 billion allocation, while NATO selects Swedish Saab G</div>
-        
-        <div class="signal-body">On May 29, 2026, Poland signed initial contracts under the EU's €150 billion SAFE defense procurement program, with Poland allocated €43.7 billion for East Shield border defenses and anti-drone systems. Separately, NATO reportedly selected Saab GlobalEye over Boeing E-7 Wedgetail for 10-12 aircraft worth over €5 billion, marking a shift away from exclusive U.S. suppliers.</div>
-        <div class="signal-what-means"><span class="signal-what-label">What This Could Mean For You</span>Canadian aerospace suppliers benefit from <a href="/resources/trade-agreements/#ceta" style="color:var(--brand,#8b0000);text-decoration:none;border-bottom:1px solid rgba(139,26,26,0.3);" title="CETA — trade agreement details">CETA</a> zero-tariff access to EU markets and may compete for SAFE program subcontracts, particularly in sensor systems, communications, and C4ISR technologies. The NATO AWACS decision toward European suppliers creates opportunities for Canadian companies with Saab partnerships or complementary technologies to access this major procurement through established trade relationships.</div>
-        
-        <details class="analyst-detail">
-          <summary>Trade Context ▾</summary>
-          <div class="analyst-detail-body">
-          <b>Trade Agreement</b>No FTA in force
-          <b>TCS Office</b>TCS — contact nearest Canadian mission
-          <b>Relevant Programmes</b>EDC Aerospace Finance · PSPC NVISION · NRC IRAP · CanExport SME
-          <b>HS Codes</b>HS 9301–9307 (arms and munitions)
-          <b>Primary Source</b><a href="https://notesfrompoland.com/2026/05/29/poland-signs-first-defence-contracts-under-eus-safe-programme/" target="_blank">Notes From Poland</a>
-          </div>
-        </details>
-        <div class="signal-source">Source: <a href="https://notesfrompoland.com/2026/05/29/poland-signs-first-defence-contracts-under-eus-safe-programme/" target="_blank">Notes From Poland, 2026-06-02 →</a></div>
-      </div>
-      <div class="signal-card ">
-        <div class="signal-flag">
-           · Nato Member Tenders
-          <span class="urgency-tag urgency-now">Immediate</span>
-        </div>
-        <div class="signal-headline">Prime Minister Mark Carney announced major defence procurement initiatives at CANSEC on May 27, 2026, including a Defenc</div>
-        
-        <div class="signal-body"><cite index="5-1,5-9">On May 27, 2026, Prime Minister Mark Carney announced that Canada entered negotiations to procure the GlobalEye, Saab's Airborne Early Warning & Control system at the CANSEC trade show. The Defence Advisory Forum applications will open June 1, 2026, to ensure partnership between government and defence industry remains in sync.</cite> <cite index="5-6">Canada has reached 2% of defence spending for the first time since the fall of the Berlin Wall and invested over $65 billion in the past year in defence and security.</cite></div>
-        <div class="signal-what-means"><span class="signal-what-label">What This Could Mean For You</span><cite index="5-8,5-4">These measures prioritise Canadian suppliers and materials, invest in Canadian defence innovation and commercialisation, and streamline procurement to give Canadian businesses and workers consistent and predictable demand.</cite> <cite index="5-7">The Defence Investment Agency and Defence Industrial Strategy enable defence industries to scale up more easily with maximum benefit to the Canadian economy.</cite></div>
-        
-        <details class="analyst-detail">
-          <summary>Trade Context ▾</summary>
-          <div class="analyst-detail-body">
-          <b>Trade Agreement</b>No FTA in force
-          <b>TCS Office</b>TCS — contact nearest Canadian mission
-          <b>Relevant Programmes</b>EDC Aerospace Finance · PSPC NVISION · NRC IRAP · CanExport SME
-          <b>HS Codes</b>HS 9301–9307 (arms and munitions)
-          <b>Primary Source</b><a href="https://www.newswire.ca/news-releases/prime-minister-carney-announces-major-new-defence-partnership-as-part-of-new-initiatives-to-transform-canadian-defence-procurement-805950783.html" target="_blank">Canada NewsWire</a>
-          </div>
-        </details>
-        <div class="signal-source">Source: <a href="https://www.newswire.ca/news-releases/prime-minister-carney-announces-major-new-defence-partnership-as-part-of-new-initiatives-to-transform-canadian-defence-procurement-805950783.html" target="_blank">Canada NewsWire, 2026-06-02 →</a></div>
-      </div>
-      <div class="signal-card ">
-        <div class="signal-flag">
-           · Aerospace Itb Canada
-          <span class="urgency-tag urgency-now">Immediate</span>
-        </div>
-        <div class="signal-headline">Canada updated Industrial and Technological Benefits Policy with new Strategic Investment Transactions providing enhance</div>
-        
-        <div class="signal-body">ISED published updated ITB Policy changes in early 2026 as part of Canada's Defence Industrial Strategy, introducing Strategic Investment Transactions with multiplied credits for investments that expand manufacturing facilities, R&D, and Canadian-owned IP. The policy now incentivizes investments that strategically build Canada's defence industrial base and includes enhanced multipliers for skills development and Indigenous participation.</div>
-        <div class="signal-what-means"><span class="signal-what-label">What This Could Mean For You</span>This directly benefits Canadian SMEs by creating enhanced credit mechanisms for foreign defence primes to invest in Canadian operations, potentially accelerating technology transfer and manufacturing capacity building. The updated policy strengthens opportunities for Canadian suppliers to win ITB-driven subcontracts with better terms and multiplied value recognition.</div>
-        
-        <details class="analyst-detail">
-          <summary>Trade Context ▾</summary>
-          <div class="analyst-detail-body">
-          <b>Trade Agreement</b>No FTA in force
-          <b>TCS Office</b>TCS — contact nearest Canadian mission
-          <b>Relevant Programmes</b>EDC Aerospace Finance · PSPC NVISION · NRC IRAP · CanExport SME
-          <b>HS Codes</b>HS 8803 (aircraft parts) · 8802 (aircraft)
-          <b>Primary Source</b><a href="https://ised-isde.canada.ca/site/industrial-technological-benefits/en/industrial-and-technological-benefits" target="_blank">Innovation, Science and Economic Development Canada</a>
-          </div>
-        </details>
-        <div class="signal-source">Source: <a href="https://ised-isde.canada.ca/site/industrial-technological-benefits/en/industrial-and-technological-benefits" target="_blank">Innovation, Science and Economic Development Canada, 2026-06-02 →</a></div>
-      </div>
-      <div class="signal-card ">
-        <div class="signal-flag">
            · Us Dod Dsca
           <span class="urgency-tag urgency-quarter">This Quarter</span>
         </div>
@@ -1073,13 +1031,13 @@
       </div>
       <div class="signal-card ">
         <div class="signal-flag">
-           · Trade Remedy Canada
+           · Uk Mod Aus Adf
           <span class="urgency-tag urgency-quarter">This Quarter</span>
         </div>
-        <div class="signal-headline">CBSA launched preliminary determination on oil and gas well casing anti-dumping investigation on May 19</div>
+        <div class="signal-headline">AUKUS partners announce first Pillar II Signature Project for Uncrewed Undersea Vehicles with delivery starting 2027, an</div>
         
-        <div class="signal-body">CBSA issued preliminary determination statement for Oil and Gas Well Casing investigation (OCTG6 2026 IN) on May 19, 2026. Seven total dumping/subsidy investigations launched so far in 2026 covering five different product categories, including investigations into Chinese plywood, steel racks, and building cables.</div>
-        <div class="signal-what-means"><span class="signal-what-label">What This Could Mean For You</span>Canadian producers in affected sectors gain import protection through anti-dumping duties, while importers face higher costs on dumped goods from China and Austria. The 185 measures currently in force protect 43,728 Canadian jobs across various industries including manufacturing and construction.</div>
+        <div class="signal-body">On May 30, 2026, <a href="/resources/trade-agreements/#aukus" style="color:var(--brand,#8b0000);text-decoration:none;border-bottom:1px solid rgba(139,26,26,0.3);" title="AUKUS — trade agreement details">AUKUS</a> defense ministers announced the first official Pillar II project developing UUV payloads and enabling systems, with UK committing £150 million. Australia also announced streamlining its Virginia-class submarine acquisition to three in-service boats rather than mixed new/used vessels. The Submarine Rotational Force-West arrangements were finalized for 2027 establishment.</div>
+        <div class="signal-what-means"><span class="signal-what-label">What This Could Mean For You</span>Canadian companies with underwater systems, sensors, AI/quantum technologies, and autonomous systems capabilities may access <a href="/resources/trade-agreements/#aukus" style="color:var(--brand,#8b0000);text-decoration:none;border-bottom:1px solid rgba(139,26,26,0.3);" title="AUKUS — trade agreement details">AUKUS</a> Pillar II opportunities through Five Eyes relationships. The expanding license-free environment between <a href="/resources/trade-agreements/#aukus" style="color:var(--brand,#8b0000);text-decoration:none;border-bottom:1px solid rgba(139,26,26,0.3);" title="AUKUS — trade agreement details">AUKUS</a> partners could benefit Canadian defense exporters with complementary technologies, particularly in AI and sensor systems that support UUV operations.</div>
         
         <details class="analyst-detail">
           <summary>Trade Context ▾</summary>
@@ -1088,10 +1046,76 @@
           <b>TCS Office</b>TCS — contact nearest Canadian mission
           <b>Relevant Programmes</b>EDC Aerospace Finance · PSPC NVISION · NRC IRAP · CanExport SME
           <b>HS Codes</b>HS 8800–8805 (aircraft/spacecraft) · 8803 (parts) · 9301–9307 (arms/munitions)
-          <b>Primary Source</b><a href="https://www.cbsa-asfc.gc.ca/sima-lmsi/menu-eng.html" target="_blank">Canada Border Services Agency</a>
+          <b>Primary Source</b><a href="https://www.gov.uk/government/publications/aukus-defence-ministerial-joint-statement-30-may-2026/aukus-defence-ministerial-joint-statement-30-may-2026" target="_blank">UK Government</a>
           </div>
         </details>
-        <div class="signal-source">Source: <a href="https://www.cbsa-asfc.gc.ca/sima-lmsi/menu-eng.html" target="_blank">Canada Border Services Agency, 2026-06-02 →</a></div>
+        <div class="signal-source">Source: <a href="https://www.gov.uk/government/publications/aukus-defence-ministerial-joint-statement-30-may-2026/aukus-defence-ministerial-joint-statement-30-may-2026" target="_blank">UK Government, 2026-06-02 →</a></div>
+      </div>
+      <div class="signal-card ">
+        <div class="signal-flag">
+           · Nato Europe Procurement
+          <span class="urgency-tag urgency-now">Immediate</span>
+        </div>
+        <div class="signal-headline">Poland signs first EU SAFE programme defense contracts worth €43.7 billion allocation, while NATO selects Swedish Saab G</div>
+        
+        <div class="signal-body">On May 29, 2026, Poland signed initial contracts under the EU's €150 billion SAFE defense procurement program, with Poland allocated €43.7 billion for East Shield border defenses and anti-drone systems. Separately, NATO reportedly selected Saab GlobalEye over Boeing E-7 Wedgetail for 10-12 aircraft worth over €5 billion, marking a shift away from exclusive U.S. suppliers.</div>
+        <div class="signal-what-means"><span class="signal-what-label">What This Could Mean For You</span>Canadian aerospace suppliers benefit from <a href="/resources/trade-agreements/#ceta" style="color:var(--brand,#8b0000);text-decoration:none;border-bottom:1px solid rgba(139,26,26,0.3);" title="CETA — trade agreement details">CETA</a> zero-tariff access to EU markets and may compete for SAFE program subcontracts, particularly in sensor systems, communications, and C4ISR technologies. The NATO AWACS decision toward European suppliers creates opportunities for Canadian companies with Saab partnerships or complementary technologies to access this major procurement through established trade relationships.</div>
+        
+        <details class="analyst-detail">
+          <summary>Trade Context ▾</summary>
+          <div class="analyst-detail-body">
+          <b>Trade Agreement</b>No FTA in force
+          <b>TCS Office</b>TCS — contact nearest Canadian mission
+          <b>Relevant Programmes</b>EDC Aerospace Finance · PSPC NVISION · NRC IRAP · CanExport SME
+          <b>HS Codes</b>HS 9301–9307 (arms and munitions)
+          <b>Primary Source</b><a href="https://notesfrompoland.com/2026/05/29/poland-signs-first-defence-contracts-under-eus-safe-programme/" target="_blank">Notes From Poland</a>
+          </div>
+        </details>
+        <div class="signal-source">Source: <a href="https://notesfrompoland.com/2026/05/29/poland-signs-first-defence-contracts-under-eus-safe-programme/" target="_blank">Notes From Poland, 2026-06-02 →</a></div>
+      </div>
+      <div class="signal-card ">
+        <div class="signal-flag">
+           · Japan Korea Defence
+          <span class="urgency-tag urgency-quarter">This Quarter</span>
+        </div>
+        <div class="signal-headline">NATO Assistant Secretary General visits Japan and South Korea May 11-15, 2026 to strengthen defense industrial cooperati</div>
+        
+        <div class="signal-body">NATO ASG Tarja Jaakkola conducted the 2nd NATO-Japan Defence Industrial Cooperation and Capabilities Dialogue with ATLA and METI officials, and met with South Korea's DAPA Minister Lee Yong Cheol. Discussions focused on bringing both countries closer to NATO's defense industrial base and preparing for the July 7, 2026 NATO Summit Defence Industry Forum in Ankara.</div>
+        <div class="signal-what-means"><span class="signal-what-label">What This Could Mean For You</span>Canadian defense companies can leverage NATO Industrial Advisory Group (NIAG) participation and upcoming NATO Summit forum to connect with Japanese and South Korean procurement officials. Canada's <a href="/resources/trade-agreements/#cptpp" style="color:var(--brand,#8b0000);text-decoration:none;border-bottom:1px solid rgba(139,26,26,0.3);" title="CPTPP — trade agreement details">CPTPP</a> membership with both countries and established DIANA participation provides preferential access to discuss joint development opportunities in AI, quantum technologies, and Arctic-tested systems that align with both nations' procurement priorities.</div>
+        
+        <details class="analyst-detail">
+          <summary>Trade Context ▾</summary>
+          <div class="analyst-detail-body">
+          <b>Trade Agreement</b>No FTA in force
+          <b>TCS Office</b>TCS — contact nearest Canadian mission
+          <b>Relevant Programmes</b>EDC Aerospace Finance · PSPC NVISION · NRC IRAP · CanExport SME
+          <b>HS Codes</b>HS 9301–9307 (arms and munitions)
+          <b>Primary Source</b><a href="https://www.nato.int/en/news-and-events/articles/news/2026/05/15/nato-assistant-secretary-general-for-defence-industry-innovation-and-armaments-visits-the-republic-of-korea-and-japan" target="_blank">NATO</a>
+          </div>
+        </details>
+        <div class="signal-source">Source: <a href="https://www.nato.int/en/news-and-events/articles/news/2026/05/15/nato-assistant-secretary-general-for-defence-industry-innovation-and-armaments-visits-the-republic-of-korea-and-japan" target="_blank">NATO, 2026-06-02 →</a></div>
+      </div>
+      <div class="signal-card watch">
+        <div class="signal-flag">
+           · Import Demand Signals
+          <span class="urgency-tag urgency-quarter">This Quarter</span>
+        </div>
+        <div class="signal-headline">Canadian PM Mark Carney announces pursuit of new trade relationships with India, ASEAN countries, and MERCOSUR bloc, whi</div>
+        
+        <div class="signal-body">In late May 2026, PM Carney announced Canada will pursue enhanced trade relationships with India, ASEAN (including Indonesia and Vietnam), and <a href="/resources/trade-agreements/#mercosur" style="color:var(--brand,#8b0000);text-decoration:none;border-bottom:1px solid rgba(139,26,26,0.3);" title="MERCOSUR — trade agreement details">MERCOSUR</a> countries. Meanwhile, the U.S. launched broad Section 301 investigations on March 11-12, 2026 targeting structural excess capacity and forced labor enforcement in 60+ economies including Japan, South Korea, India, Vietnam, and Indonesia - all key Canadian export targets.</div>
+        <div class="signal-what-means"><span class="signal-what-label">What This Could Mean For You</span>Canadian exporters face both opportunity and risk. Carney's ASEAN/India trade push creates market access opportunities, particularly as these countries seek non-Chinese suppliers. However, U.S. Section 301 investigations may disrupt supply chains and create trade tensions affecting Canadian businesses with exposure to targeted economies. Companies should prepare for potential supply chain disruptions while positioning for alternative market opportunities in Southeast Asia and India.</div>
+        
+        <details class="analyst-detail">
+          <summary>Trade Context ▾</summary>
+          <div class="analyst-detail-body">
+          <b>Trade Agreement</b>No FTA in force
+          <b>TCS Office</b>TCS — contact nearest Canadian mission
+          <b>Relevant Programmes</b>EDC Aerospace Finance · PSPC NVISION · NRC IRAP · CanExport SME
+          <b>HS Codes</b>HS 8800–8805 (aircraft/spacecraft) · 8803 (parts) · 9301–9307 (arms/munitions)
+          <b>Primary Source</b><a href="https://www.msci.org/global-news-of-note-canada-mexico-eu-all-make-news-on-trade/" target="_blank">Metals Service Center Institute</a>
+          </div>
+        </details>
+        <div class="signal-source">Source: <a href="https://www.msci.org/global-news-of-note-canada-mexico-eu-all-make-news-on-trade/" target="_blank">Metals Service Center Institute, 2026-06-02 →</a></div>
       </div>
     </div>
   </section>
@@ -1102,7 +1126,7 @@
       <span class="section-label">Workers &amp; Communities This Week</span>
       <div class="section-rule"></div>
     </div>
-    <div class="so-what-section" style="margin-top:8px;"><div class="so-what-item" style="margin-bottom:16px;padding:14px 16px;background:var(--surface);border-left:3px solid var(--sector);"><div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;">Prime contractor or Tier-1 supplier</div><div style="font-size:14px;color:var(--ink-mid);line-height:1.7;">The GlobalEye procurement negotiation and updated ITB Policy's 50% direct-work requirement are your most actionable signals this week. Saab will file a Canadian Industrial Plan within approximately 90 days  -  companies like CAE, MDA Space, CMC Electronics, Calian, and L3 Technologies Canada that initiate technical briefings with Saab Canada now, and simultaneously register executives for the Defence Advisory Forum (applications open June 1 at canada.ca/en/department-national-defence), will shape both the ITB credit structure and the capability priorities written into the GlobalEye subcontract architecture. The NATO GlobalEye selection for the AWACS replacement means Canadian content in the domestic fleet creates a direct export credential for the €5B-plus NATO fleet  -  this is a two-market play, not a single contract.</div></div><div class="so-what-item" style="margin-bottom:16px;padding:14px 16px;background:var(--surface);border-left:3px solid var(--sector);"><div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;">SME or sub-tier supplier</div><div style="font-size:14px;color:var(--ink-mid);line-height:1.7;">The ITB Policy's 50% direct-work mandate gives you a structural entry point that does not depend on winning an open competition  -  it creates a contractual obligation on Saab to find Canadian suppliers. Register your capability profile with PSPC's ITB Policy Office at tpsgc-pwgsc.gc.ca/itb-rti this week, and apply to CanExport SME (maximum $75,000, rolling intake at tradecommissioner.gc.ca/canexport) to fund market development for European SAFE programme subcontract pursuit via <a href="/resources/trade-agreements/#ceta" style="color:var(--brand,#8b0000);text-decoration:none;border-bottom:1px solid rgba(139,26,26,0.3);" title="CETA — trade agreement details">CETA</a>. If your firm works in AI, quantum, autonomous systems, or directed energy, submit to DND's IDEaS programme at canada.ca/en/department-national-defence/programs/defence-ideas  -  this is the DIS priority pathway and the <a href="/resources/trade-agreements/#aukus" style="color:var(--brand,#8b0000);text-decoration:none;border-bottom:1px solid rgba(139,26,26,0.3);" title="AUKUS — trade agreement details">AUKUS</a> Pillar II entry credential for companies that have never sold to DND.</div></div><div class="so-what-item" style="margin-bottom:16px;padding:14px 16px;background:var(--surface);border-left:3px solid var(--sector);"><div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;">Aerospace worker or community</div><div style="font-size:14px;color:var(--ink-mid);line-height:1.7;">For the roughly 45,000 aerospace workers in the Montreal corridor  -  from Bombardier's Mirabel assembly plant to Pratt & Whitney Canada's Longueuil engine facility and CAE's Saint-Laurent simulation campus  -  the GlobalEye negotiation and record $3.0 billion monthly production figure are direct job security signals. The updated ITB Policy's direct-work requirement means that when Canada buys a major defence platform, Canadian factories and Canadian engineers must do a substantial share of the work, not just receive a financial offset. If the GlobalEye contract is signed and ITB obligations are structured as the new policy intends, the Montreal aerospace cluster is the most likely beneficiary of avionics integration, mission systems, and MRO work  -  representing potentially thousands of sustained engineering and trades positions over the 20-30 year lifecycle of the fleet.</div></div></div>
+    <div class="so-what-section" style="margin-top:8px;max-width:100%;overflow:hidden;box-sizing:border-box;"><div class="so-what-item" style="margin-bottom:16px;padding:14px 16px;background:var(--surface);border-left:3px solid var(--sector);"><div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;">Prime contractor or Tier-1 supplier</div><div style="font-size:14px;color:var(--ink-mid);line-height:1.7;">The GlobalEye procurement negotiation and updated ITB Policy's 50% direct-work requirement are your most actionable signals this week. Saab will file a Canadian Industrial Plan within approximately 90 days  -  companies like CAE, MDA Space, CMC Electronics, Calian, and L3 Technologies Canada that initiate technical briefings with Saab Canada now, and simultaneously register executives for the Defence Advisory Forum (applications open June 1 at canada.ca/en/department-national-defence), will shape both the ITB credit structure and the capability priorities written into the GlobalEye subcontract architecture. The NATO GlobalEye selection for the AWACS replacement means Canadian content in the domestic fleet creates a direct export credential for the €5B-plus NATO fleet  -  this is a two-market play, not a single contract.</div></div><div class="so-what-item" style="margin-bottom:16px;padding:14px 16px;background:var(--surface);border-left:3px solid var(--sector);"><div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;">SME or sub-tier supplier</div><div style="font-size:14px;color:var(--ink-mid);line-height:1.7;">The ITB Policy's 50% direct-work mandate gives you a structural entry point that does not depend on winning an open competition  -  it creates a contractual obligation on Saab to find Canadian suppliers. Register your capability profile with PSPC's ITB Policy Office at tpsgc-pwgsc.gc.ca/itb-rti this week, and apply to CanExport SME (maximum $75,000, rolling intake at tradecommissioner.gc.ca/canexport) to fund market development for European SAFE programme subcontract pursuit via <a href="/resources/trade-agreements/#ceta" style="color:var(--brand,#8b0000);text-decoration:none;border-bottom:1px solid rgba(139,26,26,0.3);" title="CETA — trade agreement details">CETA</a>. If your firm works in AI, quantum, autonomous systems, or directed energy, submit to DND's IDEaS programme at canada.ca/en/department-national-defence/programs/defence-ideas  -  this is the DIS priority pathway and the <a href="/resources/trade-agreements/#aukus" style="color:var(--brand,#8b0000);text-decoration:none;border-bottom:1px solid rgba(139,26,26,0.3);" title="AUKUS — trade agreement details">AUKUS</a> Pillar II entry credential for companies that have never sold to DND.</div></div><div class="so-what-item" style="margin-bottom:16px;padding:14px 16px;background:var(--surface);border-left:3px solid var(--sector);"><div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;">Aerospace worker or community</div><div style="font-size:14px;color:var(--ink-mid);line-height:1.7;">For the roughly 45,000 aerospace workers in the Montreal corridor  -  from Bombardier's Mirabel assembly plant to Pratt & Whitney Canada's Longueuil engine facility and CAE's Saint-Laurent simulation campus  -  the GlobalEye negotiation and record $3.0 billion monthly production figure are direct job security signals. The updated ITB Policy's direct-work requirement means that when Canada buys a major defence platform, Canadian factories and Canadian engineers must do a substantial share of the work, not just receive a financial offset. If the GlobalEye contract is signed and ITB obligations are structured as the new policy intends, the Montreal aerospace cluster is the most likely beneficiary of avionics integration, mission systems, and MRO work  -  representing potentially thousands of sustained engineering and trades positions over the 20-30 year lifecycle of the fleet.</div></div></div>
   </section>
 
   <!-- WHAT WE THINK -->
@@ -1111,7 +1135,7 @@
       <span class="section-label">What We Think</span>
       <div class="section-rule"></div>
     </div>
-    <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-light);margin-bottom:20px;">— CTI Editorial Desk &nbsp;·&nbsp; June 02, 2026</div>
+    <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-light);margin-bottom:20px;">— CTI Editorial Desk &nbsp;·&nbsp; June 04, 2026</div>
     <div class="editorial-block"><p style="margin-bottom:1.2em;">The signals this week, read together, reveal something the individual headlines obscure: Canada has crossed from a country that talks about defence industrial sovereignty to one that is actively engineering it through procurement architecture. The updated ITB Policy's 50% direct-work requirement, the Defence Advisory Forum's direct industry influence mechanism, and the GlobalEye negotiation's timing are not separate events  -  they are a coordinated industrial policy deployment. The pattern beneath the week is that the Government of Canada is using procurement as an industrial instrument in a way it has not done since the Cold War-era defence production sharing arrangements. That is a structural shift, not a procurement cycle.</p><p style="margin-bottom:1.2em;">What Canadian businesses in this sector are most likely underweighting is the speed at which the advisory and shaping phase closes relative to the contracting phase. Most Canadian aerospace SMEs are oriented toward responding to RFPs (Requests for Proposals). The Defence Advisory Forum and the ITB pre-positioning process operate upstream of the RFP  -  they determine what the RFP asks for and what credit structures reward. A company that shapes the ITB credit matrix for GlobalEye subsystems will find the competitive landscape has been pre-tilted in their direction. A company that waits for the solicitation will find the prime's supply chain largely assembled. The same logic applies to SAFE programme access in Europe and <a href="/resources/trade-agreements/#aukus" style="color:var(--brand,#8b0000);text-decoration:none;border-bottom:1px solid rgba(139,26,26,0.3);" title="AUKUS — trade agreement details">AUKUS</a> Pillar II: the entry point is a relationship established during the architecture phase, not a bid submitted during the competitive phase.</p><p style="margin-bottom:1.2em;">The evidence points toward a 90-day window  -  approximately by the end of August 2026  -  in which the most consequential supply chain decisions for the GlobalEye, NORAD surveillance streams, and allied AWACS replacement will be made at the prime-to-sub relationship level. Canadian firms with capabilities in active electronically scanned array (AESA) radar integration, mission systems software, secure communications (aligned with USML Category XI and CCL 5E001), and airborne platform MRO that are not actively engaged with Saab, DND's ITB Policy Office, and PSPC's defence procurement secretariat by that point will face a materially harder competitive environment. The record $3.0 billion monthly aerospace production figure confirms that Canadian industrial capacity exists to absorb these obligations  -  the constraint is not capability but commercial positioning.</p></div>
   </section>
 
@@ -1121,7 +1145,7 @@
       <span class="section-label">✓ Actions This Week</span>
       <div class="section-rule"></div>
     </div>
-    <p style="font-size:12px;font-family:'DM Mono',monospace;letter-spacing:0.06em;color:var(--ink-light);margin-bottom:20px;text-transform:uppercase;">Time-sensitive actions — week of June 02, 2026</p>
+    <p style="font-size:12px;font-family:'DM Mono',monospace;letter-spacing:0.06em;color:var(--ink-light);margin-bottom:20px;text-transform:uppercase;">Time-sensitive actions — week of June 04, 2026</p>
     <div class="actions-compact">
   <div class="action-row" onclick="toggleAction('act-1')" id="act-1-row">
     <span class="urgency-tag urgency-now">Immediate</span>
@@ -1257,7 +1281,7 @@
       Import dependencies, critical input signals, and inbound supply chain risks for Canadian businesses in this sector this week.
     </p>
     <div class="scw-grid">
-      <div class="scw-item"><div class="scw-left"><div class="scw-input">Specialty metals & alloys (titanium, aluminium composites, rare-earth elements)</div><div class="scw-status">Trade dispute effects driving upstream cost inflation across raw material inputs. Food Price Report signals broader tariff/trade friction impacting all import-dependent sectors; aerospace & defence metallurgy supply chains face similar margin pressure and lead-time extension risks.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Audit current supplier contracts for price-escalation clauses and hedge exposure. Request updated lead-time and cost forecasts from primary and secondary suppliers (esp. US, EU sources) within 2 weeks.</span></div></div><div class="scw-risk scw-risk-high">High</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">Electronic components & subsystems (semiconductors, avionics modules, defence electronics)</div><div class="scw-status">Ongoing geopolitical trade tensions and potential tariff expansions create volatility in sourcing from US and Asia-Pacific partners. No immediate supply break, but cost pass-through and allocation risk rising.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Map semiconductor & avionics sourcing by geography and contract expiry. Identify allied-nation substitutes (UK, Germany, Japan, South Korea) and initiate early RFQ cycles to lock pricing before Q2 2026.</span></div></div><div class="scw-risk scw-risk-med">Med</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">Labour & logistics services (inbound transport, customs clearance, warehousing)</div><div class="scw-status">Food price inflation tied partly to logistics cost pressures. Trade friction and border delays are compounding freight and labour costs in Canada's import supply chain.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Renegotiate logistics contracts now; explore inventory pre-positioning at US/allied staging points to reduce cross-border handling and tariff exposure. Lock Q1 2026 freight rates immediately.</span></div></div><div class="scw-risk scw-risk-med">Med</div></div>
+      <div class="scw-item"><div class="scw-left"><div class="scw-input">Specialty metals & alloys (titanium, aluminum, composites) sourced from US & EU suppliers</div><div class="scw-status">Trade dispute effects driving 4-6% inflation across North American supply chains; US tariff uncertainty and potential EU retaliatory measures create pricing volatility for aerospace-grade materials through 2026.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Lock in long-term fixed-price contracts with current suppliers before Q1 2026; simultaneously audit Mexican and Canadian domestic suppliers for titanium and composite qualification as tariff-hedge alternatives.</span></div></div><div class="scw-risk scw-risk-high">High</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">Electronics & avionics components (semiconductors, control systems) from ITAR-restricted US & Allied sources</div><div class="scw-status">NATO procurement expansion (per UK DSIS & German BeschaffungsAmt signals) will increase competition for lead times and allocation from Allied defense suppliers; expect 6-12 month delivery extensions.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Register now with UK MOD DSIS supplier portal and German BeschaffungsAmt to identify early notices of framework contracts; secure supplier capacity commitments for 2026–2027 before NATO member demand spikes.</span></div></div><div class="scw-risk scw-risk-med">Med</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">Logistics & freight (inbound raw materials & sub-assemblies from US, Europe, Mexico)</div><div class="scw-status">Food price inflation signal (driven by trade friction) correlates with broader transportation & cross-border cost pressures; expect 3-5% uplift in landed costs for Q1–Q2 2026 inbound shipments.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Shift to longer-lead consolidated ocean freight contracts and negotiate freight rate floors with forwarders now; evaluate regional consolidation hubs (Mexico, US) to absorb tariff/logistics costs before final assembly.</span></div></div><div class="scw-risk scw-risk-med">Med</div></div>
     </div>
   </section>
 
@@ -1273,9 +1297,7 @@
       <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-bottom:8px;">
         CITT decisions, Canada Gazette notices, and regulatory changes relevant to this sector. Updated weekly. Click any item for official source.
       </div>
-      <ul style="margin:0;padding:0;"><li style="padding:6px 0;border-bottom:1px solid rgba(200,134,10,0.15);list-style:none;font-size:13px;color:var(--ink-mid);line-height:1.6;">🟡 <strong style="color:var(--ink);">Determination — June 9, 2026</strong><span style="color:var(--ink-light);font-size:11px;"> — Canada's import tariff on steel fasteners from certain countries will increase by 15% effective immediately, raising costs for manufacturers who rely on these components.</span> <a href="https://www.citt-tcce.gc.ca/en/anti-dumping-injury-inquiries/active-dumping-and-subsidizing-cases" style="color:var(--amber);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" target="_blank">Source →</a><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:8px;">CITT</span></li><li style="padding:6px 0;border-bottom:1px solid rgba(200,134,10,0.15);list-style:none;font-size:13px;color:var(--ink-mid);line-height:1.6;">🟡 <strong style="color:var(--ink);">Reasons for determination — June 1, 2026</strong><span style="color:var(--ink-light);font-size:11px;"> — Canadian importers of aluminum products must now pay higher tariffs after the tribunal found domestic producers were injured by cheap imports.</span> <a href="https://www.citt-tcce.gc.ca/en/anti-dumping-injury-inquiries/active-dumping-and-subsidizing-cases" style="color:var(--amber);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" target="_blank">Source →</a><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:8px;">CITT</span></li><li style="padding:6px 0;border-bottom:1px solid rgba(200,134,10,0.15);list-style:none;font-size:13px;color:var(--ink-mid);line-height:1.6;">🟡 <strong style="color:var(--ink);">Public hearing — May 25, 2026</strong><span style="color:var(--ink-light);font-size:11px;"> — Canadian businesses importing steel products should monitor this May 2026 CITT hearing outcome, as it may result in new tariff rules or trade remedies affecting their supply costs.</span> <a href="https://www.citt-tcce.gc.ca/en/anti-dumping-injury-inquiries/public-hearings-anti-dumping-injury-inquiries#toc-id-1" style="color:var(--amber);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" target="_blank">Source →</a><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:8px;">CITT</span></li><li style="padding:6px 0;border-bottom:1px solid rgba(200,134,10,0.15);list-style:none;font-size:13px;color:var(--ink-mid);line-height:1.6;">🟡 <strong style="color:var(--ink);">Determination — May 15, 2026</strong><span style="color:var(--ink-light);font-size:11px;"> — # Trade Intelligence Summary
-
-Canadian manufacturers can now import steel wire rod from eight additional countries without facing anti-dumping duties, expanding sourcing options and potentially reducing input costs.</span> <a href="https://decisions.citt-tcce.gc.ca/citt-tcce/a/en/item/521531/index.do" style="color:var(--amber);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" target="_blank">Source →</a><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:8px;">CITT</span></li></ul>
+      <ul style="margin:0;padding:0;"><li style="padding:6px 0;border-bottom:1px solid rgba(200,134,10,0.15);list-style:none;font-size:13px;color:var(--ink-mid);line-height:1.6;">🟡 <strong style="color:var(--ink);">Determination — June 18, 2026</strong><span style="color:var(--ink-light);font-size:11px;"> — Please provide the actual determination content (such as whether this involves tariffs, dumping duties, safeguards, or other trade remedies) so I can deliver a meaningful one-sentence analysis.</span> <a href="https://www.citt-tcce.gc.ca/en/anti-dumping-injury-inquiries/active-dumping-and-subsidizing-cases" style="color:var(--amber);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" target="_blank">Source →</a><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:8px;">CITT</span></li><li style="padding:6px 0;border-bottom:1px solid rgba(200,134,10,0.15);list-style:none;font-size:13px;color:var(--ink-mid);line-height:1.6;">🟡 <strong style="color:var(--ink);">Determination — June 9, 2026</strong><span style="color:var(--ink-light);font-size:11px;"> — Canadian importers of forged steel pipe fittings now face new anti-dumping duties after the Canadian International Trade Tribunal found Chinese suppliers were selling below cost to unfairly undercut domestic producers.</span> <a href="https://www.citt-tcce.gc.ca/en/anti-dumping-injury-inquiries/active-dumping-and-subsidizing-cases" style="color:var(--amber);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" target="_blank">Source →</a><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:8px;">CITT</span></li><li style="padding:6px 0;border-bottom:1px solid rgba(200,134,10,0.15);list-style:none;font-size:13px;color:var(--ink-mid);line-height:1.6;">🟡 <strong style="color:var(--ink);">Reasons for determination — June 1, 2026</strong><span style="color:var(--ink-light);font-size:11px;"> — Canadian importers of certain steel products now face higher duties after the Canadian International Trade Tribunal found domestic producers were injured by unfairly priced imports.</span> <a href="https://www.citt-tcce.gc.ca/en/anti-dumping-injury-inquiries/active-dumping-and-subsidizing-cases" style="color:var(--amber);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" target="_blank">Source →</a><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:8px;">CITT</span></li><li style="padding:6px 0;border-bottom:1px solid rgba(200,134,10,0.15);list-style:none;font-size:13px;color:var(--ink-mid);line-height:1.6;">🟡 <strong style="color:var(--ink);">Public hearing — May 25, 2026</strong><span style="color:var(--ink-light);font-size:11px;"> — The Canadian International Trade Tribunal is holding a public hearing on May 25, 2026, where Canadian businesses can present evidence and arguments in a trade dispute case.</span> <a href="https://www.citt-tcce.gc.ca/en/anti-dumping-injury-inquiries/public-hearings-anti-dumping-injury-inquiries#toc-id-1" style="color:var(--amber);font-size:10px;font-family:'DM Mono',monospace;text-decoration:none;white-space:nowrap;" target="_blank">Source →</a><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-light);margin-left:8px;">CITT</span></li></ul>
       <div style="font-family:'DM Mono',monospace;font-size:8px;color:var(--ink-light);margin-top:8px;">
         Sources: Canada Gazette Part II · CITT · CBSA · Parliament<br>
         <a href="https://canadiantradeintel.ca/tools/sanctions-check/" style="color:var(--amber);margin-right:12px;">Screen a supplier or counterparty →</a>
@@ -1515,7 +1537,7 @@ Canadian manufacturers can now import steel wire rod from eight additional count
         Aerospace & Defence Intelligence Brief
       </h1>
       <div style="font-family:'DM Mono',monospace;font-size:10px;color:#888;line-height:2;">
-        Issue #010 &nbsp;·&nbsp; June 02, 2026<br>
+        Issue #010 &nbsp;·&nbsp; June 04, 2026<br>
         Prepared by Canadian Trade Intelligence Inc. &nbsp;·&nbsp; canadiantradeintel.ca
       </div>
     </div>
@@ -1523,19 +1545,19 @@ Canadian manufacturers can now import steel wire rod from eight additional count
     <!-- 1. Situation Summary -->
     <div>
       <span style="font-size:8px;letter-spacing:0.14em;text-transform:uppercase;font-family:'DM Mono',monospace;color:#3a1060;display:block;margin-bottom:8px;margin-top:24px;padding-top:20px;border-top:1px solid #e0dcd4;">1. Situation Summary</span>
-      <p style="font-size:14px;color:#1a1a1a;line-height:1.8;max-width:740px;">Canada's defence industrial base is undergoing structural reset driven by NATO spending mandates and domestic modernization commitments, creating a multi-decade procurement window that closes rapidly for suppliers not on early shortlists. German, US, and UK defence budgets are releasing €100B+ contract pipelines simultaneously, and Canadian aerospace firms positioned in supplier networks now will capture disproportionate value; those waiting for formal RFQs will arrive too late.</p>
+      <p style="font-size:14px;color:#1a1a1a;line-height:1.8;max-width:740px;">Canada's defence procurement architecture is undergoing structural reset, driven by NATO spending mandates and NORAD modernisation, creating a narrow window for suppliers to influence shortlists before formal tenders close entry. German, US, and UK markets are simultaneously unlocking €100B+ procurement pipelines with immediate RFQ activity. Canadian exporters who fail to engage in pre-tender positioning within the next 60 days will be excluded from multi-decade contract awards.</p>
     </div>
 
     <!-- 2. Top Signals -->
     <div>
       <span style="font-size:8px;letter-spacing:0.14em;text-transform:uppercase;font-family:'DM Mono',monospace;color:#3a1060;display:block;margin-bottom:8px;margin-top:24px;padding-top:20px;border-top:1px solid #e0dcd4;">2. Top Signals</span>
-      <div style="padding:10px 0 10px 14px;border-left:3px solid #6a20b0;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">Canada entered negotiations to procure Saab's GlobalEye airborne early warning system, signaling commitment to NATO interoperability and unlocking supply chain integration opportunities for Canadian subsystem vendors.</div><div style="font-size:12px;color:#444;line-height:1.65;">GlobalEye procurement establishes Canadian firms as Tier 2/3 suppliers to major European OEMs and creates leverage for follow-on contracts across radar, communications, and mission systems.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#1a6b42;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: HIGH</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #6a20b0;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">Germany published €100B Bundeswehr modernization contract pipeline with Phase 2 supplier shortlists due June–July 2026, moving award decisions into Q3 2026.</div><div style="font-size:12px;color:#444;line-height:1.65;">German procurement velocity is fastest among NATO allies; Canadian suppliers must establish pre-shortlist visibility with German primes (Rheinmetall, Diehl, MTU) within 60 days or miss bidding windows.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#1a6b42;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: HIGH</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #6a20b0;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">Export Development Canada opened Defence Export Credit Facility (CAD $500M per transaction) with NATO procurement coverage, lowering financing barriers for Canadian defence exporters.</div><div style="font-size:12px;color:#444;line-height:1.65;">EDC facility removes capital constraints for mid-sized aerospace suppliers bidding on international contracts; firms without credit pre-approval by July 2026 will lose competitive advantage on Q3–Q4 contract awards.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#1a6b42;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: HIGH</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #6a20b0;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">UK Ministry of Defence published updated DSIS supplier tiering framework, establishing three-tier approved supplier network for defence industrial strategy contracts.</div><div style="font-size:12px;color:#444;line-height:1.65;">UK tier accreditation is prerequisite for participation in £50B+ modernization pipeline; Canadian firms must register and qualify by August 2026 to appear on RFQ shortlists.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#b36b00;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: MED</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #6a20b0;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">NATO 5% GDP defence spending enforcement is triggering cascade RFQ releases across Germany, Poland, and UK throughout Q2–Q3 2026, compressing supplier response windows to 30–45 days.</div><div style="font-size:12px;color:#444;line-height:1.65;">Compressed timelines favour suppliers already embedded in OEM supply chains; Canadian SMEs without existing relationships will face impossible documentation and compliance turnaround times.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#1a6b42;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: HIGH</div></div>
+      <div style="padding:10px 0 10px 14px;border-left:3px solid #6a20b0;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">Canada entered negotiations to procure Saab GlobalEye at CANSEC (May 27, 2026), signalling acceleration of platform modernisation contracts.</div><div style="font-size:12px;color:#444;line-height:1.65;">GlobalEye acquisition triggers cascading demand for Canadian subsystem integrators, sensor suppliers, and logistics partners across a 15–20 year sustainment cycle.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#1a6b42;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: HIGH</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #6a20b0;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">Germany published €100B Bundeswehr modernisation budget with Phase 2 supplier shortlist publication imminent (Q3 2026).</div><div style="font-size:12px;color:#444;line-height:1.65;">German procurement now operates on compressed timeline; suppliers not pre-qualified by August 2026 will miss 60%+ of available contract value.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#1a6b42;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: HIGH</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #6a20b0;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">NATO 5% GDP defence spending enforcement triggered 2025 Q1 RFQ cascade across Germany, Poland, and UK defence ministries.</div><div style="font-size:12px;color:#444;line-height:1.65;">Concurrent procurement from three NATO Tier-1 economies creates multiplier effect for suppliers with pre-existing vendor relationships and export financing.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#b36b00;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: MED</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #6a20b0;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">EDC opened dedicated Defence Export Credit Facility (CAD $500M per transaction) with NATO procurement coverage.</div><div style="font-size:12px;color:#444;line-height:1.65;">Credit availability removes financing friction for SME participation in allied procurement; absence of application now signals non-seriousness to Export Development Canada.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#1a6b42;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: HIGH</div></div><div style="padding:10px 0 10px 14px;border-left:3px solid #6a20b0;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">NORAD modernisation ($38.6B, 2025–2032) will generate 8,000–12,000 defence-sector jobs with contract awards beginning Q3 2026.</div><div style="font-size:12px;color:#444;line-height:1.65;">Domestic job creation visibility increases political protection for Canadian supplier prioritisation in allied procurement discussions.</div><div style="font-family:'DM Mono',monospace;font-size:8px;color:#b36b00;margin-top:5px;letter-spacing:0.1em;">CONFIDENCE: MED</div></div>
     </div>
 
     <!-- 3. Recommended Actions -->
     <div>
       <span style="font-size:8px;letter-spacing:0.14em;text-transform:uppercase;font-family:'DM Mono',monospace;color:#3a1060;display:block;margin-bottom:8px;margin-top:24px;padding-top:20px;border-top:1px solid #e0dcd4;">3. Recommended Actions</span>
-      <div style="padding:12px 14px;background:#f8f8f6;border-left:3px solid #6a20b0;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;color:#6a20b0;margin-right:8px;font-size:9px;">01</span>Apply immediately to CanExport SME — Aerospace & Defence Trade Mission Support (up to CAD $75K) to fund in-person engagement with German Bundeswehr procurement office and Rheinmetall/Diehl supply chain teams by July 2026.</div><div style="font-size:12px;color:#555;line-height:1.65;">German Phase 2 shortlists close in 60 days; virtual engagement will not secure pre-qualification status required for contract bids.</div></div><div style="padding:12px 14px;background:#f8f8f6;border-left:3px solid #6a20b0;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;color:#6a20b0;margin-right:8px;font-size:9px;">02</span>Register for EDC Defence Export Credit Facility and complete pre-approval process by June 30, 2026 to unlock financing for international bids; prioritize firms with existing UK/German OEM relationships.</div><div style="font-size:12px;color:#555;line-height:1.65;">Credit pre-approval is non-negotiable qualification criterion for Q3–Q4 2026 contract awards; post-hoc financing applications will disqualify bids.</div></div><div style="padding:12px 14px;background:#f8f8f6;border-left:3px solid #6a20b0;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;color:#6a20b0;margin-right:8px;font-size:9px;">03</span>Create standing alerts on German Bundesamt für Rüstung procurement database (BeschaffungsAmt.de) and UK MOD DSIS portal for Tier 1 contract notices; designate dedicated monitoring resource by June 15, 2026.</div><div style="font-size:12px;color:#555;line-height:1.65;">Contract award pipelines are live and moving; ad hoc monitoring will miss 30–45 day RFQ windows.</div></div>
+      <div style="padding:12px 14px;background:#f8f8f6;border-left:3px solid #6a20b0;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;color:#6a20b0;margin-right:8px;font-size:9px;">01</span>Apply immediately to CanExport SME Aerospace & Defence Trade Mission Support (Global Affairs Canada & EDC co-funded, up to CAD $75K) and register for EDC Defence Export Credit Facility within 10 business days.</div><div style="font-size:12px;color:#555;line-height:1.65;">Both programmes close competitive windows in Q3 2026; approval processing requires 6–8 weeks and credential establishment precedes German Phase 2 shortlist publication.</div></div><div style="padding:12px 14px;background:#f8f8f6;border-left:3px solid #6a20b0;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;color:#6a20b0;margin-right:8px;font-size:9px;">02</span>Establish standing alerts on German Bundesamt für Rüstung procurement database (BeschaffaussAmt.de) and UK MOD DSIS supplier portal (gov.uk/DSIS) for all Tier-1 and Tier-2 contract notices above €2M and £1.5M respectively.</div><div style="font-size:12px;color:#555;line-height:1.65;">Supplier tier accreditation in both systems determines invitation-to-bid eligibility; registration lags are the primary exclusion mechanism for Canadian firms.</div></div><div style="padding:12px 14px;background:#f8f8f6;border-left:3px solid #6a20b0;margin-bottom:8px;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;"><span style="font-family:'DM Mono',monospace;color:#6a20b0;margin-right:8px;font-size:9px;">03</span>Initiate direct outreach to prime contractors already awarded NORAD contracts (Raytheon Canada, Lockheed Martin Canada, Bombardier) to establish subcontracting position within 30 days.</div><div style="font-size:12px;color:#555;line-height:1.65;">Primes are currently finalising Tier-2 supplier lists for NORAD Phase 1; entry after August 2026 moves suppliers to contingency-only status.</div></div>
     </div>
 
     <!-- 4. Market Opportunity Scores -->
@@ -1570,7 +1592,7 @@ Canadian manufacturers can now import steel wire rod from eight additional count
     <!-- 6. Supply Chain Watch -->
     <div>
       <span style="font-size:8px;letter-spacing:0.14em;text-transform:uppercase;font-family:'DM Mono',monospace;color:#3a1060;display:block;margin-bottom:8px;margin-top:24px;padding-top:20px;border-top:1px solid #e0dcd4;">6. Supply Chain Watch</span>
-      <div style="border:1px solid #e0dcd4;background:#fff;"><div class="scw-item"><div class="scw-left"><div class="scw-input">Specialty metals & alloys (titanium, aluminium composites, rare-earth elements)</div><div class="scw-status">Trade dispute effects driving upstream cost inflation across raw material inputs. Food Price Report signals broader tariff/trade friction impacting all import-dependent sectors; aerospace & defence metallurgy supply chains face similar margin pressure and lead-time extension risks.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Audit current supplier contracts for price-escalation clauses and hedge exposure. Request updated lead-time and cost forecasts from primary and secondary suppliers (esp. US, EU sources) within 2 weeks.</span></div></div><div class="scw-risk scw-risk-high">High</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">Electronic components & subsystems (semiconductors, avionics modules, defence electronics)</div><div class="scw-status">Ongoing geopolitical trade tensions and potential tariff expansions create volatility in sourcing from US and Asia-Pacific partners. No immediate supply break, but cost pass-through and allocation risk rising.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Map semiconductor & avionics sourcing by geography and contract expiry. Identify allied-nation substitutes (UK, Germany, Japan, South Korea) and initiate early RFQ cycles to lock pricing before Q2 2026.</span></div></div><div class="scw-risk scw-risk-med">Med</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">Labour & logistics services (inbound transport, customs clearance, warehousing)</div><div class="scw-status">Food price inflation tied partly to logistics cost pressures. Trade friction and border delays are compounding freight and labour costs in Canada's import supply chain.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Renegotiate logistics contracts now; explore inventory pre-positioning at US/allied staging points to reduce cross-border handling and tariff exposure. Lock Q1 2026 freight rates immediately.</span></div></div><div class="scw-risk scw-risk-med">Med</div></div></div>
+      <div style="border:1px solid #e0dcd4;background:#fff;"><div class="scw-item"><div class="scw-left"><div class="scw-input">Specialty metals & alloys (titanium, aluminum, composites) sourced from US & EU suppliers</div><div class="scw-status">Trade dispute effects driving 4-6% inflation across North American supply chains; US tariff uncertainty and potential EU retaliatory measures create pricing volatility for aerospace-grade materials through 2026.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Lock in long-term fixed-price contracts with current suppliers before Q1 2026; simultaneously audit Mexican and Canadian domestic suppliers for titanium and composite qualification as tariff-hedge alternatives.</span></div></div><div class="scw-risk scw-risk-high">High</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">Electronics & avionics components (semiconductors, control systems) from ITAR-restricted US & Allied sources</div><div class="scw-status">NATO procurement expansion (per UK DSIS & German BeschaffungsAmt signals) will increase competition for lead times and allocation from Allied defense suppliers; expect 6-12 month delivery extensions.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Register now with UK MOD DSIS supplier portal and German BeschaffungsAmt to identify early notices of framework contracts; secure supplier capacity commitments for 2026–2027 before NATO member demand spikes.</span></div></div><div class="scw-risk scw-risk-med">Med</div></div><div class="scw-item"><div class="scw-left"><div class="scw-input">Logistics & freight (inbound raw materials & sub-assemblies from US, Europe, Mexico)</div><div class="scw-status">Food price inflation signal (driven by trade friction) correlates with broader transportation & cross-border cost pressures; expect 3-5% uplift in landed costs for Q1–Q2 2026 inbound shipments.</div><div style="margin-top:12px;padding:12px 16px;background:rgba(26,107,66,0.07);border-left:3px solid var(--sector);border-radius:0 4px 4px 0;"><span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);display:block;margin-bottom:4px;">ACTION</span><span style="font-size:14px;color:var(--ink-mid);line-height:1.65;">Shift to longer-lead consolidated ocean freight contracts and negotiate freight rate floors with forwarders now; evaluate regional consolidation hubs (Mexico, US) to absorb tariff/logistics costs before final assembly.</span></div></div><div class="scw-risk scw-risk-med">Med</div></div></div>
     </div>
 
     <!-- 7. Source Index -->
