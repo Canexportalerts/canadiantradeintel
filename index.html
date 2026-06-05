@@ -653,10 +653,25 @@
       labelEl.textContent = d.toLocaleDateString('en-CA', {month:'long', day:'numeric', year:'numeric'});
     }
 
-    function renderCard(e, isBusiness) {
-      var color = isBusiness ? (SECTOR_COLORS[e.sector] || '#555') : '#888880';
-      var href = e.slug ? '/spotlight/' + e.slug + '/' : (e.source_url || '/spotlight/');
-      var label = isBusiness ? (e.sector_display || '') : (e.story_type || '').replace(/_/g,' ').replace(/\w/g,function(c){return c.toUpperCase();});
+    // Mix news and business stories in one unified grid — 6 total
+    var mixed = [];
+    // Interleave: news first if available, then business
+    var ni = 0, si = 0;
+    while (mixed.length < 6 && (ni < newsEntries.length || si < spotEntries.length)) {
+      if (ni < newsEntries.length) { mixed.push({e: newsEntries[ni++], isBiz: false}); }
+      if (mixed.length < 6 && si < spotEntries.length) { mixed.push({e: spotEntries[si++], isBiz: true}); }
+    }
+
+    grid.innerHTML = mixed.map(function(item) {
+      var e = item.e;
+      var isBiz = item.isBiz;
+      var color = isBiz ? (SECTOR_COLORS[e.sector] || '#888') : '#0a6080';
+      var href = e.slug ? '/spotlight/' + e.slug + '/' : '/spotlight/';
+      var label = isBiz
+        ? (e.sector_display || '')
+        : ({policy_signal:'Policy',community_culture:'Communities',
+            provincial_regional:'Provinces',canadian_economy:'Economy',
+            situation_brief:'Canada'}[e.story_type] || 'News');
       var market = e.market && e.market !== 'Canada' ? ' \u00b7 ' + e.market : '';
       return '<a href="' + href + '" style="text-decoration:none;color:inherit;">' +
         '<div class="hp-news-card">' +
@@ -664,18 +679,7 @@
         '<div class="hp-news-headline">' + (e.headline || '') + '</div>' +
         '<div class="hp-news-meta">' + (e.date || '') + market + '</div>' +
         '</div></a>';
-    }
-
-    var html = '';
-    if (newsEntries.length) {
-      html += '<div class="hp-news-section-label">Canadian News</div>';
-      html += newsEntries.map(function(e){ return renderCard(e, false); }).join('');
-    }
-    if (spotEntries.length) {
-      html += '<div class="hp-news-section-label">Canadian Business</div>';
-      html += spotEntries.map(function(e){ return renderCard(e, true); }).join('');
-    }
-    grid.innerHTML = html;
+    }).join('');
     section.style.display = '';
   });
 })();
