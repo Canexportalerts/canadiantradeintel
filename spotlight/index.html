@@ -4739,6 +4739,63 @@ function buildEditorialGrid() {
   }
 }
 
+// ── Search function ──────────────────────────────────────────────────────────
+function edSearch() {
+  var input = document.getElementById('ed-search');
+  var q = input ? input.value.toLowerCase().trim() : '';
+  var grid = document.getElementById('this-week-grid');
+  if (!grid) return;
+
+  if (!q) {
+    // Clear — restore all
+    grid.querySelectorAll('.sp-card, .sp-featured, .sp-row, .sp-rule').forEach(function(el) {
+      el.style.display = '';
+    });
+    var ns = document.getElementById('news-sections');
+    if (ns) ns.querySelectorAll('.sp-card, .sp-row, .sp-rule').forEach(function(el) {
+      el.style.display = '';
+    });
+    return;
+  }
+
+  // Search all cards in current week grid
+  var allCards = grid.querySelectorAll('.sp-card');
+  var newsEl = document.getElementById('news-sections');
+  if (newsEl) {
+    newsEl.querySelectorAll('.sp-card').forEach(function(c) { allCards = Array.from(allCards).concat([c]); });
+  }
+  Array.from(grid.querySelectorAll('.sp-card')).concat(
+    newsEl ? Array.from(newsEl.querySelectorAll('.sp-card')) : []
+  ).forEach(function(card) {
+    var text = card.textContent.toLowerCase();
+    card.style.display = text.indexOf(q) >= 0 ? '' : 'none';
+  });
+
+  // Featured story
+  var feat = grid.querySelector('.sp-featured');
+  if (feat) feat.style.display = feat.textContent.toLowerCase().indexOf(q) >= 0 ? '' : 'none';
+
+  // Hide rows where all cards hidden
+  grid.querySelectorAll('.sp-row').forEach(function(row) {
+    var vis = row.querySelector('.sp-card:not([style*="display: none"])');
+    row.style.display = vis ? '' : 'none';
+  });
+
+  // Also search archive card pool if visible
+  var pool = document.getElementById('card-pool');
+  if (pool && pool.style.display !== 'none') {
+    pool.querySelectorAll('.article-card').forEach(function(card) {
+      var text = card.textContent.toLowerCase();
+      card.style.display = text.indexOf(q) >= 0 ? '' : 'none';
+    });
+    // Hide empty issue groups
+    pool.querySelectorAll('.issue-group').forEach(function(group) {
+      var vis = group.querySelector('.article-card:not([style*="display: none"])');
+      group.style.display = vis ? '' : 'none';
+    });
+  }
+}
+
 // ── INIT ─────────────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', function() {
   if (!_weekParam) {
