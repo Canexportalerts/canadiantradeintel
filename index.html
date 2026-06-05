@@ -358,6 +358,7 @@
     gap: 16px;
     margin-bottom: 14px;
   }
+  .hp-news-section-label { font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-light, #888); padding: 12px 0 6px; border-bottom: 1px solid var(--rule, #e0dcd4); margin-bottom: 4px; }
   .hp-news-card {
     background: #fff;
     border: 0.5px solid #e0dcd4;
@@ -633,31 +634,50 @@
   var grid = document.getElementById('hp-news-grid-dynamic');
   var section = document.getElementById('hp-this-week-section');
   if (!grid || !section) return;
-  fetch('/api/spotlight_latest.json')
-    .then(function(r) { return r.ok ? r.json() : Promise.reject(r.status); })
-    .then(function(data) {
-      var entries = (data.entries || []).slice(0, 3);
-      if (!entries.length) { section.style.display = 'none'; return; }
-      // Update issue label from spotlight data
-      var labelEl = document.getElementById('this-week-issue-label');
-      if (labelEl && data.week_label) {
-        labelEl.textContent = 'Issue #' + String(data.issue || '').padStart(3, '0') + ' \u00b7 ' + data.week_label;
-      }
-      grid.innerHTML = entries.map(function(e) {
-        var color = SECTOR_COLORS[e.sector] || '#555';
-        var href = e.slug ? '/spotlight/' + e.slug + '/' : e.source_url;
-        var target = e.slug ? '' : ' target="_blank" rel="noopener"';
-        var date = e.date || '';
-        var market = e.market ? ' \u00b7 ' + e.market : '';
-        return '<a href="' + href + '"' + target + ' style="text-decoration:none;color:inherit;">' +
-          '<div class="hp-news-card">' +
-          '<div class="hp-news-sector" style="color:' + color + ';">' + (e.sector_display || e.sector || '') + '</div>' +
-          '<div class="hp-news-headline">' + (e.headline || '') + '</div>' +
-          '<div class="hp-news-meta">' + date + market + '</div>' +
-          '</div></a>';
-      }).join('');
-    })
-    .catch(function() { section.style.display = 'none'; });
+  // Fetch both spotlight (business) and news stories in parallel
+  Promise.all([
+    fetch('/api/spotlight_latest.json').then(function(r){ return r.ok ? r.json() : null; }).catch(function(){ return null; }),
+    fetch('/api/news_latest.json').then(function(r){ return r.ok ? r.json() : null; }).catch(function(){ return null; })
+  ]).then(function(results) {
+    var spotData = results[0];
+    var newsData = results[1];
+    var spotEntries = spotData ? (spotData.entries || []).slice(0, 3) : [];
+    var newsEntries = newsData ? (newsData.entries || []).slice(0, 3) : [];
+    var allEntries = spotEntries.concat(newsEntries);
+    if (!allEntries.length) { section.style.display = 'none'; return; }
+
+    // Update date label
+    var labelEl = document.getElementById('this-week-issue-label');
+    if (labelEl && spotData && spotData.generated) {
+      var d = new Date(spotData.generated + 'T12:00:00');
+      labelEl.textContent = d.toLocaleDateString('en-CA', {month:'long', day:'numeric', year:'numeric'});
+    }
+
+    function renderCard(e, isBusiness) {
+      var color = isBusiness ? (SECTOR_COLORS[e.sector] || '#555') : '#888880';
+      var href = e.slug ? '/spotlight/' + e.slug + '/' : (e.source_url || '/spotlight/');
+      var label = isBusiness ? (e.sector_display || '') : (e.story_type || '').replace(/_/g,' ').replace(/\w/g,function(c){return c.toUpperCase();});
+      var market = e.market && e.market !== 'Canada' ? ' \u00b7 ' + e.market : '';
+      return '<a href="' + href + '" style="text-decoration:none;color:inherit;">' +
+        '<div class="hp-news-card">' +
+        '<div class="hp-news-sector" style="color:' + color + ';">' + label + '</div>' +
+        '<div class="hp-news-headline">' + (e.headline || '') + '</div>' +
+        '<div class="hp-news-meta">' + (e.date || '') + market + '</div>' +
+        '</div></a>';
+    }
+
+    var html = '';
+    if (newsEntries.length) {
+      html += '<div class="hp-news-section-label">Canadian News</div>';
+      html += newsEntries.map(function(e){ return renderCard(e, false); }).join('');
+    }
+    if (spotEntries.length) {
+      html += '<div class="hp-news-section-label">Canadian Business</div>';
+      html += spotEntries.map(function(e){ return renderCard(e, true); }).join('');
+    }
+    grid.innerHTML = html;
+    section.style.display = '';
+  });
 })();
 </script>
 
