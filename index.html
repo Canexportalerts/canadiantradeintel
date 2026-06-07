@@ -884,19 +884,32 @@ const SECTOR_COLOURS = {
     if (!r.ok) return;
     const d = await r.json();
 
-    // Signal strip — first signal
-    const sig = d.signals && d.signals[0];
-    if (sig) {
+    // Signal strip — rotate through signals, deduplicate by country
+    const allSigs = d.signals || [];
+    const seen = new Set();
+    const uniqSigs = allSigs.filter(function(s) {
+      const key = (s.country || s.headline || '').toLowerCase();
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+    if (uniqSigs.length > 0) {
       const strip = document.getElementById('signal-strip');
       const pip   = document.getElementById('ss-pip');
       const text  = document.getElementById('ss-text');
       const link  = document.getElementById('ss-link');
       if (strip && pip && text && link) {
-        pip.style.background = SECTOR_COLOURS[sig.sector] || '#888';
-        text.textContent = sig.headline;
-        if (d.issue) link.textContent = '→ Issue #' + String(d.issue).padStart(3, '0');
-        if (sig.report_url) link.href = sig.report_url;
+        let idx = 0;
+        function showSig(i) {
+          const sig = uniqSigs[i % uniqSigs.length];
+          pip.style.background = SECTOR_COLOURS[sig.sector] || '#888';
+          text.textContent = sig.headline;
+          if (d.issue) link.textContent = '→ Issue #' + String(d.issue).padStart(3, '0');
+          if (sig.report_url) link.href = sig.report_url;
+        }
+        showSig(0);
         strip.style.display = '';
+        setInterval(function() { idx++; showSig(idx); }, 5000);
       }
     }
 
