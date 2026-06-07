@@ -98,8 +98,12 @@
     text-transform: uppercase; color: rgba(255,255,255,0.28); margin-top: 18px; line-height: 2; }
 
   /* ── CUSMA ALERT STRIP ── */
-  .cusma-strip { background: #0e0808; border-bottom: 2px solid rgba(204,0,0,0.4); border-top: 1px solid rgba(204,0,0,0.15); padding: 0 40px; width: 100%; }
-  .cusma-strip-inner { max-width: 1200px; margin: 0 auto; height: 40px; display: flex; align-items: center; gap: 12px; }
+  .cusma-strip { background: #0e0808; border-bottom: 2px solid rgba(204,0,0,0.4); border-top: 1px solid rgba(204,0,0,0.15); padding: 0; width: 100%; overflow: hidden; }
+  .cusma-strip-inner { height: 40px; display: flex; align-items: center; gap: 12px; padding: 0 24px; white-space: nowrap; }
+  .cusma-marquee-wrap { overflow: hidden; flex: 1; }
+  .cusma-marquee { display: inline-block; animation: cusma-scroll 28s linear infinite; white-space: nowrap; }
+  .cusma-marquee:hover { animation-play-state: paused; }
+  @keyframes cusma-scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
   .cusma-badge { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.14em;
                  text-transform: uppercase; background: rgba(204,0,0,0.2); color: rgba(255,100,100,0.9);
                  padding: 2px 7px; flex-shrink: 0; }
@@ -587,8 +591,18 @@
 <div class="cusma-strip">
   <div class="cusma-strip-inner">
     <span class="cusma-badge">CUSMA 2026</span>
-    <span class="cusma-text">Canada-US-Mexico trade agreement under active review. Carney and Trump confirmed preliminary discussions. July deadline approaching. CTI is tracking every development.</span>
-    <a href="/canada-forward/cusma-review/" class="cusma-link">Follow the CUSMA tracker →</a>
+    <div class="cusma-marquee-wrap">
+      <span class="cusma-marquee">
+        <span class="cusma-text">Canada-US-Mexico trade agreement under active review. Carney and Trump confirmed preliminary discussions. July deadline approaching. CTI is tracking every development.</span>
+        &nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;&nbsp;
+        <a href="/canada-forward/cusma-review/" class="cusma-link">Follow the CUSMA tracker →</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <span class="cusma-text">Canada-US-Mexico trade agreement under active review. Carney and Trump confirmed preliminary discussions. July deadline approaching. CTI is tracking every development.</span>
+        &nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;&nbsp;
+        <a href="/canada-forward/cusma-review/" class="cusma-link">Follow the CUSMA tracker →</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      </span>
+    </div>
   </div>
 </div>
 
@@ -655,11 +669,11 @@
 
     // Mix news and business stories in one unified grid — 6 total
     var mixed = [];
-    // Interleave: news first if available, then business
+    // Show 3 stories total — 1 news first if available, then business
     var ni = 0, si = 0;
-    while (mixed.length < 6 && (ni < newsEntries.length || si < spotEntries.length)) {
-      if (ni < newsEntries.length) { mixed.push({e: newsEntries[ni++], isBiz: false}); }
-      if (mixed.length < 6 && si < spotEntries.length) { mixed.push({e: spotEntries[si++], isBiz: true}); }
+    while (mixed.length < 3 && (ni < newsEntries.length || si < spotEntries.length)) {
+      if (ni < newsEntries.length && mixed.length < 1) { mixed.push({e: newsEntries[ni++], isBiz: false}); }
+      if (si < spotEntries.length && mixed.length < 3) { mixed.push({e: spotEntries[si++], isBiz: true}); }
     }
 
     grid.innerHTML = mixed.map(function(item) {
