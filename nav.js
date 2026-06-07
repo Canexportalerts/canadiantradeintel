@@ -199,12 +199,11 @@
       '<span style="display:block;font-family:\'DM Mono\',monospace;font-size:8px;letter-spacing:0.24em;text-transform:uppercase;color:#ffffff;font-style:normal;font-weight:500;line-height:1.2;">INTELLIGENCE</span>' +
     '</a>' +
     '<div class="nav-links">' +
-      '<a href="/dashboard/">Dashboard</a>' +
       '<a href="/procurement/">Procurement</a>' +
+      '<a href="/industries/">Industries</a>' +
       '<a href="/spotlight/">News</a>' +
-      '<a href="/countries/">Countries</a>' +
       '<div class="nav-dropdown">' +
-        '<button class="nav-dropdown-btn">Canada Forward \u25be</button>' +
+        '<button class="nav-dropdown-btn">Canada \u25be</button>' +
         '<div class="nav-dropdown-menu">' +
           '<span class="nav-dropdown-label">Overview</span>' +
           '<a href="/canada-forward/">Canada Forward</a>' +
@@ -228,7 +227,8 @@
           '<a href="/canada-forward/cusma-review/">CUSMA 2026 Tracker</a>' +
         '</div>' +
       '</div>' +
-      '<a href="/reports/">Reports</a>' +
+      '<a href="/countries/">Countries</a>' +
+      '<a href="/dashboard/">Dashboard</a>' +
       '<div class="nav-dropdown">' +
         '<button class="nav-dropdown-btn">Resources \u25be</button>' +
         '<div class="nav-dropdown-menu">' +
@@ -250,11 +250,10 @@
     '</button>' +
   '</div>' +
   '<div class="nav-mobile-menu" id="nav-mobile-menu">' +
-    '<a href="/dashboard/">Dashboard</a>' +
-    '<a href="/procurement/">Procurement Hub</a>' +
+    '<a href="/procurement/">Procurement</a>' +
+    '<a href="/industries/">Industries</a>' +
     '<a href="/spotlight/">News</a>' +
-    '<a href="/countries/">Countries</a>' +
-    '<span class="nav-mobile-section">Canada Forward</span>' +
+    '<span class="nav-mobile-section">Canada</span>' +
     '<a href="/canada-forward/">Overview</a>' +
     '<a href="/canada-forward/review/">Publications</a>' +
     '<a href="/canada-forward/housing-and-infrastructure/">Housing &amp; Infrastructure</a>' +
@@ -270,7 +269,8 @@
     '<a href="/canada-forward/provinces/">Provinces</a>' +
     '<a href="/canada-forward/research/" class="nav-item-muted">Library \u2014 Coming Soon</a>' +
     '<a href="/canada-forward/cusma-review/">CUSMA 2026 Tracker</a>' +
-    '<a href="/reports/">Reports</a>' +
+    '<a href="/countries/">Countries</a>' +
+    '<a href="/dashboard/">Dashboard</a>' +
     '<span class="nav-mobile-section">Resources</span>' +
     '<a href="/resources/trade-agreements/">Trade Agreements</a>' +
     '<a href="/tariffs/">Tariff Reference</a>' +
@@ -305,11 +305,11 @@
 
     // Highlight dropdown buttons when on a sub-page of that dropdown
     var dropdownBtns = nav.querySelectorAll('.nav-dropdown-btn');
-    var canadaForwardPaths = ['/canada-forward'];
+    var canadaForwardPaths = ['/canada-forward', '/canada'];
     var resourcePaths = ['/map', '/resources', '/tariffs', '/guides', '/methodology', '/tools', '/about'];
     dropdownBtns.forEach(function (btn) {
       var text = btn.textContent.trim();
-      if (text.indexOf('Canada Forward') !== -1) {
+      if (text.indexOf('Canada') !== -1 && text.indexOf('Resources') === -1) {
         if (canadaForwardPaths.some(function (p) { return path === p || path.startsWith(p + '/'); })) {
           btn.classList.add('active');
         }
@@ -319,6 +319,14 @@
         }
       }
     });
+
+    // Highlight Industries link when on any /industries/ path
+    var industryLink = nav.querySelector('a[href="/industries/"]');
+    if (industryLink) {
+      if (path === '/industries' || path.startsWith('/industries/')) {
+        industryLink.classList.add('active');
+      }
+    }
 
     // Mobile menu toggle
     var hamburger = document.getElementById('nav-hamburger');
