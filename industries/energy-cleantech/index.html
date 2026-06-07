@@ -211,30 +211,91 @@ body{font-family:'Jost',sans-serif;background:var(--warm-bg);color:var(--ink);fo
 
 <script>
 (function() {
-  var SECTOR_KEYS = ['Energy & Cleantech', 'energy_cleantech'];
-  function formatDate(str) { if (!str) return ''; var d = new Date(str); if (isNaN(d)) return str; return d.toLocaleDateString('en-CA', { year: 'numeric', month: 'short', day: 'numeric' }); }
+  var SECTOR_KEY = 'energy_cleantech';
+  function fmt(str) {
+    if (!str) return '';
+    var d = new Date(str + 'T12:00:00');
+    if (isNaN(d)) return str;
+    return d.toLocaleDateString('en-CA', {
+      year: 'numeric', month: 'short', day: 'numeric'
+    });
+  }
   fetch('/reports/reports-index.json')
     .then(function(r) { return r.json(); })
     .then(function(data) {
-      var reports = data.filter(function(r) { return SECTOR_KEYS.indexOf(r.sector) !== -1 || SECTOR_KEYS.indexOf(r.sector_key) !== -1; });
-      reports.sort(function(a, b) { return (b.issue || 0) - (a.issue || 0); });
-      var feature = document.getElementById('report-feature');
-      if (reports.length > 0) {
-        var latest = reports[0];
-        feature.innerHTML = '<div class="rf-kicker">Latest Issue · #' + (latest.issue || '') + ' · ' + formatDate(latest.date) + '</div><div class="rf-headline">Energy &amp; Cleantech — Weekly Intelligence Brief</div><div class="rf-summary">' + (latest.summary || 'This week\'s intelligence on Canada\'s energy and cleantech sector.') + '</div><div class="rf-buttons"><a href="' + (latest.url || '/reports/') + '" class="btn-read">Read This Issue →</a><a href="/reports/" class="btn-archive">All Issues</a></div>';
-      } else {
-        feature.innerHTML = '<div class="rf-kicker">Energy &amp; Cleantech</div><div class="rf-headline">Weekly sector intelligence — new every Tuesday</div><div class="rf-summary">Full reports include LNG export signals, hydrogen market developments, nuclear milestones, and so-what analysis for producers, investors, workers, and communities.</div><div class="rf-buttons"><a href="/subscribe/" class="btn-read">Get Access →</a></div>';
+      var reports = data.filter(function(r) {
+        return r.sector === SECTOR_KEY;
+      });
+      reports.sort(function(a, b) {
+        return (b.issue || 0) - (a.issue || 0);
+      });
+      var feat = document.getElementById('report-feature');
+      if (!feat) return;
+      if (reports.length === 0) {
+        feat.innerHTML =
+          '<div class="rf-kicker">No reports found yet — ' +
+          'new issues publish every Tuesday.</div>';
+        return;
       }
-      var archiveEl = document.getElementById('archive-list');
-      var archive = reports.slice(1, 9);
-      if (archive.length === 0) { archiveEl.innerHTML = '<div style="font-size:13px;color:var(--slate);padding:8px 0;">Archive builds as issues are published.</div>'; return; }
+      var latest = reports[0];
+      var url = '/reports/' + (latest.full_report || '');
+      var summary = latest.summary || '';
+      if (summary.length > 280) summary = summary.substring(0, 277) + '...';
+      feat.innerHTML =
+        '<div class="rf-kicker">Intelligence Brief · Issue #' +
+        String(latest.issue || '').padStart(3, '0') +
+        ' · ' + fmt(latest.date) + '</div>' +
+        '<div class="rf-headline">' + (latest.title || '') + '</div>' +
+        (summary
+          ? '<div class="rf-summary">' + summary + '</div>'
+          : '') +
+        '<div class="rf-buttons">' +
+          '<a href="' + url + '" class="btn-read">Read this issue →</a>' +
+          '<span class="btn-archive" onclick="' +
+            'var el = document.getElementById(\'archive-list\') ||' +
+            ' document.getElementById(\'report-archive\');' +
+            'if (el) el.scrollIntoView({ behavior: \'smooth\' });' +
+          '">Previous issues ↓</span>' +
+        '</div>';
+      var archEl =
+        document.getElementById('archive-list') ||
+        document.getElementById('report-archive');
+      if (!archEl) return;
+      var rest = reports.slice(1, 10);
+      if (rest.length === 0) {
+        archEl.innerHTML =
+          '<div class="loading-text">Archive builds as issues ' +
+          'are published.</div>';
+        return;
+      }
       var html = '';
-      archive.forEach(function(r) { html += '<div class="archive-row"><div class="ar-issue">#' + (r.issue || '—') + '</div><div class="ar-title"><a href="' + (r.url || '#') + '">Energy &amp; Cleantech — Issue #' + (r.issue || '') + '</a></div><div class="ar-date">' + formatDate(r.date) + '</div></div>'; });
-      archiveEl.innerHTML = html;
+      rest.forEach(function(r) {
+        var u = '/reports/' + (r.full_report || '');
+        var t = r.title || ('Issue #' + r.issue);
+        html +=
+          '<div class="archive-row">' +
+            '<span class="ar-issue">#' +
+            String(r.issue || '').padStart(3, '0') +
+            '</span>' +
+            '<span class="ar-title">' +
+              '<a href="' + u + '">' + t + '</a>' +
+            '</span>' +
+            '<span class="ar-date">' + fmt(r.date) + '</span>' +
+          '</div>';
+      });
+      archEl.innerHTML = html;
     })
     .catch(function() {
-      document.getElementById('report-feature').innerHTML = '<div class="rf-kicker">Energy &amp; Cleantech</div><div class="rf-headline">Weekly sector intelligence — new every Tuesday</div><div class="rf-summary">Full reports cover LNG, hydrogen, nuclear, and clean grid developments with worker and community impacts.</div><div class="rf-buttons"><a href="/subscribe/" class="btn-read">Get Access →</a><a href="/reports/" class="btn-archive">Browse Reports</a></div>';
-      document.getElementById('archive-list').innerHTML = '<div style="font-size:13px;color:var(--slate);padding:8px 0;">See <a href="/reports/" style="color:var(--sector);">all reports →</a></div>';
+      var feat = document.getElementById('report-feature');
+      if (feat) {
+        feat.innerHTML =
+          '<div class="rf-kicker">Report data temporarily ' +
+          'unavailable.</div>' +
+          '<div class="rf-buttons">' +
+            '<a href="/reports/" class="btn-read">' +
+            'Browse all reports →</a>' +
+          '</div>';
+      }
     });
 })();
 </script>

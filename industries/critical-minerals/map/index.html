@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Canadian Mining Intelligence Map — CTI</title>
+<meta name="description" content="Interactive map of Canada's active mines,
+ critical mineral projects, and processing facilities. NRCan open data with
+ CTI intelligence layer.">
+<link rel="canonical"
+  href="https://canadiantradeintel.ca/industries/critical-minerals/map/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@400;500&family=Jost:wght@300;400;500&display=swap"
+  rel="stylesheet">
+<link rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="/nav.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --ink:#0d0d0b;--slate:#5a5a56;
+  --warm-bg:#f8f5f0;--warm-border:#ddd5c5;
+  --crimson:#8b1a1a;--brand-dark:#1a0505;
+  --sector:#1a6b42;--sector-dark:#0d3d22;--sector-darker:#081f12;
+  --sidebar-bg:#0d1a0d;--sidebar-border:rgba(26,107,66,0.25);
+}
+html,body{height:100%;overflow:hidden;}
+body{font-family:'Jost',sans-serif;color:#fff;
+  background:var(--sidebar-bg);-webkit-font-smoothing:antialiased;}
+
+/* ── SECTOR SUBNAV (thin) ── */
+.sector-subnav{background:var(--brand-dark);
+  border-bottom:1px solid rgba(255,255,255,0.06);
+  padding:0 48px;height:40px;display:flex;align-items:center;
+  flex-shrink:0;}
+.sector-subnav-inner{display:flex;gap:0;overflow-x:auto;
+  scrollbar-width:none;}
+.sector-subnav-inner::-webkit-scrollbar{display:none;}
+.sn-item{font-family:'DM Mono',monospace;font-size:9px;
+  letter-spacing:0.12em;text-transform:uppercase;
+  color:rgba(255,255,255,0.4);text-decoration:none;
+  padding:0 14px;height:40px;display:flex;align-items:center;
+  border-bottom:2px solid transparent;white-space:nowrap;
+  transition:color 0.15s;}
+.sn-item:hover{color:rgba(255,255,255,0.75);}
+.sn-item.back{color:rgba(168,213,188,0.6);padding-left:0;}
+.sn-item.back:hover{color:rgba(168,213,188,1);}
+
+/* ── PAGE WRAPPER ── */
+#page-wrapper{
+  display:flex;flex-direction:column;
+  height:100vh;overflow:hidden;
+}
+#map-area{
+  display:flex;flex:1;overflow:hidden;
+  min-height:0;
+}
+
+/* ── SIDEBAR ── */
+#map-sidebar{
+  width:300px;flex-shrink:0;
+  background:var(--sidebar-bg);
+  border-right:1px solid var(--sidebar-border);
+  overflow-y:auto;display:flex;flex-direction:column;
+}
+.sb-header{
+  padding:18px 18px 14px;
+  border-bottom:1px solid var(--sidebar-border);
+}
+.sb-title{font-family:'Cormorant Garamond',serif;font-size:18px;
+  font-weight:600;color:#f4f0e8;line-height:1.2;margin-bottom:4px;}
+.sb-sub{font-family:'DM Mono',monospace;font-size:8px;
+  letter-spacing:0.1em;text-transform:uppercase;
+  color:rgba(168,213,188,0.45);line-height:1.6;}
+
+.sb-section{padding:14px 18px;border-bottom:1px solid var(--sidebar-border);}
+.sb-label{font-family:'DM Mono',monospace;font-size:8px;
+  letter-spacing:0.16em;text-transform:uppercase;
+  color:rgba(168,213,188,0.5);margin-bottom:8px;}
+.sb-select{
+  width:100%;background:#0d2a1a;border:1px solid var(--sidebar-border);
+  color:rgba(255,255,255,0.8);padding:7px 10px;font-size:12px;
+  font-family:'Jost',sans-serif;appearance:none;cursor:pointer;
+}
+.sb-select:focus{outline:1px solid var(--sector);}
+
+.type-buttons{display:flex;gap:6px;flex-wrap:wrap;}
+.type-btn{
+  font-family:'DM Mono',monospace;font-size:8px;
+  letter-spacing:0.1em;text-transform:uppercase;
+  padding:5px 10px;background:transparent;
+  border:1px solid rgba(168,213,188,0.25);
+  color:rgba(168,213,188,0.55);cursor:pointer;transition:all 0.15s;
+}
+.type-btn:hover,.type-btn.active{
+  background:rgba(26,107,66,0.3);
+  border-color:rgba(168,213,188,0.6);
+  color:rgba(168,213,188,1);
+}
+
+/* ── MINE DETAIL PANEL ── */
+#mine-detail{
+  padding:14px 18px;border-bottom:1px solid var(--sidebar-border);
+  display:none;
+}
+#mine-detail.visible{display:block;}
+.md-name{font-family:'Cormorant Garamond',serif;font-size:16px;
+  font-weight:600;font-style:italic;color:#f4f0e8;
+  line-height:1.2;margin-bottom:8px;}
+.md-row{display:flex;justify-content:space-between;align-items:baseline;
+  padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.05);}
+.md-row:last-of-type{border-bottom:none;}
+.md-key{font-family:'DM Mono',monospace;font-size:8px;
+  letter-spacing:0.1em;text-transform:uppercase;
+  color:rgba(168,213,188,0.45);}
+.md-val{font-size:12px;color:rgba(255,255,255,0.8);text-align:right;}
+.md-link{display:block;margin-top:10px;font-family:'DM Mono',monospace;
+  font-size:8px;letter-spacing:0.1em;text-transform:uppercase;
+  color:rgba(168,213,188,0.7);text-decoration:none;
+  border-bottom:1px solid rgba(168,213,188,0.25);
+  padding-bottom:2px;width:fit-content;}
+.md-link:hover{color:rgba(168,213,188,1);}
+
+/* ── STATS ── */
+#map-stats{
+  padding:10px 18px;font-family:'DM Mono',monospace;font-size:9px;
+  letter-spacing:0.08em;color:rgba(168,213,188,0.45);
+  border-bottom:1px solid var(--sidebar-border);
+}
+
+/* ── LEGEND ── */
+.legend-items{display:flex;flex-direction:column;gap:5px;}
+.legend-item{display:flex;align-items:center;gap:8px;font-size:12px;
+  color:rgba(255,255,255,0.65);}
+.legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.legend-sq{width:10px;height:10px;flex-shrink:0;}
+
+/* ── CLAIM LINKS ── */
+.claim-list{list-style:none;}
+.claim-list li{padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.05);}
+.claim-list li:last-child{border-bottom:none;}
+.claim-list a{font-size:12px;color:rgba(168,213,188,0.65);
+  text-decoration:none;}
+.claim-list a:hover{color:rgba(168,213,188,1);}
+.claim-note{font-size:11px;color:rgba(255,255,255,0.3);
+  margin-top:8px;line-height:1.5;}
+
+/* ── SOURCE ATTRIBUTION ── */
+.sb-source{padding:12px 18px;margin-top:auto;
+  font-family:'DM Mono',monospace;font-size:8px;
+  letter-spacing:0.08em;color:rgba(255,255,255,0.2);line-height:1.6;}
+.sb-source a{color:rgba(168,213,188,0.35);text-decoration:none;}
+
+/* ── MAP CONTAINER ── */
+#map-container{flex:1;position:relative;}
+#map{width:100%;height:100%;}
+
+/* ── LOADING OVERLAY ── */
+#map-loading{
+  position:absolute;top:0;left:0;right:0;bottom:0;
+  background:rgba(8,31,18,0.85);
+  display:flex;align-items:center;justify-content:center;
+  z-index:1000;flex-direction:column;gap:12px;
+}
+#map-loading.hidden{display:none;}
+.loading-spinner{
+  width:32px;height:32px;border:2px solid rgba(26,107,66,0.3);
+  border-top-color:var(--sector);border-radius:50%;
+  animation:spin 0.8s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg);}}
+.loading-msg{font-family:'DM Mono',monospace;font-size:9px;
+  letter-spacing:0.12em;text-transform:uppercase;
+  color:rgba(168,213,188,0.6);}
+
+/* ── MOBILE ── */
+@media(max-width:768px){
+  #map-sidebar{
+    position:absolute;bottom:0;left:0;right:0;
+    width:100%;height:220px;z-index:500;
+    border-right:none;border-top:1px solid var(--sidebar-border);
+  }
+  #map-area{flex-direction:column;}
+  .sb-header{padding:10px 14px 8px;}
+  .sector-subnav{padding:0 16px;}
+  html,body{overflow:auto;}
+  #page-wrapper{height:auto;}
+  #map-area{height:100vh;}
+}
+</style>
+</head>
+<body>
+<div id="page-wrapper">
+
+  <nav id="main-nav"></nav>
+
+  <div class="sector-subnav">
+    <div class="sector-subnav-inner">
+      <a href="/industries/critical-minerals/" class="sn-item back">
+        ← Critical Minerals</a>
+      <a href="/industries/critical-minerals/" class="sn-item">Overview</a>
+      <a href="/industries/critical-minerals/map/" class="sn-item"
+        style="color:#fff;border-bottom-color:var(--sector);">Mining Map</a>
+      <a href="/industries/agri-food/" class="sn-item">Agri-food</a>
+      <a href="/industries/advanced-manufacturing/"
+        class="sn-item">Advanced Manufacturing</a>
+      <a href="/industries/aerospace-defence/"
+        class="sn-item">Aerospace &amp; Defence</a>
+      <a href="/industries/energy-cleantech/"
+        class="sn-item">Energy &amp; Cleantech</a>
+      <a href="/industries/technology-digital/"
+        class="sn-item">Technology &amp; Digital</a>
+    </div>
+  </div>
+
+  <div id="map-area">
+
+    <!-- SIDEBAR -->
+    <div id="map-sidebar">
+      <div class="sb-header">
+        <div class="sb-title">Canadian Mining<br>Intelligence Map</div>
+        <div class="sb-sub">NRCan open data · OGL · Updated annually<br>
+          CTI intelligence layer in development</div>
+      </div>
+
+      <!-- STATS -->
+      <div id="map-stats">Loading sites...</div>
+
+      <!-- FILTER: MINERAL -->
+      <div class="sb-section">
+        <div class="sb-label">Filter by mineral</div>
+        <select id="filter-mineral" class="sb-select">
+          <option value="all">All minerals</option>
+          <option value="Uranium">Uranium</option>
+          <option value="Lithium">Lithium</option>
+          <option value="Nickel">Nickel</option>
+          <option value="Cobalt">Cobalt</option>
+          <option value="Copper">Copper</option>
+          <option value="Rare Earths">Rare Earths</option>
+          <option value="Gold">Gold</option>
+          <option value="Graphite">Graphite</option>
+          <option value="Zinc">Zinc</option>
+          <option value="Iron Ore">Iron Ore</option>
+        </select>
+      </div>
+
+      <!-- FILTER: TYPE -->
+      <div class="sb-section">
+        <div class="sb-label">Filter by type</div>
+        <div class="type-buttons">
+          <button class="type-btn active" data-type="all">All</button>
+          <button class="type-btn" data-type="Mine">Mines</button>
+          <button class="type-btn" data-type="Project">Projects</button>
+          <button class="type-btn"
+            data-type="Processing">Processing</button>
+        </div>
+      </div>
+
+      <!-- FILTER: PROVINCE -->
+      <div class="sb-section">
+        <div class="sb-label">Filter by province / territory</div>
+        <select id="filter-province" class="sb-select">
+          <option value="all">All regions</option>
+          <option value="BC">British Columbia</option>
+          <option value="AB">Alberta</option>
+          <option value="SK">Saskatchewan</option>
+          <option value="MB">Manitoba</option>
+          <option value="ON">Ontario</option>
+          <option value="QC">Quebec</option>
+          <option value="NL">Newfoundland &amp; Labrador</option>
+          <option value="NWT">Northwest Territories</option>
+          <option value="NU">Nunavut</option>
+          <option value="YT">Yukon</option>
+        </select>
+      </div>
+
+      <!-- MINE DETAIL (populated on click) -->
+      <div id="mine-detail" class="sb-section">
+        <div class="sb-label">Selected site</div>
+        <div id="mine-detail-content"></div>
+      </div>
+
+      <!-- LEGEND -->
+      <div class="sb-section">
+        <div class="sb-label">Legend</div>
+        <div class="legend-items">
+          <div class="legend-item">
+            <div class="legend-dot" style="background:#f0c060;"></div>
+            Uranium
+          </div>
+          <div class="legend-item">
+            <div class="legend-dot" style="background:#60b8f0;"></div>
+            Lithium
+          </div>
+          <div class="legend-item">
+            <div class="legend-dot" style="background:#80c880;"></div>
+            Nickel / Cobalt
+          </div>
+          <div class="legend-item">
+            <div class="legend-dot" style="background:#c090f0;"></div>
+            Rare Earths
+          </div>
+          <div class="legend-item">
+            <div class="legend-dot" style="background:#f0d040;"></div>
+            Gold
+          </div>
+          <div class="legend-item">
+            <div class="legend-dot" style="background:#f09040;"></div>
+            Copper
+          </div>
+          <div class="legend-item">
+            <div class="legend-dot" style="background:#909090;"></div>
+            Other / Multiple
+          </div>
+          <div class="legend-item">
+            <div class="legend-sq"
+              style="background:#ffffff;opacity:0.8;"></div>
+            Processing facility
+          </div>
+        </div>
+      </div>
+
+      <!-- CLAIM REGISTRIES -->
+      <div class="sb-section">
+        <div class="sb-label">Stake a mineral claim</div>
+        <ul class="claim-list">
+          <li><a href="https://www.mtonline.gov.bc.ca/" target="_blank"
+            rel="noopener">British Columbia — MTO Online →</a></li>
+          <li><a href="https://www.mndm.gov.on.ca/en/mines-and-minerals/applications/ogsrlicensing/applications/mineral-titles"
+            target="_blank" rel="noopener">Ontario — MLAS Registry →</a></li>
+          <li><a href="https://gestim.mines.gouv.qc.ca/" target="_blank"
+            rel="noopener">Quebec — GESTIM →</a></li>
+          <li><a href="https://www.saskatchewan.ca/business/agriculture-natural-resources-and-industry/mineral-exploration-and-mining/mineral-disposition"
+            target="_blank" rel="noopener">Saskatchewan →</a></li>
+          <li><a href="https://www.gov.mb.ca/iem/mineral/exploration/online_services.html"
+            target="_blank" rel="noopener">Manitoba →</a></li>
+          <li><a href="https://www.yukon.ca/en/doing-business/natural-resources-and-development/mining/staking-quartz-claim"
+            target="_blank" rel="noopener">Yukon →</a></li>
+          <li><a href="https://www.lands.gov.nt.ca/en/services/mineral-claims-and-leases"
+            target="_blank" rel="noopener">NWT →</a></li>
+        </ul>
+        <div class="claim-note">Claim boundaries are managed by provincial
+          and territorial registries. CTI links to each province's system.
+          Claim staking guides per province coming soon.</div>
+      </div>
+
+      <!-- SOURCE -->
+      <div class="sb-source">
+        Data: <a href="https://open.canada.ca/data/en/dataset/22b2db8a-dc12-47f2-9737-99d3da921751"
+          target="_blank" rel="noopener">NRCan Critical Minerals Dataset</a>
+        · Open Government Licence Canada<br>
+        <a href="https://open.canada.ca/data/en/dataset/000183ed-8864-42f0-ae43-c4313a860720"
+          target="_blank" rel="noopener">NRCan 900A Mines Dataset</a><br>
+        © 2026 Canadian Trade Intelligence Inc.
+      </div>
+    </div>
+
+    <!-- MAP -->
+    <div id="map-container">
+      <div id="map-loading">
+        <div class="loading-spinner"></div>
+        <div class="loading-msg">Loading Canadian mine data...</div>
+      </div>
+      <div id="map"></div>
+    </div>
+
+  </div>
+</div>
+
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js">
+</script>
+<script>
+(function() {
+
+  // ── Colour map by mineral keyword ────────────────────────────────
+  var COLOURS = {
+    'uranium':    '#f0c060',
+    'lithium':    '#60b8f0',
+    'nickel':     '#80c880',
+    'cobalt':     '#80c880',
+    'copper':     '#f09040',
+    'rare earth': '#c090f0',
+    'gold':       '#f0d040',
+    'graphite':   '#909090',
+    'zinc':       '#b0d080',
+    'iron':       '#c07050',
+    'chromite':   '#d06060',
+  };
+
+  function getColour(mineral) {
+    if (!mineral) return '#cccccc';
+    var m = mineral.toLowerCase();
+    for (var key in COLOURS) {
+      if (m.indexOf(key) !== -1) return COLOURS[key];
+    }
+    return '#cccccc';
+  }
+
+  function getRadius(type) {
+    if (!type) return 6;
+    var t = type.toLowerCase();
+    if (t === 'processing') return 9;
+    if (t === 'mine') return 7;
+    return 5;
+  }
+
+  // ── Static fallback dataset ──────────────────────────────────────
+  var STATIC_SITES = [
+    {name:"Cameco McArthur River",lat:57.78,lng:-105.20,
+      mineral:"Uranium",type:"Mine",province:"SK",
+      company:"Cameco",status:"Operating"},
+    {name:"Cameco Cigar Lake",lat:58.07,lng:-105.08,
+      mineral:"Uranium",type:"Mine",province:"SK",
+      company:"Cameco",status:"Operating"},
+    {name:"Cameco Key Lake Mill",lat:57.23,lng:-105.62,
+      mineral:"Uranium",type:"Processing",province:"SK",
+      company:"Cameco",status:"Operating"},
+    {name:"Vale Sudbury Operations",lat:46.49,lng:-80.99,
+      mineral:"Nickel/Cobalt",type:"Mine",province:"ON",
+      company:"Vale",status:"Operating"},
+    {name:"Glencore Sudbury",lat:46.38,lng:-81.01,
+      mineral:"Nickel/Cobalt",type:"Mine",province:"ON",
+      company:"Glencore",status:"Operating"},
+    {name:"Canada Nickel Crawford",lat:48.56,lng:-80.46,
+      mineral:"Nickel",type:"Project",province:"ON",
+      company:"Canada Nickel",status:"Development"},
+    {name:"Nouveau Monde Graphite",lat:46.61,lng:-74.83,
+      mineral:"Graphite",type:"Project",province:"QC",
+      company:"Nouveau Monde",status:"Development"},
+    {name:"Patriot Battery Metals Shaakichiuwaanaan",lat:49.78,lng:-76.69,
+      mineral:"Lithium",type:"Project",province:"QC",
+      company:"Patriot Battery Metals",status:"Exploration"},
+    {name:"Nemaska Lithium Whabouchi",lat:52.66,lng:-76.64,
+      mineral:"Lithium",type:"Project",province:"QC",
+      company:"Nemaska Lithium",status:"Development"},
+    {name:"Sayona Quebec Authier",lat:48.72,lng:-79.21,
+      mineral:"Lithium",type:"Project",province:"QC",
+      company:"Sayona",status:"Development"},
+    {name:"Mangrove Lithium Delta BC",lat:49.09,lng:-123.06,
+      mineral:"Lithium",type:"Processing",province:"BC",
+      company:"Mangrove Lithium",status:"Operating"},
+    {name:"Standard Lithium Lanxess",lat:33.22,lng:-92.67,
+      mineral:"Lithium",type:"Project",province:"BC",
+      company:"Standard Lithium",status:"Development"},
+    {name:"Teck Highland Valley Copper",lat:50.47,lng:-121.04,
+      mineral:"Copper",type:"Mine",province:"BC",
+      company:"Teck",status:"Operating"},
+    {name:"First Quantum Ravensthorpe BC",lat:48.61,lng:-89.25,
+      mineral:"Nickel",type:"Project",province:"ON",
+      company:"First Quantum",status:"Development"},
+    {name:"Appia Rare Earths Alces Lake",lat:58.48,lng:-107.48,
+      mineral:"Rare Earths",type:"Project",province:"SK",
+      company:"Appia Rare Earths",status:"Exploration"},
+    {name:"Vital Metals Nechalacho",lat:62.93,lng:-113.54,
+      mineral:"Rare Earths",type:"Mine",province:"NWT",
+      company:"Vital Metals",status:"Care/Maintenance"},
+    {name:"SRC Rare Earth Separation Saskatoon",lat:52.13,lng:-106.67,
+      mineral:"Rare Earths",type:"Processing",province:"SK",
+      company:"SRC",status:"Operating"},
+    {name:"First Cobalt Ontario Refinery",lat:47.39,lng:-79.68,
+      mineral:"Cobalt",type:"Processing",province:"ON",
+      company:"First Cobalt",status:"Care/Maintenance"},
+    {name:"Agnico Eagle Detour Lake",lat:50.07,lng:-79.70,
+      mineral:"Gold",type:"Mine",province:"ON",
+      company:"Agnico Eagle",status:"Operating"},
+    {name:"Agnico Eagle Meliadine",lat:62.84,lng:-92.08,
+      mineral:"Gold",type:"Mine",province:"NU",
+      company:"Agnico Eagle",status:"Operating"},
+    {name:"Agnico Eagle Hope Bay",lat:68.17,lng:-105.15,
+      mineral:"Gold",type:"Mine",province:"NU",
+      company:"Agnico Eagle",status:"Care/Maintenance"},
+    {name:"B2Gold Back River",lat:68.28,lng:-104.43,
+      mineral:"Gold",type:"Mine",province:"NU",
+      company:"B2Gold",status:"Construction"},
+    {name:"Barrick Gold Hemlo",lat:48.71,lng:-86.09,
+      mineral:"Gold",type:"Mine",province:"ON",
+      company:"Barrick",status:"Operating"},
+    {name:"Glencore Raglan Nickel",lat:61.69,lng:-73.67,
+      mineral:"Nickel",type:"Mine",province:"QC",
+      company:"Glencore",status:"Operating"},
+    {name:"Rio Tinto IOC Labrador City",lat:52.94,lng:-66.91,
+      mineral:"Iron Ore",type:"Mine",province:"NL",
+      company:"Rio Tinto",status:"Operating"},
+    {name:"Noront Eagle's Nest Ring of Fire",lat:52.71,lng:-86.93,
+      mineral:"Nickel/Chromite",type:"Project",province:"ON",
+      company:"Wyloo Metals",status:"Permitting"},
+    {name:"Frontier Lithium PAK",lat:50.17,lng:-93.04,
+      mineral:"Lithium",type:"Project",province:"ON",
+      company:"Frontier Lithium",status:"Development"},
+    {name:"Hudbay Lalor Mine",lat:54.82,lng:-101.22,
+      mineral:"Zinc/Copper",type:"Mine",province:"MB",
+      company:"Hudbay",status:"Operating"},
+    {name:"Teck Fording River",lat:50.08,lng:-114.85,
+      mineral:"Coal",type:"Mine",province:"BC",
+      company:"Teck",status:"Operating"},
+    {name:"Agnico Eagle Meadowbank",lat:65.03,lng:-97.99,
+      mineral:"Gold",type:"Mine",province:"NU",
+      company:"Agnico Eagle",status:"Operating"},
+    {name:"Teck Carmen de Andacollo",lat:29.97,lng:-71.08,
+      mineral:"Copper",type:"Mine",province:"BC",
+      company:"Teck",status:"Operating"}
+  ];
+
+  // ── State ─────────────────────────────────────────────────────────
+  var allMarkers = [];
+  var map;
+  var activeFilters = { mineral: 'all', type: 'all', province: 'all' };
+
+  // ── Marker matching mineral keyword ─────────────────────────────
+  function mineralMatch(siteMineral, filterVal) {
+    if (filterVal === 'all') return true;
+    if (!siteMineral) return false;
+    return siteMineral.toLowerCase()
+      .indexOf(filterVal.toLowerCase()) !== -1;
+  }
+
+  // ── Apply filters ────────────────────────────────────────────────
+  function applyFilters() {
+    var visible = 0;
+    allMarkers.forEach(function(m) {
+      var s = m.siteData;
+      var show =
+        mineralMatch(s.mineral, activeFilters.mineral) &&
+        (activeFilters.type === 'all' ||
+          (s.type || '').toLowerCase() ===
+          activeFilters.type.toLowerCase()) &&
+        (activeFilters.province === 'all' ||
+          s.province === activeFilters.province);
+      if (show) { m.addTo(map); visible++; }
+      else { m.remove(); }
+    });
+    document.getElementById('map-stats').textContent =
+      visible + ' sites shown of ' + allMarkers.length + ' total';
+  }
+
+  // ── Show mine detail in sidebar ──────────────────────────────────
+  function showDetail(s) {
+    var panel = document.getElementById('mine-detail');
+    var content = document.getElementById('mine-detail-content');
+    content.innerHTML =
+      '<div class="md-name">' + s.name + '</div>' +
+      '<div class="md-row"><span class="md-key">Mineral</span>' +
+        '<span class="md-val">' + (s.mineral || '—') + '</span></div>' +
+      '<div class="md-row"><span class="md-key">Type</span>' +
+        '<span class="md-val">' + (s.type || '—') + '</span></div>' +
+      '<div class="md-row"><span class="md-key">Company</span>' +
+        '<span class="md-val">' + (s.company || '—') + '</span></div>' +
+      '<div class="md-row"><span class="md-key">Province</span>' +
+        '<span class="md-val">' + (s.province || '—') + '</span></div>' +
+      '<div class="md-row"><span class="md-key">Status</span>' +
+        '<span class="md-val">' + (s.status || '—') + '</span></div>' +
+      '<a href="/industries/critical-minerals/" class="md-link">' +
+        'Read CTI intelligence →</a>';
+    panel.classList.add('visible');
+    panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  // ── Create marker for a site ─────────────────────────────────────
+  function createMarker(s) {
+    var colour = getColour(s.mineral);
+    var radius = getRadius(s.type);
+    var isProcessing =
+      s.type && s.type.toLowerCase() === 'processing';
+    var marker;
+    if (isProcessing) {
+      var icon = L.divIcon({
+        className: '',
+        html: '<div style="width:12px;height:12px;background:' +
+          colour + ';border:1px solid rgba(0,0,0,0.4);' +
+          'opacity:0.9;"></div>',
+        iconSize: [12, 12],
+        iconAnchor: [6, 6],
+      });
+      marker = L.marker([s.lat, s.lng], { icon: icon });
+    } else {
+      marker = L.circleMarker([s.lat, s.lng], {
+        radius: radius,
+        fillColor: colour,
+        color: 'rgba(0,0,0,0.35)',
+        weight: 1,
+        fillOpacity: 0.85,
+      });
+    }
+    marker.siteData = s;
+    marker.bindPopup(
+      '<strong style="font-size:13px;">' + s.name + '</strong><br>' +
+      '<span style="font-size:11px;color:#555;">' +
+        (s.mineral || '') + ' · ' + (s.type || '') +
+        ' · ' + (s.province || '') + '</span><br>' +
+      '<span style="font-size:11px;">' + (s.status || '') +
+        '</span><br>' +
+      (s.company
+        ? '<span style="font-size:11px;color:#777;">' +
+          s.company + '</span><br>'
+        : '') +
+      '<a href="/industries/critical-minerals/" ' +
+        'style="font-size:11px;color:#1a6b42;">' +
+        'CTI intelligence →</a>',
+      { maxWidth: 220 }
+    );
+    marker.on('click', function() { showDetail(s); });
+    return marker;
+  }
+
+  // ── Render all sites ─────────────────────────────────────────────
+  function renderSites(sites) {
+    allMarkers.forEach(function(m) { m.remove(); });
+    allMarkers = [];
+    sites.forEach(function(s) {
+      if (!s.lat || !s.lng) return;
+      var m = createMarker(s);
+      allMarkers.push(m);
+      m.addTo(map);
+    });
+    document.getElementById('map-stats').textContent =
+      allMarkers.length + ' sites loaded';
+    document.getElementById('map-loading').classList.add('hidden');
+    applyFilters();
+  }
+
+  // ── Parse NRCan GeoJSON feature to site object ───────────────────
+  function parseFeature(f) {
+    var p = f.properties || {};
+    var coords = f.geometry && f.geometry.coordinates;
+    if (!coords) return null;
+    return {
+      name: p.NAME_E || p.name || p.SiteName || p.SITE_NAME || 'Unknown',
+      lat: coords[1],
+      lng: coords[0],
+      mineral: p.COMMODITY_E || p.commodity || p.Commodity || '',
+      type: p.CATEGORY_E || p.category || p.Category || 'Site',
+      province: p.PROVINCE_E || p.province || p.Province || '',
+      company: p.COMPANY || p.company || p.Company || '',
+      status: p.STATUS_E || p.status || p.Status || '',
+    };
+  }
+
+  // ── Load NRCan API or fall back to static data ───────────────────
+  function loadData() {
+    var apiUrl =
+      'https://maps-cartes.services.geo.ca/server_serveur/rest/' +
+      'services/NRCan/critical_minerals_en/MapServer/0/query' +
+      '?where=1%3D1&outFields=*&f=geojson&resultRecordCount=500';
+    fetch(apiUrl)
+      .then(function(r) {
+        if (!r.ok) throw new Error('API error ' + r.status);
+        return r.json();
+      })
+      .then(function(geojson) {
+        var features = (geojson.features || []);
+        if (features.length === 0) throw new Error('No features');
+        var sites = features
+          .map(parseFeature)
+          .filter(function(s) { return s && s.lat && s.lng; });
+        console.log('NRCan API: ' + sites.length + ' sites loaded');
+        renderSites(sites);
+      })
+      .catch(function(err) {
+        console.warn('NRCan API failed (' + err.message +
+          '), using static data');
+        renderSites(STATIC_SITES);
+      });
+  }
+
+  // ── Init ─────────────────────────────────────────────────────────
+  document.addEventListener('DOMContentLoaded', function() {
+    map = L.map('map', {
+      center: [60, -96],
+      zoom: 4,
+      zoomControl: true,
+      attributionControl: true,
+    });
+
+    L.tileLayer(
+      'https://cartodb-basemaps-{s}.global.ssl.fastly.net/' +
+      'dark_all/{z}/{x}/{y}.png',
+      {
+        attribution:
+          '© <a href="https://openstreetmap.org">OpenStreetMap</a>' +
+          ' contributors © <a href="https://carto.com">CARTO</a>',
+        subdomains: 'abcd',
+        maxZoom: 18,
+      }
+    ).addTo(map);
+
+    // ── Filter wiring ─────────────────────────────────────────────
+    document.getElementById('filter-mineral')
+      .addEventListener('change', function() {
+        activeFilters.mineral = this.value;
+        applyFilters();
+      });
+
+    document.getElementById('filter-province')
+      .addEventListener('change', function() {
+        activeFilters.province = this.value;
+        applyFilters();
+      });
+
+    document.querySelectorAll('.type-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.type-btn')
+          .forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        activeFilters.type = btn.dataset.type;
+        applyFilters();
+      });
+    });
+
+    loadData();
+  });
+
+})();
+</script>
+</body>
+</html>
