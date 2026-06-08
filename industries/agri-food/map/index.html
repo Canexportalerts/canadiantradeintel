@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Canada's Food Economy Map — Canadian Trade Intelligence</title>
+<meta name="description" content="Interactive map of Canada's agri-food economy — what we grow, what we catch, and how we process and export it.">
+<script src="/nav.js" defer></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<style>
+:root {
+  --brand:    #7a1c1c;
+  --gold:     #8b6914;
+  --gold-lt:  #f5edd8;
+  --ink:      #1a1a10;
+  --ink-mid:  #3a3a2e;
+  --ink-lt:   #6b6b58;
+  --cream:    #f7f4ee;
+  --cream-dk: #ede9df;
+  --rule:     #d4cfc4;
+  --ocean:    #1a3a4a;
+  --field:    #3d4a1e;
+  --white:    #ffffff;
+
+  --c-grow:   #8b6914;
+  --c-catch:  #1a5a7a;
+  --c-proc:   #7a1c1c;
+  --c-tech:   #2e6b3e;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--ink); display: flex; flex-direction: column; }
+
+/* ── MASTHEAD ── */
+.masthead {
+  background: var(--field);
+  padding: 20px 32px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-shrink: 0;
+}
+.masthead-left { display: flex; align-items: center; gap: 16px; }
+.masthead-back {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.15s;
+}
+.masthead-back:hover { color: rgba(255,255,255,0.8); }
+.masthead-divider { width: 1px; height: 18px; background: rgba(255,255,255,0.15); }
+.masthead-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-weight: 400;
+  color: #f5f0e8;
+}
+.masthead-sub {
+  font-size: 12px;
+  color: rgba(255,255,255,0.4);
+  margin-top: 2px;
+}
+.masthead-right {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: rgba(255,255,255,0.35);
+}
+
+/* ── CONTROLS BAR ── */
+.controls-bar {
+  background: var(--white);
+  border-bottom: 1px solid var(--rule);
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+}
+.controls-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-lt);
+  margin-right: 4px;
+}
+.layer-btn {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 14px;
+  border: 1px solid var(--rule);
+  background: var(--white);
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-lt);
+  cursor: pointer;
+  transition: all 0.18s;
+  border-radius: 2px;
+}
+.layer-btn .dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.layer-btn.active { border-color: transparent; color: var(--white); }
+.layer-btn.active.grow   { background: var(--c-grow); }
+.layer-btn.active.catch  { background: var(--c-catch); }
+.layer-btn.active.proc   { background: var(--c-proc); }
+.layer-btn.active.tech   { background: var(--c-tech); }
+.controls-sep { width: 1px; height: 20px; background: var(--rule); margin: 0 4px; }
+.province-select {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  color: var(--ink-mid);
+  border: 1px solid var(--rule);
+  background: var(--white);
+  padding: 6px 10px;
+  border-radius: 2px;
+  cursor: pointer;
+}
+.result-count {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  color: var(--ink-lt);
+  margin-left: auto;
+}
+
+/* ── MAP LAYOUT ── */
+.map-container {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+  position: relative;
+}
+#map {
+  flex: 1;
+  min-height: 0;
+}
+
+/* ── DETAIL PANEL ── */
+.detail-panel {
+  width: 300px;
+  flex-shrink: 0;
+  background: var(--white);
+  border-left: 1px solid var(--rule);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.panel-header {
+  padding: 20px 20px 14px;
+  border-bottom: 1px solid var(--rule);
+  background: var(--cream);
+}
+.panel-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--brand);
+  margin-bottom: 6px;
+}
+.panel-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 17px;
+  font-weight: 400;
+  color: var(--ink);
+  line-height: 1.25;
+}
+.panel-body {
+  padding: 16px 20px;
+  overflow-y: auto;
+  flex: 1;
+}
+.panel-field {
+  margin-bottom: 14px;
+}
+.panel-field-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-lt);
+  margin-bottom: 4px;
+}
+.panel-field-value {
+  font-size: 13px;
+  color: var(--ink-mid);
+  line-height: 1.65;
+}
+.panel-signal {
+  background: var(--gold-lt);
+  border-left: 3px solid var(--gold);
+  padding: 12px 14px;
+  margin-top: 4px;
+}
+.panel-signal-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 7px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 5px;
+}
+.panel-signal-text {
+  font-size: 12px;
+  color: #5a4000;
+  line-height: 1.6;
+}
+.panel-placeholder {
+  padding: 32px 20px;
+  text-align: center;
+}
+.panel-placeholder-icon { font-size: 32px; margin-bottom: 12px; opacity: 0.3; }
+.panel-placeholder-text {
+  font-size: 13px;
+  color: var(--ink-lt);
+  line-height: 1.65;
+}
+.panel-link {
+  display: inline-block;
+  margin-top: 14px;
+  font-family: 'DM Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--brand);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(122,28,28,0.3);
+  padding-bottom: 2px;
+}
+.panel-link:hover { border-bottom-color: var(--brand); }
+.type-badge {
+  display: inline-block;
+  font-family: 'DM Mono', monospace;
+  font-size: 7px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 2px;
+  margin-top: 6px;
+}
+.badge-grow    { background: rgba(139,105,20,0.12); color: var(--c-grow); }
+.badge-catch   { background: rgba(26,90,122,0.12); color: var(--c-catch); }
+.badge-proc    { background: rgba(122,28,28,0.12); color: var(--c-proc); }
+.badge-tech    { background: rgba(46,107,62,0.12); color: var(--c-tech); }
+.badge-export  { background: rgba(122,28,28,0.08); color: var(--brand); }
+.badge-term    { background: rgba(60,60,40,0.08); color: var(--ink-mid); }
+
+/* ── LEGEND ── */
+.legend-box {
+  position: absolute;
+  bottom: 28px;
+  left: 12px;
+  background: rgba(255,255,255,0.95);
+  border: 1px solid var(--rule);
+  padding: 12px 14px;
+  z-index: 1000;
+  min-width: 160px;
+}
+.legend-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-lt);
+  margin-bottom: 8px;
+}
+.legend-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 5px;
+  font-size: 11px;
+  color: var(--ink-mid);
+}
+.legend-row:last-child { margin-bottom: 0; }
+.legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.legend-rect { width: 10px; height: 10px; flex-shrink: 0; border-radius: 1px; }
+.legend-diamond {
+  width: 9px; height: 9px;
+  background: var(--c-proc);
+  transform: rotate(45deg);
+  flex-shrink: 0;
+  border-radius: 1px;
+}
+
+/* ── LEAFLET OVERRIDES ── */
+.leaflet-popup-content-wrapper {
+  border-radius: 2px;
+  border: 1px solid var(--rule);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+  font-family: 'DM Sans', sans-serif;
+}
+.leaflet-popup-content {
+  margin: 0;
+  font-size: 13px;
+  color: var(--ink-mid);
+}
+.popup-inner { padding: 14px 16px; min-width: 200px; max-width: 260px; }
+.popup-cat {
+  font-family: 'DM Mono', monospace;
+  font-size: 7px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--brand);
+  margin-bottom: 5px;
+}
+.popup-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+.popup-stat {
+  font-size: 12px;
+  color: var(--ink-mid);
+  line-height: 1.6;
+}
+.popup-signal {
+  background: var(--gold-lt);
+  border-left: 2px solid var(--gold);
+  padding: 7px 10px;
+  margin-top: 8px;
+  font-size: 11px;
+  color: #5a4000;
+  line-height: 1.55;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 700px) {
+  .detail-panel { display: none; }
+  .controls-bar { gap: 4px; }
+  .layer-btn { padding: 5px 10px; font-size: 8px; }
+  .masthead { padding: 14px 16px; }
+  .masthead-right { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div id="nav-placeholder"></div>
+
+<!-- MASTHEAD -->
+<div class="masthead">
+  <div class="masthead-left">
+    <a class="masthead-back" href="/industries/agri-food/">← Agri-food Hub</a>
+    <div class="masthead-divider"></div>
+    <div>
+      <div class="masthead-title">Canada's Food Economy Map</div>
+      <div class="masthead-sub">What we grow, what we catch, how we process and export it</div>
+    </div>
+  </div>
+  <div class="masthead-right">Canadian Trade Intelligence Inc. · Updated weekly</div>
+</div>
+
+<!-- CONTROLS BAR -->
+<div class="controls-bar">
+  <span class="controls-label">Layers</span>
+  <button class="layer-btn active grow" id="btn-grow" onclick="toggleLayer('grow')">
+    <span class="dot" style="background:#d4bc7a;"></span> What we grow
+  </button>
+  <button class="layer-btn active catch" id="btn-catch" onclick="toggleLayer('catch')">
+    <span class="dot" style="background:#7ab8cc;"></span> What we catch
+  </button>
+  <button class="layer-btn active proc" id="btn-proc" onclick="toggleLayer('proc')">
+    <span class="dot" style="background:#c88;"></span> Processing &amp; export
+  </button>
+  <button class="layer-btn active tech" id="btn-tech" onclick="toggleLayer('tech')">
+    <span class="dot" style="background:#8db;"></span> Food tech
+  </button>
+  <div class="controls-sep"></div>
+  <select class="province-select" id="province-filter" onchange="filterProvince(this.value)">
+    <option value="">All provinces</option>
+    <option>British Columbia</option>
+    <option>Alberta</option>
+    <option>Saskatchewan</option>
+    <option>Manitoba</option>
+    <option>Ontario</option>
+    <option>Quebec</option>
+    <option>New Brunswick</option>
+    <option>Nova Scotia</option>
+    <option>Prince Edward Island</option>
+    <option>Newfoundland and Labrador</option>
+  </select>
+  <span class="result-count" id="result-count">Loading map…</span>
+</div>
+
+<!-- MAP + PANEL -->
+<div class="map-container">
+  <div id="map"></div>
+
+  <!-- LEGEND -->
+  <div class="legend-box">
+    <div class="legend-title">Legend</div>
+    <div class="legend-row"><div class="legend-rect" style="background:rgba(139,105,20,0.35);border:1px solid #8b6914;"></div>Crop region</div>
+    <div class="legend-row"><div class="legend-rect" style="background:rgba(26,90,122,0.35);border:1px solid #1a5a7a;"></div>Fishing zone</div>
+    <div class="legend-row"><div class="legend-dot" style="background:#7a1c1c;"></div>Processing facility</div>
+    <div class="legend-row"><div class="legend-dot" style="background:#4a3a80;"></div>Export terminal</div>
+    <div class="legend-row"><div class="legend-dot" style="background:#2e6b3e;"></div>Food tech / industry</div>
+  </div>
+
+  <!-- DETAIL PANEL -->
+  <div class="detail-panel" id="detail-panel">
+    <div id="panel-content">
+      <div class="panel-placeholder">
+        <div class="panel-placeholder-icon">🗺</div>
+        <div class="panel-placeholder-text">Click any region or marker to see intelligence on that part of Canada's food economy.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
+<script>
+/* ════════════════════════════════════════════
+   DATA LAYER 1 — PROVINCES (crop regions)
+════════════════════════════════════════════ */
+const PROVINCE_DATA = {
+  "British Columbia":         { primary:"Seafood, tree fruit, dairy", color:"#1a5a7a", opacity:0.28, stats:"Pacific salmon, halibut, geoduck. Okanagan tree fruit, BC wine. Farmed salmon phase-out 2029.", signal:"BC salmon ban confirmed 2029. Land-based aquaculture opportunity open. Ocean Supercluster targeting $220B by 2035." },
+  "Alberta":                  { primary:"Canola, beef, wheat", color:"#8b6914", opacity:0.32, stats:"50M+ cattle feeding capacity. Major canola producer. Significant pulse and specialty crop output. Biotech-permissive regulatory environment.", signal:"Beef sector watching US market access under CUSMA 2026 joint review." },
+  "Saskatchewan":             { primary:"Canola, wheat, pulses", color:"#8b6914", opacity:0.45, stats:"33M+ acres farmland. 25–30% of global traded durum wheat. 65% of India's lentil supply. Canada's most export-intensive agricultural province.", signal:"Canola bullish — futures +8.8% month. CWRS wheat premium sustained by Kansas drought (32% good/excellent rating)." },
+  "Manitoba":                 { primary:"Canola, wheat, pork", color:"#8b6914", opacity:0.36, stats:"Canola and grain heartland. Major hog production. Winnipeg is Canada's grain trading and elevator hub.", signal:"Pulse export season active. Richardson International and Viterra major buyer contacts this week." },
+  "Ontario":                  { primary:"Corn, soy, dairy, tender fruit", color:"#4a7a2e", opacity:0.28, stats:"Canada's most diverse agricultural province. Niagara tender fruit, Holland Marsh vegetables, Ontario dairy under supply management.", signal:"Food tech investment active — precision fermentation clusters in Waterloo-Guelph corridor. ISED Clean Agri-Food Program open." },
+  "Quebec":                   { primary:"Dairy, maple, pork, vegetables", color:"#4a7a2e", opacity:0.28, stats:"80%+ of Canada's maple syrup production. Strong supply-managed dairy sector. CPTAQ restricts agricultural land conversion.", signal:"Maple syrup exports growing under CETA. Dairy quota values under CUSMA review pressure." },
+  "New Brunswick":            { primary:"Lobster, potatoes, blueberries", color:"#1a5a7a", opacity:0.32, stats:"Major lobster and crab harvesting. McCain Foods potato processing headquarters. Significant US potato export relationship.", signal:"US potato market access a recurring tension under CUSMA. McCain Foods major export presence." },
+  "Nova Scotia":              { primary:"Lobster, seafood, blueberries", color:"#1a5a7a", opacity:0.38, stats:"Canada's largest lobster landing province by volume. Wild blueberries. NS processors are the value-add frontier for Atlantic seafood.", signal:"Lobster season open. US market dominant for live product. CETA EU channel underutilized by NS processors." },
+  "Prince Edward Island":     { primary:"Potatoes, lobster, mussels", color:"#1a5a7a", opacity:0.34, stats:"Canada's most agriculture-intensive province per capita. Strictest foreign farmland ownership rules nationally (1,000 acre cap). Lobster and mussel aquaculture.", signal:"Potato US market access under watch. Land Protection Act — strictest farmland ownership rules in Canada." },
+  "Newfoundland and Labrador":{ primary:"Snow crab, cod, shrimp", color:"#1a5a7a", opacity:0.38, stats:"Snow crab is the dominant export. Northern cod in contested recovery — quota doubled 2025 vs. DFO science advice. NL offshore fishing fleet.", signal:"Snow crab 2026 TAC set by Minister Thompson. Cod quota politically doubled vs. DFO science — 71% decline probability within 3 years." },
+};
+
+/* ════════════════════════════════════════════
+   DATA LAYER 2 — FISHING ZONES (polygons)
+   Approximate bounding boxes for major zones
+════════════════════════════════════════════ */
+const FISHING_ZONES = [
+  {
+    name:"Gulf of St. Lawrence",
+    bounds:[[45.5,-68.0],[50.5,-56.0]],
+    center:[47.8,-62.5],
+    species:"Snow crab, lobster, mackerel, herring",
+    tac:"Major snow crab grounds. LFAs 22-26 lobster zones. Capelin spawning area.",
+    export:"Japan (crab), EU (CETA seafood), US (lobster)",
+    signal:"2026 snow crab TAC set. Gulf lobster season open — LFAs 22-26."
+  },
+  {
+    name:"Scotian Shelf (SW Nova Scotia)",
+    bounds:[[42.5,-67.5],[45.5,-59.5]],
+    center:[43.8,-64.2],
+    species:"Lobster LFA 27-34, groundfish, scallop",
+    tac:"Highest-value lobster LFAs in Canada. SW NS is the epicentre. Digby scallop.",
+    export:"US (80%+ live lobster), EU (CETA), China",
+    signal:"Lobster season open — LFA 34 SW NS is peak harvest. US live lobster market dominant."
+  },
+  {
+    name:"Grand Banks & NL Offshore",
+    bounds:[[43.0,-57.0],[50.5,-45.0]],
+    center:[46.5,-51.0],
+    species:"Snow crab, cod, halibut, shrimp, turbot",
+    tac:"NAFO-managed offshore fisheries. Northern cod quota doubled 2025 vs. DFO science recommendation.",
+    export:"EU (CETA — crab and groundfish), Japan (crab), US",
+    signal:"Snow crab TAC active. Northern cod watch: DFO assessment shows 71% probability of stock decline within 3 years despite increased quota."
+  },
+  {
+    name:"NL Inshore (Northeast Coast)",
+    bounds:[[47.5,-57.0],[52.0,-52.0]],
+    center:[49.5,-55.0],
+    species:"Snow crab, shrimp, cod, turbot",
+    tac:"Inshore crab fleet. Shrimp in managed decline as cod recovers. Marshall Decision rights active.",
+    export:"Japan, EU under CETA",
+    signal:"Marshall community landings: $191M+ annually but vertical integration to processing still constrained."
+  },
+  {
+    name:"Pacific Coast (BC)",
+    bounds:[[48.3,-133.0],[56.0,-123.0]],
+    center:[51.5,-127.5],
+    species:"Pacific salmon, halibut, geoduck, sea urchin, dungeness crab",
+    tac:"Wild salmon under climate pressure. Farmed salmon phase-out 2029 (Federal Court confirmed). First Nations co-governance active.",
+    export:"Japan (CPTPP — halibut, salmon, sea urchin), US, China",
+    signal:"BC salmon phase-out 2029 confirmed. Land-based aquaculture transition opportunity. Haida Gwaii herring rebuilding via IKS co-governance."
+  },
+  {
+    name:"Arctic & Labrador",
+    bounds:[[57.0,-95.0],[73.0,-60.0]],
+    center:[65.0,-78.0],
+    species:"Arctic char, turbot, shrimp, narwhal (Inuit harvest)",
+    tac:"DFO + Qikiqtani Inuit Association co-developing Nunavut Fishery Regulations. Highest climate vulnerability of any Canadian fishery.",
+    export:"Limited commercial — subsistence and community food security priority",
+    signal:"Nunavut Fishery Regulations in co-development 2026. Climate warming accelerating northward species shift — Inuit communities most exposed."
+  },
+];
+
+/* ════════════════════════════════════════════
+   DATA LAYER 3 — FACILITIES (point markers)
+════════════════════════════════════════════ */
+const FACILITIES = [
+  {name:"Cargill Canola Crush — Regina SK",      lat:50.45, lng:-104.62, type:"proc",   badge:"Processing",  commodity:"Canola",     note:"1M tonne annual capacity. Operational April 2026. Most significant new canola crush since China SAMR restrictions. Doubles domestic processing footprint.", signal:"Farmgate pricing benchmark shifting from ICE raw seed export to crush-margin economics. Regina catchment canola growers should benchmark this facility's bid vs. raw export price."},
+  {name:"Richardson International — Winnipeg",   lat:49.88, lng:-97.14,  type:"export", badge:"Exporter",    commodity:"Grain, Oilseeds", note:"Canada's largest domestically owned agri-food company. Major grain elevator and Prairie network.", signal:"Active forward contract desk for CWRS wheat — contact for locking premium before June WASDE."},
+  {name:"Viterra — Regina",                      lat:50.48, lng:-104.60, type:"export", badge:"Exporter",    commodity:"Grain, Canola", note:"Global grain trader. Acquired by Glencore/Bunge. Major Prairie elevator network.", signal:"Active buyer for canola under EU CETA channel. Viterra EU relationships are established."},
+  {name:"G3 Global Grain — Winnipeg",            lat:49.90, lng:-97.12,  type:"export", badge:"Exporter",    commodity:"Grain",       note:"SALIC (Saudi Agricultural) + Bunge joint venture. Prairie grain procurement for Saudi food security.", signal:"Active this week for CWRS forward contracts — contact before June WASDE moves prices."},
+  {name:"Nutrien — Vanscoy Potash Mine",         lat:52.03, lng:-107.05, type:"proc",   badge:"Processing",  commodity:"Potash",      note:"World's largest potash producer — Nutrien SK mines supply approx. 20% of global potash. Vanscoy mine.", signal:"Nutrien 2026 guidance: 14.1-14.8M tonne potash sales. Strong fundamentals. Input cost signal for farmers."},
+  {name:"Nutrien — Allan Potash Mine",           lat:51.77, lng:-105.77, type:"proc",   badge:"Processing",  commodity:"Potash",      note:"Major Saskatchewan potash mine. Part of Nutrien's SK potash complex.", signal:"Potash tight market fundamentals support higher input costs — build this into farm-gate margin calculations."},
+  {name:"Port of Vancouver (Grain Terminals)",   lat:49.29, lng:-123.11, type:"terminal",badge:"Terminal",   commodity:"Grain, Canola, Pulses", note:"Canada's largest grain export gateway. ~$15B annual agri-food throughput. Roberts Bank Terminal 2 expansion.", signal:"Roberts Bank Terminal 2 MOU signed April 2026. Final Fisheries Act authorization expected October 2026 — build delivery buffer into EU and Asian contracts until confirmed."},
+  {name:"Port of Prince Rupert (Ridley Grain)", lat:54.32, lng:-130.32, type:"terminal",badge:"Terminal",    commodity:"Grain",       note:"Second-largest grain export port. Closer to Asian markets than Vancouver. Growing capacity.", signal:"Prince Rupert expansion signals long-term agri-food export capacity growth for Pacific basin markets."},
+  {name:"Port of Thunder Bay",                   lat:48.38, lng:-89.25,  type:"terminal",badge:"Terminal",   commodity:"Grain",       note:"Major Great Lakes grain port. CP and CN rail connection. St. Lawrence Seaway access.", signal:"Eastern grain corridor capacity. Important for Ontario and Quebec grain export flows."},
+  {name:"Port of Saint John (Irving)",           lat:45.27, lng:-66.06,  type:"terminal",badge:"Terminal",   commodity:"Grain, Seafood", note:"Atlantic Canada's main cargo port. Grain and agri-food export capacity.", signal:"Atlantic gateway for Maritime agri-food. Lobster and seafood container export access."},
+  {name:"McCain Foods — Florenceville-Bristol NB",lat:46.44,lng:-67.62, type:"proc",   badge:"Processing",  commodity:"Potatoes",    note:"World's largest french fry producer. NB headquarters. Major US and global exporter.", signal:"US potato market access a recurring CUSMA tension. McCain Foods global supply chain spans 160+ countries."},
+  {name:"Maple Leaf Foods — Brandon MB",         lat:49.85, lng:-99.95,  type:"proc",   badge:"Processing",  commodity:"Pork",        note:"Canada's largest pork processing facility. Major US and Asian exporter under CETA and CPTPP.", signal:"Pork sector watching US tariff environment under CUSMA review. Domestic foodservice contraction shifting exports."},
+  {name:"Lobster Processing Hub — Yarmouth NS",  lat:43.83, lng:-66.12,  type:"proc",   badge:"Processing",  commodity:"Lobster",     note:"Core SW NS lobster LFA 34 processing region. Primary live lobster export origin to US.", signal:"Lobster season open. US live lobster market dominant. CETA EU channel for processed product underutilized by SW NS processors."},
+  {name:"Snow Crab Processing — Marystown NL",   lat:47.17, lng:-55.15,  type:"proc",   badge:"Processing",  commodity:"Snow Crab",   note:"Major NL snow crab processing hub. Key export to Japan and EU under CETA.", signal:"2026 TAC set. Snow crab is NL's highest-value export fishery. Japan and EU are the primary premium markets under CPTPP and CETA."},
+  {name:"Pacific Seafood — Delta BC",            lat:49.08, lng:-123.07, type:"terminal",badge:"Terminal",   commodity:"Pacific Seafood", note:"Salmon, halibut, geoduck export gateway. Japan primary destination under CPTPP.", signal:"BC farmed salmon phase-out 2029 — wild Pacific seafood export volumes will need to compensate. Land-based systems in development."},
+  {name:"Protein Industries Canada — Saskatoon", lat:52.13, lng:-106.67, type:"tech",   badge:"Food Tech",   commodity:"Pulse Protein", note:"Federal supercluster for plant-based protein. Coordinating pulse protein extraction investment across SK.", signal:"Pulse protein infrastructure investment active — Saskatchewan is building the ingredient supply chain for global alt-protein brands."},
+  {name:"JBS Canada — Brooks AB",               lat:50.56, lng:-111.90, type:"proc",   badge:"Processing",  commodity:"Beef",        note:"Canada's largest beef processing plant. US majority export under CUSMA. Brooks AB.", signal:"Beef processing capacity watching CUSMA 2026 joint review — US buy-American pressures on cross-border supply chains."},
+  {name:"Olymel — Yamachiche QC",               lat:46.27, lng:-72.83,  type:"proc",   badge:"Processing",  commodity:"Pork",        note:"Major Quebec pork processor and exporter. CETA EU zero-tariff access for pork products.", signal:"Quebec pork processors have EU access advantage under CETA. Domestic restaurant sector contraction shifting product to export."},
+  {name:"Canola Council of Canada — Winnipeg",  lat:49.91, lng:-97.16,  type:"tech",   badge:"Industry",    commodity:"Canola",      note:"Industry body for Canada's $30B+ canola sector. Trade market development and EU regulatory advocacy.", signal:"EU canola oil relationship development support available. Contact Canola Council for EU buyer introductions under CETA."},
+  {name:"Dalhousie Agri-Food Analytics Lab — Halifax", lat:44.63, lng:-63.59, type:"tech", badge:"Research", commodity:"Food Policy", note:"Professor Sylvain Charlebois. Leading Canadian academic voice on food prices, food system policy, and grocery sector analysis.", signal:"Dalhousie tracking Canadian food CPI and Grocery Code of Conduct implementation — primary academic source for consumer food price intelligence."},
+];
+
+/* ════════════════════════════════════════════
+   MAP INITIALIZATION
+════════════════════════════════════════════ */
+const map = L.map('map', {
+  center: [57, -96],
+  zoom: 4,
+  minZoom: 3,
+  maxZoom: 12,
+  zoomControl: true,
+});
+
+// CartoDB Positron — warm light basemap suits the agricultural palette
+L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+  attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors © <a href="https://carto.com/attributions">CARTO</a>',
+  subdomains: 'abcd',
+  maxZoom: 19,
+}).addTo(map);
+
+/* ════════════════════════════════════════════
+   LAYER GROUPS
+════════════════════════════════════════════ */
+const layerGrow  = L.layerGroup().addTo(map);
+const layerCatch = L.layerGroup().addTo(map);
+const layerProc  = L.layerGroup().addTo(map);
+const layerTech  = L.layerGroup().addTo(map);
+
+let layerState = { grow:true, catch:true, proc:true, tech:true };
+
+/* ════════════════════════════════════════════
+   PROVINCE POLYGONS — fetch from world-atlas
+   then filter to Canadian provinces
+════════════════════════════════════════════ */
+
+// Province name to ISO numeric mapping for world-atlas (country level only)
+// We'll use a custom simplified province GeoJSON approach instead:
+// Fetch from jsdelivr canada provinces package
+
+const PROVINCE_GEOJSON_URL = 'https://cdn.jsdelivr.net/npm/canada-provinces@2.0.0/geojson/canada_provinces.json';
+const WORLD_TOPO_URL = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json';
+
+let provinceLayer = null;
+let catchZoneLayers = [];
+let facilityMarkers = [];
+let allMarkers = [];
+
+// Province name normalization (package may use different names)
+const PROV_NORMALIZE = {
+  'BC': 'British Columbia',
+  'British Columbia': 'British Columbia',
+  'AB': 'Alberta',
+  'Alberta': 'Alberta',
+  'SK': 'Saskatchewan',
+  'Saskatchewan': 'Saskatchewan',
+  'MB': 'Manitoba',
+  'Manitoba': 'Manitoba',
+  'ON': 'Ontario',
+  'Ontario': 'Ontario',
+  'QC': 'Quebec',
+  'Quebec': 'Quebec',
+  'Québec': 'Quebec',
+  'NB': 'New Brunswick',
+  'New Brunswick': 'New Brunswick',
+  'NS': 'Nova Scotia',
+  'Nova Scotia': 'Nova Scotia',
+  'PE': 'Prince Edward Island',
+  'Prince Edward Island': 'Prince Edward Island',
+  'NL': 'Newfoundland and Labrador',
+  'Newfoundland and Labrador': 'Newfoundland and Labrador',
+  'Newfoundland': 'Newfoundland and Labrador',
+};
+
+function getProvinceName(feature) {
+  const p = feature.properties;
+  const raw = p.name || p.NAME || p.province || p.PRENAME || p.NAME_ENGLISH || '';
+  return PROV_NORMALIZE[raw] || raw;
+}
+
+function styleProvince(feature) {
+  const name = getProvinceName(feature);
+  const data = PROVINCE_DATA[name];
+  if (!data) return { fillColor:'#c8c0b0', fillOpacity:0.15, color:'#a89880', weight:1 };
+  return {
+    fillColor: data.color,
+    fillOpacity: data.opacity,
+    color: data.color,
+    weight: 1.2,
+    opacity: 0.5,
+  };
+}
+
+function onProvinceClick(e, feature) {
+  const name = getProvinceName(feature);
+  const data = PROVINCE_DATA[name];
+  showPanel({
+    eyebrow: data ? data.primary : 'Agricultural region',
+    name: name,
+    badge: 'grow',
+    badgeLabel: 'Crop Region',
+    fields: [
+      { label: 'Primary commodities', value: data ? data.primary : 'Mixed agriculture' },
+      { label: 'Context', value: data ? data.stats : '' },
+    ],
+    signal: data ? data.signal : null,
+    link: '/industries/agri-food/#brief',
+    linkLabel: 'Read this week\'s brief →',
+  });
+}
+
+function loadProvinceLayer(geojsonData) {
+  try {
+    provinceLayer = L.geoJSON(geojsonData, {
+      style: styleProvince,
+      onEachFeature: function(feature, layer) {
+        const name = getProvinceName(feature);
+        const data = PROVINCE_DATA[name];
+        layer.on({
+          click: function(e) { onProvinceClick(e, feature); },
+          mouseover: function(e) {
+            e.target.setStyle({ fillOpacity: (data ? data.opacity + 0.15 : 0.25), weight: 2 });
+          },
+          mouseout: function(e) {
+            provinceLayer.resetStyle(e.target);
+          },
+        });
+        if (data) {
+          layer.bindTooltip(`<b>${name}</b><br><small>${data.primary}</small>`, { sticky:true, opacity:0.9 });
+        }
+      },
+    }).addTo(layerGrow);
+    updateCount();
+  } catch(err) {
+    console.warn('Province layer error:', err);
+  }
+}
+
+// Attempt to load province GeoJSON
+fetch(PROVINCE_GEOJSON_URL)
+  .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+  .then(data => {
+    loadProvinceLayer(data);
+  })
+  .catch(() => {
+    // Fallback: try world-atlas and extract Canada features
+    // For now add placeholder province centroids as circles
+    console.log('Province GeoJSON package unavailable — using centroid fallback');
+    addProvinceCentroids();
+  });
+
+function addProvinceCentroids() {
+  // Accurate province centroids as fallback polygon approximation
+  const CENTROIDS = {
+    'British Columbia':          [53.7, -127.6],
+    'Alberta':                   [53.9, -116.6],
+    'Saskatchewan':              [52.9, -106.4],
+    'Manitoba':                  [53.7, -98.8],
+    'Ontario':                   [49.2, -84.8],
+    'Quebec':                    [52.9, -73.5],
+    'New Brunswick':             [46.6, -66.5],
+    'Nova Scotia':               [44.7, -63.7],
+    'Prince Edward Island':      [46.4, -63.2],
+    'Newfoundland and Labrador': [53.1, -59.0],
+  };
+  Object.entries(CENTROIDS).forEach(([name, [lat, lng]]) => {
+    const data = PROVINCE_DATA[name];
+    if (!data) return;
+    const circle = L.circle([lat, lng], {
+      radius: name === 'Prince Edward Island' ? 60000 : 180000,
+      fillColor: data.color,
+      fillOpacity: data.opacity + 0.1,
+      color: data.color,
+      weight: 1.5,
+      opacity: 0.6,
+    });
+    circle.bindTooltip(`<b>${name}</b><br><small>${data.primary}</small>`, { sticky:true });
+    circle.on('click', () => {
+      showPanel({
+        eyebrow: data.primary,
+        name: name,
+        badge: 'grow',
+        badgeLabel: 'Crop Region',
+        fields: [
+          { label:'Primary commodities', value: data.primary },
+          { label:'Context', value: data.stats },
+        ],
+        signal: data.signal,
+        link: '/industries/agri-food/#brief',
+        linkLabel: "Read this week's brief →",
+      });
+    });
+    circle.addTo(layerGrow);
+  });
+  updateCount();
+}
+
+/* ════════════════════════════════════════════
+   FISHING ZONES — Rectangle overlays
+════════════════════════════════════════════ */
+FISHING_ZONES.forEach(zone => {
+  const rect = L.rectangle(zone.bounds, {
+    fillColor: '#1a5a7a',
+    fillOpacity: 0.18,
+    color: '#1a5a7a',
+    weight: 1,
+    opacity: 0.5,
+    dashArray: '4 3',
+  });
+
+  // Label marker at center
+  const labelIcon = L.divIcon({
+    html: `<div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.08em;text-transform:uppercase;color:#1a5a7a;background:rgba(255,255,255,0.85);padding:3px 6px;border:1px solid rgba(26,90,122,0.3);white-space:nowrap;pointer-events:none;">${zone.name}</div>`,
+    className: '',
+    iconAnchor: [0, 0],
+  });
+  const labelMarker = L.marker(zone.center, { icon: labelIcon, interactive: false });
+
+  function onZoneClick() {
+    showPanel({
+      eyebrow: zone.species,
+      name: zone.name,
+      badge: 'catch',
+      badgeLabel: 'Fishing Zone',
+      fields: [
+        { label: 'Primary species', value: zone.species },
+        { label: 'Management note', value: zone.tac },
+        { label: 'Export markets', value: zone.export },
+      ],
+      signal: zone.signal,
+      link: '/industries/agri-food/#fisheries',
+      linkLabel: 'Fisheries hub →',
+    });
+  }
+  rect.on('click', onZoneClick);
+  rect.bindTooltip(`<b>${zone.name}</b><br><small>${zone.species}</small>`, { sticky:true });
+
+  rect.addTo(layerCatch);
+  labelMarker.addTo(layerCatch);
+  catchZoneLayers.push(rect, labelMarker);
+});
+
+/* ════════════════════════════════════════════
+   FACILITY MARKERS — Points
+════════════════════════════════════════════ */
+const TYPE_COLORS = {
+  proc:    '#7a1c1c',
+  export:  '#7a1c1c',
+  terminal:'#3a3060',
+  tech:    '#2e6b3e',
+  industry:'#2e6b3e',
+};
+const TYPE_LAYERS = {
+  proc:    'proc',
+  export:  'proc',
+  terminal:'proc',
+  tech:    'tech',
+  industry:'tech',
+};
+
+FACILITIES.forEach(f => {
+  const color = TYPE_COLORS[f.type] || '#7a1c1c';
+  const layerKey = TYPE_LAYERS[f.type] || 'proc';
+  const targetLayer = layerKey === 'tech' ? layerTech : layerProc;
+
+  const icon = L.divIcon({
+    html: `<div style="width:10px;height:10px;border-radius:50%;background:${color};border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,0.3);"></div>`,
+    className: '',
+    iconSize: [14, 14],
+    iconAnchor: [7, 7],
+  });
+
+  const marker = L.marker([f.lat, f.lng], { icon });
+  marker.bindTooltip(`<b>${f.name}</b><br><small>${f.commodity}</small>`, { sticky:true });
+  marker.on('click', () => {
+    const badgeMap = { proc:'proc', export:'export', terminal:'term', tech:'tech', industry:'tech' };
+    showPanel({
+      eyebrow: `${f.badge} · ${f.commodity}`,
+      name: f.name,
+      badge: badgeMap[f.type] || 'proc',
+      badgeLabel: f.badge,
+      fields: [
+        { label: 'Commodity', value: f.commodity },
+        { label: 'About this facility', value: f.note },
+      ],
+      signal: f.signal,
+      link: '/industries/agri-food/#brief',
+      linkLabel: "This week's intelligence →",
+    });
+  });
+  marker.addTo(targetLayer);
+  facilityMarkers.push({ marker, f, layer: layerKey });
+});
+
+/* ════════════════════════════════════════════
+   PANEL RENDERER
+════════════════════════════════════════════ */
+function showPanel({ eyebrow, name, badge, badgeLabel, fields, signal, link, linkLabel }) {
+  const badgeColors = {
+    grow:   'badge-grow',
+    catch:  'badge-catch',
+    proc:   'badge-proc',
+    export: 'badge-export',
+    term:   'badge-term',
+    tech:   'badge-tech',
+  };
+  const fieldsHtml = fields
+    .filter(f => f.value)
+    .map(f => `
+      <div class="panel-field">
+        <div class="panel-field-label">${f.label}</div>
+        <div class="panel-field-value">${f.value}</div>
+      </div>
+    `).join('');
+
+  const signalHtml = signal ? `
+    <div class="panel-signal">
+      <div class="panel-signal-label">This week's signal</div>
+      <div class="panel-signal-text">${signal}</div>
+    </div>
+  ` : '';
+
+  const linkHtml = link ? `<a class="panel-link" href="${link}">${linkLabel || 'View intelligence →'}</a>` : '';
+
+  document.getElementById('panel-content').innerHTML = `
+    <div class="panel-header">
+      <div class="panel-eyebrow">${eyebrow}</div>
+      <div class="panel-name">${name}</div>
+      <div class="type-badge ${badgeColors[badge] || 'badge-proc'}">${badgeLabel}</div>
+    </div>
+    <div class="panel-body">
+      ${fieldsHtml}
+      ${signalHtml}
+      ${linkHtml}
+    </div>
+  `;
+}
+
+/* ════════════════════════════════════════════
+   LAYER TOGGLES
+════════════════════════════════════════════ */
+function toggleLayer(key) {
+  layerState[key] = !layerState[key];
+  const btn = document.getElementById('btn-' + key);
+  const layerMap = { grow: layerGrow, catch: layerCatch, proc: layerProc, tech: layerTech };
+  const layer = layerMap[key];
+
+  if (layerState[key]) {
+    map.addLayer(layer);
+    btn.classList.add('active');
+  } else {
+    map.removeLayer(layer);
+    btn.classList.remove('active');
+  }
+  updateCount();
+}
+
+/* ════════════════════════════════════════════
+   PROVINCE FILTER
+════════════════════════════════════════════ */
+function filterProvince(prov) {
+  if (!prov) {
+    // Reset all — remove all facility markers and re-add to their layers
+    facilityMarkers.forEach(({ marker, f, layer }) => {
+      const targetLayer = layer === 'tech' ? layerTech : layerProc;
+      if (!targetLayer.hasLayer(marker)) targetLayer.addLayer(marker);
+    });
+    if (provinceLayer) map.fitBounds([[ 41.7, -141.0],[83.1,-52.6]]);
+    updateCount();
+    return;
+  }
+  // Filter facility markers
+  facilityMarkers.forEach(({ marker, f, layer }) => {
+    const targetLayer = layer === 'tech' ? layerTech : layerProc;
+    // Simple province matching — check if facility name contains province abbreviation or key city
+    const inProv = f.name.toLowerCase().includes(prov.toLowerCase().substring(0, 4)) ||
+                   f.note.toLowerCase().includes(prov.toLowerCase());
+    if (inProv) {
+      if (!targetLayer.hasLayer(marker)) targetLayer.addLayer(marker);
+    } else {
+      targetLayer.removeLayer(marker);
+    }
+  });
+  // Pan to province centroid
+  const BOUNDS = {
+    'British Columbia': [[48.3,-139.1],[60.0,-114.0]],
+    'Alberta':          [[49.0,-120.0],[60.0,-110.0]],
+    'Saskatchewan':     [[49.0,-110.0],[60.0,-101.5]],
+    'Manitoba':         [[49.0,-102.0],[60.0,-88.9]],
+    'Ontario':          [[41.7,-95.2],[56.9,-74.4]],
+    'Quebec':           [[44.9,-79.8],[62.6,-57.1]],
+    'New Brunswick':    [[44.6,-67.9],[48.1,-63.8]],
+    'Nova Scotia':      [[43.4,-66.4],[47.1,-59.7]],
+    'Prince Edward Island':[[45.9,-64.4],[47.1,-61.9]],
+    'Newfoundland and Labrador':[[46.6,-67.8],[60.4,-52.6]],
+  };
+  if (BOUNDS[prov]) map.fitBounds(BOUNDS[prov], { padding: [30, 30] });
+  updateCount();
+}
+
+/* ════════════════════════════════════════════
+   RESULT COUNT
+════════════════════════════════════════════ */
+function updateCount() {
+  let count = 0;
+  if (layerState.grow)  count += Object.keys(PROVINCE_DATA).length;
+  if (layerState.catch) count += FISHING_ZONES.length;
+  if (layerState.proc)  count += FACILITIES.filter(f => f.type !== 'tech' && f.type !== 'industry').length;
+  if (layerState.tech)  count += FACILITIES.filter(f => f.type === 'tech' || f.type === 'industry').length;
+  document.getElementById('result-count').textContent = count + ' locations shown';
+}
+
+// Initial fit to Canada
+map.fitBounds([[41.7, -141.0],[83.1, -52.6]]);
+setTimeout(updateCount, 800);
+</script>
+</body>
+</html>
