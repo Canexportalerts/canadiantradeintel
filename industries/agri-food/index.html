@@ -4,320 +4,1579 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Agri-food &amp; Agriculture — Canadian Trade Intelligence</title>
-<meta name="description" content="Weekly intelligence on Canada's agri-food sector — canola, pulses, wheat, beef, seafood, and food processing. For farmers, processors, exporters, workers, and rural communities.">
-<link rel="canonical" href="https://canadiantradeintel.ca/industries/agri-food/">
+<meta name="description" content="Weekly intelligence on Canada's agri-food economy — from Prairie grain farmers to Atlantic fisheries to food technology. Commodity signals, DFO quota watch, consumer food prices, and trade access for processors and exporters.">
+<script src="/nav.js" defer></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Mono:wght@400;500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
-<script src="/nav.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-:root{
-  --ink:#0d0d0b;--ink-soft:#2a2a28;--ink-mid:#3a3a36;--slate:#5a5a56;
-  --warm-bg:#f8f5f0;--warm-mid:#efe9e0;--warm-border:#ddd5c5;--white:#fdfcfa;
-  --crimson:#8b1a1a;--brand-dark:#1a0505;
-  --sector:#7a5200;--sector-dark:#3d2900;--sector-darker:#1e1400;
-  --sector-light:#fdf8f0;--sector-mid:#d4a95a;
-  --amber:#c8860a;
+:root {
+  --brand:    #7a1c1c;
+  --brand-dk: #4a0f0f;
+  --gold:     #8b6914;
+  --gold-lt:  #f5edd8;
+  --ink:      #1a1a10;
+  --ink-mid:  #3a3a2e;
+  --ink-lt:   #6b6b58;
+  --cream:    #f7f4ee;
+  --cream-dk: #ede9df;
+  --rule:     #d4cfc4;
+  --white:    #ffffff;
+  --ocean:    #1a3a4a;
+  --ocean-lt: #e8f0f4;
+  --field:    #3d4a1e;
+  --field-lt: #eef2e6;
 }
-html{scroll-behavior:smooth;}
-body{font-family:'Jost',sans-serif;background:var(--warm-bg);color:var(--ink);font-size:15px;line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--ink); font-size: 16px; line-height: 1.6; }
 
-.sector-subnav{background:var(--brand-dark);border-bottom:1px solid rgba(255,255,255,0.06);padding:0 48px;}
-.sector-subnav-inner{max-width:1160px;margin:0 auto;display:flex;gap:0;overflow-x:auto;scrollbar-width:none;}
-.sector-subnav-inner::-webkit-scrollbar{display:none;}
-.sn-item{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.45);text-decoration:none;padding:14px 18px;border-bottom:2px solid transparent;white-space:nowrap;transition:color 0.15s;}
-.sn-item:hover{color:rgba(255,255,255,0.75);}
-.sn-item.active{color:#fff;border-bottom-color:var(--sector);}
+/* ── HERO ── */
+.hero {
+  position: relative;
+  min-height: 480px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+  background: var(--field);
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 70% 60% at 80% 30%, rgba(139,105,20,0.22) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 80% at 10% 80%, rgba(26,58,74,0.3) 0%, transparent 65%),
+    linear-gradient(160deg, #1e2b0e 0%, #2d3d18 35%, #1a3a4a 100%);
+}
+/* Subtle grain texture overlay */
+.hero-bg::after {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity: 0.6;
+}
+.hero-content {
+  position: relative;
+  z-index: 2;
+  padding: 48px 60px 52px;
+  max-width: 1200px;
+  width: 100%;
+}
+.hero-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 16px;
+}
+.hero-eyebrow a { color: inherit; text-decoration: none; }
+.hero-eyebrow a:hover { color: rgba(255,255,255,0.8); }
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(42px, 6vw, 68px);
+  font-weight: 400;
+  line-height: 1.08;
+  color: #f5f0e8;
+  margin-bottom: 20px;
+}
+.hero-title em { font-style: italic; color: #d4bc7a; }
+.hero-subtitle {
+  font-size: 15px;
+  color: rgba(245,240,232,0.65);
+  max-width: 560px;
+  line-height: 1.65;
+  margin-bottom: 32px;
+}
+/* commodity pills */
+.hero-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 36px;
+}
+.hero-pill {
+  font-family: 'DM Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border: 1px solid rgba(255,255,255,0.2);
+  color: rgba(255,255,255,0.6);
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+}
+.hero-pill:hover, .hero-pill.active {
+  border-color: #d4bc7a;
+  color: #d4bc7a;
+  background: rgba(212,188,122,0.08);
+}
+/* live signal strip */
+.signal-strip {
+  border-top: 1px solid rgba(255,255,255,0.12);
+  padding-top: 20px;
+  display: flex;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+.signal-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.signal-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.signal-dot.up    { background: #6db87a; }
+.signal-dot.down  { background: #d9604a; }
+.signal-dot.watch { background: #d4bc7a; }
+.signal-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+}
+.signal-value {
+  font-size: 12px;
+  color: rgba(255,255,255,0.75);
+}
 
-.cm-masthead{background:var(--sector-darker);padding:52px 48px 40px;border-bottom:3px solid var(--crimson);position:relative;overflow:hidden;}
-.cm-masthead::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 25% 60%, rgba(122,82,0,0.4) 0%, transparent 65%);pointer-events:none;}
-.cm-masthead-inner{max-width:1160px;margin:0 auto;position:relative;z-index:1;}
-.cm-eyebrow{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(212,169,90,0.7);margin-bottom:12px;}
-.cm-title{font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:600;font-style:italic;color:#f4f0e8;line-height:1.0;margin-bottom:12px;}
-.cm-descriptor{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(212,169,90,0.55);max-width:700px;line-height:1.8;}
+/* ── AUDIENCE NAV ── */
+.audience-nav {
+  background: var(--white);
+  border-bottom: 1px solid var(--rule);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.audience-nav-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 60px;
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.audience-nav-inner::-webkit-scrollbar { display: none; }
+.aud-tab {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-lt);
+  padding: 14px 18px;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: none;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+}
+.aud-tab:hover { color: var(--ink); border-bottom-color: var(--rule); }
+.aud-tab.active { color: var(--brand); border-bottom-color: var(--brand); }
 
-.cm-body{max-width:1160px;margin:0 auto;padding:40px 48px 80px;}
-.cm-grid{display:grid;grid-template-columns:1fr 300px;gap:48px;align-items:start;}
-.s-eyebrow{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.18em;text-transform:uppercase;color:var(--slate);margin-bottom:12px;padding-bottom:8px;border-bottom:0.5px solid var(--warm-border);}
+/* ── PAGE LAYOUT ── */
+.page-wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 60px;
+}
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 56px;
+  align-items: start;
+  padding-top: 56px;
+  padding-bottom: 40px;
+}
+.col-main { min-width: 0; }
+.col-side  { min-width: 0; }
 
-.report-feature{border-top:3px solid var(--sector);padding-top:20px;margin-bottom:36px;}
-.rf-kicker{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);margin-bottom:10px;}
-.rf-headline{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;font-style:italic;color:var(--ink);line-height:1.25;margin-bottom:10px;}
-.rf-summary{font-size:14px;color:var(--ink-mid);line-height:1.75;margin-bottom:20px;max-width:580px;}
-.rf-buttons{display:flex;gap:12px;align-items:center;flex-wrap:wrap;}
-.btn-read{display:inline-block;background:var(--crimson);color:#fff;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;padding:11px 22px;text-decoration:none;transition:background 0.18s;}
-.btn-read:hover{background:#6a0000;}
-.btn-archive{display:inline-block;background:transparent;color:var(--ink);font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;padding:10px 18px;border:0.5px solid var(--warm-border);text-decoration:none;}
-.btn-archive:hover{border-color:var(--ink);}
+/* ── SECTION HEADERS ── */
+.sec-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--brand);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.sec-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--rule);
+}
+.sec-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(22px, 3vw, 30px);
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--ink);
+  margin-bottom: 14px;
+}
+.sec-body {
+  font-size: 15px;
+  color: var(--ink-mid);
+  line-height: 1.75;
+  margin-bottom: 20px;
+}
+.section-block {
+  margin-bottom: 72px;
+}
 
-.map-block{background:var(--sector-dark);padding:32px;margin:32px 0;}
-.map-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(212,169,90,0.5);margin-bottom:8px;}
-.map-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:rgba(244,240,232,0.9);margin-bottom:8px;line-height:1.2;}
-.map-body{font-size:13px;color:rgba(212,169,90,0.65);line-height:1.65;margin-bottom:20px;}
-.map-links{display:flex;gap:16px;flex-wrap:wrap;}
-.map-link{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(212,169,90,0.7);text-decoration:none;border-bottom:1px solid rgba(212,169,90,0.25);padding-bottom:1px;}
-.map-link:hover{color:rgba(212,169,90,1);}
-.map-source{font-family:'DM Mono',monospace;font-size:8px;color:rgba(212,169,90,0.3);margin-top:16px;letter-spacing:0.08em;}
+/* ── TRADE CONTEXT CARD ── */
+.trade-card {
+  background: var(--field);
+  padding: 36px 40px;
+  margin-bottom: 48px;
+}
+.trade-card-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+  margin-bottom: 14px;
+}
+.trade-card-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 400;
+  color: #f5f0e8;
+  margin-bottom: 14px;
+  line-height: 1.3;
+}
+.trade-card-body {
+  font-size: 14px;
+  color: rgba(245,240,232,0.72);
+  line-height: 1.75;
+  margin-bottom: 18px;
+}
+.trade-card-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.trade-link {
+  font-family: 'DM Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #d4bc7a;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(212,188,122,0.3);
+  padding-bottom: 2px;
+}
+.trade-link:hover { border-bottom-color: #d4bc7a; }
 
-.s-divider{border:none;border-top:0.5px solid var(--warm-border);margin:32px 0;}
+/* ── REPORT EMBED ── */
+.report-embed {
+  border: 1px solid var(--rule);
+  background: var(--white);
+  margin-bottom: 48px;
+}
+.report-embed-header {
+  padding: 20px 28px;
+  border-bottom: 1px solid var(--rule);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+.report-meta {
+  font-family: 'DM Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--brand);
+}
+.report-embed-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--ink);
+  margin-top: 6px;
+  line-height: 1.3;
+}
+.report-excerpt {
+  padding: 24px 28px;
+  font-size: 14px;
+  color: var(--ink-mid);
+  line-height: 1.75;
+  border-bottom: 1px solid var(--rule);
+}
+.report-cta-row {
+  padding: 16px 28px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.btn-primary {
+  background: var(--brand);
+  color: var(--white);
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 11px 20px;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-primary:hover { background: var(--brand-dk); }
+.btn-secondary {
+  background: none;
+  color: var(--ink-mid);
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 11px 20px;
+  text-decoration: none;
+  border: 1px solid var(--rule);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-secondary:hover { border-color: var(--ink-mid); }
 
-.geo-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:8px;}
-.geo-card{border-top:0.5px solid var(--warm-border);padding-top:14px;}
-.geo-kicker{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--sector);margin-bottom:6px;}
-.geo-hed{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:600;font-style:italic;color:var(--ink);line-height:1.35;margin-bottom:6px;}
-.geo-dek{font-size:13px;color:var(--slate);line-height:1.65;}
+/* ── PAST ISSUES ── */
+.issue-list { list-style: none; border-top: 1px solid var(--rule); }
+.issue-item {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  padding: 13px 0;
+  border-bottom: 1px solid var(--rule);
+  text-decoration: none;
+  color: var(--ink-mid);
+  transition: color 0.15s;
+}
+.issue-item:hover { color: var(--brand); }
+.issue-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  color: var(--ink-lt);
+  flex-shrink: 0;
+  width: 36px;
+}
+.issue-name { font-size: 14px; flex: 1; }
+.issue-date {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  color: var(--ink-lt);
+  flex-shrink: 0;
+}
+.show-more-btn {
+  background: none;
+  border: none;
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--brand);
+  cursor: pointer;
+  padding: 14px 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.show-more-btn:hover { color: var(--brand-dk); }
 
-.archive-row{display:flex;align-items:baseline;gap:12px;padding:10px 0;border-bottom:0.5px solid var(--warm-border);}
-.archive-row:last-child{border-bottom:none;}
-.ar-issue{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--slate);flex-shrink:0;width:40px;}
-.ar-title{font-size:13px;color:var(--ink);flex:1;line-height:1.45;}
-.ar-title a{color:var(--ink);text-decoration:none;}
-.ar-title a:hover{color:var(--sector);}
-.ar-date{font-family:'DM Mono',monospace;font-size:8px;color:var(--slate);flex-shrink:0;}
+/* ── MARKET SIGNALS GRID ── */
+.signals-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  margin-bottom: 48px;
+}
+.signal-card {
+  background: var(--white);
+  padding: 24px;
+}
+.sig-cat {
+  font-family: 'DM Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--brand);
+  margin-bottom: 10px;
+}
+.sig-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.3;
+  color: var(--ink);
+  margin-bottom: 10px;
+}
+.sig-body {
+  font-size: 13px;
+  color: var(--ink-mid);
+  line-height: 1.7;
+}
 
-.sub-card{background:var(--white);border:0.5px solid var(--warm-border);padding:20px;margin-bottom:20px;}
-.sub-card-label{display:inline-block;background:var(--ink);color:var(--white);font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;padding:3px 8px;margin-bottom:12px;}
-.sub-card-hed{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--ink);margin-bottom:8px;line-height:1.2;}
-.sub-card-body{font-size:13px;color:var(--slate);line-height:1.65;margin-bottom:16px;}
-.sub-btn{display:block;width:100%;background:var(--crimson);color:#fff;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;padding:12px;border:none;cursor:pointer;text-align:center;text-decoration:none;}
-.sub-btn:hover{background:#6a0000;}
-.sub-fine{font-size:11px;color:var(--slate);line-height:1.55;margin-top:10px;}
+/* ── FISHERIES HUB ── */
+.fisheries-bg {
+  background: var(--ocean);
+  margin: 0 -60px;
+  padding: 56px 60px;
+  margin-bottom: 72px;
+}
+.fisheries-bg .sec-label { color: #7ab8cc; }
+.fisheries-bg .sec-label::after { background: rgba(255,255,255,0.15); }
+.fisheries-bg .sec-title { color: #f0ece4; }
+.fisheries-bg .sec-body { color: rgba(240,236,228,0.7); }
+.quota-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  margin-bottom: 32px;
+}
+.quota-table th {
+  font-family: 'DM Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(240,236,228,0.5);
+  padding: 8px 12px;
+  text-align: left;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.quota-table td {
+  padding: 12px 12px;
+  color: rgba(240,236,228,0.85);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  vertical-align: middle;
+}
+.quota-table tr:hover td { background: rgba(255,255,255,0.04); }
+.status-pill {
+  font-family: 'DM Mono', monospace;
+  font-size: 7px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 2px;
+}
+.status-open   { background: rgba(109,184,122,0.2); color: #6db87a; }
+.status-closed { background: rgba(217,96,74,0.2);  color: #d9604a; }
+.status-watch  { background: rgba(212,188,122,0.2); color: #d4bc7a; }
+.seafood-grid {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 1px;
+  background: rgba(255,255,255,0.1);
+  margin-top: 32px;
+}
+.seafood-card {
+  background: rgba(255,255,255,0.06);
+  padding: 20px;
+}
+.seafood-card-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(240,236,228,0.4);
+  margin-bottom: 8px;
+}
+.seafood-card-value {
+  font-size: 20px;
+  font-weight: 300;
+  color: #f0ece4;
+  margin-bottom: 4px;
+}
+.seafood-card-note {
+  font-size: 12px;
+  color: rgba(240,236,228,0.5);
+  line-height: 1.5;
+}
 
-.rail-section{margin-bottom:24px;}
-.rail-eyebrow{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.16em;text-transform:uppercase;color:var(--slate);margin-bottom:10px;padding-bottom:6px;border-bottom:0.5px solid var(--warm-border);}
-.rail-list{list-style:none;}
-.rail-list li{padding:8px 0;border-bottom:0.5px solid var(--warm-border);font-size:13px;color:var(--ink-mid);display:flex;align-items:center;gap:8px;}
-.rail-list li:last-child{border-bottom:none;}
-.rail-dot{width:5px;height:5px;background:var(--sector);flex-shrink:0;}
-.rail-list li a{color:var(--ink-mid);text-decoration:none;}
-.rail-list li a:hover{color:var(--sector);}
+/* ── MARSHALL TRACKER ── */
+.marshall-block {
+  border: 1px solid rgba(255,255,255,0.15);
+  padding: 28px 32px;
+  margin-top: 40px;
+}
+.marshall-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #7ab8cc;
+  margin-bottom: 12px;
+}
+.marshall-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  color: #f0ece4;
+  font-weight: 400;
+  margin-bottom: 12px;
+}
+.marshall-body {
+  font-size: 13px;
+  color: rgba(240,236,228,0.65);
+  line-height: 1.75;
+  margin-bottom: 20px;
+}
+.timeline-row {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  padding: 10px 0;
+  border-top: 1px solid rgba(255,255,255,0.07);
+}
+.timeline-year {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  color: rgba(240,236,228,0.35);
+  width: 36px;
+  flex-shrink: 0;
+  padding-top: 2px;
+}
+.timeline-text {
+  font-size: 13px;
+  color: rgba(240,236,228,0.65);
+  line-height: 1.6;
+}
+.status-bar {
+  margin-top: 20px;
+  padding: 12px 16px;
+  background: rgba(212,188,122,0.12);
+  border-left: 3px solid #d4bc7a;
+  font-size: 13px;
+  color: #d4bc7a;
+  line-height: 1.6;
+}
 
-.loading-text{font-family:'DM Mono',monospace;font-size:9px;color:var(--slate);letter-spacing:0.1em;text-transform:uppercase;padding:12px 0;}
+/* ── CONSUMER SECTION ── */
+.consumer-bg {
+  background: var(--cream-dk);
+  margin: 0 -60px;
+  padding: 56px 60px;
+  margin-bottom: 72px;
+}
+.accordion-item {
+  border-bottom: 1px solid var(--rule);
+}
+.accordion-btn {
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 18px 0;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+.accordion-q {
+  font-size: 15px;
+  color: var(--ink);
+  font-weight: 400;
+  line-height: 1.4;
+}
+.accordion-arrow {
+  font-size: 18px;
+  color: var(--ink-lt);
+  transition: transform 0.2s;
+  flex-shrink: 0;
+}
+.accordion-btn[aria-expanded="true"] .accordion-arrow { transform: rotate(180deg); }
+.accordion-body {
+  display: none;
+  padding: 0 0 20px;
+  font-size: 14px;
+  color: var(--ink-mid);
+  line-height: 1.75;
+}
+.accordion-btn[aria-expanded="true"] + .accordion-body { display: block; }
+.price-tracker {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  margin-top: 32px;
+}
+.tracker-card {
+  background: var(--white);
+  padding: 20px 24px;
+}
+.tracker-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-lt);
+  margin-bottom: 12px;
+}
+.tracker-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--cream-dk);
+  font-size: 13px;
+}
+.tracker-row:last-child { border-bottom: none; }
+.tracker-stage { color: var(--ink-mid); }
+.tracker-val   { font-weight: 500; color: var(--ink); font-variant-numeric: tabular-nums; }
+.tracker-gap   { color: var(--brand); font-size: 11px; }
+.grocery-status {
+  margin-top: 32px;
+  border: 1px solid var(--rule);
+  padding: 24px 28px;
+  background: var(--white);
+}
+.grocery-status-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+.grocery-status-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--brand);
+}
+.status-active {
+  font-family: 'DM Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  background: rgba(109,184,122,0.12);
+  color: #2e7a3e;
+  padding: 4px 10px;
+  border-radius: 2px;
+}
+.grocery-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--cream-dk);
+  color: var(--ink-mid);
+}
+.grocery-row:last-child { border-bottom: none; }
+.grocery-val { color: var(--ink); font-weight: 500; }
 
-.cm-footer{background:var(--brand-dark);padding:32px 48px;margin-top:60px;}
-.cm-footer-inner{max-width:1160px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
-.cm-footer-copy{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.25);}
-.cm-footer-links{display:flex;gap:20px;}
-.cm-footer-links a{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.3);text-decoration:none;}
-.cm-footer-links a:hover{color:rgba(255,255,255,0.6);}
+/* ── FOOD TECH ── */
+.foodtech-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  margin-bottom: 40px;
+}
+.ft-card {
+  background: var(--white);
+  padding: 24px;
+}
+.ft-region {
+  font-family: 'DM Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+.ft-title {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+.ft-body {
+  font-size: 13px;
+  color: var(--ink-mid);
+  line-height: 1.7;
+}
 
-@media(max-width:960px){.cm-grid{grid-template-columns:1fr;}.cm-right{order:-1;}}
-@media(max-width:768px){.cm-masthead{padding:36px 24px 28px;}.cm-body{padding:28px 24px 60px;}.cm-title{font-size:38px;}.geo-grid{grid-template-columns:1fr;}.sector-subnav{padding:0 24px;}.cm-footer{padding:24px;}}
+/* timeline: whats on your plate */
+.timeline-future {
+  margin-top: 40px;
+}
+.tl-item {
+  display: flex;
+  gap: 20px;
+  padding: 18px 0;
+  border-top: 1px solid var(--rule);
+  cursor: pointer;
+}
+.tl-item:hover { background: var(--cream-dk); margin: 0 -24px; padding: 18px 24px; }
+.tl-year-box {
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--brand);
+  width: 44px;
+  flex-shrink: 0;
+  padding-top: 2px;
+}
+.tl-main { flex: 1; }
+.tl-title { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 4px; }
+.tl-detail {
+  font-size: 13px;
+  color: var(--ink-lt);
+  line-height: 1.65;
+  display: none;
+}
+.tl-item.open .tl-detail { display: block; color: var(--ink-mid); }
+.tl-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 7px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 2px;
+  flex-shrink: 0;
+  align-self: flex-start;
+}
+.tl-tag.approved { background: var(--field-lt); color: var(--field); }
+.tl-tag.pending  { background: var(--gold-lt); color: var(--gold); }
+.tl-tag.forecast { background: var(--cream-dk); color: var(--ink-lt); }
+
+/* ── LAND SECTION ── */
+.land-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  margin-bottom: 40px;
+}
+.restriction-map {
+  border: 1px solid var(--rule);
+  overflow: hidden;
+}
+.restriction-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--rule);
+  font-size: 13px;
+}
+.restriction-row:last-child { border-bottom: none; }
+.restriction-prov { font-weight: 500; color: var(--ink); }
+.restriction-note { color: var(--ink-lt); font-size: 12px; text-align: right; max-width: 180px; }
+.restriction-level {
+  font-family: 'DM Mono', monospace;
+  font-size: 7px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 2px;
+}
+.level-strict { background: rgba(122,28,28,0.1); color: var(--brand); }
+.level-mod    { background: var(--gold-lt); color: var(--gold); }
+.level-disc   { background: var(--cream-dk); color: var(--ink-lt); }
+
+/* ── ARTICLES / CTI REVIEW ── */
+.articles-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  margin-bottom: 48px;
+}
+.article-card {
+  background: var(--white);
+  padding: 28px 28px 24px;
+  text-decoration: none;
+  display: block;
+  transition: background 0.15s;
+}
+.article-card:hover { background: var(--cream); }
+.article-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--brand);
+  margin-bottom: 10px;
+}
+.article-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 17px;
+  font-weight: 400;
+  color: var(--ink);
+  line-height: 1.35;
+  margin-bottom: 10px;
+}
+.article-excerpt {
+  font-size: 13px;
+  color: var(--ink-mid);
+  line-height: 1.7;
+}
+
+/* ── RIGHT SIDEBAR ── */
+.sidebar-block {
+  border: 1px solid var(--rule);
+  background: var(--white);
+  margin-bottom: 24px;
+}
+.sidebar-hd {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-lt);
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--rule);
+}
+.sidebar-content { padding: 16px 18px; }
+.ticker-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--cream-dk);
+  font-size: 13px;
+}
+.ticker-row:last-child { border-bottom: none; }
+.ticker-name { color: var(--ink-mid); }
+.ticker-val  { font-weight: 500; font-variant-numeric: tabular-nums; }
+.ticker-val.up   { color: #2e7a3e; }
+.ticker-val.down { color: var(--brand); }
+.ticker-val.flat { color: var(--ink-lt); }
+.source-list { list-style: none; }
+.source-item {
+  border-bottom: 1px solid var(--cream-dk);
+  font-size: 12px;
+}
+.source-item:last-child { border-bottom: none; }
+.source-item a {
+  display: block;
+  padding: 8px 0;
+  color: var(--brand);
+  text-decoration: none;
+}
+.source-item a:hover { text-decoration: underline; }
+.written-for-list { list-style: none; }
+.written-for-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--cream-dk);
+  font-size: 13px;
+  color: var(--ink-mid);
+}
+.written-for-item:last-child { border-bottom: none; }
+.written-for-item::before {
+  content: '▪';
+  color: var(--brand);
+  font-size: 8px;
+  flex-shrink: 0;
+  padding-top: 4px;
+}
+.related-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--cream-dk);
+  text-decoration: none;
+  color: var(--ink-mid);
+  font-size: 13px;
+  transition: color 0.15s;
+}
+.related-link:last-child { border-bottom: none; }
+.related-link:hover { color: var(--brand); }
+.related-link::before { content: '→'; color: var(--brand); font-size: 11px; }
+
+/* ── DIVIDERS ── */
+.full-bleed-rule {
+  height: 1px;
+  background: var(--rule);
+  margin: 0 -60px 64px;
+}
+
+/* ── FOOTER DISCLAIMER ── */
+.footnote {
+  font-size: 11px;
+  color: var(--ink-lt);
+  line-height: 1.6;
+  padding: 32px 0 48px;
+  border-top: 1px solid var(--rule);
+  margin-top: 40px;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .hero-content { padding: 32px 24px 40px; }
+  .page-wrap    { padding: 0 24px; }
+  .two-col      { grid-template-columns: 1fr; gap: 40px; padding-top: 36px; }
+  .col-side     { order: -1; }
+  .fisheries-bg, .consumer-bg { margin: 0 -24px; padding: 40px 24px; }
+  .full-bleed-rule { margin: 0 -24px 48px; }
+  .audience-nav-inner { padding: 0 24px; }
+  .signals-grid, .foodtech-grid, .articles-grid, .price-tracker { grid-template-columns: 1fr; }
+  .land-grid    { grid-template-columns: 1fr; }
+  .seafood-grid { grid-template-columns: 1fr 1fr; }
+  .signal-strip { gap: 16px; }
+}
+@media (max-width: 560px) {
+  .seafood-grid { grid-template-columns: 1fr; }
+  .hero-pill    { font-size: 7px; padding: 4px 10px; }
+}
 </style>
 </head>
 <body>
-<nav id="main-nav"></nav>
 
-<div class="sector-subnav">
-  <div class="sector-subnav-inner">
-    <a href="/industries/critical-minerals/" class="sn-item">Critical Minerals</a>
-    <a href="/industries/agri-food/" class="sn-item active">Agri-food</a>
-    <a href="/industries/advanced-manufacturing/" class="sn-item">Advanced Manufacturing</a>
-    <a href="/industries/aerospace-defence/" class="sn-item">Aerospace &amp; Defence</a>
-    <a href="/industries/energy-cleantech/" class="sn-item">Energy &amp; Cleantech</a>
-    <a href="/industries/technology-digital/" class="sn-item">Technology &amp; Digital</a>
-  </div>
-</div>
+<!-- NAV injected by nav.js -->
+<div id="nav-placeholder"></div>
 
-<div class="cm-masthead">
-  <div class="cm-masthead-inner">
-    <div class="cm-eyebrow">Canadian Trade Intelligence Inc. · Sector Report</div>
-    <h1 class="cm-title">Agri-food<br>&amp; Agriculture</h1>
-    <div class="cm-descriptor">Canola · Pulses · Wheat · Beef · Seafood · Potash · Food Processing · Dairy</div>
-  </div>
-</div>
-
-<div class="cm-body">
-  <div class="cm-grid">
-    <div class="cm-left">
-
-      <div id="report-feature" class="report-feature">
-        <div class="loading-text">Loading latest report...</div>
-      </div>
-
-      <div class="s-eyebrow">Canada's agri-food position</div>
-      <div class="map-block">
-        <div class="map-label">Trade context</div>
-        <div class="map-title">Canada feeds the world — and depends on access to do it</div>
-        <div class="map-body">Canada is the world's fifth-largest agricultural exporter, generating over $90 billion in annual agri-food exports. Prairie farmers produce 25–30% of global traded durum wheat, 20% of global canola, and supply 65% of India's lentil imports. Any tariff, quota, or market access decision in Canada's top buyer countries — India, China, the US, Japan — directly affects farm income on 40,000+ prairie farms.</div>
-        <div class="map-links">
-          <a href="https://agriculture.canada.ca/en" class="map-link" target="_blank" rel="noopener">AAFC Market Data</a>
-          <a href="https://www.grainscanada.gc.ca" class="map-link" target="_blank" rel="noopener">Grain Research</a>
-          <a href="https://www.canolacouncil.org" class="map-link" target="_blank" rel="noopener">Canola Council</a>
-          <a href="https://www.fpac.ca" class="map-link" target="_blank" rel="noopener">Food &amp; Beverage Canada</a>
-        </div>
-        <div class="map-source">Sources: AAFC, Statistics Canada, Canola Council of Canada</div>
-      </div>
-
-      <hr class="s-divider">
-
-      <div class="s-eyebrow">Key market signals</div>
-      <div class="geo-grid">
-        <div class="geo-card">
-          <div class="geo-kicker">Canola</div>
-          <div class="geo-hed">China SAMR restrictions shape $3.2B annual exposure</div>
-          <div class="geo-dek">Canada sends over 40% of canola seed exports to China. SAMR inspection restrictions are the primary political lever Beijing uses in bilateral disputes. Canada-EU CETA provides a partial diversification route — canola oil exports to EU grew 35% since CETA implementation.</div>
-        </div>
-        <div class="geo-card">
-          <div class="geo-kicker">Pulses</div>
-          <div class="geo-hed">India DGFT quota cycles drive Saskatchewan and Manitoba income</div>
-          <div class="geo-dek">Canada controls 65% of India's lentil import market. India's DGFT issues annual pulse import quotas that directly set volumes and trigger price moves within 48 hours of announcement. Saskatchewan lentil farmers earn $1.2–1.8B annually — most of it India-dependent.</div>
-        </div>
-        <div class="geo-card">
-          <div class="geo-kicker">Wheat</div>
-          <div class="geo-hed">Black Sea disruption sustains Canadian Hard Red Spring premium</div>
-          <div class="geo-dek">Russia-Ukraine conflict has permanently shifted global wheat trade flows. Canadian Hard Red Spring wheat commands a quality premium in MENA, Southeast Asian, and East African markets that Black Sea supply cannot fully meet. CP and CN rail capacity to Vancouver is the choke point.</div>
-        </div>
-        <div class="geo-card">
-          <div class="geo-kicker">Seafood</div>
-          <div class="geo-hed">Atlantic lobster: $2.5B export industry with US and China exposure</div>
-          <div class="geo-dek">Atlantic Canada's lobster industry is the largest single seafood export product — $2.5B annually. US market access and China tariff dynamics both apply. PEI potato access to the US remains a recurring tension point. Nova Scotia and NB processors are the value-add frontier.</div>
-        </div>
-      </div>
-
-      <hr class="s-divider">
-
-      <div class="s-eyebrow">Past issues</div>
-      <div id="archive-list">
-        <div class="loading-text">Loading archive...</div>
-      </div>
-      <div style="margin-top:16px;"><a href="/reports/" class="btn-archive">All reports →</a></div>
-
+<!-- ══════════════════════════════════════════════
+     HERO
+══════════════════════════════════════════════ -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <a href="/industries/">Canadian Trade Intelligence Inc.</a> &nbsp;·&nbsp; Sector Intelligence
     </div>
-
-    <div class="cm-right">
-      <div class="sub-card">
-        <div class="sub-card-label">Intelligence</div>
-        <div class="sub-card-hed">Agri-food Weekly</div>
-        <div class="sub-card-body">Full sector report every Tuesday — commodity price intelligence, buyer country signals, supply chain disruptions, regulatory pulse, and specific trade actions for Canadian agri-food businesses.</div>
-        <a href="/subscribe/" class="sub-btn">See Plans →</a>
-        <div class="sub-fine">Reports include commodity briefs (canola, grains, pulses, potash), trade agreement updates, WASDE analysis, and so-what analysis for producers, processors, workers, and rural communities.</div>
+    <h1 class="hero-title">
+      Agri-food<br><em>&amp; Agriculture</em>
+    </h1>
+    <p class="hero-subtitle">
+      Weekly intelligence on the sector that feeds Canada and drives $90 billion in annual exports —
+      from Prairie grain to Atlantic lobster to what's coming off the lab bench next.
+    </p>
+    <div class="hero-pills">
+      <a class="hero-pill active" href="#farmers">Grain Farmers</a>
+      <a class="hero-pill" href="#fisheries">Fisheries</a>
+      <a class="hero-pill" href="#processors">Processors</a>
+      <a class="hero-pill" href="#consumer">Food Prices</a>
+      <a class="hero-pill" href="#foodtech">Food Tech</a>
+      <a class="hero-pill" href="#land">Land &amp; Sovereignty</a>
+    </div>
+    <div class="signal-strip">
+      <div class="signal-item">
+        <div class="signal-dot up"></div>
+        <span class="signal-label">Canola</span>
+        <span class="signal-value">Bullish — futures +8.8% month</span>
       </div>
-
-      <div class="rail-section">
-        <div class="rail-eyebrow">Written for</div>
-        <ul class="rail-list">
-          <li><span class="rail-dot"></span>Grain and oilseed producers</li>
-          <li><span class="rail-dot"></span>Food processors and manufacturers</li>
-          <li><span class="rail-dot"></span>Agri-food exporters and trading companies</li>
-          <li><span class="rail-dot"></span>Rural community leaders</li>
-          <li><span class="rail-dot"></span>Agricultural policy staff</li>
-          <li><span class="rail-dot"></span>Farm workers and rural Canadians</li>
-        </ul>
+      <div class="signal-item">
+        <div class="signal-dot watch"></div>
+        <span class="signal-label">DFO</span>
+        <span class="signal-value">NL snow crab TAC set — 2026 season open</span>
       </div>
-
-      <div class="rail-section">
-        <div class="rail-eyebrow">Related sectors</div>
-        <ul class="rail-list">
-          <li><span class="rail-dot"></span><a href="/industries/critical-minerals/">Critical Minerals (potash)</a></li>
-          <li><span class="rail-dot"></span><a href="/industries/energy-cleantech/">Energy (farm inputs)</a></li>
-          <li><span class="rail-dot"></span><a href="/countries/">Country Intelligence</a></li>
-        </ul>
+      <div class="signal-item">
+        <div class="signal-dot watch"></div>
+        <span class="signal-label">Grocery Code</span>
+        <span class="signal-value">OGSCC active since Jan 1, 2026</span>
       </div>
     </div>
   </div>
 </div>
 
-<div class="cm-footer">
-  <div class="cm-footer-inner">
-    <div class="cm-footer-copy">© 2026 Canadian Trade Intelligence Inc. · Agri-food &amp; Agriculture · Weekly</div>
-    <div class="cm-footer-links">
-      <a href="/about/">About</a>
-      <a href="/methodology/">Methodology</a>
-      <a href="/subscribe/">Subscribe</a>
+<!-- ══════════════════════════════════════════════
+     AUDIENCE NAV (sticky)
+══════════════════════════════════════════════ -->
+<nav class="audience-nav" aria-label="Section navigation">
+  <div class="audience-nav-inner">
+    <a class="aud-tab active" href="#brief">This Week</a>
+    <a class="aud-tab" href="#farmers">Grain Farmers</a>
+    <a class="aud-tab" href="#fisheries">Fisheries</a>
+    <a class="aud-tab" href="#consumer">Food Prices</a>
+    <a class="aud-tab" href="#foodtech">Food Tech</a>
+    <a class="aud-tab" href="#land">Land</a>
+    <a class="aud-tab" href="#analysis">Analysis</a>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════════
+     MAIN TWO-COLUMN LAYOUT
+══════════════════════════════════════════════ -->
+<div class="page-wrap">
+<div class="two-col">
+
+<!-- ─── LEFT COLUMN ─── -->
+<main class="col-main">
+
+  <!-- TRADE CONTEXT CARD -->
+  <div class="trade-card">
+    <div class="trade-card-label">Trade Context</div>
+    <div class="trade-card-title">Canada feeds the world — and depends on access to do it</div>
+    <div class="trade-card-body">
+      Canada is the world's fifth-largest agricultural exporter, generating over $90 billion in
+      annual agri-food exports. Prairie farmers produce 25–30% of global traded durum wheat,
+      20% of global canola, and supply 65% of India's lentil imports. Atlantic Canada's fisheries
+      generate $4 billion in annual seafood exports, with lobster the single most valuable product.
+      Any tariff, quota, or market access decision in Canada's top buyer countries directly affects
+      farm income on 40,000+ prairie farms and thousands of fishing enterprises on the East Coast.
     </div>
+    <div class="trade-card-links">
+      <a class="trade-link" href="https://www.agr.gc.ca" target="_blank" rel="noopener">AAFC Market Data</a>
+      <a class="trade-link" href="https://www.canolacouncil.org" target="_blank" rel="noopener">Canola Council</a>
+      <a class="trade-link" href="https://www.dfo-mpo.gc.ca" target="_blank" rel="noopener">DFO Fisheries</a>
+      <a class="trade-link" href="https://www.cafta.org" target="_blank" rel="noopener">CAFTA</a>
+    </div>
+  </div>
+
+  <!-- THIS WEEK'S BRIEF -->
+  <div id="brief" class="section-block">
+    <div class="sec-label">Intelligence Brief</div>
+    <div class="report-embed">
+      <div class="report-embed-header">
+        <div>
+          <div class="report-meta">Intelligence Brief &nbsp;·&nbsp; Issue #010 &nbsp;·&nbsp; Jun 2, 2026</div>
+          <div class="report-embed-title">Agri-Food &amp; Agriculture Intelligence — Issue #010, June 2, 2026</div>
+        </div>
+      </div>
+      <div class="report-excerpt">
+        This week's signals converge on a single structural shift: Canada is simultaneously
+        inheriting supply gaps created by US drought, gaining new domestic processing capacity
+        through Cargill's Regina plant, and receiving a $75 million federal market diversification
+        programme. Kansas wheat is in its worst shape in years — only 32% rated good or excellent —
+        pushing Canadian Hard Red Spring wheat into a premium position globally. For Prairie farmers,
+        this week has a narrow forward contract window that closes when the June WASDE drops.
+      </div>
+      <div class="report-cta-row">
+        <a class="btn-primary" href="/reports/agri-food/report_agri_food_2026-06-02.html">Read Issue #010 →</a>
+        <button class="btn-secondary" onclick="toggleIssues()">Previous Issues ↓</button>
+      </div>
+    </div>
+
+    <!-- PAST ISSUES — show 3, expand to all -->
+    <ul class="issue-list" id="issue-list-short">
+      <li>
+        <a class="issue-item" href="/reports/agri-food/report_agri_food_2026-05-26.html">
+          <span class="issue-num">#009</span>
+          <span class="issue-name">Agri-Food &amp; Agriculture Intelligence — Issue #009, May 26, 2026</span>
+          <span class="issue-date">May 26, 2026</span>
+        </a>
+      </li>
+      <li>
+        <a class="issue-item" href="/reports/agri-food/report_agri_food_2026-05-19.html">
+          <span class="issue-num">#008</span>
+          <span class="issue-name">Agri-Food &amp; Agriculture Intelligence — Issue #008, May 19, 2026</span>
+          <span class="issue-date">May 19, 2026</span>
+        </a>
+      </li>
+      <li>
+        <a class="issue-item" href="/reports/agri-food/report_agri_food_2026-05-12.html">
+          <span class="issue-num">#007</span>
+          <span class="issue-name">Agri-Food &amp; Agriculture Intelligence — Issue #007, May 12, 2026</span>
+          <span class="issue-date">May 12, 2026</span>
+        </a>
+      </li>
+    </ul>
+    <ul class="issue-list" id="issue-list-full" style="display:none">
+      <li><a class="issue-item" href="/reports/agri-food/report_agri_food_2026-05-05.html"><span class="issue-num">#006</span><span class="issue-name">Agri-Food &amp; Agriculture Intelligence — Issue #006, May 5, 2026</span><span class="issue-date">May 5, 2026</span></a></li>
+      <li><a class="issue-item" href="/reports/agri-food/report_agri_food_2026-04-29.html"><span class="issue-num">#005</span><span class="issue-name">Agri-Food &amp; Agriculture Intelligence — Issue #005, April 29, 2026</span><span class="issue-date">Apr 29, 2026</span></a></li>
+      <li><a class="issue-item" href="/reports/agri-food/report_agri_food_2026-04-21.html"><span class="issue-num">#004</span><span class="issue-name">Agri-Food &amp; Agriculture Intelligence — Issue #004, April 21, 2026</span><span class="issue-date">Apr 21, 2026</span></a></li>
+      <li><a class="issue-item" href="/reports/agri-food/report_agri_food_2026-04-14.html"><span class="issue-num">#003</span><span class="issue-name">Agri-Food &amp; Agriculture Intelligence — Issue #003, April 14, 2026</span><span class="issue-date">Apr 14, 2026</span></a></li>
+      <li><a class="issue-item" href="/reports/agri-food/report_agri_food_2026-04-07.html"><span class="issue-num">#002</span><span class="issue-name">Agri-Food &amp; Agriculture Intelligence — Issue #002, April 7, 2026</span><span class="issue-date">Apr 7, 2026</span></a></li>
+      <li><a class="issue-item" href="/reports/agri-food/report_agri_food_2026-03-27.html"><span class="issue-num">#001</span><span class="issue-name">Agri-Food &amp; Agriculture Intelligence — Issue #001, March 27, 2026</span><span class="issue-date">Mar 27, 2026</span></a></li>
+    </ul>
+    <button class="show-more-btn" id="issues-toggle" onclick="toggleIssues()">
+      <span id="issues-toggle-label">Show all issues</span> ↓
+    </button>
+  </div>
+
+  <!-- KEY MARKET SIGNALS -->
+  <div id="farmers" class="section-block">
+    <div class="sec-label">Key Market Signals</div>
+    <div class="signals-grid">
+      <div class="signal-card">
+        <div class="sig-cat">Canola</div>
+        <div class="sig-title">China SAMR restrictions shape $3.2B annual exposure</div>
+        <div class="sig-body">Canada sends over 40% of canola seed exports to China. SAMR inspection restrictions are the primary political lever Beijing uses in bilateral disputes. CETA provides a partial diversification route — canola oil exports to EU grew 35% since CETA implementation.</div>
+      </div>
+      <div class="signal-card">
+        <div class="sig-cat">Pulses</div>
+        <div class="sig-title">India DGFT quota cycles drive Saskatchewan and Manitoba income</div>
+        <div class="sig-body">Canada controls 65% of India's lentil import market. India's DGFT issues annual pulse import quotas that directly set volumes and trigger price moves within 48 hours of announcement. Saskatchewan lentil farmers earn $1.2–1.8B annually — most of it India-dependent.</div>
+      </div>
+      <div class="signal-card">
+        <div class="sig-cat">Wheat</div>
+        <div class="sig-title">Black Sea disruption sustains Canadian Hard Red Spring premium</div>
+        <div class="sig-body">Russia-Ukraine conflict has permanently shifted global wheat trade flows. Canadian CWRS commands a quality premium in MENA, Southeast Asian, and East African markets. CP and CN rail capacity to Vancouver is the choke point for export volumes.</div>
+      </div>
+      <div class="signal-card">
+        <div class="sig-cat">Seafood</div>
+        <div class="sig-title">Atlantic lobster: $2.5B export industry with US and China exposure</div>
+        <div class="sig-body">Atlantic Canada's lobster industry is the largest single seafood export product. US market access and China tariff dynamics both apply. Nova Scotia and NB processors are the value-add frontier. Climate signals: lobster stocks shifting northward into new territory.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────────────────────────── -->
+  <!-- FISHERIES AND OCEAN ECONOMY HUB     -->
+  <!-- ─────────────────────────────────── -->
+</main><!-- end col-main -->
+
+<!-- ─── RIGHT SIDEBAR ─── -->
+<aside class="col-side">
+
+  <!-- Weekly Intelligence CTA -->
+  <div class="sidebar-block">
+    <div class="sidebar-hd">Intelligence</div>
+    <div class="sidebar-content">
+      <div style="font-size:15px;font-weight:500;color:var(--ink);margin-bottom:8px;">Agri-food Weekly</div>
+      <div style="font-size:13px;color:var(--ink-mid);line-height:1.65;margin-bottom:16px;">Full sector report every Tuesday — commodity price intelligence, DFO signals, buyer country updates, supply chain disruptions, regulatory pulse, and specific trade actions.</div>
+      <a class="btn-primary" href="/subscribe/" style="display:block;text-align:center;">See Plans →</a>
+      <div style="font-size:12px;color:var(--ink-lt);margin-top:10px;line-height:1.6;">Reports include commodity briefs (canola, grains, pulses, seafood), trade agreement updates, WASDE analysis, fisheries watch, consumer food signals, and market entry pathways for processors and exporters.</div>
+    </div>
+  </div>
+
+  <!-- Key Numbers -->
+  <div class="sidebar-block">
+    <div class="sidebar-hd">Key Numbers · Week of Jun 2</div>
+    <div class="sidebar-content">
+      <div class="ticker-row"><span class="ticker-name">Canola (ICE, CAD/t)</span><span class="ticker-val up">↑ +8.8%</span></div>
+      <div class="ticker-row"><span class="ticker-name">CWRS Wheat (CAD/t)</span><span class="ticker-val down">↓ −0.4%</span></div>
+      <div class="ticker-row"><span class="ticker-name">Soybeans (USD/bu)</span><span class="ticker-val down">↓ −2.0%</span></div>
+      <div class="ticker-row"><span class="ticker-name">Potash (USD/t)</span><span class="ticker-val flat">— Stable</span></div>
+      <div class="ticker-row"><span class="ticker-name">WTI Crude (USD/bbl)</span><span class="ticker-val">$94.53</span></div>
+      <div class="ticker-row"><span class="ticker-name">CAD/USD</span><span class="ticker-val flat">0.733</span></div>
+      <div style="font-size:10px;color:var(--ink-lt);margin-top:10px;">Source: World Bank Pink Sheet · USDA WASDE · CME Group. Updated weekly on pipeline run day.</div>
+    </div>
+  </div>
+
+  <!-- Written For -->
+  <div class="sidebar-block">
+    <div class="sidebar-hd">Written for</div>
+    <div class="sidebar-content">
+      <ul class="written-for-list">
+        <li class="written-for-item">Grain and oilseed producers</li>
+        <li class="written-for-item">Atlantic fishing enterprises</li>
+        <li class="written-for-item">Food processors and manufacturers</li>
+        <li class="written-for-item">Agri-food exporters and trading companies</li>
+        <li class="written-for-item">Rural community leaders</li>
+        <li class="written-for-item">Agricultural policy staff</li>
+        <li class="written-for-item">Farm workers and rural Canadians</li>
+        <li class="written-for-item">Consumers tracking food prices</li>
+        <li class="written-for-item">Food technology investors</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Official Sources -->
+  <div class="sidebar-block">
+    <div class="sidebar-hd">Official Sources</div>
+    <div class="sidebar-content">
+      <ul class="source-list">
+        <li class="source-item"><a href="https://www.agr.gc.ca" target="_blank" rel="noopener">AAFC — Agriculture and Agri-Food Canada</a></li>
+        <li class="source-item"><a href="https://www.dfo-mpo.gc.ca/fisheries-peches/decisions/fm-2026-gp/index-atl-eng.html" target="_blank" rel="noopener">DFO Fisheries Decisions 2026</a></li>
+        <li class="source-item"><a href="https://www.cafta.org" target="_blank" rel="noopener">CAFTA — Canadian Agri-Food Trade Alliance</a></li>
+        <li class="source-item"><a href="https://canadiangrocerycode.ca" target="_blank" rel="noopener">OGSCC — Grocery Code of Conduct</a></li>
+        <li class="source-item"><a href="https://apps.fas.usda.gov/psdonline/app/index.html" target="_blank" rel="noopener">USDA WASDE (2nd Friday monthly)</a></li>
+        <li class="source-item"><a href="https://proteinindustriescanada.ca" target="_blank" rel="noopener">Protein Industries Canada</a></li>
+        <li class="source-item"><a href="https://www.canada.ca/en/health-canada/services/food-nutrition/novel-foods-genetically-modified-foods.html" target="_blank" rel="noopener">Health Canada Novel Foods Registry</a></li>
+        <li class="source-item"><a href="https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=3210004501" target="_blank" rel="noopener">StatCan Farm Cash Receipts</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Related Sectors -->
+  <div class="sidebar-block">
+    <div class="sidebar-hd">Related Sectors</div>
+    <div class="sidebar-content">
+      <a class="related-link" href="/industries/critical-minerals/">Critical Minerals (potash)</a>
+      <a class="related-link" href="/industries/energy-cleantech/">Energy (farm inputs, biofuels)</a>
+      <a class="related-link" href="/countries/">Country Intelligence</a>
+    </div>
+  </div>
+
+</aside>
+
+</div><!-- end .two-col -->
+</div><!-- end .page-wrap -->
+
+<!-- FISHERIES — full-bleed ocean background -->
+<div id="fisheries" class="fisheries-bg">
+  <div class="page-wrap">
+    <div class="sec-label" style="color:#7ab8cc;">Atlantic Fisheries and Ocean Economy</div>
+    <h2 class="sec-title" style="color:#f0ece4;font-family:'Playfair Display',serif;font-size:28px;font-weight:400;margin-bottom:16px;">What we catch — and what we're leaving on the table</h2>
+    <p class="sec-body">85% of Canadian seafood production is exported. Most of the processing that creates premium-product jobs happens in the US, Japan, and the EU — not in Glace Bay or Burgeo. Canada ships the raw material; other countries capture the value.</p>
+
+    <!-- DFO Quota Dashboard -->
+    <div class="sec-label" style="color:rgba(122,184,204,0.7);margin-top:40px;">DFO Quota Dashboard · 2026 Season</div>
+    <table class="quota-table">
+      <thead>
+        <tr>
+          <th>Species</th>
+          <th>Region</th>
+          <th>2026 Status</th>
+          <th>Note</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Atlantic Lobster</strong></td>
+          <td>Maritimes LFA 27–38</td>
+          <td><span class="status-pill status-open">Open</span></td>
+          <td>Season varies by LFA. Main export: US market.</td>
+        </tr>
+        <tr>
+          <td><strong>Snow Crab</strong></td>
+          <td>NL / Maritimes</td>
+          <td><span class="status-pill status-open">TAC Set</span></td>
+          <td>Minister Thompson announced NL TAC March 27, 2026.</td>
+        </tr>
+        <tr>
+          <td><strong>Northern Cod</strong></td>
+          <td>2J3KL (NL)</td>
+          <td><span class="status-pill status-watch">Watch</span></td>
+          <td>Quota doubled in 2025 vs. DFO science recommendation. 71% probability of decline within 3 years per DFO's own assessment.</td>
+        </tr>
+        <tr>
+          <td><strong>Atlantic Halibut</strong></td>
+          <td>Maritimes / NL</td>
+          <td><span class="status-pill status-open">Open</span></td>
+          <td>NAFO-managed. Key export: Japan and EU under CPTPP/CETA.</td>
+        </tr>
+        <tr>
+          <td><strong>Pacific Salmon</strong></td>
+          <td>BC</td>
+          <td><span class="status-pill status-watch">Transition</span></td>
+          <td>Farmed salmon ban confirmed 2029. Wild harvest under climate pressure.</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size:12px;color:rgba(240,236,228,0.35);margin-bottom:32px;">Source: DFO Fisheries Management Decisions 2026 · dfo-mpo.gc.ca · Updated weekly from pipeline.</p>
+
+    <!-- Three seafood stat cards -->
+    <div class="seafood-grid">
+      <div class="seafood-card">
+        <div class="seafood-card-label">Annual seafood exports</div>
+        <div class="seafood-card-value">$4B+</div>
+        <div class="seafood-card-note">Lobster, snow crab, shrimp, salmon, groundfish. US is largest market.</div>
+      </div>
+      <div class="seafood-card">
+        <div class="seafood-card-label">Production exported</div>
+        <div class="seafood-card-value">~85%</div>
+        <div class="seafood-card-note">One of Canada's most export-intensive food industries. Most processing value captured offshore.</div>
+      </div>
+      <div class="seafood-card">
+        <div class="seafood-card-label">EU CETA channel</div>
+        <div class="seafood-card-value">Zero tariff</div>
+        <div class="seafood-card-note">Most seafood categories. Lobster, crab, groundfish, salmon all eligible. Underutilized by Canadian processors.</div>
+      </div>
+    </div>
+
+    <!-- Marshall Decision Tracker -->
+    <div class="marshall-block">
+      <div class="marshall-eyebrow">Marshall Decision Status Tracker</div>
+      <div class="marshall-title">1999 Supreme Court affirmed the treaty right to fish for a moderate livelihood. Implementation remains incomplete, 26 years later.</div>
+      <div class="marshall-body">DFO has enabled over $191 million in annual landings and $100 million in secondary economic benefits for Marshall communities. But vertical integration — the ability to own processing facilities and sell directly to international buyers — remains constrained. The economic ceiling keeps the most commercially significant portion of the value chain out of reach.</div>
+      <div class="timeline-row"><div class="timeline-year">1999</div><div class="timeline-text">R v Marshall — Supreme Court of Canada affirms Mi'kmaq, Wolastoqey, and Peskotomuhkati treaty right to fish for moderate livelihood.</div></div>
+      <div class="timeline-row"><div class="timeline-year">2019</div><div class="timeline-text">Sipekne'katik self-regulated lobster fishery. Confrontations with commercial fishers highlight incomplete implementation.</div></div>
+      <div class="timeline-row"><div class="timeline-year">2024</div><div class="timeline-text">DFO Atlantic Integrated Commercial Fisheries Initiative: $191M+ annual landings flowing through Marshall communities. Direct market access still constrained.</div></div>
+      <div class="timeline-row"><div class="timeline-year">2026</div><div class="timeline-text">Nunavut Fishery Regulations co-developed with Qikiqtani Inuit Association. Haida Gwaii herring rebuilding using IKS + Western science co-governance model.</div></div>
+      <div class="status-bar">Implementation status: Partial. Landings established. Vertical integration, processing ownership, and direct international market access remain incomplete. CTI monitors weekly.</div>
+    </div>
+  </div>
+</div>
+
+<!-- CONSUMER FOOD WATCH — warm cream background -->
+<div id="consumer" class="consumer-bg">
+  <div class="page-wrap">
+    <div class="sec-label">What Canadians Are Paying</div>
+    <h2 class="sec-title">The gap between what farms earn and what families pay</h2>
+    <p class="sec-body">When export markets strengthen, domestic food prices don't automatically fall. The supply chain captures margin on the way up and releases it slowly on the way down. Understanding that gap is the starting point for any honest conversation about food costs in Canada.</p>
+
+    <!-- Accordions -->
+    <div style="border-top:1px solid var(--rule);margin-bottom:32px;">
+      <div class="accordion-item">
+        <button class="accordion-btn" aria-expanded="true" onclick="toggleAcc(this)">
+          <span class="accordion-q">Why are grocery prices still high if inflation declined?</span>
+          <span class="accordion-arrow">▾</span>
+        </button>
+        <div class="accordion-body">
+          Farm-gate commodity prices and retail food prices move on different timelines. Input costs (fertilizer, fuel, labour) transmit upward to retail prices within weeks. Retail prices decline much more slowly — processors and retailers absorb the margin compression first, then pass savings to consumers last. Canada's 25% counter-tariffs on US goods translated to approximately 6% retail price increases on affected products, confirmed by the Bank of Canada. That cost passed directly to consumers.
+        </div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-btn" aria-expanded="false" onclick="toggleAcc(this)">
+          <span class="accordion-q">What is the Grocery Code of Conduct and does it lower prices?</span>
+          <span class="accordion-arrow">▾</span>
+        </button>
+        <div class="accordion-body">
+          The Canada Grocery Code of Conduct came into full effect January 1, 2026, governed by the Office of the Grocery Sector Code of Conduct (OGSCC). All five major grocers signed: Empire (Sobeys), Loblaw, Metro, Walmart Canada, and Costco Canada. The Code governs commercial practices between retailers and their suppliers — the opaque fees and retroactive charges that squeezed processors for years. It does not set or cap retail prices directly. Experts at Dalhousie's Agri-Food Analytics Lab describe food inflation in Canada as fundamentally structural, rooted in rigid supply chains and a food processing sector under sustained pressure. The Code is a necessary reform. It is not a price-control mechanism.
+        </div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-btn" aria-expanded="false" onclick="toggleAcc(this)">
+          <span class="accordion-q">Who are the five major grocery retailers and how concentrated is the market?</span>
+          <span class="accordion-arrow">▾</span>
+        </button>
+        <div class="accordion-body">
+          Loblaw, Empire (Sobeys/FreshCo/IGA), Metro, Walmart Canada, and Costco Canada together account for approximately 70% of Canadian grocery retail. This level of concentration gives retailers significant leverage over suppliers — the commercial dynamic the Grocery Code is designed to regulate. The Competition Bureau conducted a Retail Grocery Market Study in 2023 that documented the power imbalance. The Code is a partial response. The Bureau continues to monitor the sector.
+        </div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-btn" aria-expanded="false" onclick="toggleAcc(this)">
+          <span class="accordion-q">What does food insecurity in Canada actually look like?</span>
+          <span class="accordion-arrow">▾</span>
+        </button>
+        <div class="accordion-body">
+          Nearly 1 in 4 Canadians faces some level of food insecurity (Second Harvest national campaign, May 2026). 35% of food bank clients are employed workers. This is not a poverty story in the traditional sense — it is a cost-of-living crisis affecting working families. The restaurant sector, a major distribution channel for Canadian meat, produce, and grain, is in contraction: 71% of operators reported declining profits in Q1 2026 (Restaurants Canada). Domestic demand compression is happening simultaneously with export market strengthening, which creates rebalancing pressure toward export dependence precisely when market diversification requires investment.
+        </div>
+      </div>
+    </div>
+
+    <!-- Farm-to-shelf price trackers -->
+    <div class="sec-label" style="margin-top:8px;">Farm-to-Shelf Price Comparison</div>
+    <p style="font-size:13px;color:var(--ink-lt);margin-bottom:20px;">Indicative figures illustrating the markup structure. Updated quarterly from StatCan data. Not investment advice.</p>
+    <div class="price-tracker">
+      <div class="tracker-card">
+        <div class="tracker-label">Canola seed → canola oil</div>
+        <div class="tracker-row"><span class="tracker-stage">Farm gate (seed)</span><span class="tracker-val">~$680/tonne</span></div>
+        <div class="tracker-row"><span class="tracker-stage">Crush margin</span><span class="tracker-val">+processing</span></div>
+        <div class="tracker-row"><span class="tracker-stage">Retail (oil/litre)</span><span class="tracker-val">~$8–12</span></div>
+        <div class="tracker-row"><span class="tracker-stage">Value captured offshore</span><span class="tracker-val tracker-gap">Significant</span></div>
+      </div>
+      <div class="tracker-card">
+        <div class="tracker-label">CWRS wheat → bread</div>
+        <div class="tracker-row"><span class="tracker-stage">Farm gate (wheat)</span><span class="tracker-val">~$290/tonne</span></div>
+        <div class="tracker-row"><span class="tracker-stage">Milling + baking</span><span class="tracker-val">+processing</span></div>
+        <div class="tracker-row"><span class="tracker-stage">Retail (bread/loaf)</span><span class="tracker-val">~$4–7</span></div>
+        <div class="tracker-row"><span class="tracker-stage">Farm share of retail $</span><span class="tracker-val tracker-gap">~8–12%</span></div>
+      </div>
+      <div class="tracker-card">
+        <div class="tracker-label">Atlantic lobster</div>
+        <div class="tracker-row"><span class="tracker-stage">Ex-vessel price</span><span class="tracker-val">~$10–14/lb</span></div>
+        <div class="tracker-row"><span class="tracker-stage">Processing + shipping</span><span class="tracker-val">+handling</span></div>
+        <div class="tracker-row"><span class="tracker-stage">Retail Canada</span><span class="tracker-val">~$25–40/lb</span></div>
+        <div class="tracker-row"><span class="tracker-stage">Processing jobs in Canada</span><span class="tracker-val tracker-gap">Largely offshore</span></div>
+      </div>
+      <div class="tracker-card">
+        <div class="tracker-label">Potash inputs → fertilizer</div>
+        <div class="tracker-row"><span class="tracker-stage">Nutrien mine gate</span><span class="tracker-val">~$330/tonne</span></div>
+        <div class="tracker-row"><span class="tracker-stage">Distribution</span><span class="tracker-val">+logistics</span></div>
+        <div class="tracker-row"><span class="tracker-stage">Farm retail price</span><span class="tracker-val">~$550–650/tonne</span></div>
+        <div class="tracker-row"><span class="tracker-stage">Canada's market position</span><span class="tracker-val" style="color:#2e7a3e;">World's largest producer</span></div>
+      </div>
+    </div>
+
+    <!-- Grocery Code Status Monitor -->
+    <div class="grocery-status">
+      <div class="grocery-status-header">
+        <div class="grocery-status-title">Grocery Code of Conduct — Status Monitor</div>
+        <div class="status-active">Active</div>
+      </div>
+      <div class="grocery-row"><span>In force since</span><span class="grocery-val">January 1, 2026</span></div>
+      <div class="grocery-row"><span>Governing body</span><span class="grocery-val">OGSCC — canadiangrocerycode.ca</span></div>
+      <div class="grocery-row"><span>Participating major grocers</span><span class="grocery-val">Empire, Loblaw, Metro, Walmart Canada, Costco</span></div>
+      <div class="grocery-row"><span>Dispute resolution</span><span class="grocery-val">Operational — formal complaints accepted</span></div>
+      <div class="grocery-row"><span>Annual report</span><span class="grocery-val">First edition expected mid-2026</span></div>
+      <div class="grocery-row"><span>What it governs</span><span class="grocery-val">Supplier-retailer commercial practices. Not retail prices.</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOD TECHNOLOGY HUB -->
+<div id="foodtech" class="page-wrap" style="padding-top:64px;padding-bottom:0;">
+  <div class="section-block">
+    <div class="sec-label">Food Technology and Bioengineering</div>
+    <h2 class="sec-title">What Canada is growing on the lab bench</h2>
+    <p class="sec-body">Canada has one of the world's more permissive regulatory environments for gene-edited crops and novel protein products — more permissive than the EU and comparable to the US. New Health Canada approvals are commercial signals for food tech investors and domestic manufacturers building next-generation ingredient supply chains.</p>
+
+    <div class="foodtech-grid">
+      <div class="ft-card">
+        <div class="ft-region">Saskatchewan</div>
+        <div class="ft-title">Pulse protein processing</div>
+        <div class="ft-body">World's largest pulse crop production base meets food tech investment. Burcon NutraScience and others extracting canola and pea protein at scale. The ingredient supply chain for global alt-protein brands starts in Saskatchewan fields.</div>
+      </div>
+      <div class="ft-card">
+        <div class="ft-region">Alberta</div>
+        <div class="ft-title">Canola biotech and gene editing</div>
+        <div class="ft-body">Gene-edited canola varieties in commercial production. Regulatory pathway from field to food is faster here than anywhere in the EU. Alberta's regulatory advantage is a genuine trade competitive advantage for Canadian agri-biotech.</div>
+      </div>
+      <div class="ft-card">
+        <div class="ft-region">Ontario</div>
+        <div class="ft-title">Precision fermentation and alt-protein</div>
+        <div class="ft-body">Waterloo and Toronto clusters active in dairy protein alternatives, heme production, and food AI. Maple Leaf Foods' alt-protein pivot signals corporate investment moving in this direction. ISED Clean Agri-Food Program funds automation and AI adoption.</div>
+      </div>
+      <div class="ft-card">
+        <div class="ft-region">British Columbia</div>
+        <div class="ft-title">Aquaculture tech and ocean AI post-salmon</div>
+        <div class="ft-body">Federal Court confirmed the 2029 open net-pen salmon phase-out. Land-based aquaculture, wild harvest intensification, and alt-protein are the post-phase-out opportunity space. Canada's Ocean Supercluster targets $220B ocean economy by 2035.</div>
+      </div>
+    </div>
+
+    <!-- What's on your plate in 10 years -->
+    <div class="sec-label" style="margin-top:16px;">What's on your plate in 10 years</div>
+    <p style="font-size:13px;color:var(--ink-lt);margin-bottom:8px;">Click any milestone to see what it means for Canadian farms, processors, and consumers.</p>
+    <div class="timeline-future">
+      <div class="tl-item open" onclick="toggleTl(this)">
+        <div class="tl-year-box">2026</div>
+        <div class="tl-main">
+          <div class="tl-title">Gene-edited canola varieties in commercial production</div>
+          <div class="tl-detail">Health Canada approved several gene-edited canola varieties under the Novel Food regulations. Canada's permissive regulatory approach means Canadian farmers can grow gene-edited crops that are still banned in EU member states — a competitive advantage in yield and disease resistance that will compound over time.</div>
+        </div>
+        <div class="tl-tag approved">Approved</div>
+      </div>
+      <div class="tl-item" onclick="toggleTl(this)">
+        <div class="tl-year-box">2027</div>
+        <div class="tl-main">
+          <div class="tl-title">Precision fermentation dairy proteins at commercial scale</div>
+          <div class="tl-detail">Canadian companies including Perfect Day licensees are scaling precision fermentation to produce whey and casein proteins identical to dairy without cows. By 2027, commercial-scale Canadian production is projected by several active ventures. The impact on dairy supply management policy is an open question no federal government has been willing to address directly.</div>
+        </div>
+        <div class="tl-tag pending">In development</div>
+      </div>
+      <div class="tl-item" onclick="toggleTl(this)">
+        <div class="tl-year-box">2029</div>
+        <div class="tl-main">
+          <div class="tl-title">BC open net-pen salmon aquaculture phase-out</div>
+          <div class="tl-detail">Federal Court of Appeal confirmed the 2029 deadline. A $1.5B+ annual industry restructures in real time. Land-based recirculating aquaculture systems are capital-intensive but have strong demand from processors who need supply certainty beyond 2029. The question is not whether it changes — it is who captures the value of what replaces it.</div>
+        </div>
+        <div class="tl-tag approved">Confirmed</div>
+      </div>
+      <div class="tl-item" onclick="toggleTl(this)">
+        <div class="tl-year-box">2030</div>
+        <div class="tl-main">
+          <div class="tl-title">Vertical farming cost curves reach parity in select categories</div>
+          <div class="tl-detail">Energy cost is the constraint for vertical farming in Canada's cold climate — the economics look different in Alberta (abundant gas) versus Ontario (grid electricity). Leafy greens and herbs are the near-term viable categories. Commodity crops are decades away from viable indoor production. The story is about premium fresh produce for urban markets, not field-crop displacement.</div>
+        </div>
+        <div class="tl-tag forecast">Projected</div>
+      </div>
+      <div class="tl-item" onclick="toggleTl(this)">
+        <div class="tl-year-box">2032+</div>
+        <div class="tl-main">
+          <div class="tl-title">Alt-protein mainstream penetration in processed food</div>
+          <div class="tl-detail">Plant-based, precision fermentation, and cultivated meat are converging in processed food categories — burgers, nuggets, sausages — where the protein source is already partially obscured by processing. The Canadian regulatory pathway for cultivated meat is still being developed by Health Canada. The first commercial sale in Canada is likely by the late 2020s.</div>
+        </div>
+        <div class="tl-tag forecast">Long-term</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- LAND AND FOOD SOVEREIGNTY -->
+<div id="land" class="page-wrap" style="padding-top:64px;padding-bottom:0;">
+  <div class="section-block">
+    <div class="sec-label">Land, Food Sovereignty, and Indigenous Rights</div>
+    <h2 class="sec-title">Who owns the land that grows Canada's food</h2>
+    <p class="sec-body">Foreign ownership of Canadian farmland, billionaire acquisition patterns, supply management debates, and Indigenous agricultural land rights are not separate stories. They are different dimensions of the same question: who controls the productive capacity of Canadian agriculture, and in whose interests is it managed.</p>
+
+    <div class="land-grid">
+      <div>
+        <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-lt);margin-bottom:12px;">Provincial Farmland Ownership Restrictions</div>
+        <div class="restriction-map">
+          <div class="restriction-row"><span class="restriction-prov">PEI</span><span class="restriction-level level-strict">Strictest</span><span class="restriction-note">1,000 acre individual cap. Land Protection Act.</span></div>
+          <div class="restriction-row"><span class="restriction-prov">Saskatchewan</span><span class="restriction-level level-strict">Restricted</span><span class="restriction-note">Non-residents cannot own farmland. Foreign ownership cap.</span></div>
+          <div class="restriction-row"><span class="restriction-prov">Manitoba</span><span class="restriction-level level-strict">Restricted</span><span class="restriction-note">GROW Act restrictions on non-resident ownership.</span></div>
+          <div class="restriction-row"><span class="restriction-prov">Alberta</span><span class="restriction-level level-mod">Moderate</span><span class="restriction-note">Disclosure requirements tightened. No ownership ban.</span></div>
+          <div class="restriction-row"><span class="restriction-prov">Ontario / Quebec</span><span class="restriction-level level-disc">Disclosure</span><span class="restriction-note">Quebec CPTAQ limits agricultural conversion. No ownership ban.</span></div>
+        </div>
+      </div>
+      <div>
+        <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-lt);margin-bottom:12px;">The Global Pattern</div>
+        <p style="font-size:14px;color:var(--ink-mid);line-height:1.75;margin-bottom:16px;">Bill Gates is the largest private farmland owner in the United States, with approximately 270,000 acres. Saudi Arabia, the UAE, and China have pursued sovereign wealth acquisition of agricultural land in food-exporting countries. The pattern: countries with structural food insecurity are buying productive land in countries with agricultural surplus.</p>
+        <p style="font-size:14px;color:var(--ink-mid);line-height:1.75;">This is not a conspiracy story. It is a structural intelligence story. When productive land is owned by entities whose interests are not aligned with Canadian food security, that is a risk signal. Canada's Investment Canada Act reviews agricultural acquisitions, but the disclosure framework has gaps. CTI monitors reported acquisitions weekly.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CTI REVIEW — ANALYSIS -->
+<div id="analysis" class="page-wrap" style="padding-top:64px;padding-bottom:0;">
+  <div class="section-block">
+    <div class="sec-label">CTI Analysis</div>
+    <h2 class="sec-title">Long-form intelligence on Canada's food economy</h2>
+    <div class="articles-grid">
+      <a class="article-card" href="/spotlight/ocean-economy-canada-2026">
+        <div class="article-tag">Ocean Economy · June 2026</div>
+        <div class="article-title">The ocean Canada isn't counting</div>
+        <div class="article-excerpt">Canada has the world's longest coastline and its Atlantic fisheries generate $4B+ in annual exports. Yet most of the processing that creates premium-product jobs happens elsewhere. The Marshall Decision, the B.C. salmon ban, and Oceana Canada's stock health audit read together as a sector at a crossroads.</div>
+      </a>
+      <div class="article-card" style="opacity:0.6;">
+        <div class="article-tag">Coming · Q3 2026</div>
+        <div class="article-title">The canola supply chain restructuring</div>
+        <div class="article-excerpt">Cargill's Regina facility, China SAMR restrictions, and CETA's zero-tariff EU channel are reshaping how Canadian canola flows to the world. The farmgate pricing benchmark is shifting. Who adapts first captures the premium.</div>
+      </div>
+      <div class="article-card" style="opacity:0.6;">
+        <div class="article-tag">Coming · July 2026</div>
+        <div class="article-title">Supply management in a CUSMA world</div>
+        <div class="article-excerpt">The CUSMA joint review begins in July 2026. US pressure on Canadian dairy and poultry access has been a feature of every negotiation since 2017. What the 2026 review signals about the durability of supply management.</div>
+      </div>
+      <div class="article-card" style="opacity:0.6;">
+        <div class="article-tag">Coming · Q3 2026</div>
+        <div class="article-title">Why Canada ships raw fish and imports processed seafood</div>
+        <div class="article-excerpt">Approximately 85% of Canadian seafood production is exported. But much of the processing that generates jobs and premium positioning happens in destination markets. The value-added processing gap is a policy choice, not an inevitability.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE WRAP CLOSE + FOOTNOTE -->
+<div class="page-wrap">
+  <div class="footnote">
+    Sources: Agriculture and Agri-Food Canada (AAFC) · Statistics Canada · DFO Fisheries Management Decisions 2026 · Canola Council of Canada · Canadian Agri-Food Trade Alliance (CAFTA) · Protein Industries Canada · Health Canada Novel Food Notifications · Oceana Canada Fishery Audit 2025 · Office of the Grocery Sector Code of Conduct (OGSCC) · Second Harvest 2026 · Bank of Canada · Dalhousie Agri-Food Analytics Lab · Canada's Ocean Supercluster · World Bank Pink Sheet.<br>
+    For informational purposes only. Not investment, trade, or financial advice. CTI monitors all listed sources weekly. Data current as of publication date.
   </div>
 </div>
 
 <script>
-(function() {
-  var SECTOR_KEY = 'agri_food';
-  function fmt(str) {
-    if (!str) return '';
-    var d = new Date(str + 'T12:00:00');
-    if (isNaN(d)) return str;
-    return d.toLocaleDateString('en-CA', {
-      year: 'numeric', month: 'short', day: 'numeric'
-    });
-  }
-  fetch('/reports/reports-index.json')
-    .then(function(r) { return r.json(); })
-    .then(function(data) {
-      var reports = data.filter(function(r) {
-        return r.sector === SECTOR_KEY;
-      });
-      reports.sort(function(a, b) {
-        return (b.issue || 0) - (a.issue || 0);
-      });
-      var feat = document.getElementById('report-feature');
-      if (!feat) return;
-      if (reports.length === 0) {
-        feat.innerHTML =
-          '<div class="rf-kicker">No reports found yet — ' +
-          'new issues publish every Tuesday.</div>';
-        return;
-      }
-      var latest = reports[0];
-      var url = '/reports/' + (latest.full_report || '');
-      var summary = latest.summary || '';
-      if (summary.length > 280) summary = summary.substring(0, 277) + '...';
-      feat.innerHTML =
-        '<div class="rf-kicker">Intelligence Brief · Issue #' +
-        String(latest.issue || '').padStart(3, '0') +
-        ' · ' + fmt(latest.date) + '</div>' +
-        '<div class="rf-headline">' + (latest.title || '') + '</div>' +
-        (summary
-          ? '<div class="rf-summary">' + summary + '</div>'
-          : '') +
-        '<div class="rf-buttons">' +
-          '<a href="' + url + '" class="btn-read">Read this issue →</a>' +
-          '<span class="btn-archive" onclick="' +
-            'var el = document.getElementById(\'archive-list\') ||' +
-            ' document.getElementById(\'report-archive\');' +
-            'if (el) el.scrollIntoView({ behavior: \'smooth\' });' +
-          '">Previous issues ↓</span>' +
-        '</div>';
-      var archEl =
-        document.getElementById('archive-list') ||
-        document.getElementById('report-archive');
-      if (!archEl) return;
-      var rest = reports.slice(1, 10);
-      if (rest.length === 0) {
-        archEl.innerHTML =
-          '<div class="loading-text">Archive builds as issues ' +
-          'are published.</div>';
-        return;
-      }
-      var html = '';
-      rest.forEach(function(r) {
-        var u = '/reports/' + (r.full_report || '');
-        var t = r.title || ('Issue #' + r.issue);
-        html +=
-          '<div class="archive-row">' +
-            '<span class="ar-issue">#' +
-            String(r.issue || '').padStart(3, '0') +
-            '</span>' +
-            '<span class="ar-title">' +
-              '<a href="' + u + '">' + t + '</a>' +
-            '</span>' +
-            '<span class="ar-date">' + fmt(r.date) + '</span>' +
-          '</div>';
-      });
-      archEl.innerHTML = html;
-    })
-    .catch(function() {
-      var feat = document.getElementById('report-feature');
-      if (feat) {
-        feat.innerHTML =
-          '<div class="rf-kicker">Report data temporarily ' +
-          'unavailable.</div>' +
-          '<div class="rf-buttons">' +
-            '<a href="/reports/" class="btn-read">' +
-            'Browse all reports →</a>' +
-          '</div>';
-      }
-    });
-})();
+// Toggle past issues expand/collapse
+var issuesExpanded = false;
+function toggleIssues() {
+  issuesExpanded = !issuesExpanded;
+  document.getElementById('issue-list-full').style.display = issuesExpanded ? 'block' : 'none';
+  var lbl = document.getElementById('issues-toggle-label');
+  lbl.textContent = issuesExpanded ? 'Show fewer issues' : 'Show all issues';
+}
+
+// Accordion
+function toggleAcc(btn) {
+  var expanded = btn.getAttribute('aria-expanded') === 'true';
+  btn.setAttribute('aria-expanded', String(!expanded));
+}
+
+// Timeline items
+function toggleTl(item) {
+  item.classList.toggle('open');
+}
+
+// Audience tab highlighting on scroll
+var tabs = document.querySelectorAll('.aud-tab');
+var sections = ['brief','farmers','fisheries','consumer','foodtech','land','analysis'];
+window.addEventListener('scroll', function() {
+  var scrollY = window.scrollY + 120;
+  var current = sections[0];
+  sections.forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el && el.offsetTop <= scrollY) current = id;
+  });
+  tabs.forEach(function(tab) {
+    var href = tab.getAttribute('href');
+    tab.classList.toggle('active', href === '#' + current);
+  });
+}, { passive: true });
+
+// Hero pill click — smooth scroll
+document.querySelectorAll('.hero-pill').forEach(function(pill) {
+  pill.addEventListener('click', function(e) {
+    document.querySelectorAll('.hero-pill').forEach(function(p) { p.classList.remove('active'); });
+    e.currentTarget.classList.add('active');
+  });
+});
 </script>
+
 </body>
 </html>
