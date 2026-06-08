@@ -241,6 +241,7 @@ body{font-family:'Jost',sans-serif;color:#fff;
           <option value="Graphite">Graphite</option>
           <option value="Zinc">Zinc</option>
           <option value="Iron Ore">Iron Ore</option>
+          <option value="Multiple">Multiple / Other</option>
         </select>
       </div>
 
@@ -386,10 +387,15 @@ body{font-family:'Jost',sans-serif;color:#fff;
     'zinc':       '#b0d080',
     'iron':       '#c07050',
     'chromite':   '#d06060',
+    'multiple':   '#b0b0b0',
+    'coal':       '#808080',
+    'zinc':       '#b0d090',
+    'potash':     '#d0a060',
   };
 
   function getColour(mineral) {
-    if (!mineral) return '#cccccc';
+    if (!mineral || mineral.toLowerCase().indexOf('multiple') !== -1)
+      return '#b0b0b0';
     var m = mineral.toLowerCase();
     for (var key in COLOURS) {
       if (m.indexOf(key) !== -1) return COLOURS[key];
@@ -577,25 +583,27 @@ body{font-family:'Jost',sans-serif;color:#fff;
       marker = L.circleMarker([s.lat, s.lng], {
         radius: radius,
         fillColor: colour,
-        color: 'rgba(0,0,0,0.35)',
-        weight: 1,
-        fillOpacity: 0.85,
+        color: colour,
+        weight: 1.5,
+        fillOpacity: 0.92,
+        opacity: 1,
       });
     }
     marker.siteData = s;
     marker.bindPopup(
-      '<strong style="font-size:13px;">' + s.name + '</strong><br>' +
-      '<span style="font-size:11px;color:#555;">' +
-        (s.mineral || '') + ' · ' + (s.type || '') +
-        ' · ' + (s.province || '') + '</span><br>' +
-      '<span style="font-size:11px;">' + (s.status || '') +
-        '</span><br>' +
+      '<strong style="font-size:13px;line-height:1.4;display:block;margin-bottom:4px;">' + s.name + '</strong>' +
+      '<span style="font-size:11px;color:#444;display:block;margin-bottom:2px;">' +
+        (s.mineral || 'Multiple minerals') + ' · ' + (s.type || 'Site') +
+      '</span>' +
+      '<span style="font-size:11px;color:#444;display:block;margin-bottom:2px;">' +
+        (s.province || '') + (s.status ? ' · ' + s.status : '') +
+      '</span>' +
       (s.company
-        ? '<span style="font-size:11px;color:#777;">' +
-          s.company + '</span><br>'
+        ? '<span style="font-size:11px;color:#666;display:block;margin-bottom:6px;">' +
+          s.company + '</span>'
         : '') +
       '<a href="/industries/critical-minerals/" ' +
-        'style="font-size:11px;color:#1a6b42;">' +
+        'style="font-size:11px;color:#1a6b42;font-weight:500;">' +
         'CTI intelligence →</a>',
       { maxWidth: 220 }
     );

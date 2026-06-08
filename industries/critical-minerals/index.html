@@ -175,21 +175,58 @@ body{font-family:'Jost',sans-serif;background:var(--warm-bg);color:var(--ink);fo
 
       <!-- MAP BLOCK -->
       <div class="s-eyebrow">Canadian mining map</div>
-      <div class="map-block">
-        <div class="map-label">Interactive reference</div>
-        <div class="map-title">Canada's mines, deposits &amp; exploration zones</div>
-        <div class="map-body">Canada holds the world's third-largest uranium reserves, significant lithium deposits in Quebec and the Northwest Territories, cobalt in Ontario's Cobalt Belt, and rare earth concentrations in British Columbia and Saskatchewan. The Ring of Fire in northern Ontario holds one of the largest chromite deposits in the western hemisphere alongside significant nickel and copper.</div>
-        <div class="map-links">
+      <div class="map-block" style="padding:0;overflow:hidden;">
+        <div style="padding:36px 36px 28px;background:var(--sector-dark);">
+          <div style="font-family:'DM Mono',monospace;font-size:8px;
+            letter-spacing:0.18em;text-transform:uppercase;
+            color:rgba(168,213,188,0.5);margin-bottom:10px;">
+            Interactive map · NRCan open data
+          </div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:28px;
+            font-weight:600;color:#f4f0e8;line-height:1.15;margin-bottom:12px;">
+            Map of Canadian Mines &amp; Mineral Projects
+          </div>
+          <div style="font-size:14px;color:rgba(168,213,188,0.75);
+            line-height:1.7;margin-bottom:24px;max-width:520px;">
+            Canada holds the world's third-largest uranium reserves,
+            significant lithium deposits in Quebec and the Northwest
+            Territories, cobalt in Ontario's Cobalt Belt, and rare earth
+            concentrations in British Columbia and Saskatchewan. The Ring
+            of Fire in northern Ontario holds one of the largest chromite
+            deposits in the western hemisphere.
+          </div>
           <a href="/industries/critical-minerals/map/"
-             class="map-link">Open CTI mining map →</a>
+            style="display:inline-block;background:var(--crimson);
+              color:#fff;font-family:'DM Mono',monospace;font-size:10px;
+              letter-spacing:0.12em;text-transform:uppercase;
+              padding:14px 28px;text-decoration:none;
+              transition:background 0.18s;margin-right:16px;">
+            Open the map →
+          </a>
           <a href="https://atlas.gc.ca/critical-minerals/en/index.html"
-             target="_blank" rel="noopener"
-             class="map-link">NRCan official map →</a>
-          <a href="https://open.canada.ca/data/en/dataset/22b2db8a-dc12-47f2-9737-99d3da921751"
-             target="_blank" rel="noopener"
-             class="map-link">Open data →</a>
+            target="_blank" rel="noopener"
+            style="font-family:'DM Mono',monospace;font-size:9px;
+              letter-spacing:0.1em;text-transform:uppercase;
+              color:rgba(168,213,188,0.55);text-decoration:none;
+              border-bottom:1px solid rgba(168,213,188,0.2);
+              padding-bottom:2px;">
+            NRCan official map →
+          </a>
         </div>
-        <div class="map-source">Sources: NRCan, Geological Survey of Canada, Mining Association of Canada</div>
+        <div style="background:var(--sector-darker);padding:12px 36px;
+          display:flex;gap:24px;flex-wrap:wrap;">
+          <a href="https://open.canada.ca/data/en/dataset/22b2db8a-dc12-47f2-9737-99d3da921751"
+            target="_blank" rel="noopener"
+            style="font-family:'DM Mono',monospace;font-size:8px;
+              letter-spacing:0.1em;text-transform:uppercase;
+              color:rgba(168,213,188,0.4);text-decoration:none;">
+            NRCan open data →
+          </a>
+          <span style="font-family:'DM Mono',monospace;font-size:8px;
+            letter-spacing:0.08em;color:rgba(168,213,188,0.25);">
+            Sources: Natural Resources Canada · Open Government Licence
+          </span>
+        </div>
       </div>
 
       <hr class="s-divider">
@@ -363,19 +400,17 @@ body{font-family:'Jost',sans-serif;background:var(--warm-bg);color:var(--ink);fo
         document.getElementById('archive-list') ||
         document.getElementById('report-archive');
       if (!archEl) return;
-      var rest = reports.slice(1, 10);
-      if (rest.length === 0) {
+      if (reports.length <= 1) {
         archEl.innerHTML =
           '<div class="loading-text">Archive builds as issues ' +
           'are published.</div>';
         return;
       }
-      var html = '';
-      rest.forEach(function(r) {
-        var u = '/reports/' + (r.full_report || '');
-        var t = r.title || ('Issue #' + r.issue);
-        html +=
-          '<div class="archive-row">' +
+      function renderArchiveRows(list) {
+        return list.map(function(r) {
+          var u = '/reports/' + (r.full_report || '');
+          var t = r.title || ('Issue #' + r.issue);
+          return '<div class="archive-row">' +
             '<span class="ar-issue">#' +
             String(r.issue || '').padStart(3, '0') +
             '</span>' +
@@ -383,9 +418,29 @@ body{font-family:'Jost',sans-serif;background:var(--warm-bg);color:var(--ink);fo
               '<a href="' + u + '">' + t + '</a>' +
             '</span>' +
             '<span class="ar-date">' + fmt(r.date) + '</span>' +
-          '</div>';
-      });
-      archEl.innerHTML = html;
+            '</div>';
+        }).join('');
+      }
+      var rest = reports.slice(1, 4);
+      var archiveHtml = renderArchiveRows(rest);
+      if (reports.length > 4) {
+        archiveHtml +=
+          '<div id="archive-show-more" style="margin-top:12px;">' +
+          '<span id="archive-toggle" style="font-family:\'DM Mono\',' +
+          'monospace;font-size:8px;letter-spacing:0.12em;' +
+          'text-transform:uppercase;color:var(--sector);cursor:pointer;' +
+          'border-bottom:1px solid currentColor;padding-bottom:1px;">' +
+          'Show all ' + (reports.length - 1) + ' issues →' +
+          '</span></div>';
+      }
+      archEl.innerHTML = archiveHtml;
+      var toggle = document.getElementById('archive-toggle');
+      if (toggle) {
+        toggle.addEventListener('click', function() {
+          var full = renderArchiveRows(reports.slice(1));
+          archEl.innerHTML = full;
+        });
+      }
     })
     .catch(function() {
       var feat = document.getElementById('report-feature');
