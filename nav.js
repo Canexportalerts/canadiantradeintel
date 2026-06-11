@@ -202,27 +202,7 @@
       '<a href="/procurement/">Procurement</a>' +
       '<a href="/industries/">Industries</a>' +
       '<a href="/spotlight/">News</a>' +
-      '<div class="nav-dropdown">' +
-        '<a href="/canada-forward/" class="nav-dropdown-btn">Canada \u25be</a>' +
-        '<div class="nav-dropdown-menu">' +
-          '<span class="nav-dropdown-label">Overview</span>' +
-          '<a href="/canada-forward/">Canada Forward</a>' +
-          '<a href="/canada-forward/review/">Publications</a>' +
-          '<div class="nav-dropdown-divider"></div>' +
-          '<span class="nav-dropdown-label">Themes</span>' +
-          '<a href="/canada-forward/housing-and-infrastructure/">Housing &amp; Infrastructure</a>' +
-          '<a href="/canada-forward/cities/">Cities &amp; Urban Infrastructure</a>' +
-          '<a href="/canada-forward/care-economy/">Care Economy</a>' +
-          '<a href="/canada-forward/indigenous-economy/">Indigenous Economy</a>' +
-          '<a href="/canada-forward/financial-services/">Financial Services</a>' +
-          '<a href="/canada-forward/foreign-investment/">Foreign Investment</a>' +
-          '<a href="/canada-forward/provinces/">Provinces</a>' +
-          '<div class="nav-dropdown-divider"></div>' +
-          '<span class="nav-dropdown-label">Research</span>' +
-          '<a href="/canada-forward/research/" class="nav-item-muted">Library \u2014 Coming Soon</a>' +
-          '<a href="/canada-forward/cusma-review/">CUSMA 2026 Tracker</a>' +
-        '</div>' +
-      '</div>' +
+      '<a href="/canada-forward/housing-and-infrastructure/">Canada</a>' +
       '<a href="/countries/">Countries</a>' +
       '<a href="/dashboard/">Dashboard</a>' +
       '<div class="nav-dropdown">' +
@@ -249,18 +229,7 @@
     '<a href="/procurement/">Procurement</a>' +
     '<a href="/industries/">Industries</a>' +
     '<a href="/spotlight/">News</a>' +
-    '<span class="nav-mobile-section">Canada</span>' +
-    '<a href="/canada-forward/">Overview</a>' +
-    '<a href="/canada-forward/review/">Publications</a>' +
-    '<a href="/canada-forward/housing-and-infrastructure/">Housing &amp; Infrastructure</a>' +
-    '<a href="/canada-forward/cities/">Cities &amp; Urban Infrastructure</a>' +
-    '<a href="/canada-forward/care-economy/">Care Economy</a>' +
-    '<a href="/canada-forward/indigenous-economy/">Indigenous Economy</a>' +
-    '<a href="/canada-forward/financial-services/">Financial Services</a>' +
-    '<a href="/canada-forward/foreign-investment/">Foreign Investment</a>' +
-    '<a href="/canada-forward/provinces/">Provinces</a>' +
-    '<a href="/canada-forward/research/" class="nav-item-muted">Library \u2014 Coming Soon</a>' +
-    '<a href="/canada-forward/cusma-review/">CUSMA 2026 Tracker</a>' +
+    '<a href="/canada-forward/housing-and-infrastructure/">Canada</a>' +
     '<a href="/countries/">Countries</a>' +
     '<a href="/dashboard/">Dashboard</a>' +
     '<span class="nav-mobile-section">Resources</span>' +
@@ -295,20 +264,12 @@
       }
     });
 
-    // Highlight dropdown buttons when on a sub-page of that dropdown
-    var dropdownBtns = nav.querySelectorAll('.nav-dropdown-btn');
-    var canadaForwardPaths = ['/canada-forward', '/canada'];
+    // Highlight Resources dropdown button when on a resource sub-page
     var resourcePaths = ['/map', '/resources', '/tariffs', '/guides', '/methodology', '/tools', '/about'];
+    var dropdownBtns = nav.querySelectorAll('.nav-dropdown-btn');
     dropdownBtns.forEach(function (btn) {
-      var text = btn.textContent.trim();
-      if (text.indexOf('Canada') !== -1 && text.indexOf('Resources') === -1) {
-        if (canadaForwardPaths.some(function (p) { return path === p || path.startsWith(p + '/'); })) {
-          btn.classList.add('active');
-        }
-      } else if (text.indexOf('Resources') !== -1) {
-        if (resourcePaths.some(function (p) { return path === p || path.startsWith(p + '/'); })) {
-          btn.classList.add('active');
-        }
+      if (resourcePaths.some(function (p) { return path === p || path.startsWith(p + '/'); })) {
+        btn.classList.add('active');
       }
     });
 
