@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>NSS Watch — National Shipbuilding Strategy Supply Chain · Canadian Trade Intelligence</title>
+<meta name="description" content="Procurement opportunities, supplier registration, and weekly signals for Canadian manufacturers entering the National Shipbuilding Strategy supply chain.">
+<link rel="canonical" href="https://canadiantradeintel.ca/industries/advanced-manufacturing/nss-watch/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Mono:wght@400;500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="/nav.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --ink:#0d0d0b;--ink-soft:#2a2a28;--ink-mid:#3a3a36;--slate:#5a5a56;
+  --warm-bg:#f8f5f0;--warm-mid:#efe9e0;--warm-border:#ddd5c5;--white:#fdfcfa;
+  --crimson:#8b1a1a;--brand-dark:#1a0505;
+  --sector:#2a5090;--sector-dark:#132448;--sector-darker:#090f1e;
+  --sector-light:#f0f4fc;--sector-mid:#7da0d4;
+  --amber:#c8860a;
+}
+html{scroll-behavior:smooth;}
+body{font-family:'Jost',sans-serif;background:var(--warm-bg);color:var(--ink);font-size:15px;line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+
+.sector-subnav{background:var(--brand-dark);border-bottom:1px solid rgba(255,255,255,0.06);padding:0 48px;}
+.sector-subnav-inner{max-width:1160px;margin:0 auto;display:flex;gap:0;overflow-x:auto;scrollbar-width:none;}
+.sector-subnav-inner::-webkit-scrollbar{display:none;}
+.sn-item{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.45);text-decoration:none;padding:14px 18px;border-bottom:2px solid transparent;white-space:nowrap;transition:color 0.15s;}
+.sn-item:hover{color:rgba(255,255,255,0.75);}
+.sn-item.active{color:#fff;border-bottom-color:var(--sector);}
+
+.nss-masthead{background:var(--sector-darker);padding:48px 48px 36px;border-bottom:3px solid var(--crimson);position:relative;overflow:hidden;}
+.nss-masthead::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 20% 70%, rgba(42,80,144,0.45) 0%, transparent 65%);pointer-events:none;}
+.nss-masthead-inner{max-width:1160px;margin:0 auto;position:relative;z-index:1;}
+.nss-eyebrow{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(125,160,212,0.7);margin-bottom:10px;}
+.nss-breadcrumb{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(125,160,212,0.4);margin-bottom:16px;}
+.nss-breadcrumb a{color:rgba(125,160,212,0.45);text-decoration:none;}
+.nss-breadcrumb a:hover{color:rgba(125,160,212,0.75);}
+.nss-title{font-family:'Cormorant Garamond',serif;font-size:46px;font-weight:600;font-style:italic;color:#f4f0e8;line-height:1.05;margin-bottom:10px;}
+.nss-descriptor{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(125,160,212,0.55);max-width:700px;line-height:1.8;}
+
+.nss-body{max-width:960px;margin:0 auto;padding:48px 48px 80px;}
+
+.s-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.2em;text-transform:uppercase;color:var(--sector);margin-bottom:14px;padding-bottom:10px;border-bottom:0.5px solid var(--warm-border);}
+.s-divider{border:none;border-top:0.5px solid var(--warm-border);margin:40px 0;}
+
+/* ── SECTION 1: WHAT IS THE NSS ── */
+.nss-overview{margin-bottom:48px;}
+.nss-overview p{font-size:15px;color:var(--ink-mid);line-height:1.8;margin-bottom:16px;max-width:720px;}
+.shipyard-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:24px 0;}
+.shipyard-card{background:var(--white);border:0.5px solid var(--warm-border);border-top:3px solid var(--sector);padding:20px 24px;}
+.shipyard-name{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);margin-bottom:6px;}
+.shipyard-location{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:8px;}
+.shipyard-vessels{list-style:none;padding:0;}
+.shipyard-vessels li{font-size:13px;color:var(--ink-mid);line-height:1.65;padding:4px 0;border-bottom:0.5px solid var(--warm-border);display:flex;gap:8px;align-items:flex-start;}
+.shipyard-vessels li:last-child{border-bottom:none;}
+.shipyard-vessels li::before{content:'–';color:var(--sector-mid);flex-shrink:0;}
+.nss-stat-row{display:flex;gap:32px;flex-wrap:wrap;padding:16px 0;border-top:0.5px solid var(--warm-border);border-bottom:0.5px solid var(--warm-border);margin-top:20px;}
+.nss-stat{text-align:left;}
+.nss-stat-value{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:var(--ink);line-height:1.1;}
+.nss-stat-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--slate);margin-top:3px;}
+
+/* ── SECTION 2: SUPPLY CHAIN CATEGORIES ── */
+.category-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:8px;}
+.category-card{background:var(--white);border:0.5px solid var(--warm-border);padding:18px 20px;}
+.category-name{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--sector);margin-bottom:6px;}
+.category-what{font-size:13px;color:var(--ink);line-height:1.55;margin-bottom:8px;}
+.category-cert{font-size:11px;color:var(--slate);line-height:1.5;font-style:italic;}
+.category-cert::before{content:'Certification: ';font-style:normal;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.08em;text-transform:uppercase;color:var(--slate);display:block;margin-bottom:2px;}
+
+/* ── SECTION 3: REGISTRATION STEPS ── */
+.steps-list{list-style:none;padding:0;display:flex;flex-direction:column;gap:16px;margin-bottom:8px;}
+.step-item{display:flex;gap:16px;align-items:flex-start;background:var(--white);border:0.5px solid var(--warm-border);padding:16px 20px;}
+.step-num{font-family:'DM Mono',monospace;font-size:18px;font-weight:500;color:var(--sector);flex-shrink:0;line-height:1;margin-top:2px;min-width:28px;}
+.step-content{}
+.step-title{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:4px;line-height:1.3;}
+.step-body{font-size:13px;color:var(--ink-mid);line-height:1.65;}
+.step-body a{color:var(--sector);text-decoration:none;border-bottom:1px solid rgba(42,80,144,0.25);}
+.step-body a:hover{border-bottom-color:var(--sector);}
+
+/* ── SECTION 4: PROCUREMENT SIGNALS ── */
+.signals-placeholder{background:var(--sector-light);border:0.5px solid rgba(42,80,144,0.2);border-left:4px solid var(--sector);padding:24px 28px;margin-bottom:20px;}
+.signals-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.16em;text-transform:uppercase;color:var(--sector);margin-bottom:10px;}
+.signals-body{font-size:14px;color:var(--ink-mid);line-height:1.75;margin-bottom:16px;max-width:600px;}
+.signal-link{display:inline-block;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:#fff;background:var(--sector);padding:10px 18px;text-decoration:none;margin-bottom:10px;}
+.signal-link:hover{background:var(--sector-dark);}
+.signal-link-sm{display:block;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--sector);text-decoration:none;border-bottom:1px solid rgba(42,80,144,0.25);display:inline;}
+.signal-link-sm:hover{border-bottom-color:var(--sector);}
+
+/* ── SECTION 5: KEY CONTACTS ── */
+.contacts-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+.contact-card{background:var(--white);border:0.5px solid var(--warm-border);padding:16px 18px;}
+.contact-org{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--slate);margin-bottom:6px;}
+.contact-role{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:8px;line-height:1.3;}
+.contact-link{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.08em;color:var(--sector);text-decoration:none;border-bottom:1px solid rgba(42,80,144,0.25);}
+.contact-link:hover{border-bottom-color:var(--sector);}
+
+.cm-footer{background:var(--brand-dark);padding:32px 48px;margin-top:60px;}
+.cm-footer-inner{max-width:1160px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
+.cm-footer-copy{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.25);}
+.cm-footer-links{display:flex;gap:20px;}
+.cm-footer-links a{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.3);text-decoration:none;}
+.cm-footer-links a:hover{color:rgba(255,255,255,0.6);}
+
+@media(max-width:768px){
+  .nss-masthead{padding:32px 24px 28px;}
+  .nss-body{padding:28px 24px 60px;}
+  .nss-title{font-size:34px;}
+  .shipyard-grid{grid-template-columns:1fr;}
+  .category-grid{grid-template-columns:1fr;}
+  .contacts-grid{grid-template-columns:1fr 1fr;}
+  .sector-subnav{padding:0 24px;}
+  .cm-footer{padding:24px;}
+}
+@media(max-width:480px){.contacts-grid{grid-template-columns:1fr;}.nss-stat-row{gap:20px;}}
+</style>
+</head>
+<body>
+<nav id="main-nav"></nav>
+
+<div class="sector-subnav">
+  <div class="sector-subnav-inner">
+    <a href="/industries/critical-minerals/" class="sn-item">Critical Minerals</a>
+    <a href="/industries/agri-food/" class="sn-item">Agri-food</a>
+    <a href="/industries/advanced-manufacturing/" class="sn-item active">Advanced Manufacturing</a>
+    <a href="/industries/aerospace-defence/" class="sn-item">Aerospace &amp; Defence</a>
+    <a href="/industries/energy-cleantech/" class="sn-item">Energy &amp; Cleantech</a>
+    <a href="/industries/technology-digital/" class="sn-item">Technology &amp; Digital</a>
+  </div>
+</div>
+
+<div class="nss-masthead">
+  <div class="nss-masthead-inner">
+    <div class="nss-breadcrumb"><a href="/industries/advanced-manufacturing/">Advanced Manufacturing</a> &rsaquo; NSS Watch</div>
+    <div class="nss-eyebrow">Canadian Trade Intelligence Inc. · Procurement Intelligence</div>
+    <h1 class="nss-title">NSS Watch</h1>
+    <div class="nss-descriptor">National Shipbuilding Strategy · Supply Chain Opportunities · Procurement Signals · Supplier Registration</div>
+  </div>
+</div>
+
+<div class="nss-body">
+
+  <!-- SECTION 1: WHAT IS THE NSS -->
+  <section class="nss-overview">
+    <div class="s-label">What is the National Shipbuilding Strategy</div>
+    <p>The National Shipbuilding Strategy is the largest procurement programme in Canadian history — a $60-billion-plus commitment to rebuild Canada's federal fleet over 30 years. It is not a one-time contract. It is a sustained, multi-decade supply chain with construction phases currently active at both designated shipyards.</p>
+    <p>Canadian manufacturers in steel, electronics, mechanical systems, composites, precision machining, and logistics supply chains have direct access to this market. The supply chain is open now. Most of the opportunity is not yet captured by incumbent suppliers.</p>
+
+    <div class="shipyard-grid">
+      <div class="shipyard-card">
+        <div class="shipyard-name">Primary Shipyard — Combat</div>
+        <div class="shipyard-location">Irving Shipbuilding · Halifax, NS</div>
+        <ul class="shipyard-vessels">
+          <li>Arctic/Offshore Patrol Vessels (6 vessels — active construction)</li>
+          <li>Canadian Surface Combatants (15 frigates — in build)</li>
+          <li>Joint Support Ships (shared programme)</li>
+        </ul>
+      </div>
+      <div class="shipyard-card">
+        <div class="shipyard-name">Primary Shipyard — Non-Combat</div>
+        <div class="shipyard-location">Seaspan Shipyards · Vancouver, BC</div>
+        <ul class="shipyard-vessels">
+          <li>Joint Support Ships (Royal Canadian Navy)</li>
+          <li>Offshore Oceanographic Science Vessel</li>
+          <li>CCGS fleet renewal — multiple vessels</li>
+          <li>Non-combat government vessels</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="nss-stat-row">
+      <div class="nss-stat">
+        <div class="nss-stat-value">$60B+</div>
+        <div class="nss-stat-label">Total programme value</div>
+      </div>
+      <div class="nss-stat">
+        <div class="nss-stat-value">30 years</div>
+        <div class="nss-stat-label">Programme duration</div>
+      </div>
+      <div class="nss-stat">
+        <div class="nss-stat-value">2 shipyards</div>
+        <div class="nss-stat-label">Active construction sites</div>
+      </div>
+      <div class="nss-stat">
+        <div class="nss-stat-value">Active now</div>
+        <div class="nss-stat-label">Supply chain status</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="s-divider">
+
+  <!-- SECTION 2: SUPPLY CHAIN OPPORTUNITY CATEGORIES -->
+  <section style="margin-bottom:48px;">
+    <div class="s-label">Supply Chain Opportunity Categories</div>
+    <div class="category-grid">
+      <div class="category-card">
+        <div class="category-name">Marine-grade steel &amp; aluminum</div>
+        <div class="category-what">Hull plate, structural sections, deck plate, and marine-specification aluminum to DND procurement standards. Ongoing demand for both Irving and Seaspan programmes.</div>
+        <div class="category-cert">DND specification compliance; defence-grade quality certification required</div>
+      </div>
+      <div class="category-card">
+        <div class="category-name">Marine electronics &amp; navigation systems</div>
+        <div class="category-what">Radar, sonar, navigation, bridge systems, and integrated ship control. Combat vessel systems require additional security clearances.</div>
+        <div class="category-cert">ITAR awareness; DND contracting officer approval; Controlled Goods Program registration</div>
+      </div>
+      <div class="category-card">
+        <div class="category-name">Propulsion &amp; mechanical systems</div>
+        <div class="category-what">Diesel-electric propulsion components, shaft systems, rudder and steering gear, auxiliary machinery. High-value, long-lead items sourced early in vessel construction cycle.</div>
+        <div class="category-cert">Marine engineering certification; Transport Canada marine engineering standards</div>
+      </div>
+      <div class="category-card">
+        <div class="category-name">Composite materials &amp; fabrication</div>
+        <div class="category-what">Fibre-reinforced panels, lightweight superstructure components, acoustic insulation, and blast-attenuation composites for vessel interiors and above-waterline structure.</div>
+        <div class="category-cert">Aerospace/marine dual certification preferred; DND materials qualification process</div>
+      </div>
+      <div class="category-card">
+        <div class="category-name">Firefighting &amp; safety systems</div>
+        <div class="category-what">Fixed suppression systems, portable firefighting equipment, lifesaving appliances, damage control equipment. Regulated by Transport Canada marine standards for all federal vessels.</div>
+        <div class="category-cert">Transport Canada marine safety standards compliance</div>
+      </div>
+      <div class="category-card">
+        <div class="category-name">Communications &amp; sensor systems</div>
+        <div class="category-what">HF/UHF/satellite communications, EW sensors, electronic surveillance systems. Combat vessel systems subject to export control and classification requirements.</div>
+        <div class="category-cert">ITAR registration; NATO codification often required; Controlled Goods Program</div>
+      </div>
+      <div class="category-card">
+        <div class="category-name">Logistics &amp; materials handling</div>
+        <div class="category-what">Shipyard logistics, crane and lifting systems, materials tracking, packaging and kitting for marine components. Entry-level category — lower certification barrier than systems integration.</div>
+        <div class="category-cert">Standard PSPC supplier registration; CanadaBuys PBN</div>
+      </div>
+      <div class="category-card">
+        <div class="category-name">Precision machined components</div>
+        <div class="category-what">Shaft couplings, flanges, bearings, valve bodies, and custom-machined components to tight tolerances. Strong fit for Ontario and Quebec precision manufacturing clusters.</div>
+        <div class="category-cert">ISO 9001 minimum; NADCAP for safety-critical parts; DND first-article inspection</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="s-divider">
+
+  <!-- SECTION 3: HOW TO REGISTER -->
+  <section style="margin-bottom:48px;">
+    <div class="s-label">How to Register as an NSS Supplier</div>
+    <ol class="steps-list">
+      <li class="step-item">
+        <span class="step-num">01</span>
+        <div class="step-content">
+          <div class="step-title">Register on CanadaBuys — get your Procurement Business Number (PBN)</div>
+          <div class="step-body">Your PBN is the entry credential for all federal procurement. Required before any NSS tender submission. Registration is free and takes 1–3 business days. <a href="https://canadabuys.canada.ca" target="_blank" rel="noopener">canadabuys.canada.ca</a></div>
+        </div>
+      </li>
+      <li class="step-item">
+        <span class="step-num">02</span>
+        <div class="step-content">
+          <div class="step-title">Register with the Canadian Commercial Corporation for defence G2G contracts</div>
+          <div class="step-body">CCC acts as the prime contractor for government-to-government defence exports. If your product or service may be used in allied-nation NSS-equivalent programmes, CCC registration opens additional market access. <a href="https://www.ccc.ca" target="_blank" rel="noopener">ccc.ca</a></div>
+        </div>
+      </li>
+      <li class="step-item">
+        <span class="step-num">03</span>
+        <div class="step-content">
+          <div class="step-title">Assess ITAR compliance requirements</div>
+          <div class="step-body">If any components in your product contain US-origin technology, materials, or software, International Traffic in Arms Regulations (ITAR) may apply. Non-compliance disqualifies suppliers from combat vessel contracts. Engage a trade compliance consultant before submitting to DND vessel programmes.</div>
+        </div>
+      </li>
+      <li class="step-item">
+        <span class="step-num">04</span>
+        <div class="step-content">
+          <div class="step-title">Contact PSPC's Industrial and Technological Benefits (ITB) office</div>
+          <div class="step-body">ITB oversees the Value Proposition commitments attached to NSS contracts. ITB maintains a supplier matchmaking function connecting Canadian SMEs to prime contractors who have ITB obligations in your product category. <a href="https://www.tpsgc-pwgsc.gc.ca/itb" target="_blank" rel="noopener">tpsgc-pwgsc.gc.ca/itb</a></div>
+        </div>
+      </li>
+      <li class="step-item">
+        <span class="step-num">05</span>
+        <div class="step-content">
+          <div class="step-title">Join CME Defence for direct supply chain network access</div>
+          <div class="step-body">Canadian Manufacturers &amp; Exporters' defence division runs direct matchmaking between NSS prime contractors and qualified Canadian suppliers. This is the most direct route into existing supply chain networks at both Irving and Seaspan. <a href="https://www.cme-mec.ca/cme-defence" target="_blank" rel="noopener">cme-mec.ca/cme-defence</a></div>
+        </div>
+      </li>
+      <li class="step-item">
+        <span class="step-num">06</span>
+        <div class="step-content">
+          <div class="step-title">Monitor NSS-specific procurement notices on CanadaBuys</div>
+          <div class="step-body">Filter active tenders by buyer (Department of National Defence, Fisheries and Oceans Canada) and keywords (vessel, ship, marine, NSS). Set up email alerts for your UNSPSC product codes to receive tender notifications automatically. <a href="https://canadabuys.canada.ca" target="_blank" rel="noopener">canadabuys.canada.ca</a></div>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <hr class="s-divider">
+
+  <!-- SECTION 4: ACTIVE PROCUREMENT SIGNALS -->
+  <section style="margin-bottom:48px;">
+    <div class="s-label">Active Procurement Signals</div>
+    <div class="signals-placeholder">
+      <div class="signals-label">Weekly NSS signals</div>
+      <p class="signals-body">NSS-relevant procurement signals are updated weekly from the CanadaBuys federal tender feed. Current signals — including active RFPs, Advance Contract Award Notices, and upcoming Standing Offer renewals — appear in the Advanced Manufacturing Intelligence Brief.</p>
+      <a href="/reports/full_report_advanced_manufacturing_2026-06-09.html" class="signal-link">Read this week's NSS signals in the brief →</a>
+    </div>
+    <p style="font-size:13px;color:var(--ink-mid);line-height:1.65;">All NSS tenders on the Procurement Hub: <a href="/procurement/?sector=advanced-manufacturing" class="signal-link-sm">procurement hub — advanced manufacturing →</a></p>
+  </section>
+
+  <hr class="s-divider">
+
+  <!-- SECTION 5: KEY CONTACTS AND LINKS -->
+  <section style="margin-bottom:48px;">
+    <div class="s-label">Key Contacts &amp; Links</div>
+    <div class="contacts-grid">
+      <div class="contact-card">
+        <div class="contact-org">Irving Shipbuilding</div>
+        <div class="contact-role">Halifax — combat vessel supply chain</div>
+        <a href="https://www.irvingshipbuilding.com/suppliers" class="contact-link" target="_blank" rel="noopener">irvingshipbuilding.com/suppliers</a>
+      </div>
+      <div class="contact-card">
+        <div class="contact-org">Seaspan Shipyards</div>
+        <div class="contact-role">Vancouver — non-combat vessel supply chain</div>
+        <a href="https://www.seaspan.com/shipbuilding/suppliers" class="contact-link" target="_blank" rel="noopener">seaspan.com/shipbuilding/suppliers</a>
+      </div>
+      <div class="contact-card">
+        <div class="contact-org">PSPC — ITB Office</div>
+        <div class="contact-role">Industrial &amp; Technological Benefits — supplier matchmaking</div>
+        <a href="https://www.tpsgc-pwgsc.gc.ca/itb" class="contact-link" target="_blank" rel="noopener">tpsgc-pwgsc.gc.ca/itb</a>
+      </div>
+      <div class="contact-card">
+        <div class="contact-org">CME Defence</div>
+        <div class="contact-role">Direct defence supply chain network access for Canadian manufacturers</div>
+        <a href="https://www.cme-mec.ca/cme-defence" class="contact-link" target="_blank" rel="noopener">cme-mec.ca/cme-defence</a>
+      </div>
+      <div class="contact-card">
+        <div class="contact-org">CanadaBuys</div>
+        <div class="contact-role">Federal procurement portal — PBN registration and tender search</div>
+        <a href="https://canadabuys.canada.ca" class="contact-link" target="_blank" rel="noopener">canadabuys.canada.ca</a>
+      </div>
+      <div class="contact-card">
+        <div class="contact-org">Advanced Manufacturing Hub</div>
+        <div class="contact-role">Full sector intelligence — weekly brief and corridor signals</div>
+        <a href="/industries/advanced-manufacturing/" class="contact-link">Advanced Manufacturing →</a>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<div class="cm-footer">
+  <div class="cm-footer-inner">
+    <div class="cm-footer-copy">© 2026 Canadian Trade Intelligence Inc. · NSS Watch · Advanced Manufacturing</div>
+    <div class="cm-footer-links">
+      <a href="/about/">About</a><a href="/methodology/">Methodology</a><a href="/subscribe/">Subscribe</a>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
