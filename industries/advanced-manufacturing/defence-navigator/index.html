@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Defence Pivot Navigator — Canadian Trade Intelligence</title>
+<meta name="description" content="Six questions. A personalized pathway into Canada's defence and National Shipbuilding Strategy supply chains. Free tool from Canadian Trade Intelligence.">
+<link rel="canonical" href="https://canadiantradeintel.ca/industries/advanced-manufacturing/defence-navigator/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Mono:wght@400;500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="/nav.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --ink:#0d0d0b;--ink-soft:#2a2a28;--ink-mid:#3a3a36;--slate:#5a5a56;
+  --warm-bg:#f8f5f0;--warm-mid:#efe9e0;--warm-border:#ddd5c5;--white:#fdfcfa;
+  --crimson:#8b1a1a;--brand-dark:#1a0505;
+  --sector:#2a5090;--sector-dark:#132448;--sector-darker:#090f1e;
+  --sector-light:#f0f4fc;--sector-mid:#7da0d4;
+  --amber:#c8860a;
+}
+html{scroll-behavior:smooth;}
+body{font-family:'Jost',sans-serif;background:var(--warm-bg);color:var(--ink);font-size:15px;line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+
+/* ── SUBNAV ── */
+.sector-subnav{background:var(--brand-dark);border-bottom:1px solid rgba(255,255,255,0.06);padding:0 48px;}
+.sector-subnav-inner{max-width:1160px;margin:0 auto;display:flex;gap:0;overflow-x:auto;scrollbar-width:none;}
+.sector-subnav-inner::-webkit-scrollbar{display:none;}
+.sn-item{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.45);text-decoration:none;padding:14px 18px;border-bottom:2px solid transparent;white-space:nowrap;transition:color 0.15s;}
+.sn-item:hover{color:rgba(255,255,255,0.75);}
+.sn-item.active{color:#fff;border-bottom-color:var(--sector);}
+
+/* ── MASTHEAD ── */
+.dn-masthead{background:var(--sector-darker);padding:48px 48px 36px;border-bottom:3px solid var(--crimson);position:relative;overflow:hidden;}
+.dn-masthead::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 30% 60%, rgba(42,80,144,0.5) 0%, transparent 60%);pointer-events:none;}
+.dn-masthead-inner{max-width:1160px;margin:0 auto;position:relative;z-index:1;}
+.dn-breadcrumb{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(125,160,212,0.4);margin-bottom:14px;}
+.dn-breadcrumb a{color:rgba(125,160,212,0.45);text-decoration:none;}
+.dn-breadcrumb a:hover{color:rgba(125,160,212,0.75);}
+.dn-eyebrow{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(125,160,212,0.7);margin-bottom:10px;}
+.dn-title{font-family:'Cormorant Garamond',serif;font-size:46px;font-weight:600;font-style:italic;color:#f4f0e8;line-height:1.05;margin-bottom:10px;}
+.dn-descriptor{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(125,160,212,0.55);max-width:640px;line-height:1.8;}
+
+/* ── TOOL BODY ── */
+.dn-body{max-width:700px;margin:0 auto;padding:52px 48px 96px;}
+
+/* ── INTRO SCREEN ── */
+.dn-intro{margin-bottom:8px;}
+.dn-intro-lede{font-size:16px;color:var(--ink-mid);line-height:1.8;margin-bottom:20px;max-width:600px;}
+.dn-intro-meta{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--slate);margin-bottom:28px;padding-bottom:14px;border-bottom:0.5px solid var(--warm-border);}
+.dn-start-btn{display:inline-block;background:var(--sector);color:#fff;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;padding:13px 28px;border:none;cursor:pointer;text-decoration:none;transition:background 0.18s;}
+.dn-start-btn:hover{background:var(--sector-dark);}
+
+/* ── PROGRESS ── */
+.dn-progress{margin-bottom:32px;}
+.dn-progress-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.14em;text-transform:uppercase;color:var(--slate);margin-bottom:8px;display:flex;justify-content:space-between;}
+.dn-progress-bar{height:2px;background:var(--warm-border);border-radius:0;}
+.dn-progress-fill{height:2px;background:var(--sector);transition:width 0.3s ease;}
+
+/* ── QUESTION ── */
+.dn-question{display:none;}
+.dn-question.active{display:block;}
+.dn-q-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.18em;text-transform:uppercase;color:var(--sector);margin-bottom:14px;}
+.dn-q-text{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;font-style:italic;color:var(--ink);line-height:1.2;margin-bottom:24px;max-width:580px;}
+
+/* ── ANSWER OPTIONS ── */
+.dn-options{display:flex;flex-direction:column;gap:10px;margin-bottom:28px;}
+.dn-option{background:var(--white);border:0.5px solid var(--warm-border);padding:14px 18px;cursor:pointer;display:flex;gap:14px;align-items:flex-start;transition:border-color 0.15s,background 0.15s;text-align:left;width:100%;font-family:inherit;}
+.dn-option:hover{border-color:var(--sector);background:var(--sector-light);}
+.dn-option-key{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--sector);flex-shrink:0;margin-top:2px;min-width:16px;}
+.dn-option-text{font-size:14px;color:var(--ink);line-height:1.5;}
+
+/* ── BACK BUTTON ── */
+.dn-back{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--slate);background:none;border:none;cursor:pointer;padding:0;text-decoration:none;}
+.dn-back:hover{color:var(--ink);}
+.dn-back::before{content:'← ';}
+
+/* ── RESULT ── */
+.dn-result{display:none;}
+.dn-result-header{margin-bottom:32px;padding-bottom:24px;border-bottom:0.5px solid var(--warm-border);}
+.dn-result-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.2em;text-transform:uppercase;color:var(--sector);margin-bottom:10px;}
+.dn-result-title{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;font-style:italic;color:var(--ink);line-height:1.2;margin-bottom:8px;}
+.dn-result-sub{font-size:13px;color:var(--slate);line-height:1.65;}
+.dn-steps{display:flex;flex-direction:column;gap:16px;margin-bottom:36px;}
+.dn-step{background:var(--white);border:0.5px solid var(--warm-border);border-left:3px solid var(--sector);padding:20px 22px;}
+.dn-step-num{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);margin-bottom:4px;}
+.dn-step-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--slate);margin-bottom:8px;}
+.dn-step-title{font-size:15px;font-weight:600;color:var(--ink);line-height:1.35;margin-bottom:8px;}
+.dn-step-body{font-size:13px;color:var(--ink-mid);line-height:1.7;margin-bottom:10px;}
+.dn-step-links{display:flex;flex-wrap:wrap;gap:12px;}
+.dn-step-link{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.08em;color:var(--sector);text-decoration:none;border-bottom:1px solid rgba(42,80,144,0.25);}
+.dn-step-link:hover{border-bottom-color:var(--sector);}
+.dn-itar-flag{background:#fff8f0;border:0.5px solid #e8c090;border-left:3px solid var(--amber);padding:14px 18px;margin-bottom:16px;}
+.dn-itar-flag-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.14em;text-transform:uppercase;color:var(--amber);margin-bottom:6px;}
+.dn-itar-flag-text{font-size:13px;color:var(--ink-mid);line-height:1.65;}
+
+/* ── SUBSCRIBE CTA ── */
+.dn-cta{background:var(--sector-darker);padding:24px 28px;margin-bottom:24px;}
+.dn-cta-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(125,160,212,0.6);margin-bottom:8px;}
+.dn-cta-text{font-size:14px;color:rgba(244,240,232,0.85);line-height:1.65;margin-bottom:16px;}
+.dn-cta-btn{display:inline-block;background:var(--crimson);color:#fff;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;padding:11px 22px;text-decoration:none;transition:background 0.18s;}
+.dn-cta-btn:hover{background:#6a0000;}
+.dn-restart{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--slate);background:none;border:none;cursor:pointer;padding:0;display:block;margin-top:12px;}
+.dn-restart:hover{color:var(--ink);}
+
+/* ── FOOTER ── */
+.cm-footer{background:var(--brand-dark);padding:32px 48px;margin-top:60px;}
+.cm-footer-inner{max-width:1160px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
+.cm-footer-copy{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.25);}
+.cm-footer-links{display:flex;gap:20px;}
+.cm-footer-links a{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.3);text-decoration:none;}
+.cm-footer-links a:hover{color:rgba(255,255,255,0.6);}
+
+@media(max-width:768px){
+  .dn-masthead{padding:32px 24px 28px;}
+  .dn-body{padding:32px 24px 64px;}
+  .dn-title{font-size:34px;}
+  .dn-q-text{font-size:22px;}
+  .sector-subnav{padding:0 24px;}
+  .cm-footer{padding:24px;}
+}
+</style>
+</head>
+<body>
+<nav id="main-nav"></nav>
+
+<div class="sector-subnav">
+  <div class="sector-subnav-inner">
+    <a href="/industries/critical-minerals/" class="sn-item">Critical Minerals</a>
+    <a href="/industries/agri-food/" class="sn-item">Agri-food</a>
+    <a href="/industries/advanced-manufacturing/" class="sn-item active">Advanced Manufacturing</a>
+    <a href="/industries/aerospace-defence/" class="sn-item">Aerospace &amp; Defence</a>
+    <a href="/industries/energy-cleantech/" class="sn-item">Energy &amp; Cleantech</a>
+    <a href="/industries/technology-digital/" class="sn-item">Technology &amp; Digital</a>
+  </div>
+</div>
+
+<div class="dn-masthead">
+  <div class="dn-masthead-inner">
+    <div class="dn-breadcrumb"><a href="/industries/advanced-manufacturing/">Advanced Manufacturing</a> &rsaquo; Defence Pivot Navigator</div>
+    <div class="dn-eyebrow">Canadian Trade Intelligence Inc. · Interactive Tool</div>
+    <h1 class="dn-title">Defence Pivot<br>Navigator</h1>
+    <div class="dn-descriptor">Six questions. A personalized pathway into Canada's defence and NSS supply chains.</div>
+  </div>
+</div>
+
+<div class="dn-body">
+
+  <!-- INTRO SCREEN -->
+  <div id="dn-intro" class="dn-intro">
+    <p class="dn-intro-lede">Canada's defence budget is expanding, the National Shipbuilding Strategy has $60B+ in contracts over 30 years, and the EU SAFE programme just opened to Canadian manufacturers. This tool identifies your specific entry pathway — certifications to pursue first, programmes most relevant to your sector, and the contacts to call this week.</p>
+    <div class="dn-intro-meta">No signup required · 6 questions · 2 minutes · No data collected or stored</div>
+    <button class="dn-start-btn" onclick="startTool()">Start the navigator →</button>
+  </div>
+
+  <!-- QUESTION SCREEN (hidden until started) -->
+  <div id="dn-tool" style="display:none;">
+
+    <div class="dn-progress">
+      <div class="dn-progress-label">
+        <span id="progress-label">Question 1 of 6</span>
+        <span id="progress-pct"></span>
+      </div>
+      <div class="dn-progress-bar"><div id="progress-fill" class="dn-progress-fill" style="width:0%"></div></div>
+    </div>
+
+    <div id="q1" class="dn-question">
+      <div class="dn-q-label">Question 1 of 6</div>
+      <div class="dn-q-text">What does your company primarily make or do?</div>
+      <div class="dn-options">
+        <button class="dn-option" onclick="answer(1,'A')"><span class="dn-option-key">A</span><span class="dn-option-text">Metal components, fabrication, machining, or structural steel</span></button>
+        <button class="dn-option" onclick="answer(1,'B')"><span class="dn-option-key">B</span><span class="dn-option-text">Electronics, sensors, navigation, or communications systems</span></button>
+        <button class="dn-option" onclick="answer(1,'C')"><span class="dn-option-key">C</span><span class="dn-option-text">Composites, polymers, or advanced materials</span></button>
+        <button class="dn-option" onclick="answer(1,'D')"><span class="dn-option-key">D</span><span class="dn-option-text">Vehicles, propulsion, or mechanical systems</span></button>
+        <button class="dn-option" onclick="answer(1,'E')"><span class="dn-option-key">E</span><span class="dn-option-text">Software, systems integration, or engineering services</span></button>
+        <button class="dn-option" onclick="answer(1,'F')"><span class="dn-option-key">F</span><span class="dn-option-text">Other manufacturing or industrial services</span></button>
+      </div>
+    </div>
+
+    <div id="q2" class="dn-question">
+      <div class="dn-q-label">Question 2 of 6</div>
+      <div class="dn-q-text">How many employees does your company have?</div>
+      <div class="dn-options">
+        <button class="dn-option" onclick="answer(2,'A')"><span class="dn-option-key">A</span><span class="dn-option-text">1–19 <span style="color:var(--slate);font-size:12px;">(micro)</span></span></button>
+        <button class="dn-option" onclick="answer(2,'B')"><span class="dn-option-key">B</span><span class="dn-option-text">20–99 <span style="color:var(--slate);font-size:12px;">(small)</span></span></button>
+        <button class="dn-option" onclick="answer(2,'C')"><span class="dn-option-key">C</span><span class="dn-option-text">100–499 <span style="color:var(--slate);font-size:12px;">(medium)</span></span></button>
+        <button class="dn-option" onclick="answer(2,'D')"><span class="dn-option-key">D</span><span class="dn-option-text">500+ <span style="color:var(--slate);font-size:12px;">(large)</span></span></button>
+      </div>
+      <button class="dn-back" onclick="goBack(2)">Back</button>
+    </div>
+
+    <div id="q3" class="dn-question">
+      <div class="dn-q-label">Question 3 of 6</div>
+      <div class="dn-q-text">Do you currently hold any government certifications or registrations?</div>
+      <div class="dn-options">
+        <button class="dn-option" onclick="answer(3,'A')"><span class="dn-option-key">A</span><span class="dn-option-text">Yes — registered on CanadaBuys / have a Procurement Business Number (PBN)</span></button>
+        <button class="dn-option" onclick="answer(3,'B')"><span class="dn-option-key">B</span><span class="dn-option-text">Yes — ISO 9001 or equivalent quality management certification</span></button>
+        <button class="dn-option" onclick="answer(3,'C')"><span class="dn-option-key">C</span><span class="dn-option-text">Yes — both of the above</span></button>
+        <button class="dn-option" onclick="answer(3,'D')"><span class="dn-option-key">D</span><span class="dn-option-text">No existing government registrations</span></button>
+      </div>
+      <button class="dn-back" onclick="goBack(3)">Back</button>
+    </div>
+
+    <div id="q4" class="dn-question">
+      <div class="dn-q-label">Question 4 of 6</div>
+      <div class="dn-q-text">Does your company have any US-origin content in your products or processes?</div>
+      <div class="dn-options">
+        <button class="dn-option" onclick="answer(4,'A')"><span class="dn-option-key">A</span><span class="dn-option-text">Yes — we use US-sourced materials, components, or technology</span></button>
+        <button class="dn-option" onclick="answer(4,'B')"><span class="dn-option-key">B</span><span class="dn-option-text">No — our supply chain is Canadian and non-US</span></button>
+        <button class="dn-option" onclick="answer(4,'C')"><span class="dn-option-key">C</span><span class="dn-option-text">We don't know — we would need to assess</span></button>
+      </div>
+      <button class="dn-back" onclick="goBack(4)">Back</button>
+    </div>
+
+    <div id="q5" class="dn-question">
+      <div class="dn-q-label">Question 5 of 6</div>
+      <div class="dn-q-text">What is your primary market interest?</div>
+      <div class="dn-options">
+        <button class="dn-option" onclick="answer(5,'A')"><span class="dn-option-key">A</span><span class="dn-option-text">National Shipbuilding Strategy — Irving and Seaspan supply chains</span></button>
+        <button class="dn-option" onclick="answer(5,'B')"><span class="dn-option-key">B</span><span class="dn-option-text">Canadian army and land vehicles — defence ground equipment</span></button>
+        <button class="dn-option" onclick="answer(5,'C')"><span class="dn-option-key">C</span><span class="dn-option-text">EU SAFE programme — European defence contracts ($244B available)</span></button>
+        <button class="dn-option" onclick="answer(5,'D')"><span class="dn-option-key">D</span><span class="dn-option-text">All of the above — full defence market diversification</span></button>
+      </div>
+      <button class="dn-back" onclick="goBack(5)">Back</button>
+    </div>
+
+    <div id="q6" class="dn-question">
+      <div class="dn-q-label">Question 6 of 6</div>
+      <div class="dn-q-text">What is your biggest constraint right now?</div>
+      <div class="dn-options">
+        <button class="dn-option" onclick="answer(6,'A')"><span class="dn-option-key">A</span><span class="dn-option-text">We don't know where to start with defence procurement</span></button>
+        <button class="dn-option" onclick="answer(6,'B')"><span class="dn-option-key">B</span><span class="dn-option-text">We need certifications but don't know which ones to pursue first</span></button>
+        <button class="dn-option" onclick="answer(6,'C')"><span class="dn-option-key">C</span><span class="dn-option-text">We need to understand EU or international requirements</span></button>
+        <button class="dn-option" onclick="answer(6,'D')"><span class="dn-option-key">D</span><span class="dn-option-text">We need to find the right government contacts</span></button>
+      </div>
+      <button class="dn-back" onclick="goBack(6)">Back</button>
+    </div>
+
+  </div><!-- end #dn-tool -->
+
+  <!-- RESULT SCREEN -->
+  <div id="dn-result" class="dn-result">
+    <div class="dn-result-header">
+      <div class="dn-result-label">Your pathway</div>
+      <div class="dn-result-title" id="result-title">Your defence supply chain entry pathway</div>
+      <div class="dn-result-sub" id="result-sub"></div>
+    </div>
+
+    <div id="itar-flag" class="dn-itar-flag" style="display:none;">
+      <div class="dn-itar-flag-label">ITAR — Action Required Before Submitting</div>
+      <div class="dn-itar-flag-text" id="itar-flag-text"></div>
+    </div>
+
+    <div class="dn-steps" id="result-steps"></div>
+
+    <div class="dn-cta">
+      <div class="dn-cta-label">Stay ahead of programme signals</div>
+      <div class="dn-cta-text">The Advanced Manufacturing Intelligence Brief covers NSS procurement notices, APMA-Hanwha updates, EU SAFE programme developments, and defence supply chain signals every Tuesday.</div>
+      <a href="/subscribe/" class="dn-cta-btn">Subscribe to the Advanced Manufacturing Brief →</a>
+    </div>
+
+    <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:20px;align-items:center;">
+      <button class="dn-restart" onclick="restart()">Start over</button>
+      <a href="/industries/advanced-manufacturing/nss-watch/" style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--sector);text-decoration:none;border-bottom:1px solid rgba(42,80,144,0.25);">NSS Watch — supplier registration guide →</a>
+    </div>
+  </div>
+
+</div><!-- end .dn-body -->
+
+<div class="cm-footer">
+  <div class="cm-footer-inner">
+    <div class="cm-footer-copy">© 2026 Canadian Trade Intelligence Inc. · Defence Pivot Navigator · No data collected</div>
+    <div class="cm-footer-links">
+      <a href="/about/">About</a><a href="/methodology/">Methodology</a><a href="/subscribe/">Subscribe</a>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+
+  var answers = {};
+  var currentQ = 0;
+
+  window.startTool = function() {
+    document.getElementById('dn-intro').style.display = 'none';
+    document.getElementById('dn-tool').style.display = 'block';
+    showQuestion(1);
+  };
+
+  window.answer = function(qNum, key) {
+    answers['q' + qNum] = key;
+    if (qNum < 6) {
+      showQuestion(qNum + 1);
+    } else {
+      showResult();
+    }
+  };
+
+  window.goBack = function(qNum) {
+    if (qNum <= 1) {
+      document.getElementById('dn-tool').style.display = 'none';
+      document.getElementById('dn-intro').style.display = 'block';
+    } else {
+      showQuestion(qNum - 1);
+    }
+  };
+
+  window.restart = function() {
+    answers = {};
+    currentQ = 0;
+    document.getElementById('dn-result').style.display = 'none';
+    document.getElementById('dn-intro').style.display = 'block';
+  };
+
+  function showQuestion(n) {
+    currentQ = n;
+    var qs = document.querySelectorAll('.dn-question');
+    for (var i = 0; i < qs.length; i++) { qs[i].classList.remove('active'); }
+    var el = document.getElementById('q' + n);
+    if (el) el.classList.add('active');
+    // Update progress
+    var pct = Math.round(((n - 1) / 6) * 100);
+    document.getElementById('progress-fill').style.width = pct + '%';
+    document.getElementById('progress-label').textContent = 'Question ' + n + ' of 6';
+  }
+
+  function showResult() {
+    document.getElementById('dn-tool').style.display = 'none';
+    var result = document.getElementById('dn-result');
+    result.style.display = 'block';
+
+    var pathway = buildPathway(answers);
+
+    // Title and subtitle
+    document.getElementById('result-title').textContent = pathway.title;
+    document.getElementById('result-sub').textContent = pathway.subtitle;
+
+    // ITAR flag
+    var itarFlag = document.getElementById('itar-flag');
+    var itarText = document.getElementById('itar-flag-text');
+    if (pathway.itarNote) {
+      itarText.textContent = pathway.itarNote;
+      itarFlag.style.display = 'block';
+    } else {
+      itarFlag.style.display = 'none';
+    }
+
+    // Steps
+    var stepsEl = document.getElementById('result-steps');
+    stepsEl.innerHTML = '';
+    pathway.steps.forEach(function(step, i) {
+      var stepEl = document.createElement('div');
+      stepEl.className = 'dn-step';
+
+      var numEl = document.createElement('div');
+      numEl.className = 'dn-step-num';
+      numEl.textContent = 'Step ' + (i + 1);
+      stepEl.appendChild(numEl);
+
+      var labelEl = document.createElement('div');
+      labelEl.className = 'dn-step-label';
+      labelEl.textContent = step.label;
+      stepEl.appendChild(labelEl);
+
+      var titleEl = document.createElement('div');
+      titleEl.className = 'dn-step-title';
+      titleEl.textContent = step.title;
+      stepEl.appendChild(titleEl);
+
+      var bodyEl = document.createElement('div');
+      bodyEl.className = 'dn-step-body';
+      bodyEl.textContent = step.body;
+      stepEl.appendChild(bodyEl);
+
+      var links = step.links || (step.link ? [step.link] : []);
+      if (links.length > 0) {
+        var linksEl = document.createElement('div');
+        linksEl.className = 'dn-step-links';
+        links.forEach(function(lnk) {
+          var a = document.createElement('a');
+          a.className = 'dn-step-link';
+          a.textContent = lnk.text;
+          a.href = lnk.url;
+          a.target = '_blank';
+          a.rel = 'noopener';
+          linksEl.appendChild(a);
+        });
+        stepEl.appendChild(linksEl);
+      }
+
+      stepsEl.appendChild(stepEl);
+    });
+
+    result.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // ── PATHWAY LOGIC ──────────────────────────────────────────────────────────
+
+  function buildPathway(ans) {
+    var sector = ans.q1;  // A=metal B=electronics C=composites D=vehicles E=services F=other
+    var size   = ans.q2;  // A=micro B=small C=medium D=large
+    var certs  = ans.q3;  // A=pbn B=iso C=both D=none
+    var itar   = ans.q4;  // A=yes B=no C=unknown
+    var market = ans.q5;  // A=nss B=army C=eu D=all
+    var blocker = ans.q6; // A=start B=certs C=international D=contacts
+
+    var isSmall = (size === 'A' || size === 'B');
+
+    // Determine title/subtitle from sector + market
+    var sectorLabel = {A:'Metal & Fabrication',B:'Electronics & Systems',C:'Composites & Materials',D:'Vehicles & Propulsion',E:'Software & Engineering',F:'Industrial Services'}[sector] || 'Manufacturing';
+    var marketLabel = {A:'National Shipbuilding Strategy',B:'Canadian Army / Land Systems',C:'EU SAFE Programme',D:'Full Defence Market'}[market] || 'Defence Supply Chains';
+
+    var title = sectorLabel + ' — ' + marketLabel + ' entry pathway';
+    var subtitle = 'Based on your answers, here are the four steps most relevant to your company\'s current position and target market.';
+
+    // ITAR note
+    var itarNote = null;
+    if (itar === 'A') {
+      itarNote = 'Your supply chain includes US-origin content. Engage a trade compliance consultant to audit your ITAR exposure before submitting to DND or NSS prime contractor programmes. Non-compliance disqualifies suppliers from combat vessel and classified ground equipment contracts. An ITAR audit typically takes 2–4 weeks.';
+    } else if (itar === 'C') {
+      itarNote = 'You should conduct a supply chain audit for US-origin content before your first defence programme submission. If any US-sourced technology, materials, or software is involved, ITAR compliance requirements apply. Contact the Export Controls Division at Global Affairs Canada for guidance.';
+    }
+
+    var steps = [
+      buildCertStep(sector, certs),
+      buildProgramStep(market, isSmall),
+      buildSupplyStep(itar, size, sector),
+      buildActionStep(blocker, market)
+    ];
+
+    return { title: title, subtitle: subtitle, itarNote: itarNote, steps: steps };
+  }
+
+  function buildCertStep(sector, certs) {
+    var needsCGP = (sector === 'B' || sector === 'E');
+
+    if (certs === 'D') {
+      return {
+        label: 'Certification — Start Here',
+        title: 'Register on CanadaBuys and obtain your Procurement Business Number (PBN)',
+        body: 'A PBN is the mandatory entry credential for all federal procurement. No tender submission is possible without it. Registration is free and takes 1–3 business days. This is the non-negotiable first step before any other certification investment.',
+        link: { text: 'Register on CanadaBuys', url: 'https://canadabuys.canada.ca' }
+      };
+    }
+
+    if (certs === 'A') {
+      if (needsCGP) {
+        return {
+          label: 'Certification — Next Step',
+          title: 'Register for the Controlled Goods Program (CGP)',
+          body: 'With your CanadaBuys PBN in place, the Controlled Goods Program is the next credential for electronics and systems suppliers. CGP registration takes 4–8 weeks and is required before prime contractors will share technical specifications for classified or export-controlled systems.',
+          link: { text: 'CGP registration — tpsgc-pwgsc.gc.ca', url: 'https://www.tpsgc-pwgsc.gc.ca/app-acq/bpme-cgp' }
+        };
+      }
+      return {
+        label: 'Certification — Next Step',
+        title: 'Pursue ISO 9001 quality management certification',
+        body: 'Your CanadaBuys PBN is active. ISO 9001 is the next credential that unlocks the widest range of DND and NSS subcontracts — most Tier-1 prime contractors list it as a minimum supplier requirement. The Standards Council of Canada can direct you to accredited registrars in your province.',
+        link: { text: 'Standards Council of Canada — scc.ca', url: 'https://www.scc.ca' }
+      };
+    }
+
+    if (certs === 'B') {
+      return {
+        label: 'Certification — Gap to Close',
+        title: 'Register on CanadaBuys — your ISO 9001 certification needs a PBN to be actionable',
+        body: 'You have quality management certification but without a Procurement Business Number you cannot submit to federal tender processes. Register now — it takes 1–3 business days and costs nothing. Once your PBN is active, your ISO credential immediately opens programme doors.',
+        link: { text: 'Register on CanadaBuys', url: 'https://canadabuys.canada.ca' }
+      };
+    }
+
+    // certs === 'C' — has both PBN and ISO
+    if (needsCGP) {
+      return {
+        label: 'Certification — Advanced Step',
+        title: 'Register for the Controlled Goods Program to access the full programme scope',
+        body: 'Your baseline credentials are solid. Controlled Goods Program registration is the unlock for electronics and systems suppliers that want access to classified DND specifications and combat vessel programme subcontracts. Plan for 4–8 weeks for CGP approval.',
+        link: { text: 'CGP registration — tpsgc-pwgsc.gc.ca', url: 'https://www.tpsgc-pwgsc.gc.ca/app-acq/bpme-cgp' }
+      };
+    }
+    if (sector === 'A' || sector === 'C') {
+      return {
+        label: 'Certification — Advanced Step',
+        title: 'Pursue NADCAP accreditation for safety-critical components',
+        body: 'With PBN and ISO in place, NADCAP accreditation signals to prime contractors that your precision components meet aerospace and defence-grade manufacturing process standards. This is the credential that differentiates you at the Tier-1 level for NSS structural and precision work.',
+        link: { text: 'Performance Review Institute — pri-network.com', url: 'https://www.pri-network.com' }
+      };
+    }
+    return {
+      label: 'Certification — Strong Baseline',
+      title: 'Your certifications position you for immediate programme submission',
+      body: 'With both CanadaBuys PBN and ISO 9001 in place, you meet the baseline requirements for most NSS and defence subcontracts. Your next step is programme registration rather than additional certifications — focus your investment on CME Defence membership and PSPC ITB engagement.',
+      link: { text: 'CME Defence — cme-mec.ca/cme-defence', url: 'https://www.cme-mec.ca/cme-defence' }
+    };
+  }
+
+  function buildProgramStep(market, isSmall) {
+    var smeNote = isSmall ? ' The PSPC ITB SME matchmaking function and NGen co-investment programme (ngen.ca) are specifically designed for manufacturers at your scale.' : '';
+
+    if (market === 'A') {
+      return {
+        label: 'Programme Entry — NSS',
+        title: 'Join CME Defence and register with the Irving Shipbuilding and Seaspan supplier portals',
+        body: 'CME Defence provides direct matchmaking between NSS prime contractors and qualified Canadian suppliers. Irving and Seaspan both maintain active supplier portals — registration signals intent and puts you on the active sub-contractor list.' + smeNote,
+        links: [
+          { text: 'CME Defence', url: 'https://www.cme-mec.ca/cme-defence' },
+          { text: 'Irving Shipbuilding suppliers', url: 'https://www.irvingshipbuilding.com/suppliers' },
+          { text: 'Seaspan suppliers', url: 'https://www.seaspan.com/shipbuilding/suppliers' }
+        ]
+      };
+    }
+
+    if (market === 'B') {
+      return {
+        label: 'Programme Entry — Land Systems',
+        title: 'Register with CME Defence and contact APMA regarding the Hanwha armoured vehicle programme',
+        body: 'The APMA-Hanwha joint venture for Canadian armoured vehicle production is the primary land systems opportunity, with KPMG projecting 25,000+ annual jobs by 2044. CME Defence provides the supply chain introduction pathway and can identify which open subcontracts match your capabilities.' + smeNote,
+        links: [
+          { text: 'CME Defence', url: 'https://www.cme-mec.ca/cme-defence' },
+          { text: 'APMA — apma.ca', url: 'https://www.apma.ca' }
+        ]
+      };
+    }
+
+    if (market === 'C') {
+      return {
+        label: 'Programme Entry — EU SAFE',
+        title: 'Access the EU SAFE programme via CME Defence and the Global Affairs Trade Commissioner Service',
+        body: 'Canada is the only non-EU nation with access to the €177B EU SAFE defence fund at an 80% Canadian content threshold. CME Defence provides the programme orientation. The Trade Commissioner Service has in-market contacts in Brussels and key EU defence capitals.' + smeNote,
+        links: [
+          { text: 'CME Defence', url: 'https://www.cme-mec.ca/cme-defence' },
+          { text: 'Trade Commissioner Service', url: 'https://www.tradecommissioner.gc.ca' }
+        ]
+      };
+    }
+
+    // market === 'D' — all
+    return {
+      label: 'Programme Entry — Full Defence Market',
+      title: 'CME Defence is your hub for all three tracks — NSS, land systems, and EU SAFE',
+      body: 'For full defence market diversification, CME Defence provides coordinated access to NSS prime contractors, APMA-Hanwha land systems, and EU SAFE programme orientation. One registration, three market tracks.' + smeNote,
+      links: [
+        { text: 'CME Defence', url: 'https://www.cme-mec.ca/cme-defence' },
+        { text: 'PSPC ITB office', url: 'https://www.tpsgc-pwgsc.gc.ca/itb' }
+      ]
+    };
+  }
+
+  function buildSupplyStep(itar, size, sector) {
+    // If ITAR flags exist, this step focuses on ITAR resolution (the flag above the steps covers the warning, this step gives the resolution action)
+    if (itar === 'A') {
+      return {
+        label: 'Supply Chain — Resolve Before Submitting',
+        title: 'Engage a trade compliance consultant and initiate Controlled Goods Program registration',
+        body: 'ITAR compliance and CGP registration are prerequisites for accessing DND programme specifications. Both take 4–8 weeks. Starting these in parallel — trade compliance audit and CGP application — means you are submission-ready by the time your programme registration with CME Defence is confirmed.',
+        links: [
+          { text: 'Export Controls — international.gc.ca', url: 'https://www.international.gc.ca/controls-controles/export-exportation/index.aspx' },
+          { text: 'CGP registration', url: 'https://www.tpsgc-pwgsc.gc.ca/app-acq/bpme-cgp' }
+        ]
+      };
+    }
+
+    if (itar === 'C') {
+      return {
+        label: 'Supply Chain — Audit Needed',
+        title: 'Map your supply chain for US-origin content before your first programme submission',
+        body: 'A supply chain origin audit is a standard step for any manufacturer new to defence procurement. Map material, component, and technology origins across your bill of materials. If US-sourced inputs are found, engage a trade compliance consultant before submitting. This audit typically takes 1–2 weeks internally.',
+        link: { text: 'Export Controls Division', url: 'https://www.international.gc.ca/controls-controles/export-exportation/index.aspx' }
+      };
+    }
+
+    // No ITAR concern — use step for size-appropriate funding/programme advice
+    if (size === 'A' || size === 'B') {
+      return {
+        label: 'Funding Available — Your Scale',
+        title: 'Apply for NGen co-investment and access the PSPC ITB SME matchmaking function',
+        body: 'NGen (Next Generation Manufacturing Canada) provides co-investment for automation and digital manufacturing projects — directly relevant to defence-grade production requirements. PSPC\'s ITB office has an active SME matchmaking function connecting smaller Canadian manufacturers to prime contractors with unfulfilled obligations in your product category.',
+        links: [
+          { text: 'NGen — ngen.ca', url: 'https://www.ngen.ca' },
+          { text: 'PSPC ITB — tpsgc-pwgsc.gc.ca/itb', url: 'https://www.tpsgc-pwgsc.gc.ca/itb' }
+        ]
+      };
+    }
+
+    return {
+      label: 'Supply Chain',
+      title: 'Register with PSPC\'s ITB office for direct prime contractor connections',
+      body: 'The Industrial and Technological Benefits office connects Canadian manufacturers to prime contractors who hold Value Proposition obligations in your product category — a direct pipeline to NSS and defence programme subcontracts that does not require competitive bidding for the initial introduction.',
+      link: { text: 'PSPC ITB — tpsgc-pwgsc.gc.ca/itb', url: 'https://www.tpsgc-pwgsc.gc.ca/itb' }
+    };
+  }
+
+  function buildActionStep(blocker, market) {
+    if (blocker === 'A') {
+      if (market === 'A' || market === 'D') {
+        return {
+          label: 'First Call — Make This Week',
+          title: 'Call the PSPC ITB office and register with CME Defence this week — in that order',
+          body: 'PSPC ITB will identify prime contractors with open obligations in your product category. CME Defence will tell you which NSS and defence subcontracts are currently accepting supplier registrations. Together, these two contacts give you a complete picture of accessible opportunities within 5–7 business days.',
+          links: [
+            { text: 'PSPC ITB office', url: 'https://www.tpsgc-pwgsc.gc.ca/itb' },
+            { text: 'CME Defence', url: 'https://www.cme-mec.ca/cme-defence' }
+          ]
+        };
+      }
+      return {
+        label: 'First Call — Make This Week',
+        title: 'Contact CME Defence for a programme orientation session',
+        body: 'CME Defence runs orientation sessions for manufacturers new to defence procurement. This is the fastest way to understand which programmes are accessible in your sector and in what sequence — saving months of independent research and avoiding common registration errors.',
+        link: { text: 'CME Defence — cme-mec.ca/cme-defence', url: 'https://www.cme-mec.ca/cme-defence' }
+      };
+    }
+
+    if (blocker === 'B') {
+      return {
+        label: 'Certification Priority — Do This Today',
+        title: 'Register on CanadaBuys now, then book a certification roadmap session with CME Defence',
+        body: 'CanadaBuys PBN registration is 1–3 business days and free — start it today. CME Defence can then provide the specific certification sequence for your sector and target programme, so you invest in credentials that open doors rather than check boxes. This combination typically takes 2–3 weeks total.',
+        links: [
+          { text: 'Register on CanadaBuys', url: 'https://canadabuys.canada.ca' },
+          { text: 'CME Defence', url: 'https://www.cme-mec.ca/cme-defence' }
+        ]
+      };
+    }
+
+    if (blocker === 'C') {
+      return {
+        label: 'International Entry',
+        title: 'Contact the Trade Commissioner Service for EU SAFE programme access and buyer introductions',
+        body: 'Canada\'s CETA access to the EU SAFE defence fund is operational. The Trade Commissioner Service has in-market presence in Brussels and European defence capitals and can provide specific programme contacts and contracting pathways. This is a free service available to all Canadian exporters.',
+        links: [
+          { text: 'Trade Commissioner Service', url: 'https://www.tradecommissioner.gc.ca' },
+          { text: 'Global Affairs Canada', url: 'https://www.international.gc.ca' }
+        ]
+      };
+    }
+
+    // blocker === 'D' — need contacts
+    return {
+      label: 'Key Contacts — Call Directly',
+      title: 'PSPC ITB and your regional ISED industrial development officer are your two primary contacts',
+      body: 'PSPC ITB matches product categories to prime contractors with open obligations. ISED regional offices provide company-specific programme navigation. Both services are free, and both contacts are specifically resourced to connect Canadian manufacturers to accessible procurement opportunities without requiring competitive bid experience.',
+      links: [
+        { text: 'PSPC ITB office', url: 'https://www.tpsgc-pwgsc.gc.ca/itb' },
+        { text: 'ISED regional offices', url: 'https://ised.canada.ca/en/office-consumer-affairs/org/industry-canada-regional-offices' }
+      ]
+    };
+  }
+
+})();
+</script>
+</body>
+</html>
