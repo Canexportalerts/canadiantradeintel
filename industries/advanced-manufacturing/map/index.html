@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Manufacturing Corridor Intelligence Map — CTI</title>
+<meta name="description" content="Canadian manufacturing corridor intelligence map. Seven industrial zones from Windsor to Vancouver — CUSMA exposure, worker counts, and trade signals for each corridor.">
+<link rel="canonical" href="https://canadiantradeintel.ca/industries/advanced-manufacturing/map/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@400;500&family=Jost:wght@300;400;500&display=swap"
+  rel="stylesheet">
+<link rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="/nav.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --ink:#0d0d0b;--slate:#5a5a56;
+  --warm-bg:#f8f5f0;--warm-border:#ddd5c5;
+  --crimson:#8b1a1a;--brand-dark:#1a0505;
+  --sector:#2a5090;--sector-dark:#132448;--sector-darker:#090f1e;
+  --sector-mid:#7da0d4;
+  --sidebar-bg:#090f1e;--sidebar-border:rgba(42,80,144,0.28);
+  --cusma-high:#8b0000;--cusma-med:#ba7517;--cusma-low:#27500a;
+}
+html,body{height:100%;overflow:hidden;}
+body{font-family:'Jost',sans-serif;color:#fff;
+  background:var(--sidebar-bg);-webkit-font-smoothing:antialiased;}
+
+/* ── SECTOR SUBNAV ── */
+.sector-subnav{background:var(--brand-dark);
+  border-bottom:1px solid rgba(255,255,255,0.06);
+  padding:0 48px;height:40px;display:flex;align-items:center;
+  flex-shrink:0;}
+.sector-subnav-inner{display:flex;gap:0;overflow-x:auto;
+  scrollbar-width:none;}
+.sector-subnav-inner::-webkit-scrollbar{display:none;}
+.sn-item{font-family:'DM Mono',monospace;font-size:9px;
+  letter-spacing:0.12em;text-transform:uppercase;
+  color:rgba(255,255,255,0.4);text-decoration:none;
+  padding:0 14px;height:40px;display:flex;align-items:center;
+  border-bottom:2px solid transparent;white-space:nowrap;
+  transition:color 0.15s;}
+.sn-item:hover{color:rgba(255,255,255,0.75);}
+.sn-item.back{color:rgba(125,160,212,0.65);padding-left:0;}
+.sn-item.back:hover{color:rgba(125,160,212,1);}
+.sn-item.active-map{color:#fff;border-bottom-color:var(--sector);}
+
+/* ── PAGE WRAPPER ── */
+#page-wrapper{display:flex;flex-direction:column;height:100vh;overflow:hidden;}
+#map-area{display:flex;flex:1;overflow:hidden;min-height:0;}
+
+/* ── SIDEBAR ── */
+#map-sidebar{
+  width:300px;flex-shrink:0;
+  background:var(--sidebar-bg);
+  border-right:1px solid var(--sidebar-border);
+  overflow-y:auto;display:flex;flex-direction:column;
+}
+.sb-header{
+  padding:18px 18px 14px;
+  border-bottom:1px solid var(--sidebar-border);
+}
+.sb-title{font-family:'Cormorant Garamond',serif;font-size:18px;
+  font-weight:600;color:#f4f0e8;line-height:1.2;margin-bottom:4px;}
+.sb-sub{font-family:'DM Mono',monospace;font-size:8px;
+  letter-spacing:0.1em;text-transform:uppercase;
+  color:rgba(125,160,212,0.45);line-height:1.6;}
+
+.sb-section{padding:14px 18px;border-bottom:1px solid var(--sidebar-border);}
+.sb-label{font-family:'DM Mono',monospace;font-size:8px;
+  letter-spacing:0.16em;text-transform:uppercase;
+  color:rgba(125,160,212,0.5);margin-bottom:8px;}
+
+/* ── CORRIDOR DETAIL PANEL ── */
+#corridor-detail{
+  padding:14px 18px;border-bottom:1px solid var(--sidebar-border);
+  display:none;
+}
+#corridor-detail.visible{display:block;}
+.cd-close{float:right;font-family:'DM Mono',monospace;font-size:8px;
+  letter-spacing:0.1em;text-transform:uppercase;
+  color:rgba(125,160,212,0.45);cursor:pointer;background:none;
+  border:none;color:rgba(125,160,212,0.45);padding:0;margin-top:1px;}
+.cd-close:hover{color:rgba(125,160,212,1);}
+.cd-exposure{font-family:'DM Mono',monospace;font-size:8px;
+  letter-spacing:0.14em;text-transform:uppercase;
+  margin-bottom:6px;font-weight:500;}
+.cd-name{font-family:'Cormorant Garamond',serif;font-size:16px;
+  font-weight:600;font-style:italic;color:#f4f0e8;
+  line-height:1.2;margin-bottom:10px;}
+.cd-signal{border-left:3px solid;padding:8px 10px;margin-bottom:10px;}
+.cd-signal-text{font-size:12px;color:rgba(255,255,255,0.75);line-height:1.65;}
+.cd-row{display:flex;justify-content:space-between;align-items:baseline;
+  padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.05);}
+.cd-row:last-of-type{border-bottom:none;}
+.cd-key{font-family:'DM Mono',monospace;font-size:7px;
+  letter-spacing:0.1em;text-transform:uppercase;
+  color:rgba(125,160,212,0.45);}
+.cd-val{font-size:11px;color:rgba(255,255,255,0.75);
+  text-align:right;max-width:160px;line-height:1.45;}
+.cd-note{font-size:10px;color:rgba(255,255,255,0.35);
+  font-style:italic;margin-top:8px;line-height:1.5;}
+.cd-link{display:block;margin-top:10px;font-family:'DM Mono',monospace;
+  font-size:8px;letter-spacing:0.1em;text-transform:uppercase;
+  color:rgba(125,160,212,0.7);text-decoration:none;
+  border-bottom:1px solid rgba(125,160,212,0.25);
+  padding-bottom:2px;width:fit-content;}
+.cd-link:hover{color:rgba(125,160,212,1);}
+
+/* ── LEGEND ── */
+.legend-items{display:flex;flex-direction:column;gap:8px;}
+.legend-item{display:flex;align-items:center;gap:10px;}
+.legend-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0;
+  border:2px solid rgba(255,255,255,0.4);}
+.legend-text{font-size:12px;color:rgba(255,255,255,0.65);line-height:1.4;}
+.legend-sub{font-family:'DM Mono',monospace;font-size:8px;
+  letter-spacing:0.06em;color:rgba(255,255,255,0.3);display:block;}
+
+/* ── STAT BAR ── */
+#map-stats{padding:8px 18px;font-family:'DM Mono',monospace;font-size:9px;
+  letter-spacing:0.08em;color:rgba(125,160,212,0.45);
+  border-bottom:1px solid var(--sidebar-border);}
+
+/* ── SOURCE ATTRIBUTION ── */
+.sb-source{padding:12px 18px;margin-top:auto;
+  font-family:'DM Mono',monospace;font-size:8px;
+  letter-spacing:0.06em;color:rgba(255,255,255,0.2);line-height:1.7;}
+.sb-source a{color:rgba(125,160,212,0.35);text-decoration:none;}
+.sb-source a:hover{color:rgba(125,160,212,0.75);text-decoration:underline;}
+.trillium-link{display:block;margin-top:10px;font-size:9px;
+  color:rgba(125,160,212,0.55);border-top:1px solid var(--sidebar-border);
+  padding-top:10px;}
+.trillium-link a{color:rgba(125,160,212,0.75);text-decoration:none;}
+.trillium-link a:hover{text-decoration:underline;}
+
+/* ── MAP CONTAINER ── */
+#map-container{flex:1;position:relative;}
+#map{width:100%;height:100%;}
+
+/* Leaflet popup overrides */
+.leaflet-popup-content-wrapper{
+  border-radius:0;border:0.5px solid #ddd;
+  box-shadow:0 4px 20px rgba(0,0,0,0.18);
+  padding:0;overflow:hidden;
+}
+.leaflet-popup-content{margin:0;width:280px !important;}
+.leaflet-popup-tip-container{display:none;}
+.leaflet-popup-close-button{
+  font-size:14px;color:#999 !important;
+  right:10px !important;top:8px !important;
+}
+
+/* ── MOBILE ── */
+@media(max-width:768px){
+  #map-sidebar{
+    position:absolute;bottom:0;left:0;right:0;
+    width:100%;height:240px;z-index:500;
+    border-right:none;border-top:1px solid var(--sidebar-border);
+  }
+  #map-area{flex-direction:column;}
+  .sb-header{padding:10px 14px 8px;}
+  .sector-subnav{padding:0 16px;}
+  html,body{overflow:auto;}
+  #page-wrapper{height:auto;}
+  #map-area{height:100vh;}
+}
+</style>
+</head>
+<body>
+<div id="page-wrapper">
+
+  <nav id="main-nav"></nav>
+
+  <div class="sector-subnav">
+    <div class="sector-subnav-inner">
+      <a href="/industries/advanced-manufacturing/" class="sn-item back">
+        ← Advanced Manufacturing</a>
+      <a href="/industries/advanced-manufacturing/" class="sn-item">Overview</a>
+      <a href="/industries/advanced-manufacturing/map/" class="sn-item active-map">
+        Corridor Map</a>
+      <a href="/industries/critical-minerals/" class="sn-item">Critical Minerals</a>
+      <a href="/industries/aerospace-defence/" class="sn-item">Aerospace &amp; Defence</a>
+      <a href="/industries/energy-cleantech/" class="sn-item">Energy &amp; Cleantech</a>
+    </div>
+  </div>
+
+  <div id="map-area">
+
+    <!-- SIDEBAR -->
+    <div id="map-sidebar">
+      <div class="sb-header">
+        <div class="sb-title">Manufacturing Corridor<br>Intelligence Map</div>
+        <div class="sb-sub">7 corridors · CUSMA exposure · Trade signals<br>
+          CTI intelligence layer · Updated weekly</div>
+      </div>
+
+      <!-- STATS -->
+      <div id="map-stats">7 corridors · 286,000+ workers</div>
+
+      <!-- CORRIDOR DETAIL (populated on click) -->
+      <div id="corridor-detail" class="sb-section">
+        <div class="sb-label">Selected corridor
+          <button class="cd-close" onclick="closeDetail()">✕ close</button>
+        </div>
+        <div id="corridor-detail-content"></div>
+      </div>
+
+      <!-- LEGEND -->
+      <div class="sb-section">
+        <div class="sb-label">CUSMA exposure</div>
+        <div class="legend-items">
+          <div class="legend-item">
+            <div class="legend-dot" style="background:var(--cusma-high);"></div>
+            <div class="legend-text">HIGH
+              <span class="legend-sub">US rule changes directly threaten plant viability</span>
+            </div>
+          </div>
+          <div class="legend-item">
+            <div class="legend-dot" style="background:var(--cusma-med);"></div>
+            <div class="legend-text">MEDIUM
+              <span class="legend-sub">Significant exposure — margin or contract risk</span>
+            </div>
+          </div>
+          <div class="legend-item">
+            <div class="legend-dot" style="background:var(--cusma-low);"></div>
+            <div class="legend-text">LOW
+              <span class="legend-sub">Limited direct exposure — domestic or allied procurement</span>
+            </div>
+          </div>
+          <div class="legend-item" style="margin-top:4px;">
+            <div style="width:28px;height:2px;border-top:2px dashed var(--cusma-low);flex-shrink:0;margin-top:5px;"></div>
+            <div class="legend-text">National Shipbuilding Strategy corridor
+              <span class="legend-sub">Halifax–Vancouver linked programme</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SOURCE -->
+      <div class="sb-source">
+        Intelligence layer: Canadian Trade Intelligence Inc.<br>
+        Plant data: <a href="https://www23.statcan.gc.ca/imdb/p2SV.pl?Function=getSurvey&SDDS=1105"
+          target="_blank" rel="noopener">StatCan Business Register</a>,
+        <a href="https://www.cme-mec.ca" target="_blank" rel="noopener">CME</a>,
+        <a href="https://www.unifor.org" target="_blank" rel="noopener">Unifor</a><br>
+        Ontario plant details:
+        <a href="https://trilliumgis.ca" target="_blank" rel="noopener">TrilliumGIS (trilliumgis.ca)</a><br>
+        © 2026 Canadian Trade Intelligence Inc.
+        <span class="trillium-link">
+          Find specific Ontario manufacturers by NAICS code →
+          <a href="https://trilliumgis.ca/map" target="_blank" rel="noopener">TrilliumGIS</a>
+        </span>
+      </div>
+    </div>
+
+    <!-- MAP -->
+    <div id="map-container">
+      <div id="map"></div>
+    </div>
+
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+(function() {
+
+  // ── Corridor data ────────────────────────────────────────────────
+  var CORRIDORS = [
+    {
+      id: 'windsor',
+      name: 'Windsor–Essex',
+      lat: 42.317, lng: -83.026,
+      employers: 'Ford Windsor Assembly, Stellantis Windsor, Essex Engine Plant',
+      workers: 100000,
+      product: 'Auto assembly, auto parts, engine components',
+      cusma: 'HIGH',
+      signal: 'US demand for 50% American-specific vehicle content threatens supply contracts keeping these plants running.',
+      province: 'Ontario',
+      note: null
+    },
+    {
+      id: 'oshawa',
+      name: 'Oshawa–Durham',
+      lat: 43.897, lng: -78.865,
+      employers: 'GM Oshawa Assembly, Magna International, Martinrea',
+      workers: 35000,
+      product: 'Auto assembly, auto parts stampings',
+      cusma: 'HIGH',
+      signal: 'GM Oshawa restarted truck production in 2021 — CUSMA content rules determine whether this stays viable.',
+      province: 'Ontario',
+      note: null
+    },
+    {
+      id: 'cambridge',
+      name: 'Cambridge–Waterloo–Kitchener',
+      lat: 43.398, lng: -80.311,
+      employers: 'Toyota Cambridge, Rethink Robotics Canada, precision SMEs',
+      workers: 28000,
+      product: 'Toyota RAV4/Lexus assembly, precision machined parts, industrial automation',
+      cusma: 'MEDIUM',
+      signal: 'Toyota Cambridge is Canada\'s most efficient auto plant — EV transition timeline is the key watch item.',
+      province: 'Ontario',
+      note: null
+    },
+    {
+      id: 'hamilton',
+      name: 'Hamilton–Niagara',
+      lat: 43.255, lng: -79.869,
+      employers: 'ArcelorMittal Dofasco, Stelco, Stoney Creek fabricators',
+      workers: 45000,
+      product: 'Flat-rolled steel, fabricated metal products, auto-grade steel',
+      cusma: 'MEDIUM',
+      signal: 'Section 232 tariffs at 50% on full customs value — highest US steel tariff burden in the modern trade era.',
+      province: 'Ontario',
+      note: null
+    },
+    {
+      id: 'sault',
+      name: 'Sault Ste. Marie',
+      lat: 46.512, lng: -84.345,
+      employers: 'Algoma Steel',
+      workers: 8000,
+      product: 'Hot-rolled steel coil, plate steel, structural steel',
+      cusma: 'MEDIUM',
+      signal: 'Algoma signed supply agreement with Hanwha for land vehicle materials — defence pivot underway.',
+      province: 'Ontario',
+      note: 'Single-employer community — Algoma Steel is the entire economy.'
+    },
+    {
+      id: 'montreal',
+      name: 'Montreal Aerospace Belt',
+      lat: 45.508, lng: -73.587,
+      employers: 'Bombardier, CAE, Pratt & Whitney Canada, NovaBus, Héroux-Devtek',
+      workers: 55000,
+      product: 'Business jets, flight simulators, aircraft engines, transit buses, landing gear',
+      cusma: 'LOW',
+      signal: 'EU SAFE programme access creates new defence export opportunities — Montreal firms are best positioned.',
+      province: 'Quebec',
+      note: null
+    },
+    {
+      id: 'halifax',
+      name: 'Halifax Shipbuilding',
+      lat: 44.646, lng: -63.610,
+      employers: 'Irving Shipbuilding Halifax',
+      workers: 15000,
+      product: 'Arctic/Offshore Patrol Vessels, CSC frigates',
+      cusma: 'LOW',
+      signal: 'National Shipbuilding Strategy — 30-year programme, largest procurement in Canadian history. Supply chain openings now.',
+      province: 'Nova Scotia',
+      corridor_pair: 'Vancouver',
+      workers_note: '15K combined Halifax–Vancouver corridor'
+    },
+    {
+      id: 'vancouver',
+      name: 'Vancouver Shipbuilding',
+      lat: 49.287, lng: -123.116,
+      employers: 'Seaspan Vancouver',
+      workers: 15000,
+      product: 'Joint Support Ships, Arctic/Offshore Patrol Vessels',
+      cusma: 'LOW',
+      signal: 'National Shipbuilding Strategy — 30-year programme, largest procurement in Canadian history. Supply chain openings now.',
+      province: 'British Columbia',
+      corridor_pair: 'Halifax',
+      workers_note: '15K combined Halifax–Vancouver corridor'
+    }
+  ];
+
+  // ── CUSMA colour helpers ─────────────────────────────────────────
+  var CUSMA_COLOURS = {
+    HIGH:   '#8b0000',
+    MEDIUM: '#ba7517',
+    LOW:    '#27500a'
+  };
+  var CUSMA_LIGHT = {
+    HIGH:   'rgba(139,0,0,0.08)',
+    MEDIUM: 'rgba(186,117,23,0.08)',
+    LOW:    'rgba(39,80,10,0.08)'
+  };
+
+  function cusmaColour(level) {
+    return CUSMA_COLOURS[level] || '#555';
+  }
+
+  // ── Marker size by worker count ──────────────────────────────────
+  function markerSize(workers) {
+    if (workers >= 80000) return 52;
+    if (workers >= 40000) return 44;
+    if (workers >= 20000) return 38;
+    return 32;
+  }
+
+  function workerLabel(n) {
+    if (n >= 1000) return Math.round(n / 1000) + 'K';
+    return n;
+  }
+
+  // ── Create custom corridor marker ────────────────────────────────
+  function createCorridorMarker(c) {
+    var colour = cusmaColour(c.cusma);
+    var size = markerSize(c.workers);
+    var half = size / 2;
+
+    var icon = L.divIcon({
+      className: '',
+      html: '<div style="' +
+        'width:' + size + 'px;height:' + size + 'px;' +
+        'border-radius:50%;' +
+        'background:' + colour + ';' +
+        'border:2.5px solid rgba(255,255,255,0.75);' +
+        'display:flex;align-items:center;justify-content:center;' +
+        'box-shadow:0 3px 12px rgba(0,0,0,0.35),0 0 0 4px ' + colour.replace(')', ',0.18)').replace('rgb', 'rgba') + ';' +
+        'cursor:pointer;' +
+        '"><span style="' +
+          'font-family:\'DM Mono\',monospace;' +
+          'font-size:' + Math.round(size * 0.22) + 'px;' +
+          'color:#fff;font-weight:500;' +
+          'letter-spacing:-0.02em;' +
+        '">' + workerLabel(c.workers) + '</span></div>',
+      iconSize: [size, size],
+      iconAnchor: [half, half],
+      popupAnchor: [0, -(half + 6)]
+    });
+
+    var marker = L.marker([c.lat, c.lng], { icon: icon });
+
+    // Build popup HTML
+    var popupHtml =
+      '<div style="padding:16px 18px;">' +
+        '<div style="' +
+          'font-family:\'DM Mono\',monospace;font-size:7px;' +
+          'letter-spacing:0.16em;text-transform:uppercase;' +
+          'color:' + colour + ';margin-bottom:6px;font-weight:500;' +
+        '">CUSMA EXPOSURE: ' + c.cusma + '</div>' +
+        '<div style="' +
+          'font-family:\'Cormorant Garamond\',serif;font-size:18px;' +
+          'font-weight:600;font-style:italic;color:#1a1a14;' +
+          'line-height:1.2;margin-bottom:10px;' +
+        '">' + c.name + '</div>' +
+        '<div style="' +
+          'border-left:3px solid ' + colour + ';' +
+          'background:' + CUSMA_LIGHT[c.cusma] + ';' +
+          'padding:8px 10px;margin-bottom:12px;' +
+        '">' +
+          '<div style="' +
+            'font-family:\'DM Mono\',monospace;font-size:7px;' +
+            'letter-spacing:0.12em;text-transform:uppercase;' +
+            'color:' + colour + ';margin-bottom:4px;' +
+          '">CTI Signal</div>' +
+          '<div style="font-size:12px;color:#3a3a30;line-height:1.65;">' +
+            c.signal +
+          '</div>' +
+        '</div>' +
+        '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">' +
+          '<div>' +
+            '<div style="font-family:\'DM Mono\',monospace;font-size:7px;letter-spacing:0.12em;text-transform:uppercase;color:#999;margin-bottom:2px;">Province</div>' +
+            '<div style="font-size:12px;color:#1a1a14;">' + c.province + '</div>' +
+          '</div>' +
+          '<div>' +
+            '<div style="font-family:\'DM Mono\',monospace;font-size:7px;letter-spacing:0.12em;text-transform:uppercase;color:#999;margin-bottom:2px;">Workers</div>' +
+            '<div style="font-size:12px;color:#1a1a14;">' +
+              (c.workers_note
+                ? '<span title="' + c.workers_note + '">' + workerLabel(c.workers) + '+ ⁂</span>'
+                : workerLabel(c.workers) + '+') +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+        '<div style="margin-bottom:10px;">' +
+          '<div style="font-family:\'DM Mono\',monospace;font-size:7px;letter-spacing:0.12em;text-transform:uppercase;color:#999;margin-bottom:3px;">Key employers</div>' +
+          '<div style="font-size:12px;color:#3a3a30;line-height:1.5;">' + c.employers + '</div>' +
+        '</div>' +
+        '<div>' +
+          '<div style="font-family:\'DM Mono\',monospace;font-size:7px;letter-spacing:0.12em;text-transform:uppercase;color:#999;margin-bottom:3px;">Products</div>' +
+          '<div style="font-size:12px;color:#3a3a30;line-height:1.5;">' + c.product + '</div>' +
+        '</div>' +
+        (c.note
+          ? '<div style="font-size:11px;color:#c05020;font-style:italic;margin-top:10px;padding-top:8px;border-top:0.5px solid #eee;">' + c.note + '</div>'
+          : '') +
+        (c.workers_note
+          ? '<div style="font-size:10px;color:#999;margin-top:6px;">⁂ ' + c.workers_note + '</div>'
+          : '') +
+        '<a href="/industries/advanced-manufacturing/" style="' +
+          'display:inline-block;margin-top:12px;' +
+          'font-family:\'DM Mono\',monospace;font-size:8px;' +
+          'letter-spacing:0.1em;text-transform:uppercase;' +
+          'color:#2a5090;text-decoration:none;' +
+          'border-bottom:1px solid rgba(42,80,144,0.3);padding-bottom:1px;' +
+        '">CTI manufacturing intelligence →</a>' +
+      '</div>';
+
+    marker.bindPopup(popupHtml, { maxWidth: 300, minWidth: 280 });
+
+    marker.on('click', function() { showCorridorDetail(c); });
+
+    return marker;
+  }
+
+  // ── Show detail in sidebar ───────────────────────────────────────
+  function showCorridorDetail(c) {
+    var colour = cusmaColour(c.cusma);
+    var panel = document.getElementById('corridor-detail');
+    var content = document.getElementById('corridor-detail-content');
+
+    content.innerHTML =
+      '<div class="cd-exposure" style="color:' + colour + ';">' +
+        'CUSMA: ' + c.cusma + ' EXPOSURE' +
+      '</div>' +
+      '<div class="cd-name">' + c.name + '</div>' +
+      '<div class="cd-signal" style="border-left-color:' + colour + ';background:rgba(255,255,255,0.03);">' +
+        '<div class="cd-signal-text">' + c.signal + '</div>' +
+      '</div>' +
+      '<div class="cd-row">' +
+        '<span class="cd-key">Province</span>' +
+        '<span class="cd-val">' + c.province + '</span>' +
+      '</div>' +
+      '<div class="cd-row">' +
+        '<span class="cd-key">Workers</span>' +
+        '<span class="cd-val">' + workerLabel(c.workers) + '+ ' +
+          (c.workers_note ? '<span style="font-size:9px;color:rgba(255,255,255,0.35);">(combined)</span>' : '') +
+        '</span>' +
+      '</div>' +
+      '<div class="cd-row">' +
+        '<span class="cd-key">Key employers</span>' +
+        '<span class="cd-val">' + c.employers + '</span>' +
+      '</div>' +
+      '<div class="cd-row">' +
+        '<span class="cd-key">Products</span>' +
+        '<span class="cd-val">' + c.product + '</span>' +
+      '</div>' +
+      (c.note
+        ? '<div class="cd-note">⚠ ' + c.note + '</div>'
+        : '') +
+      '<a href="/industries/advanced-manufacturing/" class="cd-link">Full sector intelligence →</a>';
+
+    panel.classList.add('visible');
+    panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function closeDetail() {
+    document.getElementById('corridor-detail').classList.remove('visible');
+  }
+  window.closeDetail = closeDetail;
+
+  // ── Init map ─────────────────────────────────────────────────────
+  document.addEventListener('DOMContentLoaded', function() {
+
+    var map = L.map('map', {
+      center: [48, -88],
+      zoom: 5,
+      zoomControl: true,
+      attributionControl: true,
+    });
+
+    // CartoDB Positron — light, minimal
+    L.tileLayer(
+      'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
+      {
+        attribution:
+          '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap</a> contributors ' +
+          '&copy; <a href="https://carto.com/attributions">CARTO</a> | ' +
+          'Intelligence: <a href="https://canadiantradeintel.ca">Canadian Trade Intelligence Inc.</a> | ' +
+          'Ontario plant data: <a href="https://trilliumgis.ca" target="_blank">TrilliumGIS</a>',
+        subdomains: 'abcd',
+        maxZoom: 18,
+      }
+    ).addTo(map);
+
+    // ── Halifax–Vancouver dashed corridor line ──────────────────────
+    var halifaxLatLng = [44.646, -63.610];
+    var vancouverLatLng = [49.287, -123.116];
+
+    L.polyline([halifaxLatLng, vancouverLatLng], {
+      color: '#27500a',
+      weight: 2,
+      dashArray: '8 10',
+      opacity: 0.65,
+      interactive: false
+    }).addTo(map);
+
+    // Corridor line label at midpoint
+    var midLat = (halifaxLatLng[0] + vancouverLatLng[0]) / 2;
+    var midLng = (halifaxLatLng[1] + vancouverLatLng[1]) / 2;
+
+    L.marker([midLat, midLng], {
+      icon: L.divIcon({
+        className: '',
+        html: '<div style="' +
+          'font-family:\'DM Mono\',monospace;font-size:8px;' +
+          'letter-spacing:0.08em;text-transform:uppercase;' +
+          'color:#27500a;' +
+          'background:rgba(255,255,255,0.88);' +
+          'padding:2px 7px;' +
+          'border:0.5px solid rgba(39,80,10,0.4);' +
+          'white-space:nowrap;' +
+          'pointer-events:none;' +
+        '">National Shipbuilding Strategy corridor</div>',
+        iconSize: [240, 22],
+        iconAnchor: [120, 11]
+      }),
+      interactive: false
+    }).addTo(map);
+
+    // ── CUSMA exposure legend control (bottom-left) ──────────────────
+    var legend = L.control({ position: 'bottomleft' });
+    legend.onAdd = function() {
+      var div = L.DomUtil.create('div');
+      div.style.cssText =
+        'background:rgba(255,255,255,0.93);' +
+        'padding:10px 14px;' +
+        'border:0.5px solid #ccc;' +
+        'font-family:\'DM Mono\',monospace;' +
+        'font-size:8px;letter-spacing:0.1em;' +
+        'text-transform:uppercase;' +
+        'line-height:1;' +
+        'max-width:200px;';
+      div.innerHTML =
+        '<div style="color:#555;margin-bottom:8px;font-size:7px;letter-spacing:0.16em;">CUSMA Exposure</div>' +
+        '<div style="display:flex;align-items:center;gap:7px;margin-bottom:6px;">' +
+          '<div style="width:10px;height:10px;border-radius:50%;background:#8b0000;border:1px solid rgba(0,0,0,0.2);flex-shrink:0;"></div>' +
+          '<span style="color:#3a3a30;font-size:8px;">HIGH</span>' +
+        '</div>' +
+        '<div style="display:flex;align-items:center;gap:7px;margin-bottom:6px;">' +
+          '<div style="width:10px;height:10px;border-radius:50%;background:#ba7517;border:1px solid rgba(0,0,0,0.2);flex-shrink:0;"></div>' +
+          '<span style="color:#3a3a30;font-size:8px;">MEDIUM</span>' +
+        '</div>' +
+        '<div style="display:flex;align-items:center;gap:7px;margin-bottom:8px;">' +
+          '<div style="width:10px;height:10px;border-radius:50%;background:#27500a;border:1px solid rgba(0,0,0,0.2);flex-shrink:0;"></div>' +
+          '<span style="color:#3a3a30;font-size:8px;">LOW</span>' +
+        '</div>' +
+        '<div style="color:#999;font-size:7px;line-height:1.4;border-top:0.5px solid #e5e5e5;padding-top:7px;">' +
+          'Marker size = worker count<br>Click any corridor for intelligence' +
+        '</div>';
+      return div;
+    };
+    legend.addTo(map);
+
+    // ── Place corridor markers ────────────────────────────────────
+    CORRIDORS.forEach(function(c) {
+      var marker = createCorridorMarker(c);
+      marker.addTo(map);
+    });
+
+    // ── Fit bounds to show all corridors ──────────────────────────
+    var allPoints = CORRIDORS.map(function(c) { return [c.lat, c.lng]; });
+    map.fitBounds(L.latLngBounds(allPoints).pad(0.12));
+
+  });
+
+})();
+</script>
+</body>
+</html>
