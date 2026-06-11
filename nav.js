@@ -212,7 +212,6 @@
           '<span class="nav-dropdown-label">Themes</span>' +
           '<a href="/canada-forward/housing-and-infrastructure/">Housing &amp; Infrastructure</a>' +
           '<a href="/canada-forward/cities/">Cities &amp; Urban Infrastructure</a>' +
-          '<a href="/canada-forward/energy-transition/">Energy Transition</a>' +
           '<a href="/canada-forward/care-economy/">Care Economy</a>' +
           '<a href="/canada-forward/indigenous-economy/">Indigenous Economy</a>' +
           '<a href="/canada-forward/financial-services/">Financial Services</a>' +
@@ -255,7 +254,6 @@
     '<a href="/canada-forward/review/">Publications</a>' +
     '<a href="/canada-forward/housing-and-infrastructure/">Housing &amp; Infrastructure</a>' +
     '<a href="/canada-forward/cities/">Cities &amp; Urban Infrastructure</a>' +
-    '<a href="/canada-forward/energy-transition/">Energy Transition</a>' +
     '<a href="/canada-forward/care-economy/">Care Economy</a>' +
     '<a href="/canada-forward/indigenous-economy/">Indigenous Economy</a>' +
     '<a href="/canada-forward/financial-services/">Financial Services</a>' +
