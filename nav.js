@@ -102,7 +102,7 @@
     '  font-family: "DM Mono", monospace;',
     '  font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;',
     '  color: rgba(255,255,255,0.6); background: none; border: none;',
-    '  cursor: pointer; padding: 0; transition: color 0.2s;',
+    '  cursor: pointer; padding: 0; transition: color 0.2s; text-decoration: none;',
     '}',
     '#main-nav .nav-dropdown-btn:hover,',
     '#main-nav .nav-dropdown-btn.active { color: #ffffff; }',
@@ -203,7 +203,7 @@
       '<a href="/industries/">Industries</a>' +
       '<a href="/spotlight/">News</a>' +
       '<div class="nav-dropdown">' +
-        '<button class="nav-dropdown-btn">Canada \u25be</button>' +
+        '<a href="/canada-forward/" class="nav-dropdown-btn">Canada \u25be</a>' +
         '<div class="nav-dropdown-menu">' +
           '<span class="nav-dropdown-label">Overview</span>' +
           '<a href="/canada-forward/">Canada Forward</a>' +
