@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Canadian Energy Infrastructure Map — CTI</title>
+<meta name="description" content="Interactive map of Canada's energy infrastructure — pipelines, power plants, LNG terminals, refineries, nuclear facilities, wind and solar. NRCan open data with CTI intelligence layer.">
+<link rel="canonical" href="https://canadiantradeintel.ca/industries/energy-cleantech/map/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@400;500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="/nav.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --ink:#0d0d0b;--slate:#5a5a56;
+  --warm-bg:#f8f5f0;--warm-border:#ddd5c5;
+  --crimson:#8b1a1a;--brand-dark:#0d1a2d;
+  --sector:#1a4a7a;--sector-mid:#4a7ab0;--sector-dark:#0d2a4a;
+  --sector-light:rgba(26,74,122,0.15);
+  --amber:#c8640a;--amber-light:rgba(200,100,10,0.15);
+  --sidebar-bg:#0a1520;--sidebar-border:rgba(74,122,176,0.25);
+  --green:#2a7a3a;--purple:#6a20b0;--red:#c62828;
+  --gold:#b07800;--teal:#1a7a6a;--grey:#555;
+}
+html,body{height:100%;overflow:hidden;}
+body{font-family:'Jost',sans-serif;color:#fff;background:var(--sidebar-bg);-webkit-font-smoothing:antialiased;}
+
+/* ── SECTOR SUBNAV ── */
+.sector-subnav{background:var(--brand-dark);border-bottom:1px solid rgba(255,255,255,0.06);padding:0 48px;height:40px;display:flex;align-items:center;flex-shrink:0;}
+.sector-subnav-inner{display:flex;gap:0;overflow-x:auto;scrollbar-width:none;}
+.sector-subnav-inner::-webkit-scrollbar{display:none;}
+.sn-item{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.4);text-decoration:none;padding:0 14px;height:40px;display:flex;align-items:center;border-bottom:2px solid transparent;white-space:nowrap;transition:color 0.15s;}
+.sn-item:hover{color:rgba(255,255,255,0.75);}
+.sn-item.back{color:rgba(74,122,176,0.7);padding-left:0;}
+.sn-item.back:hover{color:rgba(74,122,176,1);}
+.sn-item.active{color:rgba(74,122,176,1);border-bottom-color:rgba(74,122,176,0.8);}
+
+/* ── PAGE WRAPPER ── */
+#page-wrapper{display:flex;flex-direction:column;height:100vh;overflow:hidden;}
+#map-area{display:flex;flex:1;overflow:hidden;min-height:0;}
+
+/* ── SIDEBAR ── */
+#map-sidebar{width:300px;flex-shrink:0;background:var(--sidebar-bg);border-right:1px solid var(--sidebar-border);overflow-y:auto;display:flex;flex-direction:column;}
+.sb-header{padding:18px 18px 14px;border-bottom:1px solid var(--sidebar-border);}
+.sb-title{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:#f4f0e8;line-height:1.2;margin-bottom:4px;}
+.sb-sub{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(74,122,176,0.6);line-height:1.6;}
+.sb-section{padding:14px 18px;border-bottom:1px solid var(--sidebar-border);}
+.sb-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(74,122,176,0.6);margin-bottom:10px;}
+
+/* ── LAYER TOGGLES ── */
+.layer-group{margin-bottom:10px;}
+.layer-group-label{font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.25);margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid rgba(255,255,255,0.06);}
+.layer-toggle{display:flex;align-items:center;gap:10px;padding:6px 0;cursor:pointer;transition:opacity 0.15s;}
+.layer-toggle:hover{opacity:0.85;}
+.layer-toggle input[type=checkbox]{accent-color:var(--sector-mid);width:14px;height:14px;cursor:pointer;flex-shrink:0;}
+.layer-toggle-label{font-size:11px;color:rgba(255,255,255,0.7);flex:1;line-height:1.3;}
+.layer-swatch{width:12px;height:12px;border-radius:2px;flex-shrink:0;}
+.layer-swatch.circle{border-radius:50%;}
+.layer-swatch.line{height:3px;border-radius:1px;margin-top:4px;}
+
+/* ── STATS PANEL ── */
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.stat-box{background:rgba(74,122,176,0.08);border:1px solid rgba(74,122,176,0.15);padding:10px 12px;}
+.stat-value{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--sector-mid);line-height:1;}
+.stat-label{font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-top:3px;line-height:1.4;}
+
+/* ── DETAIL PANEL ── */
+#detail-panel{display:none;padding:16px 18px;border-bottom:1px solid var(--sidebar-border);background:rgba(74,122,176,0.06);}
+#detail-panel.visible{display:block;}
+.detail-type{font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.16em;text-transform:uppercase;margin-bottom:6px;}
+.detail-name{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:600;color:#f4f0e8;margin-bottom:8px;line-height:1.3;}
+.detail-rows{}
+.detail-row{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.06);font-size:11px;}
+.detail-row:last-child{border-bottom:none;}
+.detail-key{color:rgba(255,255,255,0.35);font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.06em;}
+.detail-val{color:rgba(255,255,255,0.8);text-align:right;max-width:160px;}
+.detail-signal{margin-top:10px;padding:10px 12px;background:rgba(74,122,176,0.1);border-left:2px solid var(--sector-mid);font-size:11px;color:rgba(255,255,255,0.6);line-height:1.6;}
+.detail-signal strong{display:block;font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.12em;text-transform:uppercase;color:var(--sector-mid);margin-bottom:4px;}
+#close-detail{float:right;background:none;border:none;color:rgba(255,255,255,0.3);cursor:pointer;font-size:14px;line-height:1;padding:0;}
+#close-detail:hover{color:#fff;}
+
+/* ── MAP ── */
+#map{flex:1;min-width:0;}
+.leaflet-container{background:#0d1a2d;}
+
+/* ── LEGEND ── */
+#map-legend{
+  position:absolute;bottom:24px;right:16px;z-index:800;
+  background:rgba(10,21,32,0.95);border:1px solid rgba(74,122,176,0.3);
+  padding:14px 16px;min-width:200px;max-width:240px;
+  backdrop-filter:blur(4px);
+}
+.legend-title{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(74,122,176,0.8);margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid rgba(74,122,176,0.2);}
+.legend-section{margin-bottom:10px;}
+.legend-section-label{font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.25);margin-bottom:5px;}
+.legend-item{display:flex;align-items:center;gap:8px;padding:2px 0;}
+.legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.legend-line{width:18px;height:3px;border-radius:1px;flex-shrink:0;}
+.legend-poly{width:14px;height:10px;opacity:0.6;flex-shrink:0;}
+.legend-text{font-size:10px;color:rgba(255,255,255,0.6);}
+
+/* ── LOADING ── */
+#loading-overlay{position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(10,21,32,0.85);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:900;pointer-events:none;transition:opacity 0.4s;}
+#loading-overlay.hidden{opacity:0;}
+.loading-text{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(74,122,176,0.7);margin-top:12px;}
+.loading-bar{width:160px;height:2px;background:rgba(74,122,176,0.15);border-radius:1px;overflow:hidden;margin-top:8px;}
+.loading-fill{height:100%;background:var(--sector-mid);border-radius:1px;animation:loadpulse 1.4s ease-in-out infinite;}
+@keyframes loadpulse{0%{width:0%}50%{width:80%}100%{width:100%}}
+
+/* ── POPUP ── */
+.leaflet-popup-content-wrapper{background:#0a1520;border:1px solid rgba(74,122,176,0.4);border-radius:0;box-shadow:0 4px 20px rgba(0,0,0,0.5);color:#fff;padding:0;}
+.leaflet-popup-content{margin:0;font-family:'Jost',sans-serif;}
+.leaflet-popup-tip{background:#0a1520;}
+.leaflet-popup-close-button{color:rgba(255,255,255,0.4)!important;font-size:16px!important;padding:6px 8px!important;}
+.leaflet-popup-close-button:hover{color:#fff!important;}
+.popup-inner{padding:14px 16px;}
+.popup-type{font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.16em;text-transform:uppercase;margin-bottom:5px;}
+.popup-name{font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:600;color:#f4f0e8;margin-bottom:8px;line-height:1.3;}
+.popup-row{display:flex;justify-content:space-between;gap:12px;padding:3px 0;border-bottom:1px solid rgba(255,255,255,0.06);font-size:10px;}
+.popup-row:last-of-type{border-bottom:none;}
+.popup-key{color:rgba(255,255,255,0.35);font-family:'DM Mono',monospace;font-size:8px;}
+.popup-val{color:rgba(255,255,255,0.8);text-align:right;}
+.popup-signal{margin-top:10px;padding:8px 10px;background:rgba(74,122,176,0.1);border-left:2px solid var(--sector-mid);font-size:10px;color:rgba(255,255,255,0.55);line-height:1.6;}
+.popup-signal strong{display:block;font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.1em;text-transform:uppercase;color:var(--sector-mid);margin-bottom:3px;}
+</style>
+</head>
+<body>
+<div id="page-wrapper">
+  <nav id="main-nav"></nav>
+
+  <!-- SECTOR SUBNAV -->
+  <div class="sector-subnav">
+    <div class="sector-subnav-inner">
+      <a href="/industries/energy-cleantech/" class="sn-item back">← Energy &amp; Cleantech</a>
+      <a href="/industries/energy-cleantech/map/" class="sn-item active">Energy Infrastructure Map</a>
+      <a href="/industries/critical-minerals/map/" class="sn-item">Mining Map</a>
+      <a href="/industries/agri-food/map/" class="sn-item">Agri-food Map</a>
+    </div>
+  </div>
+
+  <div id="map-area">
+    <!-- SIDEBAR -->
+    <div id="map-sidebar">
+      <div class="sb-header">
+        <div class="sb-title">Canadian Energy Infrastructure</div>
+        <div class="sb-sub">Live data · NRCan NACEI + CTI intelligence layer<br>Click any facility or pipeline for details</div>
+      </div>
+
+      <!-- DETAIL PANEL -->
+      <div id="detail-panel">
+        <button id="close-detail" onclick="closeDetail()">✕</button>
+        <div id="detail-type" class="detail-type"></div>
+        <div id="detail-name" class="detail-name"></div>
+        <div id="detail-rows" class="detail-rows"></div>
+        <div id="detail-signal" class="detail-signal" style="display:none;"></div>
+      </div>
+
+      <!-- LAYER CONTROLS -->
+      <div class="sb-section">
+        <div class="sb-label">Map layers</div>
+
+        <div class="layer-group">
+          <div class="layer-group-label">Pipelines</div>
+          <label class="layer-toggle">
+            <input type="checkbox" id="lyr-oil-pipelines" checked onchange="toggleLayer('oil-pipelines')">
+            <div class="layer-swatch line" style="background:#c8640a;"></div>
+            <span class="layer-toggle-label">Crude oil pipelines</span>
+          </label>
+          <label class="layer-toggle">
+            <input type="checkbox" id="lyr-gas-pipelines" checked onchange="toggleLayer('gas-pipelines')">
+            <div class="layer-swatch line" style="background:#4a7ab0;"></div>
+            <span class="layer-toggle-label">Natural gas pipelines</span>
+          </label>
+          <label class="layer-toggle">
+            <input type="checkbox" id="lyr-lng-routes" checked onchange="toggleLayer('lng-routes')">
+            <div class="layer-swatch line" style="background:#1a7a6a;border-top:2px dashed #1a7a6a;height:0;margin-top:6px;"></div>
+            <span class="layer-toggle-label">LNG export routes</span>
+          </label>
+        </div>
+
+        <div class="layer-group">
+          <div class="layer-group-label">Power generation</div>
+          <label class="layer-toggle">
+            <input type="checkbox" id="lyr-nuclear" checked onchange="toggleLayer('nuclear')">
+            <div class="layer-swatch circle" style="background:#6a20b0;"></div>
+            <span class="layer-toggle-label">Nuclear plants</span>
+          </label>
+          <label class="layer-toggle">
+            <input type="checkbox" id="lyr-hydro" checked onchange="toggleLayer('hydro')">
+            <div class="layer-swatch circle" style="background:#1a4a7a;"></div>
+            <span class="layer-toggle-label">Hydro plants (100MW+)</span>
+          </label>
+          <label class="layer-toggle">
+            <input type="checkbox" id="lyr-gas-power" checked onchange="toggleLayer('gas-power')">
+            <div class="layer-swatch circle" style="background:#c8640a;"></div>
+            <span class="layer-toggle-label">Gas &amp; thermal power</span>
+          </label>
+          <label class="layer-toggle">
+            <input type="checkbox" id="lyr-wind" checked onchange="toggleLayer('wind')">
+            <div class="layer-swatch circle" style="background:#2a7a3a;"></div>
+            <span class="layer-toggle-label">Wind farms (1MW+)</span>
+          </label>
+          <label class="layer-toggle">
+            <input type="checkbox" id="lyr-solar" onchange="toggleLayer('solar')">
+            <div class="layer-swatch circle" style="background:#b07800;"></div>
+            <span class="layer-toggle-label">Solar farms (1MW+)</span>
+          </label>
+        </div>
+
+        <div class="layer-group">
+          <div class="layer-group-label">Oil &amp; gas facilities</div>
+          <label class="layer-toggle">
+            <input type="checkbox" id="lyr-lng" checked onchange="toggleLayer('lng')">
+            <div class="layer-swatch circle" style="background:#1a7a6a;"></div>
+            <span class="layer-toggle-label">LNG terminals</span>
+          </label>
+          <label class="layer-toggle">
+            <input type="checkbox" id="lyr-refineries" checked onchange="toggleLayer('refineries')">
+            <div class="layer-swatch circle" style="background:#c62828;"></div>
+            <span class="layer-toggle-label">Refineries &amp; upgraders</span>
+          </label>
+          <label class="layer-toggle">
+            <input type="checkbox" id="lyr-gasplants" onchange="toggleLayer('gasplants')">
+            <div class="layer-swatch circle" style="background:#6a6a6a;"></div>
+            <span class="layer-toggle-label">Gas processing plants</span>
+          </label>
+        </div>
+
+        <div class="layer-group">
+          <div class="layer-group-label">Resource zones</div>
+          <label class="layer-toggle">
+            <input type="checkbox" id="lyr-oilsands" checked onchange="toggleLayer('oilsands')">
+            <div class="layer-swatch" style="background:#c8640a;opacity:0.5;"></div>
+            <span class="layer-toggle-label">Oil sands deposits</span>
+          </label>
+          <label class="layer-toggle">
+            <input type="checkbox" id="lyr-txgap" checked onchange="toggleLayer('txgap')">
+            <div class="layer-swatch" style="background:#c62828;opacity:0.4;"></div>
+            <span class="layer-toggle-label">Transmission gap zones</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- STATS -->
+      <div class="sb-section">
+        <div class="sb-label">Loaded facilities</div>
+        <div class="stats-grid">
+          <div class="stat-box">
+            <div class="stat-value" id="count-power">—</div>
+            <div class="stat-label">Power plants 100MW+</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-value" id="count-renew">—</div>
+            <div class="stat-label">Renewable plants 1MW+</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-value" id="count-refinery">—</div>
+            <div class="stat-label">Refineries &amp; upgraders</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-value" id="count-lng">—</div>
+            <div class="stat-label">LNG terminals</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DATA NOTE -->
+      <div class="sb-section" style="margin-top:auto;">
+        <div class="sb-label">Data sources</div>
+        <div style="font-size:10px;color:rgba(255,255,255,0.3);line-height:1.7;">
+          Facility data: NRCan NACEI (North American Cooperation on Energy Information) · Free &amp; unrestricted use with attribution<br><br>
+          Pipeline routes: CTI-encoded from CER, NEB, and operator disclosures<br><br>
+          Intelligence layer: Canadian Trade Intelligence Inc. · Updated weekly<br><br>
+          <span style="color:rgba(74,122,176,0.5);">Note: NACEI facility data reflects August 2017 survey. Post-2017 facilities (LNG Canada, Site C) shown as CTI-curated points.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAP CONTAINER -->
+    <div style="position:relative;flex:1;min-width:0;">
+      <div id="map"></div>
+
+      <!-- LOADING OVERLAY -->
+      <div id="loading-overlay">
+        <div class="loading-text">Loading energy infrastructure</div>
+        <div class="loading-bar"><div class="loading-fill"></div></div>
+      </div>
+
+      <!-- LEGEND -->
+      <div id="map-legend">
+        <div class="legend-title">Legend</div>
+        <div class="legend-section">
+          <div class="legend-section-label">Pipelines</div>
+          <div class="legend-item"><div class="legend-line" style="background:#c8640a;"></div><span class="legend-text">Crude oil</span></div>
+          <div class="legend-item"><div class="legend-line" style="background:#4a7ab0;"></div><span class="legend-text">Natural gas</span></div>
+          <div class="legend-item"><div class="legend-line" style="background:#1a7a6a;border-top:2px dashed #1a7a6a;height:0;margin-top:5px;"></div><span class="legend-text">LNG export route</span></div>
+        </div>
+        <div class="legend-section">
+          <div class="legend-section-label">Power generation</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#6a20b0;"></div><span class="legend-text">Nuclear ⚛</span></div>
+          <div class="legend-item"><div class="legend-dot" style="background:#1a4a7a;"></div><span class="legend-text">Hydro 💧</span></div>
+          <div class="legend-item"><div class="legend-dot" style="background:#c8640a;"></div><span class="legend-text">Gas / thermal 🔥</span></div>
+          <div class="legend-item"><div class="legend-dot" style="background:#2a7a3a;"></div><span class="legend-text">Wind 💨</span></div>
+          <div class="legend-item"><div class="legend-dot" style="background:#b07800;"></div><span class="legend-text">Solar ☀</span></div>
+        </div>
+        <div class="legend-section">
+          <div class="legend-section-label">Facilities</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#1a7a6a;"></div><span class="legend-text">LNG terminal 🛢</span></div>
+          <div class="legend-item"><div class="legend-dot" style="background:#c62828;"></div><span class="legend-text">Refinery / upgrader</span></div>
+          <div class="legend-item"><div class="legend-dot" style="background:#6a6a6a;"></div><span class="legend-text">Gas processing</span></div>
+        </div>
+        <div class="legend-section">
+          <div class="legend-section-label">Zones</div>
+          <div class="legend-item"><div class="legend-poly" style="background:#c8640a;"></div><span class="legend-text">Oil sands deposits</span></div>
+          <div class="legend-item"><div class="legend-poly" style="background:#c62828;"></div><span class="legend-text">Transmission gap</span></div>
+        </div>
+        <div style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(74,122,176,0.15);font-family:'DM Mono',monospace;font-size:7px;color:rgba(255,255,255,0.2);">Source: NRCan NACEI · CTI Intelligence Layer<br>Marker size = relative capacity</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+// ══════════════════════════════════════════════════
+// MAP INIT
+// ══════════════════════════════════════════════════
+var map = L.map('map', {
+  center: [57, -96],
+  zoom: 4,
+  zoomControl: true,
+  attributionControl: true,
+  minZoom: 3,
+  maxZoom: 12
+});
+
+L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+  attribution: '&copy; <a href="https://carto.com/">CartoDB</a> · NRCan NACEI · CTI Intelligence',
+  subdomains: 'abcd',
+  maxZoom: 19
+}).addTo(map);
+
+// Layer groups
+var LAYERS = {
+  'oil-pipelines': L.layerGroup().addTo(map),
+  'gas-pipelines': L.layerGroup().addTo(map),
+  'lng-routes':    L.layerGroup().addTo(map),
+  'nuclear':       L.layerGroup().addTo(map),
+  'hydro':         L.layerGroup().addTo(map),
+  'gas-power':     L.layerGroup().addTo(map),
+  'wind':          L.layerGroup().addTo(map),
+  'solar':         L.layerGroup(),
+  'lng':           L.layerGroup().addTo(map),
+  'refineries':    L.layerGroup().addTo(map),
+  'gasplants':     L.layerGroup(),
+  'oilsands':      L.layerGroup().addTo(map),
+  'txgap':         L.layerGroup().addTo(map)
+};
+
+function toggleLayer(id) {
+  var cb = document.getElementById('lyr-' + id);
+  if (cb.checked) map.addLayer(LAYERS[id]);
+  else map.removeLayer(LAYERS[id]);
+}
+
+// ══════════════════════════════════════════════════
+// CTI INTELLIGENCE — pipeline & facility context
+// ══════════════════════════════════════════════════
+var CTI_SIGNALS = {
+  'Trans Mountain / TMX': 'TMX tripled pipeline capacity to tidewater in 2024. Canada now has direct Pacific crude export access. Brent+16.1% in March 2026 reflects Middle East supply disruption — Canadian crude benefiting from supply security premium.',
+  'Enbridge Mainline': 'Canada\'s largest crude pipeline system moves ~3 million bbl/day. Line 5 crossing the Straits of Mackinac remains under legal challenge from Michigan — a critical supply security risk for Central Canada and US Midwest refiners.',
+  'Coastal GasLink': 'Completed 2024 at $14.5B — BC\'s largest private infrastructure project. Feeds LNG Canada Phase 1 at Kitimat. Wet\'suwet\'en hereditary chiefs\' opposition to route is part of the ongoing conversation about resource development and Indigenous rights.',
+  'TC Energy NGTL': 'Alberta gas gathering and transmission backbone. Feeds exports to US and LNG Canada. AECO price at C$1.85/GJ — significantly below Henry Hub — reflects pipeline capacity constraints limiting Western Canadian gas access to premium markets.',
+  'Alliance Pipeline': 'Rich gas pipeline from NE BC/Alberta to Chicago. Owned by Enbridge and Pembina. Key conduit for natural gas liquids — propane, butane — alongside methane.',
+  'LNG Canada Phase 1': 'Canada\'s first LNG export terminal — first cargo expected Q4 2026. Shell 40%, PETRONAS 25%, PetroChina 15%, Mitsubishi 15%, Korea Gas 5%. SEFE (Germany) signed 20-year offtake with Ksi Lisims project May 2026 — first European LNG deal. CTI tracks commissioning signals weekly.',
+  'Darlington Nuclear': 'Ontario\'s largest nuclear plant — 3,512 MW. Currently undergoing $12.8B refurbishment extending life to 2055. Canada\'s first new nuclear project is the ARC-100 SMR also sited at Darlington — target grid connection 2029.',
+  'Bruce Nuclear': 'World\'s largest operating nuclear facility by capacity — 6,384 MW. Bruce Power under $13B life extension programme. Critical anchor of Ontario\'s 60% nuclear electricity mix.',
+  'Pickering Nuclear': 'Controversial life extension approved to 2026 (now further extended). Ontario\'s second-oldest nuclear plant. Closure would require significant new gas capacity to fill the gap.',
+  'Churchill Falls': 'Churchill Falls Labrador Corp (CFLCO) — 5,428 MW. Under 1969 contract, Hydro-Québec purchases power at Depression-era rates generating enormous profits. Contract expires 2041. Renegotiation will reshape Atlantic Canada energy economics.',
+  'Site C': 'BC Hydro megaproject — 1,100 MW — completed 2025 after major cost overruns (final cost ~$16B vs $6.6B original estimate). Powers BC industrial growth and feeds potential LNG Canada expansion.',
+  'Robert-Bourassa / La Grande': 'Hydro-Québec\'s flagship — 5,616 MW. Anchor of Quebec\'s massive clean electricity surplus. Quebec exports surplus to New York and New England. Green hydrogen production using this surplus is Quebec\'s primary cleantech export ambition.',
+  'Athabasca Oil Sands': 'World\'s third-largest oil reserve — 166B recoverable barrels. ~150,000 Canadians employed directly in oil sands operations. Emissions cap negotiations between Ottawa and Alberta are the live political risk for this sector through 2026.',
+  'Cold Lake': 'Imperial Oil\'s in-situ oil sands operations. SAGD (Steam-Assisted Gravity Drainage) technology — different environmental profile from mining operations. Lower land disturbance, higher energy intensity.',
+  'Peace River': 'Shell\'s Carmon Creek SAGD project was cancelled 2015 due to low oil prices. Peace River deposits remain largely undeveloped. Long-term supply optionality.'
+};
+
+// ══════════════════════════════════════════════════
+// POPUP BUILDER
+// ══════════════════════════════════════════════════
+function buildPopup(typeLabel, typeColor, name, rows, signalKey) {
+  var signal = CTI_SIGNALS[signalKey] || CTI_SIGNALS[name] || '';
+  var rowsHtml = rows.map(function(r) {
+    return '<div class="popup-row"><span class="popup-key">' + r[0] + '</span><span class="popup-val">' + r[1] + '</span></div>';
+  }).join('');
+  var signalHtml = signal ? '<div class="popup-signal"><strong>CTI Signal</strong>' + signal + '</div>' : '';
+  return '<div class="popup-inner"><div class="popup-type" style="color:' + typeColor + '">' + typeLabel + '</div><div class="popup-name">' + name + '</div>' + rowsHtml + signalHtml + '</div>';
+}
+
+function mwToRadius(mw) {
+  if (!mw || mw <= 0) return 5;
+  return Math.max(5, Math.min(18, Math.sqrt(mw / 100) * 3.5));
+}
+
+// ══════════════════════════════════════════════════
+// MANUAL DATA — MAJOR PIPELINES
+// ══════════════════════════════════════════════════
+var PIPELINES = [
+  {
+    id: 'Trans Mountain / TMX',
+    type: 'Crude oil',
+    color: '#c8640a',
+    weight: 4,
+    opacity: 0.85,
+    layer: 'oil-pipelines',
+    rows: [['Operator','Trans Mountain Corp (Crown)'],['Product','Diluted bitumen, crude'],['Capacity','890,000 bbl/day (TMX)'],['Route','Edmonton AB → Burnaby BC'],['Status','Operational (TMX 2024)'],['Regulator','CER (federal)']],
+    coords: [[53.5,-113.5],[52.9,-117.2],[52.0,-119.5],[51.1,-120.5],[50.0,-121.8],[49.25,-122.0],[49.25,-122.9]]
+  },
+  {
+    id: 'Enbridge Mainline',
+    type: 'Crude oil',
+    color: '#e87820',
+    weight: 4,
+    opacity: 0.8,
+    layer: 'oil-pipelines',
+    rows: [['Operator','Enbridge Inc.'],['Product','Crude oil (multiple grades)'],['Capacity','~3,000,000 bbl/day (system)'],['Route','Hardisty AB → Superior WI + Sarnia ON'],['Status','Operational'],['Note','Line 5 MI crossing under legal challenge']],
+    coords: [[52.7,-111.3],[52.0,-107.0],[51.5,-104.0],[50.9,-101.0],[49.5,-97.0],[48.5,-93.0],[46.8,-92.1]]
+  },
+  {
+    id: 'Coastal GasLink',
+    type: 'Natural gas',
+    color: '#4a7ab0',
+    weight: 3,
+    opacity: 0.85,
+    layer: 'gas-pipelines',
+    rows: [['Operator','TC Energy'],['Product','Natural gas'],['Capacity','2.1 Bcf/day'],['Route','Dawson Creek BC → Kitimat BC'],['Distance','670 km'],['Cost','$14.5B (completed 2024)'],['Feeds','LNG Canada Phase 1']],
+    coords: [[55.8,-120.2],[55.0,-122.0],[54.5,-124.0],[53.5,-127.0],[54.0,-128.6]]
+  },
+  {
+    id: 'TC Energy NGTL',
+    type: 'Natural gas',
+    color: '#5a8ac0',
+    weight: 3,
+    opacity: 0.7,
+    layer: 'gas-pipelines',
+    rows: [['Operator','TC Energy'],['Product','Natural gas'],['System','25,000 km Alberta network'],['Route','Alberta gathering + export'],['Status','Operational'],['Note','AECO gas price C$1.85/GJ — capacity constrained']],
+    coords: [[56.5,-117.0],[55.0,-115.0],[53.5,-113.5],[52.0,-113.5],[51.0,-114.1],[49.8,-114.5]]
+  },
+  {
+    id: 'Alliance Pipeline',
+    type: 'Natural gas',
+    color: '#3a6aa0',
+    weight: 2.5,
+    opacity: 0.7,
+    layer: 'gas-pipelines',
+    rows: [['Operator','Enbridge / Pembina'],['Product','Rich natural gas + NGLs'],['Capacity','1.6 Bcf/day'],['Route','NE BC / AB → Chicago IL'],['Length','3,848 km'],['Status','Operational']],
+    coords: [[58.0,-122.5],[56.0,-120.0],[55.0,-118.0],[54.0,-115.0],[52.0,-112.0],[49.0,-104.0],[47.0,-100.0],[41.8,-87.6]]
+  }
+];
+
+PIPELINES.forEach(function(p) {
+  var line = L.polyline(p.coords, {
+    color: p.color,
+    weight: p.weight,
+    opacity: p.opacity,
+    lineJoin: 'round'
+  });
+  var popup = buildPopup('⬤ ' + p.type + ' Pipeline', p.color, p.id, p.rows, p.id);
+  line.bindPopup(popup, {maxWidth: 320});
+  line.on('click', function() { showDetailFromPopup(p.type + ' Pipeline', p.color, p.id, p.rows, p.id); });
+  LAYERS[p.layer].addLayer(line);
+});
+
+// ══════════════════════════════════════════════════
+// LNG SHIPPING ROUTES (ocean)
+// ══════════════════════════════════════════════════
+var LNG_ROUTES = [
+  {
+    name: 'Kitimat → Tokyo (Japan)',
+    color: '#1a7a6a',
+    dashArray: '8 5',
+    coords: [[54.0,-128.6],[52.0,-160.0],[45.0,-175.0],[35.7,139.7]],
+    rows: [['Route','Kitimat BC → Tokyo Bay'],['Distance','~8,200 km'],['Transit time','~10 days'],['Buyers','PETRONAS, Mitsubishi, Korea Gas, PetroChina']]
+  },
+  {
+    name: 'Kitimat → South Korea (KOGAS)',
+    color: '#2a8a7a',
+    dashArray: '8 5',
+    coords: [[54.0,-128.6],[50.0,-170.0],[37.5,126.8]],
+    rows: [['Route','Kitimat BC → Incheon, South Korea'],['Distance','~8,900 km'],['Buyers','Korea Gas Corporation (KOGAS)'],['Advantage','Shorter than US Gulf Coast by ~10 days']]
+  }
+];
+
+LNG_ROUTES.forEach(function(r) {
+  var line = L.polyline(r.coords, {
+    color: r.color,
+    weight: 2,
+    opacity: 0.6,
+    dashArray: r.dashArray
+  });
+  var popup = buildPopup('🛢 LNG Export Route', r.color, r.name, r.rows, r.name);
+  line.bindPopup(popup, {maxWidth: 300});
+  LAYERS['lng-routes'].addLayer(line);
+});
+
+// ══════════════════════════════════════════════════
+// OIL SANDS BOUNDARIES (simplified polygons)
+// ══════════════════════════════════════════════════
+var OIL_SANDS = [
+  {
+    name: 'Athabasca Oil Sands',
+    signal: 'Athabasca',
+    color: '#c8640a',
+    coords: [[57.5,-112.5],[57.5,-110.5],[56.5,-110.0],[56.0,-111.0],[56.0,-113.0],[57.0,-113.5],[57.5,-112.5]],
+    rows: [['Type','Open pit mining + in-situ SAGD'],['Reserves','~166B recoverable barrels'],['Employment','~150,000 direct jobs'],['Key operators','Suncor, Syncrude, CNRL, Imperial'],['Emissions','~70 MT CO₂/year']]
+  },
+  {
+    name: 'Cold Lake Oil Sands',
+    signal: 'Cold Lake',
+    color: '#d07820',
+    coords: [[55.0,-110.5],[55.5,-109.0],[54.5,-109.5],[54.0,-110.5],[54.5,-111.5],[55.0,-110.5]],
+    rows: [['Type','In-situ SAGD'],['Key operator','Imperial Oil (ExxonMobil)'],['Method','Steam-Assisted Gravity Drainage'],['Note','Lower land disturbance than mining']]
+  },
+  {
+    name: 'Peace River Oil Sands',
+    signal: 'Peace River',
+    color: '#d08830',
+    coords: [[56.5,-117.5],[57.0,-116.0],[56.0,-116.0],[55.5,-117.0],[56.0,-118.0],[56.5,-117.5]],
+    rows: [['Type','In-situ SAGD (mostly undeveloped)'],['Status','Shell Carmon Creek cancelled 2015'],['Potential','Significant long-term resource'],['Note','Low oil prices stalled development']]
+  }
+];
+
+OIL_SANDS.forEach(function(s) {
+  var poly = L.polygon(s.coords, {
+    color: s.color,
+    fillColor: s.color,
+    fillOpacity: 0.25,
+    weight: 1.5,
+    opacity: 0.6
+  });
+  var popup = buildPopup('⛏ Oil Sands Deposit', s.color, s.name, s.rows, s.signal);
+  poly.bindPopup(popup, {maxWidth: 300});
+  poly.on('click', function() { showDetailFromPopup('Oil Sands', s.color, s.name, s.rows, s.signal); });
+  LAYERS['oilsands'].addLayer(poly);
+});
+
+// ══════════════════════════════════════════════════
+// TRANSMISSION GAP ANNOTATION
+// ══════════════════════════════════════════════════
+var QC_SURPLUS = L.polygon([
+  [62,-74],[62,-65],[45,-65],[45,-74],[62,-74]
+], {color:'#1a4a7a',fillColor:'#1a4a7a',fillOpacity:0.08,weight:1,opacity:0.3,dashArray:'4 4'});
+QC_SURPLUS.bindPopup('<div class="popup-inner"><div class="popup-type" style="color:#4a7ab0;">⚡ Clean Electricity Surplus Zone</div><div class="popup-name">Quebec Hydro Surplus</div><div class="popup-row"><span class="popup-key">Generation</span><span class="popup-val">99.8% clean (hydro)</span></div><div class="popup-row"><span class="popup-key">Surplus capacity</span><span class="popup-val">Est. 50+ TWh/year</span></div><div class="popup-row"><span class="popup-key">Current exports</span><span class="popup-val">New York, New England</span></div><div class="popup-signal"><strong>CTI Signal — Transmission Gap</strong>Quebec has Canada\'s largest clean electricity surplus. Ontario\'s industrial electricity demand is growing rapidly (EV manufacturing, data centres, AI). The missing east-west transmission link between these two grids is Canada\'s most important clean energy infrastructure gap. Building it is as much a political problem as an engineering one.</div></div>');
+
+var ON_DEMAND = L.polygon([
+  [47,-84],[47,-74],[44,-74],[44,-84],[47,-84]
+], {color:'#c62828',fillColor:'#c62828',fillOpacity:0.08,weight:1,opacity:0.3,dashArray:'4 4'});
+ON_DEMAND.bindPopup('<div class="popup-inner"><div class="popup-type" style="color:#c62828;">⚡ Growing Demand Zone</div><div class="popup-name">Ontario Industrial Electricity Demand</div><div class="popup-row"><span class="popup-key">Grid mix</span><span class="popup-val">91% clean (nuclear dominant)</span></div><div class="popup-row"><span class="popup-key">Demand growth</span><span class="popup-val">EV mfg, data centres, AI</span></div><div class="popup-row"><span class="popup-key">New projects</span><span class="popup-val">VW St. Thomas, Stellantis Windsor</span></div><div class="popup-signal"><strong>CTI Signal — Capacity Crunch</strong>Ontario needs more electricity than its grid currently produces cleanly. The Darlington SMR (ARC-100) targets 2029 grid connection. Interprovincial transmission from Quebec would help but requires political will neither province has fully committed. Gas peakers currently fill the gap but are targeted for phase-out by 2035.</div></div>');
+
+LAYERS['txgap'].addLayer(QC_SURPLUS);
+LAYERS['txgap'].addLayer(ON_DEMAND);
+
+// ══════════════════════════════════════════════════
+// CTI-CURATED POST-2017 FACILITIES
+// ══════════════════════════════════════════════════
+var CTI_FACILITIES = [
+  {
+    layer: 'lng',
+    lat: 54.04, lng: -128.65,
+    name: 'LNG Canada Phase 1',
+    type: 'LNG Export Terminal',
+    color: '#1a7a6a',
+    emoji: '🛢',
+    rows: [['Operator','Shell (40%), PETRONAS (25%), PetroChina (15%)'],['Capacity','14 MTPA (Phase 1)'],['Status','Commissioning — first cargo Q4 2026'],['Location','Kitimat, BC'],['Source','CTI-curated (post-2017)']],
+    signalKey: 'LNG Canada Phase 1',
+    radius: 12
+  },
+  {
+    layer: 'hydro',
+    lat: 56.02, lng: -121.90,
+    name: 'Site C Dam',
+    type: 'Hydroelectric',
+    color: '#1a4a7a',
+    emoji: '💧',
+    rows: [['Operator','BC Hydro'],['Capacity','1,100 MW'],['Status','Operational (2025)'],['Cost','~$16B (over budget)'],['Source','CTI-curated (post-2017)']],
+    signalKey: 'Site C',
+    radius: 10
+  },
+  {
+    layer: 'nuclear',
+    lat: 44.09, lng: -78.72,
+    name: 'Darlington SMR (ARC-100)',
+    type: 'Small Modular Reactor',
+    color: '#6a20b0',
+    emoji: '⚛',
+    rows: [['Developer','ARC Clean Technology + OPG'],['Capacity','100 MW'],['Status','Pre-construction (licence pending)'],['Target','2029 grid connection'],['Note','Canada\'s first new nuclear build in decades'],['Source','CTI-curated (post-2017)']],
+    signalKey: 'Darlington Nuclear',
+    radius: 8
+  }
+];
+
+CTI_FACILITIES.forEach(function(f) {
+  var marker = L.circleMarker([f.lat, f.lng], {
+    radius: f.radius,
+    fillColor: f.color,
+    color: '#fff',
+    weight: 2,
+    opacity: 0.9,
+    fillOpacity: 0.85
+  });
+  var popup = buildPopup(f.emoji + ' ' + f.type + ' · CTI Intelligence', f.color, f.name, f.rows, f.signalKey);
+  marker.bindPopup(popup, {maxWidth: 320});
+  marker.on('click', function() { showDetailFromPopup(f.type, f.color, f.name, f.rows, f.signalKey); });
+  LAYERS[f.layer].addLayer(marker);
+});
+
+// ══════════════════════════════════════════════════
+// NACEI LIVE DATA FETCH — Power Plants 100MW+
+// ══════════════════════════════════════════════════
+var NACEI_BASE = 'https://geoappext.nrcan.gc.ca/arcgis/rest/services/NACEI/energy_infrastructure_of_north_america_en/MapServer';
+
+var SOURCE_TYPES = {
+  'Hydro': {color:'#1a4a7a', layer:'hydro', emoji:'💧'},
+  'Nuclear': {color:'#6a20b0', layer:'nuclear', emoji:'⚛'},
+  'Gas': {color:'#c8640a', layer:'gas-power', emoji:'🔥'},
+  'Coal': {color:'#444', layer:'gas-power', emoji:'⬛'},
+  'Wind': {color:'#2a7a3a', layer:'wind', emoji:'💨'},
+  'Solar': {color:'#b07800', layer:'solar', emoji:'☀'},
+  'Biomass': {color:'#5a7a2a', layer:'wind', emoji:'🌿'},
+  'Tidal': {color:'#1a5a6a', layer:'wind', emoji:'🌊'},
+  'Geothermal': {color:'#8a2a1a', layer:'gas-power', emoji:'🌋'},
+  'Petroleum': {color:'#c8640a', layer:'gas-power', emoji:'🔥'},
+  'Natural Gas': {color:'#c8640a', layer:'gas-power', emoji:'🔥'},
+  'default': {color:'#888', layer:'gas-power', emoji:'⚡'}
+};
+
+function getSourceStyle(primSource) {
+  if (!primSource) return SOURCE_TYPES.default;
+  var src = primSource.toString().trim();
+  for (var key in SOURCE_TYPES) {
+    if (src.toLowerCase().indexOf(key.toLowerCase()) !== -1) return SOURCE_TYPES[key];
+  }
+  return SOURCE_TYPES.default;
+}
+
+var loadedCounts = {power:0, renew:0, refinery:0, lng:0};
+
+function fetchNACEI(layerId, filterCountry, processFeature) {
+  var url = NACEI_BASE + '/' + layerId + '/query?' + [
+    'where=' + encodeURIComponent("Country='Canada'"),
+    'outFields=Facility,Owner,StateProv,Total_MW,Renew_MW,PrimSource,Type,Capacity',
+    'f=geojson',
+    'resultRecordCount=2000'
+  ].join('&');
+
+  fetch(url)
+    .then(function(r){ return r.json(); })
+    .then(function(data){
+      if (data && data.features) {
+        data.features.forEach(processFeature);
+      }
+    })
+    .catch(function(e){ console.warn('NACEI layer ' + layerId + ' fetch failed:', e); });
+}
+
+// Power Plants 100MW+ (layer 15)
+fetchNACEI(15, 'Canada', function(f) {
+  var p = f.properties;
+  var coords = f.geometry && f.geometry.coordinates;
+  if (!coords) return;
+  var src = p.PrimSource || 'Unknown';
+  var style = getSourceStyle(src);
+  var mw = parseFloat(p.Total_MW) || 0;
+  var radius = mwToRadius(mw);
+  var name = p.Facility || 'Unnamed';
+  var prov = p.StateProv || '';
+  var owner = p.Owner || '';
+
+  var marker = L.circleMarker([coords[1], coords[0]], {
+    radius: radius,
+    fillColor: style.color,
+    color: 'rgba(255,255,255,0.4)',
+    weight: 1,
+    opacity: 0.9,
+    fillOpacity: 0.8
+  });
+
+  var rows = [
+    ['Province', prov],
+    ['Operator', owner || '—'],
+    ['Capacity', mw ? mw.toLocaleString() + ' MW' : '—'],
+    ['Source', src]
+  ];
+  var popup = buildPopup(style.emoji + ' ' + src + ' Power Plant', style.color, name, rows, name);
+  marker.bindPopup(popup, {maxWidth: 300});
+  marker.on('click', function(){ showDetailFromPopup(src + ' Power Plant', style.color, name, rows, name); });
+  LAYERS[style.layer].addLayer(marker);
+  loadedCounts.power++;
+  document.getElementById('count-power').textContent = loadedCounts.power;
+});
+
+// Renewable Energy 1MW+ (layer 28)
+fetchNACEI(28, 'Canada', function(f) {
+  var p = f.properties;
+  var coords = f.geometry && f.geometry.coordinates;
+  if (!coords) return;
+  var src = p.PrimSource || 'Wind';
+  var style = getSourceStyle(src);
+  var mw = parseFloat(p.Renew_MW || p.Total_MW) || 1;
+  var radius = Math.max(4, Math.min(12, Math.sqrt(mw / 5) * 2.5));
+  var name = p.Facility || 'Unnamed';
+  var prov = p.StateProv || '';
+
+  var marker = L.circleMarker([coords[1], coords[0]], {
+    radius: radius,
+    fillColor: style.color,
+    color: 'rgba(255,255,255,0.25)',
+    weight: 0.5,
+    opacity: 0.8,
+    fillOpacity: 0.7
+  });
+
+  var rows = [['Province',prov],['Capacity', mw ? mw + ' MW' : '—'],['Source',src]];
+  var popup = buildPopup(style.emoji + ' ' + src, style.color, name, rows, name);
+  marker.bindPopup(popup, {maxWidth: 260});
+  LAYERS[style.layer].addLayer(marker);
+  loadedCounts.renew++;
+  document.getElementById('count-renew').textContent = loadedCounts.renew;
+});
+
+// LNG Terminals (layer 5)
+fetchNACEI(5, 'Canada', function(f) {
+  var p = f.properties;
+  var coords = f.geometry && f.geometry.coordinates;
+  if (!coords) return;
+  var name = p.Facility || 'LNG Terminal';
+  var prov = p.StateProv || '';
+  var rows = [['Province',prov],['Operator',p.Owner||'—'],['Type',p.Type||'LNG Terminal']];
+  var marker = L.circleMarker([coords[1],coords[0]], {
+    radius: 9,
+    fillColor: '#1a7a6a',
+    color: '#fff',
+    weight: 1.5,
+    opacity: 0.9,
+    fillOpacity: 0.85
+  });
+  marker.bindPopup(buildPopup('🛢 LNG Terminal','#1a7a6a',name,rows,name),{maxWidth:280});
+  LAYERS['lng'].addLayer(marker);
+  loadedCounts.lng++;
+  document.getElementById('count-lng').textContent = loadedCounts.lng;
+});
+
+// Refineries (layer 10)
+fetchNACEI(10, 'Canada', function(f) {
+  var p = f.properties;
+  var coords = f.geometry && f.geometry.coordinates;
+  if (!coords) return;
+  var name = p.Facility || 'Refinery';
+  var prov = p.StateProv || '';
+  var cap = p.Capacity || p.Total_MW || '';
+  var rows = [['Province',prov],['Operator',p.Owner||'—'],['Capacity',cap ? cap + ' bbl/day' : '—'],['Type',p.Type||'Refinery']];
+  var marker = L.circleMarker([coords[1],coords[0]], {
+    radius: 7,
+    fillColor: '#c62828',
+    color: 'rgba(255,255,255,0.4)',
+    weight: 1,
+    opacity: 0.9,
+    fillOpacity: 0.8
+  });
+  marker.bindPopup(buildPopup('⚙ Refinery / Upgrader','#c62828',name,rows,name),{maxWidth:280});
+  LAYERS['refineries'].addLayer(marker);
+  loadedCounts.refinery++;
+  document.getElementById('count-refinery').textContent = loadedCounts.refinery;
+});
+
+// Gas Processing Plants (layer 4)
+fetchNACEI(4, 'Canada', function(f) {
+  var p = f.properties;
+  var coords = f.geometry && f.geometry.coordinates;
+  if (!coords) return;
+  var name = p.Facility || 'Gas Plant';
+  var prov = p.StateProv || '';
+  var rows = [['Province',prov],['Operator',p.Owner||'—']];
+  var marker = L.circleMarker([coords[1],coords[0]], {
+    radius: 5,
+    fillColor: '#6a6a6a',
+    color: 'rgba(255,255,255,0.3)',
+    weight: 0.5,
+    opacity: 0.8,
+    fillOpacity: 0.7
+  });
+  marker.bindPopup(buildPopup('⚙ Gas Processing Plant','#888',name,rows,name),{maxWidth:260});
+  LAYERS['gasplants'].addLayer(marker);
+});
+
+// ══════════════════════════════════════════════════
+// SIDEBAR DETAIL PANEL
+// ══════════════════════════════════════════════════
+function showDetailFromPopup(type, color, name, rows, signalKey) {
+  var signal = CTI_SIGNALS[signalKey] || CTI_SIGNALS[name] || '';
+  document.getElementById('detail-type').textContent = type;
+  document.getElementById('detail-type').style.color = color;
+  document.getElementById('detail-name').textContent = name;
+  var rowsHtml = rows.map(function(r){
+    return '<div class="detail-row"><span class="detail-key">' + r[0] + '</span><span class="detail-val">' + r[1] + '</span></div>';
+  }).join('');
+  document.getElementById('detail-rows').innerHTML = rowsHtml;
+  var sigEl = document.getElementById('detail-signal');
+  if (signal) {
+    sigEl.innerHTML = '<strong>CTI Signal</strong>' + signal;
+    sigEl.style.display = 'block';
+  } else {
+    sigEl.style.display = 'none';
+  }
+  document.getElementById('detail-panel').classList.add('visible');
+  document.getElementById('map-sidebar').scrollTop = 0;
+}
+
+function closeDetail() {
+  document.getElementById('detail-panel').classList.remove('visible');
+}
+
+// ══════════════════════════════════════════════════
+// LOADING COMPLETE
+// ══════════════════════════════════════════════════
+setTimeout(function() {
+  var overlay = document.getElementById('loading-overlay');
+  overlay.classList.add('hidden');
+  setTimeout(function(){ overlay.style.display='none'; }, 500);
+}, 2200);
+
+// Map ready
+</script>
+</body>
+</html>
