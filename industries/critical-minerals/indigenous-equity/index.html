@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Indigenous Mining Equity Tracker — CTI</title>
+<meta name="description" content="Equity ownership, Impact Benefit Agreements, and Indigenous economic reconciliation in Canadian critical minerals and mining. Updated when agreements are publicly disclosed.">
+<link rel="canonical" href="https://canadiantradeintel.ca/industries/critical-minerals/indigenous-equity/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Mono:wght@400;500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="/nav.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --ink:#0d0d0b;--ink-soft:#2a2a28;--ink-mid:#3a3a36;--slate:#5a5a56;
+  --warm-bg:#f8f5f0;--warm-mid:#efe9e0;--warm-border:#ddd5c5;--white:#fdfcfa;
+  --crimson:#8b1a1a;--brand-dark:#1a0505;
+  --sector:#1a6b42;--sector-dark:#0d3d22;--sector-darker:#081f12;
+  --sector-light:#f0f8f4;--sector-mid:#a8d5bc;
+  --amber:#c8860a;
+}
+html{scroll-behavior:smooth;}
+body{font-family:'Jost',sans-serif;background:var(--warm-bg);color:var(--ink);font-size:15px;line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+
+/* ── SECTOR SUBNAV ── */
+.sector-subnav{background:var(--brand-dark);border-bottom:1px solid rgba(255,255,255,0.06);padding:0 48px;}
+.sector-subnav-inner{max-width:1160px;margin:0 auto;display:flex;gap:0;overflow-x:auto;scrollbar-width:none;}
+.sector-subnav-inner::-webkit-scrollbar{display:none;}
+.sn-item{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.45);text-decoration:none;padding:14px 18px;border-bottom:2px solid transparent;white-space:nowrap;transition:color 0.15s;}
+.sn-item:hover{color:rgba(255,255,255,0.75);}
+.sn-item.active{color:#fff;border-bottom-color:var(--sector);}
+.sn-back{color:rgba(168,213,188,0.5);padding-right:24px;border-right:1px solid rgba(255,255,255,0.08);margin-right:4px;}
+.sn-back:hover{color:rgba(168,213,188,0.85);}
+
+/* ── MASTHEAD ── */
+.cm-masthead{background:var(--sector-darker);padding:52px 48px 40px;border-bottom:3px solid var(--crimson);position:relative;overflow:hidden;}
+.cm-masthead::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 25% 60%, rgba(26,107,66,0.35) 0%, transparent 65%);pointer-events:none;}
+.cm-masthead-inner{max-width:1160px;margin:0 auto;position:relative;z-index:1;}
+.cm-eyebrow{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(168,213,188,0.7);margin-bottom:12px;}
+.cm-title{font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:600;font-style:italic;color:#f4f0e8;line-height:1.0;margin-bottom:12px;}
+.cm-descriptor{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(168,213,188,0.55);max-width:700px;line-height:1.8;}
+
+/* ── BODY LAYOUT ── */
+.cm-body{max-width:1160px;margin:0 auto;padding:40px 48px 80px;}
+.cm-grid{display:grid;grid-template-columns:1fr 300px;gap:48px;align-items:start;}
+
+/* ── SECTION LABELS ── */
+.s-eyebrow{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.18em;text-transform:uppercase;color:var(--slate);margin-bottom:12px;padding-bottom:8px;border-bottom:0.5px solid var(--warm-border);}
+
+/* ── DIVIDER ── */
+.s-divider{border:none;border-top:0.5px solid var(--warm-border);margin:36px 0;}
+
+/* ── INTRO TEXT ── */
+.tracker-intro{font-size:14px;color:var(--ink-mid);line-height:1.8;max-width:680px;margin-bottom:20px;}
+.tracker-source{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.08em;color:var(--slate);line-height:1.6;margin-bottom:28px;}
+
+/* ── DATA TABLE ── */
+.tracker-table-wrap{overflow-x:auto;margin-bottom:36px;border:0.5px solid var(--warm-border);}
+.tracker-table{width:100%;border-collapse:collapse;min-width:700px;}
+.tracker-table thead tr{border-left:3px solid var(--sector);}
+.tracker-table th{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--slate);padding:11px 14px;text-align:left;background:var(--warm-mid);border-bottom:1px solid var(--warm-border);white-space:nowrap;}
+.tracker-table tbody tr:nth-child(even) td{background:var(--white);}
+.tracker-table tbody tr:nth-child(odd) td{background:var(--warm-bg);}
+.tracker-table tbody tr:hover td{background:var(--warm-mid);}
+.tracker-table td{font-size:13px;color:var(--ink);padding:10px 14px;border-bottom:0.5px solid var(--warm-border);vertical-align:top;line-height:1.55;}
+.tracker-table td.td-nation{font-weight:500;color:var(--ink-soft);}
+.tracker-table td.td-details{color:var(--ink-mid);font-size:12px;min-width:220px;}
+.tracker-table td.td-structure{font-size:12px;}
+.tracker-table td.td-province{font-family:'DM Mono',monospace;font-size:10px;text-align:center;}
+.tracker-table td.td-year{font-family:'DM Mono',monospace;font-size:10px;white-space:nowrap;}
+
+/* ── EQUITY SECTION ── */
+.equity-block{background:var(--warm-mid);border-left:3px solid var(--sector);padding:20px 24px;margin-top:8px;}
+.equity-block p{font-size:13px;color:var(--ink-mid);line-height:1.8;margin-bottom:14px;}
+.equity-block p:last-child{margin-bottom:0;}
+
+/* ── RIGHT RAIL ── */
+.sub-card{background:var(--white);border:0.5px solid var(--warm-border);padding:20px;margin-bottom:20px;}
+.sub-card-label{display:inline-block;background:var(--ink);color:var(--white);font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;padding:3px 8px;margin-bottom:12px;}
+.sub-card-hed{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--ink);margin-bottom:8px;line-height:1.2;}
+.sub-card-body{font-size:13px;color:var(--slate);line-height:1.65;margin-bottom:16px;}
+.sub-btn{display:block;width:100%;background:var(--crimson);color:#fff;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;padding:12px;border:none;cursor:pointer;text-align:center;text-decoration:none;}
+.sub-btn:hover{background:#6a0000;}
+.sub-fine{font-size:11px;color:var(--slate);line-height:1.55;margin-top:10px;}
+
+.rail-section{margin-bottom:24px;}
+.rail-eyebrow{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.16em;text-transform:uppercase;color:var(--slate);margin-bottom:10px;padding-bottom:6px;border-bottom:0.5px solid var(--warm-border);}
+.rail-list{list-style:none;}
+.rail-list li{padding:8px 0;border-bottom:0.5px solid var(--warm-border);font-size:13px;color:var(--ink-mid);display:flex;align-items:center;gap:8px;}
+.rail-list li:last-child{border-bottom:none;}
+.rail-dot{width:5px;height:5px;background:var(--sector);flex-shrink:0;}
+.rail-list li a{color:var(--ink-mid);text-decoration:none;}
+.rail-list li a:hover{color:var(--sector);}
+
+/* ── FOOTER ── */
+.cm-footer{background:var(--brand-dark);padding:32px 48px;margin-top:60px;}
+.cm-footer-inner{max-width:1160px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
+.cm-footer-copy{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.25);}
+.cm-footer-links{display:flex;gap:20px;}
+.cm-footer-links a{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.3);text-decoration:none;}
+.cm-footer-links a:hover{color:rgba(255,255,255,0.6);}
+
+@media(max-width:960px){
+  .cm-grid{grid-template-columns:1fr;}
+  .cm-right{order:-1;}
+}
+@media(max-width:768px){
+  .cm-masthead{padding:36px 24px 28px;}
+  .cm-body{padding:28px 24px 60px;}
+  .cm-title{font-size:36px;}
+  .sector-subnav{padding:0 24px;}
+  .cm-footer{padding:24px;}
+}
+</style>
+</head>
+<body>
+<nav id="main-nav"></nav>
+
+<!-- SECTOR SUBNAV -->
+<div class="sector-subnav">
+  <div class="sector-subnav-inner">
+    <a href="/industries/critical-minerals/" class="sn-item sn-back">← Critical Minerals</a>
+    <a href="/industries/critical-minerals/" class="sn-item">Overview</a>
+    <a href="/industries/critical-minerals/map/" class="sn-item">Mining Map</a>
+    <a href="/industries/critical-minerals/permitting/" class="sn-item">Permitting Tracker</a>
+    <a href="/industries/critical-minerals/processing/" class="sn-item">Processing Gap</a>
+    <a href="/industries/critical-minerals/indigenous-equity/" class="sn-item active">Indigenous Equity</a>
+  </div>
+</div>
+
+<!-- MASTHEAD -->
+<div class="cm-masthead">
+  <div class="cm-masthead-inner">
+    <div class="cm-eyebrow">Critical Minerals &amp; Mining · Indigenous Economy</div>
+    <h1 class="cm-title">Indigenous Mining Equity Tracker</h1>
+    <div class="cm-descriptor">Equity ownership · Impact Benefit Agreements · Duty to consult · Economic reconciliation through resource development</div>
+  </div>
+</div>
+
+<!-- BODY -->
+<div class="cm-body">
+  <div class="cm-grid">
+
+    <!-- LEFT COLUMN -->
+    <div class="cm-left">
+
+      <p class="tracker-intro">Indigenous communities across Canada are increasingly moving from traditional Impact Benefit Agreements — which provide payments in exchange for project consent — toward direct equity ownership in mining and resource projects. This structural shift has accelerated since 2020, driven by the Canada Infrastructure Loan Guarantee Corporation, provincial Indigenous loan guarantee programs in Alberta and Ontario, and increasing recognition that equity ownership provides communities with governance rights and long-term revenue that fixed-payment IBAs cannot.</p>
+
+      <p class="tracker-intro">This tracker covers publicly announced equity positions, partnership structures, and significant IBA agreements across Canadian critical minerals and mining. It is updated when new agreements are publicly disclosed. Undisclosed terms are noted as such — this tracker does not speculate on confidential commercial arrangements.</p>
+
+      <p class="tracker-source">Sources: Company press releases, First Nations announcements, provincial and federal government disclosures, CTI analysis. Last updated: June 2026.</p>
+
+      <div class="tracker-table-wrap">
+        <table class="tracker-table">
+          <thead>
+            <tr>
+              <th>Nation / Community</th>
+              <th>Prov.</th>
+              <th>Mine or Project</th>
+              <th>Mineral</th>
+              <th>Structure</th>
+              <th>Details</th>
+              <th>Year</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="td-nation">Haisla Nation</td>
+              <td class="td-province">BC</td>
+              <td>Cedar LNG</td>
+              <td>LNG / Energy</td>
+              <td class="td-structure">50% equity ownership</td>
+              <td class="td-details">Haisla Nation holds 50% of Cedar LNG project alongside Pembina Pipeline. First majority Indigenous-owned LNG project in Canada.</td>
+              <td class="td-year">2022</td>
+              <td>Active — FID reached 2023</td>
+            </tr>
+            <tr>
+              <td class="td-nation">Tahltan Nation</td>
+              <td class="td-province">BC</td>
+              <td>Multiple (Galore Creek, others)</td>
+              <td>Copper / Gold</td>
+              <td class="td-structure">IBA + consultation protocols</td>
+              <td class="td-details">Tahltan Central Government has established formal consultation and accommodation protocols with all operators in Tahltan territory. Revenue sharing terms not disclosed.</td>
+              <td class="td-year">Ongoing</td>
+              <td>Active</td>
+            </tr>
+            <tr>
+              <td class="td-nation">Kitikmeot Inuit Association</td>
+              <td class="td-province">NU</td>
+              <td>Back River (B2Gold)</td>
+              <td>Gold</td>
+              <td class="td-structure">IBA</td>
+              <td class="td-details">Comprehensive IBA covering employment targets, business procurement, and community investment fund. Specific financial terms not disclosed.</td>
+              <td class="td-year">2023</td>
+              <td>Active — mine in construction</td>
+            </tr>
+            <tr>
+              <td class="td-nation">Nunavut Tunngavik Inc.</td>
+              <td class="td-province">NU</td>
+              <td>Multiple</td>
+              <td>Various</td>
+              <td class="td-structure">Nunavut Land Claims Agreement</td>
+              <td class="td-details">Under the NLCA, Inuit subsurface rights apply to selected lands. Royalty sharing and preferential hiring apply across all major Nunavut projects.</td>
+              <td class="td-year">1993 (ongoing)</td>
+              <td>Active framework</td>
+            </tr>
+            <tr>
+              <td class="td-nation">Webequie First Nation</td>
+              <td class="td-province">ON</td>
+              <td>Ring of Fire (Road)</td>
+              <td>Chromite / Nickel</td>
+              <td class="td-structure">Project proponent — equity</td>
+              <td class="td-details">Webequie First Nation is the proponent of the Webequie Supply Road, a prerequisite for Ring of Fire development. Positions community as infrastructure owner rather than impact recipient.</td>
+              <td class="td-year">2021</td>
+              <td>EA underway</td>
+            </tr>
+            <tr>
+              <td class="td-nation">Marten Falls First Nation</td>
+              <td class="td-province">ON</td>
+              <td>Ring of Fire (Road)</td>
+              <td>Chromite / Nickel</td>
+              <td class="td-structure">Project proponent — equity</td>
+              <td class="td-details">Marten Falls is the proponent of the Community Access Road, running parallel to the Webequie road. Same equity-as-proponent model.</td>
+              <td class="td-year">2021</td>
+              <td>EA underway</td>
+            </tr>
+            <tr>
+              <td class="td-nation">Athabasca Basin First Nations</td>
+              <td class="td-province">SK</td>
+              <td>Uranium (multiple)</td>
+              <td>Uranium</td>
+              <td class="td-structure">IBA + employment</td>
+              <td class="td-details">Cigar Lake, McArthur River, and Key Lake operations all have IBA arrangements with Athabasca Basin communities including Black Lake Denesuline, Fond du Lac Denesuline, and Hatchet Lake Denesuline. Cameco reports ~50% northern employment.</td>
+              <td class="td-year">Ongoing</td>
+              <td>Active</td>
+            </tr>
+            <tr>
+              <td class="td-nation">Cree Nation of Eeyou Istchee</td>
+              <td class="td-province">QC</td>
+              <td>James Bay (multiple)</td>
+              <td>Lithium / Graphite</td>
+              <td class="td-structure">Paix des Braves framework</td>
+              <td class="td-details">The 2002 Paix des Braves agreement between Quebec and the Cree established revenue sharing and development rights across the James Bay territory where most Quebec lithium and graphite projects are located.</td>
+              <td class="td-year">2002 (ongoing)</td>
+              <td>Active framework — new projects negotiated case by case</td>
+            </tr>
+            <tr>
+              <td class="td-nation">Tlicho Government</td>
+              <td class="td-province">NWT</td>
+              <td>Ekati Diamond Mine</td>
+              <td>Diamonds</td>
+              <td class="td-structure">Equity + governance</td>
+              <td class="td-details">Arctic Canadian Diamond Company IBA includes equity participation and a Tlicho representative on the mine's community advisory board.</td>
+              <td class="td-year">2021</td>
+              <td>Active</td>
+            </tr>
+            <tr>
+              <td class="td-nation">First Nations in BC (various)</td>
+              <td class="td-province">BC</td>
+              <td>Teck Highland Valley Copper</td>
+              <td>Copper</td>
+              <td class="td-structure">IBA + procurement</td>
+              <td class="td-details">Highland Valley Copper has IBAs with Nlaka'pamux Nation Tribal Council members and Secwépemc communities. Procurement preferences for Indigenous businesses reported at $50M+ annually.</td>
+              <td class="td-year">Ongoing</td>
+              <td>Active</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <hr class="s-divider">
+
+      <div class="s-eyebrow">The shift toward equity</div>
+      <div class="equity-block">
+        <p>The Thunder Bay-based Waawoono Consultancy's 2026 report on Indigenous financing in Canadian mining found that First Nations communities with direct equity stakes report significantly higher satisfaction with project outcomes and greater ability to influence environmental and employment decisions than communities with IBA-only arrangements. The Canada Indigenous Loan Guarantee Corporation, established in 2024 with $5 billion in lending authority, is specifically designed to enable Indigenous equity participation in major resource projects without requiring communities to take on undue financial risk. Alberta's Indigenous Opportunities Corporation and Ontario's equivalent program provide provincial parallel support.</p>
+        <p>For mining companies, Indigenous equity partnership reduces regulatory uncertainty and has been shown to accelerate permitting timelines. For investors, Indigenous equity positions are increasingly screened as an ESG indicator.</p>
+      </div>
+
+    </div>
+
+    <!-- RIGHT RAIL -->
+    <div class="cm-right">
+
+      <div class="sub-card">
+        <div class="sub-card-label">Intelligence</div>
+        <div class="sub-card-hed">Critical Minerals Weekly</div>
+        <div class="sub-card-body">Full sector report every Tuesday — market intelligence, supply chain signals, community and worker impacts, policy decisions, and specific entry pathways for Canadian businesses.</div>
+        <a href="/subscribe/" class="sub-btn">See Plans →</a>
+        <div class="sub-fine">Full reports include price intelligence, entry pathways, regulatory pulse, Indigenous signals, and so-what analysis for miners, services firms, policy staff, and workers.</div>
+      </div>
+
+      <div class="rail-section">
+        <div class="rail-eyebrow">Quick links</div>
+        <ul class="rail-list">
+          <li><span class="rail-dot"></span><a href="https://www.canada.ca/en/department-finance/programs/financial-sector-policy/indigenous-loan-guarantee-corporation.html" target="_blank" rel="noopener">Canada Indigenous Loan Guarantee Corporation</a></li>
+          <li><span class="rail-dot"></span><a href="https://natural-resources.canada.ca/our-natural-resources/minerals-mining/indigenous-peoples-and-mining/23623" target="_blank" rel="noopener">NRCan Indigenous Partnerships</a></li>
+          <li><span class="rail-dot"></span><a href="https://www.fnmpc.ca/" target="_blank" rel="noopener">First Nations Major Projects Coalition</a></li>
+          <li><span class="rail-dot"></span><a href="/subscribe/">CTI Weekly Report</a></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="cm-footer">
+  <div class="cm-footer-inner">
+    <div class="cm-footer-copy">© 2026 Canadian Trade Intelligence Inc. · Critical Minerals &amp; Mining · Indigenous Equity Tracker</div>
+    <div class="cm-footer-links">
+      <a href="/about/">About</a>
+      <a href="/methodology/">Methodology</a>
+      <a href="/subscribe/">Subscribe</a>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

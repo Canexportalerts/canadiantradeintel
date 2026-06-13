@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Canadian Mine Permitting Tracker — CTI</title>
+<meta name="description" content="Federal and provincial environmental assessments for Canadian critical mineral mines — IAAC, BC EAO, Ontario, Quebec BAPE, Saskatchewan. Updated when decisions are published.">
+<link rel="canonical" href="https://canadiantradeintel.ca/industries/critical-minerals/permitting/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Mono:wght@400;500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="/nav.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --ink:#0d0d0b;--ink-soft:#2a2a28;--ink-mid:#3a3a36;--slate:#5a5a56;
+  --warm-bg:#f8f5f0;--warm-mid:#efe9e0;--warm-border:#ddd5c5;--white:#fdfcfa;
+  --crimson:#8b1a1a;--brand-dark:#1a0505;
+  --sector:#1a6b42;--sector-dark:#0d3d22;--sector-darker:#081f12;
+  --sector-light:#f0f8f4;--sector-mid:#a8d5bc;
+  --amber:#c8860a;
+}
+html{scroll-behavior:smooth;}
+body{font-family:'Jost',sans-serif;background:var(--warm-bg);color:var(--ink);font-size:15px;line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+
+/* ── SECTOR SUBNAV ── */
+.sector-subnav{background:var(--brand-dark);border-bottom:1px solid rgba(255,255,255,0.06);padding:0 48px;}
+.sector-subnav-inner{max-width:1160px;margin:0 auto;display:flex;gap:0;overflow-x:auto;scrollbar-width:none;}
+.sector-subnav-inner::-webkit-scrollbar{display:none;}
+.sn-item{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.45);text-decoration:none;padding:14px 18px;border-bottom:2px solid transparent;white-space:nowrap;transition:color 0.15s;}
+.sn-item:hover{color:rgba(255,255,255,0.75);}
+.sn-item.active{color:#fff;border-bottom-color:var(--sector);}
+.sn-back{color:rgba(168,213,188,0.5);padding-right:24px;border-right:1px solid rgba(255,255,255,0.08);margin-right:4px;}
+.sn-back:hover{color:rgba(168,213,188,0.85);}
+
+/* ── MASTHEAD ── */
+.cm-masthead{background:var(--sector-darker);padding:52px 48px 40px;border-bottom:3px solid var(--crimson);position:relative;overflow:hidden;}
+.cm-masthead::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 25% 60%, rgba(26,107,66,0.35) 0%, transparent 65%);pointer-events:none;}
+.cm-masthead-inner{max-width:1160px;margin:0 auto;position:relative;z-index:1;}
+.cm-eyebrow{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(168,213,188,0.7);margin-bottom:12px;}
+.cm-title{font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:600;font-style:italic;color:#f4f0e8;line-height:1.0;margin-bottom:12px;}
+.cm-descriptor{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(168,213,188,0.55);max-width:700px;line-height:1.8;}
+
+/* ── BODY LAYOUT ── */
+.cm-body{max-width:1160px;margin:0 auto;padding:40px 48px 80px;}
+.cm-grid{display:grid;grid-template-columns:1fr 300px;gap:48px;align-items:start;}
+
+/* ── SECTION LABELS ── */
+.s-eyebrow{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.18em;text-transform:uppercase;color:var(--slate);margin-bottom:12px;padding-bottom:8px;border-bottom:0.5px solid var(--warm-border);}
+
+/* ── DIVIDER ── */
+.s-divider{border:none;border-top:0.5px solid var(--warm-border);margin:32px 0;}
+
+/* ── INTRO TEXT ── */
+.tracker-intro{font-size:14px;color:var(--ink-mid);line-height:1.8;max-width:680px;margin-bottom:16px;}
+.tracker-source{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.08em;color:var(--slate);line-height:1.6;margin-bottom:28px;}
+
+/* ── DATA TABLE ── */
+.tracker-table-wrap{overflow-x:auto;margin-bottom:36px;border:0.5px solid var(--warm-border);}
+.tracker-table{width:100%;border-collapse:collapse;min-width:700px;}
+.tracker-table thead tr{border-left:3px solid var(--sector);}
+.tracker-table th{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--slate);padding:11px 14px;text-align:left;background:var(--warm-mid);border-bottom:1px solid var(--warm-border);white-space:nowrap;}
+.tracker-table tbody tr:nth-child(even) td{background:var(--white);}
+.tracker-table tbody tr:nth-child(odd) td{background:var(--warm-bg);}
+.tracker-table tbody tr:hover td{background:var(--warm-mid);}
+.tracker-table td{font-size:13px;color:var(--ink);padding:10px 14px;border-bottom:0.5px solid var(--warm-border);vertical-align:top;line-height:1.55;}
+.tracker-table td.td-project{font-weight:500;color:var(--ink-soft);min-width:160px;}
+.tracker-table td.td-notes{color:var(--ink-mid);min-width:200px;font-size:12px;}
+.tracker-table td.td-province{font-family:'DM Mono',monospace;font-size:10px;text-align:center;}
+.tracker-table td.td-expected{font-family:'DM Mono',monospace;font-size:10px;white-space:nowrap;}
+
+/* ── STATUS PILLS ── */
+.pill{display:inline-block;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.07em;text-transform:uppercase;padding:2px 7px;border-radius:2px;white-space:normal;line-height:1.6;}
+.pill-green{background:rgba(26,107,66,0.1);color:#0d5233;border:1px solid rgba(26,107,66,0.22);}
+.pill-amber{background:rgba(200,134,10,0.1);color:#7a5000;border:1px solid rgba(200,134,10,0.2);}
+.pill-grey{background:rgba(90,90,86,0.1);color:#4a4a46;border:1px solid rgba(90,90,86,0.18);}
+.pill-lightgrey{background:rgba(90,90,86,0.05);color:#7a7a76;border:1px solid rgba(90,90,86,0.1);}
+
+/* ── ABOUT SECTION ── */
+.about-block{background:var(--warm-mid);border-left:3px solid var(--sector);padding:20px 24px;margin-top:8px;}
+.about-block p{font-size:13px;color:var(--ink-mid);line-height:1.75;}
+
+/* ── RIGHT RAIL ── */
+.sub-card{background:var(--white);border:0.5px solid var(--warm-border);padding:20px;margin-bottom:20px;}
+.sub-card-label{display:inline-block;background:var(--ink);color:var(--white);font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;padding:3px 8px;margin-bottom:12px;}
+.sub-card-hed{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--ink);margin-bottom:8px;line-height:1.2;}
+.sub-card-body{font-size:13px;color:var(--slate);line-height:1.65;margin-bottom:16px;}
+.sub-btn{display:block;width:100%;background:var(--crimson);color:#fff;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;padding:12px;border:none;cursor:pointer;text-align:center;text-decoration:none;}
+.sub-btn:hover{background:#6a0000;}
+.sub-fine{font-size:11px;color:var(--slate);line-height:1.55;margin-top:10px;}
+
+.rail-section{margin-bottom:24px;}
+.rail-eyebrow{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.16em;text-transform:uppercase;color:var(--slate);margin-bottom:10px;padding-bottom:6px;border-bottom:0.5px solid var(--warm-border);}
+.rail-list{list-style:none;}
+.rail-list li{padding:8px 0;border-bottom:0.5px solid var(--warm-border);font-size:13px;color:var(--ink-mid);display:flex;align-items:center;gap:8px;}
+.rail-list li:last-child{border-bottom:none;}
+.rail-dot{width:5px;height:5px;background:var(--sector);flex-shrink:0;}
+.rail-list li a{color:var(--ink-mid);text-decoration:none;}
+.rail-list li a:hover{color:var(--sector);}
+
+/* ── FOOTER ── */
+.cm-footer{background:var(--brand-dark);padding:32px 48px;margin-top:60px;}
+.cm-footer-inner{max-width:1160px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
+.cm-footer-copy{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.25);}
+.cm-footer-links{display:flex;gap:20px;}
+.cm-footer-links a{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.3);text-decoration:none;}
+.cm-footer-links a:hover{color:rgba(255,255,255,0.6);}
+
+@media(max-width:960px){
+  .cm-grid{grid-template-columns:1fr;}
+  .cm-right{order:-1;}
+}
+@media(max-width:768px){
+  .cm-masthead{padding:36px 24px 28px;}
+  .cm-body{padding:28px 24px 60px;}
+  .cm-title{font-size:36px;}
+  .sector-subnav{padding:0 24px;}
+  .cm-footer{padding:24px;}
+}
+</style>
+</head>
+<body>
+<nav id="main-nav"></nav>
+
+<!-- SECTOR SUBNAV -->
+<div class="sector-subnav">
+  <div class="sector-subnav-inner">
+    <a href="/industries/critical-minerals/" class="sn-item sn-back">← Critical Minerals</a>
+    <a href="/industries/critical-minerals/" class="sn-item">Overview</a>
+    <a href="/industries/critical-minerals/map/" class="sn-item">Mining Map</a>
+    <a href="/industries/critical-minerals/permitting/" class="sn-item active">Permitting Tracker</a>
+    <a href="/industries/critical-minerals/processing/" class="sn-item">Processing Gap</a>
+    <a href="/industries/critical-minerals/indigenous-equity/" class="sn-item">Indigenous Equity</a>
+  </div>
+</div>
+
+<!-- MASTHEAD -->
+<div class="cm-masthead">
+  <div class="cm-masthead-inner">
+    <div class="cm-eyebrow">Critical Minerals &amp; Mining · Permitting Intelligence</div>
+    <h1 class="cm-title">Canadian Mine Permitting Tracker</h1>
+    <div class="cm-descriptor">Federal and provincial environmental assessments · Impact Assessment Agency · Provincial EA processes · Updated when decisions are published</div>
+  </div>
+</div>
+
+<!-- BODY -->
+<div class="cm-body">
+  <div class="cm-grid">
+
+    <!-- LEFT COLUMN -->
+    <div class="cm-left">
+
+      <p class="tracker-intro">Major mine developments in Canada require environmental assessment at the federal level under the Impact Assessment Act, and in most cases at the provincial level as well. The federal Impact Assessment Agency of Canada (IAAC) is the primary regulator for projects that meet federal thresholds. Provincial processes in BC, Ontario, Quebec, and Saskatchewan run in parallel. This tracker covers active applications for projects that would produce at least one of Canada's 34 designated critical minerals. Permitting timelines directly affect when Canadian mineral production enters global supply chains — and when equipment and services procurement cycles open.</p>
+
+      <p class="tracker-source">Sources: Impact Assessment Agency of Canada (IAAC), BC Environmental Assessment Office, Ontario Ministry of Mines, Quebec BAPE, Saskatchewan Ministry of Energy and Resources. Last updated: June 2026.</p>
+
+      <div class="tracker-table-wrap">
+        <table class="tracker-table">
+          <thead>
+            <tr>
+              <th>Project</th>
+              <th>Company</th>
+              <th>Prov.</th>
+              <th>Primary Mineral</th>
+              <th>Stage</th>
+              <th>Regulator</th>
+              <th>Expected Decision</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="td-project">Ring of Fire<br><span style="font-weight:400;color:var(--slate);font-size:12px;">(Webequie Supply Road)</span></td>
+              <td>Webequie First Nation / Ontario</td>
+              <td class="td-province">ON</td>
+              <td>Chromite / Nickel</td>
+              <td><span class="pill pill-grey">Federal EA — under review</span></td>
+              <td>IAAC + Ontario MECP</td>
+              <td class="td-expected">2026–2027</td>
+              <td class="td-notes">Indigenous-led road infrastructure; prerequisite for Ring of Fire mine development. Marten Falls community access road running parallel.</td>
+            </tr>
+            <tr>
+              <td class="td-project">Noront Eagle's Nest</td>
+              <td>Wyloo Metals</td>
+              <td class="td-province">ON</td>
+              <td>Nickel / Chromite / Copper / PGMs</td>
+              <td><span class="pill pill-lightgrey">Awaiting road access; pre-EA</span></td>
+              <td>IAAC (anticipated)</td>
+              <td class="td-expected">2027–2028 (EA start)</td>
+              <td class="td-notes">Dependent on Ring of Fire road. Wyloo acquired from Noront in 2022. Deposit contains one of the highest-grade nickel concentrations in Canada.</td>
+            </tr>
+            <tr>
+              <td class="td-project">Sisson Project</td>
+              <td>Northcliff Resources</td>
+              <td class="td-province">NB</td>
+              <td>Tungsten / Molybdenum</td>
+              <td><span class="pill pill-amber">EA complete — awaiting construction decision</span></td>
+              <td>IAAC (complete) / NB DELG (complete)</td>
+              <td class="td-expected">Construction decision pending</td>
+              <td class="td-notes">All approvals in place. Project viability dependent on tungsten price recovery. Would be Canada's only operating tungsten mine.</td>
+            </tr>
+            <tr>
+              <td class="td-project">Frontier Lithium PAK Project</td>
+              <td>Frontier Lithium</td>
+              <td class="td-province">ON</td>
+              <td>Lithium (spodumene)</td>
+              <td><span class="pill pill-grey">Advancing to feasibility</span></td>
+              <td>IAAC (not yet triggered) / Ontario</td>
+              <td class="td-expected">EA filing anticipated 2026–2027</td>
+              <td class="td-notes">High-grade spodumene in the Electric Metals Corridor, northwestern Ontario. Potential partnership with strategic investors given battery supply chain interest.</td>
+            </tr>
+            <tr>
+              <td class="td-project">Canada Nickel Crawford</td>
+              <td>Canada Nickel Company</td>
+              <td class="td-province">ON</td>
+              <td>Nickel / Cobalt / PGMs</td>
+              <td><span class="pill pill-grey">Feasibility underway</span></td>
+              <td>IAAC (anticipated) / Ontario MECP</td>
+              <td class="td-expected">EA filing 2026–2027</td>
+              <td class="td-notes">Largest undeveloped nickel sulphide deposit in Canada. Timmins, ON. NetZero Nickel branding targeting ESG investors.</td>
+            </tr>
+            <tr>
+              <td class="td-project">Appia Rare Earths Alces Lake</td>
+              <td>Appia Rare Earths &amp; Uranium</td>
+              <td class="td-province">SK</td>
+              <td>Rare Earth Elements (ionic clay)</td>
+              <td><span class="pill pill-lightgrey">Exploration / resource definition</span></td>
+              <td>Saskatchewan Ministry of Energy and Resources</td>
+              <td class="td-expected">EA filing 2027+</td>
+              <td class="td-notes">Highest-grade ionic clay REE deposit in North America per company reporting. Ramaco-REalloys offtake discussions signal commercial interest forming.</td>
+            </tr>
+            <tr>
+              <td class="td-project">Patriot Battery Metals Shaakichiuwaanaan</td>
+              <td>Patriot Battery Metals</td>
+              <td class="td-province">QC</td>
+              <td>Lithium (spodumene)</td>
+              <td><span class="pill pill-lightgrey">Resource definition; PEA expected 2026</span></td>
+              <td>Quebec BAPE (anticipated)</td>
+              <td class="td-expected">EA filing 2027+</td>
+              <td class="td-notes">James Bay region. One of the largest lithium discoveries in the Americas by resource size. Strategic importance to Quebec battery cluster.</td>
+            </tr>
+            <tr>
+              <td class="td-project">Nemaska Lithium Whabouchi</td>
+              <td>Nemaska Lithium (Livent / IQ)</td>
+              <td class="td-province">QC</td>
+              <td>Lithium (spodumene)</td>
+              <td><span class="pill pill-green">Construction phase</span></td>
+              <td>Quebec BAPE (complete)</td>
+              <td class="td-expected">Production 2025–2026</td>
+              <td class="td-notes">Quebec government and Investissement Québec are major shareholders. Battery-grade lithium hydroxide end product. Shawinigan processing facility receiving federal support.</td>
+            </tr>
+            <tr>
+              <td class="td-project">Sabina / B2Gold Back River</td>
+              <td>B2Gold</td>
+              <td class="td-province">NU</td>
+              <td>Gold</td>
+              <td><span class="pill pill-green">Construction underway</span></td>
+              <td>NIRB (complete)</td>
+              <td class="td-expected">Production 2025</td>
+              <td class="td-notes">B2Gold acquired Sabina in 2023. Remote Arctic operation requiring significant logistics infrastructure. Kitikmeot Inuit Association IBA in place.</td>
+            </tr>
+            <tr>
+              <td class="td-project">Vital Metals Nechalacho</td>
+              <td>Vital Metals / Cheetah Resources</td>
+              <td class="td-province">NWT</td>
+              <td>Rare Earth Elements</td>
+              <td><span class="pill pill-green">Initial production achieved</span></td>
+              <td>Mackenzie Valley EIRB (complete)</td>
+              <td class="td-expected">Expanded production 2025–2026</td>
+              <td class="td-notes">Canada's first rare earth mine in production. SRC Saskatoon processing facility receives concentrate. Demonstrates Canadian REE value chain is technically viable.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <hr class="s-divider">
+
+      <div class="s-eyebrow">About the permitting process</div>
+      <div class="about-block">
+        <p>Federal environmental assessment under the Impact Assessment Act is required for designated projects — generally mines producing more than 3,000 tonnes per day or located in sensitive areas. The process typically takes 3–5 years from application to decision. Provincial processes run concurrently. First Nations duty-to-consult requirements apply throughout and are increasingly structured as formal partnership agreements rather than consultation-only processes. The Impact Assessment Agency of Canada maintains the public registry of all active federal assessments at iaac-aeic.gc.ca.</p>
+      </div>
+
+    </div>
+
+    <!-- RIGHT RAIL -->
+    <div class="cm-right">
+
+      <div class="sub-card">
+        <div class="sub-card-label">Intelligence</div>
+        <div class="sub-card-hed">Critical Minerals Weekly</div>
+        <div class="sub-card-body">Full sector report every Tuesday — market intelligence, supply chain signals, community and worker impacts, policy decisions, and specific entry pathways for Canadian businesses.</div>
+        <a href="/subscribe/" class="sub-btn">See Plans →</a>
+        <div class="sub-fine">Full reports include price intelligence, entry pathways, regulatory pulse, Indigenous signals, and so-what analysis for miners, services firms, policy staff, and workers.</div>
+      </div>
+
+      <div class="rail-section">
+        <div class="rail-eyebrow">Quick links</div>
+        <ul class="rail-list">
+          <li><span class="rail-dot"></span><a href="https://iaac-aeic.gc.ca/050/evaluations/index?culture=en-CA" target="_blank" rel="noopener">IAAC Project Registry</a></li>
+          <li><span class="rail-dot"></span><a href="https://www2.gov.bc.ca/gov/content/environment/natural-resource-stewardship/environmental-assessments" target="_blank" rel="noopener">BC EAO</a></li>
+          <li><span class="rail-dot"></span><a href="https://www.ontario.ca/laws/statute/90m14" target="_blank" rel="noopener">Ontario Mining Act</a></li>
+          <li><span class="rail-dot"></span><a href="https://www.bape.gouv.qc.ca/en/" target="_blank" rel="noopener">Quebec BAPE</a></li>
+          <li><span class="rail-dot"></span><a href="https://www.nirb.ca/" target="_blank" rel="noopener">NIRB Nunavut</a></li>
+          <li><span class="rail-dot"></span><a href="https://www.saskatchewan.ca/business/agriculture-natural-resources-and-industry/mineral-disposition" target="_blank" rel="noopener">Saskatchewan Mineral Disposition</a></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="cm-footer">
+  <div class="cm-footer-inner">
+    <div class="cm-footer-copy">© 2026 Canadian Trade Intelligence Inc. · Critical Minerals &amp; Mining · Permitting Tracker</div>
+    <div class="cm-footer-links">
+      <a href="/about/">About</a>
+      <a href="/methodology/">Methodology</a>
+      <a href="/subscribe/">Subscribe</a>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
