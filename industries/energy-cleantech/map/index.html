@@ -561,6 +561,68 @@ LAYERS['txgap'].addLayer(QC_SURPLUS);
 LAYERS['txgap'].addLayer(ON_DEMAND);
 
 // ══════════════════════════════════════════════════
+// STATIC FACILITY DATA
+// ══════════════════════════════════════════════════
+const STATIC_FACILITIES = [
+  // NUCLEAR
+  {layer:'nuclear',lat:44.09,lng:-78.72,name:'Darlington Nuclear GS',type:'Nuclear',color:'#6a20b0',emoji:'⚛',radius:14,rows:[['Province','Ontario'],['Operator','Ontario Power Generation'],['Capacity','3,512 MW'],['Units','4 CANDU reactors'],['Status','Operating — refurbishment underway'],['Refurb cost','$12.8 billion']]},
+  {layer:'nuclear',lat:44.46,lng:-81.20,name:'Bruce Nuclear GS',type:'Nuclear',color:'#6a20b0',emoji:'⚛',radius:18,rows:[['Province','Ontario'],['Operator','Bruce Power'],['Capacity','6,384 MW'],['Units','8 CANDU reactors'],['Status','Operating — life extension $13B'],['Note','World\'s largest operating nuclear facility']]},
+  {layer:'nuclear',lat:43.81,lng:-79.12,name:'Pickering Nuclear GS',type:'Nuclear',color:'#6a20b0',emoji:'⚛',radius:12,rows:[['Province','Ontario'],['Operator','Ontario Power Generation'],['Capacity','3,100 MW'],['Status','Extended operation to 2026+'],['Note','Life extension approved amid grid capacity concerns']]},
+  {layer:'nuclear',lat:45.35,lng:-65.70,name:'Point Lepreau Nuclear GS',type:'Nuclear',color:'#6a20b0',emoji:'⚛',radius:9,rows:[['Province','New Brunswick'],['Operator','NB Power'],['Capacity','705 MW'],['Units','1 CANDU reactor'],['Status','Operating']]},
+  {layer:'nuclear',lat:44.09,lng:-78.72,name:'Darlington SMR (ARC-100)',type:'Small Modular Reactor',color:'#9a40e0',emoji:'⚛',radius:6,rows:[['Developer','ARC Clean Technology + OPG'],['Capacity','100 MW'],['Status','Pre-construction'],['Target','2029 grid connection'],['Note','Canada\'s first new nuclear build in decades']],signalKey:'Darlington Nuclear'},
+
+  // HYDRO — MAJOR
+  {layer:'hydro',lat:53.57,lng:-64.05,name:'Churchill Falls',type:'Hydroelectric',color:'#1a4a7a',emoji:'💧',radius:16,rows:[['Province','Newfoundland & Labrador'],['Operator','Churchill Falls (Labrador) Corp'],['Capacity','5,428 MW'],['Note','Power sold to Hydro-Québec under 1969 contract at depression-era rates'],['Contract expiry','2041']],signalKey:'Churchill Falls'},
+  {layer:'hydro',lat:53.83,lng:-77.63,name:'Robert-Bourassa / La Grande 2',type:'Hydroelectric',color:'#1a4a7a',emoji:'💧',radius:16,rows:[['Province','Quebec'],['Operator','Hydro-Québec'],['Capacity','5,616 MW'],['System','James Bay / La Grande complex'],['Note','Backbone of Quebec\'s massive clean electricity surplus']],signalKey:'Robert-Bourassa / La Grande'},
+  {layer:'hydro',lat:49.88,lng:-96.80,name:'Pointe du Bois GS',type:'Hydroelectric',color:'#1a4a7a',emoji:'💧',radius:7,rows:[['Province','Manitoba'],['Operator','Manitoba Hydro'],['Note','Part of Manitoba\'s 97% hydro grid']]},
+  {layer:'hydro',lat:51.44,lng:-116.00,name:'Revelstoke Dam',type:'Hydroelectric',color:'#1a4a7a',emoji:'💧',radius:11,rows:[['Province','British Columbia'],['Operator','BC Hydro'],['Capacity','2,480 MW'],['Status','Operating']]},
+  {layer:'hydro',lat:56.02,lng:-121.90,name:'Site C Dam',type:'Hydroelectric',color:'#1a4a7a',emoji:'💧',radius:10,rows:[['Province','British Columbia'],['Operator','BC Hydro'],['Capacity','1,100 MW'],['Status','Operational (2025)'],['Cost','~$16B (major overruns from $6.6B estimate)']],signalKey:'Site C'},
+  {layer:'hydro',lat:44.02,lng:-76.82,name:'Sir Adam Beck GS (Niagara)',type:'Hydroelectric',color:'#1a4a7a',emoji:'💧',radius:12,rows:[['Province','Ontario'],['Operator','Ontario Power Generation'],['Capacity','1,836 MW'],['Source','Niagara River diversion']]},
+
+  // LNG
+  {layer:'lng',lat:54.04,lng:-128.65,name:'LNG Canada Phase 1',type:'LNG Export Terminal',color:'#1a7a6a',emoji:'🛢',radius:13,rows:[['Location','Kitimat, BC'],['Operator','Shell 40%, PETRONAS 25%, PetroChina 15%, Mitsubishi 15%, KOGAS 5%'],['Capacity','14 MTPA'],['Status','Commissioning — Q4 2026 first cargo'],['Feeds','Coastal GasLink pipeline from Montney']],signalKey:'LNG Canada Phase 1'},
+  {layer:'lng',lat:49.72,lng:-123.17,name:'Woodfibre LNG (proposed)',type:'LNG Export Terminal',color:'#2a8a7a',emoji:'🛢',radius:8,rows:[['Location','Squamish, BC'],['Developer','Pacific Oil & Gas (Singapore)'],['Capacity','2.1 MTPA'],['Status','Approved — FID expected 2025-26'],['Note','Haisla Nation equity partner']]},
+  {layer:'lng',lat:54.04,lng:-128.62,name:'Cedar LNG (proposed)',type:'LNG Export Terminal',color:'#2a8a7a',emoji:'🛢',radius:8,rows:[['Location','Kitimat, BC'],['Developer','Pembina + Haisla Nation'],['Capacity','3 MTPA'],['Status','Approved — FEED stage'],['Note','Haisla Nation majority-owned — Indigenous equity model']]},
+
+  // REFINERIES & UPGRADERS
+  {layer:'refineries',lat:57.02,lng:-111.43,name:'Syncrude Upgrader (Mildred Lake)',type:'Upgrader',color:'#c62828',emoji:'⚙',radius:11,rows:[['Province','Alberta'],['Operator','Syncrude Canada (Suncor majority)'],['Capacity','~350,000 bbl/day bitumen upgrading'],['Type','Oil sands upgrader — bitumen to synthetic crude']]},
+  {layer:'refineries',lat:56.95,lng:-111.48,name:'Suncor Base Plant Upgrader',type:'Upgrader',color:'#c62828',emoji:'⚙',radius:11,rows:[['Province','Alberta'],['Operator','Suncor Energy'],['Capacity','~350,000 bbl/day'],['Type','Oil sands upgrader']]},
+  {layer:'refineries',lat:53.57,lng:-113.43,name:'Imperial Oil Strathcona Refinery',type:'Refinery',color:'#c62828',emoji:'⚙',radius:9,rows:[['Province','Alberta'],['Operator','Imperial Oil (ExxonMobil 70%)'],['Capacity','195,000 bbl/day'],['Products','Gasoline, diesel, jet fuel, asphalt']]},
+  {layer:'refineries',lat:42.99,lng:-81.24,name:'Imperial Oil Sarnia Refinery',type:'Refinery',color:'#c62828',emoji:'⚙',radius:9,rows:[['Province','Ontario'],['Operator','Imperial Oil'],['Capacity','121,000 bbl/day'],['Note','Feeds Ontario market — receives Enbridge Mainline crude']]},
+  {layer:'refineries',lat:45.51,lng:-73.56,name:'Suncor Montreal Refinery',type:'Refinery',color:'#c62828',emoji:'⚙',radius:9,rows:[['Province','Quebec'],['Operator','Suncor Energy'],['Capacity','137,000 bbl/day'],['Note','Largest refinery east of Alberta']]},
+  {layer:'refineries',lat:45.23,lng:-66.07,name:'Irving Oil Saint John Refinery',type:'Refinery',color:'#c62828',emoji:'⚙',radius:10,rows:[['Province','New Brunswick'],['Operator','Irving Oil'],['Capacity','320,000 bbl/day'],['Note','Largest refinery in Canada — exports to US Northeast and Europe']]},
+
+  // GAS PROCESSING
+  {layer:'gasplants',lat:54.82,lng:-118.08,name:'Empress NGL Extraction',type:'Gas Processing',color:'#6a6a6a',emoji:'⚙',radius:6,rows:[['Province','Alberta'],['Operator','NOVA Chemicals / TC Energy'],['Note','Major NGL extraction from NGTL system']]},
+  {layer:'gasplants',lat:53.52,lng:-113.47,name:'Alberta Industrial Heartland',type:'Gas Processing + Petrochemicals',color:'#8a6a3a',emoji:'⚙',radius:9,rows:[['Province','Alberta'],['Location','Fort Saskatchewan-Strathcona County'],['Operators','Air Products, Inter Pipeline, Dow, NOVA Chemicals'],['Note','Canada\'s primary hydrogen production anchor — Kawasaki MOU 2026 targets LH2 export to Japan']],signalKey:'TC Energy NGTL'},
+
+  // WIND (key large farms)
+  {layer:'wind',lat:43.42,lng:-80.46,name:'Samsung Renewable Energy Wind Portfolio',type:'Wind',color:'#2a7a3a',emoji:'💨',radius:8,rows:[['Province','Ontario'],['Operator','Samsung C&T + Pattern Energy'],['Capacity','~500 MW combined'],['Note','One of Ontario\'s largest wind developments']]},
+  {layer:'wind',lat:49.80,lng:-97.16,name:'St. Joseph Wind Farm',type:'Wind',color:'#2a7a3a',emoji:'💨',radius:7,rows:[['Province','Manitoba'],['Operator','Manitoba Hydro'],['Capacity','138 MW']]},
+  {layer:'wind',lat:53.18,lng:-114.08,name:'Whitla Wind',type:'Wind',color:'#2a7a3a',emoji:'💨',radius:8,rows:[['Province','Alberta'],['Operator','Capital Power'],['Capacity','465 MW'],['Note','One of Alberta\'s largest wind farms — deregulated market, no subsidy']]},
+  {layer:'wind',lat:46.25,lng:-63.00,name:'North Cape Wind Farm',type:'Wind',color:'#2a7a3a',emoji:'💨',radius:7,rows:[['Province','PEI'],['Note','PEI gets 55% of electricity from wind — highest penetration in Canada']]},
+
+  // SOLAR
+  {layer:'solar',lat:43.12,lng:-79.90,name:'Southgate Solar',type:'Solar',color:'#b07800',emoji:'☀',radius:7,rows:[['Province','Ontario'],['Capacity','~100 MW'],['Note','Part of Ontario\'s FIT programme solar development']]},
+  {layer:'solar',lat:49.95,lng:-111.50,name:'Travers Solar',type:'Solar',color:'#b07800',emoji:'☀',radius:9,rows:[['Province','Alberta'],['Operator','Greengate Power + Axium'],['Capacity','465 MW'],['Note','Canada\'s largest solar farm — Alberta deregulated market']]},
+];
+
+STATIC_FACILITIES.forEach(function(f) {
+  var marker = L.circleMarker([f.lat, f.lng], {
+    radius: f.radius,
+    fillColor: f.color,
+    color: '#fff',
+    weight: 2,
+    opacity: 0.9,
+    fillOpacity: 0.85
+  });
+  var popup = buildPopup(f.emoji + ' ' + f.type, f.color, f.name, f.rows, f.signalKey);
+  marker.bindPopup(popup, {maxWidth: 320});
+  marker.on('click', function() { showDetailFromPopup(f.type, f.color, f.name, f.rows, f.signalKey); });
+  LAYERS[f.layer].addLayer(marker);
+});
+
+// ══════════════════════════════════════════════════
 // CTI-CURATED POST-2017 FACILITIES
 // ══════════════════════════════════════════════════
 var CTI_FACILITIES = [
