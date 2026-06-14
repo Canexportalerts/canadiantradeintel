@@ -269,10 +269,9 @@ body{font-family:'Jost',sans-serif;color:#fff;background:var(--sidebar-bg);-webk
       <div class="sb-section" style="margin-top:auto;">
         <div class="sb-label">Data sources</div>
         <div style="font-size:10px;color:rgba(255,255,255,0.3);line-height:1.7;">
-          Facility data: NRCan NACEI (North American Cooperation on Energy Information) · Free &amp; unrestricted use with attribution<br><br>
+          Facility data: CTI-curated from NRCan, CER, operator disclosures, and NACEI (North American Cooperation on Energy Information) · Updated as facilities are named in CTI weekly reports<br><br>
           Pipeline routes: CTI-encoded from CER, NEB, and operator disclosures<br><br>
-          Intelligence layer: Canadian Trade Intelligence Inc. · Updated weekly<br><br>
-          <span style="color:rgba(74,122,176,0.5);">Note: NACEI facility data reflects August 2017 survey. Post-2017 facilities (LNG Canada, Site C) shown as CTI-curated points.</span>
+          Intelligence layer: Canadian Trade Intelligence Inc. · Updated weekly
         </div>
       </div>
     </div>
@@ -677,183 +676,13 @@ CTI_FACILITIES.forEach(function(f) {
 });
 
 // ══════════════════════════════════════════════════
-// NACEI LIVE DATA FETCH — Power Plants 100MW+
+// FACILITY COUNTERS
 // ══════════════════════════════════════════════════
-var NACEI_BASE = 'https://geoappext.nrcan.gc.ca/arcgis/rest/services/NACEI/energy_infrastructure_of_north_america_en/MapServer';
-
-var SOURCE_TYPES = {
-  'Hydro': {color:'#1a4a7a', layer:'hydro', emoji:'💧'},
-  'Nuclear': {color:'#6a20b0', layer:'nuclear', emoji:'⚛'},
-  'Gas': {color:'#c8640a', layer:'gas-power', emoji:'🔥'},
-  'Coal': {color:'#444', layer:'gas-power', emoji:'⬛'},
-  'Wind': {color:'#2a7a3a', layer:'wind', emoji:'💨'},
-  'Solar': {color:'#b07800', layer:'solar', emoji:'☀'},
-  'Biomass': {color:'#5a7a2a', layer:'wind', emoji:'🌿'},
-  'Tidal': {color:'#1a5a6a', layer:'wind', emoji:'🌊'},
-  'Geothermal': {color:'#8a2a1a', layer:'gas-power', emoji:'🌋'},
-  'Petroleum': {color:'#c8640a', layer:'gas-power', emoji:'🔥'},
-  'Natural Gas': {color:'#c8640a', layer:'gas-power', emoji:'🔥'},
-  'default': {color:'#888', layer:'gas-power', emoji:'⚡'}
-};
-
-function getSourceStyle(primSource) {
-  if (!primSource) return SOURCE_TYPES.default;
-  var src = primSource.toString().trim();
-  for (var key in SOURCE_TYPES) {
-    if (src.toLowerCase().indexOf(key.toLowerCase()) !== -1) return SOURCE_TYPES[key];
-  }
-  return SOURCE_TYPES.default;
-}
-
-var loadedCounts = {power:0, renew:0, refinery:0, lng:0};
-
-function fetchNACEI(layerId, filterCountry, processFeature) {
-  var url = NACEI_BASE + '/' + layerId + '/query?' + [
-    'where=' + encodeURIComponent("Country='Canada'"),
-    'outFields=Facility,Owner,StateProv,Total_MW,Renew_MW,PrimSource,Type,Capacity',
-    'f=geojson',
-    'resultRecordCount=2000'
-  ].join('&');
-
-  fetch(url)
-    .then(function(r){ return r.json(); })
-    .then(function(data){
-      if (data && data.features) {
-        data.features.forEach(processFeature);
-      }
-    })
-    .catch(function(e){ console.warn('NACEI layer ' + layerId + ' fetch failed:', e); });
-}
-
-// Power Plants 100MW+ (layer 15)
-fetchNACEI(15, 'Canada', function(f) {
-  var p = f.properties;
-  var coords = f.geometry && f.geometry.coordinates;
-  if (!coords) return;
-  var src = p.PrimSource || 'Unknown';
-  var style = getSourceStyle(src);
-  var mw = parseFloat(p.Total_MW) || 0;
-  var radius = mwToRadius(mw);
-  var name = p.Facility || 'Unnamed';
-  var prov = p.StateProv || '';
-  var owner = p.Owner || '';
-
-  var marker = L.circleMarker([coords[1], coords[0]], {
-    radius: radius,
-    fillColor: style.color,
-    color: 'rgba(255,255,255,0.4)',
-    weight: 1,
-    opacity: 0.9,
-    fillOpacity: 0.8
-  });
-
-  var rows = [
-    ['Province', prov],
-    ['Operator', owner || '—'],
-    ['Capacity', mw ? mw.toLocaleString() + ' MW' : '—'],
-    ['Source', src]
-  ];
-  var popup = buildPopup(style.emoji + ' ' + src + ' Power Plant', style.color, name, rows, name);
-  marker.bindPopup(popup, {maxWidth: 300});
-  marker.on('click', function(){ showDetailFromPopup(src + ' Power Plant', style.color, name, rows, name); });
-  LAYERS[style.layer].addLayer(marker);
-  loadedCounts.power++;
-  document.getElementById('count-power').textContent = loadedCounts.power;
-});
-
-// Renewable Energy 1MW+ (layer 28)
-fetchNACEI(28, 'Canada', function(f) {
-  var p = f.properties;
-  var coords = f.geometry && f.geometry.coordinates;
-  if (!coords) return;
-  var src = p.PrimSource || 'Wind';
-  var style = getSourceStyle(src);
-  var mw = parseFloat(p.Renew_MW || p.Total_MW) || 1;
-  var radius = Math.max(4, Math.min(12, Math.sqrt(mw / 5) * 2.5));
-  var name = p.Facility || 'Unnamed';
-  var prov = p.StateProv || '';
-
-  var marker = L.circleMarker([coords[1], coords[0]], {
-    radius: radius,
-    fillColor: style.color,
-    color: 'rgba(255,255,255,0.25)',
-    weight: 0.5,
-    opacity: 0.8,
-    fillOpacity: 0.7
-  });
-
-  var rows = [['Province',prov],['Capacity', mw ? mw + ' MW' : '—'],['Source',src]];
-  var popup = buildPopup(style.emoji + ' ' + src, style.color, name, rows, name);
-  marker.bindPopup(popup, {maxWidth: 260});
-  LAYERS[style.layer].addLayer(marker);
-  loadedCounts.renew++;
-  document.getElementById('count-renew').textContent = loadedCounts.renew;
-});
-
-// LNG Terminals (layer 5)
-fetchNACEI(5, 'Canada', function(f) {
-  var p = f.properties;
-  var coords = f.geometry && f.geometry.coordinates;
-  if (!coords) return;
-  var name = p.Facility || 'LNG Terminal';
-  var prov = p.StateProv || '';
-  var rows = [['Province',prov],['Operator',p.Owner||'—'],['Type',p.Type||'LNG Terminal']];
-  var marker = L.circleMarker([coords[1],coords[0]], {
-    radius: 9,
-    fillColor: '#1a7a6a',
-    color: '#fff',
-    weight: 1.5,
-    opacity: 0.9,
-    fillOpacity: 0.85
-  });
-  marker.bindPopup(buildPopup('🛢 LNG Terminal','#1a7a6a',name,rows,name),{maxWidth:280});
-  LAYERS['lng'].addLayer(marker);
-  loadedCounts.lng++;
-  document.getElementById('count-lng').textContent = loadedCounts.lng;
-});
-
-// Refineries (layer 10)
-fetchNACEI(10, 'Canada', function(f) {
-  var p = f.properties;
-  var coords = f.geometry && f.geometry.coordinates;
-  if (!coords) return;
-  var name = p.Facility || 'Refinery';
-  var prov = p.StateProv || '';
-  var cap = p.Capacity || p.Total_MW || '';
-  var rows = [['Province',prov],['Operator',p.Owner||'—'],['Capacity',cap ? cap + ' bbl/day' : '—'],['Type',p.Type||'Refinery']];
-  var marker = L.circleMarker([coords[1],coords[0]], {
-    radius: 7,
-    fillColor: '#c62828',
-    color: 'rgba(255,255,255,0.4)',
-    weight: 1,
-    opacity: 0.9,
-    fillOpacity: 0.8
-  });
-  marker.bindPopup(buildPopup('⚙ Refinery / Upgrader','#c62828',name,rows,name),{maxWidth:280});
-  LAYERS['refineries'].addLayer(marker);
-  loadedCounts.refinery++;
-  document.getElementById('count-refinery').textContent = loadedCounts.refinery;
-});
-
-// Gas Processing Plants (layer 4)
-fetchNACEI(4, 'Canada', function(f) {
-  var p = f.properties;
-  var coords = f.geometry && f.geometry.coordinates;
-  if (!coords) return;
-  var name = p.Facility || 'Gas Plant';
-  var prov = p.StateProv || '';
-  var rows = [['Province',prov],['Operator',p.Owner||'—']];
-  var marker = L.circleMarker([coords[1],coords[0]], {
-    radius: 5,
-    fillColor: '#6a6a6a',
-    color: 'rgba(255,255,255,0.3)',
-    weight: 0.5,
-    opacity: 0.8,
-    fillOpacity: 0.7
-  });
-  marker.bindPopup(buildPopup('⚙ Gas Processing Plant','#888',name,rows,name),{maxWidth:260});
-  LAYERS['gasplants'].addLayer(marker);
-});
+var allFacilities = STATIC_FACILITIES.concat(CTI_FACILITIES);
+document.getElementById('count-power').textContent = allFacilities.filter(function(f){ return f.layer === 'nuclear' || f.layer === 'hydro' || f.layer === 'gas-power'; }).length;
+document.getElementById('count-renew').textContent = allFacilities.filter(function(f){ return f.layer === 'wind' || f.layer === 'solar'; }).length;
+document.getElementById('count-refinery').textContent = allFacilities.filter(function(f){ return f.layer === 'refineries'; }).length;
+document.getElementById('count-lng').textContent = allFacilities.filter(function(f){ return f.layer === 'lng'; }).length;
 
 // ══════════════════════════════════════════════════
 // SIDEBAR DETAIL PANEL
@@ -885,11 +714,7 @@ function closeDetail() {
 // ══════════════════════════════════════════════════
 // LOADING COMPLETE
 // ══════════════════════════════════════════════════
-setTimeout(function() {
-  var overlay = document.getElementById('loading-overlay');
-  overlay.classList.add('hidden');
-  setTimeout(function(){ overlay.style.display='none'; }, 500);
-}, 2200);
+document.getElementById('loading-overlay').style.display = 'none';
 
 // Map ready
 </script>
