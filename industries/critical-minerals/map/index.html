@@ -231,17 +231,35 @@ body{font-family:'Jost',sans-serif;color:#fff;
         <div class="sb-label">Filter by mineral</div>
         <select id="filter-mineral" class="sb-select">
           <option value="all">All minerals</option>
-          <option value="Uranium">Uranium</option>
-          <option value="Lithium">Lithium</option>
-          <option value="Nickel">Nickel</option>
-          <option value="Cobalt">Cobalt</option>
-          <option value="Copper">Copper</option>
-          <option value="Rare earth">Rare earth elements</option>
-          <option value="Gold">Gold</option>
-          <option value="Graphite">Graphite</option>
-          <option value="Zinc">Zinc</option>
-          <option value="Iron">Iron ore</option>
-          <option value="Bismuth">Bismuth / Tellurium</option>
+          <optgroup label="Critical minerals">
+            <option value="uranium">Uranium</option>
+            <option value="lithium">Lithium</option>
+            <option value="nickel">Nickel</option>
+            <option value="cobalt">Cobalt</option>
+            <option value="copper">Copper</option>
+            <option value="rare earth">Rare earth elements</option>
+            <option value="graphite">Graphite</option>
+            <option value="tungsten">Tungsten</option>
+            <option value="niobium">Niobium</option>
+            <option value="tantalum">Tantalum</option>
+            <option value="vanadium">Vanadium</option>
+            <option value="molybdenum">Molybdenum</option>
+            <option value="phosphate">Phosphate</option>
+            <option value="potash">Potash</option>
+            <option value="scandium">Scandium</option>
+            <option value="manganese">Manganese</option>
+            <option value="magnesium">Magnesium</option>
+            <option value="chromite">Chromite</option>
+          </optgroup>
+          <optgroup label="Common by-product metals">
+            <option value="gold">Gold</option>
+            <option value="silver">Silver</option>
+            <option value="zinc">Zinc</option>
+            <option value="lead">Lead</option>
+            <option value="iron">Iron ore</option>
+            <option value="platinum">Platinum group</option>
+            <option value="palladium">Palladium</option>
+          </optgroup>
         </select>
       </div>
 
@@ -376,32 +394,49 @@ body{font-family:'Jost',sans-serif;color:#fff;
 
   // ── Colour map by mineral keyword ────────────────────────────────
   var COLOURS = {
-    'uranium':    '#f0c060',
-    'lithium':    '#60b8f0',
-    'nickel':     '#80c880',
-    'cobalt':     '#80c880',
-    'copper':     '#f09040',
-    'rare earth': '#c090f0',
-    'gold':       '#f0d040',
-    'graphite':   '#909090',
-    'zinc':       '#b0d080',
-    'iron':       '#c07050',
-    'chromite':   '#d06060',
-    'multiple':   '#b0b0b0',
-    'coal':       '#808080',
-    'zinc':       '#b0d090',
-    'potash':     '#d0a060',
+    'uranium':       '#f0c060',
+    'lithium':       '#60b8f0',
+    'nickel':        '#80c880',
+    'cobalt':        '#5fa8d3',
+    'copper':        '#f09040',
+    'rare earth':    '#c090f0',
+    'scandium':      '#c090f0',
+    'gold':          '#f0d040',
+    'silver':        '#c0c0c8',
+    'graphite':      '#909090',
+    'zinc':          '#b0d080',
+    'lead':          '#9090a0',
+    'iron':          '#c07050',
+    'chromite':      '#d06060',
+    'molybdenum':    '#80a0c0',
+    'tungsten':      '#a07050',
+    'niobium':       '#8090d0',
+    'tantalum':      '#8090d0',
+    'phosphate':     '#90c0a0',
+    'helium':        '#d0e0f0',
+    'manganese':     '#b080a0',
+    'palladium':     '#d0d0e0',
+    'platinum':      '#e0e0f0',
+    'vanadium':      '#a0c0d0',
+    'magnesium':     '#c0d0c0',
+    'coal':          '#808080',
+    'potash':        '#d0a060',
+    'multiple':      '#b0b0b0',
   };
 
   function getColour(mineral) {
     if (!mineral) return '#b0b0b0';
     var m = mineral.toLowerCase();
-    // Handle multiple commodities (NRCan often lists several)
-    if (m.indexOf(',') !== -1 || m.indexOf(';') !== -1) return '#b0b0b0';
+    // Use the FIRST listed commodity as the primary/colour-determining one.
+    // NRCan lists commodities in order of significance for a site.
+    var first = m.split(/[,;]/)[0].trim();
+    // Special-case lithium variants e.g. "lithium (spodumene)"
+    if (first.indexOf('lithium') !== -1) return COLOURS['lithium'];
     for (var key in COLOURS) {
-      if (m.indexOf(key) !== -1) return COLOURS[key];
+      if (first.indexOf(key) !== -1) return COLOURS[key];
     }
-    return '#cccccc';
+    // First commodity has no specific colour — grey for "other"
+    return '#b0b0b0';
   }
 
   function getRadius(type) {
