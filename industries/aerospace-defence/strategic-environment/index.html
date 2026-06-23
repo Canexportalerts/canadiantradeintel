@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Canadian Strategic Environment Map — Aerospace &amp; Defence — Canadian Trade Intelligence</title>
+<meta name="description" content="Publicly documented NORAD infrastructure, CAF bases, allied Five Eyes installations, and missile defence systems — mapped from open-source records.">
+<link rel="canonical" href="https://canadiantradeintel.ca/industries/aerospace-defence/strategic-environment/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Mono:wght@400;500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="/nav.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --ink:#0d0d0b;--ink-soft:#2a2a28;--ink-mid:#3a3a36;--slate:#5a5a56;
+  --warm-bg:#f8f5f0;--warm-mid:#efe9e0;--warm-border:#ddd5c5;--white:#fdfcfa;
+  --crimson:#8b1a1a;--brand-dark:#1a0505;
+  --sector:#5a1a90;--sector-dark:#2d0d48;--sector-darker:#0d0d14;
+  --sector-light:#f5f0fc;--sector-mid:#b08ad4;
+  --amber:#c8860a;
+}
+html{scroll-behavior:smooth;}
+body{font-family:'Jost',sans-serif;background:var(--warm-bg);color:var(--ink);font-size:15px;line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+
+/* SECTOR SUBNAV */
+.sector-subnav{background:var(--brand-dark);border-bottom:1px solid rgba(255,255,255,0.06);padding:0 48px;}
+.sector-subnav-inner{max-width:1160px;margin:0 auto;display:flex;gap:0;overflow-x:auto;scrollbar-width:none;}
+.sector-subnav-inner::-webkit-scrollbar{display:none;}
+.sn-item{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.45);text-decoration:none;padding:14px 18px;border-bottom:2px solid transparent;white-space:nowrap;transition:color 0.15s;}
+.sn-item:hover{color:rgba(255,255,255,0.75);}
+.sn-item.active{color:#fff;border-bottom-color:var(--sector);}
+
+/* MASTHEAD */
+.se-masthead{background:var(--sector-darker);padding:40px 48px 32px;border-bottom:3px solid var(--crimson);position:relative;overflow:hidden;}
+.se-masthead::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 15% 60%, rgba(90,26,144,0.35) 0%, transparent 65%);pointer-events:none;}
+.se-masthead-inner{max-width:1160px;margin:0 auto;position:relative;z-index:1;}
+.se-back{display:inline-flex;align-items:center;gap:7px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(176,138,212,0.65);text-decoration:none;margin-bottom:18px;transition:color 0.15s;}
+.se-back::before{content:'←';font-size:11px;}
+.se-back:hover{color:rgba(176,138,212,1);}
+.se-eyebrow{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(176,138,212,0.6);margin-bottom:10px;}
+.se-title{font-family:'Cormorant Garamond',serif;font-size:44px;font-weight:600;font-style:italic;color:#f4f0e8;line-height:1.05;margin-bottom:10px;}
+.se-descriptor{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(176,138,212,0.45);line-height:1.8;}
+
+/* MAP CONTAINER */
+.se-map-wrap{position:relative;background:#0d0d14;}
+#strategic-map{height:600px;width:100%;background:#0d0d14;}
+
+/* LAYER CONTROL PANEL */
+.se-layer-panel{position:absolute;top:16px;right:16px;z-index:1000;background:#1a1a2e;border:1px solid rgba(255,255,255,0.1);padding:14px 16px;min-width:200px;}
+.se-layer-title{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:12px;}
+.se-layer-item{display:flex;align-items:center;gap:10px;margin-bottom:9px;cursor:pointer;}
+.se-layer-item:last-child{margin-bottom:0;}
+.se-layer-item input[type="checkbox"]{display:none;}
+.se-layer-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;border:1.5px solid rgba(255,255,255,0.15);}
+.se-layer-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.7);user-select:none;cursor:pointer;}
+.se-layer-item.disabled .se-layer-label{opacity:0.35;}
+.se-layer-item.disabled .se-layer-dot{opacity:0.3;}
+
+/* Leaflet popup overrides */
+.leaflet-popup-content-wrapper{background:#1a1a2e;border:1px solid rgba(255,255,255,0.12);border-radius:0;box-shadow:0 4px 20px rgba(0,0,0,0.5);color:#f0ece4;}
+.leaflet-popup-content{font-family:'Jost',sans-serif;font-size:13px;line-height:1.6;margin:12px 16px;min-width:220px;}
+.leaflet-popup-tip{background:#1a1a2e;}
+.leaflet-popup-close-button{color:rgba(255,255,255,0.4)!important;font-size:16px!important;top:8px!important;right:10px!important;}
+.leaflet-popup-close-button:hover{color:rgba(255,255,255,0.8)!important;}
+.popup-name{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:600;color:#f4f0e8;line-height:1.3;margin-bottom:4px;}
+.popup-type{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(176,138,212,0.7);margin-bottom:8px;}
+.popup-source{font-size:11px;color:rgba(200,195,185,0.55);line-height:1.5;border-top:0.5px solid rgba(255,255,255,0.08);padding-top:8px;margin-top:8px;}
+
+/* INFO PANEL */
+.se-body{max-width:1160px;margin:0 auto;padding:36px 48px 60px;}
+.se-info-card{background:#1a1a2e;border-left:3px solid var(--crimson);padding:20px 24px;margin-bottom:28px;}
+.se-info-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(176,138,212,0.6);margin-bottom:8px;}
+.se-info-text{font-size:13px;color:rgba(220,215,205,0.75);line-height:1.75;}
+.se-sources{margin-top:0;}
+.se-sources-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.16em;text-transform:uppercase;color:var(--slate);margin-bottom:10px;padding-bottom:6px;border-bottom:0.5px solid var(--warm-border);}
+.se-source-list{list-style:none;display:flex;flex-direction:column;gap:0;}
+.se-source-list li{padding:7px 0;border-bottom:0.5px solid var(--warm-border);font-size:13px;color:var(--ink-mid);display:flex;align-items:center;gap:10px;}
+.se-source-list li:last-child{border-bottom:none;}
+.se-source-list li::before{content:'';display:inline-block;width:4px;height:4px;background:var(--crimson);flex-shrink:0;}
+.se-source-list a{color:var(--ink-mid);text-decoration:none;border-bottom:0.5px solid var(--warm-border);}
+.se-source-list a:hover{color:var(--crimson);border-bottom-color:var(--crimson);}
+
+/* FOOTER */
+.se-footer{background:var(--brand-dark);padding:28px 48px;}
+.se-footer-inner{max-width:1160px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+.se-footer-copy{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.22);}
+.se-footer-links{display:flex;gap:20px;}
+.se-footer-links a{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.28);text-decoration:none;}
+.se-footer-links a:hover{color:rgba(255,255,255,0.6);}
+
+@media(max-width:768px){
+  #strategic-map{height:400px;}
+  .se-masthead{padding:28px 24px 24px;}
+  .se-body{padding:24px 24px 48px;}
+  .se-title{font-size:32px;}
+  .sector-subnav{padding:0 24px;}
+  .se-footer{padding:20px 24px;}
+  .se-layer-panel{top:10px;right:10px;padding:10px 12px;min-width:170px;}
+}
+</style>
+</head>
+<body>
+
+<nav id="main-nav"></nav>
+
+<div class="sector-subnav">
+  <div class="sector-subnav-inner">
+    <a href="/industries/critical-minerals/" class="sn-item">Critical Minerals</a>
+    <a href="/industries/agri-food/" class="sn-item">Agri-food</a>
+    <a href="/industries/advanced-manufacturing/" class="sn-item">Advanced Manufacturing</a>
+    <a href="/industries/aerospace-defence/" class="sn-item active">Aerospace &amp; Defence</a>
+    <a href="/industries/energy-cleantech/" class="sn-item">Energy &amp; Cleantech</a>
+    <a href="/industries/technology-digital/" class="sn-item">Technology &amp; Digital</a>
+  </div>
+</div>
+
+<div class="se-masthead">
+  <div class="se-masthead-inner">
+    <a href="/industries/aerospace-defence/" class="se-back">Aerospace &amp; Defence hub</a>
+    <div class="se-eyebrow">Canadian Trade Intelligence Inc. · Open-Source Intelligence</div>
+    <h1 class="se-title">Canadian Strategic Environment</h1>
+    <div class="se-descriptor">NORAD INFRASTRUCTURE &middot; CAF BASES &middot; ALLIED INSTALLATIONS &middot; ARCTIC SURVEILLANCE &middot; PUBLIC OPEN-SOURCE DATA</div>
+  </div>
+</div>
+
+<div class="se-map-wrap">
+  <div id="strategic-map"></div>
+
+  <div class="se-layer-panel" id="layer-panel">
+    <div class="se-layer-title">Map Layers</div>
+    <label class="se-layer-item" id="toggle-norad">
+      <input type="checkbox" checked>
+      <span class="se-layer-dot" style="background:#8b1a1a;"></span>
+      <span class="se-layer-label">NORAD &amp; CAF</span>
+    </label>
+    <label class="se-layer-item" id="toggle-fiveyes">
+      <input type="checkbox" checked>
+      <span class="se-layer-dot" style="background:#5a1a90;"></span>
+      <span class="se-layer-label">Five Eyes Allied</span>
+    </label>
+    <label class="se-layer-item" id="toggle-missile">
+      <input type="checkbox" checked>
+      <span class="se-layer-dot" style="background:#c8860a;border-radius:2px;transform:rotate(45deg);width:9px;height:9px;"></span>
+      <span class="se-layer-label">Missile Defence</span>
+    </label>
+  </div>
+</div>
+
+<div class="se-body">
+
+  <div class="se-info-card">
+    <div class="se-info-label">Open-Source Intelligence Disclaimer</div>
+    <p class="se-info-text">This map displays publicly documented defence infrastructure from open-source records including government announcements, Federation of American Scientists (FAS) analysis, SIPRI databases, and academic open-source intelligence research. No classified information is displayed. Locations are approximate and reflect permanent installations only — not operational deployments or current readiness states. CTI provides this tool for business and policy orientation purposes only.</p>
+  </div>
+
+  <div class="se-sources">
+    <div class="se-sources-label">Sources</div>
+    <ul class="se-source-list">
+      <li><a href="https://fas.org" target="_blank" rel="noopener">Federation of American Scientists (FAS) — fas.org</a></li>
+      <li><a href="https://www.sipri.org" target="_blank" rel="noopener">Stockholm International Peace Research Institute (SIPRI) — sipri.org</a></li>
+      <li><a href="https://www.canada.ca/en/department-national-defence.html" target="_blank" rel="noopener">Department of National Defence Canada — canada.ca/dnd</a></li>
+      <li><a href="https://www.nato.int" target="_blank" rel="noopener">NATO public communications — nato.int</a></li>
+      <li><a href="https://www.norad.mil" target="_blank" rel="noopener">NORAD public affairs — norad.mil</a></li>
+    </ul>
+  </div>
+
+</div>
+
+<div class="se-footer">
+  <div class="se-footer-inner">
+    <span class="se-footer-copy">&copy; 2026 Canadian Trade Intelligence Inc.</span>
+    <div class="se-footer-links">
+      <a href="/industries/aerospace-defence/">A&amp;D Hub</a>
+      <a href="/industries/aerospace-defence/programme-tracker/">Programme Tracker</a>
+      <a href="/procurement/">Procurement Hub</a>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+// ── MAP INIT ──────────────────────────────────────────────────────────────────
+
+const map = L.map('strategic-map', {
+  center: [62, -96],
+  zoom: 3,
+  zoomControl: true,
+  attributionControl: true
+});
+
+L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
+  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+  subdomains: 'abcd',
+  maxZoom: 19
+}).addTo(map);
+
+// Reposition zoom control away from our panel
+map.zoomControl.setPosition('bottomright');
+
+// ── POPUP BUILDER ─────────────────────────────────────────────────────────────
+
+function popup(name, type, source) {
+  return `
+    <div class="popup-name">${name}</div>
+    <div class="popup-type">${type}</div>
+    <div class="popup-source">
+      Source: ${source}<br>
+      <span style="opacity:0.6;font-size:10px;">CTI Open Source Intelligence — publicly documented locations only</span>
+    </div>`;
+}
+
+// ── LAYER 1: NORAD & CAF ──────────────────────────────────────────────────────
+
+const noradStyle = {color: '#8b1a1a', fillColor: '#8b1a1a', fillOpacity: 0.85, weight: 1.5, opacity: 0.9, radius: 8};
+
+const noradData = [
+  // NORAD/Radar
+  {latlng: [63.75, -68.55], name: "CFS Alert", type: "Northernmost signals intelligence station — SIGINT/surveillance", src: "Government of Canada / DND"},
+  {latlng: [60.01, -111.98], name: "Canadian Forces Station Yellowknife", type: "NORAD radar — North Warning System", src: "NORAD public affairs / DND"},
+  {latlng: [58.73, -94.07], name: "CFS Churchill", type: "NORAD radar node — North Warning System", src: "NORAD public affairs / DND"},
+  {latlng: [53.30, -60.37], name: "CFS Goose Bay", type: "NORAD forward operating base", src: "Government of Canada / DND"},
+  {latlng: [64.19, -139.13], name: "CFS Eagle", type: "North Warning System radar station", src: "NORAD public affairs / FAS"},
+  {latlng: [69.35, -140.19], name: "CFS Komakuk", type: "North Warning System radar station", src: "NORAD public affairs / FAS"},
+  // Major CAF Bases
+  {latlng: [45.36, -75.76], name: "CFB Ottawa — RCAF HQ", type: "Royal Canadian Air Force Headquarters", src: "Government of Canada / DND"},
+  {latlng: [44.12, -77.53], name: "CFB Trenton (8 Wing)", type: "RCAF air transport hub — largest RCAF base", src: "Government of Canada / DND"},
+  {latlng: [49.88, -97.23], name: "CFB Winnipeg (17 Wing)", type: "RCAF training and airlift", src: "Government of Canada / DND"},
+  {latlng: [49.26, -123.18], name: "CFB Esquimalt", type: "Royal Canadian Navy — Pacific Fleet HQ", src: "Government of Canada / DND"},
+  {latlng: [44.67, -63.58], name: "CFB Halifax", type: "Royal Canadian Navy — Atlantic Fleet HQ", src: "Government of Canada / DND"},
+  {latlng: [44.37, -78.13], name: "CFB Petawawa", type: "Canadian Army — 2 Canadian Division Support Base", src: "Government of Canada / DND"},
+  {latlng: [45.48, -73.75], name: "Saint-Hubert — 1 Canadian Air Division", type: "RCAF operational command", src: "Government of Canada / DND"},
+  {latlng: [49.53, -112.73], name: "CFB Cold Lake (4 Wing)", type: "RCAF CF-18 fighter base — primary tactical aviation", src: "Government of Canada / DND"}
+];
+
+const noradLayer = L.layerGroup();
+noradData.forEach(d => {
+  L.circleMarker(d.latlng, noradStyle)
+    .bindPopup(popup(d.name, d.type, d.src), {maxWidth: 300})
+    .addTo(noradLayer);
+});
+noradLayer.addTo(map);
+
+// ── LAYER 2: FIVE EYES ALLIED ─────────────────────────────────────────────────
+
+const alliedStyle = {color: '#5a1a90', fillColor: '#5a1a90', fillOpacity: 0.8, weight: 1.5, opacity: 0.9, radius: 7};
+
+const alliedData = [
+  {latlng: [51.97, -178.87], name: "Eareckson Air Station", type: "USAF — Alaska / Aleutians forward base", src: "USAF public affairs / FAS"},
+  {latlng: [64.73, -147.15], name: "Eielson AFB", type: "USAF — F-35 Pacific basing, Indo-Pacific operations", src: "USAF public affairs"},
+  {latlng: [61.57, -149.09], name: "JBER Elmendorf", type: "USAF/NORAD — Alaska air defence command", src: "NORAD public affairs / USAF"},
+  {latlng: [76.54, -68.70], name: "Pituffik Space Base (Thule)", type: "NORAD early warning radar — Greenland", src: "FAS / USAF public affairs"},
+  {latlng: [51.89, -8.49], name: "RAF Mildenhall / UK region", type: "Five Eyes signals intelligence — RAF/GCHQ", src: "UK Ministry of Defence / FAS"},
+  {latlng: [13.54, 144.93], name: "Andersen AFB — Guam", type: "USAF Indo-Pacific hub — B-52 strategic bomber basing", src: "USAF public affairs / FAS"},
+  {latlng: [-33.81, 151.20], name: "RAAF Base Williamtown", type: "AUKUS — Royal Australian Air Force F-35 base", src: "Australian DoD / public record"},
+  {latlng: [51.08, -1.79], name: "RAF Boscombe Down", type: "UK test and evaluation — Five Eyes cooperation", src: "UK Ministry of Defence"}
+];
+
+const alliedLayer = L.layerGroup();
+alliedData.forEach(d => {
+  L.circleMarker(d.latlng, alliedStyle)
+    .bindPopup(popup(d.name, d.type, d.src), {maxWidth: 300})
+    .addTo(alliedLayer);
+});
+alliedLayer.addTo(map);
+
+// ── LAYER 3: MISSILE DEFENCE ──────────────────────────────────────────────────
+
+const triangleIcon = L.divIcon({
+  html: '<svg width="16" height="14" viewBox="0 0 16 14"><polygon points="8,0 16,14 0,14" fill="#c8860a" opacity="0.85"/></svg>',
+  iconSize: [16, 14],
+  iconAnchor: [8, 14],
+  className: ''
+});
+
+const missileData = [
+  {latlng: [64.28, -165.18], name: "Fort Greely — Ground-Based Interceptors", type: "GMD — 44 ground-based interceptors (US missile defence)", src: "US MDA public affairs / FAS"},
+  {latlng: [57.53, -152.57], name: "Kodiak Launch Complex", type: "US MDA — SM-3 and interceptor test site", src: "US Missile Defense Agency / FAS"},
+  {latlng: [44.21, 28.63], name: "Deveselu Aegis Ashore — Romania", type: "NATO/US — SM-3 ballistic missile defence", src: "NATO public communications / US DoD"},
+  {latlng: [54.45, 18.56], name: "Redzikowo Aegis Ashore — Poland", type: "NATO/US — European missile defence architecture", src: "NATO public communications / US DoD"},
+  {latlng: [36.12, 129.37], name: "THAAD — South Korea", type: "US Forces Korea — terminal phase missile defence", src: "US DoD public affairs / SIPRI"},
+  {latlng: [13.58, 144.85], name: "THAAD — Guam", type: "US DoD — island defence against ballistic threats", src: "US DoD public affairs / FAS"},
+  {latlng: [31.83, 35.00], name: "Iron Dome network — Israel (representative)", type: "IDF — short-range rocket and artillery shell intercept", src: "FAS / SIPRI / Israeli MoD public record"},
+  {latlng: [35.43, 139.35], name: "Aegis BMD — Japan", type: "JMSDF — ballistic missile defence at sea", src: "Japanese Ministry of Defense / SIPRI"},
+  {latlng: [65.97, -18.57], name: "Keflavik — Iceland", type: "NATO — radar and intercept position, North Atlantic gap", src: "NATO public communications / FAS"}
+];
+
+const missileLayer = L.layerGroup();
+missileData.forEach(d => {
+  L.marker(d.latlng, {icon: triangleIcon})
+    .bindPopup(popup(d.name, d.type, d.src), {maxWidth: 300})
+    .addTo(missileLayer);
+});
+missileLayer.addTo(map);
+
+// ── LAYER TOGGLES ─────────────────────────────────────────────────────────────
+
+function bindToggle(elementId, layer) {
+  const el = document.getElementById(elementId);
+  const checkbox = el.querySelector('input[type="checkbox"]');
+  el.addEventListener('click', function(e) {
+    if (e.target !== checkbox) checkbox.checked = !checkbox.checked;
+    if (checkbox.checked) {
+      layer.addTo(map);
+      el.classList.remove('disabled');
+    } else {
+      map.removeLayer(layer);
+      el.classList.add('disabled');
+    }
+  });
+}
+
+bindToggle('toggle-norad', noradLayer);
+bindToggle('toggle-fiveyes', alliedLayer);
+bindToggle('toggle-missile', missileLayer);
+</script>
+</body>
+</html>
