@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Programme Tracker — Aerospace &amp; Defence — Canadian Trade Intelligence</title>
+<meta name="description" content="Live procurement tender matching for Canada's major aerospace and defence programmes — NORAD modernization, CSC, F-35 ITB, HIMARS, and more.">
+<link rel="canonical" href="https://canadiantradeintel.ca/industries/aerospace-defence/programme-tracker/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Mono:wght@400;500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="/nav.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --ink:#0d0d0b;--ink-soft:#2a2a28;--ink-mid:#3a3a36;--slate:#5a5a56;
+  --warm-bg:#f8f5f0;--warm-mid:#efe9e0;--warm-border:#ddd5c5;--white:#fdfcfa;
+  --crimson:#8b1a1a;--brand-dark:#1a0505;
+  --sector:#5a1a90;--sector-dark:#2d0d48;--sector-darker:#0d0d14;
+  --sector-light:#f5f0fc;--sector-mid:#b08ad4;
+  --amber:#c8860a;
+}
+html{scroll-behavior:smooth;}
+body{font-family:'Jost',sans-serif;background:var(--warm-bg);color:var(--ink);font-size:15px;line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+
+/* SECTOR SUBNAV */
+.sector-subnav{background:var(--brand-dark);border-bottom:1px solid rgba(255,255,255,0.06);padding:0 48px;}
+.sector-subnav-inner{max-width:1160px;margin:0 auto;display:flex;gap:0;overflow-x:auto;scrollbar-width:none;}
+.sector-subnav-inner::-webkit-scrollbar{display:none;}
+.sn-item{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.45);text-decoration:none;padding:14px 18px;border-bottom:2px solid transparent;white-space:nowrap;transition:color 0.15s;}
+.sn-item:hover{color:rgba(255,255,255,0.75);}
+.sn-item.active{color:#fff;border-bottom-color:var(--sector);}
+
+/* MASTHEAD */
+.pt-masthead{background:var(--sector-darker);padding:44px 48px 36px;border-bottom:3px solid var(--sector);position:relative;overflow:hidden;}
+.pt-masthead::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 20% 70%, rgba(90,26,144,0.45) 0%, transparent 65%);pointer-events:none;}
+.pt-masthead-inner{max-width:1160px;margin:0 auto;position:relative;z-index:1;}
+.pt-back{display:inline-flex;align-items:center;gap:7px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(176,138,212,0.65);text-decoration:none;margin-bottom:20px;transition:color 0.15s;}
+.pt-back::before{content:'←';font-size:11px;}
+.pt-back:hover{color:rgba(176,138,212,1);}
+.pt-eyebrow{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(176,138,212,0.65);margin-bottom:10px;}
+.pt-title{font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:600;font-style:italic;color:#f4f0e8;line-height:1.05;margin-bottom:10px;}
+.pt-subtitle{font-size:14px;font-weight:300;color:rgba(240,236,228,0.65);max-width:580px;line-height:1.65;}
+
+/* DATA FRESHNESS STRIP */
+.pt-freshness{background:rgba(0,0,0,0.25);border-top:1px solid rgba(255,255,255,0.05);padding:10px 48px;}
+.pt-freshness-inner{max-width:1160px;margin:0 auto;display:flex;align-items:center;gap:10px;}
+.pt-fresh-dot{width:7px;height:7px;border-radius:50%;background:#3a9a3a;flex-shrink:0;animation:pulse 2.5s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.45;}}
+.pt-fresh-text{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.38);}
+
+/* BODY */
+.pt-body{max-width:1160px;margin:0 auto;padding:36px 48px 80px;}
+
+/* FILTER TABS */
+.pt-filter-bar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:32px;}
+.pt-filter-btn{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;padding:8px 18px;border:1px solid var(--warm-border);background:none;color:var(--slate);cursor:pointer;transition:all 0.15s;}
+.pt-filter-btn:hover{border-color:var(--sector);color:var(--sector);}
+.pt-filter-btn.active{background:var(--sector);border-color:var(--sector);color:#fff;}
+
+/* PROGRAMME GRID */
+.pt-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;}
+
+/* PROGRAMME CARD */
+.prog-card{background:var(--white);border:0.5px solid var(--warm-border);border-top:3px solid var(--sector);display:flex;flex-direction:column;transition:box-shadow 0.18s;}
+.prog-card:hover{box-shadow:0 4px 20px rgba(0,0,0,0.08);}
+.prog-card-head{padding:22px 22px 16px;}
+.prog-stream{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.14em;text-transform:uppercase;color:var(--sector);margin-bottom:8px;}
+.prog-name{font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:600;color:var(--ink);line-height:1.2;margin-bottom:12px;}
+.prog-meta{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:14px;}
+.prog-phase{display:inline-block;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;padding:4px 10px;color:#fff;}
+.prog-value{font-family:'DM Mono',monospace;font-size:9px;color:var(--ink-soft);background:var(--warm-mid);padding:4px 10px;}
+.prog-desc{font-size:13px;color:var(--slate);line-height:1.7;margin-bottom:14px;}
+.prog-detail-row{display:flex;flex-wrap:wrap;gap:0;border-top:0.5px solid var(--warm-border);margin-top:4px;}
+.prog-detail{flex:1;min-width:140px;padding:10px 0 10px;}
+.prog-detail:not(:last-child){border-right:0.5px solid var(--warm-border);padding-right:14px;margin-right:14px;}
+.prog-detail-label{font-family:'DM Mono',monospace;font-size:7.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--slate);margin-bottom:3px;}
+.prog-detail-val{font-size:12px;color:var(--ink-mid);line-height:1.45;}
+.prog-cos{padding:14px 22px;border-top:0.5px solid var(--warm-border);background:var(--warm-bg);}
+.prog-cos-label{font-family:'DM Mono',monospace;font-size:7.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--slate);margin-bottom:6px;}
+.prog-cos-list{display:flex;flex-wrap:wrap;gap:5px;}
+.prog-co-tag{font-family:'DM Mono',monospace;font-size:8px;background:var(--sector-light);color:var(--sector);padding:3px 8px;border:0.5px solid rgba(90,26,144,0.15);}
+
+/* TENDER SECTION */
+.prog-tenders{padding:16px 22px 20px;border-top:0.5px solid var(--warm-border);}
+.prog-tenders-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.14em;text-transform:uppercase;color:var(--slate);margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.tender-count-badge{background:var(--sector);color:#fff;font-family:'DM Mono',monospace;font-size:7px;padding:2px 7px;border-radius:10px;}
+.tender-row{padding:9px 0;border-bottom:0.5px solid var(--warm-border);display:flex;align-items:flex-start;gap:10px;}
+.tender-row:last-child{border-bottom:none;padding-bottom:0;}
+.tender-info{flex:1;min-width:0;}
+.tender-title{font-size:12.5px;color:var(--ink);line-height:1.45;margin-bottom:4px;}
+.tender-meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+.tender-source{font-family:'DM Mono',monospace;font-size:7.5px;letter-spacing:0.08em;text-transform:uppercase;background:var(--warm-mid);color:var(--slate);padding:2px 7px;}
+.tender-close{font-family:'DM Mono',monospace;font-size:7.5px;color:var(--slate);}
+.tender-close.urgent{color:#b05a00;}
+.tender-view{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.08em;text-transform:uppercase;color:var(--crimson);text-decoration:none;white-space:nowrap;padding:4px 0;border-bottom:1px solid rgba(139,26,26,0.25);transition:border-color 0.15s;}
+.tender-view:hover{border-bottom-color:var(--crimson);}
+.no-tenders{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.06em;color:var(--slate);opacity:0.7;padding:6px 0 2px;}
+
+/* HIDDEN CARD */
+.prog-card[data-hidden="true"]{display:none;}
+
+/* LOADING STATE */
+.tenders-loading{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.08em;text-transform:uppercase;color:var(--slate);opacity:0.6;}
+
+/* FOOTER */
+.pt-footer{background:var(--brand-dark);padding:28px 48px;margin-top:60px;}
+.pt-footer-inner{max-width:1160px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+.pt-footer-copy{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.22);}
+.pt-footer-links{display:flex;gap:20px;}
+.pt-footer-links a{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.28);text-decoration:none;}
+.pt-footer-links a:hover{color:rgba(255,255,255,0.6);}
+
+@media(max-width:900px){
+  .pt-grid{grid-template-columns:1fr;}
+  .pt-masthead{padding:32px 24px 28px;}
+  .pt-freshness{padding:10px 24px;}
+  .pt-body{padding:28px 24px 60px;}
+  .sector-subnav{padding:0 24px;}
+  .pt-title{font-size:36px;}
+  .pt-footer{padding:22px 24px;}
+}
+@media(max-width:560px){
+  .prog-detail-row{flex-direction:column;}
+  .prog-detail:not(:last-child){border-right:none;padding-right:0;margin-right:0;border-bottom:0.5px solid var(--warm-border);padding-bottom:10px;margin-bottom:10px;}
+}
+</style>
+</head>
+<body>
+
+<nav id="main-nav"></nav>
+
+<div class="sector-subnav">
+  <div class="sector-subnav-inner">
+    <a href="/industries/critical-minerals/" class="sn-item">Critical Minerals</a>
+    <a href="/industries/agri-food/" class="sn-item">Agri-food</a>
+    <a href="/industries/advanced-manufacturing/" class="sn-item">Advanced Manufacturing</a>
+    <a href="/industries/aerospace-defence/" class="sn-item active">Aerospace &amp; Defence</a>
+    <a href="/industries/energy-cleantech/" class="sn-item">Energy &amp; Cleantech</a>
+    <a href="/industries/technology-digital/" class="sn-item">Technology &amp; Digital</a>
+  </div>
+</div>
+
+<div class="pt-masthead">
+  <div class="pt-masthead-inner">
+    <a href="/industries/aerospace-defence/" class="pt-back">Aerospace &amp; Defence hub</a>
+    <div class="pt-eyebrow">Canadian Trade Intelligence Inc. · A&amp;D Programme Tracker</div>
+    <h1 class="pt-title">Programme Tracker</h1>
+    <p class="pt-subtitle">Major Canadian procurement programmes with live tender matching — updated weekly on programme status, daily on open tenders.</p>
+  </div>
+</div>
+
+<div class="pt-freshness">
+  <div class="pt-freshness-inner">
+    <span class="pt-fresh-dot"></span>
+    <span class="pt-fresh-text">Procurement data refreshes daily. Programme status updated weekly.</span>
+  </div>
+</div>
+
+<div class="pt-body">
+
+  <div class="pt-filter-bar" id="filter-bar">
+    <button class="pt-filter-btn active" data-stream="all">All</button>
+    <button class="pt-filter-btn" data-stream="NORAD Modernization">NORAD</button>
+    <button class="pt-filter-btn" data-stream="RCAF Fleet Renewal">RCAF</button>
+    <button class="pt-filter-btn" data-stream="Royal Canadian Navy">RCN</button>
+    <button class="pt-filter-btn" data-stream="Canadian Army Modernization">Army</button>
+    <button class="pt-filter-btn" data-stream="CF-18 Replacement">CF-18</button>
+  </div>
+
+  <div class="pt-grid" id="prog-grid">
+    <!-- Cards rendered by JS -->
+  </div>
+
+</div>
+
+<div class="pt-footer">
+  <div class="pt-footer-inner">
+    <span class="pt-footer-copy">&copy; 2026 Canadian Trade Intelligence Inc.</span>
+    <div class="pt-footer-links">
+      <a href="/procurement/">Procurement Hub</a>
+      <a href="/industries/aerospace-defence/">A&amp;D Hub</a>
+      <a href="/about/">About</a>
+    </div>
+  </div>
+</div>
+
+<script>
+const PROGRAMME_MAP = [
+  {
+    id: "norad_otr",
+    name: "NORAD Over-the-Horizon Radar",
+    stream: "NORAD Modernization",
+    phase: "Pre-contract",
+    phase_color: "#c8860a",
+    value: "~$4–6B",
+    prime: "TBC",
+    itb_window: "Open",
+    keywords: ["over-the-horizon", "OTH", "radar", "NORAD", "North Warning"],
+    canadian_cos: ["Calian", "Atkins Réalis", "L3Harris Canada"],
+    description: "Replacement for the North Warning System — the primary Arctic radar surveillance network. First RFP expected Q3–Q4 2026."
+  },
+  {
+    id: "globaleye",
+    name: "GlobalEye AEWCS",
+    stream: "NORAD Modernization",
+    phase: "Negotiating",
+    phase_color: "#8b1a1a",
+    value: "~$6–9B",
+    prime: "Saab",
+    itb_window: "Open — ITB plan filing expected 90 days post-contract",
+    keywords: ["GlobalEye", "AEWCS", "airborne", "early warning", "Saab", "surveillance"],
+    canadian_cos: ["CAE", "MDA Space", "CMC Electronics", "L3Harris Canada"],
+    description: "Canada's Airborne Early Warning and Control System selection. Formal procurement negotiations with Saab announced May 2026. ITB obligations will require ~50% direct Canadian work."
+  },
+  {
+    id: "norad_airfields",
+    name: "Arctic Airfield Upgrades",
+    stream: "NORAD Modernization",
+    phase: "Awarded",
+    phase_color: "#1a6b1a",
+    value: "~$4B",
+    prime: "Multiple",
+    itb_window: "Active — subcontract opportunities",
+    keywords: ["Arctic", "airfield", "runway", "northern", "Yukon", "NWT", "Nunavut"],
+    canadian_cos: ["PCL Construction", "Aecon", "Indigenous partnerships"],
+    description: "Upgrades to 14 Arctic airfields — runways, fuel systems, communications, and housing infrastructure. Active contract execution phase."
+  },
+  {
+    id: "f35_itb",
+    name: "F-35 Lightning II ITB Programme",
+    stream: "CF-18 Replacement",
+    phase: "Active credits",
+    phase_color: "#1a4a8b",
+    value: "$180B+ lifetime (Canadian content TBD)",
+    prime: "Lockheed Martin",
+    itb_window: "Active — industrial plan under development",
+    keywords: ["F-35", "JSF", "Joint Strike Fighter", "CF-18", "fighter", "Lockheed"],
+    canadian_cos: ["CAE", "Heroux-Devtek", "Magellan Aerospace", "Honeywell Canada"],
+    description: "Canada's selection of 88 F-35A aircraft triggers ITB obligations. Lockheed Martin Canadian Industrial Plan under development. 90-day approval standards apply."
+  },
+  {
+    id: "csc",
+    name: "Canadian Surface Combatant",
+    stream: "Royal Canadian Navy",
+    phase: "Production",
+    phase_color: "#1a4a8b",
+    value: "$84.5B",
+    prime: "Irving Shipbuilding / BAE Systems",
+    itb_window: "Active — Tier 2 subcontracts",
+    keywords: ["surface combatant", "CSC", "frigate", "Halifax", "Irving", "naval", "warship"],
+    canadian_cos: ["Irving Shipbuilding", "L3Harris Canada", "General Dynamics Canada"],
+    description: "15 Type 26 frigates to replace the Halifax-class. Irving Shipbuilding prime, BAE Systems design partner. Active subcontract opportunities across electronics, combat systems, and ship systems."
+  },
+  {
+    id: "cpp_poseidon",
+    name: "CP-140 Aurora Replacement / Maritime Patrol",
+    stream: "RCAF Fleet Renewal",
+    phase: "Planning",
+    phase_color: "#888780",
+    value: "~$5–8B",
+    prime: "TBC",
+    itb_window: "Pre-RFP — capability definition phase",
+    keywords: ["Aurora", "CP-140", "maritime patrol", "ASW", "Poseidon", "surveillance aircraft"],
+    canadian_cos: ["IMP Aerospace", "StandardAero", "CAE"],
+    description: "Replacement for the CP-140 Aurora maritime patrol aircraft fleet. Boeing P-8 Poseidon leading contender. RFP not yet issued — pre-positioning window open."
+  },
+  {
+    id: "himars",
+    name: "HIMARS Rocket Artillery",
+    stream: "Canadian Army Modernization",
+    phase: "Contracted",
+    phase_color: "#1a6b1a",
+    value: "$26B",
+    prime: "Lockheed Martin",
+    itb_window: "Active — 100% ITB plan with indigenous partner requirements",
+    keywords: ["HIMARS", "rocket", "artillery", "land", "ground forces"],
+    canadian_cos: ["Various SMEs", "Indigenous partners"],
+    description: "26 HIMARS rocket systems announced June 2026 with comprehensive industrial benefits plan requiring 100% ITB including SME and Indigenous partner provisions."
+  }
+];
+
+// --- Utilities ---
+
+function truncate(str, max) {
+  if (!str) return '';
+  return str.length > max ? str.slice(0, max - 1) + '…' : str;
+}
+
+function formatDate(dateStr) {
+  if (!dateStr) return '';
+  const d = new Date(dateStr);
+  if (isNaN(d)) return dateStr;
+  return d.toLocaleDateString('en-CA', {year:'numeric', month:'short', day:'numeric'});
+}
+
+function isUrgent(dateStr) {
+  if (!dateStr) return false;
+  const d = new Date(dateStr);
+  const now = new Date();
+  return (d - now) < 14 * 24 * 60 * 60 * 1000 && d > now;
+}
+
+function matchTenders(prog, tenders) {
+  return tenders
+    .filter(t => {
+      const haystack = ((t.title || '') + ' ' + (t.description || '')).toLowerCase();
+      return prog.keywords.some(kw => haystack.includes(kw.toLowerCase()));
+    })
+    .sort((a, b) => {
+      const da = new Date(a.closing_date || a.close_date || 0);
+      const db = new Date(b.closing_date || b.close_date || 0);
+      return da - db;
+    })
+    .slice(0, 3);
+}
+
+// --- Card rendering ---
+
+function renderTenderRows(tenders) {
+  if (!tenders || tenders.length === 0) {
+    return `<p class="no-tenders">No matching tenders found this week.</p>`;
+  }
+  return tenders.map(t => {
+    const url   = t.url || t.link || '#';
+    const title = truncate(t.title || 'Untitled', 80);
+    const src   = t.source || t.buyer || '';
+    const close = t.closing_date || t.close_date || '';
+    const urgent = isUrgent(close);
+    return `
+      <div class="tender-row">
+        <div class="tender-info">
+          <div class="tender-title">${title}</div>
+          <div class="tender-meta">
+            ${src ? `<span class="tender-source">${src}</span>` : ''}
+            ${close ? `<span class="tender-close${urgent ? ' urgent' : ''}">Closes ${formatDate(close)}${urgent ? ' ⚠' : ''}</span>` : ''}
+          </div>
+        </div>
+        <a href="${url}" class="tender-view" target="_blank" rel="noopener">View →</a>
+      </div>`;
+  }).join('');
+}
+
+function renderCard(prog, tenders) {
+  const matched = matchTenders(prog, tenders);
+  const badge = matched.length > 0
+    ? `<span class="tender-count-badge">${matched.length}</span>`
+    : '';
+
+  const coTags = prog.canadian_cos.map(c =>
+    `<span class="prog-co-tag">${c}</span>`
+  ).join('');
+
+  return `
+    <div class="prog-card" id="card-${prog.id}" data-stream="${prog.stream}">
+      <div class="prog-card-head">
+        <div class="prog-stream">${prog.stream}</div>
+        <div class="prog-name">${prog.name}</div>
+        <div class="prog-meta">
+          <span class="prog-phase" style="background:${prog.phase_color}">${prog.phase}</span>
+          <span class="prog-value">${prog.value}</span>
+        </div>
+        <p class="prog-desc">${prog.description}</p>
+        <div class="prog-detail-row">
+          <div class="prog-detail">
+            <div class="prog-detail-label">Prime Contractor</div>
+            <div class="prog-detail-val">${prog.prime}</div>
+          </div>
+          <div class="prog-detail">
+            <div class="prog-detail-label">ITB Window</div>
+            <div class="prog-detail-val">${prog.itb_window}</div>
+          </div>
+        </div>
+      </div>
+      <div class="prog-cos">
+        <div class="prog-cos-label">Canadian Companies of Interest</div>
+        <div class="prog-cos-list">${coTags}</div>
+      </div>
+      <div class="prog-tenders">
+        <div class="prog-tenders-label">
+          Matching Tenders ${badge}
+        </div>
+        ${renderTenderRows(matched)}
+      </div>
+    </div>`;
+}
+
+// --- Filter logic ---
+
+let activeStream = 'all';
+
+function applyFilter(stream) {
+  activeStream = stream;
+  document.querySelectorAll('.prog-card').forEach(card => {
+    const cardStream = card.dataset.stream;
+    const show = stream === 'all' || cardStream === stream;
+    card.setAttribute('data-hidden', show ? 'false' : 'true');
+  });
+  document.querySelectorAll('.pt-filter-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.stream === stream);
+  });
+}
+
+document.getElementById('filter-bar').addEventListener('click', e => {
+  const btn = e.target.closest('.pt-filter-btn');
+  if (!btn) return;
+  applyFilter(btn.dataset.stream);
+});
+
+// --- Bootstrap ---
+
+(async function init() {
+  const grid = document.getElementById('prog-grid');
+  grid.innerHTML = '<div class="tenders-loading">Loading procurement data…</div>';
+
+  let tenders = [];
+  try {
+    const res = await fetch('/api/procurement_feed.json');
+    if (res.ok) {
+      const data = await res.json();
+      // Support both array root and {tenders:[...]} envelope
+      tenders = Array.isArray(data) ? data : (data.tenders || data.results || []);
+    }
+  } catch (_) {
+    // Network unavailable — render cards with empty tenders
+  }
+
+  grid.innerHTML = PROGRAMME_MAP.map(p => renderCard(p, tenders)).join('');
+})();
+</script>
+</body>
+</html>
