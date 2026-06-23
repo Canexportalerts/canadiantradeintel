@@ -144,6 +144,11 @@ body{font-family:'Jost',sans-serif;background:var(--warm-bg);color:var(--ink);fo
       <span class="se-layer-dot" style="background:#c8860a;border-radius:2px;transform:rotate(45deg);width:9px;height:9px;"></span>
       <span class="se-layer-label">Missile Defence</span>
     </label>
+    <label class="se-layer-item" id="toggle-usbases">
+      <input type="checkbox" checked>
+      <span class="se-layer-dot" style="background:#1a5c8b;"></span>
+      <span class="se-layer-label">US Global Bases</span>
+    </label>
   </div>
 </div>
 
@@ -152,6 +157,7 @@ body{font-family:'Jost',sans-serif;background:var(--warm-bg);color:var(--ink);fo
   <div class="se-info-card">
     <div class="se-info-label">Open-Source Intelligence Disclaimer</div>
     <p class="se-info-text">This map displays publicly documented defence infrastructure from open-source records including government announcements, Federation of American Scientists (FAS) analysis, SIPRI databases, and academic open-source intelligence research. No classified information is displayed. Locations are approximate and reflect permanent installations only — not operational deployments or current readiness states. CTI provides this tool for business and policy orientation purposes only.</p>
+    <p class="se-info-text" style="margin-top:10px;">US base locations from the Department of Defense Base Structure Report (public congressional submission). Russian and Chinese air defence system locations from Federation of American Scientists open-source analysis and SIPRI databases.</p>
   </div>
 
   <div class="se-sources">
@@ -162,6 +168,7 @@ body{font-family:'Jost',sans-serif;background:var(--warm-bg);color:var(--ink);fo
       <li><a href="https://www.canada.ca/en/department-national-defence.html" target="_blank" rel="noopener">Department of National Defence Canada — canada.ca/dnd</a></li>
       <li><a href="https://www.nato.int" target="_blank" rel="noopener">NATO public communications — nato.int</a></li>
       <li><a href="https://www.norad.mil" target="_blank" rel="noopener">NORAD public affairs — norad.mil</a></li>
+      <li><a href="https://www.acq.osd.mil/eie/BSI/BEI_Library.html" target="_blank" rel="noopener">DoD Base Structure Report — acq.osd.mil (public congressional submission)</a></li>
     </ul>
   </div>
 
@@ -282,7 +289,12 @@ const missileData = [
   {latlng: [13.58, 144.85], name: "THAAD — Guam", type: "US DoD — island defence against ballistic threats", src: "US DoD public affairs / FAS"},
   {latlng: [31.83, 35.00], name: "Iron Dome network — Israel (representative)", type: "IDF — short-range rocket and artillery shell intercept", src: "FAS / SIPRI / Israeli MoD public record"},
   {latlng: [35.43, 139.35], name: "Aegis BMD — Japan", type: "JMSDF — ballistic missile defence at sea", src: "Japanese Ministry of Defense / SIPRI"},
-  {latlng: [65.97, -18.57], name: "Keflavik — Iceland", type: "NATO — radar and intercept position, North Atlantic gap", src: "NATO public communications / FAS"}
+  {latlng: [65.97, -18.57], name: "Keflavik — Iceland", type: "NATO — radar and intercept position, North Atlantic gap", src: "NATO public communications / FAS"},
+  // Additional sites
+  {latlng: [55.67, 37.58], name: "Moscow A-135 ABM System", type: "Russian ABM — nuclear-armed interceptors defending Moscow (FAS documented)", src: "Federation of American Scientists / SIPRI"},
+  {latlng: [39.91, 116.39], name: "HQ-9/HQ-19 Beijing Air Defence Zone", type: "Chinese integrated air defence — Beijing region (FAS documented)", src: "Federation of American Scientists / SIPRI"},
+  {latlng: [24.47, 54.37], name: "Patriot PAC-3 — UAE", type: "US ally terminal defence — Patriot PAC-3 battery", src: "US DoD public affairs / SIPRI"},
+  {latlng: [24.69, 46.72], name: "Patriot PAC-3 — Saudi Arabia", type: "US ally terminal defence — Patriot PAC-3 battery", src: "US DoD public affairs / SIPRI"}
 ];
 
 const missileLayer = L.layerGroup();
@@ -292,6 +304,35 @@ missileData.forEach(d => {
     .addTo(missileLayer);
 });
 missileLayer.addTo(map);
+
+// ── LAYER 4: US GLOBAL BASES ──────────────────────────────────────────────────
+
+const usBasesStyle = {color: '#1a5c8b', fillColor: '#1a5c8b', fillOpacity: 0.8, weight: 1.5, opacity: 0.9, radius: 6};
+
+const usBasesData = [
+  {latlng: [35.54, 129.42], name: "Camp Humphreys — US Army Korea", type: "Largest US overseas base — US Army 8th Army HQ", src: "DoD Base Structure Report (public) / Congressional record"},
+  {latlng: [26.35, 127.77], name: "Kadena Air Base — Okinawa", type: "USAF — F-15 Pacific hub, primary Indo-Pacific air combat base", src: "DoD Base Structure Report (public) / USAF public affairs"},
+  {latlng: [36.86, 35.78], name: "Incirlik Air Base — Turkey", type: "USAF/NATO — NATO nuclear sharing site, B61 nuclear gravity bombs", src: "DoD Base Structure Report (public) / FAS"},
+  {latlng: [51.76, 1.25], name: "RAF Lakenheath — UK", type: "USAF — F-35A European hub, primary US combat air base in Europe", src: "DoD Base Structure Report (public) / USAF public affairs"},
+  {latlng: [49.63, 6.20], name: "Spangdahlem Air Base — Germany", type: "USAF — European fighter wing, A-10 and F-16 operations", src: "DoD Base Structure Report (public) / USAF public affairs"},
+  {latlng: [43.07, 12.59], name: "Aviano Air Base — Italy", type: "USAF/NATO — NATO nuclear sharing site, 31st Fighter Wing F-16s", src: "DoD Base Structure Report (public) / FAS"},
+  {latlng: [37.97, 23.72], name: "NSA Souda Bay — Greece", type: "US Navy — Mediterranean hub, P-8 maritime patrol operations", src: "DoD Base Structure Report (public) / USN public affairs"},
+  {latlng: [36.09, -5.35], name: "Naval Station Rota — Spain", type: "US Navy — destroyer hub, Aegis BMD ships forward-deployed", src: "DoD Base Structure Report (public) / USN public affairs"},
+  {latlng: [-7.97, 72.39], name: "Diego Garcia — Indian Ocean", type: "US/UK — strategic hub, B-2 and B-52 bomber basing, carrier support", src: "DoD Base Structure Report (public) / FAS"},
+  {latlng: [1.36, 103.99], name: "Sembawang — Singapore", type: "US Navy access agreement — logistics and repair hub", src: "DoD Base Structure Report (public) / USN public affairs"},
+  {latlng: [26.28, 50.61], name: "NSA Bahrain — 5th Fleet HQ", type: "US Navy — 5th Fleet headquarters, Gulf operations command", src: "DoD Base Structure Report (public) / USN public affairs"},
+  {latlng: [38.98, -77.47], name: "Pentagon — DoD HQ", type: "US Department of Defense headquarters", src: "Public record"},
+  {latlng: [41.66, -70.52], name: "Cape Cod AFS", type: "NORAD/Space Force — radar tracking, space situational awareness", src: "NORAD public affairs / Space Force public record"},
+  {latlng: [64.30, -147.86], name: "Clear Space Force Station — Alaska", type: "NORAD/Space Force — ballistic missile early warning radar", src: "NORAD public affairs / Space Force public record"}
+];
+
+const usBasesLayer = L.layerGroup();
+usBasesData.forEach(d => {
+  L.circleMarker(d.latlng, usBasesStyle)
+    .bindPopup(popup(d.name, d.type, d.src), {maxWidth: 300})
+    .addTo(usBasesLayer);
+});
+usBasesLayer.addTo(map);
 
 // ── LAYER TOGGLES ─────────────────────────────────────────────────────────────
 
@@ -313,6 +354,7 @@ function bindToggle(elementId, layer) {
 bindToggle('toggle-norad', noradLayer);
 bindToggle('toggle-fiveyes', alliedLayer);
 bindToggle('toggle-missile', missileLayer);
+bindToggle('toggle-usbases', usBasesLayer);
 </script>
 </body>
 </html>
