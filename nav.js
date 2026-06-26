@@ -204,7 +204,7 @@
       '<a href="/spotlight/">News</a>' +
       '<a href="/canada-forward/housing-and-infrastructure/">Canada</a>' +
       '<a href="/countries/">Countries</a>' +
-      '<a href="/dashboard/">Dashboard</a>' +
+      '<a href="/about/">About</a>' +
       '<div class="nav-dropdown">' +
         '<button class="nav-dropdown-btn">Resources \u25be</button>' +
         '<div class="nav-dropdown-menu">' +
@@ -216,10 +216,12 @@
           '<a href="/map/">Business Map \u2192 <small style="opacity:0.55;font-size:0.85em;">(coming soon)</small></a>' +
           '<a href="/methodology/">Methodology</a>' +
           '<div class="nav-dropdown-divider"></div>' +
-          '<a href="/about/">About CTI</a>' +
+          '<span class="nav-dropdown-label">Intelligence</span>' +
+          '<a href="/canada-forward/review/">Publications \u2014 The CTI Review</a>' +
+          '<a href="/canada-forward/cusma-review/">CUSMA 2026 Tracker</a>' +
+          '<a href="/dashboard/">Dashboard</a>' +
         '</div>' +
       '</div>' +
-      '<a href="/subscribe/" class="nav-cta">See Plans</a>' +
     '</div>' +
     '<button class="nav-hamburger" id="nav-hamburger" aria-label="Menu">' +
       '<span></span><span></span><span></span>' +
@@ -231,7 +233,7 @@
     '<a href="/spotlight/">News</a>' +
     '<a href="/canada-forward/housing-and-infrastructure/">Canada</a>' +
     '<a href="/countries/">Countries</a>' +
-    '<a href="/dashboard/">Dashboard</a>' +
+    '<a href="/about/">About</a>' +
     '<span class="nav-mobile-section">Resources</span>' +
     '<a href="/resources/trade-agreements/">Trade Agreements</a>' +
     '<a href="/tariffs/">Tariff Reference</a>' +
@@ -239,8 +241,10 @@
     '<a href="/guides/">Practical Guides</a>' +
     '<a href="/map/">Business Map (coming soon)</a>' +
     '<a href="/methodology/">Methodology</a>' +
-    '<a href="/about/">About CTI</a>' +
-    '<a href="/subscribe/" class="nav-cta-mobile">See Plans</a>' +
+    '<span class="nav-mobile-section">Intelligence</span>' +
+    '<a href="/canada-forward/review/">Publications \u2014 The CTI Review</a>' +
+    '<a href="/canada-forward/cusma-review/">CUSMA 2026 Tracker</a>' +
+    '<a href="/dashboard/">Dashboard</a>' +
   '</div>';
 
   // ── Init ────────────────────────────────────────────────────────────
@@ -265,7 +269,7 @@
     });
 
     // Highlight Resources dropdown button when on a resource sub-page
-    var resourcePaths = ['/map', '/resources', '/tariffs', '/guides', '/methodology', '/tools', '/about'];
+    var resourcePaths = ['/map', '/resources', '/tariffs', '/guides', '/methodology', '/tools', '/dashboard', '/canada-forward/review', '/canada-forward/cusma-review'];
     var dropdownBtns = nav.querySelectorAll('.nav-dropdown-btn');
     dropdownBtns.forEach(function (btn) {
       if (resourcePaths.some(function (p) { return path === p || path.startsWith(p + '/'); })) {
