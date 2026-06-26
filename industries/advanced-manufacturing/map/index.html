@@ -151,6 +151,17 @@ body{font-family:'Jost',sans-serif;color:#fff;
   right:10px !important;top:8px !important;
 }
 
+/* ── SIDEBAR CORRIDOR LIST ── */
+.sb-corridor-item{
+  padding:7px 0;
+  border-bottom:0.5px solid rgba(255,255,255,0.05);
+  cursor:pointer;
+  transition:background 0.12s;
+  border-radius:2px;
+}
+.sb-corridor-item:last-child{border-bottom:none;}
+.sb-corridor-item:hover{background:rgba(255,255,255,0.04);}
+
 /* ── MOBILE ── */
 @media(max-width:768px){
   #map-sidebar{
@@ -197,6 +208,12 @@ body{font-family:'Jost',sans-serif;color:#fff;
 
       <!-- STATS -->
       <div id="map-stats">7 corridors · 286,000+ workers</div>
+
+      <!-- CORRIDOR LIST -->
+      <div class="sb-section" id="corridor-list-section">
+        <div class="sb-label">Corridors — click to navigate</div>
+        <div id="corridor-list"></div>
+      </div>
 
       <!-- CORRIDOR DETAIL (populated on click) -->
       <div id="corridor-detail" class="sb-section">
@@ -271,6 +288,7 @@ body{font-family:'Jost',sans-serif;color:#fff;
     {
       id: 'windsor',
       name: 'Windsor–Essex',
+      label: 'WINDSOR-ESSEX',
       lat: 42.317, lng: -83.026,
       employers: 'Ford Windsor Assembly, Stellantis Windsor, Essex Engine Plant',
       workers: 100000,
@@ -283,7 +301,8 @@ body{font-family:'Jost',sans-serif;color:#fff;
     {
       id: 'oshawa',
       name: 'Oshawa–Durham',
-      lat: 43.897, lng: -78.865,
+      label: 'OSHAWA-DURHAM',
+      lat: 43.90, lng: -78.85,
       employers: 'GM Oshawa Assembly, Magna International, Martinrea',
       workers: 35000,
       product: 'Auto assembly, auto parts stampings',
@@ -295,7 +314,8 @@ body{font-family:'Jost',sans-serif;color:#fff;
     {
       id: 'cambridge',
       name: 'Cambridge–Waterloo–Kitchener',
-      lat: 43.398, lng: -80.311,
+      label: 'CAMBRIDGE-WATERLOO',
+      lat: 43.45, lng: -80.50,
       employers: 'Toyota Cambridge, Rethink Robotics Canada, precision SMEs',
       workers: 28000,
       product: 'Toyota RAV4/Lexus assembly, precision machined parts, industrial automation',
@@ -307,7 +327,8 @@ body{font-family:'Jost',sans-serif;color:#fff;
     {
       id: 'hamilton',
       name: 'Hamilton–Niagara',
-      lat: 43.255, lng: -79.869,
+      label: 'HAMILTON-NIAGARA',
+      lat: 43.15, lng: -79.87,
       employers: 'ArcelorMittal Dofasco, Stelco, Stoney Creek fabricators',
       workers: 45000,
       product: 'Flat-rolled steel, fabricated metal products, auto-grade steel',
@@ -319,7 +340,8 @@ body{font-family:'Jost',sans-serif;color:#fff;
     {
       id: 'sault',
       name: 'Sault Ste. Marie',
-      lat: 46.512, lng: -84.345,
+      label: 'SAULT STE. MARIE',
+      lat: 46.51, lng: -84.35,
       employers: 'Algoma Steel',
       workers: 8000,
       product: 'Hot-rolled steel coil, plate steel, structural steel',
@@ -331,6 +353,7 @@ body{font-family:'Jost',sans-serif;color:#fff;
     {
       id: 'montreal',
       name: 'Montreal Aerospace Belt',
+      label: 'AEROSPACE BELT',
       lat: 45.508, lng: -73.587,
       employers: 'Bombardier, CAE, Pratt & Whitney Canada, NovaBus, Héroux-Devtek',
       workers: 55000,
@@ -343,6 +366,7 @@ body{font-family:'Jost',sans-serif;color:#fff;
     {
       id: 'halifax',
       name: 'Halifax Shipbuilding',
+      label: 'HALIFAX SHIPBUILDING',
       lat: 44.646, lng: -63.610,
       employers: 'Irving Shipbuilding Halifax',
       workers: 15000,
@@ -356,6 +380,7 @@ body{font-family:'Jost',sans-serif;color:#fff;
     {
       id: 'vancouver',
       name: 'Vancouver Shipbuilding',
+      label: 'VANCOUVER SHIPBUILDING',
       lat: 49.287, lng: -123.116,
       employers: 'Seaspan Vancouver',
       workers: 15000,
@@ -367,6 +392,9 @@ body{font-family:'Jost',sans-serif;color:#fff;
       workers_note: '15K combined Halifax–Vancouver corridor'
     }
   ];
+
+  // ── Marker lookup (populated during map init) ────────────────────
+  var markerMap = {};
 
   // ── CUSMA colour helpers ─────────────────────────────────────────
   var CUSMA_COLOURS = {
@@ -402,25 +430,40 @@ body{font-family:'Jost',sans-serif;color:#fff;
     var colour = cusmaColour(c.cusma);
     var size = markerSize(c.workers);
     var half = size / 2;
+    var wrapW = 150;
+    var labelText = c.label || c.name.toUpperCase();
 
     var icon = L.divIcon({
       className: '',
-      html: '<div style="' +
-        'width:' + size + 'px;height:' + size + 'px;' +
-        'border-radius:50%;' +
-        'background:' + colour + ';' +
-        'border:2.5px solid rgba(255,255,255,0.75);' +
-        'display:flex;align-items:center;justify-content:center;' +
-        'box-shadow:0 3px 12px rgba(0,0,0,0.35),0 0 0 4px ' + colour.replace(')', ',0.18)').replace('rgb', 'rgba') + ';' +
-        'cursor:pointer;' +
+      html: '<div style="width:' + wrapW + 'px;text-align:center;">' +
+        '<div style="' +
+          'width:' + size + 'px;height:' + size + 'px;' +
+          'border-radius:50%;' +
+          'background:' + colour + ';' +
+          'border:2.5px solid rgba(255,255,255,0.75);' +
+          'display:inline-flex;align-items:center;justify-content:center;' +
+          'box-shadow:0 3px 12px rgba(0,0,0,0.35),0 0 0 4px ' + colour.replace(')', ',0.18)').replace('rgb', 'rgba') + ';' +
+          'cursor:pointer;' +
         '"><span style="' +
+            'font-family:\'DM Mono\',monospace;' +
+            'font-size:' + Math.round(size * 0.22) + 'px;' +
+            'color:#fff;font-weight:500;' +
+            'letter-spacing:-0.02em;' +
+        '">' + workerLabel(c.workers) + '</span></div>' +
+        '<div style="' +
           'font-family:\'DM Mono\',monospace;' +
-          'font-size:' + Math.round(size * 0.22) + 'px;' +
-          'color:#fff;font-weight:500;' +
-          'letter-spacing:-0.02em;' +
-        '">' + workerLabel(c.workers) + '</span></div>',
-      iconSize: [size, size],
-      iconAnchor: [half, half],
+          'font-size:8px;' +
+          'letter-spacing:0.06em;' +
+          'text-transform:uppercase;' +
+          'color:#fff;' +
+          'margin-top:4px;' +
+          'white-space:nowrap;' +
+          'text-shadow:0 1px 3px rgba(0,0,0,0.95),0 0 6px rgba(0,0,0,0.8),1px 1px 0 rgba(0,0,0,0.9);' +
+          'pointer-events:none;' +
+        '">' + labelText + '</div>' +
+      '</div>',
+      iconSize: [wrapW, size + 22],
+      iconAnchor: [wrapW / 2, half],
       popupAnchor: [0, -(half + 6)]
     });
 
@@ -547,8 +590,8 @@ body{font-family:'Jost',sans-serif;color:#fff;
   document.addEventListener('DOMContentLoaded', function() {
 
     var map = L.map('map', {
-      center: [48, -88],
-      zoom: 5,
+      center: [44.5, -79.5],
+      zoom: 6,
       zoomControl: true,
       attributionControl: true,
     });
@@ -579,11 +622,8 @@ body{font-family:'Jost',sans-serif;color:#fff;
       interactive: false
     }).addTo(map);
 
-    // Corridor line label at midpoint
-    var midLat = (halifaxLatLng[0] + vancouverLatLng[0]) / 2;
-    var midLng = (halifaxLatLng[1] + vancouverLatLng[1]) / 2;
-
-    L.marker([midLat, midLng], {
+    // Corridor line label — positioned over mid-Canada above the dashed line
+    L.marker([52, -96], {
       icon: L.divIcon({
         className: '',
         html: '<div style="' +
@@ -640,11 +680,32 @@ body{font-family:'Jost',sans-serif;color:#fff;
     CORRIDORS.forEach(function(c) {
       var marker = createCorridorMarker(c);
       marker.addTo(map);
+      markerMap[c.id] = marker;
     });
 
-    // ── Fit bounds to show all corridors ──────────────────────────
-    var allPoints = CORRIDORS.map(function(c) { return [c.lat, c.lng]; });
-    map.fitBounds(L.latLngBounds(allPoints).pad(0.12));
+    // ── Populate sidebar corridor list ────────────────────────────
+    var listContainer = document.getElementById('corridor-list');
+    CORRIDORS.forEach(function(c) {
+      var colour = cusmaColour(c.cusma);
+      var item = document.createElement('div');
+      item.className = 'sb-corridor-item';
+      item.innerHTML =
+        '<div style="display:flex;align-items:center;gap:8px;padding:0 2px;">' +
+          '<div style="width:8px;height:8px;border-radius:50%;background:' + colour + ';flex-shrink:0;border:1px solid rgba(255,255,255,0.3);"></div>' +
+          '<div>' +
+            '<div style="font-family:\'DM Mono\',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.75);">' + c.name + '</div>' +
+            '<div style="font-family:\'DM Mono\',monospace;font-size:7px;letter-spacing:0.06em;color:rgba(125,160,212,0.45);margin-top:1px;">' +
+              c.province + ' &middot; ' + workerLabel(c.workers) + '+ workers' +
+            '</div>' +
+          '</div>' +
+        '</div>';
+      item.onclick = function() {
+        map.flyTo([c.lat, c.lng], 8);
+        setTimeout(function() { markerMap[c.id].openPopup(); }, 650);
+        showCorridorDetail(c);
+      };
+      listContainer.appendChild(item);
+    });
 
   });
 
