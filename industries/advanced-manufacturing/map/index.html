@@ -296,7 +296,8 @@ body{font-family:'Jost',sans-serif;color:#fff;
       cusma: 'HIGH',
       signal: 'US demand for 50% American-specific vehicle content threatens supply contracts keeping these plants running.',
       province: 'Ontario',
-      note: null
+      note: null,
+      direction: 'threat'
     },
     {
       id: 'oshawa',
@@ -309,7 +310,8 @@ body{font-family:'Jost',sans-serif;color:#fff;
       cusma: 'HIGH',
       signal: 'GM Oshawa restarted truck production in 2021 — CUSMA content rules determine whether this stays viable.',
       province: 'Ontario',
-      note: null
+      note: null,
+      direction: 'threat'
     },
     {
       id: 'cambridge',
@@ -322,7 +324,8 @@ body{font-family:'Jost',sans-serif;color:#fff;
       cusma: 'MEDIUM',
       signal: 'Toyota Cambridge is Canada\'s most efficient auto plant — EV transition timeline is the key watch item.',
       province: 'Ontario',
-      note: null
+      note: null,
+      direction: 'watch'
     },
     {
       id: 'hamilton',
@@ -335,7 +338,8 @@ body{font-family:'Jost',sans-serif;color:#fff;
       cusma: 'MEDIUM',
       signal: 'Section 232 tariffs at 50% on full customs value — highest US steel tariff burden in the modern trade era.',
       province: 'Ontario',
-      note: null
+      note: null,
+      direction: 'threat'
     },
     {
       id: 'sault',
@@ -348,7 +352,8 @@ body{font-family:'Jost',sans-serif;color:#fff;
       cusma: 'MEDIUM',
       signal: 'Algoma signed supply agreement with Hanwha for land vehicle materials — defence pivot underway.',
       province: 'Ontario',
-      note: 'Single-employer community — Algoma Steel is the entire economy.'
+      note: 'Single-employer community — Algoma Steel is the entire economy.',
+      direction: 'pivot'
     },
     {
       id: 'montreal',
@@ -361,7 +366,8 @@ body{font-family:'Jost',sans-serif;color:#fff;
       cusma: 'LOW',
       signal: 'EU SAFE programme access creates new defence export opportunities — Montreal firms are best positioned.',
       province: 'Quebec',
-      note: null
+      note: null,
+      direction: 'opportunity'
     },
     {
       id: 'halifax',
@@ -375,7 +381,8 @@ body{font-family:'Jost',sans-serif;color:#fff;
       signal: 'National Shipbuilding Strategy — 30-year programme, largest procurement in Canadian history. Supply chain openings now.',
       province: 'Nova Scotia',
       corridor_pair: 'Vancouver',
-      workers_note: '15K combined Halifax–Vancouver corridor'
+      workers_note: '15K combined Halifax–Vancouver corridor',
+      direction: 'opportunity'
     },
     {
       id: 'vancouver',
@@ -389,7 +396,8 @@ body{font-family:'Jost',sans-serif;color:#fff;
       signal: 'National Shipbuilding Strategy — 30-year programme, largest procurement in Canadian history. Supply chain openings now.',
       province: 'British Columbia',
       corridor_pair: 'Halifax',
-      workers_note: '15K combined Halifax–Vancouver corridor'
+      workers_note: '15K combined Halifax–Vancouver corridor',
+      direction: 'opportunity'
     }
   ];
 
@@ -425,6 +433,27 @@ body{font-family:'Jost',sans-serif;color:#fff;
     return n;
   }
 
+  function directionIcon(dir) {
+    if (dir === 'threat')      return '\u2193'; // ↓
+    if (dir === 'watch')       return '\u2192'; // →
+    if (dir === 'pivot')       return '\u21c4'; // ⇄
+    if (dir === 'opportunity') return '\u2191'; // ↑
+    return '';
+  }
+
+  function corridorAction(c) {
+    var id = c.id;
+    if (id === 'windsor' || id === 'oshawa' || id === 'cambridge') {
+      return { text: 'Submit US content data to ISED Automotive Task Force \u2192', url: 'https://ised.gc.ca' };
+    } else if (id === 'hamilton' || id === 'sault') {
+      return { text: 'Assess EU SAFE programme eligibility \u2192', url: 'https://cme-mec.ca/cme-defence' };
+    } else if (id === 'montreal') {
+      return { text: 'Apply to Defence Advisory Forum \u2192', url: 'https://cme-mec.ca/cme-defence' };
+    } else {
+      return { text: 'Register as NSS supplier \u2192', url: 'https://canadabuys.canada.ca' };
+    }
+  }
+
   // ── Create custom corridor marker ────────────────────────────────
   function createCorridorMarker(c) {
     var colour = cusmaColour(c.cusma);
@@ -433,9 +462,12 @@ body{font-family:'Jost',sans-serif;color:#fff;
     var wrapW = 150;
     var labelText = c.label || c.name.toUpperCase();
 
+    var dirSymbol = directionIcon(c.direction);
+    var dirRight = Math.round((wrapW - size) / 2 - 5);
+
     var icon = L.divIcon({
       className: '',
-      html: '<div style="width:' + wrapW + 'px;text-align:center;">' +
+      html: '<div style="width:' + wrapW + 'px;text-align:center;position:relative;">' +
         '<div style="' +
           'width:' + size + 'px;height:' + size + 'px;' +
           'border-radius:50%;' +
@@ -450,6 +482,21 @@ body{font-family:'Jost',sans-serif;color:#fff;
             'color:#fff;font-weight:500;' +
             'letter-spacing:-0.02em;' +
         '">' + workerLabel(c.workers) + '</span></div>' +
+        (dirSymbol
+          ? '<div style="' +
+              'position:absolute;top:0;right:' + dirRight + 'px;' +
+              'width:14px;height:14px;border-radius:50%;' +
+              'background:#fff;' +
+              'display:flex;align-items:center;justify-content:center;' +
+              'box-shadow:0 1px 3px rgba(0,0,0,0.3);' +
+              'pointer-events:none;' +
+            '">' +
+              '<span style="' +
+                'font-size:6px;color:' + colour + ';' +
+                'line-height:1;font-weight:700;' +
+              '">' + dirSymbol + '</span>' +
+            '</div>'
+          : '') +
         '<div style="' +
           'font-family:\'DM Mono\',monospace;' +
           'font-size:8px;' +
@@ -524,13 +571,38 @@ body{font-family:'Jost',sans-serif;color:#fff;
         (c.workers_note
           ? '<div style="font-size:10px;color:#999;margin-top:6px;">⁂ ' + c.workers_note + '</div>'
           : '') +
-        '<a href="/industries/advanced-manufacturing/" style="' +
-          'display:inline-block;margin-top:12px;' +
-          'font-family:\'DM Mono\',monospace;font-size:8px;' +
-          'letter-spacing:0.1em;text-transform:uppercase;' +
-          'color:#2a5090;text-decoration:none;' +
-          'border-bottom:1px solid rgba(42,80,144,0.3);padding-bottom:1px;' +
-        '">CTI manufacturing intelligence →</a>' +
+        (function() {
+          var action = corridorAction(c);
+          return '<div style="' +
+              'margin-top:14px;padding-top:12px;' +
+              'border-top:0.5px solid #e8e4dc;' +
+            '">' +
+            '<div style="' +
+              'font-family:\'DM Mono\',monospace;font-size:8px;' +
+              'letter-spacing:0.16em;text-transform:uppercase;' +
+              'color:' + colour + ';margin-bottom:6px;' +
+            '">THIS WEEK\'S SIGNAL</div>' +
+            '<div style="font-size:12px;color:#3a3a30;line-height:1.65;margin-bottom:10px;">' +
+              c.signal +
+            '</div>' +
+            '<a href="' + action.url + '" target="_blank" rel="noopener" style="' +
+              'display:block;margin-bottom:6px;' +
+              'font-family:\'DM Mono\',monospace;font-size:8px;' +
+              'letter-spacing:0.08em;text-transform:uppercase;' +
+              'color:' + colour + ';text-decoration:none;' +
+              'border-bottom:1px solid ' + colour.replace(')', ',0.3)').replace('rgb', 'rgba') + ';' +
+              'padding-bottom:1px;width:fit-content;' +
+            '">' + action.text + '</a>' +
+            '<a href="/industries/advanced-manufacturing/" style="' +
+              'display:block;margin-top:8px;' +
+              'font-family:\'DM Mono\',monospace;font-size:8px;' +
+              'letter-spacing:0.1em;text-transform:uppercase;' +
+              'color:#2a5090;text-decoration:none;' +
+              'border-bottom:1px solid rgba(42,80,144,0.3);padding-bottom:1px;' +
+              'width:fit-content;' +
+            '">Read this week\'s full brief \u2192</a>' +
+            '</div>';
+        })() +
       '</div>';
 
     marker.bindPopup(popupHtml, { maxWidth: 300, minWidth: 280 });
