@@ -4,8 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Industries — Canadian Trade Intelligence</title>
-<meta name="description" content="Six weekly sector intelligence reports
- on the industries that shape Canada's economy.">
+<meta name="description" content="Weekly intelligence across six sectors of the Canadian economy: Critical Minerals, Energy &amp; Cleantech, Advanced Manufacturing, Aerospace &amp; Defence, Agri-Food, and Technology &amp; Digital.">
 <link rel="canonical" href="https://canadiantradeintel.ca/industries/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=DM+Mono:wght@400;500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -13,224 +12,436 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{
-  --ink:#0d0d0b;--slate:#5a5a56;
+  --ink:#0d0d0b;--ink-soft:#2a2a28;--slate:#5a5a56;
   --warm-bg:#f8f5f0;--warm-mid:#efe9e0;--warm-border:#ddd5c5;--white:#fdfcfa;
-  --crimson:#8b1a1a;--brand-dark:#1a0505;
-  --minerals:#1a6b42;--energy:#1a5c7a;--mfg:#2a5090;
-  --aerospace:#5a1a90;--agri:#7a5200;--tech:#0a5060;
+  --crimson:#8b1a1a;--brand:#cc0000;--brand-dark:#1a0505;
+  --c-cm:#1a6b42;--c-en:#1a5c7a;--c-am:#2a5090;
+  --c-ae:#5a1a90;--c-af:#7a5200;--c-td:#0a5060;--c-pr:#4a4a46;
 }
 html{scroll-behavior:smooth;}
-body{font-family:'Jost',sans-serif;background:var(--warm-bg);
-  color:var(--ink);font-size:15px;line-height:1.7;
-  -webkit-font-smoothing:antialiased;}
+body{font-family:'Jost',sans-serif;background:var(--warm-bg);color:var(--ink);font-size:15px;line-height:1.7;-webkit-font-smoothing:antialiased;}
+a{text-decoration:none;color:inherit;}
 
-/* ── COMPACT MASTHEAD ── */
-.hub-masthead{
-  background:var(--brand-dark);
-  padding:32px 48px 28px;
-  border-bottom:3px solid var(--crimson);
-}
-.hub-masthead-inner{max-width:1160px;margin:0 auto;
-  display:flex;align-items:flex-end;justify-content:space-between;gap:32px;}
-.hub-eyebrow{font-family:'DM Mono',monospace;font-size:9px;
-  letter-spacing:0.2em;text-transform:uppercase;
-  color:rgba(204,0,0,0.55);margin-bottom:8px;}
-.hub-title{font-family:'Cormorant Garamond',serif;font-size:36px;
-  font-weight:600;font-style:italic;color:#f4f0e8;line-height:1.0;}
-.hub-sub{font-size:13px;color:rgba(240,236,228,0.5);
-  max-width:440px;line-height:1.65;align-self:flex-end;padding-bottom:2px;}
+/* ── CUSMA STRIP ── */
+.cusma-strip{background:#0e0808;border-bottom:2px solid rgba(204,0,0,0.4);border-top:1px solid rgba(204,0,0,0.15);padding:0;width:100%;overflow:hidden;}
+.cusma-strip-inner{height:40px;display:flex;align-items:center;gap:12px;padding:0 24px;white-space:nowrap;}
+.cusma-marquee-wrap{overflow:hidden;flex:1;}
+.cusma-marquee{display:inline-block;animation:cusma-scroll 28s linear infinite;white-space:nowrap;}
+.cusma-marquee:hover{animation-play-state:paused;}
+@keyframes cusma-scroll{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+.cusma-badge{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;background:rgba(204,0,0,0.2);color:rgba(255,100,100,0.9);padding:2px 7px;flex-shrink:0;}
+.cusma-text{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:0.06em;color:rgba(255,255,255,0.45);}
+.cusma-link{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:0.08em;color:rgba(204,0,0,0.7);white-space:nowrap;flex-shrink:0;}
+.cusma-link:hover{color:rgba(204,0,0,1);}
 
-/* ── SECTOR SUB-NAV ── */
-.sector-subnav{background:var(--brand-dark);
-  border-bottom:1px solid rgba(255,255,255,0.06);padding:0 48px;}
-.sector-subnav-inner{max-width:1160px;margin:0 auto;
-  display:flex;gap:0;overflow-x:auto;scrollbar-width:none;}
-.sector-subnav-inner::-webkit-scrollbar{display:none;}
-.sn-item{font-family:'DM Mono',monospace;font-size:9px;
-  letter-spacing:0.12em;text-transform:uppercase;
-  color:rgba(255,255,255,0.45);text-decoration:none;
-  padding:13px 18px;border-bottom:2px solid transparent;
-  white-space:nowrap;transition:color 0.15s;}
-.sn-item:hover{color:rgba(255,255,255,0.8);}
+/* ── MASTHEAD ── */
+.hub-masthead{background:var(--brand-dark);padding:32px 48px 28px;border-bottom:3px solid var(--crimson);}
+.hub-masthead-inner{max-width:1160px;margin:0 auto;display:flex;align-items:flex-end;justify-content:space-between;gap:32px;}
+.hub-eyebrow{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(204,0,0,0.55);margin-bottom:8px;}
+.hub-title{font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:600;font-style:italic;color:#f4f0e8;line-height:1.0;}
+.hub-sub{font-size:13px;color:rgba(240,236,228,0.5);max-width:480px;line-height:1.65;align-self:flex-end;padding-bottom:2px;}
 
-/* ── BODY ── */
-.hub-body{max-width:1160px;margin:0 auto;padding:36px 48px 72px;}
-.hub-label{font-family:'DM Mono',monospace;font-size:8px;
-  letter-spacing:0.18em;text-transform:uppercase;color:var(--slate);
-  margin-bottom:20px;}
+/* ── SECTOR BUTTON GRID ── */
+.sector-grid-wrap{background:var(--brand-dark);padding:20px 48px 24px;border-bottom:2px solid rgba(255,255,255,0.06);}
+.sector-grid-inner{max-width:1160px;margin:0 auto;}
+.sector-grid-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(255,255,255,0.22);margin-bottom:12px;}
+.sector-btns{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+.sec-btn{font-family:'DM Mono',monospace;font-size:9.5px;letter-spacing:0.07em;text-transform:uppercase;padding:13px 10px;border-radius:2px;cursor:pointer;text-align:center;border:1px solid;line-height:1.3;transition:all .15s;background:none;}
+.sec-btn:focus{outline:2px solid rgba(255,255,255,0.3);outline-offset:2px;}
 
-/* ── SECTOR CARDS ── */
-.sector-grid{display:grid;grid-template-columns:repeat(3,1fr);
-  gap:2px;background:var(--warm-border);}
-a.sc{background:var(--white);padding:28px 24px 24px;
-  display:flex;flex-direction:column;text-decoration:none;
-  border-top:3px solid transparent;color:inherit;
-  transition:background 0.15s;}
-a.sc:hover{background:#faf8f5;}
-a.sc.minerals{border-top-color:var(--minerals);}
-a.sc.energy  {border-top-color:var(--energy);}
-a.sc.mfg    {border-top-color:var(--mfg);}
-a.sc.aero   {border-top-color:var(--aerospace);}
-a.sc.agri   {border-top-color:var(--agri);}
-a.sc.tech   {border-top-color:var(--tech);}
-.sc-tag{font-family:'DM Mono',monospace;font-size:8px;
-  letter-spacing:0.14em;text-transform:uppercase;margin-bottom:10px;}
-.sc-tag.minerals{color:var(--minerals);}
-.sc-tag.energy  {color:var(--energy);}
-.sc-tag.mfg    {color:var(--mfg);}
-.sc-tag.aero   {color:var(--aerospace);}
-.sc-tag.agri   {color:var(--agri);}
-.sc-tag.tech   {color:var(--tech);}
-.sc-title{font-family:'Cormorant Garamond',serif;font-size:20px;
-  font-weight:600;color:var(--ink);margin-bottom:8px;line-height:1.2;}
-.sc-desc{font-size:13px;color:var(--slate);line-height:1.6;
-  margin-bottom:16px;flex:1;}
-.sc-meta{font-family:'DM Mono',monospace;font-size:8px;
-  letter-spacing:0.1em;text-transform:uppercase;color:var(--slate);
-  margin-bottom:10px;}
-.sc-cta{font-family:'DM Mono',monospace;font-size:8px;
-  letter-spacing:0.12em;text-transform:uppercase;color:var(--crimson);}
+/* ── BODY LAYOUT ── */
+.hub-body{max-width:1160px;margin:0 auto;padding:0 48px 64px;display:grid;grid-template-columns:1fr 260px;gap:40px;align-items:start;}
+
+/* ── ARTICLE FEED ── */
+.feed-section{padding-top:28px;}
+.feed-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:16px;padding-bottom:10px;border-bottom:2px solid var(--brand);}
+.feed-sector-name{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;font-style:italic;color:var(--ink);}
+.feed-sector-link{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:0.12em;text-transform:uppercase;color:var(--slate);}
+.feed-sector-link:hover{color:var(--brand);}
+.aset{display:none;}
+.aset.vis{display:block;}
+.art-item{padding:12px 0;border-bottom:1px solid var(--warm-border);display:flex;flex-direction:column;gap:5px;}
+.art-item:last-child{border-bottom:none;}
+.art-meta{display:flex;align-items:center;gap:7px;flex-wrap:wrap;}
+.art-tag{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:0.09em;text-transform:uppercase;padding:2px 5px;border-radius:1px;font-weight:500;}
+.art-cf{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:0.07em;color:var(--slate);border:1px solid var(--warm-border);padding:1px 5px;border-radius:1px;}
+.art-date{font-family:'DM Mono',monospace;font-size:9px;color:var(--slate);}
+.art-hl{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;color:var(--ink);line-height:1.3;}
+.art-hl:hover{color:var(--crimson);}
+
+/* Province grid */
+.prov-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;padding-top:4px;}
+.prov-card{background:var(--white);border:1px solid var(--warm-border);border-left:3px solid var(--warm-border);border-radius:2px;padding:10px 12px;transition:border-color .15s;}
+.prov-card:hover{border-left-color:var(--crimson);}
+.prov-name{font-family:'DM Mono',monospace;font-size:9.5px;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink);margin-bottom:6px;}
+.prov-signals{font-size:12px;color:var(--slate);line-height:1.5;}
+.prov-sig{display:flex;gap:5px;padding:1px 0;}
+.prov-dot{width:3px;height:3px;border-radius:50%;background:var(--warm-border);flex-shrink:0;margin-top:6px;}
+
+/* All stories link */
+.feed-all{display:inline-block;margin-top:18px;font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:0.12em;text-transform:uppercase;color:var(--brand);border:1px solid rgba(204,0,0,0.3);padding:6px 12px;}
+.feed-all:hover{background:var(--brand);color:#fff;}
+
+/* ── SIDEBAR ── */
+.hub-sidebar{padding-top:28px;}
+.sb-section{margin-bottom:24px;}
+.sb-label{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--slate);padding-bottom:8px;border-bottom:1px solid var(--warm-border);margin-bottom:10px;}
+.sb-pills{display:flex;flex-direction:column;gap:4px;}
+.sb-pill{font-size:13px;color:var(--ink-soft);padding:6px 10px;background:var(--white);border:1px solid var(--warm-border);border-radius:1px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:border-color .15s;}
+.sb-pill:hover{border-color:var(--brand);color:var(--crimson);}
+.sb-arr{color:var(--slate);font-size:11px;}
+.sb-report{background:var(--white);border:1px solid var(--warm-border);border-left:3px solid var(--brand);padding:14px 16px;}
+.sb-report-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--brand);margin-bottom:5px;}
+.sb-report-title{font-size:13px;color:var(--ink-soft);line-height:1.45;margin-bottom:10px;}
+.sb-report-cta{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:0.1em;text-transform:uppercase;color:var(--brand);margin-right:12px;}
+.sb-report-hub{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:0.1em;text-transform:uppercase;color:var(--slate);}
+.sb-report-hub:hover{color:var(--brand);}
 
 /* ── FOOTER ── */
-.hub-footer{background:var(--brand-dark);padding:28px 48px;}
-.hub-footer-inner{max-width:1160px;margin:0 auto;
-  display:flex;justify-content:space-between;align-items:center;
-  flex-wrap:wrap;gap:12px;}
-.hub-footer-copy{font-family:'DM Mono',monospace;font-size:8px;
-  letter-spacing:0.1em;text-transform:uppercase;
-  color:rgba(255,255,255,0.22);}
+.hub-footer{background:var(--brand-dark);border-top:1px solid rgba(255,255,255,0.05);padding:20px 48px;}
+.hub-footer-inner{max-width:1160px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;}
+.hub-footer-copy{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.2);}
 .hub-footer-links{display:flex;gap:20px;}
-.hub-footer-links a{font-family:'DM Mono',monospace;font-size:8px;
-  letter-spacing:0.1em;text-transform:uppercase;
-  color:rgba(255,255,255,0.28);text-decoration:none;}
+.hub-footer-links a{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.28);}
 .hub-footer-links a:hover{color:rgba(255,255,255,0.55);}
 
-@media(max-width:900px){
-  .sector-grid{grid-template-columns:1fr 1fr;}
+/* ── RESPONSIVE ── */
+@media(max-width:1000px){.hub-body{grid-template-columns:1fr;}.hub-sidebar{display:none;}}
+@media(max-width:760px){
+  .sector-btns{grid-template-columns:repeat(2,1fr);}
+  .hub-masthead{padding:24px 20px;}.hub-masthead-inner{flex-direction:column;align-items:flex-start;gap:8px;}
+  .sector-grid-wrap{padding:16px 20px 18px;}
+  .hub-body{padding:0 20px 48px;}
+  .prov-grid{grid-template-columns:1fr 1fr;}
 }
-@media(max-width:600px){
-  .hub-masthead{padding:24px;}
-  .hub-masthead-inner{flex-direction:column;align-items:flex-start;gap:8px;}
-  .hub-body{padding:24px 20px 48px;}
-  .sector-grid{grid-template-columns:1fr;}
-  .sector-subnav{padding:0 20px;}
-}
+@media(max-width:480px){.sector-btns{grid-template-columns:1fr 1fr;}.hub-footer{padding:16px 20px;}}
 </style>
 </head>
 <body>
 <nav id="main-nav"></nav>
 
-<div class="sector-subnav">
-  <div class="sector-subnav-inner">
-    <a href="/industries/critical-minerals/"
-       class="sn-item">Critical Minerals</a>
-    <a href="/industries/agri-food/"
-       class="sn-item">Agri-food</a>
-    <a href="/industries/advanced-manufacturing/"
-       class="sn-item">Advanced Manufacturing</a>
-    <a href="/industries/aerospace-defence/"
-       class="sn-item">Aerospace &amp; Defence</a>
-    <a href="/industries/energy-cleantech/"
-       class="sn-item">Energy &amp; Cleantech</a>
-    <a href="/industries/technology-digital/"
-       class="sn-item">Technology &amp; Digital</a>
+<!-- CUSMA STRIP -->
+<div class="cusma-strip">
+  <div class="cusma-strip-inner">
+    <span class="cusma-badge">CUSMA 2026</span>
+    <div class="cusma-marquee-wrap">
+      <span class="cusma-marquee">
+        <span class="cusma-text">Canada-US-Mexico trade agreement under active review. Carney and Trump confirmed preliminary discussions. July deadline approaching. CTI is tracking every development.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <span class="cusma-text">Canada-US-Mexico trade agreement under active review. Carney and Trump confirmed preliminary discussions. July deadline approaching. CTI is tracking every development.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+      </span>
+    </div>
+    <a href="/canada-forward/cusma-review/" class="cusma-link">Follow the tracker →</a>
   </div>
 </div>
 
+<!-- MASTHEAD -->
 <div class="hub-masthead">
   <div class="hub-masthead-inner">
     <div>
       <div class="hub-eyebrow">Canadian Trade Intelligence Inc.</div>
       <h1 class="hub-title">Industries</h1>
     </div>
-    <div class="hub-sub">Six weekly intelligence reports on the sectors
-      that shape Canada's economy. New issues every Tuesday.</div>
+    <div class="hub-sub">Weekly intelligence across six sectors of the Canadian economy, plus signals from every province and territory. New reports every Tuesday.</div>
   </div>
 </div>
 
-<div class="hub-body">
-  <div class="hub-label">Select a sector</div>
-  <div class="sector-grid">
-
-    <a href="/industries/critical-minerals/" class="sc minerals">
-      <div class="sc-tag minerals">Critical Minerals &amp; Mining</div>
-      <div class="sc-title">Critical Minerals &amp; Mining</div>
-      <div class="sc-desc">Uranium, lithium, cobalt, rare earths, copper,
-        and nickel. Weekly intelligence on where capital is flowing, what
-        geological surveys and provincial regulations reveal, and what
-        mining communities need to know.</div>
-      <div class="sc-meta">Weekly · Every Tuesday</div>
-      <div class="sc-cta">Read sector reports →</div>
-    </a>
-
-    <a href="/industries/energy-cleantech/" class="sc energy">
-      <div class="sc-tag energy">Energy &amp; Cleantech</div>
-      <div class="sc-title">Energy &amp; Cleantech</div>
-      <div class="sc-desc">LNG, hydrogen, nuclear, solar, and grid
-        infrastructure. Weekly intelligence on Canada's energy transition,
-        export opportunities, and the capital flows reshaping how Canada
-        powers itself and the world.</div>
-      <div class="sc-meta">Weekly · Every Tuesday</div>
-      <div class="sc-cta">Read sector reports →</div>
-    </a>
-
-    <a href="/industries/advanced-manufacturing/" class="sc mfg">
-      <div class="sc-tag mfg">Advanced Manufacturing</div>
-      <div class="sc-title">Advanced Manufacturing &amp; Industrial</div>
-      <div class="sc-desc">Steel, automotive, EV supply chains, and
-        industrial equipment. Weekly intelligence on reshoring signals,
-        CUSMA trade flows, and what the energy transition means for
-        Canada's manufacturing corridor.</div>
-      <div class="sc-meta">Weekly · Every Tuesday</div>
-      <div class="sc-cta">Read sector reports →</div>
-    </a>
-
-    <a href="/industries/aerospace-defence/" class="sc aero">
-      <div class="sc-tag aero">Aerospace &amp; Defence</div>
-      <div class="sc-title">Aerospace &amp; Defence</div>
-      <div class="sc-desc">NORAD modernization, NATO procurement, MRO
-        demand, and satellite systems. Weekly intelligence on allied
-        defence spending, Canadian supplier opportunities, and
-        geopolitical signals.</div>
-      <div class="sc-meta">Weekly · Every Tuesday</div>
-      <div class="sc-cta">Read sector reports →</div>
-    </a>
-
-    <a href="/industries/agri-food/" class="sc agri">
-      <div class="sc-tag agri">Agri-food &amp; Agriculture</div>
-      <div class="sc-title">Agri-food &amp; Agriculture</div>
-      <div class="sc-desc">Canola, pulse crops, beef, seafood, and food
-        processing. Weekly intelligence on market access signals, supply
-        chain disruptions, and what trade policy means for prairie
-        farmers, coastal fisheries, and food manufacturers.</div>
-      <div class="sc-meta">Weekly · Every Tuesday</div>
-      <div class="sc-cta">Read sector reports →</div>
-    </a>
-
-    <a href="/industries/technology-digital/" class="sc tech">
-      <div class="sc-tag tech">Technology &amp; Digital</div>
-      <div class="sc-title">Technology &amp; Digital</div>
-      <div class="sc-desc">AI, quantum, cybersecurity, fintech, and
-        digital infrastructure. Weekly intelligence on Canadian tech
-        export opportunities, regulatory signals, and global demand for
-        Canadian digital expertise.</div>
-      <div class="sc-meta">Weekly · Every Tuesday</div>
-      <div class="sc-cta">Read sector reports →</div>
-    </a>
-
-  </div>
-</div>
-
-<div class="hub-footer">
-  <div class="hub-footer-inner">
-    <div class="hub-footer-copy">© 2026 Canadian Trade Intelligence Inc.
-      · Issue #010 current · New issues every Tuesday</div>
-    <div class="hub-footer-links">
-      <a href="/subscribe/">Subscribe</a>
-      <a href="/about/">About</a>
-      <a href="/methodology/">Methodology</a>
+<!-- SECTOR BUTTON GRID -->
+<div class="sector-grid-wrap">
+  <div class="sector-grid-inner">
+    <div class="sector-grid-label">Select a sector</div>
+    <div class="sector-btns" id="sec-btns">
+      <button class="sec-btn" data-k="cm" data-hub="/industries/critical-minerals/">Critical Minerals</button>
+      <button class="sec-btn" data-k="en" data-hub="/industries/energy-cleantech/">Energy &amp; Cleantech</button>
+      <button class="sec-btn" data-k="am" data-hub="/industries/advanced-manufacturing/">Advanced Manufacturing</button>
+      <button class="sec-btn" data-k="ae" data-hub="/industries/aerospace-defence/">Aerospace &amp; Defence</button>
+      <button class="sec-btn" data-k="af" data-hub="/industries/agri-food/">Agri-Food</button>
+      <button class="sec-btn" data-k="td" data-hub="/industries/technology-digital/">Technology &amp; Digital</button>
+      <button class="sec-btn" data-k="pr" data-hub="/canada-forward/provinces/">Provinces &amp; Regions</button>
     </div>
   </div>
 </div>
+
+<!-- BODY -->
+<div class="hub-body">
+
+  <!-- ARTICLE FEED -->
+  <div class="feed-section">
+
+    <div class="aset" id="f-cm">
+      <div class="feed-header">
+        <span class="feed-sector-name">Critical Minerals</span>
+        <a href="/industries/critical-minerals/" class="feed-sector-link">Full sector hub →</a>
+      </div>
+      <div class="art-item">
+        <div class="art-meta"><span class="art-tag" style="background:rgba(26,107,66,.12);color:#1a6b42">Critical Minerals</span><span class="art-date">June 9, 2026 · South Korea</span></div>
+        <a href="/spotlight/defense-metals-2026-06/" class="art-hl">Korean giant Hanwha courts Toronto rare earth developer in supply chain pivot</a>
+      </div>
+      <div class="art-item">
+        <div class="art-meta"><span class="art-tag" style="background:rgba(26,107,66,.12);color:#1a6b42">Critical Minerals</span><span class="art-date">June 2, 2026 · British Columbia</span></div>
+        <a href="/spotlight/central-asia-metals-2026-06/" class="art-hl">London mining giant's $166M Canadian bet signals foreign appetite for mineral assets</a>
+      </div>
+      <div class="art-item">
+        <div class="art-meta"><span class="art-tag" style="background:rgba(26,107,66,.12);color:#1a6b42">Critical Minerals</span><span class="art-cf">Policy</span><span class="art-date">June 9, 2026 · British Columbia</span></div>
+        <a href="/spotlight/chinese-miners-investigation-bc-2026-06/" class="art-hl">Ottawa investigates Chinese miner hiring in B.C. amid labour shortage</a>
+      </div>
+      <a href="/spotlight/" class="feed-all">See all Critical Minerals stories →</a>
+    </div>
+
+    <div class="aset" id="f-en">
+      <div class="feed-header">
+        <span class="feed-sector-name">Energy &amp; Cleantech</span>
+        <a href="/industries/energy-cleantech/" class="feed-sector-link">Full sector hub →</a>
+      </div>
+      <div class="art-item">
+        <div class="art-meta"><span class="art-tag" style="background:rgba(26,92,122,.12);color:#1a5c7a">Energy &amp; Cleantech</span><span class="art-cf">Canada Forward</span><span class="art-date">June 21, 2026 · Ottawa</span></div>
+        <a href="/spotlight/clean-fuel-regulation-delays-biofuel-investment-2026-06/" class="art-hl">Clean fuel regulation delays threaten Canadian biofuel investment flight to U.S.</a>
+      </div>
+      <div class="art-item">
+        <div class="art-meta"><span class="art-tag" style="background:rgba(26,92,122,.12);color:#1a5c7a">Energy &amp; Cleantech</span><span class="art-date">June 21, 2026 · Alberta / Nova Scotia</span></div>
+        <a href="/spotlight/cgc-325-million-alberta-wallboard-nova-scotia-quarry-2026-06/" class="art-hl">CGC commits $325 million to Alberta wallboard plant and Nova Scotia quarry development</a>
+      </div>
+      <div class="art-item">
+        <div class="art-meta"><span class="art-tag" style="background:rgba(26,92,122,.12);color:#1a5c7a">Energy &amp; Cleantech</span><span class="art-date">June 9, 2026 · Ontario</span></div>
+        <a href="/industries/energy-cleantech/" class="art-hl">Grid expansion gap: Ontario capacity warnings return ahead of winter 2026 peak demand</a>
+      </div>
+      <a href="/spotlight/" class="feed-all">See all Energy &amp; Cleantech stories →</a>
+    </div>
+
+    <div class="aset" id="f-am">
+      <div class="feed-header">
+        <span class="feed-sector-name">Advanced Manufacturing</span>
+        <a href="/industries/advanced-manufacturing/" class="feed-sector-link">Full sector hub →</a>
+      </div>
+      <div class="art-item">
+        <div class="art-meta"><span class="art-tag" style="background:rgba(42,80,144,.12);color:#2a5090">Advanced Manufacturing</span><span class="art-cf">Canada Forward</span><span class="art-date">June 21, 2026 · Saskatchewan</span></div>
+        <a href="/spotlight/saskatchewan-steel-federal-support-2026-06/" class="art-hl">Saskatchewan steel sector gets federal lifeline amid tariff pressures</a>
+      </div>
+      <div class="art-item">
+        <div class="art-meta"><span class="art-tag" style="background:rgba(42,80,144,.12);color:#2a5090">Advanced Manufacturing</span><span class="art-date">June 9, 2026 · Prairie region</span></div>
+        <a href="/spotlight/trump-farm-equipment-tariff-cuts-prairie-manufacturers-2026-06/" class="art-hl">Trump's farm equipment tariff cuts open new markets for Prairie manufacturers</a>
+      </div>
+      <div class="art-item">
+        <div class="art-meta"><span class="art-tag" style="background:rgba(42,80,144,.12);color:#2a5090">Advanced Manufacturing</span><span class="art-date">June 2, 2026 · British Columbia</span></div>
+        <a href="/spotlight/central-asia-metals-2026-06/" class="art-hl">London mining giant's $166M Canadian bet signals foreign appetite for processing assets</a>
+      </div>
+      <a href="/spotlight/" class="feed-all">See all Advanced Manufacturing stories →</a>
+    </div>
+
+    <div class="aset" id="f-ae">
+      <div class="feed-header">
+        <span class="feed-sector-name">Aerospace &amp; Defence</span>
+        <a href="/industries/aerospace-defence/" class="feed-sector-link">Full sector hub →</a>
+      </div>
+      <div class="art-item">
+        <div class="art-meta"><span class="art-tag" style="background:rgba(90,26,144,.12);color:#5a1a90">Aerospace &amp; Defence</span><span class="art-cf">Canada Forward</span><span class="art-date">June 9, 2026 · Ottawa</span></div>
+        <a href="/spotlight/canada-defence-industrial-strategy-2026-06/" class="art-hl">Defence spending pivot reshapes Canada's industrial strategy amid trade wars</a>
+      </div>
+      <div class="art-item">
+        <div class="art-meta"><span class="art-tag" style="background:rgba(90,26,144,.12);color:#5a1a90">Aerospace &amp; Defence</span><span class="art-date">June 2, 2026 · Hamilton / Seoul</span></div>
+        <a href="/spotlight/algoma-steel-submarine-deal-hanwha-naval-contract-2026-06/" class="art-hl">Algoma Steel locks submarine deal contingent on Hanwha winning naval contract</a>
+      </div>
+      <div class="art-item">
+        <div class="art-meta"><span class="art-tag" style="background:rgba(90,26,144,.12);color:#5a1a90">Aerospace &amp; Defence</span><span class="art-date">June 9, 2026 · Kahnawake</span></div>
+        <a href="/spotlight/kahnawake-laflesche-defence-manufacturing-2026-06/" class="art-hl">Kahnaw&agrave;:ke manufacturer rises from Oka's shadow to supply Canada's military</a>
+      </div>
+      <a href="/spotlight/" class="feed-all">See all Aerospace &amp; Defence stories →</a>
+    </div>
+
+    <div class="aset" id="f-af">
+      <div class="feed-header">
+        <span class="feed-sector-name">Agri-Food</span>
+        <a href="/industries/agri-food/" class="feed-sector-link">Full sector hub →</a>
+      </div>
+      <div class="art-item">
+        <div class="art-meta"><span class="art-tag" style="background:rgba(122,82,0,.12);color:#7a5200">Agri-Food</span><span class="art-cf">Canada Forward</span><span class="art-date">June 21, 2026 · Ottawa</span></div>
+        <a href="/spotlight/regulatory-uncertainty-agri-investment-flight-2026-06/" class="art-hl">Regulatory uncertainty pushes Canadian agri-business investment across the border</a>
+      </div>
+      <div class="art-item">
+        <div class="art-meta"><span class="art-tag" style="background:rgba(122,82,0,.12);color:#7a5200">Agri-Food</span><span class="art-date">June 9, 2026 · Prairie region</span></div>
+        <a href="/spotlight/trump-farm-equipment-tariff-cuts-prairie-manufacturers-2026-06/" class="art-hl">Trump's farm equipment tariff cuts open new export window for Prairie producers</a>
+      </div>
+      <div class="art-item">
+        <div class="art-meta"><span class="art-tag" style="background:rgba(122,82,0,.12);color:#7a5200">Agri-Food</span><span class="art-cf">Policy</span><span class="art-date">June 9, 2026 · British Columbia</span></div>
+        <a href="/spotlight/chinese-miners-investigation-bc-2026-06/" class="art-hl">Ottawa investigates Chinese miner hiring in B.C. amid canola sector labour shortage</a>
+      </div>
+      <a href="/spotlight/" class="feed-all">See all Agri-Food stories →</a>
+    </div>
+
+    <div class="aset" id="f-td">
+      <div class="feed-header">
+        <span class="feed-sector-name">Technology &amp; Digital</span>
+        <a href="/industries/technology-digital/" class="feed-sector-link">Full sector hub →</a>
+      </div>
+      <div class="art-item">
+        <div class="art-meta"><span class="art-tag" style="background:rgba(10,80,96,.12);color:#0a5060">Technology &amp; Digital</span><span class="art-cf">Canada Forward</span><span class="art-date">June 21, 2026</span></div>
+        <a href="/industries/technology-digital/" class="art-hl">EU AI Act compliance creates advantage gap for Canadian enterprise software exporters</a>
+      </div>
+      <div class="art-item">
+        <div class="art-meta"><span class="art-tag" style="background:rgba(10,80,96,.12);color:#0a5060">Technology &amp; Digital</span><span class="art-date">May 2026 · Toronto</span></div>
+        <a href="/spotlight/wonderfi-2026-05/" class="art-hl">WonderFi secures regulatory approval as digital asset sector seeks Canadian anchor</a>
+      </div>
+      <div class="art-item">
+        <div class="art-meta"><span class="art-tag" style="background:rgba(10,80,96,.12);color:#0a5060">Technology &amp; Digital</span><span class="art-date">June 9, 2026 · Montreal</span></div>
+        <a href="/industries/technology-digital/" class="art-hl">Mila and Vector signal coordinated push as Canada seeks AI compute sovereignty</a>
+      </div>
+      <a href="/spotlight/" class="feed-all">See all Technology &amp; Digital stories →</a>
+    </div>
+
+    <div class="aset" id="f-pr">
+      <div class="feed-header">
+        <span class="feed-sector-name">Provinces &amp; Regions</span>
+        <a href="/canada-forward/provinces/" class="feed-sector-link">Full provinces hub →</a>
+      </div>
+      <div class="prov-grid">
+        <a href="/canada-forward/provinces/alberta/" class="prov-card">
+          <div class="prov-name">Alberta</div>
+          <div class="prov-signals">
+            <div class="prov-sig"><span class="prov-dot"></span>iGaming market launch — tech signal</div>
+            <div class="prov-sig"><span class="prov-dot"></span>Energy sector leads procurement watch</div>
+          </div>
+        </a>
+        <a href="/canada-forward/provinces/british-columbia/" class="prov-card">
+          <div class="prov-name">British Columbia</div>
+          <div class="prov-signals">
+            <div class="prov-sig"><span class="prov-dot"></span>Chinese miner hiring probe active</div>
+            <div class="prov-sig"><span class="prov-dot"></span>KSI Lisims LNG advancing</div>
+          </div>
+        </a>
+        <a href="/canada-forward/provinces/ontario/" class="prov-card">
+          <div class="prov-name">Ontario</div>
+          <div class="prov-signals">
+            <div class="prov-sig"><span class="prov-dot"></span>Ring of Fire equity framework update</div>
+            <div class="prov-sig"><span class="prov-dot"></span>Grid capacity warning — winter 2026</div>
+          </div>
+        </a>
+        <a href="/canada-forward/provinces/quebec/" class="prov-card">
+          <div class="prov-name">Quebec</div>
+          <div class="prov-signals">
+            <div class="prov-sig"><span class="prov-dot"></span>Mila AI compute sovereignty push</div>
+            <div class="prov-sig"><span class="prov-dot"></span>Finkl Steel Sorel update</div>
+          </div>
+        </a>
+        <a href="/canada-forward/provinces/saskatchewan/" class="prov-card">
+          <div class="prov-name">Saskatchewan</div>
+          <div class="prov-signals">
+            <div class="prov-sig"><span class="prov-dot"></span>Federal steel contract secured</div>
+            <div class="prov-sig"><span class="prov-dot"></span>Prairie equipment tariff watch</div>
+          </div>
+        </a>
+        <a href="/canada-forward/provinces/nova-scotia/" class="prov-card">
+          <div class="prov-name">Nova Scotia</div>
+          <div class="prov-signals">
+            <div class="prov-sig"><span class="prov-dot"></span>CGC wallboard quarry development</div>
+            <div class="prov-sig"><span class="prov-dot"></span>Ocean economy signal pending</div>
+          </div>
+        </a>
+        <a href="/canada-forward/provinces/new-brunswick/" class="prov-card">
+          <div class="prov-name">New Brunswick</div>
+          <div class="prov-signals">
+            <div class="prov-sig"><span class="prov-dot"></span>Port of Saint John container watch</div>
+            <div class="prov-sig"><span class="prov-dot"></span>Forestry sector tariff exposure</div>
+          </div>
+        </a>
+        <a href="/canada-forward/provinces/manitoba/" class="prov-card">
+          <div class="prov-name">Manitoba</div>
+          <div class="prov-signals">
+            <div class="prov-sig"><span class="prov-dot"></span>Grain handling corridor watch</div>
+            <div class="prov-sig"><span class="prov-dot"></span>Clean energy transmission update</div>
+          </div>
+        </a>
+        <a href="/canada-forward/provinces/" class="prov-card" style="border-style:dashed;display:flex;align-items:center;justify-content:center;">
+          <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--slate);text-align:center;">All provinces<br>&amp; territories →</div>
+        </a>
+      </div>
+    </div>
+
+  </div><!-- /feed-section -->
+
+  <!-- SIDEBAR -->
+  <aside class="hub-sidebar">
+    <div class="sb-section">
+      <div class="sb-label">In Focus</div>
+      <div class="sb-pills">
+        <a href="/canada-forward/cusma-review/" class="sb-pill">CUSMA 2026 <span class="sb-arr">›</span></a>
+        <a href="/procurement/" class="sb-pill">Defence Procurement <span class="sb-arr">›</span></a>
+        <a href="/canada-forward/review/indigenous-economy-ownership-governance-2026/" class="sb-pill">Indigenous Economy <span class="sb-arr">›</span></a>
+        <a href="/canada-forward/review/canada-forward-structural-outlook-2026/" class="sb-pill">Energy Transition <span class="sb-arr">›</span></a>
+        <a href="/canada-forward/review/canada-housing-capacity-crisis-2026/" class="sb-pill">Housing &amp; Infrastructure <span class="sb-arr">›</span></a>
+      </div>
+    </div>
+    <div class="sb-section">
+      <div class="sb-label">Latest Report</div>
+      <div class="sb-report">
+        <div class="sb-report-label" id="sb-issue">Issue #011 · June 9, 2026</div>
+        <div class="sb-report-title" id="sb-title">Critical Minerals Intelligence — Ring of Fire, Hanwha, and the foreign investment signal</div>
+        <a href="/reports/" class="sb-report-cta">Read report →</a>
+        <a href="/industries/critical-minerals/" class="sb-report-hub" id="sb-hub">Sector hub →</a>
+      </div>
+    </div>
+    <div class="sb-section">
+      <div class="sb-label">Weekly Reports</div>
+      <div class="sb-pills">
+        <a href="/reports/" class="sb-pill" style="font-size:12px;">All sector reports <span class="sb-arr">›</span></a>
+        <a href="/subscribe/" class="sb-pill" style="font-size:12px;">Subscribe — from $89/mo <span class="sb-arr">›</span></a>
+      </div>
+    </div>
+  </aside>
+
+</div><!-- /hub-body -->
+
+<div class="hub-footer">
+  <div class="hub-footer-inner">
+    <div class="hub-footer-copy">&copy; 2026 Canadian Trade Intelligence Inc. · Intelligence published every Tuesday</div>
+    <div class="hub-footer-links">
+      <a href="/reports/">Reports</a>
+      <a href="/about/">About</a>
+      <a href="/subscribe/">Subscribe</a>
+    </div>
+  </div>
+</div>
+
+<script>
+var SECTORS = {
+  cm:{css:'rgba(26,107,66,',txt:'#1a6b42',name:'Critical Minerals',issue:'Issue #011 · June 9, 2026',rep:'Critical Minerals Intelligence — Ring of Fire, Hanwha, and the foreign investment signal',hub:'/industries/critical-minerals/'},
+  en:{css:'rgba(26,92,122,',txt:'#1a5c7a',name:'Energy & Cleantech',issue:'Issue #011 · June 9, 2026',rep:'Energy & Cleantech — Clean fuel delays, LNG signals, and Ontario grid watch',hub:'/industries/energy-cleantech/'},
+  am:{css:'rgba(42,80,144,',txt:'#2a5090',name:'Advanced Manufacturing',issue:'Issue #011 · June 9, 2026',rep:'Advanced Manufacturing — Corridor infrastructure, tariff windows, and processing assets',hub:'/industries/advanced-manufacturing/'},
+  ae:{css:'rgba(90,26,144,',txt:'#5a1a90',name:'Aerospace & Defence',issue:'Issue #011 · June 9, 2026',rep:'Aerospace & Defence — DIS 2026, Hanwha entry, and Indigenous procurement partnerships',hub:'/industries/aerospace-defence/'},
+  af:{css:'rgba(122,82,0,',txt:'#7a5200',name:'Agri-Food',issue:'Issue #011 · June 9, 2026',rep:'Agri-Food — Regulatory flight risk, labour signals, and canola route shifts',hub:'/industries/agri-food/'},
+  td:{css:'rgba(10,80,96,',txt:'#0a5060',name:'Technology & Digital',issue:'Issue #011 · June 9, 2026',rep:'Technology & Digital — AI Act advantage gap, iGaming, and compute sovereignty',hub:'/industries/technology-digital/'},
+  pr:{css:'rgba(74,74,70,',txt:'#4a4a46',name:'Provinces & Regions',issue:null,rep:null,hub:'/canada-forward/provinces/'}
+};
+
+function paint(btn,k,on){
+  var s=SECTORS[k];
+  btn.style.background=s.css+(on?'0.18)':'0.08)');
+  btn.style.borderColor=s.css+(on?'0.7)':'0.25)');
+  btn.style.color=on?s.txt:'rgba(240,236,228,0.5)';
+}
+
+function activate(k){
+  // Buttons
+  document.querySelectorAll('.sec-btn').forEach(function(b){paint(b,b.dataset.k,false);});
+  var ab=document.querySelector('[data-k="'+k+'"]');
+  if(ab)paint(ab,k,true);
+  // Feed
+  document.querySelectorAll('.aset').forEach(function(a){a.classList.remove('vis');});
+  var feed=document.getElementById('f-'+k);
+  if(feed)feed.classList.add('vis');
+  // Sidebar report
+  var s=SECTORS[k];
+  var sb=document.getElementById('sb-issue'),st=document.getElementById('sb-title'),sh=document.getElementById('sb-hub');
+  if(s.rep){
+    sb.textContent=s.issue;st.textContent=s.rep;sh.href=s.hub;sh.style.display='';
+    sb.parentElement.style.display='';
+  } else {
+    sb.parentElement.style.display='none';
+  }
+}
+
+document.querySelectorAll('.sec-btn').forEach(function(btn){
+  btn.addEventListener('click',function(){activate(this.dataset.k);});
+});
+activate('cm');
+</script>
 </body>
 </html>
