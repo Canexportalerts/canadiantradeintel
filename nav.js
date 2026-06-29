@@ -199,11 +199,10 @@
       '<span style="display:block;font-family:\'DM Mono\',monospace;font-size:8px;letter-spacing:0.24em;text-transform:uppercase;color:#ffffff;font-style:normal;font-weight:500;line-height:1.2;">INTELLIGENCE</span>' +
     '</a>' +
     '<div class="nav-links">' +
-      '<a href="/procurement/">Procurement</a>' +
+      '<a href="/spotlight/">News &amp; Analysis</a>' +
       '<a href="/industries/">Industries</a>' +
-      '<a href="/spotlight/">News</a>' +
-      '<a href="/canada-forward/housing-and-infrastructure/">Canada</a>' +
       '<a href="/countries/">Countries</a>' +
+      '<a href="/procurement/">Procurement</a>' +
       '<a href="/about/">About</a>' +
       '<div class="nav-dropdown">' +
         '<button class="nav-dropdown-btn">Resources \u25be</button>' +
@@ -228,11 +227,10 @@
     '</button>' +
   '</div>' +
   '<div class="nav-mobile-menu" id="nav-mobile-menu">' +
-    '<a href="/procurement/">Procurement</a>' +
+    '<a href="/spotlight/">News &amp; Analysis</a>' +
     '<a href="/industries/">Industries</a>' +
-    '<a href="/spotlight/">News</a>' +
-    '<a href="/canada-forward/housing-and-infrastructure/">Canada</a>' +
     '<a href="/countries/">Countries</a>' +
+    '<a href="/procurement/">Procurement</a>' +
     '<a href="/about/">About</a>' +
     '<span class="nav-mobile-section">Resources</span>' +
     '<a href="/resources/trade-agreements/">Trade Agreements</a>' +
