@@ -32,41 +32,61 @@ a{text-decoration:none;color:inherit;}
 .cusma-link{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:0.08em;color:rgba(204,0,0,0.7);white-space:nowrap;flex-shrink:0;}
 .cusma-link:hover{color:rgba(204,0,0,1);}
 
-/* ── MASTHEAD (dark, brand) ── */
+/* ── MASTHEAD ── */
 .hub-masthead{background:var(--brand-dark);padding:32px 48px 28px;border-bottom:3px solid var(--crimson);}
 .hub-masthead-inner{max-width:1160px;margin:0 auto;display:flex;align-items:flex-end;justify-content:space-between;gap:32px;}
 .hub-eyebrow{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(204,0,0,0.55);margin-bottom:8px;}
 .hub-title{font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:600;font-style:italic;color:#f4f0e8;line-height:1.0;}
 .hub-sub{font-size:13px;color:rgba(240,236,228,0.5);max-width:480px;line-height:1.65;align-self:flex-end;padding-bottom:2px;}
 
-/* ── SECTOR NAVIGATION (light — Bloomberg approach) ── */
-.sector-nav-wrap{background:var(--warm-bg);padding:32px 48px 28px;border-bottom:1px solid var(--warm-border);}
+/* ── SECTOR NAVIGATION ── */
+.sector-nav-wrap{background:var(--warm-bg);padding:28px 48px 24px;border-bottom:1px solid var(--warm-border);}
 .sector-nav-inner{max-width:1160px;margin:0 auto;}
-.sector-nav-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.16em;text-transform:uppercase;color:var(--slate);margin-bottom:14px;}
-.sector-btns{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
-.sec-nav{display:flex;align-items:center;justify-content:space-between;background:var(--white);border:1px solid var(--warm-border);border-top-width:3px;padding:15px 16px 13px;transition:all .15s;}
-.sec-nav:hover{border-color:var(--crimson);border-top-color:var(--crimson);box-shadow:0 2px 10px rgba(0,0,0,.07);}
+.sector-nav-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.16em;text-transform:uppercase;color:var(--slate);margin-bottom:12px;}
+
+/* 12-column grid: first 4 span 3 cols each, last 3 span 4 cols each — both rows fill evenly */
+.sector-btns{display:grid;grid-template-columns:repeat(12,1fr);gap:8px;}
+.sec-nav{
+  display:flex;align-items:center;justify-content:space-between;
+  background:var(--white);border:1px solid var(--warm-border);
+  padding:14px 16px 12px;
+  transition:border-color .15s,box-shadow .15s;
+  cursor:pointer;
+}
+.sec-nav:hover{border-color:var(--crimson);box-shadow:0 2px 8px rgba(0,0,0,.07);}
+/* First 4: each spans 3 of 12 columns */
+.sec-nav:nth-child(1),.sec-nav:nth-child(2),.sec-nav:nth-child(3),.sec-nav:nth-child(4){grid-column:span 3;}
+/* Last 3: each spans 4 of 12 columns — fills the full second row */
+.sec-nav:nth-child(5),.sec-nav:nth-child(6),.sec-nav:nth-child(7){grid-column:span 4;}
 .sec-nav-name{font-family:'DM Mono',monospace;font-size:9.5px;letter-spacing:0.07em;text-transform:uppercase;color:var(--ink);}
-.sec-nav-arr{font-size:13px;color:var(--slate);transition:color .15s;flex-shrink:0;}
+.sec-nav-arr{font-size:13px;color:var(--slate);flex-shrink:0;transition:color .15s;}
 .sec-nav:hover .sec-nav-arr{color:var(--crimson);}
 
-/* ── PUBLICATIONS SECTION ── */
+/* ── PUBLICATIONS (editorial tiles — CTI Review format adapted for light bg) ── */
 .pubs-wrap{background:var(--white);border-top:1px solid var(--warm-border);}
-.pubs-inner{max-width:1160px;margin:0 auto;padding:40px 48px 60px;}
-.pubs-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:24px;padding-bottom:12px;border-bottom:1px solid var(--warm-border);}
+.pubs-inner{max-width:1160px;margin:0 auto;padding:36px 48px 56px;}
+.pubs-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:20px;padding-bottom:12px;border-bottom:2px solid var(--warm-border);}
 .pubs-label{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:0.16em;text-transform:uppercase;color:var(--slate);}
-.pubs-all{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:0.12em;text-transform:uppercase;color:var(--brand);border:1px solid rgba(204,0,0,0.3);padding:5px 10px;}
-.pubs-all:hover{background:var(--brand);color:#fff;}
-.pub-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--warm-border);}
-.pub-card{background:var(--white);padding:22px 22px 20px;display:flex;flex-direction:column;gap:0;transition:background .15s;}
-.pub-card:hover{background:#faf8f5;}
-.pub-tag{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:10px;}
-.pub-title{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:600;font-style:italic;color:var(--ink);line-height:1.2;margin-bottom:10px;}
-.pub-excerpt{font-size:13px;color:var(--slate);line-height:1.6;margin-bottom:14px;flex:1;}
-.pub-footer{display:flex;align-items:center;justify-content:space-between;padding-top:12px;border-top:1px solid var(--warm-border);}
-.pub-date{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:0.1em;color:var(--slate);}
-.pub-read{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:0.1em;text-transform:uppercase;color:var(--crimson);}
-.pub-card:hover .pub-read{text-decoration:underline;}
+.pubs-all{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:0.12em;text-transform:uppercase;color:var(--brand);}
+.pubs-all:hover{text-decoration:underline;}
+
+/* Full-width stacked tiles matching CTI Review style (light-bg variant) */
+.pub-tile{
+  display:block;width:100%;
+  background:var(--white);
+  border-left:3px solid rgba(139,26,26,0.5);
+  border-bottom:1px solid var(--warm-border);
+  padding:22px 26px 20px;
+  transition:border-left-color .15s,background .15s;
+}
+.pub-tile:hover{border-left-color:var(--crimson);background:#faf8f5;}
+.pub-tile-tag{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:0.12em;text-transform:uppercase;color:var(--slate);margin-bottom:8px;}
+.pub-tile-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;font-style:italic;color:var(--ink);line-height:1.2;margin-bottom:8px;}
+.pub-tile:hover .pub-tile-title{color:var(--crimson);}
+.pub-tile-excerpt{font-size:13.5px;color:var(--slate);line-height:1.6;margin-bottom:12px;max-width:760px;}
+.pub-tile-footer{display:flex;align-items:center;justify-content:space-between;}
+.pub-tile-date{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:0.1em;color:var(--slate);}
+.pub-tile-read{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:0.12em;text-transform:uppercase;color:var(--crimson);}
 
 /* ── FOOTER ── */
 .hub-footer{background:var(--brand-dark);border-top:1px solid rgba(255,255,255,0.05);padding:20px 48px;}
@@ -77,16 +97,17 @@ a{text-decoration:none;color:inherit;}
 .hub-footer-links a:hover{color:rgba(255,255,255,0.55);}
 
 /* ── RESPONSIVE ── */
-@media(max-width:900px){
-  .sector-btns{grid-template-columns:repeat(2,1fr);}
-  .pub-grid{grid-template-columns:1fr 1fr;}
+@media(max-width:860px){
+  /* Collapse to 2-column: first 6 span 6 each, last spans 12 */
+  .sec-nav:nth-child(1),.sec-nav:nth-child(2),.sec-nav:nth-child(3),
+  .sec-nav:nth-child(4),.sec-nav:nth-child(5),.sec-nav:nth-child(6){grid-column:span 6;}
+  .sec-nav:nth-child(7){grid-column:span 12;}
 }
 @media(max-width:600px){
   .hub-masthead{padding:24px 20px;}.hub-masthead-inner{flex-direction:column;align-items:flex-start;gap:8px;}
-  .sector-nav-wrap{padding:24px 20px;}
-  .pubs-inner{padding:28px 20px 40px;}
-  .pub-grid{grid-template-columns:1fr;}
+  .sector-nav-wrap{padding:20px;}.pubs-inner{padding:24px 20px 40px;}
   .hub-footer{padding:16px 20px;}
+  .sec-nav:nth-child(n){grid-column:span 12;}
 }
 </style>
 </head>
@@ -123,31 +144,31 @@ a{text-decoration:none;color:inherit;}
   <div class="sector-nav-inner">
     <div class="sector-nav-label">Select a sector</div>
     <div class="sector-btns">
-      <a href="/industries/critical-minerals/" class="sec-nav" style="border-top-color:#1a6b42">
-        <span class="sec-nav-name">Critical Minerals</span>
+      <a href="/industries/critical-minerals/" class="sec-nav">
+        <span class="sec-nav-name">Critical Minerals &amp; Mining</span>
         <span class="sec-nav-arr">&rarr;</span>
       </a>
-      <a href="/industries/energy-cleantech/" class="sec-nav" style="border-top-color:#1a5c7a">
+      <a href="/industries/energy-cleantech/" class="sec-nav">
         <span class="sec-nav-name">Energy &amp; Cleantech</span>
         <span class="sec-nav-arr">&rarr;</span>
       </a>
-      <a href="/industries/advanced-manufacturing/" class="sec-nav" style="border-top-color:#2a5090">
+      <a href="/industries/advanced-manufacturing/" class="sec-nav">
         <span class="sec-nav-name">Advanced Manufacturing</span>
         <span class="sec-nav-arr">&rarr;</span>
       </a>
-      <a href="/industries/aerospace-defence/" class="sec-nav" style="border-top-color:#5a1a90">
+      <a href="/industries/aerospace-defence/" class="sec-nav">
         <span class="sec-nav-name">Aerospace &amp; Defence</span>
         <span class="sec-nav-arr">&rarr;</span>
       </a>
-      <a href="/industries/agri-food/" class="sec-nav" style="border-top-color:#7a5200">
-        <span class="sec-nav-name">Agri-Food</span>
+      <a href="/industries/agri-food/" class="sec-nav">
+        <span class="sec-nav-name">Agri-food &amp; Agriculture</span>
         <span class="sec-nav-arr">&rarr;</span>
       </a>
-      <a href="/industries/technology-digital/" class="sec-nav" style="border-top-color:#0a5060">
+      <a href="/industries/technology-digital/" class="sec-nav">
         <span class="sec-nav-name">Technology &amp; Digital</span>
         <span class="sec-nav-arr">&rarr;</span>
       </a>
-      <a href="/canada-forward/provinces/" class="sec-nav" style="border-top-color:#4a4a46">
+      <a href="/canada-forward/provinces/" class="sec-nav">
         <span class="sec-nav-name">Provinces &amp; Regions</span>
         <span class="sec-nav-arr">&rarr;</span>
       </a>
@@ -162,69 +183,67 @@ a{text-decoration:none;color:inherit;}
       <span class="pubs-label">From the CTI Review &mdash; Analysis &amp; Intelligence Briefs</span>
       <a href="/canada-forward/review/" class="pubs-all">See all publications &rarr;</a>
     </div>
-    <div class="pub-grid">
 
-      <a href="/industries/aerospace-defence/defence-industrial-strategy-2026/" class="pub-card">
-        <div class="pub-tag" style="color:#5a1a90">Aerospace &amp; Defence &middot; Intelligence Brief</div>
-        <div class="pub-title">Canada&rsquo;s defence industrial window is open. It will not stay open.</div>
-        <div class="pub-excerpt">The Carney government&rsquo;s Defence Industrial Strategy commits $500 billion and structurally advantages Canadian firms for the first time in decades. The companies that position now will shape the supply chains.</div>
-        <div class="pub-footer">
-          <span class="pub-date">June 2026</span>
-          <span class="pub-read">Read &rarr;</span>
-        </div>
-      </a>
+    <a href="/industries/aerospace-defence/defence-industrial-strategy-2026/" class="pub-tile">
+      <div class="pub-tile-tag">Aerospace &amp; Defence &middot; Intelligence Brief</div>
+      <div class="pub-tile-title">Canada&rsquo;s defence industrial window is open. It will not stay open.</div>
+      <div class="pub-tile-excerpt">The Carney government&rsquo;s Defence Industrial Strategy commits $500 billion and structurally advantages Canadian firms for the first time in decades. The Build-Partner-Buy framework creates mandatory Canadian content requirements. The companies that position now will shape the supply chains of the next two decades.</div>
+      <div class="pub-tile-footer">
+        <span class="pub-tile-date">June 2026</span>
+        <span class="pub-tile-read">Read the brief &rarr;</span>
+      </div>
+    </a>
 
-      <a href="/canada-forward/review/canada-housing-capacity-crisis-2026/" class="pub-card">
-        <div class="pub-tag" style="color:#2a5090">Advanced Manufacturing &middot; Canada Forward</div>
-        <div class="pub-title">Canada&rsquo;s housing capacity crisis: 500,000 homes a year and a construction industry that cannot build them</div>
-        <div class="pub-excerpt">Canada builds 259,000 units per year. The target is 500,000. The 82% shortfall is not attributable to a lack of political will. It is attributable to a productivity crisis, a fiscal commitment being walked back, and a trade dispute embedded in every construction budget in the country.</div>
-        <div class="pub-footer">
-          <span class="pub-date">June 2026</span>
-          <span class="pub-read">Read &rarr;</span>
-        </div>
-      </a>
+    <a href="/canada-forward/review/canada-housing-capacity-crisis-2026/" class="pub-tile">
+      <div class="pub-tile-tag">Advanced Manufacturing &middot; Canada Forward</div>
+      <div class="pub-tile-title">Canada&rsquo;s housing capacity crisis: 500,000 homes a year and a construction industry that cannot build them</div>
+      <div class="pub-tile-excerpt">Canada builds 259,000 units per year. The target is 500,000. The 82% shortfall is attributable to a productivity crisis, a fiscal commitment already being walked back, and a softwood lumber trade dispute embedded in every construction budget in the country.</div>
+      <div class="pub-tile-footer">
+        <span class="pub-tile-date">June 2026</span>
+        <span class="pub-tile-read">Read the brief &rarr;</span>
+      </div>
+    </a>
 
-      <a href="/canada-forward/review/indigenous-economy-ownership-governance-2026/" class="pub-card">
-        <div class="pub-tag" style="color:#1a6b42">Critical Minerals &middot; Canada Forward</div>
-        <div class="pub-title">From consultation to ownership: why Indigenous economic development is Canada&rsquo;s structural story</div>
-        <div class="pub-excerpt">Indigenous-owned businesses generate more than C$100 billion annually in GDP. The trajectory has shifted from participation and employment toward ownership and governance. This shift is documented in project approval records, bond market data, and federal procurement audits.</div>
-        <div class="pub-footer">
-          <span class="pub-date">June 2026</span>
-          <span class="pub-read">Read &rarr;</span>
-        </div>
-      </a>
+    <a href="/canada-forward/review/indigenous-economy-ownership-governance-2026/" class="pub-tile">
+      <div class="pub-tile-tag">Critical Minerals &middot; Canada Forward</div>
+      <div class="pub-tile-title">From consultation to ownership: why Indigenous economic development is Canada&rsquo;s structural story</div>
+      <div class="pub-tile-excerpt">Indigenous-owned businesses generate more than C$100 billion annually in GDP. The trajectory has shifted from participation and employment toward ownership and governance. This shift is documented in project approval records, First Nations Finance Authority bond data, and federal procurement audits.</div>
+      <div class="pub-tile-footer">
+        <span class="pub-tile-date">June 2026</span>
+        <span class="pub-tile-read">Read the brief &rarr;</span>
+      </div>
+    </a>
 
-      <a href="/canada-forward/review/canada-forward-structural-outlook-2026/" class="pub-card">
-        <div class="pub-tag" style="color:#7a5200">Canada Forward &middot; Economic Analysis</div>
-        <div class="pub-title">Canada at an inflection point: the structural conditions that will define the decade ahead</div>
-        <div class="pub-excerpt">Canada enters the second half of the 2020s with resource wealth, trade access covering 60+ countries, and a defence industrial base the NATO alliance is prepared to fund. What is not guaranteed is whether policy and institutional capacity will rise to meet that potential.</div>
-        <div class="pub-footer">
-          <span class="pub-date">June 2026</span>
-          <span class="pub-read">Read &rarr;</span>
-        </div>
-      </a>
+    <a href="/canada-forward/review/canada-forward-structural-outlook-2026/" class="pub-tile">
+      <div class="pub-tile-tag">Canada Forward &middot; Economic Analysis</div>
+      <div class="pub-tile-title">Canada at an inflection point: the structural conditions that will define the decade ahead</div>
+      <div class="pub-tile-excerpt">Canada enters the second half of the 2020s with resource wealth the world urgently needs, trade agreement access covering 60+ countries, and a defence industrial base the NATO alliance is prepared to fund. What is not guaranteed is whether policy and institutional capacity will rise to meet that potential.</div>
+      <div class="pub-tile-footer">
+        <span class="pub-tile-date">June 2026</span>
+        <span class="pub-tile-read">Read the brief &rarr;</span>
+      </div>
+    </a>
 
-      <a href="/canada-forward/review/maple-eight-pension-capital-canada-2026/" class="pub-card">
-        <div class="pub-tag" style="color:#0a5060">Capital &amp; Finance &middot; Canada Forward</div>
-        <div class="pub-title">The Maple Eight manage C$2.4 trillion. Twelve cents of every dollar comes home.</div>
-        <div class="pub-excerpt">Canada manages C$4.5 trillion in pension assets, third globally. The Maple Eight are fully funded and generate returns that outperform global peers. The repricing of geopolitical risk and the Defence Industrial Strategy are changing the domestic allocation calculus.</div>
-        <div class="pub-footer">
-          <span class="pub-date">June 2026</span>
-          <span class="pub-read">Read &rarr;</span>
-        </div>
-      </a>
+    <a href="/canada-forward/review/maple-eight-pension-capital-canada-2026/" class="pub-tile">
+      <div class="pub-tile-tag">Capital &amp; Finance &middot; Canada Forward</div>
+      <div class="pub-tile-title">The Maple Eight manage C$2.4 trillion. Twelve cents of every dollar comes home.</div>
+      <div class="pub-tile-excerpt">Canada manages C$4.5 trillion in pension assets, third globally. The Maple Eight are fully funded and consistently outperform global peers. The repricing of geopolitical risk and the scale of Canada&rsquo;s infrastructure pipeline are changing the domestic allocation calculus.</div>
+      <div class="pub-tile-footer">
+        <span class="pub-tile-date">June 2026</span>
+        <span class="pub-tile-read">Read the brief &rarr;</span>
+      </div>
+    </a>
 
-      <a href="/canada-forward/review/canada-fdi-ownership-restrictions-2026/" class="pub-card">
-        <div class="pub-tag" style="color:#1a5c7a">Trade Intelligence &middot; Canada Forward</div>
-        <div class="pub-title">Record FDI. A C$10 billion annual restriction penalty. Canada&rsquo;s investment story has two endings.</div>
-        <div class="pub-excerpt">Foreign direct investment into Canada reached C$96.8 billion in 2025, highest since 2007. Canada ranks second in the G20 for FDI stock as a share of GDP. It also maintains ownership restrictions that cost C$10 billion annually in foregone productivity.</div>
-        <div class="pub-footer">
-          <span class="pub-date">June 2026</span>
-          <span class="pub-read">Read &rarr;</span>
-        </div>
-      </a>
+    <a href="/canada-forward/review/canada-fdi-ownership-restrictions-2026/" class="pub-tile">
+      <div class="pub-tile-tag">Trade Intelligence &middot; Canada Forward</div>
+      <div class="pub-tile-title">Record FDI. A C$10 billion annual restriction penalty. Canada&rsquo;s investment story has two endings.</div>
+      <div class="pub-tile-excerpt">Foreign direct investment into Canada reached C$96.8 billion in 2025, highest since 2007. Canada ranks second in the G20 for FDI stock as a share of GDP. It also maintains ownership restrictions estimated to cost C$10 billion annually in foregone productivity.</div>
+      <div class="pub-tile-footer">
+        <span class="pub-tile-date">June 2026</span>
+        <span class="pub-tile-read">Read the brief &rarr;</span>
+      </div>
+    </a>
 
-    </div>
   </div>
 </div>
 
