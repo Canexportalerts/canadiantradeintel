@@ -202,7 +202,6 @@
       '<a href="/procurement/">Procurement</a>' +
       '<a href="/industries/">Industries</a>' +
       '<a href="/spotlight/">News</a>' +
-      '<a href="/canada-forward/housing-and-infrastructure/">Canada</a>' +
       '<a href="/countries/">Countries</a>' +
       '<a href="/about/">About</a>' +
       '<div class="nav-dropdown">' +
@@ -217,8 +216,9 @@
           '<a href="/methodology/">Methodology</a>' +
           '<div class="nav-dropdown-divider"></div>' +
           '<span class="nav-dropdown-label">Intelligence</span>' +
-          '<a href="/canada-forward/review/">Publications \u2014 The CTI Review</a>' +
-          '<a href="/canada-forward/cusma-review/">CUSMA 2026 Tracker</a>' +
+          '<a href="/analysis/">Publications \u2014 The CTI Review</a>' +
+          '<a href="/resources/cusma-tracker/">CUSMA 2026 Tracker</a>' +
+          '<a href="/resources/cusma-impact/">CUSMA Impact Lookup</a>' +
           '<a href="/dashboard/">Dashboard</a>' +
         '</div>' +
       '</div>' +
@@ -231,7 +231,6 @@
     '<a href="/procurement/">Procurement</a>' +
     '<a href="/industries/">Industries</a>' +
     '<a href="/spotlight/">News</a>' +
-    '<a href="/canada-forward/housing-and-infrastructure/">Canada</a>' +
     '<a href="/countries/">Countries</a>' +
     '<a href="/about/">About</a>' +
     '<span class="nav-mobile-section">Resources</span>' +
@@ -242,8 +241,9 @@
     '<a href="/map/">Business Map (coming soon)</a>' +
     '<a href="/methodology/">Methodology</a>' +
     '<span class="nav-mobile-section">Intelligence</span>' +
-    '<a href="/canada-forward/review/">Publications \u2014 The CTI Review</a>' +
-    '<a href="/canada-forward/cusma-review/">CUSMA 2026 Tracker</a>' +
+    '<a href="/analysis/">Publications \u2014 The CTI Review</a>' +
+    '<a href="/resources/cusma-tracker/">CUSMA 2026 Tracker</a>' +
+    '<a href="/resources/cusma-impact/">CUSMA Impact Lookup</a>' +
     '<a href="/dashboard/">Dashboard</a>' +
   '</div>';
 
@@ -269,7 +269,7 @@
     });
 
     // Highlight Resources dropdown button when on a resource sub-page
-    var resourcePaths = ['/map', '/resources', '/tariffs', '/guides', '/methodology', '/tools', '/dashboard', '/canada-forward/review', '/canada-forward/cusma-review'];
+    var resourcePaths = ['/map', '/resources', '/tariffs', '/guides', '/methodology', '/tools', '/dashboard', '/analysis', '/provinces'];
     var dropdownBtns = nav.querySelectorAll('.nav-dropdown-btn');
     dropdownBtns.forEach(function (btn) {
       if (resourcePaths.some(function (p) { return path === p || path.startsWith(p + '/'); })) {

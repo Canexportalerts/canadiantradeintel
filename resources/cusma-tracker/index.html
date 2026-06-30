@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>CUSMA 2026 Tracker — Canadian Trade Intelligence</title>
+<meta name="description" content="CTI is tracking the CUSMA 2026 joint review — negotiation signals, tariff developments, and bilateral policy moves that matter for Canadian businesses.">
+<link rel="canonical" href="https://canadiantradeintel.ca/resources/cusma-tracker/">
+<script src="/nav.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#1a1a14;--ink-mid:#3a3a30;--ink-soft:#5a5a50;
+  --warm-bg:#f8f6f2;--warm-border:#e0dcd4;--white:#ffffff;
+  --red:#cc0000;--dark-bg:#1a0505;
+  --risk-low:#1a6b42;--risk-mod:#c8640a;--risk-elev:#cc4400;--risk-high:#cc0000;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--warm-bg);color:var(--ink);-webkit-font-smoothing:antialiased}
+
+.masthead{background:#0e0808;border-bottom:3px solid var(--red);padding:52px 48px 44px;position:relative;overflow:hidden;}
+.masthead::after{content:'CUSMA';position:absolute;right:-10px;top:50%;transform:translateY(-50%);
+  font-family:'Cormorant Garamond',serif;font-size:120px;font-weight:700;color:rgba(255,255,255,0.018);
+  letter-spacing:-0.04em;line-height:1;pointer-events:none;user-select:none;}
+.masthead-inner{max-width:960px;margin:0 auto;position:relative;z-index:1;}
+.masthead-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(204,0,0,0.6);margin-bottom:14px;}
+.masthead h1{font-family:'Cormorant Garamond',serif;font-size:clamp(30px,4vw,48px);font-weight:600;font-style:italic;color:#f0f0e8;line-height:1.1;margin-bottom:16px;}
+.masthead-sub{font-size:15px;color:rgba(240,240,232,0.55);max-width:640px;line-height:1.75;margin-bottom:24px;}
+
+/* COUNTDOWN */
+.countdown-bar{background:#0a0404;border:1px solid rgba(204,0,0,0.2);padding:18px 24px;display:inline-flex;gap:32px;align-items:center;flex-wrap:wrap;}
+.countdown-item{text-align:center;}
+.countdown-num{font-family:'DM Mono',monospace;font-size:28px;font-weight:500;color:#f0f0e8;line-height:1;}
+.countdown-unit{font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-top:3px;}
+.countdown-sep{font-family:'DM Mono',monospace;font-size:24px;color:rgba(204,0,0,0.4);line-height:1;}
+.countdown-date{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;color:rgba(255,255,255,0.3);margin-top:14px;}
+
+/* BODY */
+.body-wrap{max-width:960px;margin:0 auto;padding:48px 48px 80px;}
+
+/* CONTEXT BLOCK */
+.context-block{background:#fff;border:1px solid var(--warm-border);border-left:3px solid var(--red);padding:24px 28px;margin-bottom:36px;}
+.context-block h2{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;font-style:italic;color:var(--ink);margin-bottom:10px;}
+.context-block p{font-size:13px;color:var(--ink-mid);line-height:1.8;margin-bottom:8px;}
+.context-block p:last-child{margin-bottom:0;}
+
+/* SIGNAL LOG */
+.signal-log-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--red);margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--warm-border);}
+.signal-log{display:flex;flex-direction:column;gap:0;margin-bottom:40px;}
+.signal-row{border:1px solid var(--warm-border);border-top:none;background:#fff;padding:20px 24px;display:grid;grid-template-columns:100px 1fr auto;gap:16px;align-items:start;}
+.signal-row:first-child{border-top:1px solid var(--warm-border);}
+.signal-row:hover{background:#fdfcfa;}
+.signal-date{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;color:var(--ink-soft);padding-top:2px;}
+.signal-body{}
+.signal-title{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:4px;line-height:1.4;}
+.signal-desc{font-size:13px;color:var(--ink-mid);line-height:1.7;}
+.signal-tag{font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.14em;text-transform:uppercase;padding:3px 10px;border:1px solid;white-space:nowrap;flex-shrink:0;align-self:flex-start;}
+.tag-risk{color:#8b0000;border-color:rgba(139,0,0,0.35);background:rgba(139,0,0,0.04);}
+.tag-signal{color:#1a3a5c;border-color:rgba(26,58,92,0.35);background:rgba(26,58,92,0.04);}
+.tag-concession{color:#5a3000;border-color:rgba(90,48,0,0.35);background:rgba(90,48,0,0.04);}
+.tag-negotiation{color:#1a4020;border-color:rgba(26,64,32,0.35);background:rgba(26,64,32,0.04);}
+.tag-tariff{color:#3d0a0a;border-color:rgba(61,10,10,0.35);background:rgba(61,10,10,0.06);}
+.tag-diplomatic{color:#1a3a5c;border-color:rgba(26,58,92,0.35);background:rgba(26,58,92,0.04);}
+
+/* SECTORS AT STAKE */
+.stakes-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:40px;}
+.stake-card{background:#fff;border:1px solid var(--warm-border);padding:16px 18px;}
+.stake-sector{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.14em;text-transform:uppercase;color:var(--red);margin-bottom:6px;}
+.stake-issue{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:4px;}
+.stake-detail{font-size:12px;color:var(--ink-soft);line-height:1.6;}
+
+/* ── CUSMA: STATUS BANNER ── */
+.cusma-status-card{background:#fff;border:1px solid var(--warm-border);border-left:3px solid var(--red);padding:28px 32px;margin-bottom:28px;}
+.cusma-status-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--red);margin-bottom:10px;}
+.cusma-status-heading{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--ink);line-height:1.3;margin-bottom:14px;}
+.cusma-status-body{font-size:14px;color:var(--ink-mid);line-height:1.75;margin-bottom:18px;}
+.cusma-outcome-pills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;}
+.cusma-pill{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;padding:5px 12px;border-radius:2px;}
+.cusma-pill-amber{background:rgba(200,100,10,0.12);color:#7a3800;border:1px solid rgba(200,100,10,0.3);}
+.cusma-pill-muted{background:rgba(26,26,20,0.06);color:var(--ink-soft);border:1px solid rgba(26,26,20,0.15);}
+.cusma-pill-red{background:rgba(204,0,0,0.06);color:#8b0000;border:1px solid rgba(204,0,0,0.25);}
+.cusma-source-line{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.08em;color:var(--ink-soft);opacity:0.65;}
+
+/* ── CUSMA: WHAT THIS MEANS FOR YOU ── */
+.cusma-audience-section{margin-bottom:36px;}
+.cusma-section-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--red);margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--warm-border);}
+.cusma-audience-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.cusma-audience-card{background:#fff;border:1px solid var(--warm-border);padding:20px 22px;}
+.cusma-audience-heading{font-size:14px;font-weight:600;color:var(--ink);line-height:1.4;margin-bottom:10px;}
+.cusma-audience-body{font-size:13px;color:var(--ink-mid);line-height:1.75;margin-bottom:14px;}
+.cusma-audience-link{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--red);text-decoration:none;border-bottom:1px solid rgba(204,0,0,0.25);}
+.cusma-audience-link:hover{border-bottom-color:var(--red);}
+
+/* ── CUSMA: THREE OUTCOMES ── */
+.cusma-scenario-section{margin-bottom:36px;}
+.cusma-scenario-card{background:#fff;padding:22px 26px;margin-bottom:12px;border:1px solid var(--warm-border);}
+.cusma-scenario-card-amber{border-left:3px solid #c8640a;}
+.cusma-scenario-card-muted{border-left:3px solid #888;}
+.cusma-scenario-card-red{border-left:3px solid var(--red);}
+.cusma-scenario-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:8px;}
+.cusma-scenario-label-amber{color:#7a3800;}
+.cusma-scenario-label-muted{color:#666;}
+.cusma-scenario-label-red{color:#8b0000;}
+.cusma-scenario-heading{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--ink);margin-bottom:10px;line-height:1.3;}
+.cusma-scenario-body{font-size:13px;color:var(--ink-mid);line-height:1.75;margin-bottom:12px;}
+.cusma-scenario-impact{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.06em;color:var(--ink-soft);line-height:1.6;border-top:1px solid var(--warm-border);padding-top:10px;}
+.cusma-scenario-impact strong{color:var(--ink-mid);}
+
+/* ── CUSMA: SUBSCRIBE CALLOUT ── */
+.cusma-subscribe-callout{background:#fff;border:1px solid var(--warm-border);border-left:3px solid var(--red);padding:24px 28px;margin-bottom:40px;}
+.cusma-subscribe-body{font-size:14px;color:var(--ink-mid);line-height:1.75;margin-bottom:16px;}
+.cusma-subscribe-links{display:flex;gap:20px;flex-wrap:wrap;}
+.cusma-subscribe-link{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--red);text-decoration:none;border-bottom:1px solid rgba(204,0,0,0.3);}
+.cusma-subscribe-link:hover{border-bottom-color:var(--red);}
+
+/* ── SECTOR LOOKUP ── */
+#sector-lookup{margin-bottom:36px;}
+.lookup-card{background:#fff;border:1px solid var(--warm-border);padding:32px 36px;margin-bottom:20px;}
+.step-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--red);margin-bottom:14px;}
+.step-question{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--ink);margin-bottom:18px;line-height:1.3;}
+.sector-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:6px;}
+.sector-btn{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;border:1px solid var(--warm-border);background:#fafaf8;color:var(--ink-soft);padding:12px 10px;text-align:center;cursor:pointer;line-height:1.4;transition:all 0.16s;}
+.sector-btn:hover{border-color:rgba(204,0,0,0.4);color:var(--ink);background:#fff;}
+.sector-btn.selected{border-color:var(--red);background:rgba(204,0,0,0.05);color:var(--red);}
+.exposure-row{display:flex;gap:12px;flex-wrap:wrap;}
+.exposure-btn{flex:1;min-width:160px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;border:1px solid var(--warm-border);background:#fafaf8;color:var(--ink-soft);padding:16px 14px;text-align:left;cursor:pointer;line-height:1.5;transition:all 0.16s;}
+.exposure-btn:hover{border-color:rgba(204,0,0,0.4);color:var(--ink);background:#fff;}
+.exposure-btn.selected{border-color:var(--red);background:rgba(204,0,0,0.05);color:var(--ink);}
+.exposure-btn-title{font-size:11px;font-weight:500;color:var(--ink);display:block;margin-bottom:3px;}
+.exposure-btn.selected .exposure-btn-title{color:var(--red);}
+.exposure-btn-pct{font-size:10px;color:var(--ink-soft);display:block;}
+#result-panel{display:none;}
+#result-panel.visible{display:block;}
+.result-card{border:1px solid var(--warm-border);overflow:hidden;margin-bottom:28px;}
+.result-header{padding:24px 28px 20px;border-bottom:1px solid var(--warm-border);}
+.result-risk-badge{display:inline-flex;align-items:center;gap:8px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.16em;text-transform:uppercase;margin-bottom:12px;}
+.risk-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.result-headline{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--ink);line-height:1.3;}
+.result-body{padding:24px 28px;}
+.result-section{margin-bottom:20px;}
+.result-section:last-child{margin-bottom:0;}
+.result-section-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:8px;}
+.result-section p{font-size:14px;color:var(--ink-mid);line-height:1.8;}
+.result-list{list-style:none;padding:0;margin:0;}
+.result-list li{font-size:13px;color:var(--ink-mid);line-height:1.7;padding:5px 0;border-bottom:1px solid rgba(0,0,0,0.05);display:flex;gap:10px;}
+.result-list li:last-child{border-bottom:none;}
+.result-list li::before{content:'→';font-family:'DM Mono',monospace;font-size:9px;color:var(--red);flex-shrink:0;padding-top:2px;}
+.result-timeline{background:#f8f6f2;border-top:1px solid var(--warm-border);padding:14px 28px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.06em;color:var(--ink-soft);}
+.result-timeline strong{color:var(--ink-mid);}
+.risk-low .result-header{border-left:3px solid var(--risk-low);}
+.risk-mod .result-header{border-left:3px solid var(--risk-mod);}
+.risk-elev .result-header{border-left:3px solid var(--risk-elev);}
+.risk-high .result-header{border-left:3px solid var(--risk-high);}
+.risk-low .risk-dot{background:var(--risk-low);}
+.risk-mod .risk-dot{background:var(--risk-mod);}
+.risk-elev .risk-dot{background:var(--risk-elev);}
+.risk-high .risk-dot{background:var(--risk-high);}
+.risk-low .result-risk-badge{color:var(--risk-low);}
+.risk-mod .result-risk-badge{color:var(--risk-mod);}
+.risk-elev .result-risk-badge{color:var(--risk-elev);}
+.risk-high .result-risk-badge{color:var(--risk-high);}
+.lookup-disclaimer{font-size:12px;color:var(--ink-soft);line-height:1.7;padding:16px 0;border-top:1px solid var(--warm-border);}
+.tracker-link-sm{display:inline-block;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--red);text-decoration:none;border-bottom:1px solid rgba(204,0,0,0.3);padding-bottom:1px;}
+.tracker-link-sm:hover{border-bottom-color:var(--red);}
+
+@media(max-width:768px){
+  .masthead{padding:36px 20px 32px;}
+  .body-wrap{padding:32px 20px 60px;}
+  .signal-row{grid-template-columns:1fr;gap:8px;}
+  .stakes-grid{grid-template-columns:1fr;}
+  .cusma-audience-grid{grid-template-columns:1fr;}
+  .cusma-outcome-pills{flex-direction:column;}
+  .sector-grid{grid-template-columns:1fr 1fr;}
+  .exposure-row{flex-direction:column;}
+  .exposure-btn{min-width:unset;}
+  .lookup-card{padding:22px 20px;}
+  .result-header,.result-body{padding:18px 20px;}
+  .result-timeline{padding:12px 20px;}
+}
+</style>
+</head>
+<body>
+<nav id="main-nav"></nav>
+
+<div class="masthead">
+  <div class="masthead-inner">
+    <div class="masthead-label">Canada Forward · CUSMA 2026</div>
+    <h1>CUSMA 2026 Tracker</h1>
+    <p class="masthead-sub">The joint review required under CUSMA's six-year review clause opens July 1, 2026. CTI is tracking negotiation signals, tariff developments, and bilateral policy moves as they emerge.</p>
+    <div style="margin-bottom:18px;">
+      <a href="#sector-lookup" style="display:inline-block;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;background:rgba(204,0,0,0.12);color:rgba(204,0,0,0.9);padding:10px 18px;border:1px solid rgba(204,0,0,0.3);text-decoration:none;transition:background 0.18s;">Look up your sector exposure →</a>
+    </div>
+    <div class="countdown-bar" id="countdown-bar">
+      <div class="countdown-item"><div class="countdown-num" id="cd-days">--</div><div class="countdown-unit">days</div></div>
+      <div class="countdown-sep">:</div>
+      <div class="countdown-item"><div class="countdown-num" id="cd-hours">--</div><div class="countdown-unit">hours</div></div>
+      <div class="countdown-sep">:</div>
+      <div class="countdown-item"><div class="countdown-num" id="cd-mins">--</div><div class="countdown-unit">minutes</div></div>
+    </div>
+    <div class="countdown-date">Review opens: July 1, 2026 · 6-year clause under Article 34.7</div>
+  </div>
+</div>
+
+<div class="body-wrap">
+
+  <!-- ── SECTION A: CURRENT STATUS BANNER ── -->
+  <div class="cusma-status-card">
+    <div class="cusma-status-label">STATUS · MAY 2026</div>
+    <div class="cusma-status-heading">Negotiations active — clean extension by July 1 increasingly unlikely</div>
+    <p class="cusma-status-body">The review formally opens July 1, 2026. Experts and trade officials now consider a clean 16-year extension unlikely. The most probable outcome is a prolonged negotiation extending into late 2026 or 2027, with Canada and Mexico making targeted concessions on autos, energy, and supply chain rules while preserving the agreement's core architecture.<br><br>Trump has called CUSMA "transitional" and the US Trade Representative has stated a rubber-stamp renewal is "not in the national interest." Prime Minister Carney has signalled willingness to negotiate constructively, including defence spending commitments, while pursuing trade diversification to reduce Canada's US exposure.</p>
+    <div class="cusma-outcome-pills">
+      <span class="cusma-pill cusma-pill-amber">MOST LIKELY — Painful extension, late 2026+</span>
+      <span class="cusma-pill cusma-pill-muted">POSSIBLE — Annual review cycle, sustained uncertainty</span>
+      <span class="cusma-pill cusma-pill-red">RISK — Non-renewal triggers 2036 termination</span>
+    </div>
+    <div class="cusma-source-line">Sources: CSIS, Brookings, Globe and Mail, CBC — updated May 2026</div>
+  </div>
+
+  <!-- ── SECTION B: WHAT THIS MEANS FOR YOU ── -->
+  <div class="cusma-audience-section">
+    <div class="cusma-section-label">WHAT THIS MEANS FOR CANADIANS</div>
+    <div class="cusma-audience-grid">
+      <div class="cusma-audience-card">
+        <div class="cusma-audience-heading">Your market access is not guaranteed after July 2026</div>
+        <p class="cusma-audience-body">If the review stalls or enters annual renewal cycles, the certainty that lets you price contracts and plan production disappears. Auto parts suppliers face the most direct exposure — 75% North American content rules are under renegotiation. Lumber and steel exporters are already operating under Section 232 tariffs regardless of CUSMA status.</p>
+        <a href="/reports/" class="cusma-audience-link">See our weekly reports for sector signals →</a>
+      </div>
+      <div class="cusma-audience-card">
+        <div class="cusma-audience-heading">Dairy supply management and canola access are both on the table</div>
+        <p class="cusma-audience-body">US dairy industry groups have filed an 84-page complaint on Canada's TRQ allocation. A concession here would affect Canada's $5.4B domestic dairy sector and set a precedent. Canola access to the US market depends on CUSMA remaining intact — a non-renewal or prolonged uncertainty period creates direct price and logistics risk for Prairie producers.</p>
+        <a href="/reports/" class="cusma-audience-link">See agri-food sector report →</a>
+      </div>
+      <div class="cusma-audience-card">
+        <div class="cusma-audience-heading">Tariffs exist now — CUSMA review won't remove them</div>
+        <p class="cusma-audience-body">The current 25% tariff on most Canadian goods entering the US was imposed under IEEPA emergency powers, separate from CUSMA. Even a successful CUSMA renewal does not automatically eliminate these tariffs. The review and the tariff situation are parallel tracks. Understanding both is essential for supply chain planning.</p>
+        <a href="/tariffs/" class="cusma-audience-link">Look up tariff rates for your goods →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SECTION B.5: SECTOR LOOKUP ── -->
+  <div id="sector-lookup">
+    <div class="cusma-section-label">LOOK UP YOUR SECTOR</div>
+
+    <div class="lookup-card">
+      <div class="step-label">Step 1 of 2</div>
+      <div class="step-question">What sector best describes your business?</div>
+      <div class="sector-grid" id="sector-grid">
+        <button class="sector-btn" data-sector="mfg">Advanced Manufacturing &amp; Auto</button>
+        <button class="sector-btn" data-sector="lumber">Softwood Lumber &amp; Forest Products</button>
+        <button class="sector-btn" data-sector="agri">Agri-food &amp; Dairy</button>
+        <button class="sector-btn" data-sector="energy">Energy &amp; Resources</button>
+        <button class="sector-btn" data-sector="tech">Technology &amp; Digital</button>
+        <button class="sector-btn" data-sector="minerals">Critical Minerals &amp; Mining</button>
+        <button class="sector-btn" data-sector="aero">Aerospace &amp; Defence</button>
+        <button class="sector-btn" data-sector="finance">Financial Services</button>
+        <button class="sector-btn" data-sector="retail">Retail &amp; Consumer Goods</button>
+        <button class="sector-btn" data-sector="construction">Construction &amp; Real Estate</button>
+        <button class="sector-btn" data-sector="healthcare">Healthcare &amp; Life Sciences</button>
+        <button class="sector-btn" data-sector="consumer">I'm a Consumer (Personal Impact)</button>
+        <button class="sector-btn" data-sector="municipality">Municipality or Public Sector</button>
+      </div>
+    </div>
+
+    <div class="lookup-card" id="step2-card" style="opacity:0.45;pointer-events:none;transition:opacity 0.2s;">
+      <div class="step-label">Step 2 of 2</div>
+      <div class="step-question" id="step2-question">What share of your revenue comes from US customers or contracts?</div>
+      <div class="exposure-row" id="exposure-row">
+        <button class="exposure-btn" data-exposure="low">
+          <span class="exposure-btn-title">Low US exposure</span>
+          <span class="exposure-btn-pct">Less than 25% of revenue from US</span>
+        </button>
+        <button class="exposure-btn" data-exposure="med">
+          <span class="exposure-btn-title">Medium US exposure</span>
+          <span class="exposure-btn-pct">25% – 60% of revenue from US</span>
+        </button>
+        <button class="exposure-btn" data-exposure="high">
+          <span class="exposure-btn-title">High US exposure</span>
+          <span class="exposure-btn-pct">More than 60% of revenue from US</span>
+        </button>
+      </div>
+    </div>
+
+    <div id="result-panel">
+      <div id="result-card" class="result-card">
+        <div class="result-header">
+          <div class="result-risk-badge"><span class="risk-dot"></span><span id="risk-label"></span></div>
+          <div class="result-headline" id="result-headline"></div>
+        </div>
+        <div class="result-body">
+          <div class="result-section">
+            <div class="result-section-label">What this means for your business</div>
+            <p id="result-body-text"></p>
+          </div>
+          <div class="result-section">
+            <div class="result-section-label">Key risks to watch</div>
+            <ul class="result-list" id="result-risks"></ul>
+          </div>
+          <div class="result-section">
+            <div class="result-section-label">Actions to take now</div>
+            <ul class="result-list" id="result-actions"></ul>
+          </div>
+        </div>
+        <div class="result-timeline"><strong>Timeline:</strong> <span id="result-timeline"></span></div>
+      </div>
+
+      <div id="mexico-note" style="display:none;background:#fff;border:1px solid var(--warm-border);border-left:3px solid #c8640a;padding:20px 24px;margin-bottom:28px;">
+        <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.18em;text-transform:uppercase;color:#c8640a;margin-bottom:8px;">Mexico factor</div>
+        <p style="font-size:13px;color:var(--ink-mid);line-height:1.8;">Note: Mexico is the third CUSMA party. Mexican competition affects Canadian exporters in autos (lower RVC production costs), agri-food (year-round produce supply to US), and manufacturing. Mexico's negotiating priorities include preserving CUSMA's labour chapter gains and protecting its manufacturing export base — broadly aligned with Canada on maintaining the agreement.</p>
+      </div>
+
+      <div style="display:flex;gap:20px;flex-wrap:wrap;margin-bottom:24px;align-items:center;">
+        <a href="/reports/" class="tracker-link-sm">Read this week's sector reports →</a>
+        <a href="/subscribe/" class="tracker-link-sm">Subscribe for weekly CUSMA signals →</a>
+      </div>
+      <p class="lookup-disclaimer">This tool provides a general assessment based on publicly available information about the CUSMA 2026 joint review. It is not legal or investment advice. Consult a trade lawyer or advisor for decisions affecting your specific business. Profiles updated May 2026.</p>
+    </div>
+  </div>
+
+  <!-- ── MANUFACTURING SECTOR: JULY 2026 REVIEW ── -->
+  <div id="manufacturing" style="margin-bottom:48px;scroll-margin-top:80px;">
+    <div class="cusma-section-label">MANUFACTURING SECTOR — JULY 2026 REVIEW</div>
+
+    <!-- Timeline bar -->
+    <div style="background:#fff;border:1px solid var(--warm-border);padding:24px 28px;margin-bottom:20px;overflow-x:auto;">
+      <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-mid);margin-bottom:18px;">Review timeline</div>
+      <div style="display:flex;align-items:flex-start;gap:0;min-width:520px;">
+        <div style="flex:1;text-align:center;position:relative;">
+          <div style="width:10px;height:10px;border-radius:50%;background:var(--red);margin:0 auto 8px;"></div>
+          <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;color:var(--red);font-weight:700;">JAN 26</div>
+          <div style="font-size:11px;color:var(--ink-mid);line-height:1.4;margin-top:4px;">US tariff<br>pressure begins</div>
+          <div style="position:absolute;top:4px;left:50%;right:-50%;height:2px;background:var(--warm-border);z-index:0;"></div>
+        </div>
+        <div style="flex:1;text-align:center;position:relative;">
+          <div style="width:10px;height:10px;border-radius:50%;background:#c8640a;margin:0 auto 8px;"></div>
+          <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;color:#c8640a;font-weight:700;">MAY 30</div>
+          <div style="font-size:11px;color:var(--ink-mid);line-height:1.4;margin-top:4px;">Sector positions<br>submitted</div>
+          <div style="position:absolute;top:4px;left:-50%;right:-50%;height:2px;background:var(--warm-border);z-index:0;"></div>
+        </div>
+        <div style="flex:1;text-align:center;position:relative;">
+          <div style="width:10px;height:10px;border-radius:50%;background:#c8640a;margin:0 auto 8px;position:relative;z-index:1;"></div>
+          <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;color:#c8640a;font-weight:700;">JUN 22</div>
+          <div style="font-size:11px;color:var(--ink-mid);line-height:1.4;margin-top:4px;">Last window for<br>industry input</div>
+          <div style="position:absolute;top:4px;left:-50%;right:-50%;height:2px;background:var(--warm-border);z-index:0;"></div>
+        </div>
+        <div style="flex:1;text-align:center;position:relative;">
+          <div style="width:12px;height:12px;border-radius:50%;background:var(--red);border:2px solid var(--red);margin:0 auto 8px;position:relative;z-index:1;box-shadow:0 0 0 3px rgba(204,0,0,0.15);"></div>
+          <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;color:var(--red);font-weight:700;">JUL 2026</div>
+          <div style="font-size:11px;color:var(--red);line-height:1.4;margin-top:4px;font-weight:600;">Review<br>deadline</div>
+          <div style="position:absolute;top:5px;left:-50%;right:-50%;height:2px;background:var(--warm-border);z-index:0;"></div>
+        </div>
+        <div style="flex:1;text-align:center;position:relative;">
+          <div style="width:10px;height:10px;border-radius:50%;background:var(--warm-border);border:1px dashed #aaa;margin:0 auto 8px;position:relative;z-index:1;"></div>
+          <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;color:var(--ink-mid);font-weight:700;">OUTCOME</div>
+          <div style="font-size:11px;color:var(--ink-mid);line-height:1.4;margin-top:4px;">TBD</div>
+          <div style="position:absolute;top:4px;left:-50%;right:50%;height:2px;background:var(--warm-border);z-index:0;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Exposure cards -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:20px;">
+      <div style="background:#fff;border:1px solid var(--warm-border);border-top:4px solid var(--red);padding:20px 22px;">
+        <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.18em;text-transform:uppercase;color:var(--red);margin-bottom:6px;">Auto Parts</div>
+        <div style="font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink);font-weight:700;margin-bottom:10px;">EXISTENTIAL</div>
+        <p style="font-size:12px;color:var(--ink-mid);line-height:1.75;margin-bottom:12px;">US demand for 50% American-specific vehicle content would sever existing supply contracts across Windsor–Essex and Cambridge corridors. 100,000+ jobs directly exposed.</p>
+        <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;color:var(--ink-mid);">EXPOSURE LEVEL: <span style="color:var(--red);font-weight:700;">HIGH</span></div>
+      </div>
+      <div style="background:#fff;border:1px solid var(--warm-border);border-top:4px solid #c8640a;padding:20px 22px;">
+        <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.18em;text-transform:uppercase;color:#c8640a;margin-bottom:6px;">Steel &amp; Aluminum</div>
+        <div style="font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink);font-weight:700;margin-bottom:10px;">SERIOUS</div>
+        <p style="font-size:12px;color:var(--ink-mid);line-height:1.75;margin-bottom:12px;">Section 232 exemption not guaranteed through the review window. Hamilton and Sault Ste. Marie primary producers face 25% tariff risk. Secondary manufacturers already absorbing cost pressure.</p>
+        <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;color:var(--ink-mid);">EXPOSURE LEVEL: <span style="color:#c8640a;font-weight:700;">MEDIUM</span></div>
+      </div>
+      <div style="background:#fff;border:1px solid var(--warm-border);border-top:4px solid #1a6b42;padding:20px 22px;">
+        <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.18em;text-transform:uppercase;color:#1a6b42;margin-bottom:6px;">Precision Mfg / SME</div>
+        <div style="font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink);font-weight:700;margin-bottom:10px;">MODERATE</div>
+        <p style="font-size:12px;color:var(--ink-mid);line-height:1.75;margin-bottom:12px;">Smaller manufacturers supplying Tier 1 and Tier 2 auto chains face indirect exposure through contract restructuring. Defence and aerospace sub-tiers have more durable positioning.</p>
+        <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;color:var(--ink-mid);">EXPOSURE LEVEL: <span style="color:#1a6b42;font-weight:700;">LOW–MEDIUM</span></div>
+      </div>
+    </div>
+
+    <!-- Action box -->
+    <div style="background:#fff;border:1px solid var(--warm-border);border-left:4px solid var(--red);padding:24px 28px;margin-bottom:20px;">
+      <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--red);margin-bottom:14px;">4-WEEK WINDOW — BEFORE JULY POSITIONS HARDEN</div>
+      <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:12px;">
+        <li style="display:flex;gap:12px;align-items:flex-start;">
+          <span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--red);margin-top:2px;flex-shrink:0;">01</span>
+          <span style="font-size:13px;color:var(--ink);line-height:1.65;"><strong>File sector position papers with ISED and Global Affairs Canada</strong> — written submissions to the CUSMA joint review process remain open until June 22. Auto parts manufacturers and steel producers should submit individually, not only through associations.</span>
+        </li>
+        <li style="display:flex;gap:12px;align-items:flex-start;">
+          <span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--red);margin-top:2px;flex-shrink:0;">02</span>
+          <span style="font-size:13px;color:var(--ink);line-height:1.65;"><strong>Audit your CUSMA Rules of Origin compliance now</strong> — if a new RVC threshold is imposed, which suppliers fall short? Knowing your exposure before July means you control the timeline, not the negotiators.</span>
+        </li>
+        <li style="display:flex;gap:12px;align-items:flex-start;">
+          <span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--red);margin-top:2px;flex-shrink:0;">03</span>
+          <span style="font-size:13px;color:var(--ink);line-height:1.65;"><strong>Accelerate diversification conversations with non-US buyers</strong> — EU CETA coverage of Canadian manufactured goods is underutilized. The July window creates leverage to negotiate better supply terms before any trade disruption locks in.</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Link back -->
+    <div style="font-size:13px;color:var(--ink-mid);">
+      Full sector intelligence: <a href="/industries/advanced-manufacturing/" style="color:var(--red);text-decoration:none;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.08em;">Advanced Manufacturing hub →</a> &nbsp;·&nbsp; <a href="/industries/advanced-manufacturing/defence-navigator/" style="color:var(--red);text-decoration:none;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.08em;">Defence Pivot Navigator →</a>
+    </div>
+  </div>
+
+  <!-- ── EXISTING: WHAT THE CUSMA REVIEW IS ── -->
+  <div class="context-block">
+    <h2>What the CUSMA review is</h2>
+    <p>Under Article 34.7 of the Canada-United States-Mexico Agreement, the three parties are required to jointly review the agreement no later than six years after entry into force — which was July 1, 2020. The joint review is not an automatic renegotiation, but it creates a formal window for any party to request modifications, and it serves as an exit trigger: if a party is dissatisfied, it can begin a process that could lead to termination of the agreement after a further notice period.</p>
+    <p>Canada already made one significant concession in 2025 — the digital services tax was withdrawn to preserve CUSMA's duty-free treatment. The 2026 review is expected to involve US pressure on Chapter 19 (dispute resolution), the dairy supply management system, the de minimis threshold, and technology content rules for auto manufacturing. Canada's negotiating position will define its trade relationship with the US for the next decade.</p>
+  </div>
+
+  <!-- ── SECTION C: THREE OUTCOMES ── -->
+  <div class="cusma-scenario-section">
+    <div class="cusma-section-label">THE THREE PATHS</div>
+
+    <div class="cusma-scenario-card cusma-scenario-card-amber">
+      <div class="cusma-scenario-label cusma-scenario-label-amber">MOST LIKELY</div>
+      <div class="cusma-scenario-heading">Prolonged negotiation — painful extension</div>
+      <p class="cusma-scenario-body">No deal by July 1. The agreement stays in force under existing terms while negotiations continue into late 2026 or 2027. Canada and Mexico make targeted concessions on autos, energy proportionality, and China trade disciplines. The core agreement survives, but investment uncertainty persists throughout the negotiation period. This is what most market analysts are currently pricing in.</p>
+      <div class="cusma-scenario-impact"><strong>Impact:</strong> Sustained uncertainty for manufacturers planning multi-year contracts. No immediate change to tariff exposure.</div>
+    </div>
+
+    <div class="cusma-scenario-card cusma-scenario-card-muted">
+      <div class="cusma-scenario-label cusma-scenario-label-muted">POSSIBLE</div>
+      <div class="cusma-scenario-heading">Annual review cycle — agreement survives, under cloud</div>
+      <p class="cusma-scenario-body">No deal reached in 2026. The agreement enters yearly renewal cycles instead of the 16-year extension. CUSMA stays in force but faces annual political brinkmanship. Long-term investment bets on North American supply chains become harder to justify. This scenario benefits neither Canada nor the US economically but may suit a US administration that prefers ongoing leverage.</p>
+      <div class="cusma-scenario-impact"><strong>Impact:</strong> Business planning horizon compresses to 12 months. Hardest on sectors requiring long-term capital investment.</div>
+    </div>
+
+    <div class="cusma-scenario-card cusma-scenario-card-red">
+      <div class="cusma-scenario-label cusma-scenario-label-red">RISK</div>
+      <div class="cusma-scenario-heading">Non-renewal — 2036 termination countdown begins</div>
+      <p class="cusma-scenario-body">If any party signals non-renewal by July 1, 2026, a ten-year countdown to CUSMA termination begins, ending July 1, 2036. This does not mean immediate tariffs or trade barriers — existing terms continue for a decade. But it triggers a fundamental renegotiation on all terms, removes the legal certainty that underpins North American supply chains, and signals a structural break in the Canada-US economic relationship.</p>
+      <div class="cusma-scenario-impact"><strong>Impact:</strong> Most disruptive long-term scenario. Unlikely but not dismissible given current political environment.</div>
+    </div>
+  </div>
+
+  <!-- ── SIGNAL LOG ── -->
+  <div class="signal-log-label">SIGNAL LOG — UPDATED AS DEVELOPMENTS OCCUR</div>
+  <div class="signal-log">
+
+    <div class="signal-row">
+      <div class="signal-date">May 2026</div>
+      <div class="signal-body">
+        <div class="signal-title">Carney-Trump White House meeting — defence and trade discussed</div>
+        <div class="signal-desc">Prime Minister Carney met President Trump at the White House on May 6, 2026. Carney committed to a "step change" in Canadian defence investment, including 2% GDP by March 2026 and 5% by 2035. Carney acknowledged it is unlikely Canada will secure a tariff-free trade deal, signalling acceptance that some tariffs will remain regardless of CUSMA outcome. The meeting confirmed both sides are engaging but no CUSMA-specific framework was announced.</div>
+      </div>
+      <div class="signal-tag tag-diplomatic">Diplomatic</div>
+    </div>
+
+    <div class="signal-row">
+      <div class="signal-date">Apr 2026</div>
+      <div class="signal-body">
+        <div class="signal-title">US Trade Representative signals Chapter 19 reform as a priority</div>
+        <div class="signal-desc">USTR spokesperson confirmed in April 2026 that the US sees the joint review as an opportunity to reform Chapter 19 — the binational panel dispute resolution mechanism that has historically benefited Canada in softwood lumber and other disputes. Canada's trade law community has flagged this as a significant risk: Chapter 19 removal would shift disputes to US domestic courts, eliminating a key Canadian procedural advantage.</div>
+      </div>
+      <div class="signal-tag tag-risk">Risk</div>
+    </div>
+
+    <div class="signal-row">
+      <div class="signal-date">Mar 2026</div>
+      <div class="signal-body">
+        <div class="signal-title">Canada files Chapter 19 panel request on softwood lumber CVD</div>
+        <div class="signal-desc">Canadian softwood lumber producers, led by the BC Lumber Trade Council, filed for a CUSMA Chapter 19 dispute panel review of the 14.54% combined CVD/ADD in January 2026. The panel was constituted in March. A ruling is unlikely before late Q3 2026, but the filing establishes Canada's legal position heading into the broader joint review.</div>
+      </div>
+      <div class="signal-tag tag-negotiation">Dispute filed</div>
+    </div>
+
+    <div class="signal-row">
+      <div class="signal-date">Feb 2026</div>
+      <div class="signal-body">
+        <div class="signal-title">US presses on dairy — 84-page supply management complaint circulated</div>
+        <div class="signal-desc">A 84-page US dairy industry brief was circulated to USTR in February 2026 alleging ongoing Canadian supply management violations — specifically the allocation of TRQ (tariff rate quota) licenses favoring domestic processors. The US dairy sector, backed by Senators from Wisconsin and New York, is expected to make this a central ask in the joint review. Canada has defended supply management in every trade agreement and is expected to do so again.</div>
+      </div>
+      <div class="signal-tag tag-risk">Risk — Dairy</div>
+    </div>
+
+    <div class="signal-row">
+      <div class="signal-date">Jan 2026</div>
+      <div class="signal-body">
+        <div class="signal-title">Digital sales tax withdrawal — CUSMA duty-free access preserved</div>
+        <div class="signal-desc">Canada formally withdrew the digital services tax (DST) in January 2026 following US pressure, preserving Canadian goods' duty-free access under CUSMA. The DST would have collected approximately C$2.1B annually from US tech companies. The concession was widely interpreted as Canada's first pre-emptive move ahead of the joint review — signaling a willingness to trade policy instruments to protect core trade access.</div>
+      </div>
+      <div class="signal-tag tag-concession">Concession made</div>
+    </div>
+
+    <div class="signal-row">
+      <div class="signal-date">Nov 2025</div>
+      <div class="signal-body">
+        <div class="signal-title">US de minimis threshold — Canada watching Congressional proposals</div>
+        <div class="signal-desc">US Congressional proposals to lower the US de minimis threshold from US$800 to US$200 for e-commerce imports passed the House in November 2025 and are pending Senate consideration. If enacted, the change would significantly increase compliance costs for Canadian e-commerce businesses selling into the US market and could be used as a CUSMA negotiating signal. Canada's retail and e-commerce sector associations filed a joint brief to Global Affairs Canada in December 2025 requesting active opposition.</div>
+      </div>
+      <div class="signal-tag tag-signal">Signal — E-commerce</div>
+    </div>
+
+  </div>
+
+  <!-- ── SECTORS AT STAKE ── -->
+  <div class="signal-log-label">Sectors at stake — Canadian exposure by CUSMA chapter</div>
+  <div class="stakes-grid">
+    <div class="stake-card">
+      <div class="stake-sector">Softwood Lumber</div>
+      <div class="stake-issue">Chapter 19 dispute mechanism at risk</div>
+      <div class="stake-detail">C$11B annual export. Chapter 19 removal would shift to US courts. Current CVD of 14.54% already at issue. BC producers are most exposed.</div>
+    </div>
+    <div class="stake-card">
+      <div class="stake-sector">Dairy / Agri-food</div>
+      <div class="stake-issue">Supply management TRQ allocation under pressure</div>
+      <div class="stake-detail">Canadian dairy supply management faces US complaints on TRQ license allocation. Concession here would affect ~$5.4B domestic dairy industry and set a precedent for future agricultural trade.</div>
+    </div>
+    <div class="stake-card">
+      <div class="stake-sector">Advanced Manufacturing / Auto</div>
+      <div class="stake-issue">Regional value content and EV battery rules</div>
+      <div class="stake-detail">CUSMA's auto RVC rules require 75% North American content. EV battery supply chains involving Chinese materials create compliance risk. US may seek tighter rules timed to IRA incentive structures.</div>
+    </div>
+    <div class="stake-card">
+      <div class="stake-sector">Technology / Digital</div>
+      <div class="stake-issue">Data localization and platform liability alignment</div>
+      <div class="stake-detail">CUSMA Chapter 19 digital trade provisions prohibit data localization requirements. Canada's Online Harms Act and AI regulation create potential friction points. De minimis threshold affects C$4B+ in cross-border e-commerce annually.</div>
+    </div>
+    <div class="stake-card">
+      <div class="stake-sector">Energy</div>
+      <div class="stake-issue">Proportionality clause — energy export commitments</div>
+      <div class="stake-detail">CUSMA retains the NAFTA proportionality obligation requiring Canada to maintain US access to Canadian energy at historical proportions. As LNG exports to Asia grow, this clause constrains Canada's ability to redirect energy export destinations.</div>
+    </div>
+    <div class="stake-card">
+      <div class="stake-sector">Financial Services</div>
+      <div class="stake-issue">Chapter 17 — financial services market access</div>
+      <div class="stake-detail">CUSMA Chapter 17 provides Canadian financial institutions with US market access. Potential US pressure to expand reciprocal access to US firms in Canadian banking and insurance — relevant to Canada's systemically important banks and insurance sector.</div>
+    </div>
+  </div>
+
+  <div style="background:#fff;border:1px solid var(--warm-border);padding:20px 24px;margin-bottom:40px;">
+    <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.16em;text-transform:uppercase;color:var(--red);margin-bottom:10px;">CUSMA developments in CTI weekly reports</div>
+    <p style="font-size:13px;color:var(--ink-mid);line-height:1.7;">CUSMA negotiation signals appear across all six CTI sector reports — softwood lumber in Advanced Manufacturing, dairy in Agri-food, Chapter 19 in Critical Minerals, auto content in Advanced Manufacturing and Technology. The weekly reports are the primary signal feed for this tracker.</p>
+    <a href="/reports/" style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--red);text-decoration:none;display:inline-block;margin-top:12px;border-bottom:1px solid rgba(204,0,0,0.3);">Read this week's reports →</a>
+  </div>
+
+  <!-- ── SUBSCRIBE CALLOUT ── -->
+  <div class="cusma-subscribe-callout">
+    <p class="cusma-subscribe-body">CTI tracks CUSMA developments every week across all six sector reports. Signals on lumber, dairy, autos, energy, and digital trade appear in the relevant sector brief the Tuesday after they emerge.</p>
+    <div class="cusma-subscribe-links">
+      <a href="/subscribe/" class="cusma-subscribe-link">Subscribe to weekly reports →</a>
+      <a href="/reports/" class="cusma-subscribe-link">Read this week's reports →</a>
+    </div>
+  </div>
+
+  <a href="/analysis/" style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--red);text-decoration:none;border-bottom:1px solid rgba(204,0,0,0.3);">← Back to Canada Forward</a>
+
+</div>
+
+<footer style="background:#1a0505;border-top:1px solid rgba(204,0,0,0.15);padding:28px 48px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+  <span style="font-family:'DM Mono',monospace;font-size:9px;color:rgba(255,255,255,0.3);letter-spacing:0.08em;">© 2026 Canadian Trade Intelligence Inc.</span>
+  <span style="font-family:'DM Mono',monospace;font-size:9px;color:rgba(255,255,255,0.2);letter-spacing:0.06em;">Not legal or investment advice</span>
+</footer>
+
+<script>
+// ── SECTOR LOOKUP PROFILES ────────────────────────────────────────────────────
+var PROFILES = {
+  mfg: {
+    low: {
+      risk: 'mod', riskLabel: 'Moderate risk',
+      headline: 'Limited direct exposure — supply chain disruption risk remains',
+      body: 'Your business is not primarily US-dependent, but CUSMA\'s auto rules of origin (75% North American content) and potential EV battery content rule changes will affect your input costs and supplier relationships regardless of your direct US revenue share. Indirect effects flow through customers who carry heavy US exposure.',
+      risks: ['Input cost increases from suppliers with high US exposure','EV transition rules affecting Canadian content calculations for downstream customers','Chapter 19 reform weakening dispute resolution for industrial inputs','Supply chain disruption if major US OEMs respond to RVC rule changes'],
+      actions: ['Map your tier-2 suppliers\' US revenue exposure — your suppliers\' risk is your risk','Review regional value content (RVC) calculations for key product lines','Assess whether your Canadian content story can be a market differentiator','Join CVMA or CME consultations on CUSMA manufacturing chapter priorities'],
+      timeline: 'RVC rule changes possible by Q4 2026. Monitoring period: July–December 2026.'
+    },
+    med: {
+      risk: 'elev', riskLabel: 'Elevated risk',
+      headline: 'Significant exposure — RVC rules and tariff uncertainty are live risks',
+      body: 'With meaningful US revenue, the combination of existing 25% IEEPA tariffs and potential CUSMA RVC rule changes creates two parallel risk tracks. Critically: CUSMA renewal is separate from tariff removal — even a successful review outcome does not eliminate the current tariff regime. You are managing both simultaneously.',
+      risks: ['Dual exposure: IEEPA tariffs already in place plus RVC rule tightening risk','US customers absorbing tariff costs may reduce order volumes or renegotiate','EV content rules could disqualify some Canadian-made components from preferential treatment','Investment uncertainty delaying Canadian manufacturers\' capital commitments'],
+      actions: ['Review US customer contracts for tariff pass-through terms and renegotiation clauses','Identify alternative market channels — EU (CETA), Japan, UK for partial volume hedge','Model revenue impact under 3 CUSMA scenarios: clean extension, annual review, non-renewal','Join CVMA advocacy positions on RVC rules; engage your MP and ISED'],
+      timeline: 'Immediate — IEEPA tariffs in place now. CUSMA RVC outcome: late 2026 at earliest.'
+    },
+    high: {
+      risk: 'high', riskLabel: 'High risk',
+      headline: 'Critical exposure — both tariff and RVC risks are material to your business',
+      body: 'Your business is directly in the crossfire of both the IEEPA tariff regime and CUSMA\'s automotive RVC renegotiation. The 25% tariff is already reducing margins or pricing you out of some US contracts. If RVC rules tighten for EVs, Canadian manufacturers face retooling costs or loss of CUSMA preferential access. This is the highest-risk combination in the manufacturing sector.',
+      risks: ['25% IEEPA tariff already compressing margins — no near-term relief visible','EV RVC tightening could increase compliance costs materially or disqualify products','Major US OEM customers may shift sourcing under political and cost pressure','Chapter 19 removal would weaken Canadian recourse on future auto dispute filings','Annual review scenario means sustained uncertainty killing long-term contract commitments'],
+      actions: ['Urgent: legal review of existing US customer contracts for force majeure and tariff clauses','Model worst-case RVC scenario — what products lose CUSMA treatment and at what cost','Accelerate non-US market development: CETA/EU, CPTPP/Japan, UK FTA','Engage CVMA, Tier1 Automotive Canada, and MP directly on Chapter RVC red lines','Contact EDC on working capital solutions to bridge IEEPA tariff cash flow impact'],
+      timeline: 'Immediate — no tariff relief in sight before Q3 2026. RVC: critical period July–December 2026.'
+    }
+  },
+  lumber: {
+    low: {
+      risk: 'mod', riskLabel: 'Moderate risk',
+      headline: 'Mostly domestic or non-US focus — Chapter 19 reform is a background risk',
+      body: 'With limited US revenue, you\'re insulated from the worst tariff impacts. But the CUSMA joint review\'s potential reform of Chapter 19 — the binational panel dispute mechanism — affects the entire industry\'s recourse framework. Even domestic producers\' input costs and competitive position depend on lumber market stability that Chapter 19 helps defend.',
+      risks: ['Chapter 19 reform weakens dispute recourse for all Canadian lumber producers regardless of US exposure','Market price effects from US tariffs affect Canadian benchmark pricing across the industry','Prolonged review uncertainty affects capital investment decisions in the sector'],
+      actions: ['Track Chapter 19 reform proposals — this is the key CUSMA issue for the lumber sector','Ensure your sector association (COFI, FPAC, BCLTA) is actively representing Chapter 19 interests','Monitor whether a Chapter 19 panel ruling on the current CVD filing issues before review opens'],
+      timeline: 'Chapter 19 reform: July–December 2026 review period. Panel ruling: Q3 2026 expected.'
+    },
+    med: {
+      risk: 'elev', riskLabel: 'Elevated risk',
+      headline: 'Serious exposure — CVDs plus Chapter 19 reform risk operating simultaneously',
+      body: 'You\'re already operating under the 14.54% combined CVD/ADD on Canadian softwood entering the US. CUSMA\'s joint review creates risk on two fronts: continuation or increase of existing duties, and Chapter 19 reform that would shift future disputes to US domestic courts — eliminating Canada\'s preferred and historically more favourable forum.',
+      risks: ['Ongoing 14.54% CVDs reducing margin on all US sales','Chapter 19 reform eliminating Canada\'s preferred dispute forum — shift to US courts','BC producers most exposed given export volume concentration in US markets','Prolonged CUSMA review uncertainty chilling US buyer long-term commitments'],
+      actions: ['Review US sales contract pricing to ensure CVD burden is correctly allocated','Engage BCLTA and FPAC on Chapter 19 preservation as a Canadian red line in negotiations','Explore EU (CETA), Japan, and China market access as partial hedge against US dependency','Track Chapter 19 panel status on the March 2026 softwood filing'],
+      timeline: 'Chapter 19 panel ruling: Q3 2026. CUSMA review — lumber chapter: July–October 2026.'
+    },
+    high: {
+      risk: 'high', riskLabel: 'High risk',
+      headline: 'Maximum exposure — softwood lumber is at the centre of the review',
+      body: 'Softwood lumber is Canada\'s most contentious bilateral trade dispute and Chapter 19 — which provides Canada\'s best legal recourse — is directly under threat. You face the 14.54% CVD/ADD, risk of increased duties during review uncertainty, and potential elimination of the binational panel process. BC operations with large US market share are in the most vulnerable position in any Canadian sector.',
+      risks: ['Existing 14.54% CVDs already material — further increases possible during review uncertainty','Chapter 19 elimination removes Canada\'s most effective dispute tool permanently','US political pressure may result in punitive measures during the review window','Prolonged legal uncertainty chills US buyer multi-year purchasing commitments','Non-renewal scenario triggers decade of renegotiation affecting all lumber provisions'],
+      actions: ['Immediate: assess financial exposure under extended CVD scenario (assume 18-month review)','Engage legal counsel now on Chapter 19 implications and contingency strategies','Accelerate market diversification — EU (CETA tariff-free), Japan, South Korea, India','Lobby directly through BCLTA, FPAC, COFI for Chapter 19 preservation as Canada\'s explicit red line','Engage with BC Ministry of Forests and Natural Resources Canada on federal support programmes'],
+      timeline: 'Critical: July–December 2026. Assume no resolution before Q2 2027 in base case.'
+    }
+  },
+  agri: {
+    low: {
+      risk: 'low', riskLabel: 'Low risk',
+      headline: 'Limited direct exposure — dairy supply management debate is background risk',
+      body: 'If your agri-food business is domestic-focused and outside supply-managed sectors, CUSMA\'s joint review has limited direct impact. The Canadian government has maintained supply management across every trade agreement and is expected to do so again. The review could affect benchmark pricing for some inputs if concessions are made, but this is a second-order effect for most domestic operators.',
+      risks: ['Any dairy supply management concession changes domestic pricing benchmarks for processors','Canola benchmark pricing can be affected by market uncertainty even without direct US exposure','Indirect effects if major agri-food processors with US exposure cut Canadian input volumes'],
+      actions: ['Monitor CUSMA dairy chapter developments — US has filed an 84-page complaint','Register with your sector association (CFA, SaskCanola, DFO) if you have supply-chain exposure','Assess whether input pricing stability depends on any supply management outcome'],
+      timeline: 'Dairy TRQ resolution: likely Q2–Q3 2027. Review opens July 2026.'
+    },
+    med: {
+      risk: 'elev', riskLabel: 'Elevated risk',
+      headline: 'US export exposure plus supply management precedent risk',
+      body: 'With significant US revenue, you\'re already managing the IEEPA tariff impact. The CUSMA review adds a separate risk track: if Canada makes supply management concessions, the precedent affects your competitive environment and input costs. Canola exporters face the most specific risk — US market access is directly CUSMA-dependent and canola is the most US-exposed prairie crop.',
+      risks: ['IEEPA tariffs already compressing margins on US processed food and agri-food exports','Canola access to the US market is directly CUSMA-dependent — non-renewal creates immediate risk','Supply management concessions could affect competitive dynamics for processed food producers','TRQ allocation for exports is subject to review and potential adverse change'],
+      actions: ['Review US buyer contracts for tariff pass-through and force majeure provisions','Model exposure under combined tariff-plus-CUSMA-uncertainty scenario for US sales','Join Ag-Canada and your provincial commodity board on CUSMA agri-food chapter consultations','Explore EU market access for processed products using CETA preferential rates'],
+      timeline: 'Canola and dairy central to July 2026 review opening. IEEPA tariff: immediate.'
+    },
+    high: {
+      risk: 'high', riskLabel: 'High risk',
+      headline: 'Core exposure — dairy, canola, and supply management all simultaneously under pressure',
+      body: 'Dairy producers, canola growers, and processors with heavy US sales are at the intersection of the IEEPA tariff regime and CUSMA\'s most contested chapters. The US dairy lobby has filed an 84-page brief demanding TRQ concessions. Canola access depends on CUSMA remaining intact. A prolonged review creates the worst combination: existing tariff burden plus investment uncertainty plus supply management precedent risk.',
+      risks: ['Dairy TRQ concession risk — high US political pressure from Wisconsin and New York senators','Canola: CUSMA non-renewal triggers direct US market access disruption','25% IEEPA tariff already in place on most processed agri-food exports to the US','Supply management precedent risk — concession here sets precedent for future negotiations','Annual review scenario means 12-month planning horizon for capital-intensive operations'],
+      actions: ['Urgent: engage DFO, FCC, and your provincial supply management board','Document tariff impact now — prepare submissions for trade remedy applications','Accelerate diversification: EU via CETA (zero tariff on most processed food), Japan, UK','Engage CFA, SaskCanola, or DFO directly on CUSMA negotiating red lines','Maintain grain and dairy hedging positions through the review uncertainty period'],
+      timeline: 'Dairy and canola: central to July 2026 review. Supply management outcome: Q3–Q4 2027.'
+    }
+  },
+  energy: {
+    low: {
+      risk: 'low', riskLabel: 'Low risk',
+      headline: 'Mostly insulated — proportionality clause is a longer-term structural concern',
+      body: 'Energy producers without US market concentration face limited acute CUSMA review risk. The proportionality clause — which requires Canada to maintain US access to Canadian energy at historical proportions — constrains future strategic planning as Trans Mountain and LNG Canada ramp up Asian export capacity. But this is a structural constraint, not an acute review-window risk.',
+      risks: ['Proportionality clause limits export destination flexibility as Canadian LNG capacity grows','Provincial regulatory frameworks may be implicated in energy chapter negotiations','Indirect: CUSMA review uncertainty may delay cross-border energy infrastructure investment decisions'],
+      actions: ['Track energy chapter negotiations — proportionality clause is likely to be raised by Canada','Document any LNG or pipeline capacity plans that could interact with proportionality obligations','Engage NEB/Canada Energy Regulator on CUSMA energy chapter consultations'],
+      timeline: 'Proportionality clause: medium-term, Q4 2026 review. LNG strategic implications: 2027+.'
+    },
+    med: {
+      risk: 'mod', riskLabel: 'Moderate risk',
+      headline: 'Some US exposure — track proportionality clause and IEEPA tariff impacts on inputs',
+      body: 'With meaningful US revenue, you\'re feeling the IEEPA tariff impact on energy sector equipment and inputs. The proportionality clause doesn\'t directly affect tariff rates but constrains strategic planning for export market diversification. Alberta producers with mixed US/Asian exposure need to model both channels carefully through the review period.',
+      risks: ['IEEPA tariffs on energy sector equipment, steel, and compressor components sourced from US','Proportionality clause constrains rapid export market rebalancing to Asia','US energy political dynamics may affect CUSMA energy chapter negotiating priorities','Alberta-federal policy tension adding complexity to Canada\'s CUSMA energy negotiating position'],
+      actions: ['Model IEEPA tariff impact on US-sourced equipment and service costs','Review long-term export contracts for proportionality clause implications','Engage NEB and Canada Energy Regulator on CUSMA energy chapter consultation','Plan for energy chapter negotiations in Q4 2026 review phase'],
+      timeline: 'Energy chapter: Q4 2026 review phase. IEEPA tariff on inputs: immediate.'
+    },
+    high: {
+      risk: 'elev', riskLabel: 'Elevated risk',
+      headline: 'High US revenue — tariff costs on equipment plus proportionality constraints',
+      body: 'With over 60% of revenue tied to US markets, you\'re bearing both the IEEPA tariff cost on US-sourced equipment and the proportionality obligation limiting strategic flexibility. The combination creates a structural constraint: high US dependence with limited ability to quickly pivot supply toward Asia without CUSMA-framework legal exposure.',
+      risks: ['Current IEEPA tariffs on US energy equipment, steel pipe, and service costs — material impact','Proportionality clause creates legal risk if export market rebalancing is too rapid','US political pressure for Canadian energy "discount" to offset tariff costs could emerge','Alberta-federal tension complicating unified Canadian negotiating position on energy','Non-renewal scenario triggers full proportionality clause renegotiation — major uncertainty'],
+      actions: ['Legal review of proportionality clause implications for current and planned export commitments','Engage CAPP, CERI, and your company\'s government relations team directly','Model non-renewal scenario: what does proportionality clause renegotiation mean for LNG plans','Explore partial export diversification to Asia within proportionality clause constraints','Track Trans Mountain utilization and LNG Canada ramp-up for proportionality clause benchmarks'],
+      timeline: 'Acute: July 2026 review opening. Proportionality resolution: medium-term, 2027.'
+    }
+  },
+  tech: {
+    low: {
+      risk: 'low', riskLabel: 'Low risk',
+      headline: 'Limited US exposure — CUSMA digital chapter protections still relevant',
+      body: 'CUSMA Chapter 19 (digital trade) prohibits data localization requirements and protects cross-border data flows — provisions that benefit Canadian tech companies regardless of US revenue concentration. With low US exposure, your main CUSMA interest is preserving these protections and monitoring the US de minimis threshold proposal that affects Canadian e-commerce.',
+      risks: ['Data localization provisions under review — weakening would affect data architecture decisions','Canada\'s AI regulation and Online Harms Act create potential CUSMA digital chapter friction','De minimis threshold change (US$800 → US$200 proposed) affects Canadian e-commerce sellers'],
+      actions: ['Track digital chapter negotiations — data flow and localization provisions are key','Ensure company data architecture would be resilient if localization provisions are weakened','Monitor US de minimis proposal status in Congress; assess impact on any US fulfillment operations','Engage ITAC or ICTC on CUSMA digital chapter consultation submissions'],
+      timeline: 'De minimis: Congressional action possible 2026. Digital chapter: Q3 2026 CUSMA negotiations.'
+    },
+    med: {
+      risk: 'mod', riskLabel: 'Moderate risk',
+      headline: 'E-commerce and SaaS exposure — de minimis threshold and platform rules are live',
+      body: 'If you\'re selling software, digital services, or physical goods to US consumers, the proposed US de minimis reduction from US$800 to US$200 creates immediate compliance and cost implications. CUSMA\'s digital chapter protections currently prevent data localization requirements — changes here affect how you architect cross-border services.',
+      risks: ['De minimis threshold reduction materially increases US customs friction for e-commerce sellers','Digital chapter weakening could enable US data localization requirements affecting SaaS architectures','Canada\'s Bill C-27 (AI/Privacy) potentially creating CUSMA digital chapter friction points','CUSMA review uncertainty affecting US investor appetite for cross-border digital businesses'],
+      actions: ['Model cost impact of US$200 de minimis threshold on US fulfillment and compliance costs','Review data architecture now for localization-resilience — don\'t wait for rule change','Engage ITAC and CIOSC on CUSMA digital chapter consultation process','Review US customer and investor contracts for CUSMA-related representations'],
+      timeline: 'De minimis: Congressional action possible 2026. Digital chapter CUSMA: Q3 2026.'
+    },
+    high: {
+      risk: 'elev', riskLabel: 'Elevated risk',
+      headline: 'Core digital trade exposure — multiple active risks across CUSMA\'s digital chapter',
+      body: 'With over 60% of revenue from US digital markets, you have concentrated exposure across CUSMA\'s digital trade chapter. The de minimis threshold, data localization prohibition, platform liability rules, and IP provisions all intersect with your business model. CUSMA renewal uncertainty itself creates investor and customer uncertainty for cross-border digital businesses.',
+      risks: ['De minimis reduction: immediate impact on any physical goods component of US sales','Data localization risk if Chapter 19 digital protections are weakened in review','IP protection provisions under potential revision affecting software and content businesses','Platform liability alignment risk with US legislative framework','M&A and investor uncertainty from CUSMA review — US VCs and strategics are watching'],
+      actions: ['Urgent: engage legal counsel on cross-border data architecture risk and contingency','Join ICTC, CATO, and ITAC joint submission to Global Affairs Canada — add your company\'s voice','Model revenue impact of US$200 de minimis change across all product lines','Ensure US contracts and investor agreements address CUSMA review uncertainty scenarios','Review IP registration and protection strategy across both jurisdictions now'],
+      timeline: 'Immediate: de minimis (Congressional). Q3 2026: digital chapter CUSMA negotiations.'
+    }
+  },
+  minerals: {
+    low: {
+      risk: 'low', riskLabel: 'Low risk',
+      headline: 'Limited US exposure — IRA benefit stream is the key CUSMA-adjacent issue',
+      body: 'Critical minerals with non-US market exposure are relatively insulated from CUSMA\'s immediate review risks. The bigger issue is CUSMA-adjacent: whether Canada retains FTA partner status under the US Inflation Reduction Act\'s critical minerals provisions. This depends partly on CUSMA remaining intact and on specific battery critical mineral sourcing rules that may be tightened.',
+      risks: ['IRA FTA partner status is contingent on CUSMA remaining intact — indirect but real','US may add CUSMA provisions requiring Chinese-entity restrictions on minerals supply chains','Australian and Chilean producers may benefit if Canadian CUSMA status is disrupted'],
+      actions: ['Track IRA FTA partner status requirements — verify your specific minerals are covered','Review whether operations are covered by Canada-US Critical Minerals Agreement','Engage NRCan on CUSMA minerals chapter consultation','Confirm ownership and supply chain is free of FEOC (foreign entity of concern) complications'],
+      timeline: 'IRA critical minerals regulatory updates: Q4 2026 expected. CUSMA review: July 2026.'
+    },
+    med: {
+      risk: 'mod', riskLabel: 'Moderate risk',
+      headline: 'IRA and CUSMA intersection — battery materials rules of origin matter',
+      body: 'Canadian critical minerals operations selling into US battery supply chains depend on two parallel tracks: the IRA\'s FTA critical minerals sourcing rules and CUSMA\'s rules of origin for downstream battery manufacturing. Disruption to either track affects Canada\'s position as preferred input supplier for US EV supply chains versus Australian, Chilean, and DRC sources.',
+      risks: ['IRA FEOC rules interacting with CUSMA supply chain — Chinese-origin equipment creates complications','CUSMA auto RVC rule changes affect downstream demand signals for Canadian critical minerals','Review uncertainty delaying US EV manufacturer multi-year supply contracts with Canadian miners','Battery passport and ESG traceability requirements emerging as compliance cost'],
+      actions: ['Confirm IRA FTA partner eligibility for your specific minerals and processing locations','Review ownership structure and supply chain for FEOC rule complications','Engage CanMin and MiHR on CUSMA critical minerals chapter advocacy','Map exposure to CUSMA auto RVC changes — downstream demand implications'],
+      timeline: 'IRA FEOC rules: ongoing compliance. CUSMA critical minerals: Q3–Q4 2026 review.'
+    },
+    high: {
+      risk: 'elev', riskLabel: 'Elevated risk',
+      headline: 'Deep US supply chain integration — IRA eligibility and CUSMA RVC rules both critical',
+      body: 'With high US revenue, your business is deeply integrated into North American critical minerals supply chains — likely serving EV battery or semiconductor manufacturing customers. Your IRA eligibility and CUSMA preferential access are the two pillars of your competitive position against non-FTA suppliers. Both face review-period risk simultaneously.',
+      risks: ['CUSMA non-renewal would remove FTA preferential access for IRA purposes — immediate competitive impact','RVC rule tightening in CUSMA auto chapter directly affects downstream demand signals from EV OEMs','FEOC rules creating complications for operations with any Chinese equipment or investment','Prolonged review uncertainty delays major capital commitments from US battery and semiconductor buyers','Australia and Chile competing aggressively for same US supply chain positions'],
+      actions: ['Immediate: legal review of IRA FTA eligibility chain from mine to battery cell','Model scenario where CUSMA RVC rules change downstream demand — what is your exposure','Engage NRCan CMMP team and your MP on CUSMA critical minerals red lines','Ensure US customer contracts have FTA eligibility risk clauses for IRA credits','Conduct FEOC review of full capital structure and equipment supply chain'],
+      timeline: 'Acute: ongoing IRA FEOC reviews + July 2026 CUSMA review opening. Critical: Q3 2026.'
+    }
+  },
+  aero: {
+    low: {
+      risk: 'low', riskLabel: 'Low risk',
+      headline: 'Low direct commercial exposure — domestic defence budget is the opportunity',
+      body: 'With limited US revenue, your aerospace and defence business is most affected by CUSMA\'s government procurement chapter changes — which are unlikely to be dramatic — and the political environment affecting Canadian defence industry access to US programmes. The Carney government\'s C$150B+ defence commitment over 20 years creates a significant domestic opportunity that partially offsets US exposure.',
+      risks: ['Buy American provisions remain separate from CUSMA procurement chapter — political pressure ongoing','US political climate affecting Canadian subcontractor access to US prime programmes','CUSMA review uncertainty creating hesitation among US primes on long-term Canadian subcontract awards'],
+      actions: ['Position aggressively for Canadian defence budget rollout — NORAD, Arctic, F-35 sustainment','Engage CADSI on CUSMA procurement chapter advocacy','Review whether products qualify under the Canada-US Defence Production Sharing Agreement (DPSA)','Track DND capital project pipeline for direct Canadian content opportunities'],
+      timeline: 'Canadian defence budget deployment: 2026–2035. CUSMA procurement chapter: Q4 2026.'
+    },
+    med: {
+      risk: 'mod', riskLabel: 'Moderate risk',
+      headline: 'Procurement access and investment uncertainty both active risks',
+      body: 'Aerospace and defence businesses with meaningful US revenue are exposed to the IEEPA tariff impact on aerospace components and longer-term procurement access uncertainty. The Carney government\'s defence commitments create domestic offset opportunity, but US Tier 1 programme access depends on bilateral relationship stability that the CUSMA review puts under stress.',
+      risks: ['25% IEEPA tariffs on aerospace parts and components already in place — margin impact','Buy American political pressure may tighten access to new US defence subcontracts','CUSMA procurement chapter may face US pressure for higher Buy American thresholds','Investment uncertainty affecting Canadian aerospace M&A and programme bid decisions'],
+      actions: ['Map 25% IEEPA tariff exposure on US-sourced aerospace components and materials','Track NORAD modernization and F-35 sustainment programme opportunities as domestic offsets','Engage CADSI and Aerospace Industries Association of Canada on joint CUSMA submissions','Review US subcontract terms for tariff pass-through and change-of-law provisions'],
+      timeline: 'NORAD modernization procurement: 2026–2030. CUSMA procurement chapter: Q4 2026.'
+    },
+    high: {
+      risk: 'high', riskLabel: 'High risk',
+      headline: 'High US programme exposure — tariff costs plus procurement access at risk',
+      body: 'With over 60% of revenue from US defence or aerospace primes, you\'re bearing both the IEEPA tariff on components and the political risk of US Buy American pressure reducing new awards. The Carney-Trump meeting in May 2026 addressed defence spending but no specific commitments on procurement access reciprocity were announced. Your position as a Canadian defence subcontractor depends on bilateral stability.',
+      risks: ['25% IEEPA tariffs already compressing margins on all US programme work','Buy American pressure creating de facto preference for US-domestic sourcing on new competitive awards','CUSMA non-renewal would remove procurement chapter protections for Canadian government contract access','US programme schedule uncertainty affecting long-term Canadian workshare commitments from primes','Canadian defence spending increases may shift DND procurement focus to domestic over US subcontract'],
+      actions: ['Urgent: review all US prime contractor relationships for tariff cost allocation and renegotiation leverage','Engage CADSI government relations directly — they are the primary advocacy channel on Buy American','Position aggressively for Canadian defence programmes: F-35 sustainment, NORAD, polar icebreakers','Review DPSA eligibility and application — ensures access to US FMS programme workshare','Model scenario where US prime reduces Canadian content allocation by 20% — what is the revenue impact'],
+      timeline: 'Immediate — no tariff relief visible. CUSMA procurement: Q4 2026. NORAD: 2026–27 opportunity.'
+    }
+  },
+  finance: {
+    low: {
+      risk: 'low', riskLabel: 'Low risk',
+      headline: 'Minimal direct exposure — monitor Chapter 17 financial services provisions',
+      body: 'Financial services businesses without significant US operations or cross-border client exposure have limited direct CUSMA review risk. Chapter 17\'s financial services market access provisions primarily affect the large Canadian banks and insurers. The review is unlikely to dramatically change the bilateral financial services framework for smaller players.',
+      risks: ['Chapter 17 changes affecting correspondent banking relationships indirectly','US pressure for Canadian financial market access could affect domestic competition dynamics','Regulatory uncertainty affecting cross-border fintech product launches'],
+      actions: ['Track Chapter 17 financial services negotiations — low priority for most SME financial services','Review OSFI guidance on cross-border financial services implications of CUSMA review','Monitor fintech de minimis and payments provisions for any impact on cross-border payment products'],
+      timeline: 'Chapter 17: Q4 2026 review phase. Low immediate priority for non-US-exposed firms.'
+    },
+    med: {
+      risk: 'mod', riskLabel: 'Moderate risk',
+      headline: 'Cross-border operations exposed to Chapter 17 changes and regulatory alignment',
+      body: 'Financial institutions with meaningful US operations or cross-border client relationships face moderate CUSMA review risk. Chapter 17 provisions govern market access for Canadian financial firms in the US — any US push for greater reciprocal access to Canadian financial markets would affect your competitive environment domestically.',
+      risks: ['US pressure to open Canadian banking, insurance, or asset management markets to greater US competition','CUSMA review uncertainty affecting cross-border M&A, investment flows, and financial planning horizons','Fintech de minimis and cross-border payments regulations potentially subject to change','Regulatory alignment provisions affecting compliance costs for cross-border financial products'],
+      actions: ['Engage CBA, CLHIA, or relevant industry association on Chapter 17 advocacy positions','Review cross-border operations for CUSMA dependency — identify provisions that matter most','Monitor fintech payments and de minimis provisions alongside digital chapter negotiations','Ensure US operations and relationships have appropriate CUSMA uncertainty clauses'],
+      timeline: 'Chapter 17: Q4 2026 CUSMA review phase. Fintech: digital chapter Q3 2026.'
+    },
+    high: {
+      risk: 'elev', riskLabel: 'Elevated risk',
+      headline: 'Core exposure — Chapter 17 and cross-border operations central to the review',
+      body: 'Large Canadian financial institutions with significant US operations, or fintechs with deep US market exposure, face the most direct CUSMA review risk in the sector. US pressure to expand reciprocal access to the Canadian market — in banking, insurance, or asset management — would affect domestic competitive dynamics.',
+      risks: ['Chapter 17 reciprocity pressure — US seeking greater access to Canadian banking and insurance markets','Cross-border payment and fintech operations exposed to both Chapter 17 and digital chapter changes','CUSMA review uncertainty affecting US institutional investor appetite for Canadian financial assets','Large banks: stress-testing for CUSMA non-renewal scenario may be an emerging regulatory expectation','Prolonged review creates sustained uncertainty for cross-border M&A and capital market transactions'],
+      actions: ['Engage OSFI and Department of Finance directly on Chapter 17 consultation process','Model competitive impact of increased US financial institution access to Canadian markets','Review US operations and cross-border structures for tariff, regulatory, and CUSMA headwinds','Ensure cross-border client agreements and investment mandates address CUSMA review uncertainty','Participate in Canadian Bankers Association and CLHIA joint submissions on Chapter 17 priorities'],
+      timeline: 'Chapter 17 negotiations: Q4 2026. Systemic risk and stress-test implications: ongoing.'
+    }
+  },
+  retail: {
+    export: {
+      risk: 'elev', riskLabel: 'Elevated risk',
+      headline: 'Exporting into the US tariff wall — CUSMA preferential access under pressure',
+      body: 'Canadian consumer goods companies and retailers exporting to the US are navigating the 25% IEEPA tariff that is already compressing margins or pricing products out of US markets. The CUSMA review adds a second track: if rules of origin for consumer goods are tightened, qualifying for preferential access becomes more costly. US buyers are increasingly seeking domestic alternatives under political pressure.',
+      risks: ['25% IEEPA tariff already reducing or eliminating margin on US exports','US buyers shifting to domestic suppliers under political and cost pressure','Rules of origin tightening could increase compliance costs for qualifying goods','Canadian dollar volatility adding pricing instability on top of tariff burden','Review uncertainty delaying US retail buyer multi-season purchasing commitments'],
+      actions: ['Review US retail buyer contracts for tariff pass-through and minimum order provisions','Calculate landed cost under 25% tariff — identify product lines that remain viable','Explore EU (CETA), UK, and Japan as alternative export channels to diversify US dependency','Engage Export Development Canada (EDC) on foreign receivables insurance for US exposure','Review country-of-origin documentation and CUSMA certificate of origin compliance'],
+      timeline: 'IEEPA tariff: immediate. CUSMA rules of origin review: Q3–Q4 2026.'
+    },
+    import: {
+      risk: 'mod', riskLabel: 'Moderate risk',
+      headline: 'Canadian retaliatory tariffs increasing input costs on US-sourced goods',
+      body: 'Retailers and consumer goods businesses that source from US suppliers are exposed to Canada\'s retaliatory tariffs on US goods, which affect procurement costs and pricing. While CUSMA review outcomes focus on Canadian export access to the US, the retaliatory tariff environment is already raising costs. Supply chain diversification away from US sources is the primary strategic response.',
+      risks: ['Canadian retaliatory tariffs increasing cost of US-sourced goods and materials','US suppliers passing tariff costs back to Canadian buyers on Canadian-bound inputs','Supply chain disruption if US suppliers prioritize domestic customers under political pressure','Currency and pricing instability making multi-season purchasing decisions difficult','Review prolongation extends sourcing uncertainty through 2027'],
+      actions: ['Map all US-sourced inputs and products — calculate retaliatory tariff exposure','Identify alternative suppliers in Mexico, EU, or Asia for high-tariff US-sourced lines','Review supplier contracts for change-of-law and cost pass-through provisions','Build safety stock on high-tariff US inputs before potential escalation','Register with Trade Commissioner Service for market diversification support'],
+      timeline: 'Retaliatory tariffs: immediate. CUSMA review supply chain chapter: Q4 2026.'
+    },
+    supply: {
+      risk: 'mod', riskLabel: 'Moderate risk',
+      headline: 'Downstream tariff pressure flowing back through supply chains',
+      body: 'Businesses supplying goods or services to Canadian retailers or consumer goods companies with US exposure are experiencing indirect tariff pressure. Your customers are managing their own CUSMA and tariff risk — and that typically means renegotiating supplier contracts, reducing orders, or seeking lower-cost alternatives. Your exposure is real even without direct US revenue.',
+      risks: ['Downstream customers cutting orders or renegotiating contracts to absorb tariff costs','Input cost increases if your own supply chain has US exposure','Uncertainty affecting seasonal and long-lead procurement commitments from retail customers','Canadian consumer spending softening if tariff costs pass through to retail prices'],
+      actions: ['Map which of your customers have significant US revenue — their risk is your risk','Review contracts for minimum volume commitments and renegotiation clauses','Identify opportunities to supply tariff-diversification sourcing for US-exposed customers','Position Canadian-content story as a differentiator for buyers de-risking US supply chains'],
+      timeline: 'Ongoing — downstream pressure already visible. Monitor customer Q2 2026 earnings guidance.'
+    },
+    none: {
+      risk: 'low', riskLabel: 'Low risk',
+      headline: 'Limited direct exposure — consumer price effects are the main watchpoint',
+      body: 'Purely domestic retailers and consumer goods businesses without US supply chain exposure are largely insulated from direct CUSMA review impacts. The main transmission channel is consumer prices: if IEEPA and retaliatory tariffs raise costs for imported goods, Canadian consumers face higher prices and may reduce discretionary spending.',
+      risks: ['Tariff pass-through raising consumer goods prices and softening discretionary spending','Input cost increases if any raw materials or packaging sourced from tariff-affected supply chains','Canadian economic slowdown from trade uncertainty reducing household disposable income'],
+      actions: ['Monitor Statistics Canada retail price indices for tariff pass-through signals','Review any packaging, equipment, or raw material sourcing for indirect US exposure','Engage Retail Council of Canada for sector-level CUSMA intelligence and advocacy'],
+      timeline: 'Macro demand effects: Q2–Q3 2026. No direct CUSMA action required at this time.'
+    }
+  },
+  construction: {
+    export: {
+      risk: 'elev', riskLabel: 'Elevated risk',
+      headline: 'US project exposure facing Buy American pressures and procurement restrictions',
+      body: 'Canadian construction and engineering firms with US project revenue are navigating IEEPA tariffs on materials and equipment alongside growing Buy American requirements in US infrastructure spending. CUSMA\'s government procurement chapter provides some protections, but sub-federal contracts are largely excluded. US market access for Canadian construction firms depends heavily on bilateral relationship stability.',
+      risks: ['25% IEEPA tariffs on materials and equipment affecting US project cost models','Buy American requirements in US infrastructure and federal procurement excluding Canadian bids','CUSMA procurement chapter changes during review could further restrict Canadian access','State-level procurement preferences adding complexity beyond federal CUSMA provisions','USD/CAD volatility affecting project budget management on US-denominated contracts'],
+      actions: ['Review US project contracts for material cost escalation and change-order provisions','Assess Buy American compliance requirements for specific project types and funding sources','Engage ACEC-Canada on CUSMA government procurement chapter advocacy','Evaluate Carney government C$150B+ domestic infrastructure commitment as alternative pipeline','Ensure bonding and insurance arrangements account for tariff-driven cost escalation'],
+      timeline: 'Immediate: tariff cost escalation on active projects. CUSMA procurement chapter: Q4 2026.'
+    },
+    import: {
+      risk: 'elev', riskLabel: 'Elevated risk',
+      headline: 'US-sourced materials and equipment hit by retaliatory and IEEPA tariffs',
+      body: 'Construction and real estate businesses that source steel, lumber, equipment, or specialized materials from the US are facing cost increases from both Canada\'s retaliatory tariffs and IEEPA tariffs on US goods flowing through supply chains. Construction project budgets are largely fixed at tender — tariff-driven cost increases directly compress margins or force renegotiation.',
+      risks: ['Steel and aluminum tariffs already raising structural component costs materially','US-sourced specialty equipment and components subject to retaliatory tariffs','Fixed-price tender contracts absorbing tariff cost increases in full','Softwood lumber tariff dynamics affecting framing and finishing material costs','Review prolongation maintains cost uncertainty through full 2026 construction season'],
+      actions: ['Audit all US-sourced materials in active and pipeline projects — calculate tariff exposure','Renegotiate escalation clauses in fixed-price tenders before material procurement','Shift sourcing to domestic Canadian or non-US suppliers for steel, equipment, and components','Engage Canadian Construction Association on material cost and CUSMA advocacy positions','Build tariff contingency into all new project bids from today forward'],
+      timeline: 'Immediate — 2026 construction season already affected. Review: Q4 2026.'
+    },
+    supply: {
+      risk: 'mod', riskLabel: 'Moderate risk',
+      headline: 'Downstream construction demand uncertainty affecting order volumes',
+      body: 'Suppliers to the construction sector — whether equipment, materials, services, or technology — face indirect exposure through customers managing tariff cost pressures and project pipeline uncertainty. Large construction and real estate development projects are being delayed or repriced in the current tariff environment, which flows back to suppliers as reduced order volume and extended payment cycles.',
+      risks: ['Customer project delays and cancellations reducing order volume in supply chain','US-sourced inputs to your own supply increasing costs from retaliatory tariffs','Payment cycle extension as construction clients manage cash flow under tariff stress','Real estate development slowdown from interest rate and tariff uncertainty reducing project starts'],
+      actions: ['Assess pipeline of customer projects for tariff-related delay or cancellation risk','Review payment terms in contracts for slow-payment risk during tariff-stress periods','Position Canadian-content product lines as tariff-diversification options for US-exposed customers','Engage your trade association for CUSMA intelligence and supply chain advocacy'],
+      timeline: 'Ongoing — construction pipeline uncertainty visible Q2 2026. Monitor permit data.'
+    },
+    none: {
+      risk: 'low', riskLabel: 'Low risk',
+      headline: 'Domestic focus — material cost inflation is the main watchpoint',
+      body: 'Construction businesses focused entirely on domestic Canadian projects with no US material sourcing are largely insulated from direct CUSMA review exposure. The main transmission is material cost inflation: tariffs on steel, aluminum, and softwood lumber affect all construction input costs regardless of project location. Canadian infrastructure spending commitments by the Carney government create significant domestic opportunity.',
+      risks: ['Tariff pass-through raising steel, aluminum, and lumber costs on all domestic projects','Canadian economic uncertainty from trade tensions reducing private-sector project starts','Labour cost pressures from general economic volatility adding to project cost inflation'],
+      actions: ['Update material cost assumptions in all project estimates to reflect tariff-inflated benchmarks','Position for Carney government infrastructure and housing spending as domestic pipeline','Monitor Bank of Canada rate decisions alongside tariff environment for project start signals'],
+      timeline: 'Ongoing material cost inflation. Domestic infrastructure opportunity: 2026–2028.'
+    }
+  },
+  healthcare: {
+    export: {
+      risk: 'high', riskLabel: 'High risk',
+      headline: 'Medical device and pharma exports facing tariff exposure and IP chapter risk',
+      body: 'Canadian medical device and pharmaceutical companies exporting to the US have concentrated CUSMA review exposure. The existing 25% IEEPA tariff applies to most medical device exports. Critically, CUSMA\'s intellectual property chapter provisions covering pharmaceutical data exclusivity and patent linkage rules are under potential revision — changes could materially affect Canadian biopharma competitiveness in the US market.',
+      risks: ['25% IEEPA tariff compressing margins on medical device and pharma exports to the US','IP chapter changes affecting pharmaceutical data exclusivity and patent linkage provisions','FDA regulatory alignment provisions potentially subject to change during review','US domestic pharma policy (IRA drug pricing) interacting with CUSMA IP chapter dynamics','Canadian biopharma investment climate affected by IP protection uncertainty'],
+      actions: ['Urgent: legal review of IP chapter exposure — identify provisions most material to your business','Model tariff impact across US product lines — identify viable vs. unviable margin profiles','Engage BIOTECanada and Innovative Medicines Canada on CUSMA IP chapter advocacy','Explore EU (CETA) and UK markets as CUSMA-independent channels for key products','Review US customer contracts for regulatory alignment and IP protection representations'],
+      timeline: 'IEEPA tariff: immediate. CUSMA IP chapter negotiations: Q3–Q4 2026.'
+    },
+    import: {
+      risk: 'mod', riskLabel: 'Moderate risk',
+      headline: 'Canadian retaliatory tariffs raising costs of US-sourced medical inputs',
+      body: 'Healthcare organizations and life sciences businesses importing US medical devices, equipment, or pharmaceutical inputs are exposed to Canada\'s retaliatory tariffs, which raise procurement costs. Hospital and clinic procurement budgets are typically multi-year and fixed — tariff-driven cost increases can be difficult to absorb quickly.',
+      risks: ['Retaliatory tariffs on US medical device and equipment imports increasing procurement costs','Provincial drug formulary and hospital procurement unable to quickly absorb cost increases','US pharmaceutical supply chain disruptions affecting availability of critical drug inputs','Review uncertainty creating hesitation in long-term medical equipment procurement planning','Specialty devices with no Canadian alternative facing full tariff burden'],
+      actions: ['Audit all US-sourced medical devices and pharmaceutical inputs — calculate tariff exposure','Engage provincial health ministry on tariff impact reporting for healthcare procurement','Identify Canadian, European, or Japanese alternative suppliers for high-tariff US inputs','Engage Health Canada on regulatory fast-track pathways for alternative device approvals','Engage Canadian Medical Association and hospital associations on joint tariff advocacy'],
+      timeline: 'Immediate procurement cost impact. CUSMA review medical chapter: Q4 2026.'
+    },
+    supply: {
+      risk: 'mod', riskLabel: 'Moderate risk',
+      headline: 'Healthcare sector procurement uncertainty affecting supply chain volumes',
+      body: 'Businesses supplying goods or services to the healthcare sector — whether medical equipment, technology, consumables, or professional services — face indirect exposure through customers managing tariff-driven procurement cost pressures. Healthcare providers are under budget pressure across the system, and tariff-driven cost increases accelerate procurement constraints that flow back to suppliers.',
+      risks: ['Customer budget compression reducing healthcare procurement volumes','Hospital and clinic capital equipment cycles being extended due to tariff cost uncertainty','US-sourced inputs to your supply chain subject to retaliatory tariffs','Procurement consolidation by large health systems reducing supplier base'],
+      actions: ['Identify which customers are directly affected by US-sourced equipment or pharmaceutical costs','Position Canadian-manufactured products as procurement resilience options for cost-pressured buyers','Engage MedTech Canada on CUSMA healthcare chapter consultation and advocacy','Review contracts for volume minimums and escalation provisions during tariff period'],
+      timeline: 'Ongoing — healthcare procurement pressure building through 2026.'
+    },
+    none: {
+      risk: 'low', riskLabel: 'Low risk',
+      headline: 'Domestic focus — limited direct CUSMA exposure',
+      body: 'Healthcare providers and life sciences businesses focused entirely on domestic Canadian markets with no US supply chain dependency have limited direct CUSMA review exposure. The main channel is provincial health system budget pressure from general economic uncertainty. Canadian healthcare is provincially administered and largely insulated from CUSMA provisions that affect commercial trade.',
+      risks: ['Provincial health budget pressure from general economic uncertainty affecting programme funding','Potential medical equipment and supply cost increases if downstream supply chains have US exposure','Research funding uncertainty if federal science and innovation budgets face restraint'],
+      actions: ['Monitor provincial health ministry budget announcements for programme funding signals','Verify supply chain for any indirect US-sourced input exposure','Engage CIHR and NRC on research funding continuity during trade policy uncertainty'],
+      timeline: 'Low priority. Monitor provincial health budget cycles Q3–Q4 2026.'
+    }
+  },
+  consumer: {
+    export: {
+      risk: 'mod', riskLabel: 'Moderate impact',
+      headline: 'Canadian-made goods may become less available if exporters absorb tariff losses',
+      body: 'Canadians who prefer Canadian-made products may see prices rise or product lines discontinued if manufacturers cannot recover tariff losses on US sales. The viability of Canadian consumer goods manufacturers depends partly on US market access — when US revenue drops, Canadian operations may contract. Supporting Canadian-made means understanding the trade pressures those manufacturers are navigating.',
+      risks: ['Canadian manufacturers reducing domestic product range if US volumes decline materially','Higher Canadian retail prices if manufacturers pass tariff losses through the supply chain','Reduced Canadian manufacturing employment in tariff-hit sectors affecting local communities'],
+      actions: ['Look for "Product of Canada" labels and ask retailers about sourcing practices','Follow Canadian Trade Intelligence sector reports for updates on Canadian manufacturing','Support industry associations advocating for Canadian manufacturers in CUSMA negotiations'],
+      timeline: 'Visible effects on product range and pricing: 2026–2027 consumer cycles.'
+    },
+    import: {
+      risk: 'mod', riskLabel: 'Moderate impact',
+      headline: 'US goods prices rising in Canada from retaliatory tariffs',
+      body: 'Canadians who frequently purchase US-branded goods, shop at US retailers, or buy US-produced food and beverages are directly experiencing retaliatory tariff impacts. Canada has imposed tariffs on C$60B+ of US goods. These tariffs raise Canadian retail prices on US products — from food and beverages to appliances, clothing, and electronics. Full pass-through typically takes 3–6 months to reach retail shelves.',
+      risks: ['Higher retail prices on US-branded consumer goods already being implemented','US food and beverage prices rising from retaliatory tariffs and supply chain costs','Some US brands reducing Canadian market focus under cross-border trade pressure','Canadian online purchases from US sellers facing additional customs and tariff friction'],
+      actions: ['Explore Canadian and EU alternatives for regularly purchased US-branded goods','Track Statistics Canada consumer price releases for tariff pass-through data','Use the Government of Canada\'s tariff list to check if specific US products are affected'],
+      timeline: 'Retail price increases: largely visible Q2–Q3 2026.'
+    },
+    supply: {
+      risk: 'elev', riskLabel: 'Elevated impact',
+      headline: 'Your employment or income may be directly affected by CUSMA outcomes',
+      body: 'If you work in manufacturing, agriculture, energy, lumber, or other trade-exposed sectors, the CUSMA review outcome has direct implications for your employment security and income. Sectors facing the highest tariff exposure — auto manufacturing, softwood lumber, agri-food — are the same ones where workforce disruption is most likely. Understanding your sector\'s specific CUSMA risk profile is important context for career and financial planning.',
+      risks: ['Tariff-driven production cuts and layoffs in manufacturing and auto sectors','Softwood lumber sector workforce contractions in BC if CVDs increase further','Agri-food processing capacity reductions if US export volumes fall sharply','Career and wage uncertainty in sectors with high CUSMA review exposure'],
+      actions: ['Use the CUSMA Impact Lookup for your employer\'s specific sector profile','Review your employment agreement for any trade-impact provisions or company communication','Monitor your sector association\'s CUSMA advocacy positions','Explore federal workforce transition programmes if your sector has high risk'],
+      timeline: 'Workforce decisions in most-affected sectors: Q2–Q4 2026.'
+    },
+    none: {
+      risk: 'low', riskLabel: 'Low impact',
+      headline: 'Limited direct impact — general cost of living effects are the main watchpoint',
+      body: 'Canadians who buy primarily Canadian-produced food, use local services, and have limited consumption of US goods are largely insulated from the direct tariff impacts. However, the general economic uncertainty from trade tensions can affect interest rates, housing, and employment conditions that matter to everyone. The 2026 CUSMA review is a background risk for domestic-focused consumers.',
+      risks: ['General inflation pressures from tariff-affected supply chains reaching all consumer goods','Bank of Canada interest rate decisions influenced by trade uncertainty affecting mortgages','Economic slowdown from trade tensions affecting employment and income broadly'],
+      actions: ['Monitor Bank of Canada and federal economic announcements for trade-related impact signals','Check if any discretionary purchases are covered by Canadian retaliatory tariffs before buying','Stay informed via Canadian Trade Intelligence for sector-specific economic developments'],
+      timeline: 'Background risk through 2026–2027 review period.'
+    }
+  },
+  municipality: {
+    export: {
+      risk: 'mod', riskLabel: 'Moderate risk',
+      headline: 'Cross-border service agreements and procurement access under review pressure',
+      body: 'Canadian municipalities, Crown corporations, or public institutions with cross-border service agreements or US client relationships face CUSMA government procurement chapter exposure. CUSMA Chapter 13 governs federal procurement access, and changes during the joint review could affect terms under which Canadian public entities do business with US counterparts.',
+      risks: ['CUSMA procurement chapter changes affecting cross-border service agreement terms','Buy American pressures reducing Canadian access to US infrastructure and federal contracts','US tariffs on Canadian public sector exports such as water management and transit services','Bilateral relationship uncertainty creating hesitation in cross-border public-private partnerships'],
+      actions: ['Review any US-facing service contracts for CUSMA procurement chapter dependency','Engage Federation of Canadian Municipalities (FCM) on CUSMA procurement chapter positions','Assess Carney government domestic infrastructure spending as alternative revenue opportunity','Document and communicate CUSMA procurement impacts to senior leadership and council'],
+      timeline: 'CUSMA procurement chapter: Q4 2026 review. FCM advocacy: ongoing.'
+    },
+    import: {
+      risk: 'elev', riskLabel: 'Elevated risk',
+      headline: 'US-sourced procurement facing retaliatory tariff cost increases',
+      body: 'Municipalities and public sector organizations procuring US-made equipment, vehicles, technology, or services are directly exposed to Canada\'s retaliatory tariffs, which raise procurement costs. Capital procurement — transit vehicles, water treatment equipment, infrastructure components — often has long lead times and fixed budgets. Tariff-driven cost increases hit capital budgets that were set before the tariff regime was imposed.',
+      risks: ['Retaliatory tariffs on US-manufactured equipment raising capital procurement costs','Fixed capital budgets unable to accommodate tariff-driven cost escalation','US vendors reducing Canadian market service levels or delaying delivery under trade uncertainty','Public tendering processes creating procurement delays as tariff situations evolve'],
+      actions: ['Audit capital procurement pipeline for US-sourced equipment and calculate tariff exposure','Engage procurement officers on escalation clause revision before next tendering cycle','Prioritize Canadian and European suppliers for new procurement where specifications allow','Submit tariff impact data to the federal government\'s CUSMA business impact consultation','Engage FCM on joint municipal CUSMA procurement submissions'],
+      timeline: 'Immediate procurement cost impact. 2026 capital budget cycle: affected now.'
+    },
+    supply: {
+      risk: 'mod', riskLabel: 'Moderate risk',
+      headline: 'Public sector procurement slowdown affecting supplier volumes',
+      body: 'Businesses that supply goods, services, or technology to municipalities and public sector organizations face indirect exposure through the public procurement pipeline. Budget pressures from tariff-driven cost increases are causing municipalities to defer, reduce, or retender capital projects — which reduces supplier order volumes and extends procurement cycles.',
+      risks: ['Capital project deferral reducing procurement volumes in public sector supply chains','Extended procurement cycles as municipalities work through tariff cost uncertainty','Public sector contract renegotiations as budget owners seek tariff relief','Federal stimulus spending creating short-term surge but uncertain multi-year pipeline'],
+      actions: ['Monitor PSPC (Public Services and Procurement Canada) for tariff-adjusted procurement signals','Position Canadian-made products as preferred procurement option under tariff stress','Engage with federal infrastructure stimulus programmes as offset to municipal deferral','Review contract escalation provisions for active public sector agreements'],
+      timeline: 'Procurement pipeline deferral: Q2–Q3 2026. Federal stimulus: 2026–2028.'
+    },
+    none: {
+      risk: 'low', riskLabel: 'Low risk',
+      headline: 'Limited direct exposure — economic uncertainty is the main downstream risk',
+      body: 'Municipalities and public sector organizations with entirely domestic operations and no US-sourced procurement have limited direct CUSMA review exposure. The main channels of impact are indirect: economic slowdown from trade tensions reduces municipal tax revenue, and inflationary pressures from tariffs affect service delivery costs.',
+      risks: ['Municipal tax base erosion from trade-related economic slowdown in local industries','Cost inflation for municipal services from general tariff-driven price increases','Provincial and federal transfer payment uncertainty from federal fiscal pressures'],
+      actions: ['Monitor local economic indicators for trade-related slowdown in tax-base industries','Engage FCM\'s trade impact tracking for municipal fiscal risk intelligence','Position for federal infrastructure stimulus and housing programme funding opportunities'],
+      timeline: 'Fiscal effects: Q3–Q4 2026 budget cycle. Federal programme opportunities: 2026–2027.'
+    }
+  }
+};
+
+var EXPOSURE_CONFIG = {
+  legacy: {
+    question: 'What share of your revenue comes from US customers or contracts?',
+    buttons: [
+      { key: 'low',  title: 'Low US exposure',    sub: 'Less than 25% of revenue from US' },
+      { key: 'med',  title: 'Medium US exposure',  sub: '25% – 60% of revenue from US' },
+      { key: 'high', title: 'High US exposure',    sub: 'More than 60% of revenue from US' }
+    ]
+  },
+  relationship: {
+    question: 'How does CUSMA affect you?',
+    buttons: [
+      { key: 'export',  title: 'I sell / export to the US',           sub: 'US customers or export revenue' },
+      { key: 'import',  title: 'I buy / import from the US',          sub: 'US-sourced goods, inputs, or services' },
+      { key: 'supply',  title: 'I\'m in a US-connected supply chain', sub: 'Supplier to US-exposed businesses' },
+      { key: 'none',    title: 'No direct US connection',             sub: 'Domestic focus, no US trade exposure' }
+    ]
+  }
+};
+
+var LEGACY_SECTORS  = ['mfg','lumber','agri','energy','tech','minerals','aero','finance'];
+var MEXICO_SECTORS  = ['agri','mfg','energy','minerals'];
+
+(function () {
+  var selectedSector   = null;
+  var selectedExposure = null;
+
+  var step2Card   = document.getElementById('step2-card');
+  var step2Q      = document.getElementById('step2-question');
+  var exposureRow = document.getElementById('exposure-row');
+  var resultPanel = document.getElementById('result-panel');
+  var mexicoNote  = document.getElementById('mexico-note');
+
+  function buildExposureButtons(sectorKey) {
+    var isLegacy = LEGACY_SECTORS.indexOf(sectorKey) !== -1;
+    var config   = isLegacy ? EXPOSURE_CONFIG.legacy : EXPOSURE_CONFIG.relationship;
+    step2Q.textContent = config.question;
+    exposureRow.innerHTML = '';
+    config.buttons.forEach(function (b) {
+      var btn = document.createElement('button');
+      btn.className = 'exposure-btn';
+      btn.dataset.exposure = b.key;
+      btn.innerHTML = '<span class="exposure-btn-title">' + b.title + '</span><span class="exposure-btn-pct">' + b.sub + '</span>';
+      btn.addEventListener('click', function () {
+        exposureRow.querySelectorAll('.exposure-btn').forEach(function (x) { x.classList.remove('selected'); });
+        btn.classList.add('selected');
+        selectedExposure = btn.dataset.exposure;
+        if (selectedSector) renderResult();
+      });
+      exposureRow.appendChild(btn);
+    });
+  }
+
+  function renderResult() {
+    if (!selectedSector || !selectedExposure) return;
+    var profile = PROFILES[selectedSector] && PROFILES[selectedSector][selectedExposure];
+    if (!profile) return;
+
+    var card = document.getElementById('result-card');
+    card.className = 'result-card risk-' + profile.risk;
+
+    document.getElementById('risk-label').textContent       = profile.riskLabel;
+    document.getElementById('result-headline').textContent  = profile.headline;
+    document.getElementById('result-body-text').textContent = profile.body;
+    document.getElementById('result-timeline').textContent  = profile.timeline;
+
+    var risksList = document.getElementById('result-risks');
+    risksList.innerHTML = '';
+    profile.risks.forEach(function (r) {
+      var li = document.createElement('li'); li.textContent = r; risksList.appendChild(li);
+    });
+
+    var actionsList = document.getElementById('result-actions');
+    actionsList.innerHTML = '';
+    profile.actions.forEach(function (a) {
+      var li = document.createElement('li'); li.textContent = a; actionsList.appendChild(li);
+    });
+
+    mexicoNote.style.display = MEXICO_SECTORS.indexOf(selectedSector) !== -1 ? 'block' : 'none';
+
+    resultPanel.classList.add('visible');
+    setTimeout(function () {
+      resultPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 60);
+  }
+
+  document.querySelectorAll('.sector-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      document.querySelectorAll('.sector-btn').forEach(function (b) { b.classList.remove('selected'); });
+      btn.classList.add('selected');
+      selectedSector   = btn.dataset.sector;
+      selectedExposure = null;
+      buildExposureButtons(selectedSector);
+      step2Card.style.opacity       = '1';
+      step2Card.style.pointerEvents = 'auto';
+      resultPanel.classList.remove('visible');
+      mexicoNote.style.display = 'none';
+    });
+  });
+})();
+</script>
+
+<script>
+(function(){
+  var deadline = new Date('2026-07-01T00:00:00-04:00');
+  function pad(n){ return n < 10 ? '0'+n : ''+n; }
+  function update(){
+    var now = new Date();
+    var diff = deadline - now;
+    if(diff <= 0){
+      document.getElementById('countdown-bar').innerHTML = '<div style="font-family:\'DM Mono\',monospace;font-size:14px;color:#f0f0e8;letter-spacing:0.08em;">Review is open</div>';
+      return;
+    }
+    var days  = Math.floor(diff / 86400000);
+    var hours = Math.floor((diff % 86400000) / 3600000);
+    var mins  = Math.floor((diff % 3600000) / 60000);
+    document.getElementById('cd-days').textContent  = days;
+    document.getElementById('cd-hours').textContent = pad(hours);
+    document.getElementById('cd-mins').textContent  = pad(mins);
+    setTimeout(update, 30000);
+  }
+  update();
+})();
+</script>
+</body>
+</html>
